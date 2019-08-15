@@ -4,15 +4,24 @@
     <main>
       <ul>
         <li>
+          <p>类型:</p>
+          <div>中间</div>
+        </li>
+        <li>
           <p>国籍:</p>
           <div>香港</div>
         </li>
         <li>
-          <p>身份证号:<p>
+          <p>身份证号:</p>
+          <p></p>
           <div>54564564564564</div>
         </li>
         <li>
           <p>公司名称:</p>
+          <div>打算付费第三方第三方</div>
+        </li>
+        <li>
+          <p>公司地址:</p>
           <div>打算付费第三方第三方</div>
         </li>
         <li class="idcard_left">
@@ -27,6 +36,10 @@
           <p>passport</p>
           <div class="pic"></div>
         </li>
+         <li class="idcard_right">
+          <p>公司营业执照</p>
+          <div class="pic"></div>
+        </li>
       </ul>
     </main>
     <mbottom></mbottom>
@@ -38,13 +51,19 @@
 </template>
 <script>
 export default {
-  name: "userpass"
+  name: "userpass",
+  data(){
+    return{
+       success:false,
+    }
+  }
 };
 </script>
 <style lang='scss' scoped>
 #userpass {
   width: 100%;
   header {
+   
     width: 100%;
     text-align: center;
     line-height: 1rem;
@@ -52,33 +71,31 @@ export default {
     position: fixed;
     top: 0;
     background: white;
-     border-bottom: 0.01rem dashed #D9D9D9;
+    border-bottom: 0.01rem dashed #d9d9d9;
   }
-  main{
-    padding: 1.2rem 0 0 0 ;
-    ul{
-         padding: 0 0.5rem ;
-        li{
-          margin-bottom:0.5rem;
-          p{
-            margin-bottom:0.1rem;
-             font-size: 0.25rem;
-          }
-          div{
-              background: #F6F6F6;
-              height: 0.7rem;
-              line-height: 0.7rem;
-              font-size: 0.2rem;
-              border: 0.01rem solid #D9D9D9;
-              padding: 0 0.2rem;
-          }
-          .pic{
-            height: 2.5rem;
-
-          }
-          
-
+  main {
+    background: white;
+    padding: 1rem 0 0 0;
+    ul {
+      padding: 0.5rem 0.5rem;
+      li {
+        margin-bottom: 0.5rem;
+        p {
+          margin-bottom: 0.1rem;
+          font-size: 0.25rem;
         }
+        div {
+          background: #f6f6f6;
+          height: 0.7rem;
+          line-height: 0.7rem;
+          font-size: 0.2rem;
+          border: 0.01rem solid #d9d9d9;
+          padding: 0 0.2rem;
+        }
+        .pic {
+          height: 2.5rem;
+        }
+      }
     }
   }
 }

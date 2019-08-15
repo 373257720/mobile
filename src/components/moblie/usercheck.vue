@@ -91,6 +91,7 @@ export default {
 </script>
 <style lang="scss">
 #usercheck {
+  // background: white;
   .van-cell{
       font-size: 0.16rem;
       padding: 0 0.3125rem  0 0.46875rem;

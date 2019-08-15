@@ -5,7 +5,13 @@
         <img src="../../assets/a815bb7a0d3bbf55b916045900e4d9f.png" alt />
       </div>
       <!-- <h3>所有项目</h3> -->
-      <van-search placeholder="请输入搜索关键词" v-model="searchkey" />
+      <van-search
+        placeholder="请输入搜索关键词"
+        v-model="searchkey"
+        left-icon
+        right-icon="search"
+        clearable
+      />
       <van-dropdown-menu>
         <van-dropdown-item title="筛选" ref="item">
           <van-tree-select
@@ -16,7 +22,6 @@
             @click-item="onClickItem"
           />
         </van-dropdown-item>
-
         <van-dropdown-item v-model="value2" :options="option2" />
       </van-dropdown-menu>
     </header>
@@ -28,18 +33,25 @@
         :loading-text="loadText"
         :offset="300"
       >
-        <div v-for="goods in  upGoodsInfo" :key="goods.id">
+        <div v-for="goods in  upGoodsInfo" :key="goods.id" class="goodlists">
           <article>
-            <nav>
-              项目名称:
-              <span>456443242342342342342342356</span>
-            </nav>
+            <nav>45623sdfd fsdfsdfsd sdf dsf fsd sd56</nav>
             <section>
-              计划时间:
+              <span>行业：</span>
               <span>4564456</span>
             </section>
-            <button>签约</button>
+            <section>
+              <span>地区：</span>
+              <span>4564456</span>
+            </section>
+            <section>
+              <span>简介：</span>
+              <span>45643453 dfg dfg dfg dgdfgdfg gdfgdfggdfgdfgdfg 456</span>
+            </section>
           </article>
+          <footer>
+            <button>签约</button>
+          </footer>
         </div>
       </van-list>
     </div>
@@ -138,10 +150,23 @@ export default {
 #mhome {
   header {
     .van-search {
-      padding: 0 0.5rem;
+      padding: 0.2rem 0.2rem;
+      .van-search__content {
+      }
     }
     .van-cell {
       font-size: 0.3rem;
+    }
+    .van-dropdown-menu {
+      height: 1rem;
+      .van-dropdown-menu__title {
+        font-size: 0.3rem;
+      }
+      .van-dropdown-item--down {
+        .van-tree-select {
+          font-size: 0.3rem;
+        }
+      }
     }
   }
 }
@@ -165,7 +190,6 @@ export default {
     }
     > div {
       width: 100%;
-      // height: 2rem;
       img {
         width: auto;
         height: auto;
@@ -179,43 +203,48 @@ export default {
     margin-top: 3.8rem;
     margin-bottom: 1.2rem;
     box-sizing: border-box;
+    .goodlists {
+      margin: 0.18rem 0.1rem;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      height: 5rem;
+      border: 0.01rem solid #626262;
+      article {
+        padding: 0.27rem 0 0 0.43rem;
+        border-bottom: 0.01rem solid #626262;
+        nav {
+          font-size: 0.46rem;
+          color: #0e6fbe;
+          line-height: 0.6rem;
+          margin-bottom: 0.4rem;
+          box-sizing: border-box;
+        }
+        section {
+          font-size: 0.28rem;
+          margin-bottom: 0.2rem;
+          color: #747474;
+          // display: flex;
+          // align-items:center;
+          span {
+            line-height: 0.2rem;
+          }
+        }
+      }
+      footer {
+        flex: 1;
+        position: relative;
+        button {
+          width: 4rem;
+          position: absolute;
+          right: 0.25rem;
+          height: 0.68rem;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
   }
-  //  .main{
-  //     flex: 1;
-  //     margin: 4rem 0 1.3rem 0;
-  //     overflow-y: scroll;
-  //     li {
-  //       display: flex;
-  //       padding: 0.2rem 0.5rem;
-  //       box-sizing: border-box;
-  //       word-break: break-all;
-  //       aside {
-  //         width: 2.2rem;
-  //         height: 2.2rem;
-  //         background: red;
-  //       }
-  //       article {
-  //         flex: 1;
-  //         padding: 0 0.1rem;
-  //         display: flex;
-  //         flex-direction: column;
-  //         justify-content: space-between;
-  //         nav {
-  //           height: 0.9rem;
-  //         }
-  //         button {
-  //           background: #00adef;
-  //           width: 100%;
-  //           color: white;
-
-  //           align-self: center;
-  //         }
-  //       }
-  //     }
-  //     // padding-top: 150px;
-  //     // width: 100%;
-  //     // height: 2000px;
-  //   }
   #moblie_bottom {
     position: fixed;
     bottom: 0;

@@ -4,7 +4,7 @@
     <ul>
       <li v-for='item in arr' :key=item >
         <p>项目名称:的馮紹峰地方wsdfsdfdser水電費</p>
-        <section>計劃時間:1980554456</section>
+        <!-- <section>計劃時間:1980554456</section> -->
       </li>
     </ul>
     <mbottom></mbottom>
@@ -32,14 +32,15 @@ export default {
     position: fixed;
     top:0;
     background: white;
-    border-bottom:1px dashed #B5B5B5;
+    border-bottom:0.01rem dashed #B5B5B5;
   }
   ul{
-    padding:1.5rem  0 0 0 ;
+    padding:1rem  0 0 0 ;
+    background: white;
     li{
       text-align: center;
       word-break:break-all;
-      margin:0 0.5rem 0.5rem  0.5rem;
+      margin:0.36rem 0.5rem 0.36rem 0.5rem;
       padding: 0 0.3rem;
       border:1PX solid  #B5B5B5;
       font-size: 0.3rem;
