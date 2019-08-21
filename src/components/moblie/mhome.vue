@@ -5,13 +5,23 @@
         <img src="../../assets/a815bb7a0d3bbf55b916045900e4d9f.png" alt />
       </div>
       <!-- <h3>所有项目</h3> -->
-      <van-search
+      <!-- <van-search
         placeholder="请输入搜索关键词"
         v-model="searchkey"
-        left-icon
+        left-icon=''
         right-icon="search"
         clearable
-      />
+      />-->
+      <van-search
+        v-model="searchkey"
+        placeholder="请输入搜索关键词"
+        show-action
+        shape="round"
+        @search="onSearch"
+      >
+        <!-- <van-icon slot="action" name="search"  @click="onSearch" /> -->
+        <div slot="action" @click="onSearch">搜索</div>
+      </van-search>
       <van-dropdown-menu>
         <van-dropdown-item title="筛选" ref="item">
           <van-tree-select
@@ -112,6 +122,9 @@ export default {
     };
   },
   methods: {
+    onSearch() {
+      console.log(this.searchkey);
+    },
     onClickNav(index) {
       this.mainActiveIndex = index;
     },
@@ -127,21 +140,25 @@ export default {
           pageSize: this.loadNum,
           pageIndex: ++this.pageNum
         }
-      }).then(res => {
-        if (res.status === 200) {
-          let re = res.data.data.lists;
-          if (re.length !== 0) {
-            this.upGoodsInfo = this.upGoodsInfo.concat(re);
+      })
+        .then(res => {
+          if (res.status === 200) {
+            let re = res.data.data.lists;
+            if (re.length !== 0) {
+              this.upGoodsInfo = this.upGoodsInfo.concat(re);
+            }
+            this.loading = false;
+            if (this.upGoodsInfo.length >= res.data.data.pageTotal) {
+              this.loadText = "加载完成";
+              this.finished = true;
+            }
+          } else {
+            this.finished = false;
           }
-          this.loading = false;
-          if (this.upGoodsInfo.length >= res.data.data.pageTotal) {
-            this.loadText = "加载完成";
-            this.finished = true;
-          }
-        } else {
-          this.finished = false;
-        }
-      });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
@@ -151,11 +168,20 @@ export default {
   header {
     .van-search {
       padding: 0.2rem 0.2rem;
-      .van-search__content {
-      }
+      // color:blue;
+      // .van-search__content {
+      // }
     }
-    .van-cell {
+    .van-search__action {
       font-size: 0.3rem;
+    }
+
+    .van-cell {
+      font-size: 0.2rem;
+      padding: 0.1rem 0.25rem 0.1rem 0;
+    }
+    .van-cell--clickable {
+      padding: 0.1rem 0.3rem;
     }
     .van-dropdown-menu {
       height: 1rem;

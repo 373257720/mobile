@@ -1,12 +1,9 @@
 <template>
-  <div id="goods_details">
+  <div id="sign_request">
     <nav>
-      <van-icon name="arrow-left" />项目详情
+      <van-icon name="arrow-left" />签约请求
     </nav>
     <main>
-      <!-- <aside>
-        <img src="../../assets/26566ffb301dac8c24d21969b538612.png" alt />
-      </aside>-->
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
@@ -14,7 +11,18 @@
             <p class="row1">{{item}}</p>
             <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
           </li>
+          <li class="contract">
+            <p class="row1">草拟合约</p>
+            <section class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</section>
+          </li>
         </ul>
+        <footer>
+          <button>签署</button>
+          <aside>
+            <button @click="gg">拒绝签约</button>
+            <button @click="gg">同意签约</button>
+          </aside>
+        </footer>
       </article>
     </main>
     <mbottom></mbottom>
@@ -25,28 +33,33 @@ export default {
   name: "goods_details",
   data() {
     return {
-      details_lists: [
-        "公司名称:",
-        "是否上市公司:",
-        "项目详情:",
-        "集资金额:",
-        "联系电话:",
-        "电邮:",
-        "投资者公司:",
-        "投资者姓名:",
-        "投资者电话:",
-        "感兴趣行业:"
-      ]
+      details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
     };
+  },
+  methods: {
+    gg() {
+      // console.log(this.$dialog);
+
+      this.$dialog
+        .confirm({
+          title: "标题",
+          message: "弹窗内容"
+        })
+        .then(() => {
+          // on confirm
+        })
+        .catch(() => {
+          // on cancel
+        });
+    }
   }
 };
 </script>
 <style lang="scss">
-#goods_details {
+#sign_request {
   nav {
     position: relative;
     .van-icon-arrow-left {
-      // line-height: 1rem;
       position: absolute;
       left: 0.6rem;
       top: 50%;
@@ -54,9 +67,18 @@ export default {
     }
   }
 }
+.van-dialog {
+  font-size: 0.3rem;
+}
+.van-dialog__message {
+  font-size: 0.3rem;
+}
+.van-button {
+  font-size: 0.3rem;
+}
 </style>
 <style lang="scss" scoped>
-#goods_details {
+#sign_request {
   width: 100%;
   nav {
     width: 100%;
@@ -107,9 +129,37 @@ export default {
             color: #787878;
           }
         }
+        .contract {
+          display: block;
+          .row2 {
+            width: 6.5rem;
+            height: 10rem;
+            background: #f2f2f2;
+          }
+        }
+      }
+      footer {
+        padding: 0.5rem;
+        button {
+          width: 6.5rem;
+          height: 1rem;
+          background: #00adef;
+          color: white;
+        }
+        button {
+          margin-bottom: 0.4rem;
+        }
+        aside {
+          height: 1.5rem;
+          // width: 6.5rem;
+          display: flex;
+          justify-content: space-between;
+          button {
+            width: 3rem;
+          }
+        }
       }
     }
   }
 }
 </style>
-

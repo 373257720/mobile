@@ -11,6 +11,10 @@ import userpass from '@/components/moblie/userpass'
 import mhome from '@/components/moblie/mhome'
 import mine from '@/components/moblie/mine'
 import mpro_sign from '@/components/moblie/mpro_sign'
+import cavans from '@/components/moblie/cavans'
+import sign_request from '@/components/moblie/sign_request'
+import investor_infor from '@/components/moblie/investor_infor'
+import check_contact from '@/components/moblie/check_contact'
 // moblie
 
 Vue.use(Router);
@@ -29,6 +33,27 @@ const routes = [{
     name: 'usercheck',
     component: usercheck,
   },
+  {
+    path: '/cavans',
+    name: 'cavans',
+    component: cavans,
+  },
+  {
+    path: '/sign_request',
+    name: 'sign_request',
+    component: sign_request,
+  },
+  {
+    path: '/investor_infor',
+    name: 'investor_infor',
+    component: investor_infor,
+  },
+  {
+    path: '/check_contact',
+    name: 'check_contact',
+    component:check_contact,
+  },
+
   // {
   //   path: '/home',
   //   name: 'home',

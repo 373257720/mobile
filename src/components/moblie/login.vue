@@ -90,6 +90,7 @@ export default {
   .password {
     .van-field {
       padding: 0;
+      width: 6rem;
     }
   }
 }
@@ -105,15 +106,15 @@ export default {
     padding: 2rem 0 1rem 0;
     text-align: center;
     img {
-      width: 50%;
-      height: 1.5rem;
+      width: 4.28rem;
+      height: 1.57rem;
     }
   }
   .main {
     flex: 1;
-    text-align: center;
     display: flex;
     flex-direction: column;
+    align-items:center;
     p {
       font-size: 0.12rem;
       height: 0.5rem;
@@ -125,7 +126,8 @@ export default {
     }
     button {
       color: white;
-      width: 100%;
+      // width: 100%;
+       width: 6rem;
       height: 0.7rem;
     }
     .loginbtn button {

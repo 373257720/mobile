@@ -7,27 +7,53 @@ import "./css/base.css";
 import 'vant/lib/index.css';
 import axios from '../node_modules/axios'
 import qs from 'qs'
+import global from '@/components/moblie/global.js'
 Vue.config.productionTip = false
-Vue.prototype.$qs=qs;
+Vue.prototype.$qs = qs;
 // Vue.use(Vant);
-import { Field } from 'vant';
+import {
+  Field
+} from 'vant';
 Vue.use(Field);
-import { DropdownMenu, DropdownItem } from 'vant';
+import {
+  DropdownMenu,
+  DropdownItem
+} from 'vant';
 Vue.use(DropdownMenu).use(DropdownItem);
-import { Uploader } from 'vant';
+import {
+  Uploader
+} from 'vant';
 Vue.use(Uploader);
-import { Tabbar, TabbarItem } from 'vant';
+import {
+  Tabbar,
+  TabbarItem
+} from 'vant';
 Vue.use(Tabbar).use(TabbarItem);
-import { Search } from 'vant';
+import {
+  Search
+} from 'vant';
 Vue.use(Search);
-import { List } from 'vant';
+import {
+  List
+} from 'vant';
 Vue.use(List);
-import { Cell, CellGroup } from 'vant';
+import {
+  Cell,
+  CellGroup
+} from 'vant';
 Vue.use(Cell).use(CellGroup);
-import { Icon } from 'vant';
+import {
+  Icon
+} from 'vant';
 Vue.use(Icon);
-import { TreeSelect } from 'vant';
+import {
+  TreeSelect
+} from 'vant';
 Vue.use(TreeSelect);
+import {
+  Dialog
+} from 'vant';
+Vue.use(Dialog);
 Vue.prototype.$axios = axios;
 
 // 引入公共组件
@@ -38,16 +64,24 @@ Vue.prototype.$goto = function goto(name, id) {
   };
   if (id) {
     obj.params = {
-        idx:id
+      idx: id
     };
-  } 
+  }
+  console.log(this.$router);
   this.$router.push(obj);
 }
+// Vue.prototype.$previous=function previous(){
+//   this.$router.go(-1);
+//   console.log(this.$router);
+  
+// };
+
 var baseurl = {
   api: "http://192.168.1.37:8080",
   //  api: "http://192.168.1.37:8080",
 }
-Vue.prototype.$baseurl = baseurl.api
+Vue.prototype.$baseurl = baseurl.api;
+Vue.prototype.$global = global;
 import mbottom from './components/moblie/bottom.vue'
 Vue.component('mbottom', mbottom)
 // Vue.prototype.$axios = axios;
@@ -55,6 +89,8 @@ Vue.component('mbottom', mbottom)
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })
