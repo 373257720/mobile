@@ -10,11 +10,15 @@ import goods_details from '@/components/moblie/goods_details'
 import userpass from '@/components/moblie/userpass'
 import mhome from '@/components/moblie/mhome'
 import mine from '@/components/moblie/mine'
-import mpro_sign from '@/components/moblie/mpro_sign'
+// import mpro_sign from '@/components/moblie/mpro_sign'
 import cavans from '@/components/moblie/cavans'
 import sign_request from '@/components/moblie/sign_request'
 import investor_infor from '@/components/moblie/investor_infor'
 import check_contact from '@/components/moblie/check_contact'
+import waitsign from '@/components/moblie/waitsign'
+import wait_input from '@/components/moblie/wait_input'
+import sign_successful from '@/components/moblie/sign_successful'
+import sign_failed from '@/components/moblie/sign_failed'
 // moblie
 
 Vue.use(Router);
@@ -51,18 +55,9 @@ const routes = [{
   {
     path: '/check_contact',
     name: 'check_contact',
-    component:check_contact,
+    component: check_contact,
   },
 
-  // {
-  //   path: '/home',
-  //   name: 'home',
-  //   component: home,
-  //   // meta: {
-  //   //   // keepAlive: true, // 需要被缓
-  //   //   requireAuth: true
-  //   // }
-  // }, 
   {
     path: '/mhome',
     name: 'mhome',
@@ -92,6 +87,26 @@ const routes = [{
     path: '/mysign',
     name: 'mysign',
     component: mysign,
+  },
+  {
+    path: '/mysign/waitsign',
+    name: 'waitsign',
+    component: waitsign,
+  },
+  {
+    path: '/mysign/wait_input',
+    name: 'wait_input',
+    component: wait_input,
+  },
+  {
+    path: '/mysign/sign_successful',
+    name: 'sign_successful',
+    component: sign_successful,
+  },
+  {
+    path: '/mysign/sign_failed',
+    name: 'sign_failed',
+    component:sign_failed,
   },
   {
     path: '/goods_details',
