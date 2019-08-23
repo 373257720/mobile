@@ -15,7 +15,7 @@
       <li v-for="item in arr" :key="item">
         <p>
           <span>申请时间:</span>
-          <span>234dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdf</span>
+          <span>到发广告的非官方的鬼地方更多个电饭锅</span>
         </p>
         <p>
           <span>申请中间人:</span>
@@ -23,6 +23,10 @@
         </p>
         <p>
           <span>申请项目:</span>
+          <span>423423</span>
+        </p>
+        <p>
+          <span>签约状态:</span>
           <span>423423</span>
         </p>
         <img src="../../assets/微信图片_201908191046412.png" alt />
@@ -102,7 +106,7 @@ export default {
       position: relative;
       word-break: break-all;
       margin: 0 0.5rem;
-      padding: 0.4rem 0;
+      padding: 0.2rem 0;
       border-bottom: 0.01rem dashed #b5b5b5;
       font-size: 0.3rem;
       p {
@@ -111,7 +115,7 @@ export default {
         span:nth-child(1) {
           font-weight: 600;
           font-size: 0.3rem;
-          line-height: 0.6rem;
+          line-height: 0.5rem;
           display: inline-block;
           width: 2rem;
         }

@@ -19,6 +19,8 @@ import waitsign from '@/components/moblie/waitsign'
 import wait_input from '@/components/moblie/wait_input'
 import sign_successful from '@/components/moblie/sign_successful'
 import sign_failed from '@/components/moblie/sign_failed'
+import wait_investor from '@/components/moblie/wait_investor'
+import wait_correct from '@/components/moblie/wait_investor_correct'
 // moblie
 
 Vue.use(Router);
@@ -107,6 +109,16 @@ const routes = [{
     path: '/mysign/sign_failed',
     name: 'sign_failed',
     component:sign_failed,
+  },
+  {
+    path: '/mysign/wait_investor',
+    name: 'wait_investor',
+    component:wait_investor,
+  },
+  {
+    path: '/mysign/wait_correct',
+    name: 'wait_correct',
+    component:wait_correct,
   },
   {
     path: '/goods_details',

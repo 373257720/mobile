@@ -60,7 +60,7 @@ export default {
 
     this.canvasTxt = canvas.getContext("2d");
     // this.canvasTxt.font = 'normal 800 40px sans-serif'; 
-    console.log(this.canvasTxt.font);
+    // console.log(this.canvasTxt.font);
     
     // this.canvasTxt.font = '600 bold 80px sans-serif';
     // this.canvasTxt.fillText("", 10, 50);
@@ -71,6 +71,8 @@ export default {
   },
   methods: {
     handelSaveE() {
+      console.log(this.$refs.canvasF);
+      
       let imgBase64 = this.$refs.canvasF.toDataURL();
       console.log(imgBase64);
       //   this.imgsrc = imgBase64;
@@ -82,13 +84,13 @@ export default {
     mouseDown(ev) {
       ev = ev || event;
       ev.preventDefault();
-      console.log(ev);
+      // console.log(ev);
       if (ev) {
         let obj = {
           x: ev.offsetX,
           y: ev.offsetY
         };
-        console.log(obj);
+        // console.log(obj);
         this.startX = obj.x;
         this.startY = obj.y;
         this.canvasTxt.beginPath();
@@ -102,8 +104,8 @@ export default {
     }, //移动设备事件
     touchStart(ev) {
       ev = ev || event;
-      console.log(this.stage_info);
-      console.log(ev.targetTouches[0]);
+      // console.log(this.stage_info);
+      // console.log(ev.targetTouches[0]);
 
       ev.preventDefault();
       if (ev.touches.length == 1) {
@@ -183,7 +185,7 @@ export default {
     touchEnd(ev) {
       ev = ev || event;
       ev.preventDefault();
-      console.log(ev);
+      // console.log(ev);
       if (ev.touches.length == 1) {
         let obj = {
           x: ev.targetTouches[0].clientX - this.stage_info.left,

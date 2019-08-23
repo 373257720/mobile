@@ -12,14 +12,6 @@
         <p>身份证号码</p>
         <van-field v-model="idnum" placeholder="请输入密码" clearable />
       </div>
-      <div class="companyname">
-        <p>公司名字</p>
-        <van-field v-model="companyname" placeholder="公司名字" clearable />
-      </div>
-      <div class="companyname2">
-        <p>公司名字</p>
-        <van-field v-model="companyname" placeholder="请输入密码" clearable />
-      </div>
       <div class="id_front">
         <p>身份证正面</p>
         <van-uploader v-model="fileList_front" multiple :max-count="1" />
@@ -28,10 +20,26 @@
         <p>身份证背面</p>
         <van-uploader v-model="fileList_back" multiple :max-count="1" />
       </div>
-      <div class="id_back">
+      <div class="companyname2">
+        <p>公司名字</p>
+        <van-field v-model="companyname" placeholder="请输入密码" clearable />
+      </div>
+      <div class="companyname">
+        <p>company name</p>
+        <van-field v-model="companyname" placeholder="公司名字" clearable />
+      </div>
+      <div class="company_address">
+        <p>公司地址</p>
+        <van-field v-model="companyname" placeholder="公司地址" clearable />
+      </div>
+      <div class="company_address_eng">
+        <p>company address</p>
+        <van-field v-model="companyname" placeholder="公司地址" clearable />
+      </div>
+      <!-- <div class="id_back">
         <p>护照</p>
         <van-uploader v-model="fileList_back" multiple :max-count="1" />
-      </div>
+      </div>-->
       <div class="companycheck">
         <p>公司证书</p>
         <van-uploader v-model="fileList_comcheck" multiple :max-count="1" />
@@ -48,7 +56,7 @@
       <nav class="backbtn">
         <button>进入首页</button>
       </nav>
-    </div>-->
+    </div> -->
   </div>
 </template>
 <script>
@@ -110,7 +118,7 @@ export default {
   // background: white;
   .van-cell {
     font-size: 0.16rem;
-    padding: 0 0.3125rem 0 0.46875rem;
+    padding: 0 0.8rem;
     // line-height:  0.16rem;
     // padding: 0;
   }
@@ -120,26 +128,40 @@ export default {
   }
   .van-dropdown-menu {
     height: 0.7rem;
-    border: 0.01rem solid #ababab;
+    // border: 0.01rem solid #ababab;
     background: #f6f6f6;
   }
   .van-field__body {
     //  width: 100%;
-    height: 0.7rem;
-    border: 0.01rem solid #ababab;
+    height: 0.75rem;
+    // border: 0.01rem solid #ababab;
+
+    border-radius: 0.02rem;
     background: #f6f6f6;
-    padding: 0.2rem;
+    padding: 0.1rem;
     box-sizing: border-box;
+  }
+  .van-field__control {
+    // height: 0.5rem;
   }
   .van-field {
     padding: 0;
   }
   .van-uploader__preview {
     margin: 0;
+
+    // overflow: hidden;
   }
   .van-uploader__preview-image {
     margin: 0;
     width: 100%;
+    //  border: 0.01rem solid #ababab;
+    //  overflow: hidden;
+   
+    img {
+      //  border-radius: 0.02rem;
+       border-radius: 0.1rem;
+    }
   }
   .van-uploader {
     width: 100%;
@@ -150,8 +172,34 @@ export default {
     background: #f6f6f6;
     margin: 0;
     border: 0;
-    border: 0.01rem solid #ababab;
+    // border: 0.01rem solid #ababab;
+    border-radius: 0.02rem;
     box-sizing: border-box;
+    .van-uploader__upload-icon{
+      font-size:0.5rem;
+    }
+  }
+  .van-dropdown-menu__title::after {
+    border: 0.1rem solid;
+    // top:50%;
+    // top: 0.06375rem;
+    transform: rotate(0);
+    // // left:50%;
+    border-color: currentColor transparent transparent transparent;
+    // transform: translateY(-50%);
+  }
+  .van-hairline--top-bottom::after{
+    border: 0;
+  }
+  .van-dropdown-menu__title--down::after {
+    // top: 0.06375rem;
+    border: 0.1rem solid;
+    // top:50%;
+    // top: 0.06375rem;
+    top: 0;
+    transform: rotate(-180deg);
+    // // left:50%;
+    border-color: currentColor transparent transparent transparent;
   }
 }
 </style>
@@ -159,7 +207,7 @@ export default {
 <style lang="scss" scoped>
 #usercheck {
   height: 100%;
-  width: 80%;
+  // width: 80%;
   margin: 0 auto;
   .usercheck2 {
     h2 {
@@ -181,27 +229,31 @@ export default {
       button {
         background: #00adef;
         width: 6rem;
-        height: 1rem;
+        height: 0.8rem;
+        color:white;
       }
     }
   }
   .usercheck {
     > div {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
+      padding: 0 0.8rem;
       > p {
         margin-bottom: 0.1rem;
+        font-size: 0.25rem;
       }
     }
     header {
       text-align: center;
       font-size: 16px;
-      padding: 0.8rem 0 0.8rem 0;
+      font-weight: 600;
+      padding: 0.8rem 0 0.3rem 0;
       box-sizing: border-box;
     }
     .commit button {
       width: 100%;
       color: white;
-      height: 1rem;
+      height: 0.8rem;
       background: #00adef;
     }
   }

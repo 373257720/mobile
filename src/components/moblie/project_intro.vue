@@ -1,7 +1,7 @@
 <template>
   <div id="project_intro">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()"/>项目简介
+      <van-icon name="arrow-left" @click="$global.previous()" />项目简介
     </nav>
     <main id="project_intro_length">
       <h3>监考费第三方斯蒂芬</h3>
@@ -35,7 +35,7 @@ export default {
     return {
       success: true,
       time: 3,
-      message:''
+      message: ""
       // project_intro_length: ""
       // A:this.$refs.article.offsetHeight
       // project_intro_length: document.getElementById("article").offsetHeight
@@ -44,6 +44,10 @@ export default {
   methods: {
     goto() {
       this.success = !this.success;
+      var textarea = this.message
+        .replace(/\r\n/g, "<br/>")
+        .replace(/\n/g, "<br/>")
+        .replace(/\s/g, "&nbsp;");
       // var aa = setInterval(() => {
       //   --this.time;
       // }, 1000);
@@ -135,8 +139,8 @@ export default {
       background: #00adef;
       color: white;
     }
-    button.previous{
-       margin: 0 0 0.4rem 0;
+    button.previous {
+      margin: 0 0 0.4rem 0;
     }
   }
 }

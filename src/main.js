@@ -16,6 +16,11 @@ import {
 } from 'vant';
 Vue.use(Field);
 import {
+  Checkbox,
+  CheckboxGroup
+} from 'vant';
+Vue.use(Checkbox).use(CheckboxGroup);
+import {
   DropdownMenu,
   DropdownItem
 } from 'vant';
@@ -73,7 +78,7 @@ Vue.prototype.$goto = function goto(name, id) {
 // Vue.prototype.$previous=function previous(){
 //   this.$router.go(-1);
 //   console.log(this.$router);
-  
+
 // };
 
 var baseurl = {
