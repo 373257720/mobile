@@ -1,7 +1,7 @@
 <template>
   <div class="signatureBox">
     <nav class="visaDetailTop">
-      <van-icon name="arrow-left" />电子签名
+      <van-icon name="arrow-left"  @click="$global.previous()" />电子签名
     </nav>
     <div class="canvasBox" ref="canvasHW">
       <canvas
@@ -229,14 +229,15 @@ nav.visaDetailTop {
   width: 100%;
   border-bottom: 0.01rem dashed #b3b3b3;
   text-align: center;
-  line-height: 1rem;
-  height: 1rem;
+  line-height: 1.5rem;
+  height: 1.5rem;
+  font-size: 0.46rem;
   position: fixed;
   top: 0;
   background: white;
 }
 nav.visaDetailTop .van-icon-arrow-left {
-  line-height: 1rem;
+  line-height: 1.5rem;
   position: absolute;
   left: 0.6rem;
   /* top: 50%; */

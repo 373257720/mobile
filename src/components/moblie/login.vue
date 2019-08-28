@@ -15,7 +15,9 @@
         <button @click="login">登 录</button>
       </div>
       <div class="registerbtn">
-        <button @click="$goto('register')">注册新账号</button>
+        <router-link :to="'register'">
+          <button>注册新账号</button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -27,11 +29,11 @@ export default {
     return {
       username: "",
       password: "",
-      remind:'',
+      remind: ""
     };
   },
   methods: {
-   login() {
+    login() {
       this.remind = "";
       if (this.username && this.password) {
         this.$axios({
@@ -46,10 +48,12 @@ export default {
           }
         }).then(res => {
           var rescode = res.data.resultCode;
-          sessionStorage.setItem("usertype", res.data.data.userType);
+
+          // sessionStorage.setItem("usertype", res.data.data.userType);
           console.log(global);
           if (rescode == 10000) {
             console.log("登陆成功");
+            this.$store.dispatch("usertype", res.data.data.userType);
             // this.$store.dispatch("setUser", this.username);
             if (res.data.data.isAuth == 1) {
               this.$goto("mhome");
@@ -114,7 +118,7 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
     p {
       font-size: 0.12rem;
       height: 0.5rem;
@@ -127,7 +131,7 @@ export default {
     button {
       color: white;
       // width: 100%;
-       width: 6rem;
+      width: 6rem;
       height: 0.7rem;
     }
     .loginbtn button {

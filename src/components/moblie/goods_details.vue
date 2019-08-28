@@ -15,6 +15,9 @@
             <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
           </li>
         </ul>
+        <footer>
+          <button @click="$goto('investor_infor')">投资者资料</button>
+        </footer>
       </article>
     </main>
     <mbottom></mbottom>
@@ -32,10 +35,10 @@ export default {
         "集资金额:",
         "联系电话:",
         "电邮:",
-        "投资者公司:",
-        "投资者姓名:",
-        "投资者电话:",
-        "感兴趣行业:"
+        "投资者公司:"
+        // "投资者姓名:",
+        // "投资者电话:",
+        // "感兴趣行业:"
       ]
     };
   }
@@ -89,7 +92,7 @@ export default {
         border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
-        padding: 0.5rem;
+        padding: 0.5rem 0.5rem 0 0.5rem;
         li {
           margin-bottom: 0.4rem;
           display: flex;
@@ -106,6 +109,15 @@ export default {
             line-height: 0.48rem;
             color: #787878;
           }
+        }
+      }
+      footer {
+        padding: 0 0.5rem 0.5rem 0.5rem;
+        button {
+          width: 6.5rem;
+          height: 1rem;
+          background: #00adef;
+          color: white;
         }
       }
     }

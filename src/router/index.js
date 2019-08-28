@@ -21,10 +21,13 @@ import sign_successful from '@/components/moblie/sign_successful'
 import sign_failed from '@/components/moblie/sign_failed'
 import wait_investor from '@/components/moblie/wait_investor'
 import wait_correct from '@/components/moblie/wait_investor_correct'
+import user_contact from '@/components/moblie/user_contact'
+import user_contact2 from '@/components/moblie/user_contact2'
 // moblie
 
 Vue.use(Router);
-const routes = [{
+const routes = [
+  {
     path: '/register',
     name: 'register',
     component: register,
@@ -65,11 +68,16 @@ const routes = [{
     name: 'mhome',
     component: mhome,
   },
-  //  {
-  //   path: '/mpro_sign',
-  //   name: 'mpro _sign',
-  //   component: mpro_sign,
-  // },
+   {
+    path: '/user_contact',
+    name: 'user_contact',
+    component: user_contact,
+  },
+  {
+    path: '/user_contact2',
+    name: 'user_contact2',
+    component: user_contact2,
+  },
   {
     path: '/mine',
     name: 'mine',

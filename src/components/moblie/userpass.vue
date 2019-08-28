@@ -1,6 +1,8 @@
 <template>
   <div id="userpass">
-    <header>个人审核</header>
+    <header>
+      <van-icon name="arrow-left" @click="$global.previous()" />个人审核
+    </header>
     <main>
       <ul>
         <li>
@@ -36,7 +38,7 @@
           <p>passport</p>
           <div class="pic"></div>
         </li>
-         <li class="idcard_right">
+        <li class="idcard_right">
           <p>公司营业执照</p>
           <div class="pic"></div>
         </li>
@@ -52,30 +54,44 @@
 <script>
 export default {
   name: "userpass",
-  data(){
-    return{
-       success:false,
-    }
+  data() {
+    return {
+      success: false
+    };
   }
 };
 </script>
+<style lang="scss">
+#userpass {
+  header {
+    position: relative;
+    .van-icon-arrow-left {
+      // line-height: 1rem;
+      position: absolute;
+      left: 0.6rem;
+      top: 50%;
+      transform: (translate(0, -50%));
+    }
+  }
+}
+</style>
 <style lang='scss' scoped>
 #userpass {
   width: 100%;
   header {
-   
     width: 100%;
     text-align: center;
-    line-height: 1rem;
-    height: 1rem;
+    line-height: 1.5rem;
+    font-size: 0.46rem;
+    height: 1.5rem;
     position: fixed;
     top: 0;
     background: white;
-    border-bottom: 0.01rem dashed #d9d9d9;
+    border-bottom: 0.08rem solid #d9d9d9;
   }
   main {
     background: white;
-    padding: 1rem 0 0 0;
+    padding: 1.5rem 0 1rem 0;
     ul {
       padding: 0.5rem 0.5rem;
       li {
@@ -92,8 +108,8 @@ export default {
           border: 0.01rem solid #d9d9d9;
           padding: 0 0.2rem;
         }
-        .pic {
-          height: 2.5rem;
+        div.pic {
+          height: 3rem;
         }
       }
     }

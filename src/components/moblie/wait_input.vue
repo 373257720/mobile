@@ -15,12 +15,20 @@
             <p class="row1">草拟合约:</p>
             <section class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</section>
           </li>
-          <li i v-for="(item) in wait_input" :key="item">
+          <li i v-for="(item,idx) in wait_input" :key="item">
             <p class="row1">{{item}}</p>
             <p class="row2">
               <van-cell-group>
-                <van-field v-model="value" placeholder="请输入用户名" />
+                <van-field v-model="value[idx]" placeholder="请输入用户名" />
               </van-cell-group>
+            </p>
+          </li>
+          <li>
+            <p class="row1">感兴趣行业：</p>
+            <p class="row2">
+              <van-checkbox-group v-model="result">
+                <van-checkbox v-for="(item) in list" :key="item" :name="item">复选框 {{ item }}</van-checkbox>
+              </van-checkbox-group>
             </p>
           </li>
         </ul>
@@ -41,6 +49,9 @@ export default {
   name: "wait_input",
   data() {
     return {
+      value: ["", "", ""],
+      list: ["a", "b", "c"],
+      result: ["a", "b"],
       details_lists: [
         "公司名称:",
         "是否上市公司:",
@@ -49,7 +60,7 @@ export default {
         "联系电话：",
         "电邮："
       ],
-      wait_input: ["投资者公司：", "投资者姓名:", "投资者电话："]
+      wait_input: ["投资者公司：", "投资者姓名:", "投资者电话：","投资者邮箱"]
     };
   },
   methods: {
@@ -73,6 +84,10 @@ export default {
 </script>
 <style lang="scss">
 #wait_input {
+  .van-checkbox__icon {
+    //   line-height:0.625rem;
+    font-size: 0.2rem;
+  }
   .van-hairline--top-bottom::after {
     border: 0.01rem solid #8e8e8e;
   }
@@ -149,6 +164,7 @@ export default {
             color: #4c4c4c;
             font-weight: 600;
             width: 3rem;
+            margin-bottom:0.2rem;
           }
           .row2 {
             width: 7rem;
@@ -163,6 +179,8 @@ export default {
             width: 6.5rem;
             height: 10rem;
             background: #f2f2f2;
+            padding: 0.2rem 0.4rem;
+            box-sizing: border-box;
           }
         }
       }

@@ -1,7 +1,7 @@
 <template>
   <div id="investor_infor">
     <nav>
-      <van-icon name="arrow-left" />投资者资料
+      <van-icon name="arrow-left" @click="$global.previous()"/>投资者资料
     </nav>
     <main>
       <article>
@@ -98,18 +98,18 @@ export default {
     top: 0;
     font-size: 0.46rem;
     background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
+    border-bottom: 0.08rem solid #b5b5b5;
   }
   main {
     margin-top: 1.5rem;
     background: #ffffff;
     ul {
-      padding: 0.5rem 0.5rem 1.2rem 0.5rem;
+      padding: 0 0.5rem 1.2rem 0.5rem;
       li {
-        margin-bottom: 0.4rem;
+        padding: 0.3rem 0;
         font-size: 0.3rem;
-        justify-content: space-between;
         display: flex;
+        justify-content: space-between;
         align-items: center;
         border-bottom: 0.01rem dashed #b3b3b3;
         aside {
@@ -125,7 +125,7 @@ export default {
         .main_right {
           section {
             display: flex;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.1rem;
             .row1 {
               color: #4c4c4c;
               display: inline-block;

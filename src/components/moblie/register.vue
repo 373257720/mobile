@@ -5,7 +5,7 @@
     </h2>
 
     <div class="main">
-      <p>账号或密码错误，请重新输入</p>
+      <!-- <p>账号或密码错误，请重新输入</p> -->
       <div class="username">
         <van-field v-model="username" placeholder="电子邮箱" clearable />
       </div>
@@ -63,12 +63,12 @@ export default {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  h2 {
+ h2 {
     padding: 2rem 0 1rem 0;
     text-align: center;
     img {
-      width: 50%;
-      height: 1.5rem;
+      width: 4.28rem;
+      height: 1.57rem;
     }
   }
   .main {

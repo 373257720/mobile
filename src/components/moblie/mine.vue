@@ -7,24 +7,30 @@
     <nav></nav>
     <main>
       <ul>
-        <li>
+        <li @click="$goto('userpass')">
           <p>
             <img src="../../assets/6d991a52e05250a2570d768f8cc1e3e.png" alt />
             <span>个人审核</span>
           </p>
           <van-icon name="arrow" />
         </li>
-        <li>
+        <li @click="switch_language">
           <p>
             <img src="../../assets/4d28cc99e537444f8869e17c77906f4.png" alt />
             <span>切换语言</span>
           </p>
           <van-icon name="arrow" />
         </li>
-        <li>
+        <section>
+          <van-dialog v-model="show" title="标题" show-cancel-button :showConfirmButton="false">
+            <li>ENGLISH</li>
+            <li>中文</li>
+          </van-dialog>
+        </section>
+        <li @click="loginout">
           <p>
             <img src="../../assets/10fe37a805f657460d990771d6454f1.png" alt />
-            <span @click="gg">退出登录</span>
+            <span>退出登录</span>
           </p>
           <van-icon name="arrow" />
         </li>
@@ -35,8 +41,30 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      show: false
+    };
+  },
   methods: {
-    gg() {
+    // beforeClose(action, done) {
+    //   if (action === "confirm") {
+    //     setTimeout(done, 1000);
+    //   } else {
+    //     done();
+    //   }
+    // },
+    switch_language() {
+      this.show = true;
+      // this.$dialog.confirm({
+      //   title: "标题",
+      //   message: "弹窗内容",
+      //   // beforeClose
+      //   showCancelButton: false,
+      //   showConfirmButton: false
+      // });
+    },
+    loginout() {
       // console.log(this.$dialog);
       this.$dialog
         .confirm({
@@ -55,11 +83,21 @@ export default {
 </script>
 <style lang="scss">
 #mine {
+  .van-dialog {
+    font-size: 0.3rem;
+  }
+  section .van-dialog {
+    .van-dialog__header {
+      padding-top: 0.5rem;
+    }
+    .van-dialog__content {
+      li {
+        padding: 0 0.5rem;
+      }
+    }
+  }
+}
 
-}
-.van-dialog {
-  font-size: 0.3rem;
-}
 .van-dialog__message {
   font-size: 0.3rem;
 }
@@ -72,6 +110,8 @@ export default {
   background: white;
   header {
     height: 3rem;
+    // z-index: 5;
+    //  position: fixed;
     // text-align: center;
     line-height: 3rem;
     padding: 0 0.5rem;
@@ -87,6 +127,7 @@ export default {
     background: #f2f2f2;
   }
   main {
+    //  z-index: 0;
     ul {
       padding: 0 0.5rem;
       li {

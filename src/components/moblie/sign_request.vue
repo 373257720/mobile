@@ -1,7 +1,7 @@
 <template>
   <div id="sign_request">
     <nav>
-      <van-icon name="arrow-left" />签约请求
+      <van-icon name="arrow-left" @click="$global.previous()" />签约请求
     </nav>
     <main>
       <article>
@@ -12,12 +12,14 @@
             <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
           </li>
           <li class="contract">
-            <p class="row1">草拟合约</p>
-            <section class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</section>
+            <p class="row1 draft">草拟合约:</p>
+            <section
+              class="row2 draft1"
+            >地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方</section>
           </li>
-        </ul>
+        </ul> 
         <footer>
-          <button>签署</button>
+          <button @click="$goto('cavans')">签署</button>
           <aside>
             <button @click="gg">拒绝签约</button>
             <button @click="gg">同意签约</button>
@@ -33,6 +35,7 @@ export default {
   name: "goods_details",
   data() {
     return {
+      show: false,
       details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
     };
   },
@@ -89,7 +92,7 @@ export default {
     top: 0;
     font-size: 0.46rem;
     background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
+    border-bottom: 0.08rem solid #b5b5b5;
   }
   main {
     margin-top: 1.5rem;
@@ -103,11 +106,11 @@ export default {
     article {
       margin: 0 0 1.3rem 0;
       header {
-        height: 1.7rem;
+        height: 1.5rem;
         font-size: 0.32rem;
         text-align: center;
         font-weight: 600;
-        line-height: 1.7rem;
+        line-height: 1.5rem;
         border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
@@ -116,11 +119,14 @@ export default {
           margin-bottom: 0.4rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.28rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
             width: 3rem;
+          }
+          .draft {
+            margin-bottom: 0.25rem;
           }
           .row2 {
             width: 7rem;
@@ -128,18 +134,23 @@ export default {
             line-height: 0.48rem;
             color: #787878;
           }
+          .draft1 {
+            padding: 0.2rem 0.4rem;
+            box-sizing: border-box;
+          }
         }
         .contract {
           display: block;
           .row2 {
             width: 6.5rem;
-            height: 10rem;
+            height: 6rem;
+            overflow-x: auto;
             background: #f2f2f2;
           }
         }
       }
       footer {
-        padding: 0.5rem;
+        padding: 0 0.5rem 0.5rem 0.5rem;
         button {
           width: 6.5rem;
           height: 1rem;

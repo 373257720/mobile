@@ -10,12 +10,11 @@
         </van-dropdown-menu>
       </main>
     </nav>
-
     <ul>
       <li v-for="item in arr" :key="item">
         <p>
           <span>申请时间:</span>
-          <span>到发广告的非官方的鬼地方更多个电饭锅</span>
+          <span>到发广告的非</span>
         </p>
         <p>
           <span>申请中间人:</span>
@@ -23,6 +22,10 @@
         </p>
         <p>
           <span>申请项目:</span>
+          <span>423423</span>
+        </p>
+        <p>
+          <span>签约时间:</span>
           <span>423423</span>
         </p>
         <p>
@@ -42,17 +45,36 @@ export default {
     return {
       arr: [1, 2, 3, 5, 9, 8, 10, 90, 40],
       value1: 0,
-      option1: [
-        { text: "全部商品", value: 0 },
-        { text: "新款商品", value: 1 },
-        { text: "活动商品", value: 2 },
-        { text: "活动商品", value: 3 },
-        { text: "活动商品", value: 4 }
-      ]
+      option1: []
     };
+  },
+  created() {
+    //  console.log();
+    let usertype = this.$store.state.currentUsertype;
+    console.log(usertype);
+
+    if (usertype == 1) {
+      this.option1 = [
+        { text: "签约请求", value: 0 },
+        { text: "签约成功", value: 1 },
+        { text: "拒绝签约", value: 2 }
+      ];
+    } else if (usertype == 0) {
+      this.option1 = [
+        { text: "已连接项目", value: 0 },
+        { text: "等待确认", value: 1 }
+      ];
+    } else if (usertype == 2) {
+      this.option1 = [
+        { text: "已连接项目", value: 0 },
+        { text: "等待确认", value: 1 }
+      ];
+    }
+    console.log(this.option1);
   }
 };
 </script>
+
 <style lang="scss">
 #mysign {
   header {
@@ -65,8 +87,21 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+  .van-cell {
+    padding: 0.1rem 0.3rem;
+    .van-cell__title {
+      text-align: center;
+    }
+  }
+  .van-cell__value {
+    display: none;
+  }
   .van-dropdown-menu {
     height: 1rem;
+  }
+  .van-hairline--top-bottom::after {
+    border-width: 0;
+    border-bottom: 0.03125rem solid #ebedf0;
   }
   .van-hairline--top-bottom {
     // z-index: -3;
@@ -93,9 +128,10 @@ export default {
     background: white;
     header {
       line-height: 1.5rem;
+      font-size: 0.46rem;
       height: 1.5rem;
-      font-size: 0.4rem;
-      border-bottom: 0.1rem solid #d2d2d2;
+      // font-size: 0.4rem;
+      border-bottom: 0.08rem solid #d2d2d2;
     }
   }
   ul {
@@ -111,16 +147,17 @@ export default {
       font-size: 0.3rem;
       p {
         display: flex;
-        align-items:baseline;
+        align-items: baseline;
         span:nth-child(1) {
           font-weight: 600;
-          font-size: 0.3rem;
-          line-height: 0.5rem;
+          font-size: 0.28rem;
+          line-height: 0.46rem;
           display: inline-block;
           width: 2rem;
         }
         span:nth-child(2) {
           font-weight: 500;
+          font-size: 0.28rem;
           color: #575757;
           display: inline-block;
           width: 3rem;
@@ -131,8 +168,8 @@ export default {
         top: 50%;
         right: 0;
         transform: translateY(-50%);
-        height: 0.8rem;
-        width: 0.8rem;
+        height: 0.6rem;
+        width: 0.6rem;
       }
     }
   }

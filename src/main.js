@@ -8,8 +8,11 @@ import 'vant/lib/index.css';
 import axios from '../node_modules/axios'
 import qs from 'qs'
 import global from '@/components/moblie/global.js'
+import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
+import Vuex from 'vuex';
+Vue.use(Vuex);
 // Vue.use(Vant);
 import {
   Field
@@ -54,6 +57,8 @@ Vue.use(Icon);
 import {
   TreeSelect
 } from 'vant';
+import { IndexBar, IndexAnchor } from 'vant';
+Vue.use(IndexBar).use(IndexAnchor);
 Vue.use(TreeSelect);
 import {
   Dialog
@@ -72,7 +77,7 @@ Vue.prototype.$goto = function goto(name, id) {
       idx: id
     };
   }
-  console.log(this.$router);
+  // console.log(this.$router);
   this.$router.push(obj);
 }
 // Vue.prototype.$previous=function previous(){
@@ -87,13 +92,25 @@ var baseurl = {
 }
 Vue.prototype.$baseurl = baseurl.api;
 Vue.prototype.$global = global;
+
+import Router from 'vue-router'
+// console.log(Router.prototype);
+
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err);
+}
+
 import mbottom from './components/moblie/bottom.vue'
 Vue.component('mbottom', mbottom)
+import cavans  from './components/moblie/cavans.vue'
+Vue.component('cavans', cavans)
 // Vue.prototype.$axios = axios;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,  
   components: {
     App
   },
