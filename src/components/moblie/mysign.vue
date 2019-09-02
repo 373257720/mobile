@@ -11,7 +11,7 @@
       </main>
     </nav>
     <ul>
-      <li v-for="item in arr" :key="item">
+      <li v-for="item in arr" :key="item" @click="goto(item)">
         <p>
           <span>申请时间:</span>
           <span>到发广告的非</span>
@@ -52,7 +52,6 @@ export default {
     //  console.log();
     let usertype = this.$store.state.currentUsertype;
     console.log(usertype);
-
     if (usertype == 1) {
       this.option1 = [
         { text: "签约请求", value: 0 },
@@ -61,8 +60,9 @@ export default {
       ];
     } else if (usertype == 0) {
       this.option1 = [
-        { text: "已连接项目", value: 0 },
-        { text: "等待确认", value: 1 }
+        { text: "签约成功", value: 0 },
+        { text: "等待签约", value: 1 },
+        { text: "等待失败", value: 2 }
       ];
     } else if (usertype == 2) {
       this.option1 = [
@@ -71,6 +71,11 @@ export default {
       ];
     }
     console.log(this.option1);
+  },
+  methods:{
+    goto(){
+      
+    }
   }
 };
 </script>

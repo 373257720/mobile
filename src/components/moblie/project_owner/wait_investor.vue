@@ -1,7 +1,7 @@
 <template>
   <div id="wait_investor">
     <nav>
-      <van-icon name="arrow-left" />等待投资者确认
+      <van-icon name="arrow-left" @click="$global.previous()"/>等待投资者确认
     </nav>
     <main>
       <article>
@@ -13,12 +13,16 @@
           </li>
           <li class="contract">
             <p class="row1">草拟合约:</p>
-            <section class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</section>
+            <section class="row2 draft1">
+              <article
+                class="draft1_middle"
+              >地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方</article>
+            </section>
           </li>
         </ul>
-        <footer>
+        <!-- <footer>
           <button>资料有误，重新输入</button>
-        </footer>
+        </footer>-->
       </article>
     </main>
     <mbottom></mbottom>
@@ -124,15 +128,15 @@ export default {
     article {
       margin: 0 0 1.3rem 0;
       header {
-        height: 1.7rem;
+        height: 1.5rem;
         font-size: 0.32rem;
         text-align: center;
         font-weight: 600;
-        line-height: 1.7rem;
+        line-height: 1.5rem;
         border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
-        padding: 0.5rem;
+        padding: 0.1rem 0.5rem 0.5rem 0.5rem;
         li {
           margin-bottom: 0.2rem;
           display: flex;
@@ -152,15 +156,29 @@ export default {
         }
         .contract {
           display: block;
+
+          .row1 {
+            margin-bottom: 0.1rem;
+          }
           .row2 {
             width: 6.5rem;
-            height: 10rem;
+            height: 6rem;
+            border: 0.01rem solid #b3b3b3;
+            // box-sizing: border-box;
+            padding: 0;
             background: #f2f2f2;
+            .draft1_middle {
+              padding: 0.3rem;
+              box-sizing: border-box;
+              width: 100%;
+              height: 100%;
+              overflow-y: auto;
+            }
           }
         }
       }
       footer {
-        padding:  0 0.5rem 0.5rem 0.5rem;
+        padding: 0 0.5rem 0.5rem 0.5rem;
         button {
           width: 6.5rem;
           height: 1rem;

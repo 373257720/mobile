@@ -4,13 +4,14 @@
       <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
     </h2>
     <div class="main">
-      <!-- <p>账号或密码错误，请重新输入</p> -->
+       <p>{{remind}}</p>
       <div class="username">
         <van-field v-model="username" placeholder="电子邮箱" clearable />
       </div>
       <div class="password">
         <van-field v-model="password" placeholder="请输入密码" clearable />
       </div>
+     
       <div class="loginbtn">
         <button @click="login">登 录</button>
       </div>
@@ -61,11 +62,11 @@ export default {
               this.$goto("usercheck");
             }
           } else if (rescode == 10011) {
-            console.log("登录账号不能为空");
+            this.remind = "登录账号不能为空";
           } else if (rescode == 10012) {
-            console.log("邮箱地址无效请重新输入");
+            this.remind = "邮箱地址无效请重新输入";
           } else if ((rescode = 10014)) {
-            console.log("该邮箱已注册，请登录");
+            this.remind = "该邮箱已注册，请登录";
           }
         });
       } else {
@@ -80,7 +81,8 @@ export default {
   .van-field__body {
     //  width: 100%;
     height: 0.7rem;
-    border: 0.01rem solid #ababab;
+    border: 0.01rem solid #ABABAB;
+    border-radius: 0.05rem;
     background: #f6f6f6;
     padding: 0.2rem;
     box-sizing: border-box;
@@ -89,7 +91,10 @@ export default {
     font-size: 0.12rem;
     line-height: 0.7rem;
   }
-
+   .van-field__clear {
+    // height: 0.1rem;
+    font-size: 0.3rem;
+  }
   .username,
   .password {
     .van-field {
@@ -107,11 +112,11 @@ export default {
   display: flex;
   flex-direction: column;
   h2 {
-    padding: 2rem 0 1rem 0;
+    padding: 3rem 0 2rem 0;
     text-align: center;
     img {
       width: 4.28rem;
-      height: 1.57rem;
+      height: 1.5rem;
     }
   }
   .main {
@@ -131,6 +136,7 @@ export default {
     button {
       color: white;
       // width: 100%;
+        border-radius: 0.05rem;
       width: 6rem;
       height: 0.7rem;
     }

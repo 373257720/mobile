@@ -1,29 +1,35 @@
 <template>
-  <div id="sign_request">
+  <div id="wait_correct">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签约请求
+      <van-icon name="arrow-left" />修改资料
     </nav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
-          <li i v-for="(item) in details_lists" :key="item">
+          <li i v-for="(item) in wait_input" :key="item">
             <p class="row1">{{item}}</p>
-            <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
+            <p class="row2">
+              <van-cell-group>
+                <van-field v-model="value" placeholder="请输入用户名" />
+              </van-cell-group>
+            </p>
           </li>
-          <li class="contract">
-            <p class="row1 draft">草拟合约:</p>
-            <section
-              class="row2 draft1"
-            >地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方</section>
+          <li>
+            <p class="row1">感兴趣行业：</p>
+            <p class="row2">
+              <van-checkbox-group v-model="result">
+                <van-checkbox v-for="(item) in list" :key="item" :name="item">复选框 {{ item }}</van-checkbox>
+              </van-checkbox-group>
+            </p>
           </li>
-        </ul> 
+        </ul>
         <footer>
-          <button @click="$goto('cavans')">签署</button>
-          <aside>
+          <button>签署</button>
+          <!-- <aside>
             <button @click="gg">拒绝签约</button>
             <button @click="gg">同意签约</button>
-          </aside>
+          </aside>-->
         </footer>
       </article>
     </main>
@@ -32,11 +38,20 @@
 </template>
 <script>
 export default {
-  name: "goods_details",
+  name: "wait_input",
   data() {
     return {
-      show: false,
-      details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
+      list: ["a", "b", "c"],
+      result: ["a", "b"],
+      details_lists: [
+        "公司名称:",
+        "是否上市公司:",
+        "项目详情:",
+        "集资额：",
+        "联系电话：",
+        "电邮："
+      ],
+      wait_input: ["投资者公司：", "投资者姓名:", "投资者电话："]
     };
   },
   methods: {
@@ -59,7 +74,30 @@ export default {
 };
 </script>
 <style lang="scss">
-#sign_request {
+#wait_correct {
+  .van-hairline--top-bottom::after {
+    border: 0.01rem solid #8e8e8e;
+  }
+  .van-cell {
+    padding: 0;
+    .van-field__control {
+      background: #f2f2f2;
+      font-size: 0.3rem;
+      padding: 0 0.2rem;
+      box-sizing: border-box;
+    }
+  }
+  .van-checkbox__icon {
+    //   line-height:0.625rem;
+    font-size: 0.2rem;
+  }
+  .van-checkbox__icon .van-icon {
+    //   height: 0.5rem;
+    // width: 0.3rem;
+    // height: 0.3rem;
+    // font-size:0.05rem;
+  }
+
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -81,7 +119,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#sign_request {
+#wait_correct {
   width: 100%;
   nav {
     width: 100%;
@@ -92,7 +130,7 @@ export default {
     top: 0;
     font-size: 0.46rem;
     background: white;
-    border-bottom: 0.08rem solid #b5b5b5;
+    border-bottom: 0.1rem solid #b5b5b5;
   }
   main {
     margin-top: 1.5rem;
@@ -106,11 +144,11 @@ export default {
     article {
       margin: 0 0 1.3rem 0;
       header {
-        height: 1.5rem;
+        height: 1.7rem;
         font-size: 0.32rem;
         text-align: center;
         font-weight: 600;
-        line-height: 1.5rem;
+        line-height: 1.7rem;
         border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
@@ -119,14 +157,11 @@ export default {
           margin-bottom: 0.4rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.28rem;
+          font-size: 0.3rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
             width: 3rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
           }
           .row2 {
             width: 7rem;
@@ -134,31 +169,23 @@ export default {
             line-height: 0.48rem;
             color: #787878;
           }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
         }
         .contract {
           display: block;
           .row2 {
             width: 6.5rem;
-            height: 6rem;
-            overflow-x: auto;
+            height: 10rem;
             background: #f2f2f2;
           }
         }
       }
       footer {
-        padding: 0 0.5rem 0.5rem 0.5rem;
+        padding: 0.5rem;
         button {
           width: 6.5rem;
           height: 1rem;
           background: #00adef;
           color: white;
-        }
-        button {
-          margin-bottom: 0.4rem;
         }
         aside {
           height: 1.5rem;

@@ -2,6 +2,12 @@
   <div id="usercheck">
     <div class="usercheck">
       <header>审核</header>
+      <div class="usertype">
+        <p>类型</p>
+        <van-dropdown-menu>
+          <van-dropdown-item v-model="value1" :options="option1" />
+        </van-dropdown-menu>
+      </div>
       <div class="nationality">
         <p>国籍</p>
         <van-dropdown-menu>
@@ -56,7 +62,7 @@
       <nav class="backbtn">
         <button>进入首页</button>
       </nav>
-    </div> -->
+    </div>-->
   </div>
 </template>
 <script>
@@ -118,31 +124,42 @@ export default {
   // background: white;
   .van-cell {
     font-size: 0.16rem;
-    padding: 0 0.8rem;
+    padding: 0 1.05rem;
     // line-height:  0.16rem;
     // padding: 0;
   }
   .van-dropdown-menu__title {
     font-size: 0.16rem;
+
     // text-align: left;
+  }
+  .van-dropdown-menu__item {
+    // display:inline;
+    justify-content: left;
+    width: 100%;
+    flex: none;
   }
   .van-dropdown-menu {
     height: 0.7rem;
-    // border: 0.01rem solid #ababab;
+    border-radius: 0.05rem;
+    border: 0.01rem solid #ababab;
     background: #f6f6f6;
   }
   .van-field__body {
     //  width: 100%;
     height: 0.75rem;
-    // border: 0.01rem solid #ababab;
-
-    border-radius: 0.02rem;
+    border: 0.01rem solid #ababab;
+    border-radius: 0.05rem;
     background: #f6f6f6;
-    padding: 0.1rem;
+    padding: 0 0.2rem;
     box-sizing: border-box;
   }
   .van-field__control {
+    // padding: 0 0.2rem;
     // height: 0.5rem;
+  }
+  .van-field__clear {
+    font-size: 0.3rem;
   }
   .van-field {
     padding: 0;
@@ -157,10 +174,10 @@ export default {
     width: 100%;
     //  border: 0.01rem solid #ababab;
     //  overflow: hidden;
-   
+
     img {
       //  border-radius: 0.02rem;
-       border-radius: 0.1rem;
+      border-radius: 0.1rem;
     }
   }
   .van-uploader {
@@ -172,24 +189,26 @@ export default {
     background: #f6f6f6;
     margin: 0;
     border: 0;
-    // border: 0.01rem solid #ababab;
-    border-radius: 0.02rem;
+    border: 0.01rem solid #ababab;
+    border-radius: 0.05rem;
     box-sizing: border-box;
-    .van-uploader__upload-icon{
-      font-size:0.5rem;
+    .van-uploader__upload-icon {
+      font-size: 0.5rem;
     }
   }
   .van-dropdown-menu__title::after {
     border: 0.1rem solid;
     // top:50%;
     // top: 0.06375rem;
+    right: -4.125rem;
     transform: rotate(0);
     // // left:50%;
     border-color: currentColor transparent transparent transparent;
     // transform: translateY(-50%);
   }
-  .van-hairline--top-bottom::after{
+  .van-hairline--top-bottom::after {
     border: 0;
+    //  border-radius: 0.05rem;
   }
   .van-dropdown-menu__title--down::after {
     // top: 0.06375rem;
@@ -230,29 +249,32 @@ export default {
         background: #00adef;
         width: 6rem;
         height: 0.8rem;
-        color:white;
+        color: white;
       }
     }
   }
   .usercheck {
+    font-size: 0.35rem;
     > div {
       margin-bottom: 0.4rem;
       padding: 0 0.8rem;
       > p {
         margin-bottom: 0.1rem;
-        font-size: 0.25rem;
+        font-size: 0.28rem;
       }
     }
     header {
       text-align: center;
-      font-size: 16px;
+      font-size: 0.7rem;
       font-weight: 600;
-      padding: 0.8rem 0 0.3rem 0;
+      padding: 0.45rem 0 0.33rem 0;
       box-sizing: border-box;
     }
     .commit button {
       width: 100%;
       color: white;
+      border-radius: 0.05rem;
+      margin-bottom:0.6rem;
       height: 0.8rem;
       background: #00adef;
     }

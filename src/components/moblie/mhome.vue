@@ -14,11 +14,13 @@
         <div slot="action" @click="onSearch">搜索</div>
       </van-search>
       <van-dropdown-menu>
+        <!-- <van-dropdown-item v-model="value" :options="option" /> 
+        </van-dropdown-item>-->
         <van-dropdown-item title="筛选" ref="item">
           <van-tree-select
             :items="items"
-            :main-active-index="mainActiveIndex"
-            :active-id="activeId"
+            :active-id.sync="activeIds"
+            :main-active-index.sync="mainActiveIndex"
             @click-nav="onClickNav"
             @click-item="onClickItem"
           />
@@ -65,6 +67,7 @@
   </div>
 </template>
 <script>
+import { log } from "util";
 export default {
   name: "mhome",
   data() {
@@ -98,19 +101,22 @@ export default {
               // 名称
               text: "温",
               // id，作为匹配选中状态的标识
-              id: 1
+              id: 3
               // 禁用选项
               // disabled: true
             },
             {
               text: "杭",
-              id: 2
+              id: 4
             }
           ]
         }
       ],
+
+      activeIds: [],
       // 左侧高亮元素的index
       mainActiveIndex: 0,
+
       // 被选中元素的id
       activeId: 1,
       searchkey: "",
@@ -132,6 +138,8 @@ export default {
         { text: "好评排序", value: "b" },
         { text: "销量排序", value: "c" }
       ]
+
+      // mainActiveIndex: 0
       // loadingUp: true,
       // finishedUp: false
     };
@@ -141,10 +149,16 @@ export default {
       console.log(this.searchkey);
     },
     onClickNav(index) {
+      // console.log(index);
+
       this.mainActiveIndex = index;
     },
     onClickItem(data) {
-      this.activeId = data.id;
+      // console.log(data);
+      this.activeIds.push(data.id);
+      console.log(this.activeIds);
+      
+      // this.activeIds = data.id;
     },
     onLoad(searchkey) {
       this.$axios({
@@ -208,12 +222,28 @@ export default {
     .van-field__right-icon .van-icon {
       font-size: 0.3rem;
     }
+    .van-tree-select__nav-item {
+      line-height: 1rem;
+    }
+    .van-tree-select__item {
+      line-height: 1rem;
+    }
+    .van-tree-select__nav-item--active {
+      border-color: rgb(25, 137, 250);
+    }
+    .van-tree-select__item--active {
+      color: rgb(25, 137, 250);
+    }
+    .van-tree-select__selected {
+      //  line-height: 1rem;
+      margin-top: -0.2rem;
+    }
     .van-field__clear {
       // height: 0.1rem;
       font-size: 0.3rem;
     }
     .van-cell--clickable {
-      padding: 0.1rem 0.3rem;
+      padding: 0.2rem 0.3rem;
     }
     .van-dropdown-menu {
       height: 0.8rem;

@@ -28,7 +28,7 @@
               </section>
             </article>
             <footer class="checkall">
-              <img src="../../assets/932de214a934dcc83b834aab8d58a34.png" alt />
+              <img src="../../../assets/932de214a934dcc83b834aab8d58a34.png" alt />
             </footer>
           </li>
         </ul>

@@ -1,7 +1,7 @@
 <template>
   <div id="goods_details">
     <nav>
-      <van-icon name="arrow-left" />项目详情
+      <van-icon name="arrow-left" @click="$global.previous()" />项目详情
     </nav>
     <main>
       <!-- <aside>

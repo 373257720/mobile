@@ -19,7 +19,7 @@
     </nav>
     <ul>
       <li v-for="item in arr" :key="item">
-        <img src="../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
+        <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
         <!-- <h2></h2> -->
         <p>
           <span>联系人名字</span>
@@ -81,7 +81,7 @@ export default {
   }
   .van-search__action {
     font-size: 0.3rem;
-     line-height: 0.5rem;
+    line-height: 0.5rem;
   }
   .van-cell {
     font-size: 0.1rem;
@@ -95,13 +95,13 @@ export default {
   .van-field__right-icon .van-icon {
     font-size: 0.3rem;
   }
-  .van-field__clear{
+  .van-field__clear {
     // height: 0.1rem;
-      font-size: 0.3rem;
+    font-size: 0.3rem;
   }
   .van-field__control {
     // height: 0.5rem;
-      // font-size: 0.1rem;
+    // font-size: 0.1rem;
   }
   header {
     position: relative;

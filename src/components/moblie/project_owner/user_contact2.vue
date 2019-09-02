@@ -8,7 +8,7 @@
     </nav>
     <ul>
       <li>
-        <img src="../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
+        <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
         <section>
           <p>
             <span>联系人名字</span>

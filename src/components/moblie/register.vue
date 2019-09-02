@@ -5,7 +5,7 @@
     </h2>
 
     <div class="main">
-      <!-- <p>账号或密码错误，请重新输入</p> -->
+      <p>{{remind}}</p>
       <div class="username">
         <van-field v-model="username" placeholder="电子邮箱" clearable />
       </div>
@@ -28,7 +28,8 @@ export default {
     return {
       username: "",
       password: "",
-      password2: ""
+      password2: "",
+      remind: ""
     };
   },
   methods: {}
@@ -44,11 +45,16 @@ export default {
       border: 0.01rem solid #ababab;
       background: #f6f6f6;
       padding: 0.2rem;
+      border-radius: 0.05rem;
       box-sizing: border-box;
     }
     .van-field__control {
       font-size: 0.12rem;
       line-height: 0.7rem;
+    }
+    .van-field__clear {
+      // height: 0.1rem;
+      font-size: 0.3rem;
     }
     .van-field {
       padding: 0;
@@ -63,12 +69,12 @@ export default {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
- h2 {
-    padding: 2rem 0 1rem 0;
+  h2 {
+    padding: 3rem 0 2rem 0;
     text-align: center;
     img {
       width: 4.28rem;
-      height: 1.57rem;
+      height: 1.5rem;
     }
   }
   .main {
@@ -89,9 +95,7 @@ export default {
       color: white;
       width: 100%;
       height: 0.7rem;
-    }
-    .loginbtn button {
-      background: #00adef;
+      border-radius: 0.05rem;
     }
     .registerbtn button {
       background: #ff7c2c;
