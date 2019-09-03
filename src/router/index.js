@@ -33,7 +33,7 @@ import a_waitsign from '@/components/moblie/agent/waitsign'
 import a_wait_investor_comfirm from '@/components/moblie/agent/wait_investor_comfirm'
 import a_input_investor_infor from '@/components/moblie/agent/input_investor_infor'
 import a_sign_failed from '@/components/moblie/agent/sign_failed'
-import sign_successful from '@/components/moblie/agent/sign_successful'
+import a_sign_successful from '@/components/moblie/agent/sign_successful'
 
 // investor/
 import i_wait_comfirm from '@/components/moblie/investor/wait_comfirm'

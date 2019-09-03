@@ -3,7 +3,7 @@
     <nav class="visaDetailTop">
       <van-icon name="arrow-left"  @click="$global.previous()" />电子签名
     </nav>
-    <div class="canvasBox" ref="canvasHW">
+    <!-- <div class="canvasBox" ref="canvasHW">
       <canvas
         @touchstart="touchStart"
         @touchmove="touchMove"
@@ -17,7 +17,7 @@
         <button @click="overwrite">重写</button>
         <button @click="handelSaveE">提交签名</button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -225,21 +225,28 @@ export default {
 /* @media screen and (orientation:landscape) {
 } */
 nav.visaDetailTop {
-  position: relative;
+  /* position: relative; */
   width: 100%;
   border-bottom: 0.01rem dashed #b3b3b3;
   text-align: center;
   line-height: 1.5rem;
   height: 1.5rem;
+  /* top: 8px; */
+  /* left: 0px; */
+
   font-size: 0.46rem;
-  position: fixed;
-  top: 0;
+  /* position: fixed; */
+   transform-origin: 50% 50%;
+  /* transform: translate(50%,50%); */
+   transform:rotate(90deg);
+  /* top: 0; */
   background: white;
 }
 nav.visaDetailTop .van-icon-arrow-left {
   line-height: 1.5rem;
   position: absolute;
   left: 0.6rem;
+
   /* top: 50%; */
   /* transform: (translate(0, -50%)); */
 }

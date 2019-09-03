@@ -14,7 +14,7 @@
             class="draft1_middle"
           ></article>
         </section>
-      </div> -->
+      </div>-->
       <footer>
         <button @click="goto" v-if="success">签约</button>
         <div v-else-if="!success" class="sign">
@@ -22,7 +22,7 @@
           <van-cell-group>
             <van-field v-model="message" type="textarea" placeholder="请输入留言" autosize />
           </van-cell-group>
-          <button>签署</button>
+          <button @click="aa">签署</button>
           <button @click="goto" class="previous">上一步</button>
         </div>
       </footer>
@@ -53,10 +53,7 @@ export default {
   methods: {
     goto() {
       this.success = !this.success;
-      var textarea = this.message
-        .replace(/\r\n/g, "<br/>")
-        .replace(/\n/g, "<br/>")
-        .replace(/\s/g, "&nbsp;");
+
       // var aa = setInterval(() => {
       //   --this.time;
       // }, 1000);
@@ -64,6 +61,24 @@ export default {
       //   clearInterval(aa);
       //   this.$goto("home");
       // }, 4000);
+    },
+    aa() {
+      var textarea = this.message
+        .replace(/\n/g, "</p><p>")
+        // .replace(/\r\n/g, "<p></p>")
+        .replace(/\s/g, "&nbsp;");
+      // "<p>"+textarea+"</p>"
+      console.log("<p>" + textarea + "</p>");
+      // var arr = document.querySelector(
+      //   "#i_conected_project .contract .draft1_middle"
+      // ).children;
+      // console.log(arr);
+      // for (var i = 0; i < arr.length; i++) {
+      //   console.log((arr[i].innerHTML = ""));
+      //   if ((arr[i].innerHTML = "")) {
+      //     arr[i].style.height = 0.4 + "rem";
+      //   }
+      // }
     }
   },
   mounted() {
