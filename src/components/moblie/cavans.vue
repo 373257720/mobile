@@ -1,9 +1,9 @@
 <template>
-  <div class="signatureBox">
+  <div id="signatureBox">
     <nav class="visaDetailTop">
-      <van-icon name="arrow-left"  @click="$global.previous()" />电子签名
+      <van-icon name="arrow-left" @click="$global.previous()" />电子签名
     </nav>
-    <!-- <div class="canvasBox" ref="canvasHW">
+    <div class="canvasBox" ref="canvasHW">
       <canvas
         @touchstart="touchStart"
         @touchmove="touchMove"
@@ -13,11 +13,11 @@
         @mousemove="mouseMove"
         @mouseup="mouseUp"
       ></canvas>
-      <div class="btnBox">
-        <button @click="overwrite">重写</button>
-        <button @click="handelSaveE">提交签名</button>
-      </div>
-    </div> -->
+    </div>
+    <div class="btnBox">
+      <button @click="overwrite">重写</button>
+      <button @click="handelSaveE">提交签名</button>
+    </div>
   </div>
 </template>
 <script>
@@ -48,20 +48,56 @@ export default {
   //     });
   //   },
   mounted() {
+    var signatureBox = document.querySelector("#signatureBox");
+    var btnBox = document.querySelector(".btnBox");
+    var canvasBox = document.querySelector(".canvasBox");
+    var visaDetailTop = document.querySelector(".visaDetailTop");
+    var aaa = window.getComputedStyle(signatureBox).getPropertyValue("height");
+    document.querySelector(".visaDetailTop").style.width = aaa;
+    window.getComputedStyle(visaDetailTop).getPropertyValue("height");
+
+    btnBox.style.width = aaa;
+    btnBox.style.left = window
+      .getComputedStyle(visaDetailTop)
+      .getPropertyValue("height");
+    canvasBox.style.width =
+      window.getComputedStyle(signatureBox).getPropertyValue("width") -
+      window.getComputedStyle(visaDetailTop).getPropertyValue("height");
+    canvasBox.style.marginRight = window
+      .getComputedStyle(visaDetailTop)
+      .getPropertyValue("height");
+    canvasBox.style.marginLeft = window
+      .getComputedStyle(visaDetailTop)
+      .getPropertyValue("height");
+    //  .style.height = aaa+;
     let canvas = this.$refs.canvasF;
     var clientWidth = document.documentElement.clientWidth;
     //根据设计图中的canvas画布的占比进行设置
     // console.log(canvas.offsetLeft);
-
     // var canvasWidth = Math.floor((clientWidth * 300) / 720);
-    var canvasWidth = Math.floor(clientWidth - 2 * canvas.offsetLeft);
-    canvas.height = canvasWidth + 150;
-    canvas.width = canvasWidth - 2;
-
+    // var canvasWidth = Math.floor(clientWidth - 2 * canvas.offsetLeft);
+    // canvas.height = canvasWidth+100;
+    // canvas.width = canvasWidth-100;
+    // this.canvasTxt = canvas.getContext("2d");
+    // console.log(aaa);
+    window
+      .getComputedStyle(signatureBox)
+      .getPropertyValue("height")
+      .slice(0, -2);
+    // var canvasWidth = Math.floor(clientWidth - 2 * canvas.offsetLeft);
+    canvas.height =
+      window
+        .getComputedStyle(signatureBox)
+        .getPropertyValue("height")
+        .slice(0, -2) - 50;
+    canvas.width =
+      window
+        .getComputedStyle(canvasBox)
+        .getPropertyValue("width")
+        .slice(0, -2) - 50;
     this.canvasTxt = canvas.getContext("2d");
-    // this.canvasTxt.font = 'normal 800 40px sans-serif'; 
-    // console.log(this.canvasTxt.font);
-    
+    // this.canvasTxt.font = 'normal 800 40px sans-serif';
+    // console.log(this.canvasTxt.font)
     // this.canvasTxt.font = '600 bold 80px sans-serif';
     // this.canvasTxt.fillText("", 10, 50);
     this.stage_info = canvas.getBoundingClientRect();
@@ -72,7 +108,6 @@ export default {
   methods: {
     handelSaveE() {
       console.log(this.$refs.canvasF);
-      
       let imgBase64 = this.$refs.canvasF.toDataURL();
       console.log(imgBase64);
       //   this.imgsrc = imgBase64;
@@ -212,7 +247,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style style='lcss' scoped>
 /* portrait */
 /* @media screen and (orientation:portrait) { */
 /* 竖屏情况下 */
@@ -224,56 +259,34 @@ export default {
 /* 横屏情况下 */
 /* @media screen and (orientation:landscape) {
 } */
-nav.visaDetailTop {
-  /* position: relative; */
+/*
+ * 强制横屏显示：通过竖屏时旋转解决横屏问题
+ * 
+ */
+  #signatureBox {
+  position: relative;
   width: 100%;
-  border-bottom: 0.01rem dashed #b3b3b3;
-  text-align: center;
-  line-height: 1.5rem;
-  height: 1.5rem;
-  /* top: 8px; */
-  /* left: 0px; */
-
-  font-size: 0.46rem;
-  /* position: fixed; */
-   transform-origin: 50% 50%;
-  /* transform: translate(50%,50%); */
-   transform:rotate(90deg);
-  /* top: 0; */
-  background: white;
+  height: 100%;
 }
 nav.visaDetailTop .van-icon-arrow-left {
   line-height: 1.5rem;
   position: absolute;
   left: 0.6rem;
-
-  /* top: 50%; */
-  /* transform: (translate(0, -50%)); */
 }
-
-/* landscape-specific styles */
-.signatureBox {
+nav.visaDetailTop {
+  /* width: 100%; */
+  border-bottom: 0.02rem dashed #b3b3b3;
+  text-align: center;
+  line-height: 1.5rem;
   position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  background: #fff;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
+  /* --abc:height */
+  font-size: 0.46rem;
+  transform-origin: 0% 0%;
+  transform: rotate(90deg);
+  top: 0;
+  left: 100vw;
 }
-.visaDetailTop {
-  /*position: absolute;*/ /*top: 0px;*/ /*left: 0px;*/
-  width: 100%;
-  /*overflow: hidden;*/
-  /* padding: 5px; */
-  box-sizing: border-box;
-  z-index: 2;
-  /* border-bottom: 1px solid #e5e5e5; */
-}
+
 .visaDetailTop p {
   margin: 0px;
   text-align: center;
@@ -324,18 +337,29 @@ p.visaTitle {
   float: right;
 }
 .canvasBox {
-  padding: 2rem 0.5rem;
   box-sizing: border-box;
-  flex: 1;
+  height: 100%;
+  /* background: #58bc58; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin: 0 auto; */
 }
 canvas {
   border: 1px solid #8e8e8e;
 }
 .btnBox {
-  height: 30px;
-  padding: 5px;
-  text-align: right;
-  line-height: 30px;
+  line-height: 1rem;
+  position: absolute;
+  font-size: 0.46rem;
+  transform-origin: 0% 0%;
+  transform: rotate(90deg);
+  /* background: red; */
+  top: 0;
+  left: 0;
+  text-align: center;
+  /* top: 80%; */
+  /* left:20vw;  */
 }
 .btnBox button:first-of-type {
   /* border: 1px solid #00adef; */
@@ -343,6 +367,8 @@ canvas {
   border-radius: 4px;
   color: #fff;
   padding: 0 10px;
+  width: 3rem;
+  /* height: 1rem;   */
 }
 .btnBox button:last-of-type {
   /* border: 1px solid #00adef; */
@@ -350,8 +376,12 @@ canvas {
   color: #fff;
   border-radius: 4px;
   padding: 0 10px;
+  width: 3rem;
 }
-@media only screen and (min-width: 750px) {
+@media screen and (orientation: portrait) {
+  /* 竖屏 */
+
+/* @media only screen and (min-width: 750px) {
   .signatureBox {
     position: absolute;
     top: 0px;
@@ -361,5 +391,10 @@ canvas {
     box-sizing: border-box;
     overflow: visible;
   }
+} */
 }
+@media screen and (orientation: landscape) {
+  /* 横屏 */
+}
+
 </style>
