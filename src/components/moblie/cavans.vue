@@ -1,275 +1,155 @@
 <template>
-  <div id="signatureBox">
-    <nav class="visaDetailTop">
-      <van-icon name="arrow-left" @click="$global.previous()" />电子签名
-    </nav>
-    <div class="canvasBox" ref="canvasHW">
-      <canvas
-        @touchstart="touchStart"
-        @touchmove="touchMove"
-        @touchend="touchEnd"
-        ref="canvasF"
-        @mousedown="mouseDown"
-        @mousemove="mouseMove"
-        @mouseup="mouseUp"
-      ></canvas>
+  <div class="container">
+    <div id="canvasBox" :style="getHorizontalStyle" v-show="!showBox">
+      <div class="greet">
+        <nav class="visaDetailTop">
+          <van-icon name="arrow-left" @click="$global.previous()" />电子签名
+        </nav>
+        <!-- <input type="button" value="清屏"  /> -->
+        <!-- <input type="button" value="生成png图片" @touchstart="savePNG" @mousedown="savePNG" /> -->
+      </div>
+      <canvas></canvas>
+      <div class="btnBox">
+        <button @touchstart="clear" @mousedown="clear">重写</button>
+        <button @mousedown="clear">提交签名</button>
+      </div>
     </div>
-    <div class="btnBox">
-      <button @click="overwrite">重写</button>
-      <button @click="handelSaveE">提交签名</button>
-    </div>
+    <!-- <div class="image-box" v-show="showBox">
+      <header>
+        请长按图片并保存至本地后发送好友
+        <input type="button" value="返回" @click="showBox = false" />
+      </header>
+      <img :src="signImage" />
+    </div>-->
   </div>
 </template>
+
 <script>
-//js
-import axios from "axios";
+import Draw from "./draw";
 export default {
-  name: "signature",
+  name: "canvans",
   data() {
     return {
-      points: [],
-      canvasTxt: null,
-      stage_info: [],
-      startX: 0,
-      startY: 0,
-      moveY: 0,
-      moveX: 0,
-      endY: 0,
-      endX: 0,
-      w: null,
-      h: null,
-      isDown: false
+      msg: "请在下方空白处签名",
+      degree: 90,
+      signImage: null,
+      showBox: false
     };
   },
-  created() {},
-  //   beforeMount() {
-  //     window.addEventListener("orientationchange", () => {
-  //       this.$router.push({ path: "/cavans" });
-  //     });
-  //   },
-  mounted() {
-    var signatureBox = document.querySelector("#signatureBox");
-    var btnBox = document.querySelector(".btnBox");
-    var canvasBox = document.querySelector(".canvasBox");
-    var visaDetailTop = document.querySelector(".visaDetailTop");
-    var aaa = window.getComputedStyle(signatureBox).getPropertyValue("height");
-    document.querySelector(".visaDetailTop").style.width = aaa;
-    window.getComputedStyle(visaDetailTop).getPropertyValue("height");
-
-    btnBox.style.width = aaa;
-    btnBox.style.left = window
-      .getComputedStyle(visaDetailTop)
-      .getPropertyValue("height");
-    canvasBox.style.width =
-      window.getComputedStyle(signatureBox).getPropertyValue("width") -
-      window.getComputedStyle(visaDetailTop).getPropertyValue("height");
-    canvasBox.style.marginRight = window
-      .getComputedStyle(visaDetailTop)
-      .getPropertyValue("height");
-    canvasBox.style.marginLeft = window
-      .getComputedStyle(visaDetailTop)
-      .getPropertyValue("height");
-    //  .style.height = aaa+;
-    let canvas = this.$refs.canvasF;
-    var clientWidth = document.documentElement.clientWidth;
-    //根据设计图中的canvas画布的占比进行设置
-    // console.log(canvas.offsetLeft);
-    // var canvasWidth = Math.floor((clientWidth * 300) / 720);
-    // var canvasWidth = Math.floor(clientWidth - 2 * canvas.offsetLeft);
-    // canvas.height = canvasWidth+100;
-    // canvas.width = canvasWidth-100;
-    // this.canvasTxt = canvas.getContext("2d");
-    // console.log(aaa);
-    window
-      .getComputedStyle(signatureBox)
-      .getPropertyValue("height")
-      .slice(0, -2);
-    // var canvasWidth = Math.floor(clientWidth - 2 * canvas.offsetLeft);
-    canvas.height =
-      window
-        .getComputedStyle(signatureBox)
-        .getPropertyValue("height")
-        .slice(0, -2) - 50;
-    canvas.width =
-      window
-        .getComputedStyle(canvasBox)
-        .getPropertyValue("width")
-        .slice(0, -2) - 50;
-    this.canvasTxt = canvas.getContext("2d");
-    // this.canvasTxt.font = 'normal 800 40px sans-serif';
-    // console.log(this.canvasTxt.font)
-    // this.canvasTxt.font = '600 bold 80px sans-serif';
-    // this.canvasTxt.fillText("", 10, 50);
-    this.stage_info = canvas.getBoundingClientRect();
-  },
   components: {
-    // NavPublic
+    Draw
+  },
+  beforeCreate() {
+    document.title = "手写签名";
+  },
+  created() {
+    this.$nextTick(() => {
+      // console.log(222);
+      window.addEventListener("resize", this.renderResize, false);
+    });
+  },
+  mounted() {
+    this.canvasBox = document.getElementById("canvasBox");
+    this.initCanvas();
+    this.renderResize();
+  },
+  computed: {
+    getHorizontalStyle() {
+      const d = document;
+      const w =
+        window.innerWidth ||
+        d.documentElement.clientWidth ||
+        d.body.clientWidth;
+      const h =
+        window.innerHeight ||
+        d.documentElement.clientHeight ||
+        d.body.clientHeight;
+      let length = (h - w) / 2;
+      let width = w;
+      let height = h;
+
+      switch (this.degree) {
+        case -90:
+          length = -length;
+        case 90:
+          width = h;
+          height = w;
+          break;
+        default:
+          length = 0;
+      }
+
+      if (this.canvasBox) {
+        this.canvasBox.removeChild(document.querySelector("canvas"));
+        this.canvasBox.insertBefore(
+          document.createElement("canvas"),
+          document.querySelector(".btnBox")
+        );
+
+        // this.canvasBox.appendChild(document.createElement("canvas"));
+        setTimeout(() => {
+          this.initCanvas();
+        }, 200);
+      }
+      console.log(this.degree, length);
+      return {
+        transform: `rotate(${this.degree}deg) translate(${length}px,${length}px)`,
+        width: `${width}px`,
+        height: `${height}px`,
+        transformOrigin: "center center"
+      };
+    }
   },
   methods: {
-    handelSaveE() {
-      console.log(this.$refs.canvasF);
-      let imgBase64 = this.$refs.canvasF.toDataURL();
-      console.log(imgBase64);
-      //   this.imgsrc = imgBase64;
+    renderResize() {
+      // 判断横竖屏
+      var html = document.querySelector("html");
+      let width = document.documentElement.clientWidth;
+      let height = document.documentElement.clientHeight;
+      if (width > height) {
+        this.degree = 0;
+        html.style.fontSize = width / 16 + "px";
+        // console.log(this.degree);
+      } else if (width < height) {
+        this.degree = 90;
+        html.style.fontSize = height / 16 + "px";
+      }
+      // 做页面适配
+      // 注意：renderResize方法执行时虚拟dom尚未渲染挂载，如果要操作vue实例，最好在this.$nextTick()里进行。
     },
-    backHome() {
-      window.history.back();
+    initCanvas() {
+      const canvas = document.querySelector("canvas");
+      this.draw = new Draw(canvas, -this.degree);
     },
-    //电脑设备事件
-    mouseDown(ev) {
-      ev = ev || event;
-      ev.preventDefault();
-      // console.log(ev);
-      if (ev) {
-        let obj = {
-          x: ev.offsetX,
-          y: ev.offsetY
-        };
-        // console.log(obj);
-        this.startX = obj.x;
-        this.startY = obj.y;
-        this.canvasTxt.beginPath();
-        this.canvasTxt.moveTo(this.startX, this.startY);
-        this.canvasTxt.lineTo(obj.x, obj.y);
-        this.canvasTxt.stroke();
-        this.canvasTxt.closePath();
-        this.points.push(obj);
-        this.isDown = true;
-      }
-    }, //移动设备事件
-    touchStart(ev) {
-      ev = ev || event;
-      // console.log(this.stage_info);
-      // console.log(ev.targetTouches[0]);
-
-      ev.preventDefault();
-      if (ev.touches.length == 1) {
-        let obj = {
-          x: ev.targetTouches[0].clientX - this.stage_info.left,
-          y: ev.targetTouches[0].clientY - this.stage_info.top
-        };
-        this.startX = obj.x;
-        this.startY = obj.y;
-        this.canvasTxt.beginPath();
-        this.canvasTxt.moveTo(this.startX, this.startY);
-        this.canvasTxt.lineTo(obj.x, obj.y);
-        this.canvasTxt.stroke();
-        this.canvasTxt.closePath();
-        this.points.push(obj);
-      }
+    clear() {
+      this.draw.clear();
     },
-    //电脑设备事件
-    mouseMove(ev) {
-      ev = ev || event;
-      ev.preventDefault();
-      if (this.isDown) {
-        let obj = {
-          x: ev.offsetX,
-          y: ev.offsetY
-        };
-        this.moveY = obj.y;
-        this.moveX = obj.x;
-        this.canvasTxt.beginPath();
-        this.canvasTxt.moveTo(this.startX, this.startY);
-        this.canvasTxt.lineTo(obj.x, obj.y);
-        this.canvasTxt.stroke();
-        this.canvasTxt.closePath();
-        this.startY = obj.y;
-        this.startX = obj.x;
-        this.points.push(obj);
-      }
-    }, //移动设备事件
-    touchMove(ev) {
-      ev = ev || event;
-      ev.preventDefault();
-      if (ev.touches.length == 1) {
-        let obj = {
-          x: ev.targetTouches[0].clientX - this.stage_info.left,
-          y: ev.targetTouches[0].clientY - this.stage_info.top
-        };
-        this.moveY = obj.y;
-        this.moveX = obj.x;
-        this.canvasTxt.beginPath();
-        this.canvasTxt.moveTo(this.startX, this.startY);
-        this.canvasTxt.lineTo(obj.x, obj.y);
-        this.canvasTxt.stroke();
-        this.canvasTxt.closePath();
-        this.startY = obj.y;
-        this.startX = obj.x;
-        this.points.push(obj);
-      }
-    }, //电脑设备事件
-    mouseUp(ev) {
-      ev = ev || event;
-      ev.preventDefault();
-      if (1) {
-        let obj = {
-          x: ev.offsetX,
-          y: ev.offsetY
-        };
-        this.canvasTxt.beginPath();
-        this.canvasTxt.moveTo(this.startX, this.startY);
-        this.canvasTxt.lineTo(obj.x, obj.y);
-        this.canvasTxt.stroke();
-        this.canvasTxt.closePath();
-        this.points.push(obj);
-        this.points.push({ x: -1, y: -1 });
-        this.isDown = false;
-      }
-    }, //移动设备事件
-    touchEnd(ev) {
-      ev = ev || event;
-      ev.preventDefault();
-      // console.log(ev);
-      if (ev.touches.length == 1) {
-        let obj = {
-          x: ev.targetTouches[0].clientX - this.stage_info.left,
-          y: ev.targetTouches[0].clientY - this.stage_info.top
-        };
-        this.canvasTxt.beginPath();
-        this.canvasTxt.moveTo(this.startX, this.startY);
-        this.canvasTxt.lineTo(obj.x, obj.y);
-        this.canvasTxt.stroke();
-        this.canvasTxt.closePath();
-        this.points.push(obj);
-        this.points.push({ x: -1, y: -1 });
-      }
-    }, //重写
-    overwrite() {
-      this.canvasTxt.clearRect(
-        0,
-        0,
-        this.$refs.canvasF.width,
-        this.$refs.canvasF.height
-      );
-      this.points = [];
+    download() {
+      this.draw.downloadPNGImage(this.draw.getPNGImage());
+    },
+    savePNG() {
+      this.signImage = this.draw.getPNGImage();
+      this.showBox = true;
+    },
+    upload() {
+      const image = this.draw.getPNGImage();
+      const blob = this.draw.dataURLtoBlob(image);
+      const url = "";
+      const successCallback = response => {
+        console.log(response);
+      };
+      const failureCallback = error => {
+        console.log(error);
+      };
+      this.draw.upload(blob, url, successCallback, failureCallback);
     }
   }
 };
 </script>
-<style style='lcss' scoped>
-/* portrait */
-/* @media screen and (orientation:portrait) { */
-/* 竖屏情况下 */
-/* portrait-specific styles */
 
-/* } */
-
-/* landscape */
-/* 横屏情况下 */
-/* @media screen and (orientation:landscape) {
-} */
-/*
- * 强制横屏显示：通过竖屏时旋转解决横屏问题
- * 
- */
-  #signatureBox {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
+<style>
 nav.visaDetailTop .van-icon-arrow-left {
-  line-height: 1.5rem;
+  line-height: 1rem;
   position: absolute;
   left: 0.6rem;
 }
@@ -277,91 +157,58 @@ nav.visaDetailTop {
   /* width: 100%; */
   border-bottom: 0.02rem dashed #b3b3b3;
   text-align: center;
-  line-height: 1.5rem;
-  position: absolute;
-  /* --abc:height */
+  line-height: 1rem;
+  padding: 0.2rem;
   font-size: 0.46rem;
-  transform-origin: 0% 0%;
-  transform: rotate(90deg);
-  top: 0;
-  left: 100vw;
 }
-
-.visaDetailTop p {
-  margin: 0px;
-  text-align: center;
-  color: #000;
-  font-size: 1em;
-  position: relative;
-}
-p.visaTitle {
-  width: 100%;
-  position: absolute;
-  top: 5px;
-  left: 0px;
-  text-align: center;
-  font-size: 1.2em;
-}
-.btnBack {
-  display: block;
-  position: absolute;
-  top: 0px;
-  left: 0px;
+.container {
   width: 100%;
   height: 100%;
-  z-index: 1;
-  background: transparent;
-  border-color: transparent;
-  outline: none;
 }
-.btnDaoHang {
-  display: block;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  height: 2.2em;
-  width: 2em;
-  z-index: 1;
-  background: transparent;
-  border-color: transparent;
-  outline: none;
-}
-.visaDetailTop p span {
-  color: #fff;
-  font-size: 1.2em;
-}
-.visaDetailTop p:first-of-type {
-  float: left;
-}
-.visaDetailTop p:nth-of-type(2) {
-  float: right;
-}
-.canvasBox {
-  box-sizing: border-box;
-  height: 100%;
-  /* background: #58bc58; */
+#canvasBox {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  /* margin: 0 auto; */
+  flex-direction: column;
+  height: 100%;
+}
+.greet {
+  font-size: 0.2rem;
+  user-select: none;
+}
+input {
+  font-size: 0.2rem;
+}
+.greet select {
+  font-size: 0.18rem;
 }
 canvas {
-  border: 1px solid #8e8e8e;
+  flex: 1;
+  /* margin:1rem; */
+  /* padding: 5rem; */
+  /* box-sizing: border-box; */
+  cursor: crosshair;
+  border: 0.02rem solid lightgray;
+}
+.image-box {
+  width: 100%;
+  height: 100%;
+}
+.image-box header {
+  font-size: 0.18rem;
+}
+.image-box img {
+  max-width: 80%;
+  max-height: 80%;
+  margin-top: 0.5rem;
+  border: 0.01rem solid gray;
 }
 .btnBox {
   line-height: 1rem;
-  position: absolute;
   font-size: 0.46rem;
-  transform-origin: 0% 0%;
-  transform: rotate(90deg);
-  /* background: red; */
-  top: 0;
-  left: 0;
+  /* height: 2rem; */
   text-align: center;
-  /* top: 80%; */
-  /* left:20vw;  */
+  /* margin: 0.5rem 0; */
 }
-.btnBox button:first-of-type {
+.btnBox > button {
   /* border: 1px solid #00adef; */
   background: #00adef;
   border-radius: 4px;
@@ -370,31 +217,4 @@ canvas {
   width: 3rem;
   /* height: 1rem;   */
 }
-.btnBox button:last-of-type {
-  /* border: 1px solid #00adef; */
-  background: #00adef;
-  color: #fff;
-  border-radius: 4px;
-  padding: 0 10px;
-  width: 3rem;
-}
-@media screen and (orientation: portrait) {
-  /* 竖屏 */
-
-/* @media only screen and (min-width: 750px) {
-  .signatureBox {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    min-height: 100%;
-    box-sizing: border-box;
-    overflow: visible;
-  }
-} */
-}
-@media screen and (orientation: landscape) {
-  /* 横屏 */
-}
-
 </style>
