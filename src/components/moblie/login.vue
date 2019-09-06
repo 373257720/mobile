@@ -81,7 +81,7 @@ export default {
   .van-field__body {
     //  width: 100%;
     height: 0.7rem;
-    border: 0.01rem solid #ABABAB;
+    border: 0.02rem solid #ABABAB;
     border-radius: 0.05rem;
     background: #f6f6f6;
     padding: 0.2rem;

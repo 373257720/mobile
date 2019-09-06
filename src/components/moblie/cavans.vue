@@ -8,12 +8,18 @@
         <!-- <input type="button" value="清屏"  /> -->
         <!-- <input type="button" value="生成png图片" @touchstart="savePNG" @mousedown="savePNG" /> -->
       </div>
+      <!-- <div　class="canvasbox"> -->
       <canvas></canvas>
+      <!-- </div> -->
+
       <div class="btnBox">
         <button @touchstart="clear" @mousedown="clear">重写</button>
-        <button @mousedown="clear">提交签名</button>
+        <button @mousedown="commit11">提交签名</button>
       </div>
+      <van-dialog v-model="show" title="标题" show-cancel-button :beforeClose="beforeClose"></van-dialog>
     </div>
+
+    <!-- <img :src="url" alt=""> -->
     <!-- <div class="image-box" v-show="showBox">
       <header>
         请长按图片并保存至本地后发送好友
@@ -33,16 +39,20 @@ export default {
       msg: "请在下方空白处签名",
       degree: 90,
       signImage: null,
-      showBox: false
+      showBox: false,
+      url: "",
+      show: false
     };
   },
   components: {
-    Draw
+    // Draw
   },
   beforeCreate() {
     document.title = "手写签名";
   },
   created() {
+    // console.log(Draw);
+
     this.$nextTick(() => {
       // console.log(222);
       window.addEventListener("resize", this.renderResize, false);
@@ -67,7 +77,6 @@ export default {
       let length = (h - w) / 2;
       let width = w;
       let height = h;
-
       switch (this.degree) {
         case -90:
           length = -length;
@@ -78,7 +87,6 @@ export default {
         default:
           length = 0;
       }
-
       if (this.canvasBox) {
         this.canvasBox.removeChild(document.querySelector("canvas"));
         this.canvasBox.insertBefore(
@@ -89,7 +97,7 @@ export default {
         // this.canvasBox.appendChild(document.createElement("canvas"));
         setTimeout(() => {
           this.initCanvas();
-        }, 200);
+        }, 100);
       }
       console.log(this.degree, length);
       return {
@@ -101,6 +109,21 @@ export default {
     }
   },
   methods: {
+    beforeClose(action, done) {
+      if (action === "confirm") {
+        setTimeout(done, 1000);
+      } else {
+        done();
+      }
+    },
+    commit11() {
+      this.show = true;
+      // this.$dialog.confirm({
+      //   title: "标题",
+      //   message: "弹窗内容",
+      //   beforeClose
+      // });
+    },
     renderResize() {
       // 判断横竖屏
       var html = document.querySelector("html");
@@ -119,7 +142,14 @@ export default {
     },
     initCanvas() {
       const canvas = document.querySelector("canvas");
+      // console.log(canvas);
+
       this.draw = new Draw(canvas, -this.degree);
+    },
+    commit() {
+      var aa = this.draw.scale(100, 50, this.draw.canvas);
+      this.url = this.draw.getPNGImage(aa);
+      console.log(this.url);
     },
     clear() {
       this.draw.clear();
@@ -180,11 +210,15 @@ input {
 .greet select {
   font-size: 0.18rem;
 }
+/* .canvasbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
 canvas {
+  margin: 1rem 0.5rem 0 0.5rem;
   flex: 1;
-  /* margin:1rem; */
-  /* padding: 5rem; */
-  /* box-sizing: border-box; */
+  /* width: 100%; */
   cursor: crosshair;
   border: 0.02rem solid lightgray;
 }
@@ -206,7 +240,7 @@ canvas {
   font-size: 0.46rem;
   /* height: 2rem; */
   text-align: center;
-  /* margin: 0.5rem 0; */
+  margin: 0.5rem 0;
 }
 .btnBox > button {
   /* border: 1px solid #00adef; */
