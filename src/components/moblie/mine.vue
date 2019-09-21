@@ -22,9 +22,23 @@
           <van-icon name="arrow" />
         </li>
         <section>
-          <van-dialog v-model="show" title="标题" show-cancel-button :showConfirmButton="false">
-            <li>ENGLISH</li>
-            <li>中文</li>
+          <van-dialog
+            v-model="show"
+            title="标题"
+            show-cancel-button
+            show-confirm-button
+            :confirm="change_language()"
+          >
+            <van-radio-group v-model="radio">
+              <van-cell-group>
+                <van-cell title="ENGLISH" clickable @click="radio = '1'">
+                  <van-radio slot="right-icon" name="1" />
+                </van-cell>
+                <van-cell title="中文" clickable @click="radio = '2'">
+                  <van-radio slot="right-icon" name="2" />
+                </van-cell>
+              </van-cell-group>
+            </van-radio-group>
           </van-dialog>
         </section>
         <li @click="loginout">
@@ -41,9 +55,11 @@
 </template>
 <script>
 export default {
+  name: "mime",
   data() {
     return {
-      show: false
+      show: false,
+      radio: "1"
     };
   },
   methods: {
@@ -54,8 +70,29 @@ export default {
     //     done();
     //   }
     // },
-    switch_language() {
-      this.show = true;
+    // onChange(event) {
+    //   console.log(event);
+
+    //   // this.setData({
+    //   // radio: event.detail
+    //   // });
+    // },
+    change_language() {
+      console.log(123);
+
+      //      this.$axios({
+      //   method: "post",
+      //   url: `${this.$baseurl}/bsl_web/user/login.do`,
+      //   data: this.$qs.stringify({
+      //     bslEmail: this.username,
+      //     bslPwd: this.password
+      //   }),
+      //   headers: {
+      //     "Content-Type": "application/x-www-form-urlencoded"
+      //   }
+      // }).then(res => {
+      //   var rescode = res.data.resultCode;
+      // });
       // this.$dialog.confirm({
       //   title: "标题",
       //   message: "弹窗内容",
@@ -63,6 +100,9 @@ export default {
       //   showCancelButton: false,
       //   showConfirmButton: false
       // });
+    },
+    switch_language() {
+      this.show = true;
     },
     loginout() {
       // console.log(this.$dialog);

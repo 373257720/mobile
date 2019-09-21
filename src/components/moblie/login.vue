@@ -11,7 +11,6 @@
       <div class="password">
         <van-field v-model="password" placeholder="请输入密码" clearable />
       </div>
-     
       <div class="loginbtn">
         <button @click="login">登 录</button>
       </div>
@@ -49,7 +48,6 @@ export default {
           }
         }).then(res => {
           var rescode = res.data.resultCode;
-
           // sessionStorage.setItem("usertype", res.data.data.userType);
           console.log(global);
           if (rescode == 10000) {

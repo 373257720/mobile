@@ -13,57 +13,8 @@ Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
 Vue.use(Vuex);
-// Vue.use(Vant);
-import {
-  Field
-} from 'vant';
-Vue.use(Field);
-import {
-  Checkbox,
-  CheckboxGroup
-} from 'vant';
-Vue.use(Checkbox).use(CheckboxGroup);
-import {
-  DropdownMenu,
-  DropdownItem
-} from 'vant';
-Vue.use(DropdownMenu).use(DropdownItem);
-import {
-  Uploader
-} from 'vant';
-Vue.use(Uploader);
-import {
-  Tabbar,
-  TabbarItem
-} from 'vant';
-Vue.use(Tabbar).use(TabbarItem);
-import {
-  Search
-} from 'vant';
-Vue.use(Search);
-import {
-  List
-} from 'vant';
-Vue.use(List);
-import {
-  Cell,
-  CellGroup
-} from 'vant';
-Vue.use(Cell).use(CellGroup);
-import {
-  Icon
-} from 'vant';
-Vue.use(Icon);
-import {
-  TreeSelect
-} from 'vant';
-import { IndexBar, IndexAnchor } from 'vant';
-Vue.use(IndexBar).use(IndexAnchor);
-Vue.use(TreeSelect);
-import {
-  Dialog
-} from 'vant';
-Vue.use(Dialog);
+import Vant from 'vant';
+Vue.use(Vant)
 Vue.prototype.$axios = axios;
 
 // 引入公共组件

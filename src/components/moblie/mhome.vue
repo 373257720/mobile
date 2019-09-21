@@ -19,8 +19,8 @@
         <van-dropdown-item title="筛选" ref="item">
           <van-tree-select
             :items="items"
-            :active-id.sync="activeIds"
-            :main-active-index.sync="mainActiveIndex"
+            active-id="activeIds"
+            :main-active-index="mainActiveIndex"
             @click-nav="onClickNav"
             @click-item="onClickItem"
           />
@@ -38,27 +38,37 @@
       >
         <div v-for="goods in  upGoodsInfo" :key="goods.id" class="goodlists">
           <article @click="$goto('goods_details')">
-            <nav>45623sdfd fsdfsdfsd sdf dsf fsd sd56</nav>
+            <nav>{{goods.projectName}}</nav>
             <section>
               <span>行业：</span>
-              <span>4564456</span>
+              <span>{{goods.projectIndustry}}</span>
             </section>
             <section>
               <span>地区：</span>
-              <span>4564456</span>
+              <span>{{goods.projectArea}}</span>
             </section>
             <section>
               <span>简介：</span>
-              <span>45643453 dfg dfg dfg dgdfgdfg gdfgdfggdfgdfgdfg 456</span>
+              <span>{{goods.projectDescribe.substr(0, [56])}}...</span>
             </section>
           </article>
           <footer>
-            <button v-if="$store.state.currentUsertype==0">{{goods.signStatus}}</button>
             <button
-              v-else-if="$store.state.currentUsertype==1"
-              @click="$goto('investor_infor')"
-            >{{goods.signStatus==1?'签约者资料':'未签约'}}</button>
-            <button v-else-if="$store.state.currentUsertype==2">{{goods.signStatus}}</button>
+              :class="{'active':goods.signStatus!=2}"
+              v-if="$store.state.currentUsertype==1"
+              @click="ownergoto(goods.signStatus)"
+            >
+              {{goods.signStatus==2?'签约者资料':'未签约'}}
+              {{goods.signStatus==2?'('+goods.signUserResp.length+')':null}}
+            </button>
+            <button
+              v-else-if="$store.state.currentUsertype==3"
+              @click="agentgoto(goods.projectId)"
+            >签约</button>
+            <button
+              v-else-if="$store.state.currentUsertype==4"
+              @click="investorgoto(goods.signStatus)"
+            >已连接项目</button>
           </footer>
         </div>
       </van-list>
@@ -112,13 +122,11 @@ export default {
           ]
         }
       ],
-
-      activeIds: [],
+      activeIds: [1, 2],
       // 左侧高亮元素的index
       mainActiveIndex: 0,
-
       // 被选中元素的id
-      activeId: 1,
+      // activeId: 1,
       searchkey: "",
       loading: false,
       finished: false,
@@ -144,21 +152,55 @@ export default {
       // finishedUp: false
     };
   },
+  created() {
+    console.log(this.$store.state.currentUsertype);
+    let usertype = this.$store.state.currentUsertype;
+
+    if (usertype == 1) {
+      //projectowner
+    } else if (usertype == 3) {
+      //investor
+    } else if (usertype == 4) {
+      //agent
+    }
+  },
   methods: {
+    ownergoto(num) {
+      if (num == 2) {
+        this.$goto("p_investor_infor");
+      } else {
+        return;
+      }
+    },
+    agentgoto(num) {
+      console.log(num);
+      this.$router.push({
+        name: "a_project_intro",
+        query: {
+          porjectid: num
+        }
+      });
+    },
+    investorgoto(num) {
+      // if(num==)
+    },
     onSearch() {
       console.log(this.searchkey);
     },
     onClickNav(index) {
-      // console.log(index);
-
       this.mainActiveIndex = index;
+      // this.setData({
+      //   mainActiveIndex: detail.index || 0
+      // });
     },
     onClickItem(data) {
-      // console.log(data);
-      this.activeIds.push(data.id);
+      const index = this.activeIds.indexOf(data.id);
+      if (index > -1) {
+        this.activeIds.splice(index, 1);
+      } else {
+        this.activeIds.push(data.id);
+      }
       console.log(this.activeIds);
-      
-      // this.activeIds = data.id;
     },
     onLoad(searchkey) {
       this.$axios({
@@ -186,7 +228,6 @@ export default {
           }
         })
         .catch(err => {
-          // console.log(err);
           this.loadText = "加载失败";
           document.querySelector(
             "#mhome .van-loading__circular"
@@ -288,32 +329,31 @@ export default {
     }
   }
   .main {
-    margin-top: 3.3rem;
-    margin-bottom: 1.2rem;
+    padding: 3.3rem 0 1.2rem 0;
+    height: 100%;
+    background: #eeeeee;
     box-sizing: border-box;
     .goodlists {
       margin: 0.18rem 0.1rem;
       background: white;
       display: flex;
       flex-direction: column;
-      // align-items:center;
-      height: 4.1rem;
-      border: 0.01rem solid #626262;
+      border: 0.02rem solid #747474;
       article {
         padding: 0.27rem 0 0 0.43rem;
-        border-bottom: 0.01rem solid #626262;
+        border-bottom: 0.02rem solid #747474;
         nav {
           width: 6.3rem;
-          font-size: 0.46rem;
+          font-size: 0.4rem;
           color: #0e6fbe;
-          line-height: 0.46rem;
+          font-weight: 550;
+          line-height: 0.5rem;
           margin-bottom: 0.3rem;
           box-sizing: border-box;
         }
         section {
           font-size: 0.28rem;
           margin-bottom: 0.1rem;
-          // line-height: 0.42rem;
           color: #747474;
           display: flex;
           span:nth-of-type(1) {
@@ -331,8 +371,8 @@ export default {
         }
       }
       footer {
-        flex: 1;
-        // height: 1.34rem;
+        // flex: 1;
+        height: 1rem;
         position: relative;
         button {
           width: 3.4rem;
@@ -343,6 +383,9 @@ export default {
           color: white;
           top: 50%;
           transform: translateY(-50%);
+        }
+        button.active {
+          background: #747474;
         }
       }
     }

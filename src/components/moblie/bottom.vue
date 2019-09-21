@@ -9,6 +9,9 @@
       @click="$goto('user_contact')"
     >联络</van-tabbar-item>
     <van-tabbar-item name="mine" icon="contact" @click="$goto('mine')">我的</van-tabbar-item>
+    <div>
+  
+    </div>
   </van-tabbar>
 </template>
 <script>
