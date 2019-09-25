@@ -16,7 +16,7 @@
         <van-field v-model="password2" placeholder="请输入密码" clearable />
       </div>
       <div class="registerbtn">
-        <button @click="$goto('register')">注册新账号</button>
+        <button @click="register()">注册新账号</button>
       </div>
     </div>
   </div>
@@ -32,7 +32,39 @@ export default {
       remind: ""
     };
   },
-  methods: {}
+  methods: {
+    register() {
+      this.remind = "";
+      if (this.username && this.password) {
+        this.$axios({
+          method: "post",
+          url: `${this.$baseurl}/bsl_web/user/register.do`,
+          data: this.$qs.stringify({
+            bslEmail: this.username,
+            bslPwd: this.password
+          }),
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        }).then(res => {
+          var rescode = res.data.resultCode;
+          console.log(res);
+          if (rescode == 10000) {
+            console.log("注册成功");
+            this.$goto('usercheck');
+          } else if (rescode == 10011) {
+            this.remind = "登录账号不能为空";
+          } else if (rescode == 10012) {
+            this.remind = "邮箱地址无效请重新输入";
+          } else if ((rescode = 10014)) {
+            this.remind = "该邮箱已注册，请登录";
+          }
+        });
+      } else {
+        this.remind = "账号和密码不能为空，请输入 ";
+      }
+    }
+  }
 };
 </script>
 <style lang='scss'>

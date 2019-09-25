@@ -26,16 +26,15 @@
             v-model="show"
             title="标题"
             show-cancel-button
-            show-confirm-button
-            :confirm="change_language()"
+            :beforeClose="changelanguage"
           >
             <van-radio-group v-model="radio">
               <van-cell-group>
-                <van-cell title="ENGLISH" clickable @click="radio = '1'">
-                  <van-radio slot="right-icon" name="1" />
+                <van-cell title="ENGLISH" clickable @click="radio = 'en_US'">
+                  <van-radio slot="right-icon" name="en_US" />
                 </van-cell>
-                <van-cell title="中文" clickable @click="radio = '2'">
-                  <van-radio slot="right-icon" name="2" />
+                <van-cell title="中文" clickable @click="radio = 'zh_CN'">
+                  <van-radio slot="right-icon" name="zh_CN" />
                 </van-cell>
               </van-cell-group>
             </van-radio-group>
@@ -59,7 +58,7 @@ export default {
   data() {
     return {
       show: false,
-      radio: "1"
+      radio: "en_US"
     };
   },
   methods: {
@@ -77,29 +76,19 @@ export default {
     //   // radio: event.detail
     //   // });
     // },
-    change_language() {
-      console.log(123);
-
-      //      this.$axios({
-      //   method: "post",
-      //   url: `${this.$baseurl}/bsl_web/user/login.do`,
-      //   data: this.$qs.stringify({
-      //     bslEmail: this.username,
-      //     bslPwd: this.password
-      //   }),
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded"
-      //   }
-      // }).then(res => {
-      //   var rescode = res.data.resultCode;
-      // });
-      // this.$dialog.confirm({
-      //   title: "标题",
-      //   message: "弹窗内容",
-      //   // beforeClose
-      //   showCancelButton: false,
-      //   showConfirmButton: false
-      // });
+    changelanguage(action, done) {
+      // console.log(action);
+      if (action === "confirm") {
+        this.$axios({
+          method: "post",
+          url: `${this.$baseurl}/bsl_web/base/language.do?lan=${this.radio}`,
+        }).then(res => {
+          // console.log(res);
+          done();
+        });
+      } else if (action === "cancel") {
+        done(); //关闭
+      }
     },
     switch_language() {
       this.show = true;

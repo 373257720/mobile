@@ -31,6 +31,14 @@ Vue.prototype.$goto = function goto(name, id) {
   // console.log(this.$router);
   this.$router.push(obj);
 }
+
+Vue.prototype.$routerto =function routerTo(name, obj) {
+  this.$router.push({
+    name: name,
+    query: obj
+  })
+}
+
 // Vue.prototype.$previous=function previous(){
 //   this.$router.go(-1);
 //   console.log(this.$router);
@@ -54,14 +62,14 @@ Router.prototype.push = function push(location) {
 
 import mbottom from './components/moblie/bottom.vue'
 Vue.component('mbottom', mbottom)
-import cavans  from './components/moblie/cavans.vue'
+import cavans from './components/moblie/cavans.vue'
 Vue.component('cavans', cavans)
 // Vue.prototype.$axios = axios;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  store,  
+  store,
   components: {
     App
   },

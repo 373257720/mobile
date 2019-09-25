@@ -5,56 +5,68 @@
       <div class="usertype">
         <p>类型</p>
         <van-dropdown-menu>
-          <van-dropdown-item v-model="value1" :options="option1" />
+          <van-dropdown-item v-model="form.userType" :options="option1" />
         </van-dropdown-menu>
       </div>
       <div class="nationality">
         <p>国籍</p>
         <van-dropdown-menu>
-          <van-dropdown-item v-model="value1" :options="option1" />
+          <van-dropdown-item v-model="countryname" @change="gggg" :options="countrylist" />
+  
         </van-dropdown-menu>
       </div>
       <div class="idcard_num">
         <p>身份证号码</p>
-        <van-field v-model="idnum" placeholder="请输入密码" clearable />
+        <van-field v-model="form.userIdentity" placeholder="请输入密码" clearable />
       </div>
       <div class="id_front">
-        <p>身份证正面</p>
-        <van-uploader v-model="fileList_front" multiple :max-count="1" />
+        <p>{{switchon==true?'身份证正面':'护照'}}</p>
+        <van-uploader
+          :before-read="function(params){return asyncBeforeRead(params,1)}"
+          v-model="fileList_front"
+          multiple
+          :max-count="1"
+        />
       </div>
-      <div class="id_back">
+      <div class="id_back" v-show="switchon">
         <p>身份证背面</p>
-        <van-uploader v-model="fileList_back" multiple :max-count="1" />
+        <van-uploader
+          :before-read="function(params){return asyncBeforeRead(params,2)}"
+          v-model="fileList_back"
+          multiple
+          :max-count="1"
+        />
       </div>
       <div class="companyname2">
         <p>公司名字</p>
-        <van-field v-model="companyname" placeholder="请输入密码" clearable />
+        <van-field v-model="form.userCompanyCh" placeholder="请输入密码" clearable />
       </div>
       <div class="companyname">
         <p>company name</p>
-        <van-field v-model="companyname" placeholder="公司名字" clearable />
+        <van-field v-model="form.userCompanyEn" placeholder="公司名字" clearable />
       </div>
       <div class="company_address">
         <p>公司地址</p>
-        <van-field v-model="companyname" placeholder="公司地址" clearable />
+        <van-field v-model="form.userAddressCh" placeholder="公司地址" clearable />
       </div>
       <div class="company_address_eng">
         <p>company address</p>
-        <van-field v-model="companyname" placeholder="公司地址" clearable />
+        <van-field v-model="form.userAddressEn" placeholder="公司地址" clearable />
       </div>
-      <!-- <div class="id_back">
-        <p>护照</p>
-        <van-uploader v-model="fileList_back" multiple :max-count="1" />
-      </div>-->
       <div class="companycheck">
         <p>公司证书</p>
-        <van-uploader v-model="fileList_comcheck" multiple :max-count="1" />
+        <van-uploader
+          :before-read="function(params){return asyncBeforeRead(params,3)}"
+          v-model="fileList_company"
+          multiple
+          :max-count="1"
+        />
       </div>
       <div class="commit">
-        <button @click="$goto('login')">提交</button>
+        <button @click="commit">提交</button>
       </div>
     </div>
-    <!-- <div class="usercheck2">
+    <!-- <div class="usercheck2" >
       <h2>
         <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
       </h2>
@@ -62,59 +74,147 @@
       <nav class="backbtn">
         <button>进入首页</button>
       </nav>
-    </div>-->
+    </div> -->
   </div>
 </template>
 <script>
+import { resolve } from "url";
 export default {
   name: "usercheck",
   data() {
     return {
-      value1: 0,
       success: true,
+      switchon: true,
+      countrylist: [],
       option1: [
-        { text: "全部商品", value: 0 },
-        { text: "新款商品", value: 1 },
-        { text: "活动商品", value: 2 }
+        { text: "项目方", value: 1 },
+        { text: "中间人", value: 4 },
+        { text: "投资者", value: 3 }
       ],
-
-      // success: true,
-      idnum: "",
-      companyname: "",
+      countryname: "",
       fileList_front: [],
       fileList_back: [],
-      fileList_comcheck: []
+      fileList_company: [],
+      form: {
+        userCountry: "",
+        userCountryEn: "",
+        userCountryCh: "",
+        userIdentity: "",
+        identityType: "",
+        identityPicOne: [],
+        identityPicTwo: [],
+        userCompanyCh: "",
+        userCompanyEn: "",
+        userAddressCh: "",
+        userAddressEn: "",
+        userCompanyPic: [],
+        userType: ""
+      }
     };
   },
+  created() {
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/base/countryList.do`
+    })
+      .then(res => {
+        this.countrylist = res.data.data;
+        for (let i = 0; i < this.countrylist.length; i++) {
+          this.countrylist[i].value = i;
+          this.countrylist[i].text = this.countrylist[i].countryTcname;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
   computed: {
-    success: function() {
-      if (this.value != 0 && this.value != 1) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    // success: function() {
+    //   if (this.value != 0 && this.value != 1) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
   },
   methods: {
     // 返回布尔值
-    beforeRead(file) {
+    // beforeRead(file) {
+    //   if (file.type !== "image/jpeg") {
+    //     Toast("请上传 jpg 格式图片");
+    //     return false;
+    //   }
+
+    //   return true;
+    // },
+    gggg(value) {
+      if (value > 2) {
+        this.switchon = false;
+        this.form.identityType = 2;
+
+        // console.log(this.switch);
+      } else if (value >= 0 && value <= 2) {
+        this.switchon = true;
+        this.form.identityType = 1;
+      }
+      this.form.userCountry = this.countrylist[value].countryCode;
+      console.log(this.form.userCountry);
+
+      this.form.userCountryEn = this.countrylist[value].countryEnname;
+      this.form.userCountryCh = this.countrylist[value].countryZhname;
+      // console.log(this.switchon);
+    },
+    // 返回 Promise
+    asyncBeforeRead(file, index) {
       if (file.type !== "image/jpeg") {
         Toast("请上传 jpg 格式图片");
         return false;
       }
-
-      return true;
-    },
-    // 返回 Promise
-    asyncBeforeRead(file) {
-      return new Promise((resolve, reject) => {
-        if (file.type !== "image/jpeg") {
-          Toast("请上传 jpg 格式图片");
-          reject();
-        } else {
-          resolve();
+      let formData = new FormData();
+      formData.append("file", file);
+      this.$axios({
+        method: "post",
+        url: `${this.$baseurl}/bsl_web/upload/pic.do`,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(res => {
+        var imgurl = res.data.data.url;
+        if (index == 1) {
+          this.form.identityPicOne = imgurl;
+        } else if (index == 2) {
+          this.form.identityPicTwo = imgurl;
+        } else if (index == 3) {
+          this.form.userCompanyPic = imgurl;
         }
       });
+      return true;
+    },
+    commit() {
+      this.$axios({
+        method: "post",
+        url: `${this.$baseurl}/bsl_web/user/submitAuth`,
+        data: this.form,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      })
+        .then(res => {
+          if (res.data.resultCode == 10000) {
+            this.success1 = !this.success1;
+            // var aa = setInterval(() => {
+            //   --this.timeout;
+            // }, 1000);
+            // setTimeout(() => {
+            //   clearInterval(aa);
+            //   this.$goto("login");
+            // }, 4000);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
@@ -130,7 +230,7 @@ export default {
   }
   .van-dropdown-menu__title {
     font-size: 0.16rem;
-
+    width: 100%;
     // text-align: left;
   }
   .van-dropdown-menu__item {
@@ -198,26 +298,17 @@ export default {
   }
   .van-dropdown-menu__title::after {
     border: 0.1rem solid;
-    // top:50%;
-    // top: 0.06375rem;
-    right: -4.125rem;
+    top: 50%;
+    right: 0.5rem;
     transform: rotate(0);
-    // // left:50%;
     border-color: currentColor transparent transparent transparent;
-    // transform: translateY(-50%);
   }
   .van-hairline--top-bottom::after {
     border: 0;
-    //  border-radius: 0.05rem;
   }
   .van-dropdown-menu__title--down::after {
-    // top: 0.06375rem;
     border: 0.1rem solid;
-    // top:50%;
-    // top: 0.06375rem;
-    top: 0;
-    transform: rotate(-180deg);
-    // // left:50%;
+    top: 50%;
     border-color: currentColor transparent transparent transparent;
   }
 }
@@ -274,7 +365,7 @@ export default {
       width: 100%;
       color: white;
       border-radius: 0.05rem;
-      margin-bottom:0.6rem;
+      margin-bottom: 0.6rem;
       height: 0.8rem;
       background: #00adef;
     }

@@ -7,48 +7,46 @@
       <ul>
         <li>
           <p>类型:</p>
-          <div>中间</div>
+          <div>{{form.userType}}</div>
         </li>
         <li>
           <p>国籍:</p>
-          <div>香港</div>
+          <div>{{form.userCountryCh}}</div>
         </li>
         <li>
           <p>身份证号:</p>
           <p></p>
-          <div>54564564564564</div>
+          <div>{{form.userIdentity}}</div>
         </li>
         <li>
           <p>公司名称:</p>
-          <div>打算付费第三方第三方</div>
+          <div>{{form.userCompanyCh}}</div>
         </li>
         <li>
           <p>公司地址:</p>
-          <div>打算付费第三方第三方</div>
+          <div>{{form.userAddressCh}}</div>
         </li>
         <li class="idcard_left">
-          <p>身份证正面</p>
-          <div class="pic"></div>
+          <p>{{success==true?'身份证正面':'护照'}}</p>
+          <div class="pic">
+            <img :src="$baseurl+form.identityPicOne" alt />
+          </div>
         </li>
-        <li class="idcard_right">
+        <li class="idcard_right" v-if="success">
           <p>身份证反面</p>
-          <div class="pic"></div>
-        </li>
-        <li class="idcard idcard2" v-if="success">
-          <p>passport</p>
-          <div class="pic"></div>
+          <div class="pic">
+            <img :src="$baseurl+form.identityPicTwo" alt />
+          </div>
         </li>
         <li class="idcard_right">
           <p>公司营业执照</p>
-          <div class="pic"></div>
+          <div class="pic">
+            <img :src="$baseurl+form.userCompanyPic" alt />
+          </div>
         </li>
       </ul>
     </main>
     <mbottom></mbottom>
-    <!-- <section>
-      <p>公司证书</p>
-      <div class="com_pic"></div>
-    </section>-->
   </div>
 </template>
 <script>
@@ -56,8 +54,58 @@ export default {
   name: "userpass",
   data() {
     return {
-      success: false
+      success: true,
+      form: {
+        userCountry: "",
+        userCountryEn: "",
+        userCountryCh: "",
+        userIdentity: "",
+        identityType: "",
+        identityPicOne: [],
+        identityPicTwo: [],
+        userCompanyCh: "",
+        userCompanyEn: "",
+        userAddressCh: "",
+        userAddressEn: "",
+        userCompanyPic: [],
+        userType: ""
+      }
     };
+  },
+  created() {
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/user/getAuthDetails`
+    })
+      .then(res => {
+        for (let key in res.data.data) {
+          this.form[key] = res.data.data[key];
+          if (key == "userType") {
+            if (this.form[key] == 1) {
+              this.form[key] = "项目方";
+            } else if (this.form[key] == 3) {
+              this.form[key] = "投资者";
+            } else if (this.form[key] == 4) {
+              this.form[key] = "投资中间人";
+            }
+          }
+          if (key == "userCountry") {
+            if (
+              this.form[key] == "HKG" ||
+              this.form[key] == "MAC" ||
+              this.form[key] == "CHN"
+            ) {
+              this.success=true;
+            }else {
+               this.success=false;
+            }
+          }
+        }
+        console.log(this.form);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>
@@ -109,7 +157,14 @@ export default {
           padding: 0 0.2rem;
         }
         div.pic {
+          padding: 0;
+          border-radius: 0.1rem;
           height: 3rem;
+          overflow: hidden;
+          img {
+            width: 100%;
+            height: 100%;
+          }
         }
       }
     }

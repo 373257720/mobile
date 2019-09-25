@@ -14,30 +14,39 @@
         <div slot="action" @click="onSearch">搜索</div>
       </van-search>
       <van-dropdown-menu>
-        <!-- <van-dropdown-item v-model="value" :options="option" /> 
-        </van-dropdown-item>-->
-        <van-dropdown-item title="筛选" ref="item">
+        <van-dropdown-item
+          :title="activeIds==0?'行业':items[0].children[activeIds-1].text"
+          v-model="value1"
+          ref="item"
+        >
           <van-tree-select
             :items="items"
-            active-id="activeIds"
+            :active-id="activeIds"
             :main-active-index="mainActiveIndex"
             @click-nav="onClickNav"
             @click-item="onClickItem"
           />
         </van-dropdown-item>
-        <van-dropdown-item v-model="value2" :options="option2" />
+        <van-dropdown-item
+          v-model="region_name"
+          @change="function(value){
+          return region(value,option[value])
+        }"
+          :title="region_nametitle?region_nametitle:'地区'"
+          :options="option"
+        />
       </van-dropdown-menu>
     </header>
     <div class="main">
       <van-list
         v-model="loading"
         :finished="finished"
-        @load="onLoad(searchkey)"
+        @load="onLoad"
         :loading-text="loadText"
         :offset="300"
       >
         <div v-for="goods in  upGoodsInfo" :key="goods.id" class="goodlists">
-          <article @click="$goto('goods_details')">
+          <article @click="routerto(goods.projectId)">
             <nav>{{goods.projectName}}</nav>
             <section>
               <span>行业：</span>
@@ -49,7 +58,7 @@
             </section>
             <section>
               <span>简介：</span>
-              <span>{{goods.projectDescribe.substr(0, [56])}}...</span>
+              <span v-html="goods.projectDescribe.substr(0, [56])+'...'"></span>
             </section>
           </article>
           <footer>
@@ -84,45 +93,11 @@ export default {
     return {
       items: [
         {
-          // 导航名称
-          text: "所有城市",
-          // 该导航下所有的可选项
-          children: [
-            {
-              // 名称
-              text: "温州",
-              // id，作为匹配选中状态的标识
-              id: 1
-              // 禁用选项
-              // disabled: true
-            },
-            {
-              text: "杭州",
-              id: 2
-            }
-          ]
-        },
-        {
-          // 导航名称
-          text: "所有城",
-          // 该导航下所有的可选项
-          children: [
-            {
-              // 名称
-              text: "温",
-              // id，作为匹配选中状态的标识
-              id: 3
-              // 禁用选项
-              // disabled: true
-            },
-            {
-              text: "杭",
-              id: 4
-            }
-          ]
+          text: "行业",
+          children: []
         }
       ],
-      activeIds: [1, 2],
+      activeIds: 0,
       // 左侧高亮元素的index
       mainActiveIndex: 0,
       // 被选中元素的id
@@ -134,28 +109,21 @@ export default {
       pageNum: 0,
       loadNumUp: 5,
       upGoodsInfo: [],
-      value1: 0,
-      value2: "a",
-      option1: [
-        { text: "全部商品", value: 0 },
-        { text: "新款商品", value: 1 },
-        { text: "活动商品", value: 2 }
-      ],
-      option2: [
-        { text: "默认排序", value: "a" },
-        { text: "好评排序", value: "b" },
-        { text: "销量排序", value: "c" }
+      value1: "",
+      region_name: "",
+      region_nametitle: "",
+      option: [
+        {
+          text: "全部地区",
+          value: 0,
+          remark: ""
+        }
       ]
-
-      // mainActiveIndex: 0
-      // loadingUp: true,
-      // finishedUp: false
     };
   },
   created() {
     console.log(this.$store.state.currentUsertype);
     let usertype = this.$store.state.currentUsertype;
-
     if (usertype == 1) {
       //projectowner
     } else if (usertype == 3) {
@@ -163,8 +131,48 @@ export default {
     } else if (usertype == 4) {
       //agent
     }
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
+    }).then(res => {
+      for (let i = 0; i < res.data.data.length; i++) {
+        this.items[0].children.push({
+          text: res.data.data[i].industryNameCh,
+          id: res.data.data[i].industryId
+        });
+      }
+      console.log(this.items);
+    });
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/base/countryList.do`
+    }).then(res => {
+      for (let i = 0; i < res.data.data.length; i++) {
+        this.option.push({
+          text: res.data.data[i].countryZhname,
+          value: i + 1,
+          remark: res.data.data[i].countryCode
+        });
+      }
+      // console.log(this.option);
+    });
   },
   methods: {
+    routerto(projectId) {
+      this.$store.state.currentUsertype;
+      if (this.$store.state.currentUsertype == 1) {
+        this.$routerto("p_goods_details", { projectId: projectId });
+      } else if (this.$store.state.currentUsertype == 3) {
+        // this.$routerto("a_project_intro", { projectId: projectId });
+      } else if (this.$store.state.currentUsertype == 4) {
+        this.$routerto("a_project_intro", { projectId: projectId });
+      }
+    },
+    region(value, region) {
+      console.log(value, region);
+      this.region_name = region.remark;
+      this.region_nametitle = region.text;
+    },
     ownergoto(num) {
       if (num == 2) {
         this.$goto("p_investor_infor");
@@ -189,28 +197,34 @@ export default {
     },
     onClickNav(index) {
       this.mainActiveIndex = index;
-      // this.setData({
-      //   mainActiveIndex: detail.index || 0
-      // });
     },
     onClickItem(data) {
-      const index = this.activeIds.indexOf(data.id);
-      if (index > -1) {
-        this.activeIds.splice(index, 1);
+      console.log(data);
+      if (this.activeIds == data.id) {
+        this.activeIds = 0;
       } else {
-        this.activeIds.push(data.id);
+        this.activeIds = data.id;
       }
-      console.log(this.activeIds);
+      this.pageNum = 0;
+      this.onLoad();
     },
-    onLoad(searchkey) {
+    onLoad() {
+      if (this.activeIds == 0) {
+        this.activeIds = "";
+      }
       this.$axios({
         method: "get",
-        url: `${this.$baseurl}/bsl_web/project/getAllProject`,
-        params: {
-          searchKey: this.searchkey,
-          pageSize: this.loadNum,
-          pageIndex: ++this.pageNum
-        }
+        url: `${this.$baseurl}/bsl_web/project/getAllProject?searchKey=${ this.searchkey}&pageIndex=${++this.pageNum}&pageSize=${this.loadNumUp}&bslAreaCode=${this.region_name}&industryId=${this.activeIds}`,
+        // params: {
+        //   searchKey: this.searchkey,
+        //   pageIndex: ++this.pageNum,
+        //   pageSize: this.loadNumUp,
+        //   bslAreaCode: this.region_name,
+        //   industryId: this.activeIds
+        // },
+        // headers: {
+        //   "Content-Type": "application/x-www-form-urlencoded"
+        // }
       })
         .then(res => {
           if (res.status === 200) {
@@ -224,7 +238,7 @@ export default {
               this.finished = true;
             }
           } else {
-            this.finished = false;
+            this.finished = true;
           }
         })
         .catch(err => {
@@ -232,7 +246,6 @@ export default {
           document.querySelector(
             "#mhome .van-loading__circular"
           ).style.display = "none";
-
           let a = (document.querySelector("#mhome .van-loading__text").style =
             "margin-left:0");
           console.log(a);

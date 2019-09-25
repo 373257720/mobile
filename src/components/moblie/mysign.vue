@@ -6,35 +6,43 @@
       </header>
       <main>
         <van-dropdown-menu>
-          <van-dropdown-item v-model="value1" :options="option1" />
+          <van-dropdown-item v-model="value1" :title="text" :options="option1" />
         </van-dropdown-menu>
       </main>
     </nav>
-    <ul>
-      <li v-for="item in arr" :key="item" @click="goto(item)">
-        <p>
-          <span>申请时间:</span>
-          <span>到发广告的非</span>
-        </p>
-        <p>
-          <span>申请中间人:</span>
-          <span>23432</span>
-        </p>
-        <p>
-          <span>申请项目:</span>
-          <span>423423</span>
-        </p>
-        <p>
-          <span>签约时间:</span>
-          <span>423423</span>
-        </p>
-        <p>
-          <span>签约状态:</span>
-          <span>423423</span>
-        </p>
-        <img src="../../assets/微信图片_201908191046412.png" alt />
-      </li>
-    </ul>
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      @load="onLoad()"
+      :loading-text="loadText"
+      :offset="300"
+    >
+      <ul>
+        <li v-for="item in upGoodsInfo" :key="item" @click="goto(item)">
+          <p>
+            <span>申请时间:</span>
+            <span>{{item.createTime}}</span>
+          </p>
+          <p>
+            <span>申请中间人:</span>
+            <span>{{324}}</span>
+          </p>
+          <p>
+            <span>申请项目:</span>
+            <span>{{item.projectName}}</span>
+          </p>
+          <p>
+            <span>签约时间:</span>
+            <span>423423</span>
+          </p>
+          <p>
+            <span>签约状态:</span>
+            <span>423423</span>
+          </p>
+          <img src="../../assets/微信图片_201908191046412.png" alt />
+        </li>
+      </ul>
+    </van-list>
     <mbottom></mbottom>
   </div>
 </template>
@@ -45,11 +53,17 @@ export default {
     return {
       arr: [1, 2, 3, 5, 9, 8, 10, 90, 40],
       value1: 0,
-      option1: []
+      text: "",
+      option1: [],
+      loading: false,
+      finished: false,
+      loadText: "加载中…",
+      pageNum: 0,
+      loadNumUp: 5,
+      upGoodsInfo: []
     };
   },
   created() {
-    //  console.log();
     let usertype = this.$store.state.currentUsertype;
     console.log(usertype);
     if (usertype == 1) {
@@ -58,13 +72,13 @@ export default {
         { text: "签约成功", value: 1 },
         { text: "拒绝签约", value: 2 }
       ];
-    } else if (usertype == 0) {
+    } else if (usertype == 4) {
       this.option1 = [
         { text: "签约成功", value: 0 },
         { text: "等待签约", value: 1 },
         { text: "等待失败", value: 2 }
       ];
-    } else if (usertype == 2) {
+    } else if (usertype == 3) {
       this.option1 = [
         { text: "已连接项目", value: 0 },
         { text: "等待确认", value: 1 }
@@ -72,9 +86,45 @@ export default {
     }
     console.log(this.option1);
   },
-  methods:{
-    goto(){
-      
+  methods: {
+    onLoad() {
+      this.$axios({
+        method: "post",
+        url: `${this.$baseurl}/bsl_web/projectSign/project`,
+        data: this.$qs.stringify({
+          signStatus: 1,
+          pageIndex: ++this.pageNum,
+          pageSize: this.loadNumUp
+        }),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      })
+        .then(res => {
+          if (res.status === 200) {
+            let re = res.data.data.lists;
+            if (re.length !== 0) {
+              this.upGoodsInfo = this.upGoodsInfo.concat(re);
+            }
+            this.loading = false;
+            if (this.upGoodsInfo.length >= res.data.data.pageTotal) {
+              this.loadText = "加载完成";
+              this.finished = true;
+            }
+          }
+          //  else {
+          //   this.finished = true;
+          // }
+        })
+        .catch(err => {
+          this.loadText = "加载失败";
+          document.querySelector(
+            "#mhome .van-loading__circular"
+          ).style.display = "none";
+          let a = (document.querySelector("#mhome .van-loading__text").style =
+            "margin-left:0");
+          console.log(a);
+        });
     }
   }
 };
