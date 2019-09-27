@@ -5,13 +5,8 @@
         <nav class="visaDetailTop">
           <van-icon name="arrow-left" @click="$global.previous()" />电子签名
         </nav>
-        <!-- <input type="button" value="清屏"  /> -->
-        <!-- <input type="button" value="生成png图片" @touchstart="savePNG" @mousedown="savePNG" /> -->
       </div>
-      <!-- <div　class="canvasbox"> -->
       <canvas></canvas>
-      <!-- </div> -->
-
       <div class="btnBox">
         <button @touchstart="clear" @mousedown="clear">重写</button>
         <button @mousedown="commit11">提交签名</button>
@@ -48,20 +43,19 @@ export default {
     // Draw
   },
   beforeCreate() {
-    document.title = "手写签名";
+    // document.title = "手写签名";
+    // console.log(1111);
   },
   created() {
-    // console.log(Draw);
-
     this.$nextTick(() => {
-      // console.log(222);
+      console.log(222);
       window.addEventListener("resize", this.renderResize, false);
     });
   },
   mounted() {
     this.canvasBox = document.getElementById("canvasBox");
     this.initCanvas();
-    this.renderResize();
+    // this.renderResize();
   },
   computed: {
     getHorizontalStyle() {
@@ -93,8 +87,6 @@ export default {
           document.createElement("canvas"),
           document.querySelector(".btnBox")
         );
-
-        // this.canvasBox.appendChild(document.createElement("canvas"));
         setTimeout(() => {
           this.initCanvas();
         }, 100);
@@ -142,8 +134,6 @@ export default {
     },
     initCanvas() {
       const canvas = document.querySelector("canvas");
-      // console.log(canvas);
-
       this.draw = new Draw(canvas, -this.degree);
     },
     commit() {

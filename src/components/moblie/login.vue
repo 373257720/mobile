@@ -53,7 +53,7 @@ export default {
           if (rescode == 10000) {
             console.log("登陆成功");
             this.$store.dispatch("usertype", res.data.data.userType);
-            // this.$store.dispatch("setUser", this.username);
+            this.$store.dispatch("setUser", this.username);
             if (res.data.data.isAuth == 1) {
               this.$goto("mhome");
             } else if (res.data.data.isAuth == 0) {

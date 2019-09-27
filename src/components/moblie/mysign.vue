@@ -6,7 +6,7 @@
       </header>
       <main>
         <van-dropdown-menu>
-          <van-dropdown-item v-model="value1" :title="text" :options="option1" />
+          <van-dropdown-item @change="choose" v-model="value1" :title="text" :options="option1" />
         </van-dropdown-menu>
       </main>
     </nav>
@@ -51,9 +51,8 @@ export default {
   name: "mysign",
   data() {
     return {
-      arr: [1, 2, 3, 5, 9, 8, 10, 90, 40],
       value1: 0,
-      text: "",
+      text: "全部",
       option1: [],
       loading: false,
       finished: false,
@@ -64,13 +63,17 @@ export default {
     };
   },
   created() {
+    // console.log(b.a);
+    // console.log(b.b);
+    // console.log(b.c);
+    // b.add();
     let usertype = this.$store.state.currentUsertype;
     console.log(usertype);
     if (usertype == 1) {
       this.option1 = [
-        { text: "签约请求", value: 0 },
-        { text: "签约成功", value: 1 },
-        { text: "拒绝签约", value: 2 }
+        { text: "签约请求", value: 0, type: 1 },
+        { text: "签约成功", value: 1, type: 2 },
+        { text: "拒绝签约", value: 2, type: 3 }
       ];
     } else if (usertype == 4) {
       this.option1 = [
@@ -84,18 +87,28 @@ export default {
         { text: "等待确认", value: 1 }
       ];
     }
-    console.log(this.option1);
   },
   methods: {
-    onLoad() {
+    choose(value) {
+      //  console.log(this.option1);
+      console.log(value, this.text);
+      this.text = this.option1[value].text;
+      this.pageNum = 0;
+      this.upGoodsInfo = [];
+      this.onLoad(this.option1[value].type);
+    },
+    onLoad(value) {
+      if (!value) {
+        value = 1;
+      }
       this.$axios({
-        method: "post",
+        method: "get",
         url: `${this.$baseurl}/bsl_web/projectSign/project`,
-        data: this.$qs.stringify({
-          signStatus: 1,
+        params: {
+          signStatus: value,
           pageIndex: ++this.pageNum,
           pageSize: this.loadNumUp
-        }),
+        },
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
         }
@@ -105,6 +118,9 @@ export default {
             let re = res.data.data.lists;
             if (re.length !== 0) {
               this.upGoodsInfo = this.upGoodsInfo.concat(re);
+            } else if (re.length == 0) {
+              this.loadText = "no datas";
+              console.log(this.loadText);
             }
             this.loading = false;
             if (this.upGoodsInfo.length >= res.data.data.pageTotal) {
@@ -112,17 +128,12 @@ export default {
               this.finished = true;
             }
           }
-          //  else {
+          // else {
           //   this.finished = true;
           // }
         })
         .catch(err => {
           this.loadText = "加载失败";
-          document.querySelector(
-            "#mhome .van-loading__circular"
-          ).style.display = "none";
-          let a = (document.querySelector("#mhome .van-loading__text").style =
-            "margin-left:0");
           console.log(a);
         });
     }

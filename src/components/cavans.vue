@@ -37,6 +37,7 @@ export default {
     document.title = '手写签名';
   },
   mounted() {
+ 
     this.canvasBox = document.getElementById('canvasBox');
     this.initCanvas();
   },
