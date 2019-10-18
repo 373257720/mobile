@@ -1,5 +1,5 @@
 <template>
-  <div id="goods_details">
+  <div id="p_goods_details">
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />项目详情
     </nav>
@@ -10,13 +10,14 @@
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
-          <li i v-for="(item) in details_lists" :key="item">
-            <p class="row1">{{item}}</p>
+          <li i v-for="(item) in details_lists" :key="item.name">
+            <p class="row1">{{item.name}}</p>
             <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
           </li>
         </ul>
         <footer>
           <button @click="$goto('investor_infor')">投资者资料</button>
+          <button @click="$goto('investor_infor')">未签约</button>
         </footer>
       </article>
     </main>
@@ -25,27 +26,74 @@
 </template>
 <script>
 export default {
-  name: "goods_details",
+  name: "p_goods_details",
   data() {
     return {
-      details_lists: [
-        "公司名称:",
-        "是否上市公司:",
-        "项目详情:",
-        "集资金额:",
-        "联系电话:",
-        "电邮:",
-        "投资者公司:"
-        // "投资者姓名:",
-        // "投资者电话:",
-        // "感兴趣行业:"
+     details_lists: [
+        {
+          name: "行业:",
+          response: ""
+        },
+        {
+          name: "地区:",
+          response: ""
+        },
+         {
+          name: "公司名称:",
+          response: ""
+        },
+        {
+          name: "是否上市公司",
+          response: ""
+        },
+        {
+          name: "项目介绍:",
+          response: ""
+        },
+        {
+          name: "集资额:",
+          response: ""
+        },
+        {
+          name: "融资阶段:",
+          response: ""
+        },
+        {
+          name: "项目方有兴趣的数量:",
+          response: ""
+        },
+            {
+          name: "已提交的投资者数量:",
+          response: ""
+        },
+        {
+          name: "项目状态:",
+          response: ""
+        },
+         {
+          name: "联系电话:",
+          response: ""
+        },
+        {
+          name: "投资者公司:",
+          response: ""
+        },
+          {
+          name: "电邮:",
+          response: ""
+        },
+          {
+          name: "项目详情:",
+          response: ""
+        },
+     
       ]
     };
   }
 };
 </script>
 <style lang="scss">
-#goods_details {
+#p_goods_details {
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -59,7 +107,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#goods_details {
+#p_goods_details {
   width: 100%;
   nav {
     width: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <div id="check_contact">
+  <div id="p_check_contract">
     <nav>
       <van-icon name="arrow-left" />投资者资料
     </nav>
@@ -43,7 +43,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#check_contact {
+#p_check_contract {
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -65,7 +65,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#check_contact {
+#p_check_contract {
   width: 100%;
   nav {
     width: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <div id="wait_investor_confirm">
+  <div id="a_wait_investor_comfirm">
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()"/>等待投资者确认
     </nav>
@@ -7,8 +7,8 @@
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
-          <li i v-for="(item) in details_lists" :key="item">
-            <p class="row1">{{item}}</p>
+          <li i v-for="(item) in details_lists" :key="item.name">
+            <p class="row1">{{item.name}}</p>
             <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
           </li>
           <li class="contract">
@@ -20,9 +20,9 @@
             </section>
           </li>
         </ul>
-        <footer>
-          <button>资料有误，重新输入</button>
-        </footer>
+        <!-- <footer>
+          <button>签署</button>
+        </footer> -->
       </article>
     </main>
     <mbottom></mbottom>
@@ -30,21 +30,62 @@
 </template>
 <script>
 export default {
-  name: "wait_investor_confirm",
+  name: "a_wait_investor_comfirm",
   data() {
     return {
-      details_lists: [
-        "公司名称:",
-        "是否上市公司:",
-        "项目详情:",
-        "集资额：",
-        "联系电话：",
-        "电邮：",
-        "投资者公司：",
-        "投资者姓名:",
-        "投资者电话：",
-        "投资者邮箱：",
-        "感兴趣行业："
+         details_lists: [
+        {
+          name: "行业:",
+          response: ""
+        },
+        {
+          name: "地区:",
+          response: ""
+        },
+         {
+          name: "公司名称:",
+          response: ""
+        },
+        {
+          name: "是否上市公司",
+          response: ""
+        },
+        {
+          name: "项目介绍:",
+          response: ""
+        },
+        {
+          name: "集资额:",
+          response: ""
+        },
+        {
+          name: "融资阶段:",
+          response: ""
+        },
+        {
+          name: "项目方有兴趣的数量:",
+          response: ""
+        },
+            {
+          name: "已提交的投资者数量:",
+          response: ""
+        },
+        {
+          name: "项目状态:",
+          response: ""
+        },
+        {
+          name: "投资者公司:",
+          response: ""
+        },
+         {
+          name: "投资者姓名:",
+          response: ""
+        },
+          {
+          name: "投资者地区:",
+          response: ""
+        },
       ]
       //   wait_input: []
     };
@@ -69,7 +110,7 @@ export default {
 };
 </script>
 <style lang="scss">
- #wait_investor_confirm {
+ #a_wait_investor_comfirm {
   .van-hairline--top-bottom::after {
     border: 0.01rem solid #8e8e8e;
   }
@@ -103,7 +144,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#wait_investor_confirm  {
+#a_wait_investor_comfirm  {
   width: 100%;
   nav {
     width: 100%;
@@ -177,27 +218,27 @@ export default {
           }
         }
       }
-      footer {
-        padding: 0 0.5rem 0.5rem 0.5rem;
-        button {
-          width: 6.5rem;
-          height: 1rem;
-          background: #00adef;
-          color: white;
-        }
-        button {
-          margin-bottom: 0.4rem;
-        }
-        aside {
-          height: 1.5rem;
-          // width: 6.5rem;
-          display: flex;
-          justify-content: space-between;
-          button {
-            width: 3rem;
-          }
-        }
-      }
+      // footer {
+      //   padding: 0 0.5rem 0.5rem 0.5rem;
+      //   button {
+      //     width: 6.5rem;
+      //     height: 1rem;
+      //     background: #00adef;
+      //     color: white;
+      //   }
+      //   button {
+      //     margin-bottom: 0.4rem;
+      //   }
+      //   aside {
+      //     height: 1.5rem;
+      //     // width: 6.5rem;
+      //     display: flex;
+      //     justify-content: space-between;
+      //     button {
+      //       width: 3rem;
+      //     }
+      //   }
+      // }
     }
   }
 }

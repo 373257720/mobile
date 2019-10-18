@@ -71,20 +71,26 @@ export default {
     console.log(usertype);
     if (usertype == 1) {
       this.option1 = [
-        { text: "签约请求", value: 0, type: 1 },
-        { text: "签约成功", value: 1, type: 2 },
-        { text: "拒绝签约", value: 2, type: 3 }
+        { text: "待审核项目", value: 0 },
+        { text: "等待签约项目", value: 1 },
+        { text: "待确认项目", value: 2 },
+        { text: "成功签约项目", value: 3 },
+        { text: "拒绝签约项目", value: 4 }
       ];
     } else if (usertype == 4) {
+      //agent
       this.option1 = [
-        { text: "签约成功", value: 0 },
-        { text: "等待签约", value: 1 },
-        { text: "等待失败", value: 2 }
+        { text: "待审核项目", value: 0 },
+        { text: "等待签约项目", value: 1 },
+        { text: "待确认项目", value: 2 },
+        { text: "成功签约项目", value: 3 },
+        { text: "拒绝签约项目", value: 4 }
       ];
     } else if (usertype == 3) {
       this.option1 = [
-        { text: "已连接项目", value: 0 },
-        { text: "等待确认", value: 1 }
+        { text: "待确认的项目", value: 0 },
+        { text: "已连接的项目", value: 1 },
+        { text: "拒绝项目", value: 2 }
       ];
     }
   },

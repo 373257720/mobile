@@ -8,11 +8,16 @@
           <van-dropdown-item v-model="form.userType" :options="option1" />
         </van-dropdown-menu>
       </div>
+      <div class="identity">
+        <p>身份</p>
+        <van-dropdown-menu>
+          <van-dropdown-item v-model="form.identity" :options="option2" />
+        </van-dropdown-menu>
+      </div>
       <div class="nationality">
         <p>国籍</p>
         <van-dropdown-menu>
-          <van-dropdown-item v-model="countryname" @change="gggg" :options="countrylist" />
-  
+          <van-dropdown-item v-model="countryname" @change="nation" :options="countrylist" />
         </van-dropdown-menu>
       </div>
       <div class="idcard_num">
@@ -37,31 +42,34 @@
           :max-count="1"
         />
       </div>
-      <div class="companyname2">
-        <p>公司名字</p>
-        <van-field v-model="form.userCompanyCh" placeholder="请输入密码" clearable />
+      <div v-show="form.identity==4?true:false" class="gongsi">
+        <div class="companyname2">
+          <p>公司名字</p>
+          <van-field v-model="form.userCompanyCh" placeholder="请输入密码" clearable />
+        </div>
+        <div class="companyname">
+          <p>company name</p>
+          <van-field v-model="form.userCompanyEn" placeholder="公司名字" clearable />
+        </div>
+        <div class="company_address">
+          <p>公司地址</p>
+          <van-field v-model="form.userAddressCh" placeholder="公司地址" clearable />
+        </div>
+        <div class="company_address_eng">
+          <p>company address</p>
+          <van-field v-model="form.userAddressEn" placeholder="公司地址" clearable />
+        </div>
+        <div class="companycheck">
+          <p>公司证书</p>
+          <van-uploader
+            :before-read="function(params){return asyncBeforeRead(params,3)}"
+            v-model="fileList_company"
+            multiple
+            :max-count="1"
+          />
+        </div>
       </div>
-      <div class="companyname">
-        <p>company name</p>
-        <van-field v-model="form.userCompanyEn" placeholder="公司名字" clearable />
-      </div>
-      <div class="company_address">
-        <p>公司地址</p>
-        <van-field v-model="form.userAddressCh" placeholder="公司地址" clearable />
-      </div>
-      <div class="company_address_eng">
-        <p>company address</p>
-        <van-field v-model="form.userAddressEn" placeholder="公司地址" clearable />
-      </div>
-      <div class="companycheck">
-        <p>公司证书</p>
-        <van-uploader
-          :before-read="function(params){return asyncBeforeRead(params,3)}"
-          v-model="fileList_company"
-          multiple
-          :max-count="1"
-        />
-      </div>
+
       <div class="commit">
         <button @click="commit">提交</button>
       </div>
@@ -74,7 +82,7 @@
       <nav class="backbtn">
         <button>进入首页</button>
       </nav>
-    </div> -->
+    </div>-->
   </div>
 </template>
 <script>
@@ -91,6 +99,7 @@ export default {
         { text: "中间人", value: 4 },
         { text: "投资者", value: 3 }
       ],
+      option2: [{ text: "个人", value: 1 }, { text: "公司", value: 4 }],
       countryname: "",
       fileList_front: [],
       fileList_back: [],
@@ -108,7 +117,8 @@ export default {
         userAddressCh: "",
         userAddressEn: "",
         userCompanyPic: [],
-        userType: ""
+        userType: "",
+        identity: ""
       }
     };
   },
@@ -147,16 +157,23 @@ export default {
 
     //   return true;
     // },
-    gggg(value) {
-      if (value > 2) {
-        this.switchon = false;
-        this.form.identityType = 2;
-
-        // console.log(this.switch);
-      } else if (value >= 0 && value <= 2) {
+    nation(value) {
+      console.log(value);
+      if (value == 1) {
         this.switchon = true;
         this.form.identityType = 1;
+      } else {
+        this.switchon = false;
+        this.form.identityType = 2;
       }
+      // if (value > 2) {
+      //   this.switchon = false;
+      //   this.form.identityType = 2;
+      //   // console.log(this.switch);
+      // } else if (value >= 0 && value <= 2) {
+      //   this.switchon = true;
+      //   this.form.identityType = 1;
+      // }
       this.form.userCountry = this.countrylist[value].countryCode;
       console.log(this.form.userCountry);
 
@@ -352,6 +369,15 @@ export default {
       > p {
         margin-bottom: 0.1rem;
         font-size: 0.28rem;
+      }
+    }
+    div.gongsi {
+      > div {
+        margin-bottom: 0.4rem;
+        > p {
+          margin-bottom: 0.1rem;
+          font-size: 0.28rem;
+        }
       }
     }
     header {

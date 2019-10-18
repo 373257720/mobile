@@ -1,18 +1,18 @@
 <template>
-  <div id="waitsign">
+  <div id="a_wait_signed">
     <nav>
-      <van-icon name="arrow-left" />等待签约
+      <van-icon name="arrow-left" @click="$global.previous()"/>等待签约
     </nav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
-          <li>
-            <p class="row1">项目简介：</p>
+          <li i v-for="(item) in details_lists" :key="item.name">
+            <p class="row1">{{item.name}}</p>
             <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
           </li>
           <li class="contract">
-            <p class="row1 draft">草拟合约:</p>
+            <p class="row1">草拟合约:</p>
             <section class="row2 draft1">
               <article
                 class="draft1_middle"
@@ -20,6 +20,9 @@
             </section>
           </li>
         </ul>
+        <footer>
+          <button>签署</button>
+        </footer>
       </article>
     </main>
     <mbottom></mbottom>
@@ -27,10 +30,64 @@
 </template>
 <script>
 export default {
-  name: "waitsign",
+  name: "a_wait_signed",
   data() {
     return {
-      details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
+         details_lists: [
+        {
+          name: "行业:",
+          response: ""
+        },
+        {
+          name: "地区:",
+          response: ""
+        },
+         {
+          name: "公司名称:",
+          response: ""
+        },
+        {
+          name: "是否上市公司",
+          response: ""
+        },
+        {
+          name: "项目介绍:",
+          response: ""
+        },
+        {
+          name: "集资额:",
+          response: ""
+        },
+        {
+          name: "融资阶段:",
+          response: ""
+        },
+        {
+          name: "项目方有兴趣的数量:",
+          response: ""
+        },
+            {
+          name: "已提交的投资者数量:",
+          response: ""
+        },
+        {
+          name: "项目状态:",
+          response: ""
+        },
+        {
+          name: "投资者公司:",
+          response: ""
+        },
+         {
+          name: "投资者姓名:",
+          response: ""
+        },
+          {
+          name: "投资者地区:",
+          response: ""
+        },
+      ]
+      //   wait_input: []
     };
   },
   methods: {
@@ -53,7 +110,19 @@ export default {
 };
 </script>
 <style lang="scss">
-#waitsign {
+ #a_wait_signed {
+  .van-hairline--top-bottom::after {
+    border: 0.01rem solid #8e8e8e;
+  }
+  .van-cell {
+    padding: 0;
+    .van-field__control {
+      background: #f2f2f2;
+      font-size: 0.3rem;
+      padding: 0 0.2rem;
+      box-sizing: border-box;
+    }
+  }
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -75,7 +144,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#waitsign {
+#a_wait_signed  {
   width: 100%;
   nav {
     width: 100%;
@@ -108,9 +177,9 @@ export default {
         border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
-        padding: 0.5rem;
+        padding: 0.1rem 0.5rem 0.5rem 0.5rem;
         li {
-          margin-bottom: 0.4rem;
+          margin-bottom: 0.2rem;
           display: flex;
           align-items: baseline;
           font-size: 0.3rem;
@@ -128,6 +197,10 @@ export default {
         }
         .contract {
           display: block;
+
+          .row1 {
+            margin-bottom: 0.1rem;
+          }
           .row2 {
             width: 6.5rem;
             height: 6rem;
@@ -142,6 +215,27 @@ export default {
               height: 100%;
               overflow-y: auto;
             }
+          }
+        }
+      }
+      footer {
+        padding: 0 0.5rem 0.5rem 0.5rem;
+        button {
+          width: 6.5rem;
+          height: 1rem;
+          background: #00adef;
+          color: white;
+        }
+        button {
+          margin-bottom: 0.4rem;
+        }
+        aside {
+          height: 1.5rem;
+          // width: 6.5rem;
+          display: flex;
+          justify-content: space-between;
+          button {
+            width: 3rem;
           }
         }
       }

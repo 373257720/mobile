@@ -9,9 +9,9 @@
       <canvas></canvas>
       <div class="btnBox">
         <button @touchstart="clear" @mousedown="clear">重写</button>
-        <button @mousedown="commit11">提交签名</button>
+        <button @mousedown="commit">提交签名</button>
       </div>
-      <van-dialog v-model="show" title="标题" show-cancel-button :beforeClose="beforeClose"></van-dialog>
+      <!-- <van-dialog v-model="show" title="标题" show-cancel-button :beforeClose="beforeClose"></van-dialog> -->
     </div>
 
     <!-- <img :src="url" alt=""> -->
@@ -110,6 +110,7 @@ export default {
     },
     commit11() {
       this.show = true;
+      
       // this.$dialog.confirm({
       //   title: "标题",
       //   message: "弹窗内容",

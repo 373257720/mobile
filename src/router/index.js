@@ -16,21 +16,26 @@ import cavans from '@/components/moblie/cavans'
 
 
 // project_owner/
-import p_wait_input from '@/components/moblie/project_owner/wait_input'
-import p_check_contact from '@/components/moblie/project_owner/check_contact'
+import p_wait_agent from '@/components/moblie/project_owner/wait_input'
+import p_check_contract from '@/components/moblie/project_owner/check_contract'
 import p_investor_infor from '@/components/moblie/project_owner/investor_infor'
+import p_investor_details from '@/components/moblie/project_owner/inverstor_details'
+import p_set_contract from '@/components/moblie/project_owner/set_contract'
 import p_sign_failed from '@/components/moblie/project_owner/sign_failed'
+import p_sign_contract from '@/components/moblie/project_owner/sign_contract'
 import p_sign_request from '@/components/moblie/project_owner/sign_request'
 import p_wait_investor from '@/components/moblie/project_owner/wait_investor'
 import p_goods_details from '@/components/moblie/project_owner/goods_details'
 import p_user_contact from '@/components/moblie/project_owner/user_contact'
-import p_user_contact2 from '@/components/moblie/project_owner/user_contact2'
+import p_user_contact2 from '@/components/moblie/project_owner/user_contact2' 
+
 
 // agent/
 import a_project_intro from '@/components/moblie/agent/project_intro'
-import a_wait_correct from '@/components/moblie/agent/wait_investor_correct'
-import a_waitsign from '@/components/moblie/agent/waitsign'
+import a_wait_review from '@/components/moblie/agent/wait_review'
+import a_recommand_i from '@/components/moblie/agent/recommand_i'
 import a_wait_investor_comfirm from '@/components/moblie/agent/wait_investor_comfirm'
+import a_wait_signed from '@/components/moblie/agent/wait_signed'
 import a_input_investor_infor from '@/components/moblie/agent/input_investor_infor'
 import a_sign_failed from '@/components/moblie/agent/sign_failed'
 import a_sign_successful from '@/components/moblie/agent/sign_successful'
@@ -60,9 +65,9 @@ const routes = [
     component: p_user_contact2,
   },
   {
-    path: '/p_check_contact',
-    name: 'p_check_contact',
-    component: p_check_contact,
+    path: '/p_check_contract',
+    name: 'p_check_contract',
+    component: p_check_contract,
   },
   {
     path: '/p_goods_details',
@@ -80,15 +85,33 @@ const routes = [
     component: p_sign_failed,
   },
   {
-    path: '/p_wait_input',
-    name: 'p_wait_input',
-    component: p_wait_input,
+    path: '/p_wait_agent',
+    name: 'p_wait_agent',
+    component: p_wait_agent,
   },
   {
     path: '/p_wait_investor',
     name: 'p_wait_investor',
     component: p_wait_investor,
   },
+  {
+    path: '/p_investor_details',
+    name: 'p_investor_details',
+    component: p_investor_details,
+  },
+  {
+    path: '/p_set_contract',
+    name: 'p_set_contract',
+    component: p_set_contract,
+  },
+  {
+    path: '/p_sign_contract',
+    name: 'p_sign_contract',
+    component: p_sign_contract,
+  },
+ 
+
+
 
   // agent
   {
@@ -109,20 +132,25 @@ const routes = [
     path: '/a_sign_failed',
     name: 'a_sign_failed',
     component: a_sign_failed,
-  }, {
-    path: '/a_wait_investor',
-    name: 'a_wait_investor_confirm',
+  }, 
+  {
+    path: '/a_wait_signed',
+    name: 'a_wait_signed',
+    component: a_wait_signed,
+  },{
+    path: '/a_wait_investor_comfirm',
+    name: 'a_wait_investor_comfirm',
     component: a_wait_investor_comfirm,
   },
   {
-    path: '/a_wait_correct',
-    name: 'a_wait_correct',
-    component: a_wait_correct,
+    path: '/a_wait_review',
+    name: 'a_wait_review',
+    component: a_wait_review,
   },
   {
-    path: '/a_waitsign',
-    name: 'a_waitsign',
-    component: a_waitsign,
+    path: '/a_recommand_i',
+    name: 'a_recommand_i',
+    component:a_recommand_i,
   },
 // investor
 

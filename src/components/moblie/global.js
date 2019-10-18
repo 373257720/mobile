@@ -22,12 +22,13 @@ const global = {
       }).then((res) => {
         resolve(res)   
         // console.log(resolve);
-         
+
       }).catch(function (error) {
         reject(error)
         // console.log(error);
       })
     })
+ 
   },
   // new Promise (function (resolve,reject){
   //   axios({

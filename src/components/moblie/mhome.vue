@@ -122,6 +122,9 @@ export default {
     };
   },
   created() {
+    // this.bar();
+    // console.log(this.bar);
+    
     // this.$global
     //   .changepage(`${this.$baseurl}/bsl_web/base/getAllIndustry`, "get")
     //   .then(
@@ -133,7 +136,7 @@ export default {
     //     }
     //   );
 
-    console.log(this.$store.state.currentUsertype);
+    // console.log(this.$store.state.currentUsertype);
     let usertype = this.$store.state.currentUsertype;
     if (usertype == 1) {
       //projectowner
@@ -170,6 +173,7 @@ export default {
     );
   },
   methods: {
+  
     routerto(projectId) {
       this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {

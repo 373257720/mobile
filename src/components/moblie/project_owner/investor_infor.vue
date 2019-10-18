@@ -1,33 +1,20 @@
 <template>
   <div id="investor_infor">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()"/>投资者资料
+      <van-icon name="arrow-left" @click="$global.previous()" />投资者资料
     </nav>
     <main>
       <article>
-        <!-- <header>投资者</header> -->
         <ul>
           <li i v-for="(item) in details_lists" :key="item">
             <aside>1</aside>
             <article class="main_right">
-              <section>
-                <span class="row1">投资者公司：</span>
-                <span class="row2">54564564563423423434454545456</span>
-              </section>
-              <section>
-                <span class="row1">投资者名称：</span>
-                <span class="row2">54564564566</span>
-              </section>
-              <section>
-                <span class="row1">投资者电话：</span>
-                <span class="row2">545645645646</span>
-              </section>
-              <section>
-                <span class="row1">感兴趣行业：</span>
-                <span class="row2">54564564566</span>
+              <section v-for="(item) in details_lists" :key="item">
+                <span class="row1">{{item.name}}</span>
+                <span class="row2">{{item.response}}</span>
               </section>
             </article>
-            <footer class="checkall">
+            <footer class="checkall"> 
               <img src="../../../assets/932de214a934dcc83b834aab8d58a34.png" alt />
             </footer>
           </li>
@@ -42,7 +29,29 @@ export default {
   name: "goods_details",
   data() {
     return {
-      details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
+      details_lists: [
+        {
+          name: "签约成功时间:",
+          response: "2019-15-26"
+        },
+        {
+          name: "投资者公司:",
+          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+        },
+        {
+          name: "投资者名称:",
+          response: "斯蒂芬发地方"
+        },
+        {
+          name: "投资者电话",
+          response: "13178523855"
+        },
+        {
+          name: "投资者兴趣:",
+          response: "金融"
+        },
+   
+      ]
     };
   },
   methods: {
@@ -104,14 +113,14 @@ export default {
     margin-top: 1.5rem;
     background: #ffffff;
     ul {
-      padding: 0 0.5rem 1.2rem 0.5rem;
+      padding: 0 0.2rem 1.2rem 0.2rem;
       li {
         padding: 0.3rem 0;
         font-size: 0.3rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 0.01rem dashed #b3b3b3;
+        border-bottom: 0.02rem dashed #b3b3b3;
         aside {
           width: 0.6rem;
           height: 0.6rem;
@@ -126,15 +135,16 @@ export default {
           section {
             display: flex;
             margin-bottom: 0.1rem;
+            line-height: 0.5rem;
             .row1 {
               color: #4c4c4c;
               display: inline-block;
               font-weight: 600;
-              width: 2rem;
+              width: 2.1rem;
             }
             .row2 {
               display: inline-block;
-              width: 2.5rem;
+              width: 3rem;
               word-wrap: break-word;
             }
           }

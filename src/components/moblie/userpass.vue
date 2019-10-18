@@ -95,9 +95,9 @@ export default {
               this.form[key] == "MAC" ||
               this.form[key] == "CHN"
             ) {
-              this.success=true;
-            }else {
-               this.success=false;
+              this.success = true;
+            } else {
+              this.success = false;
             }
           }
         }
@@ -153,12 +153,13 @@ export default {
           height: 0.7rem;
           line-height: 0.7rem;
           font-size: 0.2rem;
-          border: 0.01rem solid #d9d9d9;
+          border: 0.02rem solid #d9d9d9;
           padding: 0 0.2rem;
         }
         div.pic {
           padding: 0;
-          border-radius: 0.1rem;
+          // border-radius: 0.1rem;
+          border: 0.02rem solid #d9d9d9;
           height: 3rem;
           overflow: hidden;
           img {

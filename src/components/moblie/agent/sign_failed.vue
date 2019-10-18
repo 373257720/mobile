@@ -1,5 +1,5 @@
 <template>
-  <div id="agent_sign_failed">
+  <div id="a_sign_failed">
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />拒签项目
     </nav>
@@ -8,17 +8,17 @@
         <header>放水电费鼎飞丹砂</header>
         <ul>
           <li i v-for="(item) in details_lists" :key="item">
-            <p class="row1">{{item}}</p>
-            <p class="row2">{{item}}</p>
+            <p class="row1">{{item.name}}</p>
+            <p class="row2">dfgsfd sdf  sdf dsf sdff 第三方地方地方所发生的是的是否发送斯蒂芬 </p>
           </li>
-          <li class="contract">
+          <!-- <li class="contract">
             <p class="row1">草拟合约:</p>
             <section class="row2 draft1">
               <article
                 class="draft1_middle"
               >地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方</article>
             </section>
-          </li>
+          </li> -->
         </ul>
       </article>
     </main>
@@ -27,13 +27,54 @@
 </template>
 <script>
 export default {
-  name: "agent_sign_failed",
+  name: "a_sign_failed",
   data() {
     return {
       details_lists: [
-        "项目简介:",
-
-        "拒绝时间"
+        {
+          name: "行业:",
+          response: ""
+        },
+        {
+          name: "地区:",
+          response: ""
+        },
+        {
+          name: "融资阶段",
+          response: ""
+        },
+        {
+          name: "項目方有興趣的數量:",
+          response: ""
+        },
+        {
+          name: "已提交的投資者數量:",
+          response: ""
+        },
+        {
+          name: "项目状态:",
+          response: ""
+        },
+        {
+          name: "项目简介:",
+          response: ""
+        },
+            {
+          name: "投资者公司:",
+          response: ""
+        },
+        {
+          name: "投资者姓名:",
+          response: ""
+        },
+        {
+          name: "投资者地区:",
+          response: ""
+        },
+         {
+          name: "拒绝时间:",
+          response: ""
+        },
       ]
     };
   },
@@ -56,7 +97,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#agent_sign_failed {
+#a_sign_failed {
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -78,7 +119,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#agent_sign_failed {
+#a_sign_failed {
   width: 100%;
   nav {
     width: 100%;

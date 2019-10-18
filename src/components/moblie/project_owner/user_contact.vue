@@ -1,5 +1,5 @@
 <template>
-  <div id="user_contact">
+  <div id="p_user_contact">
     <nav>
       <header>
         <van-icon name="arrow-left" @click="$global.previous()" />联络人
@@ -52,7 +52,7 @@
 </template>
 <script>
 export default {
-  name: "user_contact",
+  name: "p_user_contact",
   data() {
     return {
       arr: [1, 2, 3, 5, 9, 8, 10, 90, 40],
@@ -75,7 +75,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#user_contact {
+#p_user_contact {
   .van-search {
     padding: 0.2rem 0.2rem;
   }
@@ -132,7 +132,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#user_contact {
+#p_user_contact {
   width: 100%;
   nav {
     width: 100%;

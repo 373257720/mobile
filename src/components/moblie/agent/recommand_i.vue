@@ -1,24 +1,19 @@
 <template>
-  <div id="a_sign_successful">
+  <div id="a_recommand_i">
     <nav>
-      <van-icon name="arrow-left" />成功签约
+      <van-icon name="arrow-left" />等待签约
     </nav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
-          <li i v-for="(item) in details_lists" :key="item.name">
+          <li i v-for="(item) in details_lists" :key="item">
             <p class="row1">{{item.name}}</p>
-            <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
-          </li>
-          <li class="contract">
-            <p class="row1">草拟合约:</p>
-            <section class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</section>
+            <!-- <p >456456456</p> -->
+            <van-field v-model="item.response" placeholder="请输入" clearable />
           </li>
         </ul>
-        <footer>
-          <button>合同导出</button>
-        </footer>
+         <button @click="handelSaveE">提交</button>
       </article>
     </main>
     <mbottom></mbottom>
@@ -26,64 +21,24 @@
 </template>
 <script>
 export default {
-  name: "a_sign_successful",
+  name: "a_recommand_i",
   data() {
     return {
-          details_lists: [
-        {
-          name: "行业:",
-          response: ""
-        },
-        {
-          name: "地区:",
-          response: ""
-        },
-         {
-          name: "公司名称:",
-          response: ""
-        },
-        {
-          name: "是否上市公司",
-          response: ""
-        },
-        {
-          name: "项目介绍:",
-          response: ""
-        },
-        {
-          name: "集资额:",
-          response: ""
-        },
-        {
-          name: "融资阶段:",
-          response: ""
-        },
-        {
-          name: "项目方有兴趣的数量:",
-          response: ""
-        },
-            {
-          name: "已提交的投资者数量:",
-          response: ""
-        },
-        {
-          name: "项目状态:",
-          response: ""
-        },
+      // details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
+      details_lists: [
         {
           name: "投资者公司:",
           response: ""
         },
-         {
+        {
           name: "投资者姓名:",
           response: ""
         },
-          {
+        {
           name: "投资者地区:",
           response: ""
-        },
+        }
       ]
-      //   wait_input: []
     };
   },
   methods: {
@@ -106,19 +61,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#a_sign_successful {
-  .van-hairline--top-bottom::after {
-    border: 0.01rem solid #8e8e8e;
-  }
-  .van-cell {
-    padding: 0;
-    .van-field__control {
-      background: #f2f2f2;
-      font-size: 0.3rem;
-      padding: 0 0.2rem;
-      box-sizing: border-box;
-    }
-  }
+#a_recommand_i {
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -140,7 +83,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#a_sign_successful {
+#a_recommand_i {
   width: 100%;
   nav {
     width: 100%;
@@ -165,11 +108,11 @@ export default {
     article {
       margin: 0 0 1.3rem 0;
       header {
-        height: 1.7rem;
+        height: 1.5rem;
         font-size: 0.32rem;
         text-align: center;
         font-weight: 600;
-        line-height: 1.7rem;
+        line-height: 1.5rem;
         border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
@@ -195,29 +138,18 @@ export default {
           display: block;
           .row2 {
             width: 6.5rem;
-            height: 10rem;
+            height: 6rem;
+            border: 0.01rem solid #b3b3b3;
+            // box-sizing: border-box;
+            padding: 0;
             background: #f2f2f2;
-          }
-        }
-      }
-      footer {
-        padding: 0.5rem;
-        button {
-          width: 6.5rem;
-          height: 1rem;
-          background: #00adef;
-          color: white;
-        }
-        button {
-          margin-bottom: 0.4rem;
-        }
-        aside {
-          height: 1.5rem;
-          // width: 6.5rem;
-          display: flex;
-          justify-content: space-between;
-          button {
-            width: 3rem;
+            .draft1_middle {
+              padding: 0.3rem;
+              box-sizing: border-box;
+              width: 100%;
+              height: 100%;
+              overflow-y: auto;
+            }
           }
         }
       }

@@ -1,12 +1,12 @@
 <template>
-  <div id="wait_correct">
+  <div id="a_wait_review">
     <nav>
-      <van-icon name="arrow-left" />修改资料
+      <van-icon name="arrow-left" />等待审核
     </nav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
-        <ul>
+        <!-- <ul>
           <li i v-for="(item) in wait_input" :key="item">
             <p class="row1">{{item}}</p>
             <p class="row2">
@@ -23,14 +23,13 @@
               </van-checkbox-group>
             </p>
           </li>
+        </ul> -->
+          <ul>
+          <li i v-for="(item) in details_lists" :key="item">
+            <p class="row1">{{item.name}}</p>
+            <p class="row2">dfgsfd sdf  sdf dsf sdff 第三方地方地方所发生的是的是否发送斯蒂芬 </p>
+          </li>
         </ul>
-        <footer>
-          <button>签署</button>
-          <!-- <aside>
-            <button @click="gg">拒绝签约</button>
-            <button @click="gg">同意签约</button>
-          </aside>-->
-        </footer>
       </article>
     </main>
     <mbottom></mbottom>
@@ -43,13 +42,48 @@ export default {
     return {
       list: ["a", "b", "c"],
       result: ["a", "b"],
-      details_lists: [
-        "公司名称:",
-        "是否上市公司:",
-        "项目详情:",
-        "集资额：",
-        "联系电话：",
-        "电邮："
+     details_lists: [
+        {
+          name: "行业:",
+          response: ""
+        },
+        {
+          name: "地区:",
+          response: ""
+        },
+        {
+          name: "融资阶段",
+          response: ""
+        },
+        {
+          name: "項目方有興趣的數量:",
+          response: ""
+        },
+        {
+          name: "已提交的投資者數量:",
+          response: ""
+        },
+        {
+          name: "项目状态:",
+          response: ""
+        },
+        {
+          name: "项目简介:",
+          response: ""
+        },
+            {
+          name: "投资者公司:",
+          response: ""
+        },
+        {
+          name: "投资者姓名:",
+          response: ""
+        },
+        {
+          name: "投资者地区:",
+          response: ""
+        },
+        
       ],
       wait_input: ["投资者公司：", "投资者姓名:", "投资者电话："]
     };
@@ -74,7 +108,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#wait_correct {
+#a_wait_review {
   .van-hairline--top-bottom::after {
     border: 0.01rem solid #8e8e8e;
   }
@@ -119,7 +153,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#wait_correct {
+#a_wait_review {
   width: 100%;
   nav {
     width: 100%;

@@ -1,24 +1,31 @@
 <template>
-  <div id="project_intro">
+  <div id="a_project_intro">
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />项目简介
     </nav>
-    <main id="project_intro_length">
-      <h3>{{title}}</h3>
-      <article v-html="main"></article>
+    <main id="a_project_intro_length">
+      <h3>第三方斯蒂芬</h3>
+      <!-- <article v-html="main"></article> -->
+      <ul>
+        <li i v-for="(item) in details_lists" :key="item">
+          <p class="row1">{{item.name}}</p>
+          <p class="row2">456456456</p>
+        </li>
+      </ul>
       <footer>
-        <button @click="goto" v-if="success">签约</button>
-        <div v-else-if="!success" class="sign">
+        <button @click="goto" v-if="success">推荐投资者</button>
+         <button @click="goto" v-if="success">返回</button>
+        <!-- <div v-else-if="!success" class="sign">
           <header>签署合约：</header>
           <van-cell-group>
             <van-field v-model="message" type="textarea" placeholder="请输入留言" autosize />
           </van-cell-group>
           <button @click="aa">签署</button>
           <button @click="goto" class="previous">上一步</button>
-        </div>
+        </div> -->
       </footer>
     </main>
-    <!-- <div class="project_intro2 con" v-if="!success">
+    <!-- <div class="a_project_intro2 con" v-if="!success">
       <nav>
         <img src="../../assets/19b9f427bcaefd8a3e879024299a204.png" alt />
         <span>您已注册成功{{time}}s</span>
@@ -29,17 +36,47 @@
 </template>
 <script>
 export default {
-  name: "project_intro",
+  name: "a_project_intro",
   data() {
     return {
       success: true,
       time: 3,
       message: "",
-      title:'',
-      main:''
-      // project_intro_length: ""
+      title: "",
+      main: "",
+      details_lists: [
+        {
+          name: "行业:",
+          response: ""
+        },
+        {
+          name: "地区:",
+          response: ""
+        },
+        {
+          name: "融资阶段",
+          response: ""
+        },
+        {
+          name: "項目方有興趣的數量:",
+          response: ""
+        },
+         {
+          name: "已提交的投資者數量:",
+          response: ""
+        },
+         {
+          name: "项目状态:",
+          response: ""
+        },
+          {
+          name: "项目简介:",
+          response: ""
+        },
+      ]
+      // a_project_intro_length: ""
       // A:this.$refs.article.offsetHeight
-      // project_intro_length: document.getElementById("article").offsetHeight
+      // a_project_intro_length: document.getElementById("article").offsetHeight
     };
   },
   methods: {
@@ -80,25 +117,25 @@ export default {
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectId=${projectid}`
     }).then(res => {
       console.log(res);
-      this.title=res.data.data.projectName;
-      this.main=res.data.data.projectDetail
+      this.title = res.data.data.projectName;
+      this.main = res.data.data.projectDetail;
     });
 
     // this.router
   },
   mounted() {
-    // document.getElementById("project_intro").offsetHeight += document.getElementById(
-    //   "project_intro_length"
+    // document.getElementById("a_project_intro").offsetHeight += document.getElementById(
+    //   "a_project_intro_length"
     // ).offsetHeight;
     // console.log(document);
-    // console.log( document.getElementById("project_intro").offsetHeight,document.getElementById("project_intro_length").offsetHeight);
+    // console.log( document.getElementById("a_project_intro").offsetHeight,document.getElementById("a_project_intro_length").offsetHeight);
     // console.log(a, b);
-    // document.getElementById("project_intro").offsetHeight+=document.getElementById("project_intro_length").offsetHeight;
+    // document.getElementById("a_project_intro").offsetHeight+=document.getElementById("a_project_intro_length").offsetHeight;
   }
 };
 </script>
 <style lang="scss">
-#project_intro {
+#a_project_intro {
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -123,7 +160,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#project_intro {
+#a_project_intro {
   nav {
     width: 100%;
     border-bottom: 0.01rem dashed #b3b3b3;
@@ -159,19 +196,31 @@ export default {
   }
   main {
     margin: 2rem 0.6rem 1.5rem 0.6rem;
-    h3 {
+      h3 {
       margin: 0.3rem 0;
       text-align: center;
     }
-    article {
-      // margin:0 0.6rem;
-      font-size: 0.3rem;
-      line-height: 0.5rem;
-      color: #4c4c4c;
+    ul{
+      li{
+        // display: flex;
+        font-size: 0.4rem;
+        margin-bottom:0.3rem;
+        p.row1{
+           width:4rem;
+        }
+      }
     }
+  
+    // article {
+    //   // margin:0 0.6rem;
+    //   font-size: 0.3rem;
+    //   line-height: 0.5rem;
+    //   color: #4c4c4c;
+    // }
   }
   footer {
-    display: flex;
+    // display: flex;
+     margin-top: 0.5rem;
     justify-content: center;
     .sign {
       margin-top: 0.5rem;
@@ -186,7 +235,7 @@ export default {
     button {
       width: 100%;
       height: 0.8rem;
-      margin: 0.4rem 0;
+      margin-bottom: 0.4rem;
       background: #00adef;
       color: white;
     }
