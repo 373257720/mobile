@@ -105,7 +105,7 @@ export default {
       searchkey: "",
       loading: false,
       finished: false,
-      loadText: "加载中…",
+      loadText: "loading…",
       pageNum: 0,
       loadNumUp: 5,
       upGoodsInfo: [],
@@ -246,7 +246,7 @@ export default {
           "Content-Type": "application/x-www-form-urlencoded"
         }
       })
-        .then(res => {
+        .then(res => {  
           if (res.status === 200) {
             let re = res.data.data.lists;
             if (re.length !== 0) {
@@ -263,7 +263,7 @@ export default {
           }
         })
         .catch(err => {
-          this.loadText = "加载失败";
+          this.loadText = "loading failed";
           document.querySelector(
             "#mhome .van-loading__circular"
           ).style.display = "none";

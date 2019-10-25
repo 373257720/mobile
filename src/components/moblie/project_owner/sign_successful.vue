@@ -1,8 +1,7 @@
-
 <template>
-  <div id="a_project_intro">
+  <div id="p_sign_successful">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />项目简介
+      <van-icon name="arrow-left" @click="$global.previous()" />签约成功
     </nav>
     <main>
       <article>
@@ -14,10 +13,9 @@
           </li>
         </ul>
         <footer>
-          <!-- <button>签署</button> -->
           <aside>
-            <button @click="$routerto('a_recommand_i')">完善资料</button>
-            <button @click="gg">拒绝</button>
+            <button @click="gg">投资者资料</button>
+            <button @click="gg">合约</button>
           </aside>
         </footer>
       </article>
@@ -27,13 +25,10 @@
 </template>
 <script>
 export default {
-  name: "a_project_intro",
+  name: "p_sign_successful",
   data() {
     return {
-      // value: ["", "", ""],
-      // list: ["a", "b", "c"],
-      // result: ["a", "b"],
-       details_lists: [
+      details_lists: [
         {
           name: "行业:",
           response: "2019-15-26"
@@ -43,10 +38,30 @@ export default {
           response: "发地方水电是否水电费水电费诗圣杜甫费发"
         },
         {
+          name: "公司名称:",
+          response: "斯蒂芬发地方"
+        },
+        {
+          name: "是否是上市公司",
+          response: "13178523855"
+        },
+        {
+          name: "集资额:",
+          response: "金融"
+        },
+        {
+          name: "联络电话:",
+          response: "斯蒂芬发地方"
+        },
+        {
+          name: "电邮",
+          response: "13178523855"
+        },
+        {
           name: "融资阶段",
           response: "金融"
         },
-          {
+        {
           name: "项目方有兴趣的数量:",
           response: "斯蒂芬发地方"
         },
@@ -58,13 +73,11 @@ export default {
           name: "项目状态",
           response: "金融"
         },
-         {
+        {
           name: "项目介绍",
           response: "金融"
-        },
-   
-      ],
-  
+        }
+      ]
     };
   },
   methods: {
@@ -87,7 +100,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#a_project_intro {
+#p_sign_successful {
   .van-checkbox__icon {
     //   line-height:0.625rem;
     font-size: 0.2rem;
@@ -125,7 +138,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#a_project_intro {
+#p_sign_successful {
   width: 100%;
   nav {
     width: 100%;
@@ -141,12 +154,7 @@ export default {
   main {
     margin-top: 1.5rem;
     background: #ffffff;
-    aside {
-      display: flex;
-      width: 100%;
-      height: 3rem;
-      justify-content: center;
-    }
+
     article {
       margin: 0 0 1rem 0;
       header {
@@ -158,7 +166,7 @@ export default {
         border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
-        padding: 0.5rem 0.5rem 2rem 0.5rem;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
         li {
           margin-bottom: 0.4rem;
           display: flex;
@@ -179,15 +187,10 @@ export default {
         }
         .contract {
           display: block;
-
-          .row1 {
-            margin-bottom: 0.1rem;
-          }
-          .row2 {
+          section {
             width: 6.5rem;
-            height: 6rem;
+            height: 8rem;
             border: 0.01rem solid #b3b3b3;
-            // box-sizing: border-box;
             padding: 0;
             background: #f2f2f2;
             .draft1_middle {
@@ -225,4 +228,3 @@ export default {
   }
 }
 </style>
-

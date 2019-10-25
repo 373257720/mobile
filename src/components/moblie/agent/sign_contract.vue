@@ -1,5 +1,5 @@
 <template>
-  <div id="p_sign_contract">
+  <div id="a_sign_contract">
     <cavans></cavans>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#p_sign_contract {
+#a_sign_contract {
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -51,7 +51,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#p_sign_contract {
+#a_sign_contract {
   width: 100%;
   nav {
     width: 100%;

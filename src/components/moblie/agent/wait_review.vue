@@ -6,24 +6,6 @@
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
-        <!-- <ul>
-          <li i v-for="(item) in wait_input" :key="item">
-            <p class="row1">{{item}}</p>
-            <p class="row2">
-              <van-cell-group>
-                <van-field v-model="value" placeholder="请输入用户名" />
-              </van-cell-group>
-            </p>
-          </li>
-          <li>
-            <p class="row1">感兴趣行业：</p>
-            <p class="row2">
-              <van-checkbox-group v-model="result">
-                <van-checkbox v-for="(item) in list" :key="item" :name="item">复选框 {{ item }}</van-checkbox>
-              </van-checkbox-group>
-            </p>
-          </li>
-        </ul> -->
           <ul>
           <li i v-for="(item) in details_lists" :key="item">
             <p class="row1">{{item.name}}</p>

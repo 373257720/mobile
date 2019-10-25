@@ -32,7 +32,7 @@ function Draw(canvas, degree, config = {}) {
     canvas.height = height;
   }
 
-  context.lineWidth = 3;
+  context.lineWidth = 4;
   context.strokeStyle = 'black';
   context.lineCap = 'round';
   context.lineJoin = 'round';

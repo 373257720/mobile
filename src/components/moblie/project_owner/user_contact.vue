@@ -4,16 +4,20 @@
       <header>
         <van-icon name="arrow-left" @click="$global.previous()" />联络人
       </header>
-      <main>
+      <main >
         <van-search
           v-model="searchkey"
           placeholder="请输入搜索关键词"
           show-action
           shape="round"
+          left-icon
           @search="onSearch"
         >
+        <!-- <van-search placeholder="Placeholder" v-model="value"   left-icon  right-icon="search"/> -->
           <!-- <van-icon slot="action" name="search"  @click="onSearch" /> -->
-          <div slot="action" @click="onSearch">搜索</div>
+          <div slot="action" @click="onSearch">
+            <van-icon name="search" size=18 />
+          </div>
         </van-search>
       </main>
     </nav>
@@ -57,14 +61,7 @@ export default {
     return {
       arr: [1, 2, 3, 5, 9, 8, 10, 90, 40],
       searchkey: "",
-      value1: 0,
-      option1: [
-        { text: "全部商品", value: 0 },
-        { text: "新款商品", value: 1 },
-        { text: "活动商品", value: 2 },
-        { text: "活动商品", value: 3 },
-        { text: "活动商品", value: 4 }
-      ]
+      value1: 0
     };
   },
   methods: {
@@ -172,11 +169,12 @@ export default {
         display: flex;
         flex-direction: column;
         margin-left: 0.3rem;
+        line-height: 0.5rem;
         // align-items: baseline;
         span:nth-child(1) {
           font-weight: 550;
           font-size: 0.3rem;
-          line-height: 0.5rem;
+
           color: #4c4c4c;
           display: inline-block;
           //   width: 2rem;

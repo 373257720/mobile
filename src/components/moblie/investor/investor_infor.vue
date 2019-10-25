@@ -1,5 +1,5 @@
 <template>
-  <div id=" ">
+  <div id="i_inverstor_infor">
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />签约投资者资料
     </nav>
@@ -10,13 +10,13 @@
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
-          <li v-for="(item) in details_lists" :key="item.name">
+          <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
             <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
           </li>
         </ul>
         <footer>
-          <button @click="$goto('p_check_contract')">查看合约</button>
+          <button @click="$goto('p_check_contract')">返回</button>
           <!-- <button @click="$goto('p_check_contract')">查看合约</button> -->
         </footer>
       </article>
@@ -26,7 +26,7 @@
 </template>
 <script>
 export default {
-  name: "p_inverstor_details",
+  name: "i_inverstor_infor",
   data() {
     return {
       details_lists: [
@@ -50,33 +50,34 @@ export default {
           name: "投资者地区:",
           response: ""
         },
-        {
+          {
           name: "投资者电话:",
           response: ""
         },
-        {
-          name: "投资者兴趣:",
-          response: ""
-        },
+   
         {
           name: "投资者邮箱:",
           response: ""
         },
-        {
-          name: "公司地址:",
+          {
+          name: "投资者兴趣:",
           response: ""
         },
         {
-          name: "签约时间:",
+          name: "投资者地址:",
           response: ""
-        }
+        },
+        // {
+        //   name: "签约时间:",
+        //   response: ""
+        // }
       ]
     };
   }
 };
 </script>
 <style lang="scss">
-#p_inverstor_details {
+#i_inverstor_infor {
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -90,7 +91,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#p_inverstor_details {
+#i_inverstor_infor {
   width: 100%;
   nav {
     width: 100%;
@@ -167,4 +168,3 @@ export default {
   }
 }
 </style>
-

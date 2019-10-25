@@ -1,7 +1,7 @@
 <template>
   <div id="a_sign_successful">
     <nav>
-      <van-icon name="arrow-left" />成功签约
+      <van-icon name="arrow-left" @click="$global.previous()" />成功签约
     </nav>
     <main>
       <article>
@@ -11,13 +11,13 @@
             <p class="row1">{{item.name}}</p>
             <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
           </li>
-          <li class="contract">
+          <!-- <li class="contract">
             <p class="row1">草拟合约:</p>
             <section class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</section>
-          </li>
+          </li> -->
         </ul>
         <footer>
-          <button>合同导出</button>
+          <button @click="$goto('p_check_contract')">合同</button>
         </footer>
       </article>
     </main>

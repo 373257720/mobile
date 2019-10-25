@@ -1,5 +1,5 @@
 <template>
-  <div id="wait_input">
+  <div id="i_wait_confirm">
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />等待中间人输入
     </nav>
@@ -7,41 +7,33 @@
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
-          <li i v-for="(item) in details_lists" :key="item">
-            <p class="row1">{{item}}</p>
-            <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
+          <li i v-for="(item) in details_lists" :key="item.name">
+            <p class="row1">{{item.name}}</p>
+            <p class="row2">{{item.response}}</p>
           </li>
-          <li class="contract">
-            <p class="row1">草拟合约:</p>
-            <section class="row2 draft1">
-              <article
-                class="draft1_middle"
-              >地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方</article>
-            </section>
-          </li>
-          <li i v-for="(item,idx) in wait_input" :key="item">
+          <!-- <li i v-for="(item,idx) in i_wait_confirm" :key="item">
             <p class="row1">{{item}}</p>
             <p class="row2">
               <van-cell-group>
                 <van-field v-model="value[idx]" placeholder="请输入用户名" />
               </van-cell-group>
             </p>
-          </li>
-          <li>
+          </li> -->
+          <!-- <li>
             <p class="row1">感兴趣行业：</p>
             <p class="row2">
               <van-checkbox-group v-model="result">
                 <van-checkbox v-for="(item) in list" :key="item" :name="item">复选框 {{ item }}</van-checkbox>
               </van-checkbox-group>
             </p>
-          </li>
+          </li> -->
         </ul>
         <footer>
-          <button>签署</button>
-          <!-- <aside>
-            <button @click="gg">拒绝签约</button>
-            <button @click="gg">同意签约</button>
-          </aside>-->
+          <!-- <button>签署</button> -->
+          <aside>
+            <button>完善资料</button>
+            <button @click="gg">拒绝</button>
+          </aside>
         </footer>
       </article>
     </main>
@@ -50,21 +42,64 @@
 </template>
 <script>
 export default {
-  name: "wait_input",
+  name: "i_wait_confirm",
   data() {
     return {
-      value: ["", "", ""],
-      list: ["a", "b", "c"],
-      result: ["a", "b"],
-      details_lists: [
-        "公司名称:",
-        "是否上市公司:",
-        "项目详情:",
-        "集资额：",
-        "联系电话：",
-        "电邮："
+      // value: ["", "", ""],
+      // list: ["a", "b", "c"],
+      // result: ["a", "b"],
+       details_lists: [
+        {
+          name: "行业:",
+          response: "2019-15-26"
+        },
+        {
+          name: "地区:",
+          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+        },
+        {
+          name: "公司名称:",
+          response: "斯蒂芬发地方"
+        },
+        {
+          name: "是否是上市公司",
+          response: "13178523855"
+        },
+        {
+          name: "集资额:",
+          response: "金融"
+        },
+          {
+          name: "联络电话:",
+          response: "斯蒂芬发地方"
+        },
+        {
+          name: "电邮",
+          response: "13178523855"
+        },
+        {
+          name: "融资阶段",
+          response: "金融"
+        },
+          {
+          name: "项目方有兴趣的数量:",
+          response: "斯蒂芬发地方"
+        },
+        {
+          name: "已提交的投资者数量",
+          response: "13178523855"
+        },
+        {
+          name: "项目状态",
+          response: "金融"
+        },
+         {
+          name: "项目介绍",
+          response: "金融"
+        },
+   
       ],
-      wait_input: ["投资者公司：", "投资者姓名:", "投资者电话：", "投资者邮箱"]
+  
     };
   },
   methods: {
@@ -87,7 +122,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#wait_input {
+#i_wait_confirm {
   .van-checkbox__icon {
     //   line-height:0.625rem;
     font-size: 0.2rem;
@@ -125,7 +160,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#wait_input {
+#i_wait_confirm {
   width: 100%;
   nav {
     width: 100%;

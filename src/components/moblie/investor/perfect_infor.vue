@@ -1,48 +1,34 @@
 <template>
-  <div id="wait_input">
+  <div id="i_perfect_infor">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()"/>等待中间人输入
+      <van-icon name="arrow-left" @click="$global.previous()" />完善资料        
     </nav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
-          <li i v-for="(item) in details_lists" :key="item">
-            <p class="row1">{{item}}</p>
-            <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
-          </li>
-          <li class="contract">
-            <p class="row1">草拟合约:</p>
-            <section class="row2 draft1">
-              <article
-                class="draft1_middle"
-              >地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方</article>
-            </section>
-          </li>
-          <!-- <li i v-for="(item,idx) in wait_input" :key="item">
-            <p class="row1">{{item}}</p>
+          <li i v-for="(item) in details_lists" :key="item.name">
+            <p class="row1">{{item.name}}</p>
             <p class="row2">
               <van-cell-group>
-                <van-field v-model="value[idx]" placeholder="请输入用户名" />
+                <van-field v-model="item.response" placeholder="请输入用户名" />
               </van-cell-group>
             </p>
-          </li>-->
-          <!-- <li>
+          </li>
+          <li>
             <p class="row1">感兴趣行业：</p>
             <p class="row2">
               <van-checkbox-group v-model="result">
                 <van-checkbox v-for="(item) in list" :key="item" :name="item">复选框 {{ item }}</van-checkbox>
               </van-checkbox-group>
             </p>
-          </li>-->
+          </li>
         </ul>
-        <!-- <footer>
-          <button>签署</button> -->
-          <!-- <aside>
-            <button @click="gg">拒绝签约</button>
-            <button @click="gg">同意签约</button>
-          </aside>-->
-        <!-- </footer> -->
+        <footer>
+          <aside>
+            <button>提交</button>
+          </aside>
+        </footer>
       </article>
     </main>
     <mbottom></mbottom>
@@ -50,21 +36,42 @@
 </template>
 <script>
 export default {
-  name: "wait_input",
+  name: "i_perfect_infor",
   data() {
     return {
-      value: ["", "", ""],
-      list: ["a", "b", "c"],
+      // value: ["", "", ""],
+      list: ["a", "b", "c",],
       result: ["a", "b"],
       details_lists: [
-        "公司名称:",
-        "是否上市公司:",
-        "项目详情:",
-        "集资额：",
-        "联系电话：",
-        "电邮："
-      ],
-      wait_input: ["投资者公司：", "投资者姓名:", "投资者电话：", "投资者邮箱"]
+        {
+          name: "投资者公司:",
+          response: ""
+        },
+        {
+          name: "投资者姓名:",
+          response: ""
+        },
+        {
+          name: "投资者地区:",
+          response: ""
+        },
+        {
+          name: "投资者电话",
+          response: ""
+        },
+        {
+          name: "投资者邮箱:",
+          response: ""
+        },
+        // {
+        //   name: "感兴趣行业:",
+        //   response: ""
+        // },
+        {
+          name: "公司地址",
+          response: ""
+        }
+      ]
     };
   },
   methods: {
@@ -87,7 +94,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#wait_input {
+#i_perfect_infor {
   .van-checkbox__icon {
     //   line-height:0.625rem;
     font-size: 0.2rem;
@@ -125,12 +132,13 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#wait_input {
+#i_perfect_infor {
   width: 100%;
   nav {
     width: 100%;
     text-align: center;
     line-height: 1.5rem;
+    z-index: 5;
     height: 1.5rem;
     position: fixed;
     top: 0;
@@ -200,27 +208,15 @@ export default {
           }
         }
       }
-      // footer {
-      //   padding: 0  0.5rem 0.5rem 0.5rem;
-      //   button {
-      //     width: 6.5rem;
-      //     height: 1rem;
-      //     background: #00adef;
-      //     color: white;
-      //   }
-      //   button {
-      //     margin-bottom: 0.4rem;
-      //   }
-      //   aside {
-      //     height: 1.5rem;
-      //     // width: 6.5rem;
-      //     display: flex;
-      //     justify-content: space-between;
-      //     button {
-      //       width: 3rem;
-      //     }
-      //   }
-      // }
+      footer {
+        padding: 0 0.5rem 0.5rem 0.5rem;
+        button {
+          width: 6.5rem;
+          height: 1rem;
+          background: #00adef;
+          color: white;
+        }
+      }
     }
   }
 }

@@ -1,14 +1,15 @@
 <template>
   <div id="p_check_contract">
     <nav>
-      <van-icon name="arrow-left" />投资者资料
+      <van-icon name="arrow-left" @click="$global.previous()" />签署合约
     </nav>
     <main>
       <article>
-        <header>签署合约：</header>
-        <div></div>
+        <div v-html="content">
+          <!-- <textarea v-model="content" style="width:100%; height: 8rem" placeholder="请输入"></textarea> -->
+        </div>
         <footer>
-          <button>导出</button>
+          <button @click="gg">导出</button>
         </footer>
       </article>
     </main>
@@ -20,25 +21,33 @@ export default {
   name: "goods_details",
   data() {
     return {
+      content:'',
       details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
     };
   },
+  mounted(){
+    this.content= "<p>到右出现的顺序存储。缓冲区编号从&nbsp;1&nbsp;开始，最多可存储&nbsp;99&nbsp;个捕获的子表达式。每个缓冲区都可以使用&nbsp;\n&nbsp;访问，其中&nbsp;n&nbsp;为一个标识特定缓冲区的一位或两位十进制数。</p><p></p><p>可以使用非捕获元字符&nbsp;?:、?=&nbsp;或&nbsp;?!&nbsp;来重写捕获，忽略对相关匹配的保存。</p><p></p><p>反向引用的最简单的、最有用的应用之一，是提供查找文本中两个相同的相邻单词的匹配项的能力。以下面的句子为例：</p><p></p><p>到右出现的顺序存储。缓冲区编号从&nbsp;1&nbsp;开始，最多可存储&nbsp;99&nbsp;个捕获的子表达式。每个缓冲区都可以使用&nbsp;\n&nbsp;访问，其中&nbsp;n&nbsp;为一个标识特定缓冲区的一位或两位十进制数。</p><p>可以使用非捕获元字符&nbsp;?:、?=&nbsp;或&nbsp;?!&nbsp;来重写捕获，忽略对相关匹配的保存。</p><p></p><p>反向引用的最简单的、最有用的应用之一，是提供查找文本中两个相同的相邻单词的匹配项的能力。以下面的句子为例：</p><p>到右出现的顺序存储。缓冲区编号从&nbsp;1&nbsp;开始，最多可存储&nbsp;99&nbsp;个捕获的子表达式。每个缓冲区都可以使用&nbsp;\n&nbsp;访问，其中&nbsp;n&nbsp;为一个标识特定缓冲区的一位或两位十进制数。</p><p></p><p>可以使用非捕获元字符&nbsp;?:、?=&nbsp;或&nbsp;?!&nbsp;来重写捕获，忽略对相关匹配的保存。</p><p></p><p>反向引用的最简单的、最有用的应用之一，是提供查找文本中两个相同的相邻单词的匹配项的能力。以下面的句子为例：</p><p></p><p>到右出现的顺序存储。缓冲区编号从&nbsp;1&nbsp;开始，最多可存储&nbsp;99&nbsp;个捕获的子表达式。每个缓冲区都可以使用&nbsp;\n&nbsp;访问，其中&nbsp;n&nbsp;为一个标识特定缓冲区的一位或两位十进制数。</p><p>可以使用非捕获元字符&nbsp;?:、?=&nbsp;或&nbsp;?!&nbsp;来重写捕获，忽略对相关匹配的保存。</p><p></p><p>反向引用的最简单的、最有用的应用之一，是提供查找文本中两个相同的相邻单词的匹配项的能力。以下面的句子为例：</p><p>可以使用非捕获元字符&nbsp;?:、?=&nbsp;或&nbsp;?!&nbsp;来重写捕获，忽略对相关匹配的保存。</p><p></p><p>反向引用的最简单的、最有用的应用之一，是提供查找文本中两个相同的相邻单词的匹配项的能力。以下面的句子为例：</p>"
+  },
   methods: {
-    gg() {
-      // console.log(this.$dialog);
-
-      this.$dialog
-        .confirm({
-          title: "标题",
-          message: "弹窗内容"
-        })
-        .then(() => {
-          // on confirm
-        })
-        .catch(() => {
-          // on cancel
-        });
+    gg(){
+      console.log(this.content);
+      
     }
+    // gg() {
+    //   // console.log(this.$dialog);
+
+    //   this.$dialog
+    //     .confirm({
+    //       title: "标题",
+    //       message: "弹窗内容"
+    //     })
+    //     .then(() => {
+    //       // on confirm
+    //     })
+    //     .catch(() => {
+    //       // on cancel
+    //     });
+    // }
   }
 };
 </script>
@@ -53,15 +62,13 @@ export default {
       transform: (translate(0, -50%));
     }
   }
-}
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
+  .van-hairline--top-bottom::after {
+    border: 0.02rem solid #8e8e8e;
+  }
+   .van-field{
+     background: #f2f2f2;
+     
+   }
 }
 </style>
 <style lang="scss" scoped>
@@ -74,6 +81,7 @@ export default {
     height: 1.5rem;
     position: fixed;
     top: 0;
+    z-index: 5;
     font-size: 0.46rem;
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
@@ -82,12 +90,16 @@ export default {
     margin-top: 1.5rem;
     padding: 0.5rem;
     background: #ffffff;
-    div {
-      width: 100%;
+   div{
       background: #f2f2f2;
-      height: 2rem;
-      border-radius: 0.05rem;
-      border: 0.01rem solid #8e8e8e;
+      box-sizing: border-box;
+      font-size: 0.4rem;
+      line-height: 0.6rem;
+      padding: 0.3rem 0.4rem;
+      width:100%; 
+      height: 8rem;
+      overflow-y: auto;
+      color: rgb(169, 169, 169);
     }
     footer {
       width: 100%;

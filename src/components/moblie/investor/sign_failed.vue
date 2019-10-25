@@ -1,86 +1,93 @@
 <template>
-  <div id=" ">
+  <div id="i_sign_failed">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签约投资者资料
+      <van-icon name="arrow-left" @click="$global.previous()" />拒签项目
     </nav>
     <main>
-      <!-- <aside>
-        <img src="../../assets/26566ffb301dac8c24d21969b538612.png" alt />
-      </aside>-->
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
-          <li v-for="(item) in details_lists" :key="item.name">
+          <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-            <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
+            <p class="row2">dfgsfd sdf  sdf dsf sdff 第三方地方地方所发生的是的是否发送斯蒂芬 </p>
           </li>
         </ul>
-        <footer>
-          <button @click="$goto('p_check_contract')">查看合约</button>
-          <!-- <button @click="$goto('p_check_contract')">查看合约</button> -->
-        </footer>
       </article>
     </main>
     <mbottom></mbottom>
   </div>
 </template>
 <script>
+
 export default {
-  name: "p_inverstor_details",
+  name: "i_sign_failed",
   data() {
     return {
       details_lists: [
-        // {
-        //   name: "申请时间:",
-        //   response: ""
-        // },
-        // {
-        //   name: "申请中间人:",
-        //   response: ""
-        // },
         {
-          name: "投资者公司:",
+          name: "行业:",
           response: ""
         },
         {
-          name: "投资者名称",
+          name: "地区:",
           response: ""
         },
         {
-          name: "投资者地区:",
+          name: "公司名称",
           response: ""
         },
         {
-          name: "投资者电话:",
+          name: "是否上市公司:",
           response: ""
         },
         {
-          name: "投资者兴趣:",
+          name: "集资额:",
           response: ""
         },
         {
-          name: "投资者邮箱:",
+          name: "联络电话:",
           response: ""
         },
         {
-          name: "公司地址:",
+          name: "电邮:",
+          response: ""
+        },
+            {
+          name: "融资阶段",
           response: ""
         },
         {
-          name: "签约时间:",
+          name: "项目方有兴趣的数量:",
           response: ""
-        }
+        },
+        {
+          name: "已提交的投资者数量:",
+          response: ""
+        },
+         {
+          name: "项目状态:",
+          response: ""
+        },
+         {
+          name: "项目介绍:",
+          response: ""
+        },
+         {
+          name: "拒绝时间:",
+          response: ""
+        },
       ]
     };
+  },
+  methods: {
   }
 };
 </script>
 <style lang="scss">
-#p_inverstor_details {
+#i_sign_failed {
   nav {
     position: relative;
     .van-icon-arrow-left {
-      // line-height: 1rem;
       position: absolute;
       left: 0.6rem;
       top: 50%;
@@ -88,9 +95,10 @@ export default {
     }
   }
 }
+
 </style>
 <style lang="scss" scoped>
-#p_inverstor_details {
+#i_sign_failed {
   width: 100%;
   nav {
     width: 100%;
@@ -115,17 +123,17 @@ export default {
     article {
       margin: 0 0 1.3rem 0;
       header {
-        height: 1.7rem;
+        height: 1.5rem;
         font-size: 0.32rem;
         text-align: center;
         font-weight: 600;
-        line-height: 1.7rem;
+        line-height: 1.5rem;
         border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
-        padding: 0.5rem 0.5rem 0 0.5rem;
+        padding: 0.5rem;
         li {
-          margin-bottom: 0.4rem;
+          margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
           font-size: 0.3rem;
@@ -141,25 +149,26 @@ export default {
             color: #787878;
           }
         }
-      }
-      footer {
-        padding: 0 0.5rem 0.5rem 0.5rem;
-        button {
-          width: 6.5rem;
-          height: 1rem;
-          background: #00adef;
-          color: white;
-        }
-        button {
-          margin-bottom: 0.4rem;
-        }
-        aside {
-          height: 1.5rem;
-          // width: 6.5rem;
-          display: flex;
-          justify-content: space-between;
-          button {
-            width: 3rem;
+        .contract {
+          display: block;
+
+          .row1 {
+            margin-bottom: 0.1rem;
+          }
+          .row2 {
+            width: 6.5rem;
+            height: 6rem;
+            border: 0.01rem solid #b3b3b3;
+            // box-sizing: border-box;
+            padding: 0;
+            background: #f2f2f2;
+            .draft1_middle {
+              padding: 0.3rem;
+              box-sizing: border-box;
+              width: 100%;
+              height: 100%;
+              overflow-y: auto;
+            }
           }
         }
       }
@@ -167,4 +176,3 @@ export default {
   }
 }
 </style>
-

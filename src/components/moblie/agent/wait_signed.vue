@@ -21,7 +21,7 @@
           </li>
         </ul>
         <footer>
-          <button>签署</button>
+          <button @click="$goto('a_sign_contract')">签署</button>
         </footer>
       </article>
     </main>
@@ -90,7 +90,34 @@ export default {
       //   wait_input: []
     };
   },
+  created(){
+    // console.log(999);
+    
+  },
+  mounted(){
+    // this.renderResize();
+      // var html = document.querySelector("html");
+      // html.style.fontSize = 0;
+    // console.log(html.stylt);
+    
+  },
   methods: {
+    // renderResize() {
+    //   // 判断横竖屏
+    //   var html = document.querySelector("html");
+    //   let width = document.documentElement.clientWidth;
+    //   let height = document.documentElement.clientHeight;
+    //   if (width > height) {
+    //     this.degree = 0;
+    //     html.style.fontSize = width / 16 + "px";
+    //     // console.log(this.degree);
+    //   } else if (width < height) {
+    //     this.degree = 90;
+    //     html.style.fontSize = height / 16 + "px";
+    //   }
+    //   // 做页面适配
+    //   // 注意：renderResize方法执行时虚拟dom尚未渲染挂载，如果要操作vue实例，最好在this.$nextTick()里进行。
+    // },
     gg() {
       // console.log(this.$dialog);
 
@@ -153,9 +180,10 @@ export default {
     height: 1.5rem;
     position: fixed;
     top: 0;
-    font-size: 0.46rem;
+    //  font-weight: 600;
+    font-size: 0.38rem;
     background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
+    border-bottom: 0.02rem dashed #b5b5b5;
   }
   main {
     margin-top: 1.5rem;
@@ -170,14 +198,15 @@ export default {
       margin: 0 0 1.3rem 0;
       header {
         height: 1.5rem;
-        font-size: 0.32rem;
+        font-size: 0.38rem;
+        color:#0f6ebe;
         text-align: center;
         font-weight: 600;
         line-height: 1.5rem;
-        border-bottom: 0.01rem dashed #b5b5b5;
+        border-bottom: 0.1rem solid #f2f2f2;
       }
       ul {
-        padding: 0.1rem 0.5rem 0.5rem 0.5rem;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
         li {
           margin-bottom: 0.2rem;
           display: flex;

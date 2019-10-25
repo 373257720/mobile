@@ -34,7 +34,7 @@
           <!-- <button @click="$goto('cavans')">签署</button> -->
           <aside>
             <button @click="gg">拒绝签约</button>
-            <button @click="gg">感兴趣</button>
+            <button >感兴趣</button>
           </aside>
         </footer>
       </article>
@@ -214,24 +214,6 @@ export default {
             box-sizing: border-box;
           }
         }
-        // .contract {
-        //   display: block;
-        //   .row2 {
-        //     width: 6.5rem;
-        //     height: 6rem;
-        //     border: 0.01rem solid #b3b3b3;
-        //     // box-sizing: border-box;
-        //     padding: 0;
-        //     background: #f2f2f2;
-        //     .draft1_middle {
-        //       padding: 0.3rem;
-        //       box-sizing: border-box;
-        //       width: 100%;
-        //       height: 100%;
-        //       overflow-y: auto;
-        //     }
-        //   }
-        // }
       }
     }
     article {
@@ -273,7 +255,7 @@ export default {
         .contract {
           display: block;
           .row2 {
-            width: 6.5rem;
+            width: 8rem;
             height: 6rem;
             border: 0.01rem solid #b3b3b3;
             // box-sizing: border-box;

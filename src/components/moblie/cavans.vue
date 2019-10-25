@@ -13,7 +13,6 @@
       </div>
       <!-- <van-dialog v-model="show" title="标题" show-cancel-button :beforeClose="beforeClose"></van-dialog> -->
     </div>
-
     <!-- <img :src="url" alt=""> -->
     <!-- <div class="image-box" v-show="showBox">
       <header>
@@ -36,11 +35,12 @@ export default {
       signImage: null,
       showBox: false,
       url: "",
-      show: false
+      show: false,
+      domjiedian:''
     };
   },
   components: {
-    // Draw
+    Draw
   },
   beforeCreate() {
     // document.title = "手写签名";
@@ -48,14 +48,22 @@ export default {
   },
   created() {
     this.$nextTick(() => {
-      console.log(222);
+      //   console.log(222);
+      // this.renderResize();
       window.addEventListener("resize", this.renderResize, false);
+      this.renderResize();
     });
   },
   mounted() {
+    // console.log(document);
+    
     this.canvasBox = document.getElementById("canvasBox");
     this.initCanvas();
-    // this.renderResize();
+  },
+  beforeDestroy() {
+    this.domjiedian.style.fontSize = null;
+    window.removeEventListener("resize", this.renderResize, false);
+    // var html = document.querySelector("html");
   },
   computed: {
     getHorizontalStyle() {
@@ -89,9 +97,9 @@ export default {
         );
         setTimeout(() => {
           this.initCanvas();
-        }, 100);
+        }, 1000);
       }
-      console.log(this.degree, length);
+      // console.log(width, length);
       return {
         transform: `rotate(${this.degree}deg) translate(${length}px,${length}px)`,
         width: `${width}px`,
@@ -110,7 +118,6 @@ export default {
     },
     commit11() {
       this.show = true;
-      
       // this.$dialog.confirm({
       //   title: "标题",
       //   message: "弹窗内容",
@@ -118,17 +125,18 @@ export default {
       // });
     },
     renderResize() {
-      // 判断横竖屏
-      var html = document.querySelector("html");
+      this.domjiedian= document.querySelector("html");
+      // console.log(html);
       let width = document.documentElement.clientWidth;
       let height = document.documentElement.clientHeight;
       if (width > height) {
         this.degree = 0;
-        html.style.fontSize = width / 16 + "px";
-        // console.log(this.degree);
+        this.domjiedian.style.fontSize = width / 16 + "px";
+        // console.log(html.style.fontSize);
       } else if (width < height) {
         this.degree = 90;
-        html.style.fontSize = height / 16 + "px";
+        this.domjiedian.style.fontSize = height / 16 + "px";
+        // console.log(html.style.fontSize);
       }
       // 做页面适配
       // 注意：renderResize方法执行时虚拟dom尚未渲染挂载，如果要操作vue实例，最好在this.$nextTick()里进行。
@@ -144,26 +152,26 @@ export default {
     },
     clear() {
       this.draw.clear();
-    },
-    download() {
-      this.draw.downloadPNGImage(this.draw.getPNGImage());
-    },
-    savePNG() {
-      this.signImage = this.draw.getPNGImage();
-      this.showBox = true;
-    },
-    upload() {
-      const image = this.draw.getPNGImage();
-      const blob = this.draw.dataURLtoBlob(image);
-      const url = "";
-      const successCallback = response => {
-        console.log(response);
-      };
-      const failureCallback = error => {
-        console.log(error);
-      };
-      this.draw.upload(blob, url, successCallback, failureCallback);
     }
+    // download() {
+    //   this.draw.downloadPNGImage(this.draw.getPNGImage());
+    // },
+    // savePNG() {
+    //   this.signImage = this.draw.getPNGImage();
+    //   this.showBox = true;
+    // },
+    // upload() {
+    //   const image = this.draw.getPNGImage();
+    //   const blob = this.draw.dataURLtoBlob(image);
+    //   const url = "";
+    //   const successCallback = response => {
+    //     console.log(response);
+    //   };
+    //   const failureCallback = error => {
+    //     console.log(error);
+    //   };
+    //   this.draw.upload(blob, url, successCallback, failureCallback);
+    // }
   }
 };
 </script>
@@ -191,7 +199,8 @@ nav.visaDetailTop {
   flex-direction: column;
   height: 100%;
 }
-.greet {
+
+/* .greet {
   font-size: 0.2rem;
   user-select: none;
 }
@@ -200,20 +209,20 @@ input {
 }
 .greet select {
   font-size: 0.18rem;
-}
+} */
 /* .canvasbox {
   display: flex;
   justify-content: center;
   align-items: center;
 } */
 canvas {
-  margin: 1rem 0.5rem 0 0.5rem;
+  margin: 5% 5% 0 5%;
   flex: 1;
   /* width: 100%; */
   cursor: crosshair;
   border: 0.02rem solid lightgray;
 }
-.image-box {
+/* .image-box {
   width: 100%;
   height: 100%;
 }
@@ -225,7 +234,7 @@ canvas {
   max-height: 80%;
   margin-top: 0.5rem;
   border: 0.01rem solid gray;
-}
+} */
 .btnBox {
   line-height: 1rem;
   font-size: 0.46rem;
