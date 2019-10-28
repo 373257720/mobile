@@ -1,8 +1,9 @@
 <template>
   <div id="a_sign_successful">
-    <nav>
+    <!-- <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />成功签约
-    </nav>
+    </nav> -->
+   <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
@@ -29,6 +30,7 @@ export default {
   name: "a_sign_successful",
   data() {
     return {
+      dad_text:'成功签约',
           details_lists: [
         {
           name: "行业:",
@@ -120,7 +122,7 @@ export default {
     }
   }
   nav {
-    position: relative;
+    // position: relative;
     .van-icon-arrow-left {
       position: absolute;
       left: 0.6rem;

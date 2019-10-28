@@ -1,8 +1,9 @@
 <template>
   <div id="a_wait_signed">
-    <nav>
+    <!-- <nav>
       <van-icon name="arrow-left" @click="$global.previous()"/>等待签约
-    </nav>
+    </nav> -->
+     <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
@@ -33,6 +34,7 @@ export default {
   name: "a_wait_signed",
   data() {
     return {
+      dad_text:'等待签约',
          details_lists: [
         {
           name: "行业:",
@@ -151,7 +153,7 @@ export default {
     }
   }
   nav {
-    position: relative;
+    // position: relative;
     .van-icon-arrow-left {
       position: absolute;
       left: 0.6rem;

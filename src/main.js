@@ -64,6 +64,10 @@ import mbottom from './components/moblie/bottom.vue'
 Vue.component('mbottom', mbottom)
 import cavans from './components/moblie/cavans.vue'
 Vue.component('cavans', cavans)
+import common_nav from './components/moblie/common_nav.vue'
+Vue.component('commonnav',common_nav)
+import box from './components/moblie/3box'
+Vue.component('boxx',box)
 // Vue.prototype.$axios = axios;
 /* eslint-disable no-new */
 new Vue({

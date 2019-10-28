@@ -6,15 +6,16 @@
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
-        <div class="nav_lists">
+        <!-- <div class="nav_lists">
           <p v-for="(item) in nav_lists" :key="item.name">
             <section class="box">
-               <span class="1row">{{item.name}}</span>
-              <span v-html="item.response"></span>
+               <span class="1row" v-html="item.name"></span>
+              <span class="rowb" >{{item.response}}</span>
             </section>
           
           </p>
-        </div>
+        </div> -->
+        <boxx :nav_lists="nav_lists"></boxx>
         <ul>
           <li v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
@@ -68,9 +69,9 @@ export default {
   name: "p_sign_failed",
   data() {
     return {
-      value: ["", "", ""],
-      list: ["a", "b", "c"],
-      result: ["a", "b"],
+      // value: ["", "", ""],
+      // list: ["a", "b", "c"],
+      // result: ["a", "b"],
       nav_lists: [
         {
           name: "融资阶段",
@@ -81,7 +82,7 @@ export default {
           response: "16"
         },
         {
-          name: "已提交投资者数量",
+          name: "已提交</br>投资者数量",
           response: "118"
         }
       ],
@@ -99,7 +100,7 @@ export default {
           response: "斯蒂芬发地方"
         },
         {
-          name: "是否是上市公司",
+          name: "是否是上市公司:",
           response: "13178523855"
         },
         {
@@ -111,16 +112,16 @@ export default {
           response: "斯蒂芬发地方"
         },
         {
-          name: "电邮",
+          name: "电邮:",
           response: "13178523855"
         },
 
         {
-          name: "项目状态",
+          name: "项目状态:",
           response: "金融"
         },
         {
-          name: "项目介绍",
+          name: "项目介绍:",
           response: "金融"
         }
       ]
@@ -225,22 +226,23 @@ export default {
         > p {
           flex: 1;
           height: 2rem;  
-        font-size: 0.3rem;
-        display: flex;
-           align-items:center;
-         
+          font-size: 0.3rem;
+          display: flex;
+          align-items:center;
           section.box{
             box-sizing: border-box;
               width: 100%;
               display: flex;
               text-align: center;
              height: 1.5rem;
-             padding: 0.1rem;
+            //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
             justify-content:space-between;
-            span.1row{
-                // align-items:center;
+            span.rowb{
+                 font-size: 0.38rem;
+                  color: #0f6ebe;
+
             }
           }
             
@@ -250,21 +252,18 @@ export default {
               border-right: 0;
             }
             
-          }
-           
-      
+          }   
       }
       ul {
         padding: 0.5rem 0.5rem 2rem 0.5rem;
         li {
-          // margin-bottom: 0.4rem;
           display: flex;
           align-items: baseline;
           font-size: 0.3rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
-            width: 3rem;
+            width: 4rem;
             margin-bottom: 0.2rem;
           }
           .row2 {
@@ -278,7 +277,7 @@ export default {
           display: block;
           section {
             width: 6.5rem;
-            height: 8rem;
+            height: 9rem;
             border: 0.01rem solid #b3b3b3;
             padding: 0;
             background: #f2f2f2;
@@ -286,8 +285,10 @@ export default {
               padding: 0.3rem;
               box-sizing: border-box;
               width: 100%;
+              line-height: 0.5rem;
               height: 100%;
               overflow-y: auto;
+                  color: #787878;
             }
           }
         }

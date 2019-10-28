@@ -1,13 +1,14 @@
 <template>
   <div id="a_sign_failed">
-    <nav>
+    <!-- <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />拒签项目
-    </nav>
+    </nav> -->
+     <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
-          <li i v-for="(item) in details_lists" :key="item">
+          <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
             <p class="row2">dfgsfd sdf  sdf dsf sdff 第三方地方地方所发生的是的是否发送斯蒂芬 </p>
           </li>
@@ -22,6 +23,7 @@ export default {
   name: "a_sign_failed",
   data() {
     return {
+      dad_text:'拒签项目',
       details_lists: [
         {
           name: "行业:",
@@ -91,7 +93,7 @@ export default {
 <style lang="scss">
 #a_sign_failed {
   nav {
-    position: relative;
+    // position: relative;
     .van-icon-arrow-left {
       position: absolute;
       left: 0.6rem;

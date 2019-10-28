@@ -1,8 +1,9 @@
 <template>
   <div id="a_wait_investor_comfirm">
-    <nav>
+    <!-- <nav>
       <van-icon name="arrow-left" @click="$global.previous()"/>等待投资者确认
-    </nav>
+    </nav>-->
+    <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
@@ -22,7 +23,7 @@
         </ul>
         <!-- <footer>
           <button>签署</button>
-        </footer> -->
+        </footer>-->
       </article>
     </main>
     <mbottom></mbottom>
@@ -33,7 +34,8 @@ export default {
   name: "a_wait_investor_comfirm",
   data() {
     return {
-         details_lists: [
+      dad_text: "等待投资者确认",
+      details_lists: [
         {
           name: "行业:",
           response: ""
@@ -42,7 +44,7 @@ export default {
           name: "地区:",
           response: ""
         },
-         {
+        {
           name: "公司名称:",
           response: ""
         },
@@ -66,7 +68,7 @@ export default {
           name: "项目方有兴趣的数量:",
           response: ""
         },
-            {
+        {
           name: "已提交的投资者数量:",
           response: ""
         },
@@ -78,14 +80,14 @@ export default {
           name: "投资者公司:",
           response: ""
         },
-         {
+        {
           name: "投资者姓名:",
           response: ""
         },
-          {
+        {
           name: "投资者地区:",
           response: ""
-        },
+        }
       ]
       //   wait_input: []
     };
@@ -110,7 +112,7 @@ export default {
 };
 </script>
 <style lang="scss">
- #a_wait_investor_comfirm {
+#a_wait_investor_comfirm {
   .van-hairline--top-bottom::after {
     border: 0.01rem solid #8e8e8e;
   }
@@ -124,7 +126,7 @@ export default {
     }
   }
   nav {
-    position: relative;
+    // position: relative;
     .van-icon-arrow-left {
       position: absolute;
       left: 0.6rem;
@@ -144,7 +146,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#a_wait_investor_comfirm  {
+#a_wait_investor_comfirm {
   width: 100%;
   nav {
     width: 100%;

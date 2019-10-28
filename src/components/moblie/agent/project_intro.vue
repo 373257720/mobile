@@ -1,9 +1,10 @@
 
 <template>
   <div id="a_project_intro">
-    <nav>
+    <!-- <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />项目简介
-    </nav>
+    </nav> -->
+    <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
@@ -33,6 +34,7 @@ export default {
       // value: ["", "", ""],
       // list: ["a", "b", "c"],
       // result: ["a", "b"],
+        dad_text:'项目简介',
        details_lists: [
         {
           name: "行业:",
@@ -105,7 +107,7 @@ export default {
     }
   }
   nav {
-    position: relative;
+    // position: relative;
     .van-icon-arrow-left {
       position: absolute;
       left: 0.6rem;

@@ -1,8 +1,9 @@
 <template>
   <div id="a_recommand_i">
-    <nav>
+    <!-- <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />完善资料        
-    </nav>
+    </nav> -->
+    <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
@@ -32,8 +33,9 @@ export default {
   data() {
     return {
       // value: ["", "", ""],
-      list: ["a", "b", "c",],
-      result: ["a", "b"],
+      dad_text:'完善资料',
+      // list: ["a", "b", "c",],
+      // result: ["a", "b"],
       details_lists: [
         {
           name: "投资者类型:",
@@ -92,7 +94,7 @@ export default {
     }
   }
   nav {
-    position: relative;
+    // position: relative;
     .van-icon-arrow-left {
       position: absolute;
       left: 0.6rem;

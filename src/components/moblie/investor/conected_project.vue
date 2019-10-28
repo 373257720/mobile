@@ -1,8 +1,9 @@
 <template>
   <div id="i_conected_project">
-    <nav>
+    <!-- <nav>
       <van-icon name="arrow-left" />成功签约
-    </nav>
+    </nav> -->
+      <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
@@ -11,14 +12,14 @@
             <p class="row1">{{item.name}}</p>
             <p class="row2">{{item.response}}</p>
           </li>
-          <!-- <li class="contract">
+          <li class="contract">
             <p class="row1 draft">草拟合约:</p>
             <section class="row2 draft1">
               <article class="draft1_middle">
                 <img src="../../../assets/10fe37a805f657460d990771d6454f1.png" alt="">
               </article>
             </section>
-          </li> -->
+          </li>
         </ul>
         <footer>
           <button @click="exporthtml">我的资料</button>
@@ -34,6 +35,7 @@ export default {
   name: "i_conected_project",
   data() {
     return {
+      dad_text:'成功签约',
       details_lists: [
         {
           name: "行业:",
@@ -202,7 +204,7 @@ export default {
     }
   }
   nav {
-    position: relative;
+    // position: relative;
     .van-icon-arrow-left {
       position: absolute;
       left: 0.6rem;

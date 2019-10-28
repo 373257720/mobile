@@ -1,13 +1,14 @@
 <template>
   <div id="a_wait_review">
-    <nav>
+    <!-- <nav>
       <van-icon name="arrow-left" />等待审核
-    </nav>
+    </nav> -->
+    <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
           <ul>
-          <li i v-for="(item) in details_lists" :key="item">
+          <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
             <p class="row2">dfgsfd sdf  sdf dsf sdff 第三方地方地方所发生的是的是否发送斯蒂芬 </p>
           </li>
@@ -22,8 +23,7 @@ export default {
   name: "wait_input",
   data() {
     return {
-      list: ["a", "b", "c"],
-      result: ["a", "b"],
+      dad_text:'等待审核',
      details_lists: [
         {
           name: "行业:",
@@ -115,7 +115,7 @@ export default {
   }
 
   nav {
-    position: relative;
+    // position: relative;
     .van-icon-arrow-left {
       position: absolute;
       left: 0.6rem;
