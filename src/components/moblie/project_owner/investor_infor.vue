@@ -3,10 +3,11 @@
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />投资者资料
     </nav>
+     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <article>
         <ul>
-          <li i v-for="(item) in details_lists" :key="item">
+          <li i v-for="(item) in details_lists" :key="item" @click="$routerto('p_inverstor_details')">
             <aside>1</aside>
             <article class="main_right">
               <section v-for="(item) in details_lists" :key="item">
@@ -29,6 +30,7 @@ export default {
   name: "goods_details",
   data() {
     return {
+      dad_text:'投资者资料',
       details_lists: [
         {
           name: "签约成功时间:",
@@ -115,7 +117,7 @@ export default {
     ul {
       padding: 0 0.2rem 1.2rem 0.2rem;
       li {
-        padding: 0.3rem 0;
+        padding: 0.2rem 0;
         font-size: 0.3rem;
         display: flex;
         justify-content: space-between;
@@ -144,7 +146,8 @@ export default {
             }
             .row2 {
               display: inline-block;
-              width: 3rem;
+              width: 3.5rem;
+               color: #787878;
               word-wrap: break-word;
             }
           }

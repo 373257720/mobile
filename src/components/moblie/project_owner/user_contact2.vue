@@ -1,22 +1,16 @@
 <template>
   <div id="p_user_contact2">
-    <nav>
-      <header>
-        <van-icon name="arrow-left" @click="$global.previous()" />联络人
-      </header>
-    </nav>
-    <main></main>
+    <commonnav :msg="dad_text"></commonnav>
+    <!-- <main></main> -->
     <ul>
       <li>
-        <section>
-          <p>
-            <span>
-              <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
-            </span>
-            <span>大煞风景看路交口</span>
-            <!-- <van-icon name="arrow" /> -->
-          </p>
-        </section>
+        <p>
+          <span>
+            <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
+          </span>
+          <span>大煞风景看到发送到放到水电费地方路交口</span>
+          <!-- <van-icon name="arrow" /> -->
+        </p>
       </li>
       <li>
         <section>
@@ -37,6 +31,7 @@ export default {
   data() {
     return {
       searchkey: "",
+      dad_text: "联络人",
       details_lists: [
         {
           name: "投资者公司:",
@@ -109,11 +104,8 @@ export default {
     // height: 0.5rem;
     // font-size: 0.1rem;
   }
-  header {
-    position: relative;
-
+  nav {
     .van-icon-arrow-left {
-      // line-height: 1rem;
       position: absolute;
       left: 0.6rem;
       top: 50%;
@@ -125,8 +117,6 @@ export default {
     height: 1rem;
   }
   .van-hairline--top-bottom {
-    // z-index: -3;
-
     text-align: left;
     .van-ellipsis {
       font-size: 0.3rem;
@@ -140,49 +130,65 @@ export default {
 <style lang="scss" scoped>
 #p_user_contact2 {
   width: 100%;
-  nav {
-    width: 100%;
-    position: fixed;
-    z-index: 5;
-    text-align: center;
-    top: 0;
-    background: white;
-    header {
-      line-height: 1.5rem;
-      height: 1.5rem;
-      font-size: 0.4rem;
-      border-bottom: 0.1rem solid #d2d2d2;
-    }
-  }
+  // nav {
+  //   width: 100%;
+  //   position: fixed;
+  //   z-index: 5;
+  //   text-align: center;
+  //   top: 0;
+  //   background: white;
+  //   header {
+  //     line-height: 1.5rem;
+  //     height: 1.5rem;
+  //     font-size: 0.4rem;
+  //     border-bottom: 0.1rem solid #d2d2d2;
+  //   }
+  // }
+  // main{
+  //      height: 1.5rem;
+  //       font-size: 0.38rem;
+  //       color: #0f6ebe;
+  //       text-align: center;
+  //       font-weight: 600;
+  //       line-height: 1.5rem;
+  //       //  border-bottom: 0.1rem solid #f2f2f2;
+  // }
 
   ul {
-    padding: 2.3rem 0 1.5rem 0;
+    padding: 2rem 0 1.5rem 0;
     background: white;
-    li:nth-child(1){
-      margin-bottom:0.5rem;
-           img {
-
-        height: 1.5rem;
-        width: 1.5rem;
+    li:nth-child(1) {
+      margin-bottom: 0.5rem;
+      border-bottom: 0.02rem dashed #f2f2f2;
+      img {
+        height: 1.2rem;
+        width: 1.2rem;
       }
-         span:nth-child(2) {
-          font-weight: 600;
-          color: #4c4c4c;
-          font-size: 0.3rem;
-          line-height: 1.5rem;
-        }
+      span:nth-child(1) {
+        // display: inline;
+        // font-weight: 600;
+        // color: #4c4c4c;
+        // font-size: 0.3rem;
+        // line-height: 1.5rem;
+      }
+      span:nth-child(2) {
+        font-weight: 600;
+        color: #4c4c4c;
+        font-size: 0.3rem;
+        // line-height: 1.5rem;
+      }
     }
     li {
       word-break: break-all;
       margin: 0 0.5rem 0;
       display: flex;
       font-size: 0.3rem;
- 
+
       p {
         display: flex;
         // flex-direction: column;
         margin-left: 0.4rem;
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.2rem;
         // align-items: baseline;
         span:nth-child(1) {
           font-weight: 550;
@@ -194,7 +200,7 @@ export default {
           //   width: 2rem;
         }
         span:nth-child(2) {
-          flex:1;
+          flex: 1;
           font-weight: 500;
           color: #787878;
           font-size: 0.2rem;

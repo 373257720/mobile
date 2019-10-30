@@ -8,17 +8,14 @@
         <img src="../../assets/26566ffb301dac8c24d21969b538612.png" alt />
       </aside>-->
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <!-- <header>放水电费鼎飞丹砂</header> -->
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
             <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
           </li>
         </ul>
-        <footer>
-          <button @click="$goto('p_check_contract')">返回</button>
-          <!-- <button @click="$goto('p_check_contract')">查看合约</button> -->
-        </footer>
+     
       </article>
     </main>
     <mbottom></mbottom>
@@ -115,18 +112,11 @@ export default {
     }
     article {
       margin: 0 0 1.3rem 0;
-      header {
-        height: 1.7rem;
-        font-size: 0.32rem;
-        text-align: center;
-        font-weight: 600;
-        line-height: 1.7rem;
-        border-bottom: 0.01rem dashed #b5b5b5;
-      }
+  
       ul {
         padding: 0.5rem 0.5rem 0 0.5rem;
         li {
-          margin-bottom: 0.4rem;
+          margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
           font-size: 0.3rem;
@@ -143,27 +133,7 @@ export default {
           }
         }
       }
-      footer {
-        padding: 0 0.5rem 0.5rem 0.5rem;
-        button {
-          width: 6.5rem;
-          height: 1rem;
-          background: #00adef;
-          color: white;
-        }
-        button {
-          margin-bottom: 0.4rem;
-        }
-        aside {
-          height: 1.5rem;
-          // width: 6.5rem;
-          display: flex;
-          justify-content: space-between;
-          button {
-            width: 3rem;
-          }
-        }
-      }
+
     }
   }
 }

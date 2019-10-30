@@ -6,6 +6,7 @@
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
+        <boxx :nav_lists="nav_lists"></boxx>
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
@@ -15,7 +16,7 @@
         <footer>
           <aside>
             <button @click="gg">投资者资料</button>
-            <button @click="gg">合约</button>
+            <!-- <button @click="gg">合约</button> -->
           </aside>
         </footer>
       </article>
@@ -28,6 +29,20 @@ export default {
   name: "p_sign_successful",
   data() {
     return {
+         nav_lists: [
+        {
+          name: "融资阶段",
+          response: "12"
+        },
+        {
+          name: "项目方<br>有兴趣数量",
+          response: "16"
+        },
+        {
+          name: "已提交</br>投资者数量",
+          response: "118"
+        }
+      ],
       details_lists: [
         {
           name: "行业:",
@@ -57,18 +72,18 @@ export default {
           name: "电邮",
           response: "13178523855"
         },
-        {
-          name: "融资阶段",
-          response: "金融"
-        },
-        {
-          name: "项目方有兴趣的数量:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "已提交的投资者数量",
-          response: "13178523855"
-        },
+        // {
+        //   name: "融资阶段",
+        //   response: "金融"
+        // },
+        // {
+        //   name: "项目方有兴趣的数量:",
+        //   response: "斯蒂芬发地方"
+        // },
+        // {
+        //   name: "已提交的投资者数量",
+        //   response: "13178523855"
+        // },
         {
           name: "项目状态",
           response: "金融"
@@ -158,24 +173,24 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-        height: 1.5rem;
-        font-size: 0.32rem;
+           height: 1.5rem;
+        font-size: 0.38rem;
+        color: #0f6ebe;
         text-align: center;
         font-weight: 600;
         line-height: 1.5rem;
-        border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
         padding: 0.5rem 0.5rem 0.5rem 0.5rem;
         li {
-          margin-bottom: 0.4rem;
+          margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
           font-size: 0.3rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
-            width: 3rem;
+            width: 4rem;
             margin-bottom: 0.2rem;
           }
           .row2 {
@@ -211,18 +226,18 @@ export default {
           background: #00adef;
           color: white;
         }
-        button {
-          margin-bottom: 0.4rem;
-        }
-        aside {
-          height: 1.5rem;
-          // width: 6.5rem;
-          display: flex;
-          justify-content: space-between;
-          button {
-            width: 3rem;
-          }
-        }
+        // button {
+        //   margin-bottom: 0.4rem;
+        // }
+        // aside {
+        //   height: 1.5rem;
+        //   // width: 6.5rem;
+        //   display: flex;
+        //   justify-content: space-between;
+        //   button {
+        //     width: 3rem;
+        //   }
+        // }
       }
     }
   }

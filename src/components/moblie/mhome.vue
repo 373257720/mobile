@@ -9,9 +9,12 @@
         placeholder="请输入搜索关键词"
         show-action
         shape="round"
+        left-icon
         @search="onSearch"
       >
-        <div slot="action" @click="onSearch">搜索</div>
+        <div slot="action" @click="onSearch">
+          <van-icon name="search" />
+        </div>
       </van-search>
       <van-dropdown-menu>
         <van-dropdown-item
@@ -124,7 +127,7 @@ export default {
   created() {
     // this.bar();
     // console.log(this.bar);
-    
+
     // this.$global
     //   .changepage(`${this.$baseurl}/bsl_web/base/getAllIndustry`, "get")
     //   .then(
@@ -173,7 +176,6 @@ export default {
     );
   },
   methods: {
-  
     routerto(projectId) {
       this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
@@ -246,7 +248,7 @@ export default {
           "Content-Type": "application/x-www-form-urlencoded"
         }
       })
-        .then(res => {  
+        .then(res => {
           if (res.status === 200) {
             let re = res.data.data.lists;
             if (re.length !== 0) {
@@ -275,6 +277,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss">
 #mhome {
   .van-list {
@@ -290,6 +293,16 @@ export default {
     .van-search__action {
       font-size: 0.3rem;
       line-height: 0.5rem;
+    }
+    .van-icon-search {
+      background: #ffc303;
+      border-radius: 50%;
+      width: 0.6rem;
+      height: 0.6rem;
+      color: #282407;
+      text-align: center;
+      line-height: 0.6rem;
+      font-size: 0.4rem;
     }
     .van-cell {
       font-size: 0.1rem;

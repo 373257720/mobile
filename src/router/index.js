@@ -24,7 +24,7 @@ import p_set_contract from '@/components/moblie/project_owner/set_contract'
 import p_sign_failed from '@/components/moblie/project_owner/sign_failed'
 import p_sign_contract from '@/components/moblie/project_owner/sign_contract'
 import p_sign_request from '@/components/moblie/project_owner/sign_request'
-// import p_wait_investor from '@/components/moblie/project_owner/wait_investor'
+import p_wait_investor from '@/components/moblie/project_owner/wait_investor'
 import p_goods_details from '@/components/moblie/project_owner/goods_details'
 import p_user_contact from '@/components/moblie/project_owner/user_contact'
 import p_user_contact2 from '@/components/moblie/project_owner/user_contact2' 
@@ -46,7 +46,7 @@ import a_sign_contract from '@/components/moblie/agent/sign_contract'
 
 
 // investor/
-// import i_wait_confirm from '@/components/moblie/investor/wait_comfirm'
+import i_wait_confirm from '@/components/moblie/investor/wait_comfirm'
 import i_conected_project from '@/components/moblie/investor/conected_project'
 import i_inverstor_infor from '@/components/moblie/investor/investor_infor'
 import i_perfect_infor from '@/components/moblie/investor/perfect_infor'
@@ -98,11 +98,11 @@ const routes = [
     name: 'p_wait_agent_input',
     component: p_wait_agent_input,
   },
-  // {
-  //   path: '/p_wait_investor',
-  //   name: 'p_wait_investor',
-  //   component: p_wait_investor,
-  // },
+  {
+    path: '/p_wait_investor',
+    name: 'p_wait_investor',
+    component: p_wait_investor,
+  },
   {
     path: '/p_investor_details',
     name: 'p_investor_details',
@@ -208,6 +208,12 @@ const routes = [
   name: 'i_sign_failed',
   component: i_sign_failed,
 },
+{
+  path: '/i_wait_confirm',
+  name: 'i_wait_confirm',
+  component:i_wait_confirm,
+},
+
 
 
 

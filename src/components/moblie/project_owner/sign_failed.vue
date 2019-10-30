@@ -21,7 +21,7 @@
             <p class="row1">{{item.name}}</p>
             <p class="row2">{{item.response}}</p>
           </li>
-          <li class="contract">
+          <!-- <li class="contract">
             <p class="row1">合约:</p>
             <section>
               <article class="draft1_middle">
@@ -52,13 +52,19 @@
                 </div>
               </article>
             </section>
-            <!-- <section class="row2 draft1">
+            <section class="row2 draft1">
               <article
                 class="draft1_middle"
               >地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方</article>
-            </section>-->
-          </li>
+            </section>
+          </li> -->
         </ul>
+           <footer>
+          <aside>
+            <button @click="$routerto('p_check_contract')">查看合约</button>
+            <!-- <button @click="gg">合约</button> -->
+          </aside>
+        </footer>
       </article>
     </main>
     <mbottom></mbottom>
@@ -273,26 +279,35 @@ export default {
             color: #787878;
           }
         }
-        .contract {
-          display: block;
-          section {
+        // .contract {
+        //   display: block;
+        //   section {
+        //     width: 6.5rem;
+        //     height: 9rem;
+        //     border: 0.01rem solid #b3b3b3;
+        //     padding: 0;
+        //     background: #f2f2f2;
+        //     .draft1_middle {
+        //       padding: 0.3rem;
+        //       box-sizing: border-box;
+        //       width: 100%;
+        //       line-height: 0.5rem;
+        //       height: 100%;
+        //       overflow-y: auto;
+        //           color: #787878;
+        //     }
+        //   }
+        // }
+      }
+       footer {
+          padding: 0 0.5rem 0.5rem 0.5rem;
+          button {
             width: 6.5rem;
-            height: 9rem;
-            border: 0.01rem solid #b3b3b3;
-            padding: 0;
-            background: #f2f2f2;
-            .draft1_middle {
-              padding: 0.3rem;
-              box-sizing: border-box;
-              width: 100%;
-              line-height: 0.5rem;
-              height: 100%;
-              overflow-y: auto;
-                  color: #787878;
-            }
+            height: 1rem;
+            background: #00adef;
+            color: white;
           }
         }
-      }
     }
   }
 }

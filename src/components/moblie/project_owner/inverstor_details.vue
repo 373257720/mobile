@@ -1,5 +1,5 @@
 <template>
-  <div id=" ">
+  <div id="p_inverstor_details">
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />签约投资者资料
     </nav>

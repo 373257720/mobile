@@ -2,7 +2,8 @@
   <div id="p_user_contact">
     <nav>
       <header>
-        <van-icon name="arrow-left" @click="$global.previous()" />联络人
+        <!-- <van-icon name="arrow-left" @click="$global.previous()" />联络人 -->
+         <commonnav :msg="dad_text"></commonnav>
       </header>
       <main >
         <van-search
@@ -13,16 +14,14 @@
           left-icon
           @search="onSearch"
         >
-        <!-- <van-search placeholder="Placeholder" v-model="value"   left-icon  right-icon="search"/> -->
-          <!-- <van-icon slot="action" name="search"  @click="onSearch" /> -->
           <div slot="action" @click="onSearch">
-            <van-icon name="search" size=18 />
+            <van-icon name="search"/>
           </div>
         </van-search>
       </main>
     </nav>
     <ul>
-      <li v-for="item in arr" :key="item">
+      <li v-for="item in arr" :key="item" @click="$routerto('p_user_contact2')">
         <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
         <!-- <h2></h2> -->
         <p>
@@ -30,26 +29,7 @@
           <span>到发广告的非fg的发给的发给官锅</span>
           <!-- <van-icon name="arrow" /> -->
         </p>
-        <!-- <p>
-          <span>投资者电话:</span>
-          <span>23432</span>
-        </p>
-        <p>
-          <span>投资者邮箱:</span>
-          <span>423423</span>
-        </p>
-        <p>
-          <span>投资者兴趣:</span>
-          <span>423423</span>
-        </p>-->
       </li>
-      <!-- <li>
-          <p>
-            <img src="../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
-            <span>到发广告的非官23423423423方的鬼地方更多个电饭锅</span>
-          </p>
-         
-      </li>-->
     </ul>
     <mbottom></mbottom>
   </div>
@@ -59,6 +39,7 @@ export default {
   name: "p_user_contact",
   data() {
     return {
+      dad_text:"联络人",
       arr: [1, 2, 3, 5, 9, 8, 10, 90, 40],
       searchkey: "",
       value1: 0
@@ -75,6 +56,7 @@ export default {
 #p_user_contact {
   .van-search {
     padding: 0.2rem 0.2rem;
+    // background: #1F2652;
   }
   .van-search__action {
     font-size: 0.3rem;
@@ -100,6 +82,17 @@ export default {
     // height: 0.5rem;
     // font-size: 0.1rem;
   }
+.van-icon-search{
+    background: #FFC303;
+    border-radius: 50%;
+    width: 0.6rem;
+    height:0.6rem;
+    color:#282407;
+    text-align: center;
+    line-height: 0.6rem;
+      font-size: 0.4rem;
+
+}
   header {
     position: relative;
 
@@ -142,7 +135,7 @@ export default {
       line-height: 1.5rem;
       height: 1.5rem;
       font-size: 0.4rem;
-      border-bottom: 0.1rem solid #d2d2d2;
+      // border-bottom: 0.1rem solid #d2d2d2;
     }
   }
   ul {

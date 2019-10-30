@@ -1,17 +1,18 @@
 <template>
   <div id="p_wait_agent_input">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />等待中间人输入
+      <van-icon name="arrow-left" @click="$global.previous()" />待中间人签约
     </nav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
+        <boxx :nav_lists="nav_lists"></boxx>
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
             <p class="row2">{{item.response}}</p>
           </li>
-          <li class="contract">
+          <!-- <li class="contract">
             <p class="row1">草拟合约:</p>
             <section>
               <article class="draft1_middle">
@@ -44,22 +45,20 @@
                 <div class="signature">
                   <span>投行</span>
                   <span>
-                    <!-- 中间人 -->
-                    <img
-                      src="data:image/png;base64,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"
-                      alt
-                    />
-                  </span>
+          <!-- 中间人-->
+
+          <!-- </span>
                 </div>
               </article>
             </section>
-            <!-- <section class="row2 draft1">
-              <article
-                class="draft1_middle"
-              >地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方</article>
-            </section>-->
-          </li>
+          </li>-->
         </ul>
+        <footer>
+          <aside>
+            <button @click="$routerto('p_check_contract')">查看合约</button>
+            <!-- <button @click="gg">合约</button> -->
+          </aside>
+        </footer>
       </article>
     </main>
     <mbottom></mbottom>
@@ -82,6 +81,10 @@ export default {
           name: "地区:",
           response: "发地方水电是否水电费水电费诗圣杜甫费发"
         },
+            {
+          name: "项目状态",
+          response: "金融"
+        },
         {
           name: "公司名称:",
           response: "斯蒂芬发地方"
@@ -102,44 +105,37 @@ export default {
           name: "电邮",
           response: "13178523855"
         },
-        {
-          name: "融资阶段",
-          response: "金融"
-        },
-        {
-          name: "项目方有兴趣的数量:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "已提交的投资者数量",
-          response: "13178523855"
-        },
-        {
-          name: "项目状态",
-          response: "金融"
-        },
+    
         {
           name: "项目介绍",
           response: "金融"
         },
-        {
-          name: "投资者公司",
-          response: "谁到时对方"
-        },
-        {
-          name: "投资者姓名",
-          response: "金融"
-        },
-        {
-          name: "投资者地区",
-          response: "金融"
-        }
+        // {
+        //   name: "投资者公司",
+        //   response: "谁到时对方"
+        // },
+        // {
+        //   name: "投资者姓名",
+        //   response: "金融"
+        // },
+        // {
+        //   name: "投资者地区",
+        //   response: "金融"
+        // }
       ],
-      p_wait_agent_input: [
-        "投资者公司：",
-        "投资者姓名:",
-        "投资者电话：",
-        "投资者邮箱"
+      nav_lists: [
+        {
+          name: "融资阶段",
+          response: "12"
+        },
+        {
+          name: "项目方<br>有兴趣数量",
+          response: "16"
+        },
+        {
+          name: "已提交</br>投资者数量",
+          response: "118"
+        }
       ]
     };
   },
@@ -222,23 +218,23 @@ export default {
       margin: 0 0 1rem 0;
       header {
         height: 1.5rem;
-        font-size: 0.32rem;
+        font-size: 0.38rem;
+        color: #0f6ebe;
         text-align: center;
         font-weight: 600;
         line-height: 1.5rem;
-        border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
-        padding: 0.5rem 0.5rem 2rem 0.5rem;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
         li {
-          margin-bottom: 0.4rem;
+          margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
           font-size: 0.3rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
-            width: 3rem;
+            width: 4rem;
             margin-bottom: 0.2rem;
           }
           .row2 {
@@ -248,61 +244,53 @@ export default {
             color: #787878;
           }
         }
-        .contract {
-          display: block;
-          section {
-            width: 6.5rem;
-            height: 8rem;
-            border: 0.01rem solid #b3b3b3;
-            padding: 0;
-            background: #f2f2f2;
-            .draft1_middle {
-              padding: 0.3rem;
-              box-sizing: border-box;
-              width: 100%;
-              height: 100%;
-              overflow-y: auto;
-              .signature {
-                margin: 0.5rem 0;
-                display: flex;
-                width: 100%;
-                justify-content: space-between;
-                span {
-                  display: inline-block;
-                  width: 2.5rem;
-                  height: 1rem;
-                  text-align: center;
-                  border-bottom: 0.02rem solid #b3b3b3;
-                  img {
-                    width: auto;
-                    height: auto;
-                    max-width: 100%;
-                    max-height: 100%;
-                  }
-                }
-              }
-            }
-          }
-          // .row1 {
-          //   margin-bottom: 0.1rem;
-          // }
-          //    .row2 {
-          //   width: 6.5rem;
-          //   height: 6rem;
-          //   border: 0.01rem solid #b3b3b3;
-          //   // box-sizing: border-box;
-          //   padding: 0;
-          //   background: #f2f2f2;
-          //   .draft1_middle {
-          //     padding: 0.3rem;
-          //     box-sizing: border-box;
-          //     width: 100%;
-          //     height: 100%;
-          //     overflow-y: auto;
-          //   }
-          // }
-        }
+        // .contract {
+        //   display: block;
+        //   section {
+        //     width: 6.5rem;
+        //     height: 8rem;
+        //     border: 0.01rem solid #b3b3b3;
+        //     padding: 0;
+        //     background: #f2f2f2;
+        //     .draft1_middle {
+        //       padding: 0.3rem;
+        //       box-sizing: border-box;
+        //       width: 100%;
+        //       height: 100%;
+        //       overflow-y: auto;
+        //       .signature {
+        //         margin: 0.5rem 0;
+        //         display: flex;
+        //         width: 100%;
+        //         justify-content: space-between;
+        //         span {
+        //           display: inline-block;
+        //           width: 2.5rem;
+        //           height: 1rem;
+        //           text-align: center;
+        //           border-bottom: 0.02rem solid #b3b3b3;
+        //           img {
+        //             width: auto;
+        //             height: auto;
+        //             max-width: 100%;
+        //             max-height: 100%;
+        //           }
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
+      
       }
+        footer {
+          padding: 0 0.5rem 0.5rem 0.5rem;
+          button {
+            width: 6.5rem;
+            height: 1rem;
+            background: #00adef;
+            color: white;
+          }
+        }
     }
   }
 }

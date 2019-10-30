@@ -74,10 +74,11 @@ export default {
   .repeatpassword {
     .van-field__body {
       height: 0.7rem;
-      border: 0.01rem solid #ababab;
+      // border: 0.01rem solid #ababab;
       background: #f6f6f6;
       padding: 0.2rem;
       border-radius: 0.05rem;
+          border: 0.02rem solid #ABABAB;
       box-sizing: border-box;
     }
     .van-field__control {
@@ -102,7 +103,7 @@ export default {
   display: flex;
   flex-direction: column;
   h2 {
-    padding: 3rem 0 2rem 0;
+    padding: 2rem 0 2rem 0;
     text-align: center;
     img {
       width: 4.28rem;

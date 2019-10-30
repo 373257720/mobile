@@ -110,7 +110,7 @@ export default {
   display: flex;
   flex-direction: column;
   h2 {
-    padding: 3rem 0 2rem 0;
+    padding: 2rem 0 2rem 0;
     text-align: center;
     img {
       width: 4.28rem;

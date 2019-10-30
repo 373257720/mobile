@@ -1,14 +1,16 @@
 <template>
   <div id="p_goods_details">
-    <nav>
+    <!-- <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />项目详情
-    </nav>
+    </nav> -->
+     <commonnav :msg="dad_text"></commonnav>
     <main>
       <!-- <aside>
         <img src="../../assets/26566ffb301dac8c24d21969b538612.png" alt />
       </aside>-->
       <article>
         <header>放水电费鼎飞丹砂</header>
+        <boxx :nav_lists="nav_lists"></boxx>
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
@@ -29,6 +31,21 @@ export default {
   name: "p_goods_details",
   data() {
     return {
+      dad_text:'项目详情',
+           nav_lists: [
+        {
+          name: "融资阶段",
+          response: "12"
+        },
+        {
+          name: "项目方<br>有兴趣数量",
+          response: "16"
+        },
+        {
+          name: "已提交</br>投资者数量",
+          response: "118"
+        }
+      ],
      details_lists: [
         {
           name: "行业:",
@@ -95,7 +112,7 @@ export default {
 <style lang="scss">
 #p_goods_details {
   nav {
-    position: relative;
+    // position: relative;
     .van-icon-arrow-left {
       // line-height: 1rem;
       position: absolute;
@@ -109,19 +126,8 @@ export default {
 <style lang="scss" scoped>
 #p_goods_details {
   width: 100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
-    margin-top: 1.5rem;
+    // margin-top: 1.5rem;
     background: #ffffff;
     aside {
       display: flex;
@@ -130,19 +136,19 @@ export default {
       justify-content: center;
     }
     article {
-      margin: 0 0 1.3rem 0;
+      margin: 1.5rem 0 1.3rem 0;
       header {
-        height: 1.7rem;
-        font-size: 0.32rem;
+    height: 1.5rem;
+        font-size: 0.38rem;
+        color: #0f6ebe;
         text-align: center;
         font-weight: 600;
-        line-height: 1.7rem;
-        border-bottom: 0.01rem dashed #b5b5b5;
+        line-height: 1.5rem;
       }
       ul {
         padding: 0.5rem 0.5rem 0 0.5rem;
         li {
-          margin-bottom: 0.4rem;
+          margin-bottom: 0.2rem;
           display: flex;
           align-items: baseline;
           font-size: 0.3rem;
