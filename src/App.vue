@@ -10,9 +10,11 @@ export default {
     //在页面刷新时将vuex里的信息保存到sessionStorage里
     window.addEventListener("beforeunload", () => {
       sessionStorage.setItem("usertype", this.$store.state.currentUsertype);
+      sessionStorage.setItem("username", this.$store.state.currentUser);
     });
     //在页面加载时读取sessionStorage里的状态信息
     if (sessionStorage.getItem("usertype")) {
+      this.$store.commit("username_set", sessionStorage.getItem("username"));
       this.$store.commit("userStatus", sessionStorage.getItem("usertype"));
     }
     // this.handleCommand("zh_CN");

@@ -31,12 +31,12 @@ export default {
 <style lang='scss' >
 #moblie_bottom {
   background: #eeeeee;
-  height: 1.2rem;
+  height: 1.3rem;
   .van-icon {
-    font-size: 0.4rem;
+    font-size: 0.55rem;
   }
   .van-tabbar-item__text {
-    font-size: 0.1rem;
+    font-size: 0.28rem;
   }
 }
 </style>

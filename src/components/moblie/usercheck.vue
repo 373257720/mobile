@@ -1,6 +1,6 @@
 <template>
   <div id="usercheck">
-    <div class="usercheck">
+    <!-- <div class="usercheck">
       <header>审核</header>
       <div class="usertype">
         <p>类型</p>
@@ -11,38 +11,41 @@
       <div class="identity">
         <p>身份</p>
         <van-dropdown-menu>
-          <van-dropdown-item v-model="form.identity" :options="option2" />
+          <van-dropdown-item v-model="form.userIdentityType" :options="option2" />
         </van-dropdown-menu>
       </div>
       <div class="nationality">
         <p>国籍</p>
         <van-dropdown-menu>
-          <van-dropdown-item v-model="countryname" @change="nation" :options="countrylist" />
+          <van-dropdown-item v-model="form.userCountry" @change="nation" :options="countrylist" />
         </van-dropdown-menu>
       </div>
-      <div class="idcard_num">
-        <p>身份证号码</p>
-        <van-field v-model="form.userIdentity" placeholder="请输入密码" clearable />
+      <div class="identy_check" v-show="form.userIdentityType==2?false:true">
+        <div class="idcard_num">
+          <p>身份证号码</p>
+          <van-field v-model="form.userIdentity" placeholder="请输入密码" clearable />
+        </div>
+        <div class="id_front">
+          <p>{{switchon==true?'身份证正面':'护照'}}</p>
+          <van-uploader
+            :before-read="function(params){return asyncBeforeRead(params,1)}"
+            v-model="fileList_front"
+            multiple
+            :max-count="1"
+          />
+        </div>
+        <div class="id_back" v-show="switchon">
+          <p>身份证背面</p>
+          <van-uploader
+            :before-read="function(params){return asyncBeforeRead(params,2)}"
+            v-model="fileList_back"
+            multiple
+            :max-count="1"
+          />
+        </div>
       </div>
-      <div class="id_front">
-        <p>{{switchon==true?'身份证正面':'护照'}}</p>
-        <van-uploader
-          :before-read="function(params){return asyncBeforeRead(params,1)}"
-          v-model="fileList_front"
-          multiple
-          :max-count="1"
-        />
-      </div>
-      <div class="id_back" v-show="switchon">
-        <p>身份证背面</p>
-        <van-uploader
-          :before-read="function(params){return asyncBeforeRead(params,2)}"
-          v-model="fileList_back"
-          multiple
-          :max-count="1"
-        />
-      </div>
-      <div v-show="form.identity==4?true:false" class="gongsi">
+
+      <div v-show="form.userIdentityType==2?true:false" class="gongsi">
         <div class="companyname2">
           <p>公司名字</p>
           <van-field v-model="form.userCompanyCh" placeholder="请输入密码" clearable />
@@ -73,8 +76,8 @@
       <div class="commit">
         <button @click="commit">提交</button>
       </div>
-    </div>
-    <!-- <div class="usercheck2" >
+    </div>-->
+    <div class="usercheck2">
       <h2>
         <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
       </h2>
@@ -82,7 +85,7 @@
       <nav class="backbtn">
         <button>进入首页</button>
       </nav>
-    </div> -->
+    </div>
   </div>
 </template>
 <script>
@@ -92,20 +95,21 @@ export default {
   data() {
     return {
       success: true,
-      switchon: true,
+      switchon: false,
       countrylist: [],
       option1: [
         { text: "项目方", value: 1 },
         { text: "中间人", value: 4 },
         { text: "投资者", value: 3 }
       ],
-      option2: [{ text: "个人", value: 1 }, { text: "公司", value: 4 }],
-      countryname: "",
+      option2: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }],
+      // countryname: "",
       fileList_front: [],
       fileList_back: [],
       fileList_company: [],
       form: {
         userCountry: "",
+        userIdentityType: "",
         userCountryEn: "",
         userCountryCh: "",
         userIdentity: "",
@@ -117,12 +121,14 @@ export default {
         userAddressCh: "",
         userAddressEn: "",
         userCompanyPic: [],
-        userType: "",
-        identity: ""
+        userType: this.$store.state.currentUsertype
+        // identity: ""
       }
     };
   },
   created() {
+    // console.log(this.$store.state.currentUsertype);
+
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/base/countryList.do`
@@ -133,6 +139,7 @@ export default {
           this.countrylist[i].value = i;
           this.countrylist[i].text = this.countrylist[i].countryTcname;
         }
+        // console.log(this.countrylist);
       })
       .catch(err => {
         console.log(err);
@@ -159,12 +166,12 @@ export default {
     // },
     nation(value) {
       console.log(value);
-      if (value == 1) {
+      if (value == 2) {
         this.switchon = true;
-        this.form.identityType = 1;
+        this.form.identityType = 1; //身份证
       } else {
         this.switchon = false;
-        this.form.identityType = 2;
+        this.form.identityType = 2; //护照
       }
       // if (value > 2) {
       //   this.switchon = false;
@@ -174,12 +181,13 @@ export default {
       //   this.switchon = true;
       //   this.form.identityType = 1;
       // }
-      this.form.userCountry = this.countrylist[value].countryCode;
-      console.log(this.form.userCountry);
+      // this.form.userCountry = this.countrylist[value].countryCode;
+      // console.log(this.form.userCountry);
 
       this.form.userCountryEn = this.countrylist[value].countryEnname;
       this.form.userCountryCh = this.countrylist[value].countryZhname;
       // console.log(this.switchon);
+      // console.log(this.form.userCountryCh,this.form.userCountryEn );
     },
     // 返回 Promise
     asyncBeforeRead(file, index) {
@@ -209,10 +217,11 @@ export default {
       return true;
     },
     commit() {
+      console.log(this.form);
       this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/user/submitAuth`,
-        data: this.form,
+        data: this.$qs.stringify(this.form),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
         }
@@ -240,9 +249,9 @@ export default {
 #usercheck {
   // background: white;
   .van-cell {
-    font-size: 0.16rem;
+    font-size: 0.32rem;
     padding: 0 1.05rem;
-    // line-height:  0.16rem;
+    line-height: 1rem;
     // padding: 0;
   }
   .van-dropdown-menu__title {
@@ -257,14 +266,14 @@ export default {
     flex: none;
   }
   .van-dropdown-menu {
-    height: 0.7rem;
+    height: 1rem;
     border-radius: 0.05rem;
     border: 0.01rem solid #ababab;
     background: #f6f6f6;
   }
   .van-field__body {
     //  width: 100%;
-    height: 0.75rem;
+    height: 1rem;
     // border: 0.02rem solid #ababab;
     border-radius: 0.05rem;
     background: #f6f6f6;
@@ -289,6 +298,7 @@ export default {
   .van-uploader__preview-image {
     margin: 0;
     width: 100%;
+    height: 3.3rem;
     //  border: 0.01rem solid #ababab;
     //  overflow: hidden;
 
@@ -299,20 +309,23 @@ export default {
   }
   .van-uploader {
     width: 100%;
-    height: 2.7rem;
+    height: 3.3rem;
   }
   .van-uploader__upload {
     width: 100%;
     background: #f6f6f6;
-    margin: 0;
     border: 0;
-    border: 0.01rem solid #ababab;
+    height: 3.3rem;
+    // border: 1px solid #ababab;
     border-radius: 0.05rem;
     box-sizing: border-box;
     .van-uploader__upload-icon {
       font-size: 0.5rem;
     }
   }
+  // .van-uploader__input{
+  //   height: 3.3rem;
+  // }
   .van-dropdown-menu__title::after {
     border: 0.1rem solid;
     top: 50%;
@@ -337,38 +350,48 @@ export default {
   // width: 80%;
   margin: 0 auto;
   .usercheck2 {
-    h2 {
-      padding: 2rem 0 2rem 0;
-      text-align: center;
-      img {
-        width: 4.28rem;
-        height: 1.57rem;
-      }
+    padding: 3.24rem 0 3.04rem 0;
+    text-align: center;
+    img {
+      // width: 4.28rem;
+      height: 1.54rem;
     }
     section {
       text-align: center;
-      font-size: 0.4rem;
-      margin-bottom: 1.1rem;
+      font-size: 0.64rem;
+      font-weight: 600;
+      margin:3.3rem 0 1.1rem 0;
     }
     .backbtn {
       text-align: center;
       // width: 100px;
       button {
         background: #00adef;
-        width: 6rem;
-        height: 0.8rem;
+        width: 8rem;
+        height: 1rem;
+        line-height: 1rem;
+        font-size: 0.4rem;
         color: white;
       }
     }
   }
   .usercheck {
-    font-size: 0.35rem;
+    font-size: 0.36rem;
     > div {
       margin-bottom: 0.4rem;
       padding: 0 0.8rem;
       > p {
         margin-bottom: 0.1rem;
-        font-size: 0.28rem;
+        font-size: 0.36rem;
+      }
+    }
+    div.identy_check {
+      div {
+        margin-bottom: 0.4rem;
+        > p {
+          margin-bottom: 0.1rem;
+          font-size: 0.36rem;
+        }
       }
     }
     div.gongsi {
@@ -376,7 +399,7 @@ export default {
         margin-bottom: 0.4rem;
         > p {
           margin-bottom: 0.1rem;
-          font-size: 0.28rem;
+          font-size: 0.36rem;
         }
       }
     }
@@ -384,15 +407,15 @@ export default {
       text-align: center;
       font-size: 0.7rem;
       font-weight: 600;
-      padding: 0.45rem 0 0.33rem 0;
+      padding: 0.44rem 0 0.36rem 0;
       box-sizing: border-box;
     }
     .commit button {
       width: 100%;
       color: white;
       border-radius: 0.05rem;
-      margin-bottom: 0.6rem;
-      height: 0.8rem;
+      margin: 0.6rem 0;
+      height: 1rem;
       background: #00adef;
     }
   }

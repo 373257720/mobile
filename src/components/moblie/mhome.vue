@@ -61,26 +61,17 @@
             </section>
             <section>
               <span>简介：</span>
-              <span v-html="goods.projectDescribe.substr(0, [56])+'...'"></span>
+              <span v-html="goods.projectDescribe.substr(0, [70])+'...'"></span>
+              <!-- <div class="van-multi-ellipsis--l2">{{goods.projectDescribe}}</div> -->
             </section>
+            <footer>
+              <ul>
+                <li v-for="(item) in  tags" :key="item.text">{{item.text}}（{{item.number}}）</li>
+              </ul>
+            </footer>
           </article>
           <footer>
-            <button
-              :class="{'active':goods.signStatus!=2}"
-              v-if="$store.state.currentUsertype==1"
-              @click="ownergoto(goods.signStatus)"
-            >
-              {{goods.signStatus==2?'签约者资料':'未签约'}}
-              {{goods.signStatus==2?'('+goods.signUserResp.length+')':null}}
-            </button>
-            <button
-              v-else-if="$store.state.currentUsertype==3"
-              @click="agentgoto(goods.projectId)"
-            >签约</button>
-            <button
-              v-else-if="$store.state.currentUsertype==4"
-              @click="investorgoto(goods.signStatus)"
-            >已连接项目</button>
+            <button>签约投资者资料（0）</button>
           </footer>
         </div>
       </van-list>
@@ -101,6 +92,28 @@ export default {
         }
       ],
       activeIds: 0,
+      tags: [
+        {
+          text: "待审核",
+          number: 12
+        },
+        {
+          text: "待签约",
+          number: 4
+        },
+        {
+          text: "待确认",
+          number: 89
+        },
+        {
+          text: "拒绝",
+          number: 111
+        },
+        {
+          text: "已签约",
+          number: 3
+        }
+      ],
       // 左侧高亮元素的index
       mainActiveIndex: 0,
       // 被选中元素的id
@@ -214,7 +227,10 @@ export default {
     //   // if(num==)
     // },
     onSearch() {
-      console.log(this.searchkey);
+      // console.log(this.searchkey);
+      this.pageNum = 0;
+      this.upGoodsInfo = [];
+      this.onLoad();
     },
     onClickNav(index) {
       this.mainActiveIndex = index;
@@ -234,6 +250,8 @@ export default {
       if (this.activeIds == 0) {
         this.activeIds = "";
       }
+      console.log(this.region_name, this.activeIds);
+
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getAllProject?`,
@@ -281,18 +299,18 @@ export default {
 <style lang="scss">
 #mhome {
   .van-list {
-    margin-bottom: 1.3rem;
+    // padding-bottom: 1.3rem;
   }
   header {
     .van-search {
-      padding: 0.2rem 0.2rem;
+      padding: 0.3rem 0.4rem 0 0.4rem;
     }
     .van-hairline--top-bottom::after {
       border: 0;
     }
     .van-search__action {
-      font-size: 0.3rem;
-      line-height: 0.5rem;
+      font-size: 0.38rem;
+      line-height: 0.76rem;
     }
     .van-icon-search {
       background: #ffc303;
@@ -307,7 +325,8 @@ export default {
     .van-cell {
       font-size: 0.1rem;
       line-height: 0.5rem;
-      padding: 0.1rem 0.25rem 0.1rem 0;
+      // height: 0.76rem;
+      padding: 0 0.25rem 0 0;
     }
 
     .van-field__left-icon .van-icon,
@@ -330,21 +349,26 @@ export default {
       //  line-height: 1rem;
       margin-top: -0.2rem;
     }
+    .van-field__control {
+      height: 0.76rem;
+      // font-size: 0.36rem;
+    }
     .van-field__clear {
       // height: 0.1rem;
-      font-size: 0.3rem;
+      font-size: 0.4rem;
     }
     .van-cell--clickable {
       padding: 0.2rem 0.3rem;
     }
     .van-dropdown-menu {
-      height: 0.8rem;
+      height: 1.06rem;
+      // line-height: 1.06rem;
       .van-dropdown-menu__title {
-        font-size: 0.3rem;
+        font-size: 0.32rem;
       }
       .van-dropdown-item--down {
         .van-tree-select {
-          font-size: 0.3rem;
+          font-size: 0.32rem;
         }
       }
     }
@@ -370,72 +394,103 @@ export default {
       margin: 0.3rem 0;
     }
     > div {
-      width: 100%;
+      // width: 100%;
+      // height:  1.82rem;;
       img {
         width: auto;
         height: auto;
-        display: inline-block;
+        display: block;
+        // display: inline-block;
         max-width: 100%;
         max-height: 100%;
       }
     }
   }
   .main {
-    margin: 3.3rem 0 0 0;
+    margin: 3.95rem 0 0 0;
     // margin-bottom: 5rem;
     height: 100%;
     background: #eeeeee;
     box-sizing: border-box;
     .goodlists {
-      margin: 0.18rem 0.1rem;
+      margin: 0.2rem 0.1rem;
       background: white;
       display: flex;
       flex-direction: column;
-      border: 0.02rem solid #747474;
+      border: 0.02rem solid #ccc;
       article {
-        padding: 0.27rem 0 0 0.43rem;
-        border-bottom: 0.02rem solid #747474;
+        padding: 0.27rem 0.46rem 0.27rem 0.46rem;
+        border-bottom: 0.02rem solid #ccc;
         nav {
-          width: 6.3rem;
-          font-size: 0.4rem;
-          color: #0e6fbe;
+          // width: 6.3rem;
+          font-size: 0.5rem;
+          color: #0f6ebe;
           font-weight: 550;
           line-height: 0.5rem;
-          margin-bottom: 0.3rem;
+          margin-bottom: 0.7rem;
           box-sizing: border-box;
+        }
+        ul {
+          display: flex;
+          font-size: 0.03rem;
+          flex-wrap: wrap;
+
+          li {
+            display: flex;
+            height: 0.5rem;
+            width: 2.36rem;
+            // font-size: 0.1rem;
+            color: #fdfffe;
+            // text-align: center;
+            justify-content: center;
+            line-height: 0.5rem;
+            margin-right: 0.44rem;
+            margin-bottom: 0.12rem;
+            background: url(../../assets/c5652240e4485f406fbaf8cb89b0afb.png)
+              no-repeat;
+          }
         }
         section {
           font-size: 0.28rem;
-          margin-bottom: 0.1rem;
+          margin-bottom: 0.32rem;
           color: #747474;
-          display: flex;
+          // display: flex;
           span:nth-of-type(1) {
-            display: inline-block;
+            // display: block;
+            vertical-align: top;
             // line-height: 0.2rem;
-            width: 1rem;
+            // width: 2.5rem;
+            line-height: 0.4rem;
+            // flex:
           }
           span:nth-of-type(2) {
-            display: inline-block;
-            width: 5.3rem;
+            // display: inline-block;
+            vertical-align: top;
+            // width: 8.3rem;
             word-break: break-all;
             // flex: 1;
-            line-height: 0.32rem;
+            line-height: 0.4rem;
           }
         }
       }
       footer {
         // flex: 1;
-        height: 1rem;
-        position: relative;
+        height: 1.2rem;
+        // position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         button {
-          width: 3.4rem;
-          position: absolute;
-          right: 0.25rem;
-          height: 0.6rem;
+          width: 95%;
+
+          // position: absolute;
+          // right: 0.25rem;
+          height: 0.88rem;
           background: #00adef;
           color: white;
+          font-size: 0.3rem;
           top: 50%;
-          transform: translateY(-50%);
+          // transform: translateY(-50%);
         }
         button.active {
           background: #747474;

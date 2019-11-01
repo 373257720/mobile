@@ -2,7 +2,7 @@
   <div id="mine">
     <header>
       <img src="../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
-      <span>41545456</span>
+      <span>{{$store.state.currentUser}}</span>
     </header>
     <nav></nav>
     <main>
@@ -22,12 +22,7 @@
           <van-icon name="arrow" />
         </li>
         <section>
-          <van-dialog
-            v-model="show"
-            title="标题"
-            show-cancel-button
-            :beforeClose="changelanguage"
-          >
+          <van-dialog v-model="show" title="标题" show-cancel-button :beforeClose="changelanguage">
             <van-radio-group v-model="radio">
               <van-cell-group>
                 <van-cell title="ENGLISH" clickable @click="radio = 'en_US'">
@@ -47,6 +42,17 @@
           </p>
           <van-icon name="arrow" />
         </li>
+        <van-dialog v-model="show2" :show-confirm-button="false">
+          <footer>
+            <p>你选择退出当前登录账户,是否继续</p>
+            <aside>
+              <button @click="loginout">确定</button>
+              <button @click="loginout">取消</button>
+            </aside>
+          </footer>
+
+          <!-- <img src="https://img.yzcdn.cn/vant/apple-3.jpg" /> -->
+        </van-dialog>
       </ul>
     </main>
     <mbottom></mbottom>
@@ -58,8 +64,13 @@ export default {
   data() {
     return {
       show: false,
+      show2: false,
       radio: "en_US"
     };
+  },
+  created(){
+    // console.log(this.$store.state.currentUser);
+    
   },
   methods: {
     // beforeClose(action, done) {
@@ -77,11 +88,11 @@ export default {
     //   // });
     // },
     changelanguage(action, done) {
-      // console.log(action);
+      // console.log(this.radio);
       if (action === "confirm") {
         this.$axios({
           method: "post",
-          url: `${this.$baseurl}/bsl_web/base/language.do?lan=${this.radio}`,
+          url: `${this.$baseurl}/bsl_web/base/language.do?lan=${this.radio}`
         }).then(res => {
           // console.log(res);
           done();
@@ -95,17 +106,7 @@ export default {
     },
     loginout() {
       // console.log(this.$dialog);
-      this.$dialog
-        .confirm({
-          title: "您选择退出当前登录账号，",
-          message: "是否继续？"
-        })
-        .then(() => {
-          // on confirm
-        })
-        .catch(() => {
-          // on cancel
-        });
+        this.show2 = !this.show2;
     }
   }
 };
@@ -113,16 +114,32 @@ export default {
 <style lang="scss">
 #mine {
   .van-dialog {
-    font-size: 0.3rem;
+    font-size: 0.4rem;
   }
   section .van-dialog {
     .van-dialog__header {
-      padding-top: 0.5rem;
+      padding-top: 0rem;
+      height: 1.2rem;
+      line-height: 1.2rem;
     }
     .van-dialog__content {
       li {
         padding: 0 0.5rem;
       }
+      .van-icon {
+        width: 0.3rem;
+        height: 0.3rem;
+      }
+      .van-radio__icon {
+        font-size: 0.3rem;
+      }
+    }
+    .van-button--large {
+      height: 1.2rem;
+      line-height: 1.2rem;
+    }
+    .van-cell {
+      font-size: 0.3rem;
     }
   }
 }
@@ -138,21 +155,22 @@ export default {
 #mine {
   background: white;
   header {
-    height: 3rem;
+    height: 3.12rem;
     // z-index: 5;
+    font-size: 0.4rem;
     //  position: fixed;
     // text-align: center;
     line-height: 3rem;
-    padding: 0 0.5rem;
+    padding: 0 0.62rem;
     img {
       width: 1.5rem;
       height: 1.5rem;
       vertical-align: middle;
-      margin-right: 0.3rem;
+      margin-right: 0.44rem;
     }
   }
   nav {
-    height: 0.2rem;
+    height: 0.38rem;
     background: #f2f2f2;
   }
   main {
@@ -160,21 +178,50 @@ export default {
     ul {
       padding: 0 0.5rem;
       li {
-        font-size: 0.2rem;
-        line-height: 1.5rem;
-        height: 1.5rem;
+        font-size: 0.38rem;
+        // line-height: 1.5rem;
+        padding: 0 0.3rem;
+        height: 2.1rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 0.01rem dashed #b5b5b5;
+        border-bottom: 1px dashed #b5b5b5;
         p {
           display: flex;
-          width: 2rem;
+          // width: 2rem;
           justify-content: space-between;
           align-items: center;
         }
         img {
-          height: 0.5rem;
+          height: 0.58rem;
+         width: 0.58rem;
+          margin-right:0.55rem;
+        }
+      }
+      footer {
+        padding: 0 0.6rem 0.5rem 0.6rem;
+        p {
+          text-align: center;
+          height: 1.5rem;
+          font-size: 0.4rem;
+          margin-top: 1rem;
+        }
+        aside {
+          height: 2rem;
+          display: flex;
+          font-size: 0.3rem;
+          flex-direction: column;
+          justify-content: space-between;
+          button {
+            height: 0.8rem;
+            color: #ffffff;
+          }
+          button:nth-of-type(1) {
+            background: #00adef;
+          }
+          button:nth-of-type(2) {
+            background: #ff7c2c;
+          }
         }
       }
     }

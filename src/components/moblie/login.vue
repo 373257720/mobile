@@ -48,15 +48,19 @@ export default {
           }
         }).then(res => {
           var rescode = res.data.resultCode;
-          // sessionStorage.setItem("usertype", res.data.data.userType);
+          // sessionStorage.setItem("usertype", resultCode.data.data.userType);
           console.log(global);
           if (rescode == 10000) {
             console.log("登陆成功");
+            console.log();
+            
             this.$store.dispatch("usertype", res.data.data.userType);
             this.$store.dispatch("setUser", this.username);
             if (res.data.data.isAuth == 1) {
               this.$goto("mhome");
             } else if (res.data.data.isAuth == 0) {
+              console.log(12123);
+              
               this.$goto("usercheck");
             }
           } else if (rescode == 10011) {
@@ -78,26 +82,27 @@ export default {
 #login {
   .van-field__body {
     //  width: 100%;
-    height: 0.7rem;
-    border: 0.02rem solid #ABABAB;
+    height: 1rem;
+    border: 0.02rem solid #DDDDDD;
     border-radius: 0.05rem;
     background: #f6f6f6;
-    padding: 0.2rem;
+    padding: 0.34rem;
     box-sizing: border-box;
   }
   .van-field__control {
-    font-size: 0.12rem;
-    line-height: 0.7rem;
+    font-size: 0.36rem;
+      // line-height: 0.7rem;
+
   }
    .van-field__clear {
     // height: 0.1rem;
-    font-size: 0.3rem;
+    font-size: 0.36rem;
   }
   .username,
   .password {
     .van-field {
       padding: 0;
-      width: 6rem;
+      width: 9.8rem;
     }
   }
 }
@@ -105,27 +110,31 @@ export default {
 <style lang='scss' scoped>
 #login {
   height: 100%;
-  width: 80%;
-  margin: 0 auto;
+  // width: 80%;
+  // width: 9.90rem;
+  // margin: 0 auto;
   display: flex;
-  flex-direction: column;
+    flex-direction: column;
+  // justify-content: center;
+
   h2 {
-    padding: 2rem 0 2rem 0;
+    padding: 3.24rem 0 3.04rem 0;
     text-align: center;
     img {
-      width: 4.28rem;
-      height: 1.5rem;
+      // width: 4.28rem;
+      height: 1.54rem;
     }
   }
   .main {
     flex: 1;
+    // width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     p {
-      font-size: 0.12rem;
-      height: 0.5rem;
-      line-height: 0.5rem;
+      font-size: 0.34rem;
+      height: 0.84rem;
+      line-height: 0.84rem;
       color: #f36c69;
     }
     > div {
@@ -134,15 +143,19 @@ export default {
     button {
       color: white;
       // width: 100%;
+      // font-size: 0.1rem;
         border-radius: 0.05rem;
-      width: 6rem;
-      height: 0.7rem;
+      width: 9.8rem;
+      height: 1rem;
     }
     .loginbtn button {
       background: #00adef;
+       font-size: 0.3rem;
     }
     .registerbtn button {
       background: #ff7c2c;
+        // font-size: 0.1rem;
+         font-size: 0.3rem;
     }
   }
 }

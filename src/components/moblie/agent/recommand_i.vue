@@ -140,12 +140,13 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-        height: 1.5rem;
-        font-size: 0.32rem;
+       height: 1.5rem;
+        font-size: 0.38rem;
+        color: #0f6ebe;
         text-align: center;
         font-weight: 600;
         line-height: 1.5rem;
-        border-bottom: 0.01rem dashed #b5b5b5;
+        border-bottom:0.1rem solid #b5b5b5;
       }
       ul {
         padding: 0.5rem 0.5rem 2rem 0.5rem;
