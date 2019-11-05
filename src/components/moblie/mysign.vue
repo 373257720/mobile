@@ -6,15 +6,8 @@
       </header>
       <main>
         <div class="sort_box" @click="gg">
-          筛选
-          <!-- <i></i>   -->
-          <!-- <van-icon name="arrow-down" /> -->
-          <!-- <ul>
-          <li v-for="(item) in result" :key="item">{{item}}</li>-->
-          <!-- <li>水电费第三方</li>
-            <li>斯蒂芬是否所发生的</li>
-          <li>斯蒂芬是否所发生的</li>-->
-          <!-- </ul> -->
+          项目筛选
+          <van-icon name="arrow-down" />
         </div>
         <transition name="fade">
           <van-checkbox-group v-show="visible" v-model="result">
@@ -22,11 +15,11 @@
               <van-cell
                 v-for="(item, index) in list"
                 clickable
-                :key="item"
-                :title="`${item}`"
+                :key="item.text"
+                :title="`${item.text}`"
                 @click="toggle(index)"
               >
-                <van-checkbox :name="item" ref="checkboxes" slot="right-icon" />
+                <van-checkbox :name="item.value" ref="checkboxes" slot="right-icon" />
               </van-cell>
               <div class="confirm" @click="confirm_lists">确定</div>
             </van-cell-group>
@@ -42,7 +35,7 @@
       :offset="300"
     >
       <ul>
-        <li v-for="item in upGoodsInfo" :key="item.projectId" @click="$routerto()">
+        <li v-for="item in upGoodsInfo" :key="item.signId" @click="mysignto(item)">
           <p>
             <span>申请时间:</span>
             <span>{{item.signTime4Submit}}</span>
@@ -61,9 +54,9 @@
           </p>
           <p>
             <span>签约状态:</span>
-            <span>{{item.signStatus}}</span>
+            <span>{{item.signStatustext}}</span>
           </p>
-          <img src="../../assets/微信图片_201908191046412.png" alt />
+          <img :src="item.pic" alt />
         </li>
       </ul>
     </van-list>
@@ -85,13 +78,37 @@ export default {
       pageNum: 0,
       loadNumUp: 5,
       upGoodsInfo: [],
-      result: [],
+      result: [1, 2, 4, 6, 3, 7],
       list: [
-        "待审核项目",
-        "待签约项目",
-        "待确认项目",
-        "成功签约项目",
-        "拒绝签约项目"
+        {
+          value: 1,
+          text: "待审核项目",
+          pic: "../../../static/pic/201908191046413.png"
+        },
+        {
+          value: 2,
+          text: "待签约项目",
+          pic: "../../../static/pic/201908191046412.png"
+        },
+        {
+          value: 4,
+          text: "待确认项目",
+          pic: "../../../static/pic/20190819104641.png"
+        },
+        {
+          value: 6,
+          text: "成功签约项目",
+          pic: "../../../static/pic/201908191046411.png"
+        },
+        {
+          value: 3,
+          text: "拒绝签约项目",
+          pic: "../../../static/pic/201908191046414.png"
+        }
+        //  {
+        //   value: 7,
+        //   text: "拒绝签约项目2"
+        // },
       ]
     };
   },
@@ -100,8 +117,10 @@ export default {
     // console.log(b.b);
     // console.log(b.c);
     // b.add();
+
     let usertype = this.$store.state.currentUsertype;
-    console.log(usertype);
+
+    // console.log(usertype);
     if (usertype == 1) {
       this.option1 = [
         { text: "待审核项目", value: 0 },
@@ -127,40 +146,78 @@ export default {
       ];
     }
   },
+  mounted() {
+    // console.log(this.result);
+  },
   methods: {
+    mysignto(item) {
+      //待审核
+      console.log(item);
+      let signStatus=item.signStatus
+      let obj = {
+        projectId: item.projectId,
+        signStatus: item.signStatus,
+        signId: item.signId
+      };
+      if (signStatus == 1) {
+        this.$routerto("p_sign_request",obj);
+      } else if (signStatus == 2) {
+        this.$routerto("p_wait_agent_input",obj);
+      } else if (signStatus == 4) {
+        this.$routerto("p_wait_investor",obj);
+      } else if (signStatus == 6) {
+        this.$routerto("p_sign_successful",obj);
+      } else if (signStatus == 3 || signStatus == 7) {
+        this.$routerto("p_sign_failed",obj);
+      }
+      //待签约
+      //待确认项目
+      //成功签约
+      //拒绝
+    },
     confirm_lists() {
-      this.onLoad(1);
+      if (this.result.indexOf(3) >= 0) {
+        if (this.result.indexOf(7) <= 0) {
+          this.result.push(7);
+          console.log(111111);
+        }
+      } else if (this.result.indexOf(3) < 0) {
+        if (this.result.indexOf(7) >= 0) {
+          console.log(222222);
+          this.result.splice(this.result.indexOf(7), 1);
+        }
+      }
 
+      this.upGoodsInfo = [];
+      this.onLoad();
       this.visible = false;
     },
     gg() {
       this.visible = !this.visible;
       // if (this.visible != true) {
-      console.log(document.querySelector(".van-checkbox-group").style.height);
+      // console.log(document.querySelector(".van-checkbox-group").style.height);
       // }
-
       // document.querySelector('.bobobo').style.zIndex=-800;
     },
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
+      // console.log(this.result);
     },
-    choose(value) {
-      //  console.log(this.option1);
-      console.log(value, this.text);
-      this.text = this.option1[value].text;
-      this.pageNum = 0;
-      this.upGoodsInfo = [];
-      this.onLoad(this.option1[value].type);
-    },
-    onLoad(value) {
-        if (!value) {
-          value = 1;
-        }
+    //  checkAll() {
+    //   this.$refs.checkboxGroup.toggleAll(true);
+    // },
+    // toggleAll() {
+    //   this.$refs.checkboxGroup.toggleAll();
+    // },
+    onLoad() {
+      console.log(this.result);
+
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/projectSign/project`,
+        // data: this.$qs.stringify(this.form),
         params: {
-          signStatus: value,
+          signStatusList: this.result,
           pageIndex: ++this.pageNum,
           pageSize: this.loadNumUp
         },
@@ -182,8 +239,22 @@ export default {
               this.loadText = "加载完成";
               this.finished = true;
             }
-            console.log(this.upGoodsInfo);
-            
+            // console.log(this.upGoodsInfo);
+            this.upGoodsInfo.forEach(item => {
+              // console.log(this.$global);
+
+              item.signTime = this.$global.timestampToTime(item.signTime);
+              item.signTime4Submit = this.$global.timestampToTime(
+                item.signTime4Submit
+              );
+              //  this.upGoodsInfo
+              this.list.forEach(ite => {
+                if (item.signStatus == ite.value) {
+                  item.signStatustext = ite.text;
+                  item.pic = ite.pic;
+                }
+              });
+            });
           } else {
             this.finished = true;
           }
@@ -210,7 +281,7 @@ export default {
     }
   }
   .van-cell {
-    padding: 0.1rem 0.3rem;
+    padding: 0.2rem 0.3rem;
     .van-cell__title {
       text-align: center;
     }
@@ -229,11 +300,16 @@ export default {
     width: 0.4rem;
     height: 0.4rem;
   }
+  .van-icon-arrow-down {
+    //  width: 0.2rem;
+    //     height: 0.2rem;
+    font-size: 0.1rem;
+  }
   .van-icon-success {
     width: 0.4rem;
     height: 0.4rem;
     line-height: 0.4rem;
-    font-size: 0.3rem;
+    font-size: 0.1rem;
   }
   .van-hairline--top-bottom {
     // z-index: -3;
@@ -259,33 +335,22 @@ export default {
     top: 0;
     background: white;
     header {
-      line-height: 1.5rem;
+      line-height: 1.6rem;
       font-size: 0.46rem;
-      height: 1.5rem;
+      height: 1.6rem;
       // font-size: 0.4rem;
       border-bottom: 0.16rem solid #d2d2d2;
     }
     .sort_box {
-      height: 1.3rem;
-      border-bottom: 0.02rem solid #7c7c7c;
-      line-height: 1.3rem;
+      height: 1rem;
+      border-bottom: 1px solid #7c7c7c;
+      line-height: 1rem;
+      font-size: 0.38rem;
+      color: #00adef;
       // i{
       //    border: 0.05rem solid black;
       // }
     }
-    // .sort_box::after {
-    //   content: "";
-    //   display: inline-block;
-    //   vertical-align: middle;
-    //   margin-top: 2px;
-    //   margin-left: 2px;
-    //   width: 13px;
-    //   height: 13px;
-    //   background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAKCAYAAAC9vt6cAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzZBODZDMDc5M0Q5MTFFNjgwOEQ4QTZFRDY1MjY1MUYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzZBODZDMDg5M0Q5MTFFNjgwOEQ4QTZFRDY1MjY1MUYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDOEZEMERBNjkzNDExMUU2ODA4RDhBNkVENjUyNjUxRiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDNkE4NkMwNjkzRDkxMUU2ODA4RDhBNkVENjUyNjUxRiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PseaCuwAAACYSURBVHjaYjlz5sxSBgaGUCBmZSAN/Abi1UxAQoMMzQxQPVogA8KB+A0ZBrwGuRxkwB2oIb9I0AxSGwHSywQV2AfEBSQYkA/Vw8CEJDgdiKcRoXkqEM+AcZjQJPNgJuMA+6C2M+Ay4C8Qh0DDBR3cgcr9xWcACLwHYl8g/ogk9hEq9h5dMRMOp94A4kAgfgHFAVAxDAAQYAAW9CA9zO+COgAAAABJRU5ErkJggg==) no-repeat
-    //     no-repeat;
-    //   background-size: 13px auto;
-    // }
-    //     border: 1rem solid black;
 
     // }
     .confirm {
@@ -305,7 +370,7 @@ export default {
     }
   }
   .van-list ul {
-    padding: 3rem 0 1rem 0;
+    padding: 3rem 0 1.3rem 0;
     background: white;
     li {
       // line-height: 0.6rem;

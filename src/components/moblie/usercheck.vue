@@ -1,6 +1,6 @@
 <template>
   <div id="usercheck">
-    <!-- <div class="usercheck">
+    <div class="usercheck" v-if="success">
       <header>审核</header>
       <div class="usertype">
         <p>类型</p>
@@ -76,14 +76,14 @@
       <div class="commit">
         <button @click="commit">提交</button>
       </div>
-    </div>-->
-    <div class="usercheck2">
+    </div>
+    <div class="usercheck2" v-if="!success">
       <h2>
         <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
       </h2>
       <section>你的资料已提交</section>
       <nav class="backbtn">
-        <button>进入首页</button>
+        <button @click="$goto('login')">进入首页</button>
       </nav>
     </div>
   </div>
@@ -228,7 +228,7 @@ export default {
       })
         .then(res => {
           if (res.data.resultCode == 10000) {
-            this.success1 = !this.success1;
+            this.success = !this.success;
             // var aa = setInterval(() => {
             //   --this.timeout;
             // }, 1000);

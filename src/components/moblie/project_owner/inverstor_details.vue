@@ -8,7 +8,7 @@
         <img src="../../assets/26566ffb301dac8c24d21969b538612.png" alt />
       </aside>-->
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <!-- <header>放水电费鼎飞丹砂</header> -->
         <ul>
           <li v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
@@ -55,7 +55,7 @@ export default {
           response: ""
         },
         {
-          name: "投资者兴趣:",
+          name: "感兴趣行业:",
           response: ""
         },
         {
@@ -99,9 +99,10 @@ export default {
     height: 1.5rem;
     position: fixed;
     top: 0;
+    font-weight: 550;
     font-size: 0.46rem;
     background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
+    border-bottom: 0.16rem solid #b5b5b5;
   }
   main {
     margin-top: 1.5rem;
@@ -123,7 +124,7 @@ export default {
         border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
-        padding: 0.5rem 0.5rem 0 0.5rem;
+        padding: 1.2rem 1.5rem 0 1.5rem;
         li {
           margin-bottom: 0.4rem;
           display: flex;
@@ -144,8 +145,9 @@ export default {
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
+        font-size: 0.4rem;
         button {
-          width: 6.5rem;
+          width: 9.9rem;
           height: 1rem;
           background: #00adef;
           color: white;

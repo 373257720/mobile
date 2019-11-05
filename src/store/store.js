@@ -6,10 +6,15 @@ export default new Vuex.Store({
     currentUser: null,
     topright: true,
     currentUsertype: null,
-
+    contract:'',
   },
   getters: {},
   mutations: {
+    contract_set(state,content){
+      if(content){
+        state.contract=content;
+      }
+    },
     username_set(state, user) {
       if (user) {
         state.currentUser = user

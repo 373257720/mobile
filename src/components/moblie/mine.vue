@@ -127,8 +127,8 @@ export default {
         padding: 0 0.5rem;
       }
       .van-icon {
-        width: 0.3rem;
-        height: 0.3rem;
+        width: 0.4rem;
+        height: 0.4rem;
       }
       .van-radio__icon {
         font-size: 0.3rem;

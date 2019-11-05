@@ -34,8 +34,8 @@
         </ul>
         <footer>
           <aside>
-            <button>感兴趣</button>
-            <button @click="gg">拒绝签约</button>
+            <button @click="$routerto('p_set_contract',{projectId:projectId,investorsId:investorsId})">感兴趣</button>
+            <button @click="agreement(3)">拒绝签约</button>
           </aside>
         </footer>
       </article>
@@ -49,81 +49,103 @@ export default {
   data() {
     return {
       show: false,
+      projectId:null,
+      investorsId:null,
       dad_text:'签约请求',
          nav_lists: [
-        {
+         {
+          keyword: "financingStage",
           name: "融资阶段",
-          response: "12"
+          response: ""
         },
         {
+          keyword: "interestProjectCount",
           name: "项目方<br>有兴趣数量",
-          response: "16"
+          response: ""
         },
         {
+          keyword:'committedCount',
           name: "已提交</br>投资者数量",
-          response: "118"
+          response: ""
         }
       ],
       investor_infor: [
         {
+          keyword:'investorsType',
           name: "投资者类型:",
           response: "放水电费水电费"
         },
         {
+          keyword:'investorsCompany',
           name: "投资者公司:",
           response: "发地方水电是否水电费水电费诗圣杜甫费发"
         },
         {
+          keyword:'investorsName',
           name: "投资者姓名:",
           response: "发地方水电"
         },
         {
+          keyword:'investorsArea',
           name: "投资者地区:",
           response: "斯蒂芬发地方发地方水电发地方水电"
         }
       ],
       details_lists: [
-        {
+      {
+          keyword: "projectIndustry",
           name: "行业:",
-          response: "2019-15-26"
+          response: ""
         },
         {
+          keyword: "projectArea",
           name: "地区:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
-          name: "公司名称:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "是否是上市公司:",
-          response: "13178523855"
-        },
-        {
-          name: "集资额:",
-          response: "金融"
-        },
-        {
-          name: "联络电话:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "电邮:",
-          response: "13178523855"
-        },
-        {
-          name: "融资阶段:",
-          response: "金融"
-        },
-        {
+          keyword: "signStatus",
           name: "项目状态:",
-          response: "金融"
+          response: ""
         },
+        { keyword: "projectCompany", name: "公司名称:", response: "" },
+        { keyword: "publicCompany", name: "是否上市公司:", response: "" },
+        { keyword: "collectMoney", name: "集资额:", response: "" },
+        { keyword: "projectMobile", name: "联系电话:", response: "" },
+        { keyword: "projectEmail", name: "电邮:", response: "" },
+        { keyword: "projectDescribe", name: "项目详情:", response: "" }
       ]
     };
   },
+  created(){
+  let details = this.$route.query;
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId}`
+    }).then(res => {
+      for (var i in res.data.data) {
+        this.projectId=res.data.data.projectId;
+        this.investorsId=res.data.data.investorsId; 
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            this.details_lists[j].response = res.data.data[i];
+          }
+        }
+        for (var w = 0; w < this.nav_lists.length; w++) {
+          if (this.nav_lists[w].keyword == i) {
+            this.nav_lists[w].response = res.data.data[i];
+          }
+        }
+          for (var k = 0; k < this.investor_infor.length; k++) {
+          if (this.investor_infor[k].keyword == i) {
+            this.investor_infor[k].response = res.data.data[i];
+          }
+        }
+      }
+      console.log(this.details_lists);
+    });
+  },
   methods: {
-    gg() {
+    agreement(num) {
       // console.log(this.$dialog);
 
       this.$dialog
@@ -133,6 +155,19 @@ export default {
         })
         .then(() => {
           // on confirm
+      this.$axios({
+      method: "post",
+      url: `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
+      data:this.$qs.stringify({
+         projectId:this.projectId,
+         investorsId:this.investorsId,
+         signStatus:num,
+         signAgreement:'' 
+      }),
+    }).then(res => {
+  
+      console.log(res);
+    });
         })
         .catch(() => {
           // on cancel
@@ -166,18 +201,6 @@ export default {
 <style lang="scss" scoped>
 #p_sign_request {
   width: 100%;
-  // nav {
-  //   width: 100%;
-  //   text-align: center;
-  //   line-height: 1.5rem;
-  //   height: 1.5rem;
-
-  //   position: fixed;
-  //   top: 0;
-  //   font-size: 0.38rem;
-  //   background: white;
-  //   border-bottom: 0.02rem dashed #b5b5b5;
-  // }
   main {
     margin-top: 1.5rem;
     background: #ffffff;
@@ -189,11 +212,14 @@ export default {
     }
     div.investors_infor {
       h2 {
-        padding: 0.2rem 0.3rem;
+        // padding: 0.2rem 0.3rem;
+        height: 2rem;
         font-size: 0.38rem;
         color: #0f6ebe;
-        line-height: 0.5rem;
+        line-height: 2rem;
+        text-align: center;
       }
+      
       header {
         height: 0.8rem;
         font-size: 0.32rem;
@@ -203,6 +229,7 @@ export default {
         color: #868686;
         border-bottom: 0.01rem dashed #b5b5b5;
       }
+     
       ul {
         padding: 0.1rem 0.5rem;
         li {
@@ -242,6 +269,9 @@ export default {
         line-height: 0.8rem;
         color: #868686;
         border-bottom: 0.01rem dashed #b5b5b5;
+      }
+       .nav_lists{
+        border-top:0;
       }
        div.nav_lists {
         display: flex;

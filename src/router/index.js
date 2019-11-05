@@ -176,11 +176,11 @@ const routes = [
     name: 'p_inverstor_details',
     component:p_inverstor_details,
   },
-  {
-    path: '/p_inverstor_details',
-    name: 'p_inverstor_details',
-    component:p_inverstor_details,
-  },
+  // {
+  //   path: '/p_inverstor_details',
+  //   name: 'p_inverstor_details',
+  //   component:p_inverstor_details,
+  // },
 // investor
 
 {

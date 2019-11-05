@@ -55,7 +55,7 @@ export default {
 <style lang="scss">
 #p_user_contact {
   .van-search {
-    padding: 0.2rem 0.2rem;
+    // padding: 0.2rem 0.2rem;
     // background: #1F2652;
   }
   .van-search__action {
@@ -132,21 +132,21 @@ export default {
     top: 0;
     background: white;
     header {
-      line-height: 1.5rem;
-      height: 1.5rem;
+      line-height: 1.6rem;
+      height: 1.6rem;
       font-size: 0.4rem;
       // border-bottom: 0.1rem solid #d2d2d2;
     }
   }
   ul {
-    padding: 2.6rem 0 1.5rem 0;
+    padding: 3rem 0 1.5rem 0;
     background: white;
     li {
       // line-height: 0.6rem;
       position: relative;
       word-break: break-all;
-      margin: 0.2rem 0.5rem 0;
-      padding: 0rem 0 0.2rem 0;
+      margin: 0.36rem 0.5rem 0;
+      padding: 0rem 0 0.36rem 0;
       display: flex;
       align-items: center;
       // border-bottom: 0.01rem solid #b5b5b5;
@@ -185,8 +185,8 @@ export default {
         // top: 0;
         // left: 0;
         // transform: translate(-15%,-25%);
-        height: 1rem;
-        width: 1rem;
+        height: 1.45rem;
+        width: 1.45rem;
       }
     }
   }

@@ -12,46 +12,6 @@
             <p class="row1">{{item.name}}</p>
             <p class="row2">{{item.response}}</p>
           </li>
-          <!-- <li class="contract">
-            <p class="row1">草拟合约:</p>
-            <section>
-              <article class="draft1_middle">
-                <div class="content">
-                  <p>到右出现的顺序存储。缓冲区编号从&nbsp;1&nbsp;开始，最多可存储&nbsp;99&nbsp;个捕获的子表达式。每个缓冲区都可以使用&nbsp;\n&nbsp;访问，其中&nbsp;n&nbsp;为一个标识特定缓冲区的一位或两位十进制数。</p>
-                  <p></p>
-                  <p>可以使用非捕获元字符&nbsp;?:、?=&nbsp;或&nbsp;?!&nbsp;来重写捕获，忽略对相关匹配的保存。</p>
-                  <p></p>
-                  <p>反向引用的最简单的、最有用的应用之一，是提供查找文本中两个相同的相邻单词的匹配项的能力。以下面的句子为例：</p>
-                  <p></p>
-                  <p>到右出现的顺序存储。缓冲区编号从&nbsp;1&nbsp;开始，最多可存储&nbsp;99&nbsp;个捕获的子表达式。每个缓冲区都可以使用&nbsp;\n&nbsp;访问，其中&nbsp;n&nbsp;为一个标识特定缓冲区的一位或两位十进制数。</p>
-                  <p>可以使用非捕获元字符&nbsp;?:、?=&nbsp;或&nbsp;?!&nbsp;来重写捕获，忽略对相关匹配的保存。</p>
-                  <p></p>
-                  <p>反向引用的最简单的、最有用的应用之一，是提供查找文本中两个相同的相邻单词的匹配项的能力。以下面的句子为例：</p>
-                  <p>到右出现的顺序存储。缓冲区编号从&nbsp;1&nbsp;开始，最多可存储&nbsp;99&nbsp;个捕获的子表达式。每个缓冲区都可以使用&nbsp;\n&nbsp;访问，其中&nbsp;n&nbsp;为一个标识特定缓冲区的一位或两位十进制数。</p>
-                  <p></p>
-                  <p>可以使用非捕获元字符&nbsp;?:、?=&nbsp;或&nbsp;?!&nbsp;来重写捕获，忽略对相关匹配的保存。</p>
-                  <p></p>
-                  <p>反向引用的最简单的、最有用的应用之一，是提供查找文本中两个相同的相邻单词的匹配项的能力。以下面的句子为例：</p>
-                  <p></p>
-                  <p>到右出现的顺序存储。缓冲区编号从&nbsp;1&nbsp;开始，最多可存储&nbsp;99&nbsp;个捕获的子表达式。每个缓冲区都可以使用&nbsp;\n&nbsp;访问，其中&nbsp;n&nbsp;为一个标识特定缓冲区的一位或两位十进制数。</p>
-                  <p>可以使用非捕获元字符&nbsp;?:、?=&nbsp;或&nbsp;?!&nbsp;来重写捕获，忽略对相关匹配的保存。</p>
-                  <p></p>
-                  <p>反向引用的最简单的、最有用的应用之一，是提供查找文本中两个相同的相邻单词的匹配项的能力。以下面的句子为例：</p>
-                  <p>可以使用非捕获元字符&nbsp;?:、?=&nbsp;或&nbsp;?!&nbsp;来重写捕获，忽略对相关匹配的保存。</p>
-                  <p></p>
-                  <p>反向引用的最简单的、最有用的应用之一，是提供查找文本中两个相同的相邻单词的匹配项的能力。以下面的句子为例：</p>
-                </div>
-
-                <div class="signature">
-                  <span>投行</span>
-                  <span>
-          <!-- 中间人-->
-
-          <!-- </span>
-                </div>
-              </article>
-            </section>
-          </li>-->
         </ul>
         <footer>
           <aside>
@@ -69,75 +29,70 @@ export default {
   name: "p_wait_agent_input",
   data() {
     return {
-      value: ["", "", ""],
-      list: ["a", "b", "c"],
-      result: ["a", "b"],
-      details_lists: [
-        {
-          name: "行业:",
-          response: "2019-15-26"
-        },
-        {
-          name: "地区:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
-        },
-            {
-          name: "项目状态",
-          response: "金融"
-        },
-        {
-          name: "公司名称:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "是否是上市公司",
-          response: "13178523855"
-        },
-        {
-          name: "集资额:",
-          response: "金融"
-        },
-        {
-          name: "联络电话:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "电邮",
-          response: "13178523855"
-        },
-    
-        {
-          name: "项目介绍",
-          response: "金融"
-        },
-        // {
-        //   name: "投资者公司",
-        //   response: "谁到时对方"
-        // },
-        // {
-        //   name: "投资者姓名",
-        //   response: "金融"
-        // },
-        // {
-        //   name: "投资者地区",
-        //   response: "金融"
-        // }
-      ],
       nav_lists: [
         {
+          keyword: "financingStage",
           name: "融资阶段",
-          response: "12"
+          response: ""
         },
         {
+          keyword: "interestProjectCount",
           name: "项目方<br>有兴趣数量",
-          response: "16"
+          response: ""
         },
         {
+          keyword: "committedCount",
           name: "已提交</br>投资者数量",
-          response: "118"
+          response: ""
         }
+      ],
+      details_lists: [
+        {
+          keyword: "projectIndustry",
+          name: "行业:",
+          response: ""
+        },
+        {
+          keyword: "projectArea",
+          name: "地区:",
+          response: ""
+        },
+        {
+          keyword: "signStatus",
+          name: "项目状态:",
+          response: ""
+        },
+        { keyword: "projectCompany", name: "公司名称:", response: "" },
+        { keyword: "publicCompany", name: "是否上市公司:", response: "" },
+        { keyword: "collectMoney", name: "集资额:", response: "" },
+        { keyword: "projectMobile", name: "联系电话:", response: "" },
+        { keyword: "projectEmail", name: "电邮:", response: "" },
+        { keyword: "projectDescribe", name: "项目详情:", response: "" }
       ]
     };
+  },
+  created() {
+    let details = this.$route.query;
+    // console.log();
+
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId}`
+    }).then(res => {
+      for (var i in res.data.data) {
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            this.details_lists[j].response = res.data.data[i];
+          }
+        }
+        for (var w = 0; w < this.nav_lists.length; w++) {
+          if (this.nav_lists[w].keyword == i) {
+            this.nav_lists[w].response = res.data.data[i];
+          }
+        }
+      }
+      console.log(this.details_lists);
+    });
   },
   methods: {
     gg() {
@@ -280,17 +235,16 @@ export default {
         //     }
         //   }
         // }
-      
       }
-        footer {
-          padding: 0 0.5rem 0.5rem 0.5rem;
-          button {
-            width: 6.5rem;
-            height: 1rem;
-            background: #00adef;
-            color: white;
-          }
+      footer {
+        padding: 0 0.5rem 0.5rem 0.5rem;
+        button {
+          width: 6.5rem;
+          height: 1rem;
+          background: #00adef;
+          color: white;
         }
+      }
     }
   }
 }

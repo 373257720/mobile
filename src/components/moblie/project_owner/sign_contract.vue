@@ -10,6 +10,11 @@ export default {
     return {
     };
   },
+   created() {
+    console.log(this.$route.query);
+    console.log(this.$store.state.contract);
+    
+  },
   methods: {
     gg() {
       // console.log(this.$dialog); 

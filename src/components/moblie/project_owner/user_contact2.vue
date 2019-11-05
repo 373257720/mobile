@@ -4,13 +4,13 @@
     <!-- <main></main> -->
     <ul>
       <li>
-        <p>
+        <!-- <p> -->
           <span>
             <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
           </span>
           <span>大煞风景看到发送到放到水电费地方路交口</span>
           <!-- <van-icon name="arrow" /> -->
-        </p>
+        <!-- </p> -->
       </li>
       <li>
         <section>
@@ -155,19 +155,25 @@ export default {
   // }
 
   ul {
-    padding: 2rem 0 1.5rem 0;
+    padding: 1.6rem 0 1.5rem 0;
     background: white;
     li:nth-child(1) {
       margin-bottom: 0.5rem;
+      height: 2.23rem;
+      display: flex;
+      align-items: center;
       border-bottom: 0.02rem dashed #f2f2f2;
       img {
-        height: 1.2rem;
-        width: 1.2rem;
+        height: 1.46rem;
+        width: 1.46rem;
+        
       }
+
       span:nth-child(1) {
         // display: inline;
         // font-weight: 600;
         // color: #4c4c4c;
+        margin-right:0.76rem;
         // font-size: 0.3rem;
         // line-height: 1.5rem;
       }
@@ -180,20 +186,21 @@ export default {
     }
     li {
       word-break: break-all;
-      margin: 0 0.5rem 0;
+      margin: 0 0.7rem 0;
       display: flex;
       font-size: 0.3rem;
 
       p {
         display: flex;
         // flex-direction: column;
-        margin-left: 0.4rem;
-        margin-bottom: 0.2rem;
+        // margin-left: 0.4rem;
+        margin-bottom: 0.5rem;
+             font-size: 0.36rem;
         // align-items: baseline;
         span:nth-child(1) {
           font-weight: 550;
-          width: 2.5rem;
-          font-size: 0.3rem;
+          width: 2.3rem;
+     
           line-height: 0.5rem;
           color: #4c4c4c;
           display: inline-block;
@@ -203,7 +210,7 @@ export default {
           flex: 1;
           font-weight: 500;
           color: #787878;
-          font-size: 0.2rem;
+          // font-size: 0.2rem;
           // line-height: 0.5rem;
           display: inline-block;
           //   width: 3rem;

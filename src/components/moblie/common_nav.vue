@@ -18,13 +18,14 @@ name:'common_nav',
   nav {
  width: 100%;
     text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
+    line-height: 1.6rem;
+    height: 1.6rem;
     position: fixed;
     top: 0;
-    font-size: 0.38rem;
+    font-weight: 550;
+    font-size: 0.5rem;
     background: white;
-    border-bottom: 0.02rem dashed #b5b5b5;
+    border-bottom: 1px dashed #b5b5b5;
   }
 }
 </style>

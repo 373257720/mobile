@@ -29,71 +29,68 @@ export default {
   name: "p_sign_successful",
   data() {
     return {
-         nav_lists: [
-        {
+      nav_lists: [
+          {
+          keyword: "financingStage",
           name: "融资阶段",
-          response: "12"
+          response: ""
         },
         {
+          keyword: "interestProjectCount",
           name: "项目方<br>有兴趣数量",
-          response: "16"
+          response: ""
         },
         {
+          keyword:'committedCount',
           name: "已提交</br>投资者数量",
-          response: "118"
+          response: ""
         }
       ],
-      details_lists: [
+       details_lists: [
         {
+          keyword: "projectIndustry",
           name: "行业:",
-          response: "2019-15-26"
+          response: ""
         },
         {
+          keyword: "projectArea",
           name: "地区:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
-          name: "公司名称:",
-          response: "斯蒂芬发地方"
+          keyword: "signStatus",
+          name: "项目状态:",
+          response: ""
         },
-        {
-          name: "是否是上市公司",
-          response: "13178523855"
-        },
-        {
-          name: "集资额:",
-          response: "金融"
-        },
-        {
-          name: "联络电话:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "电邮",
-          response: "13178523855"
-        },
-        // {
-        //   name: "融资阶段",
-        //   response: "金融"
-        // },
-        // {
-        //   name: "项目方有兴趣的数量:",
-        //   response: "斯蒂芬发地方"
-        // },
-        // {
-        //   name: "已提交的投资者数量",
-        //   response: "13178523855"
-        // },
-        {
-          name: "项目状态",
-          response: "金融"
-        },
-        {
-          name: "项目介绍",
-          response: "金融"
-        }
+        { keyword: "projectCompany", name: "公司名称:", response: "" },
+        { keyword: "publicCompany", name: "是否上市公司:", response: "" },
+        { keyword: "collectMoney", name: "集资额:", response: "" },
+        { keyword: "projectMobile", name: "联系电话:", response: "" },
+        { keyword: "projectEmail", name: "电邮:", response: "" },
+        { keyword: "projectDescribe", name: "项目详情:", response: "" }
       ]
     };
+  },
+  created() {
+    let details = this.$route.query;
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId}`
+    }).then(res => {
+      for (var i in res.data.data) {
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            this.details_lists[j].response = res.data.data[i];
+          }
+        }
+        for (var w = 0; w < this.nav_lists.length; w++) {
+          if (this.nav_lists[w].keyword == i) {
+            this.nav_lists[w].response = res.data.data[i];
+          }
+        }
+      }
+      console.log(this.details_lists);
+    });
   },
   methods: {
     gg() {
@@ -173,7 +170,7 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-           height: 1.5rem;
+        height: 1.5rem;
         font-size: 0.38rem;
         color: #0f6ebe;
         text-align: center;
@@ -221,7 +218,7 @@ export default {
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         button {
-          width: 6.5rem;
+          width: 9.9rem;
           height: 1rem;
           background: #00adef;
           color: white;

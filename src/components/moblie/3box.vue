@@ -21,12 +21,12 @@ export default {
 <style lang="scss">
     div.nav_lists {
         display: flex;
-        border-top: 0.2rem solid #f2f2f2;
-        border-bottom: 0.2rem solid #f2f2f2;
+        border-top: 0.25rem solid #f2f2f2;
+        border-bottom: 0.25rem solid #f2f2f2;
         > p {
           flex: 1;
-          height: 2rem;  
-          font-size: 0.3rem;
+          height: 2.5rem;  
+          font-size: 0.34rem;
           display: flex;
           align-items:center;
           section.box{
@@ -34,7 +34,7 @@ export default {
               width: 100%;
               display: flex;
               text-align: center;
-             height: 1.5rem;
+             height: 1.66rem;
             //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
@@ -42,6 +42,7 @@ export default {
             span.rowb{
                  font-size: 0.38rem;
                   color: #0f6ebe;
+                  font-weight: 550;
             }
           }         
         }

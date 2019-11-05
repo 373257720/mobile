@@ -49,7 +49,7 @@
         :offset="300"
       >
         <div v-for="goods in  upGoodsInfo" :key="goods.id" class="goodlists">
-          <article @click="routerto(goods.projectId)">
+          <article @click="routerto(goods)">
             <nav>{{goods.projectName}}</nav>
             <section>
               <span>行业：</span>
@@ -66,12 +66,12 @@
             </section>
             <footer>
               <ul>
-                <li v-for="(item) in  tags" :key="item.text">{{item.text}}（{{item.number}}）</li>
+                <!-- <li v-for="(item) in  tags" :key="item.text">{{item.text}}（{{item.number}}）</li> -->
               </ul>
-            </footer>
+            </footer> 
           </article>
           <footer>
-            <button>签约投资者资料（0）</button>
+            <button @click="$routerto('p_investor_infor',{pro:JSON.stringify(goods.signUserResp)})">签约投资者资料（0）</button>
           </footer>
         </div>
       </van-list>
@@ -92,28 +92,28 @@ export default {
         }
       ],
       activeIds: 0,
-      tags: [
-        {
-          text: "待审核",
-          number: 12
-        },
-        {
-          text: "待签约",
-          number: 4
-        },
-        {
-          text: "待确认",
-          number: 89
-        },
-        {
-          text: "拒绝",
-          number: 111
-        },
-        {
-          text: "已签约",
-          number: 3
-        }
-      ],
+      // tags: [
+      //   {
+      //     text: "待审核",
+      //     number: 0
+      //   },
+      //   {
+      //     text: "待签约",
+      //     number: 0
+      //   },
+      //   {
+      //     text: "待确认",
+      //     number:0
+      //   },
+      //   {
+      //     text: "拒绝",
+      //     number: 0
+      //   },
+      //   {
+      //     text: "已签约",
+      //     number: 0
+      //   }
+      // ],
       // 左侧高亮元素的index
       mainActiveIndex: 0,
       // 被选中元素的id
@@ -138,20 +138,6 @@ export default {
     };
   },
   created() {
-    // this.bar();
-    // console.log(this.bar);
-
-    // this.$global
-    //   .changepage(`${this.$baseurl}/bsl_web/base/getAllIndustry`, "get")
-    //   .then(
-    //     res => {
-    //       console.log(res.data);
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     }
-    //   );
-
     // console.log(this.$store.state.currentUsertype);
     let usertype = this.$store.state.currentUsertype;
     if (usertype == 1) {
@@ -183,16 +169,25 @@ export default {
               remark: res2.data.data[i].countryCode
             });
           }
-          // console.log(this.option);
         }
       })
     );
   },
   methods: {
-    routerto(projectId) {
+    routerto(item) {
       this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
-        this.$routerto("p_goods_details", { projectId: projectId });
+        console.log(item.signUserResp);
+        // console.log(item.signUserResp.length);
+        if (item.signUserResp.length > 1) {
+          this.$routerto("mysign");
+        } else if (item.signUserResp.length <= 1) {
+          this.$routerto("p_goods_details", {
+            projectId: item.projectId,
+            signStatus: item.signUserResp[0].signStatus,
+            signId: item.signUserResp[0].signId
+          });
+        }
       } else if (this.$store.state.currentUsertype == 3) {
         // this.$routerto("a_project_intro", { projectId: projectId });
       } else if (this.$store.state.currentUsertype == 4) {
@@ -250,8 +245,7 @@ export default {
       if (this.activeIds == 0) {
         this.activeIds = "";
       }
-      console.log(this.region_name, this.activeIds);
-
+      // console.log(this.region_name, this.activeIds);
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getAllProject?`,
@@ -281,6 +275,11 @@ export default {
           } else {
             this.finished = true;
           }
+          console.log(this.upGoodsInfo);
+          let arr=[];
+          // for(let i=0;i<this.upGoodsInfo.length;i++){
+          //   arr.push()  this.upGoodsInfo[i].signUserResp
+          // }
         })
         .catch(err => {
           this.loadText = "loading failed";
@@ -321,6 +320,9 @@ export default {
       text-align: center;
       line-height: 0.6rem;
       font-size: 0.4rem;
+    }
+    .van-popup {
+      max-height: 62%;
     }
     .van-cell {
       font-size: 0.1rem;
@@ -407,7 +409,7 @@ export default {
     }
   }
   .main {
-    margin: 3.95rem 0 0 0;
+    margin: 3.95rem 0 1.5rem 0;
     // margin-bottom: 5rem;
     height: 100%;
     background: #eeeeee;

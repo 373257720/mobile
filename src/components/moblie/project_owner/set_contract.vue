@@ -16,11 +16,11 @@
               type="textarea"
               placeholder="请输入留言"
             />
-          </van-cell-group> -->
-          <textarea v-model="content" style="width:100%; height: 8rem" placeholder="请输入"></textarea>
+          </van-cell-group>-->
+          <textarea v-model="content" style="width:100%; height: 12rem" placeholder="请输入"></textarea>
         </div>
         <footer>
-          <button @click="gg">签署</button>
+          <button @click="signature">签署</button>
         </footer>
       </article>
     </main>
@@ -32,14 +32,23 @@ export default {
   name: "goods_details",
   data() {
     return {
-      content:'',
+      content: "",
       details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
     };
   },
+  created() {
+    console.log(this.$route.query);
+  },
   methods: {
-    gg(){
-      console.log(this.content);
-      
+    signature() {
+      // console.log(this.content);
+      var content = this.content
+        .replace(/\r\n/g, "<br/>")
+        .replace(/\n/g, "<br/>")
+        .replace(/\s/g, "&nbsp;");
+        this.$store.commit('contract_set',content)
+        this.$routerto('p_sign_contract',this.$route.query)
+    
     }
     // gg() {
     //   // console.log(this.$dialog);
@@ -73,10 +82,9 @@ export default {
   .van-hairline--top-bottom::after {
     border: 0.02rem solid #8e8e8e;
   }
-   .van-field{
-     background: #f2f2f2;
-     
-   }
+  .van-field {
+    background: #f2f2f2;
+  }
 }
 // .van-dialog {
 //   font-size: 0.3rem;
