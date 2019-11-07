@@ -12,6 +12,7 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
+
 Vue.use(Vuex);
 import Vant from 'vant';
 Vue.use(Vant)
@@ -68,6 +69,9 @@ import common_nav from './components/moblie/common_nav.vue'
 Vue.component('commonnav',common_nav)
 import box from './components/moblie/3box'
 Vue.component('boxx',box)
+
+
+// Vue.component('Vue-ueditor-wrap ',VueUeditorWrap )
 // Vue.prototype.$axios = axios;
 /* eslint-disable no-new */
 new Vue({

@@ -17,6 +17,14 @@
               placeholder="请输入留言"
             />
           </van-cell-group>-->
+          <!-- <vue-ueditor-wrap
+            ref="ueditor"
+            class="textarea"
+            v-model="content"
+            :config="myConfig"
+            :destroy="false"
+            @ready="ready"
+          ></vue-ueditor-wrap> -->
           <textarea v-model="content" style="width:100%; height: 12rem" placeholder="请输入"></textarea>
         </div>
         <footer>
@@ -28,16 +36,34 @@
   </div>
 </template>
 <script>
+// import VueUeditorWrap from "vue-ueditor-wrap";
 export default {
   name: "goods_details",
   data() {
     return {
       content: "",
-      details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
+      // details_lists: ["申请时间:", "申请中间人:", "申请项目:"],
+      // myConfig: {
+      //   //编辑器配置
+      //   elementPathEnabled: false, //编辑器不自动被内容撑高
+      //   initialFrameWidth: 445, //容器宽度
+      //   initialFrameHeight: 530, //容器高度
+      //   autoHeightEnabled: false, // serverUrl: 'https://t.p.idyoga.cn/static/admin/lib/ueditor/1.4.3/php/controller.php',
+      //   serverUrl:'',
+      //   //  this.getNetUrl`/static/admin/lib/ueditor/1.4.3/php/controller.php`, //正测试 // UEDITOR_HOME_URL: '/yoga_college_admin/static/UEditor/',//打包后
+      //   UEDITOR_HOME_URL: "/static/UEditor/UEditor/" //本地运行访问路径
+      // }
     };
   },
+  // components: {
+  //   "vue-ueditor-wrap": VueUeditorWrap
+  // },
   created() {
+    // console.log(VueUeditorWrap);
     console.log(this.$route.query);
+  },
+  computed(){
+      
   },
   methods: {
     signature() {
@@ -46,24 +72,12 @@ export default {
         .replace(/\r\n/g, "<br/>")
         .replace(/\n/g, "<br/>")
         .replace(/\s/g, "&nbsp;");
-        this.$store.commit('contract_set',content)
-        this.$routerto('p_sign_contract',this.$route.query)
-    
-    }
-    // gg() {
-    //   // console.log(this.$dialog);
-
-    //   this.$dialog
-    //     .confirm({
-    //       title: "标题",
-    //       message: "弹窗内容"
-    //     })
-    //     .then(() => {
-    //       // on confirm
-    //     })
-    //     .catch(() => {
-    //       // on cancel
-    //     });
+      this.$store.commit("contract_set", content);
+      this.$routerto("p_sign_contract", this.$route.query);
+    },
+    // ready(editorInstance) {
+    //   //编辑器实例化
+    //   console.log(`实例${editorInstance.key}已经初始化:`, editorInstance);
     // }
   }
 };

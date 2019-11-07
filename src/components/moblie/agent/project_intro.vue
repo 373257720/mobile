@@ -27,8 +27,8 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('a_recommand_i')">推荐投资人</button>
-            <button @click="gg">再考虑一下</button>
+            <button @click="$routerto('a_recommand_i',{projectId:details})">推荐投资人</button>
+            <button @click="$global.previous()">再考虑一下</button>
           </aside>
         </footer>
       </article>
@@ -43,39 +43,66 @@ export default {
     return {
       show: false,
       dad_text:'项目简介',
-         nav_lists: [
+      details:{},
+      nav_lists: [
         {
+          keyword: "financingStage",
           name: "融资阶段",
-          response: "12"
+          response: ""
         },
         {
+          keyword: "interestProjectCount",
           name: "项目方<br>有兴趣数量",
-          response: "16"
+          response: ""
         },
         {
+          keyword:'committedCount',
           name: "已提交</br>投资者数量",
-          response: "118"
+          response: ""
         }
       ],
       details_lists: [
         {
+          keyword: "projectIndustry",
           name: "行业:",
-          response: "2019-15-26"
+          response: ""
         },
         {
+          keyword: "projectArea",
           name: "地区:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
+          keyword: "signStatus",
           name: "项目状态:",
-          response: "金融"
+          response: ""
         },
-          {
-          name: "项目简介:",
-          response: "金融"
-        },
+        { keyword: "projectDescribe", name: "项目简介:", response: "" }
       ]
     };
+  },
+    created() {
+   this.details = this.$route.query;
+    console.log(this.details);
+    
+    this.$axios({ 
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.details.projectId}&signStatus=${this.details.signStatus}&signId=${this.details.signId}`
+    }).then(res => {
+      for (var i in res.data.data) {
+        for(var j=0;j<this.details_lists.length;j++){
+          if(this.details_lists[j].keyword==i){
+            this.details_lists[j].response=res.data.data[i]
+          }
+        }
+        for(var w=0;w<this.nav_lists.length;w++){
+           if(this.nav_lists[w].keyword==i){
+            this.nav_lists[w].response=res.data.data[i]
+          }
+        }
+      }
+      console.log(this.details_lists);
+    });
   },
   methods: {
     gg() {
@@ -134,7 +161,7 @@ export default {
   //   border-bottom: 0.02rem dashed #b5b5b5;
   // }
   main {
-    margin-top: 1.5rem;
+    margin-top: 1.6rem;
     background: #ffffff;
     aside {
       display: flex;
@@ -144,10 +171,12 @@ export default {
     }
     div.investors_infor {
       h2 {
-        padding: 0.2rem 0.3rem;
+        // padding: 0.2rem 0.3rem;
+        height: 2rem;
+        text-align: center;
         font-size: 0.38rem;
         color: #0f6ebe;
-        line-height: 0.5rem;
+        line-height: 2rem;
       }
       header {
         height: 0.8rem;
@@ -204,7 +233,7 @@ export default {
         border-bottom: 0.2rem solid #f2f2f2;
         > p {
           flex: 1;
-          height: 2rem;  
+          height: 2.5rem;  
           font-size: 0.3rem;
           display: flex;
           align-items:center;

@@ -48,7 +48,7 @@
         :loading-text="loadText"
         :offset="300"
       >
-        <div v-for="goods in  upGoodsInfo" :key="goods.id" class="goodlists">
+        <div v-for="goods in  upGoodsInfo" :key="goods.projectId" class="goodlists">
           <article @click="routerto(goods)">
             <nav>{{goods.projectName}}</nav>
             <section>
@@ -71,7 +71,8 @@
             </footer> 
           </article>
           <footer>
-            <button @click="$routerto('p_investor_infor',{pro:JSON.stringify(goods.signUserResp)})">签约投资者资料（0）</button>
+            <button v-if="usertype==1" @click="$routerto('p_investor_infor',{pro:JSON.stringify(goods.signUserResp)})">签约投资者资料（0）</button>
+             <button v-else-if="usertype==4" @click="routerto(goods)">感兴趣项目</button>
           </footer>
         </div>
       </van-list>
@@ -91,6 +92,7 @@ export default {
           children: []
         }
       ],
+      usertype:'',
       activeIds: 0,
       // tags: [
       //   {
@@ -125,7 +127,7 @@ export default {
       pageNum: 0,
       loadNumUp: 5,
       upGoodsInfo: [],
-      value1: "",
+      value1: "",//行业value
       region_name: "",
       region_nametitle: "",
       option: [
@@ -139,14 +141,8 @@ export default {
   },
   created() {
     // console.log(this.$store.state.currentUsertype);
-    let usertype = this.$store.state.currentUsertype;
-    if (usertype == 1) {
-      //projectowner
-    } else if (usertype == 3) {
-      //investor
-    } else if (usertype == 4) {
-      //agent
-    }
+    this.usertype = this.$store.state.currentUsertype;
+    console.log(this.usertype);
     let axiosList = [
       this.$axios.get(`${this.$baseurl}/bsl_web/base/getAllIndustry`),
       this.$axios.get(`${this.$baseurl}/bsl_web/base/countryList.do`)
@@ -191,7 +187,11 @@ export default {
       } else if (this.$store.state.currentUsertype == 3) {
         // this.$routerto("a_project_intro", { projectId: projectId });
       } else if (this.$store.state.currentUsertype == 4) {
-        this.$routerto("a_project_intro", { projectId: projectId });
+         this.$routerto("a_project_intro", {
+            projectId: item.projectId,
+            signStatus: item.signUserResp[0].signStatus,
+            signId: item.signUserResp[0].signId
+          });
       }
     },
     region(value, region) {
@@ -202,25 +202,6 @@ export default {
       this.upGoodsInfo = [];
       this.onLoad();
     },
-    // ownergoto(num) {
-    //   if (num == 2) {
-    //     this.$goto("p_investor_infor");
-    //   } else {
-    //     return;
-    //   }
-    // },
-    // agentgoto(num) {
-    //   console.log(num);
-    //   this.$router.push({
-    //     name: "a_project_intro",
-    //     query: {
-    //       porjectid: num
-    //     }
-    //   });
-    // },
-    // investorgoto(num) {
-    //   // if(num==)
-    // },
     onSearch() {
       // console.log(this.searchkey);
       this.pageNum = 0;

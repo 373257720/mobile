@@ -155,19 +155,7 @@ export default {
         })
         .then(() => {
           // on confirm
-      this.$axios({
-      method: "post",
-      url: `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
-      data:this.$qs.stringify({
-         projectId:this.projectId,
-         investorsId:this.investorsId,
-         signStatus:num,
-         signAgreement:'' 
-      }),
-    }).then(res => {
-  
-      console.log(res);
-    });
+
         })
         .catch(() => {
           // on cancel

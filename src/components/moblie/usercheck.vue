@@ -290,6 +290,7 @@ export default {
   .van-field {
     padding: 0;
   }
+  
   .van-uploader__preview {
     margin: 0;
 

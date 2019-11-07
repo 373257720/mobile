@@ -34,7 +34,7 @@ export default {
       degree: 90,
       signImage: null,
       showBox: false,
-      url: "",
+      imgurl: "",
       show: false,
       domjiedian:''
     };
@@ -47,18 +47,17 @@ export default {
     // console.log(1111);
   },
   created() {
+     console.log(this.$route);
     this.$nextTick(() => {
-      //   console.log(222);
-      // this.renderResize();
       window.addEventListener("resize", this.renderResize, false);
-      this.renderResize();
+      
     });
   },
   mounted() {
-    // console.log(document);
-    
     this.canvasBox = document.getElementById("canvasBox");
-    this.initCanvas();
+    this.domjiedian= document.querySelector("html"); 
+    this.renderResize();
+     this.initCanvas();
   },
   beforeDestroy() {
     this.domjiedian.style.fontSize = null;
@@ -109,34 +108,22 @@ export default {
     }
   },
   methods: {
-    beforeClose(action, done) {
-      if (action === "confirm") {
-        setTimeout(done, 1000);
-      } else {
-        done();
-      }
-    },
-    commit11() {
-      this.show = true;
-      // this.$dialog.confirm({
-      //   title: "标题",
-      //   message: "弹窗内容",
-      //   beforeClose
-      // });
-    },
+    // beforeClose(action, done) {
+    //   if (action === "confirm") {
+    //     setTimeout(done, 1000);
+    //   } else {
+    //     done();
+    //   }
+    // },
     renderResize() {
-      this.domjiedian= document.querySelector("html");
-      // console.log(html);
       let width = document.documentElement.clientWidth;
       let height = document.documentElement.clientHeight;
       if (width > height) {
         this.degree = 0;
         this.domjiedian.style.fontSize = width / 16 + "px";
-        // console.log(html.style.fontSize);
       } else if (width < height) {
         this.degree = 90;
         this.domjiedian.style.fontSize = height / 16 + "px";
-        // console.log(html.style.fontSize);
       }
       // 做页面适配
       // 注意：renderResize方法执行时虚拟dom尚未渲染挂载，如果要操作vue实例，最好在this.$nextTick()里进行。
@@ -147,8 +134,13 @@ export default {
     },
     commit() {
       var aa = this.draw.scale(100, 50, this.draw.canvas);
-      this.url = this.draw.getPNGImage(aa);
-      console.log(this.url);
+      this.imgurl = this.draw.getPNGImage(aa);
+      // if(this.route)
+     if(this.$route.name=='a_sign_contract'){
+       this.$emit("a_imgurl",this.imgurl);
+     }else if(this.$route.name=='p_sign_contract')
+      
+      this.$emit("imgurl",this.imgurl);
     },
     clear() {
       this.draw.clear();

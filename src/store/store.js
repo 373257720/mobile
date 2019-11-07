@@ -52,6 +52,11 @@ export default new Vuex.Store({
       //context.commit('userStatus',user) 
       // 通过接口获取的后台数据保存到store中，等待组件取用
     },
+    contract_check(context,content){
+
+        context.commit('contract_set', content)
+
+    },
     usertype(context, usertype) {
       console.log(context);
       

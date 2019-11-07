@@ -43,6 +43,8 @@ import a_input_investor_infor from '@/components/moblie/agent/input_investor_inf
 import a_sign_failed from '@/components/moblie/agent/sign_failed'
 import a_sign_successful from '@/components/moblie/agent/sign_successful'
 import a_sign_contract from '@/components/moblie/agent/sign_contract'
+import a_submit_contract from '@/components/moblie/agent/submit_contract'
+
 
 
 // investor/
@@ -128,6 +130,11 @@ const routes = [
     name: 'p_sign_successful',
     component: p_sign_successful,
   },
+  {
+    path: '/p_inverstor_details',
+    name: 'p_inverstor_details',
+    component:p_inverstor_details,
+  },
  
 
 
@@ -171,23 +178,21 @@ const routes = [
     name: 'a_recommand_i',
     component:a_recommand_i,
   },
+
   {
-    path: '/p_inverstor_details',
-    name: 'p_inverstor_details',
-    component:p_inverstor_details,
+    path: '/a_sign_contract',
+    name: 'a_sign_contract',
+    component: a_sign_contract,
   },
-  // {
-  //   path: '/p_inverstor_details',
-  //   name: 'p_inverstor_details',
-  //   component:p_inverstor_details,
-  // },
+  {
+    path: '/a_submit_contract',
+    name: 'a_submit_contract',
+    component: a_submit_contract,
+  },
+
 // investor
 
-{
-  path: '/a_sign_contract',
-  name: 'a_sign_contract',
-  component: a_sign_contract,
-},
+
 {
   path: '/i_conected_project',
   name: 'i_conected_project',
@@ -213,6 +218,7 @@ const routes = [
   name: 'i_wait_confirm',
   component:i_wait_confirm,
 },
+
 
 
 
@@ -262,11 +268,11 @@ const routes = [
     name: 'cavans',
     component: cavans,
   },
-  {
-    path: '/testcavans',
-    name: 'testcavans',
-    component: testcavans,
-  },
+  // {
+  //   path: '/testcavans',
+  //   name: 'testcavans',
+  //   component: testcavans,
+  // },
 
 
 

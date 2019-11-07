@@ -1,25 +1,46 @@
 <template>
   <div id="a_recommand_i">
-    <!-- <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />完善资料        
-    </nav> -->
     <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
-          <li i v-for="(item) in details_lists" :key="item.name">
-            <p class="row1">{{item.name}}</p>
+          <li class="identity">
+            <p class="row1">投资者类型:</p>
+            <p class="row2">
+              <van-dropdown-menu>
+                <van-dropdown-item v-model="form.investorsType" :options="option2" />
+              </van-dropdown-menu>
+            </p>
+          </li>
+          <li class="investorsCompany">
+            <p class="row1">投资者公司:</p>
             <p class="row2">
               <van-cell-group>
-                <van-field v-model="item.response" placeholder="请输入用户名" />
+                <van-field v-model="form.investorsCompany" placeholder="请输入" />
+              </van-cell-group>
+            </p>
+          </li>
+          <li class="investorsName">
+            <p class="row1">投资者姓名:</p>
+            <p class="row2">
+              <van-cell-group>
+                <van-field v-model="form.investorsName" placeholder="请输入" />
+              </van-cell-group>
+            </p>
+          </li>
+          <li class="investorsArea">
+            <p class="row1">地区</p>
+            <p class="row2">
+              <van-cell-group>
+                <van-field v-model="form.investorsArea" placeholder="请输入" />
               </van-cell-group>
             </p>
           </li>
         </ul>
         <footer>
           <aside>
-            <button @click="$goto('mhome')"> 提交</button>
+            <button @click="submit">提交</button>
           </aside>
         </footer>
       </article>
@@ -32,33 +53,25 @@ export default {
   name: "a_recommand_i",
   data() {
     return {
-      // value: ["", "", ""],
-      dad_text:'完善资料',
-      // list: ["a", "b", "c",],
-      // result: ["a", "b"],
-      details_lists: [
-        {
-          name: "投资者类型:",
-          response: ""
-        },
-        {
-          name: "投资者公司:",
-          response: ""
-        },
-        {
-          name: "投资姓名:",
-          response: ""
-        },
-        {
-          name: "地区",
-          response: ""
-        },
-      ]
+      option2: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }],
+      dad_text: "完善资料",
+
+      form: {
+        investorsType: "",
+        investorsCompany: "",
+        investorsName: "",
+        investorsArea: "",
+        projectId: ""
+        // identity: ""
+      }
     };
   },
+  created() {
+    this.form = this.$route.query.projectId;
+  },
   methods: {
-    gg() {
-      // console.log(this.$dialog);
+    submit() {
+      console.log(this.form);
 
       this.$dialog
         .confirm({
@@ -67,6 +80,16 @@ export default {
         })
         .then(() => {
           // on confirm
+          this.$axios({
+            method: "post",
+            url: `${this.$baseurl}/bsl_web/projectSign/submitInvestors`,
+            data: this.$qs.stringify(this.form)
+          }).then(res => {
+            if (res.data.resultCode == 10000);
+            {
+              this.$goto("mhome");
+            }
+          });
         })
         .catch(() => {
           // on cancel
@@ -77,59 +100,113 @@ export default {
 </script>
 <style lang="scss">
 #a_recommand_i {
-  .van-checkbox__icon {
-    //   line-height:0.625rem;
-    font-size: 0.2rem;
+  .van-cell {
+    font-size: 0.32rem;
+    padding: 0 1rem;
+    line-height: 1rem;
+    // padding: 0;
+  }
+  .van-dropdown-menu__title {
+    font-size: 0.16rem;
+    width: 100%;
+    // text-align: left;
+  }
+  .van-dropdown-menu__item {
+    // display:inline;
+    justify-content: left;
+    width: 100%;
+    flex: none;
+  }
+  .van-icon-arrow-left {
+    position: absolute;
+    left: 0.6rem;
+    top: 50%;
+    -webkit-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+  }
+  .van-dropdown-menu {
+    height: 1rem;
+    border-radius: 0.05rem;
+    border: 0.01rem solid #ababab;
+    background: #f6f6f6;
+  }
+  .van-field__body {
+    //  width: 100%;
+    height: 1rem;
+    // border: 0.02rem solid #ababab;
+    border-radius: 0.05rem;
+    background: #f6f6f6;
+    padding: 0 0.2rem;
+    box-sizing: border-box;
+  }
+  .van-field__control {
+    // padding: 0 0.2rem;
+    // height: 0.5rem;
+  }
+  .van-field__clear {
+    font-size: 0.3rem;
+  }
+  .van-field {
+    padding: 0;
+  }
+  .van-uploader__preview {
+    margin: 0;
+
+    // overflow: hidden;
+  }
+  .van-uploader__preview-image {
+    margin: 0;
+    width: 100%;
+    height: 3.3rem;
+    //  border: 0.01rem solid #ababab;
+    //  overflow: hidden;
+
+    img {
+      //  border-radius: 0.02rem;
+      border-radius: 0.1rem;
+    }
+  }
+  .van-uploader {
+    width: 100%;
+    height: 3.3rem;
+  }
+  .van-uploader__upload {
+    width: 100%;
+    background: #f6f6f6;
+    border: 0;
+    height: 3.3rem;
+    // border: 1px solid #ababab;
+    border-radius: 0.05rem;
+    box-sizing: border-box;
+    .van-uploader__upload-icon {
+      font-size: 0.5rem;
+    }
+  }
+  // .van-uploader__input{
+  //   height: 3.3rem;
+  // }
+  .van-dropdown-menu__title::after {
+    border: 0.1rem solid;
+    top: 50%;
+    right: 0.5rem;
+    transform: rotate(0);
+    border-color: currentColor transparent transparent transparent;
   }
   .van-hairline--top-bottom::after {
-    border: 0.01rem solid #8e8e8e;
+    border: 0;
   }
-  .van-cell {
-    padding: 0;
-    .van-field__control {
-      background: #f2f2f2;
-      font-size: 0.3rem;
-      padding: 0 0.2rem;
-      box-sizing: border-box;
-    }
+  .van-dropdown-menu__title--down::after {
+    border: 0.1rem solid;
+    top: 50%;
+    border-color: currentColor transparent transparent transparent;
   }
-  nav {
-    // position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
-}
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
 }
 </style>
 <style lang="scss" scoped>
 #a_recommand_i {
   width: 100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    z-index: 5;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
-    margin-top: 1.5rem;
+    margin-top: 1.6rem;
     background: #ffffff;
     aside {
       display: flex;
@@ -140,13 +217,13 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-       height: 1.5rem;
+        height: 2rem;
         font-size: 0.38rem;
         color: #0f6ebe;
         text-align: center;
         font-weight: 600;
-        line-height: 1.5rem;
-        border-bottom:0.1rem solid #b5b5b5;
+        line-height: 2rem;
+        border-bottom: 0.1rem solid #b5b5b5;
       }
       ul {
         padding: 0.5rem 0.5rem 2rem 0.5rem;
@@ -194,7 +271,7 @@ export default {
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         button {
-          width: 6.5rem;
+          width: 9.9rem;
           height: 1rem;
           background: #00adef;
           color: white;

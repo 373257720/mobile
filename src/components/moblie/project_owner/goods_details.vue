@@ -76,7 +76,7 @@ export default {
   },
   created() {
     let details = this.$route.query;
-    // console.log();
+    console.log(details);
     
     this.$axios({ 
       method: "get",

@@ -239,7 +239,7 @@ export default {
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         button {
-          width: 6.5rem;
+          width: 9.9rem;
           height: 1rem;
           background: #00adef;
           color: white;

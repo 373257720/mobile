@@ -11,13 +11,15 @@ export default {
     window.addEventListener("beforeunload", () => {
       sessionStorage.setItem("usertype", this.$store.state.currentUsertype);
       sessionStorage.setItem("username", this.$store.state.currentUser);
+      sessionStorage.setItem("contract", this.$store.state.contract);
+
 
     });
     //在页面加载时读取sessionStorage里的状态信息
     if (sessionStorage.getItem("usertype")) {
       this.$store.commit("username_set", sessionStorage.getItem("username"));
       this.$store.commit("userStatus", sessionStorage.getItem("usertype"));
-      
+      this.$store.commit("contract_set", sessionStorage.getItem("contract"));
     }
     // this.handleCommand("zh_CN");
   }

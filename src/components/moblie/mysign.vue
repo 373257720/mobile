@@ -71,105 +71,108 @@ export default {
       value1: 0,
       visible: false,
       text: "全部",
-      option1: [],
       loading: false,
       finished: false,
       loadText: "加载中…",
       pageNum: 0,
       loadNumUp: 5,
+      usertype: "",
       upGoodsInfo: [],
-      result: [1, 2, 4, 6, 3, 7],
-      list: [
-        {
-          value: 1,
-          text: "待审核项目",
-          pic: "../../../static/pic/201908191046413.png"
-        },
-        {
-          value: 2,
-          text: "待签约项目",
-          pic: "../../../static/pic/201908191046412.png"
-        },
-        {
-          value: 4,
-          text: "待确认项目",
-          pic: "../../../static/pic/20190819104641.png"
-        },
-        {
-          value: 6,
-          text: "成功签约项目",
-          pic: "../../../static/pic/201908191046411.png"
-        },
-        {
-          value: 3,
-          text: "拒绝签约项目",
-          pic: "../../../static/pic/201908191046414.png"
-        }
-        //  {
-        //   value: 7,
-        //   text: "拒绝签约项目2"
-        // },
-      ]
+      result: [1, 2, 4, 6, 3, 7]
     };
   },
-  created() {
-    // console.log(b.a);
-    // console.log(b.b);
-    // console.log(b.c);
-    // b.add();
-
-    let usertype = this.$store.state.currentUsertype;
-
-    // console.log(usertype);
-    if (usertype == 1) {
-      this.option1 = [
-        { text: "待审核项目", value: 0 },
-        { text: "等待签约项目", value: 1 },
-        { text: "待确认项目", value: 2 },
-        { text: "成功签约项目", value: 3 },
-        { text: "拒绝签约项目", value: 4 }
-      ];
-    } else if (usertype == 4) {
-      //agent
-      this.option1 = [
-        { text: "待审核项目", value: 0 },
-        { text: "等待签约项目", value: 1 },
-        { text: "待确认项目", value: 2 },
-        { text: "成功签约项目", value: 3 },
-        { text: "拒绝签约项目", value: 4 }
-      ];
-    } else if (usertype == 3) {
-      this.option1 = [
-        { text: "待确认的项目", value: 0 },
-        { text: "已连接的项目", value: 1 },
-        { text: "拒绝项目", value: 2 }
-      ];
+  computed: {
+    list: function() {
+      // console.log(usertype);
+      if (this.usertype == 1 || this.usertype ==4) {
+        return [
+          {
+            value: 1,
+            text: "待审核项目",
+            pic: "../../../static/pic/201908191046413.png"
+          },
+          {
+            value: 2,
+            text: "待签约项目",
+            pic: "../../../static/pic/201908191046412.png"
+          },
+          {
+            value: 4,
+            text: "待确认项目",
+            pic: "../../../static/pic/20190819104641.png"
+          },
+          {
+            value: 6,
+            text: "成功签约项目",
+            pic: "../../../static/pic/201908191046411.png"
+          },
+          {
+            value: 3,
+            text: "拒绝签约项目",
+            pic: "../../../static/pic/201908191046414.png"
+          }
+        ];
+      } else if (this.usertype == 3) {
+        return [
+          {
+            value: 4,
+            text: "待确认项目",
+            pic: "../../../static/pic/20190819104641.png"
+          },
+          {
+            value: 6,
+            text: "已连接的项目",
+            pic: "../../../static/pic/201908191046411.png"
+          },
+          {
+            value: 3,
+            text: "拒绝签约项目",
+            pic: "../../../static/pic/201908191046414.png"
+          }
+        ];
+      }
     }
   },
-  mounted() {
-    // console.log(this.result);
+  created() {
+    this.usertype = this.$store.state.currentUsertype;
   },
+  mounted() {},
   methods: {
     mysignto(item) {
       //待审核
       console.log(item);
-      let signStatus=item.signStatus
+      let signStatus = item.signStatus;
       let obj = {
         projectId: item.projectId,
         signStatus: item.signStatus,
         signId: item.signId
       };
-      if (signStatus == 1) {
-        this.$routerto("p_sign_request",obj);
-      } else if (signStatus == 2) {
-        this.$routerto("p_wait_agent_input",obj);
-      } else if (signStatus == 4) {
-        this.$routerto("p_wait_investor",obj);
-      } else if (signStatus == 6) {
-        this.$routerto("p_sign_successful",obj);
-      } else if (signStatus == 3 || signStatus == 7) {
-        this.$routerto("p_sign_failed",obj);
+      if (this.usertype == 1) {
+        if (signStatus == 1) {
+          this.$routerto("p_sign_request", obj);
+        } else if (signStatus == 2) {
+          this.$routerto("p_wait_agent_input", obj);
+        } else if (signStatus == 4) {
+          this.$routerto("p_wait_investor", obj);
+        } else if (signStatus == 6) {
+          this.$routerto("p_sign_successful", obj);
+        } else if (signStatus == 3 || signStatus == 7) {
+          this.$routerto("p_sign_failed", obj);
+        }
+      }else if(this.usertype == 4 ){
+          if (signStatus == 1) {
+          this.$routerto("a_wait_review", obj);
+        } else if (signStatus == 2) {
+          this.$routerto("a_wait_signed", obj);
+        } else if (signStatus == 4) {
+          this.$routerto("a_sign_investor_confirm", obj);
+        } else if (signStatus == 6) {
+          this.$routerto("a_sign_successful", obj);
+        } else if (signStatus == 3 || signStatus == 7) {
+          this.$routerto("a_sign_failed", obj);
+        }
       }
+
       //待签约
       //待确认项目
       //成功签约

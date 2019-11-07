@@ -1,6 +1,6 @@
 <template>
   <div id="p_sign_contract">
-    <cavans></cavans>
+    <cavans @imgurl="commit"></cavans>
   </div>
 </template>
 <script>
@@ -8,16 +8,23 @@ export default {
   name: "goods_details",
   data() {
     return {
+      // imgurl: ""
     };
   },
-   created() {
+  created() {
     console.log(this.$route.query);
     console.log(this.$store.state.contract);
-    
   },
   methods: {
+    commit(data) {
+      console.log(data);
+      let str=this.$store.state.contract+'!!!!!'+data
+      console.log(str);
+          this.$store.commit('contract_set',str);
+          this.$routerto('p_submit_contract',this.$route.query)
+    },
     gg() {
-      // console.log(this.$dialog); 
+      // console.log(this.$dialog);
       this.$dialog
         .confirm({
           title: "标题",
