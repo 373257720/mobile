@@ -11,14 +11,13 @@ import userpass from '@/components/moblie/userpass'
 import mhome from '@/components/moblie/mhome'
 import mine from '@/components/moblie/mine'
 import cavans from '@/components/moblie/cavans'
-import testcavans from '@/components/moblie/test_canvans'
-
+// import testcavans from '@/components/moblie/test_canvans'
 
 
 // project_owner/
 import p_wait_agent_input from '@/components/moblie/project_owner/wait_agent_input'
 import p_check_contract from '@/components/moblie/project_owner/check_contract'
-import p_investor_infor from '@/components/moblie/project_owner/investor_infor'
+import p_investor_lists from '@/components/moblie/project_owner/investor_lists'
 import p_investor_details from '@/components/moblie/project_owner/inverstor_details'
 import p_set_contract from '@/components/moblie/project_owner/set_contract'
 import p_sign_failed from '@/components/moblie/project_owner/sign_failed'
@@ -44,6 +43,7 @@ import a_sign_failed from '@/components/moblie/agent/sign_failed'
 import a_sign_successful from '@/components/moblie/agent/sign_successful'
 import a_sign_contract from '@/components/moblie/agent/sign_contract'
 import a_submit_contract from '@/components/moblie/agent/submit_contract'
+import a_check_contract from '@/components/moblie/agent/check_contract'
 
 
 
@@ -86,9 +86,9 @@ const routes = [
     component: p_goods_details,
   },
   {
-    path: '/p_investor_infor',
-    name: 'p_investor_infor',
-    component: p_investor_infor,
+    path: '/p_investor_lists',
+    name: 'p_investor_lists',
+    component: p_investor_lists,
   },
   {
     path: '/p_sign_failed',
@@ -188,6 +188,11 @@ const routes = [
     path: '/a_submit_contract',
     name: 'a_submit_contract',
     component: a_submit_contract,
+  },
+  {
+    path: '/a_check_contract',
+    name: 'a_check_contract',
+    component: a_check_contract,
   },
 
 // investor

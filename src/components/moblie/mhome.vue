@@ -66,7 +66,7 @@
             </section>
             <footer>
               <ul>
-                <!-- <li v-for="(item) in  tags" :key="item.text">{{item.text}}（{{item.number}}）</li> -->
+                <li v-for="(item) in  tags" :key="item.text">{{item.text}}（{{item.number}}）</li>
               </ul>
             </footer> 
           </article>
@@ -94,28 +94,28 @@ export default {
       ],
       usertype:'',
       activeIds: 0,
-      // tags: [
-      //   {
-      //     text: "待审核",
-      //     number: 0
-      //   },
-      //   {
-      //     text: "待签约",
-      //     number: 0
-      //   },
-      //   {
-      //     text: "待确认",
-      //     number:0
-      //   },
-      //   {
-      //     text: "拒绝",
-      //     number: 0
-      //   },
-      //   {
-      //     text: "已签约",
-      //     number: 0
-      //   }
-      // ],
+      tags: [
+        {
+          text: "待审核",
+          number: 0
+        },
+        {
+          text: "待签约",
+          number: 0
+        },
+        {
+          text: "待确认",
+          number:0
+        },
+        {
+          text: "拒绝",
+          number: 0
+        },
+        {
+          text: "已签约",
+          number: 0
+        }
+      ],
       // 左侧高亮元素的index
       mainActiveIndex: 0,
       // 被选中元素的id
