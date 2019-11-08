@@ -1,7 +1,7 @@
 <template>
   <div id="i_wait_confirm">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />待签约项目
+      <van-icon name="arrow-left" @click="$global.previous()" />待确认项目
     </nav>
      <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
@@ -34,8 +34,8 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('i_perfect_infor')">完善资料</button>
-            <button @click="gg">拒绝</button>
+            <button @click="$routerto('i_perfect_infor',$route.query)">完善资料</button>
+            <button @click="refuse">拒绝</button>
           </aside>
         </footer>
       </article>
@@ -50,80 +50,102 @@ export default {
     return {
       show: false,
       // dad_text:'待确认项目',
-         nav_lists: [
-        {
+      nav_lists: [
+         {
+          keyword: "financingStage",
           name: "融资阶段",
-          response: "12"
+          response: ""
         },
         {
+          keyword: "interestProjectCount",
           name: "项目方<br>有兴趣数量",
-          response: "16"
+          response: ""
         },
         {
+          keyword:'committedCount',
           name: "已提交</br>投资者数量",
-          response: "118"
+          response: ""
         }
       ],
       investor_infor: [
         {
+          keyword:'investorsType',
           name: "投资者类型:",
           response: "放水电费水电费"
         },
         {
+          keyword:'investorsCompany',
           name: "投资者公司:",
           response: "发地方水电是否水电费水电费诗圣杜甫费发"
         },
         {
+          keyword:'investorsName',
           name: "投资者姓名:",
           response: "发地方水电"
         },
         {
+          keyword:'investorsArea',
           name: "投资者地区:",
           response: "斯蒂芬发地方发地方水电发地方水电"
         }
       ],
       details_lists: [
-        {
+      {
+          keyword: "projectIndustry",
           name: "行业:",
-          response: "2019-15-26"
+          response: ""
         },
         {
+          keyword: "projectArea",
           name: "地区:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
-          name: "公司名称:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "是否是上市公司:",
-          response: "13178523855"
-        },
-        {
-          name: "集资额:",
-          response: "金融"
-        },
-        {
-          name: "联络电话:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "电邮:",
-          response: "13178523855"
-        },
-        {
-          name: "融资阶段:",
-          response: "金融"
-        },
-        {
+          keyword: "signStatus",
           name: "项目状态:",
-          response: "金融"
+          response: ""
         },
+        { keyword: "projectCompany", name: "公司名称:", response: "" },
+        { keyword: "publicCompany", name: "是否上市公司:", response: "" },
+        { keyword: "collectMoney", name: "集资额:", response: "" },
+        { keyword: "projectMobile", name: "联系电话:", response: "" },
+        { keyword: "projectEmail", name: "电邮:", response: "" },
+        { keyword: "projectDescribe", name: "项目详情:", response: "" }
       ]
     };
   },
+  created(){
+    console.log(this.$route.query);
+    let que=this.$route.query;
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails.do?projectLan=${que.projectLan}&signId=${que.signId}`
+    }).then(res => {
+      for (var i in res.data.data) {
+        // this.projectId=res.data.data.projectId;
+        // this.investorsId=res.data.data.investorsId; 
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            this.details_lists[j].response = res.data.data[i];
+          }
+        }
+        for (var w = 0; w < this.nav_lists.length; w++) {
+          if (this.nav_lists[w].keyword == i) {
+            this.nav_lists[w].response = res.data.data[i];
+          }
+        }
+          for (var k = 0; k < this.investor_infor.length; k++) {
+          if (this.investor_infor[k].keyword == i) {
+            this.investor_infor[k].response = res.data.data[i];
+          }
+        }
+      }
+      this.$route.query.investorsId=res.data.data.investorsId;
+      console.log(this.details_lists);
+    });
+  },
   methods: {
-    gg() {
+    refuse() {
       // console.log(this.$dialog);
 
       this.$dialog
@@ -133,9 +155,17 @@ export default {
         })
         .then(() => {
           // on confirm
+            this.$axios({
+          method: "get",
+          url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}`
+    }).then(res=>{
+          console.log(res.data);
+          
+    })
         })
         .catch(() => {
           // on cancel
+        
         });
     }
   }

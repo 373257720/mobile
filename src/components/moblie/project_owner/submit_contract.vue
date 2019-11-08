@@ -11,19 +11,23 @@
             <div class="middle" v-html="content"></div>
             <div class="button">
               <p>
-                <img :src="signature" alt />
+                <i>
+                  <img :src="signature" alt />
+                </i>
+              
                 <span>投行</span>
                 <span>2019.11.11</span>
               </p>
               <p>
-                <img src alt />
+                <i></i>
+                
                 <span>中间人</span>
                 <span>2019.11.11</span>
               </p>
             </div>
           </div>
           <footer>
-            <button @click="contract_submit">签署</button>
+            <button @click="contract_submit">提交</button>
           </footer>
         </article>
       </main>
@@ -53,12 +57,12 @@ export default {
   },
   created() {
     console.log(this.$route.query);
-    // console.log(this.$store.state.contract);
+    console.log(this.$store.state.contract);
     this.str = this.$store.state.contract;
     let a = this.str.split("!!!!!");
-    this.content = a[1];
-    this.signature = a[0];
-    console.log(this.content);
+    this.content =a[0];
+    this.signature =a[1]
+    // console.log(this.content);
   },
   computed: {
     // contract_content: function(){
@@ -76,7 +80,7 @@ export default {
           projectId: this.$route.query.projectId,
           investorsId: this.$route.query.investorsId,
           signStatus: 2,
-          signAgreement: this.str
+          signAgreement:this.str
         })
       }).then(res => {
         console.log(res);
@@ -175,10 +179,14 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
-          img {
+          i{
             width: 3rem;
             height: 1rem;
             border-bottom: 1px solid rgb(169, 169, 169);
+            img{
+               width: 3rem;
+            height: 1rem;
+            }
           }
         }
       }

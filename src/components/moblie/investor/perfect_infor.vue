@@ -1,12 +1,20 @@
 <template>
   <div id="i_perfect_infor">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />完善资料        
+      <van-icon name="arrow-left" @click="$global.previous()" />完善资料
     </nav>
     <main>
       <article>
         <header>放水电费鼎飞丹砂</header>
         <ul>
+          <li>
+            <p class="row1">投资者类型</p>
+            <p class="row2">
+              <van-dropdown-menu>
+                <van-dropdown-item v-model="form.userType" :options="option1" />
+              </van-dropdown-menu>
+            </p>
+          </li>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
             <p class="row2">
@@ -19,14 +27,14 @@
             <p class="row1">感兴趣行业：</p>
             <p class="row2">
               <van-checkbox-group v-model="result">
-                <van-checkbox v-for="(item) in list" :key="item" :name="item">复选框 {{ item }}</van-checkbox>
+                <van-checkbox v-for="(item) in countrylist" :key="item.industryId" :name="item.industryId">{{ item.industryNameCh }}</van-checkbox>
               </van-checkbox-group>
             </p>
           </li>
         </ul>
         <footer>
           <aside>
-            <button>提交</button>
+            <button @click="submit">提交</button>
           </aside>
         </footer>
       </article>
@@ -40,13 +48,21 @@ export default {
   data() {
     return {
       // value: ["", "", ""],
-      list: ["a", "b", "c",],
-      result: ["a", "b"],
+      form:{
+          userType:'',
+          signId:'',
+          signStatus:'',
+          investorsId:'',
+          investorsEmail:'',
+          investorsMobile:'',
+          interestedIndustries:'',
+          investorsCompanyAddress:'',
+      },
+      countrylist:[],
+      result: [],
+        option1: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }],
       details_lists: [
-          {
-          name: "投资者类型:",
-          response: ""
-        },
+  
         {
           name: "投资者公司:",
           response: ""
@@ -78,7 +94,30 @@ export default {
       ]
     };
   },
+  created(){
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
+    })
+      .then(res => {
+        console.log(res);
+  
+        this.countrylist = res.data.data;
+        // for (let i = 0; i < this.countrylist.length; i++) {
+        //   this.countrylist[i].value = i;
+        //   this.countrylist[i].text = this.countrylist[i].countryTcname;
+        // }
+        // console.log(this.countrylist);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
   methods: {
+    submit(){
+      console.log();
+      
+    },
     gg() {
       // console.log(this.$dialog);
 
@@ -99,40 +138,79 @@ export default {
 </script>
 <style lang="scss">
 #i_perfect_infor {
-  .van-checkbox__icon {
-    //   line-height:0.625rem;
-    font-size: 0.2rem;
-  }
-  .van-hairline--top-bottom::after {
-    border: 0.01rem solid #8e8e8e;
-  }
   .van-cell {
+    font-size: 0.32rem;
+    padding: 0 1rem;
+    line-height: 1rem;
+    // padding: 0;
+  }
+  .van-dropdown-menu__title {
+    font-size: 0.16rem;
+    width: 100%;
+    // text-align: left;
+  }
+  .van-dropdown-menu__item {
+    // display:inline;
+    justify-content: left;
+    width: 100%;
+    flex: none;
+  }
+  .van-icon-arrow-left {
+    position: absolute;
+    left: 0.6rem;
+    top: 50%;
+    -webkit-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+  }
+  .van-dropdown-menu {
+    height: 1rem;
+    border-radius: 0.05rem;
+    border: 0.01rem solid #ababab;
+    background: #f6f6f6;
+  }
+  .van-field__body {
+    //  width: 100%;
+    height: 1rem;
+    // border: 0.02rem solid #ababab;
+    border-radius: 0.05rem;
+    background: #f6f6f6;
+    padding: 0 0.2rem;
+    box-sizing: border-box;
+  }
+  // .van-checkbox__icon{
+  //    line-height: 0.4rem;
+  // }
+
+  .van-icon-success{
+        height: 0.4rem;
+        width:0.4rem;
+        line-height: 0.4rem;
+        font-size: 0.2rem;
+  }
+  .van-field__control {
+    // padding: 0 0.2rem;
+    // height: 0.5rem;
+  }
+  .van-field__clear {
+    font-size: 0.3rem;
+  }
+  .van-field {
     padding: 0;
-    .van-field__control {
-      background: #f2f2f2;
-      font-size: 0.3rem;
-      padding: 0 0.2rem;
-      box-sizing: border-box;
-    }
   }
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
+
+  .van-dropdown-menu__title::after {
+    border: 0.1rem solid;
+    top: 50%;
+    right: 0.5rem;
+    transform: rotate(0);
+    border-color: currentColor transparent transparent transparent;
   }
-}
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
+ 
+  .van-dropdown-menu__title--down::after {
+    border: 0.1rem solid;
+    top: 50%;
+    border-color: currentColor transparent transparent transparent;
+  }
 }
 </style>
 <style lang="scss" scoped>
@@ -163,7 +241,7 @@ export default {
       margin: 0 0 1rem 0;
       header {
         border-bottom: 0.1rem solid #b5b5b5;
-            height: 1.5rem;
+        height: 1.5rem;
         font-size: 0.38rem;
         color: #0f6ebe;
         text-align: center;

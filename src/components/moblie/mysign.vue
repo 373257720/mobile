@@ -160,12 +160,14 @@ export default {
           this.$routerto("p_sign_failed", obj);
         }
       }else if(this.usertype == 4 ){
+        console.log(signStatus);
+        
           if (signStatus == 1) {
           this.$routerto("a_wait_review", obj);
         } else if (signStatus == 2) {
           this.$routerto("a_wait_signed", obj);
         } else if (signStatus == 4) {
-          this.$routerto("a_sign_investor_confirm", obj);
+          this.$routerto("a_wait_investor_comfirm", obj);
         } else if (signStatus == 6) {
           this.$routerto("a_sign_successful", obj);
         } else if (signStatus == 3 || signStatus == 7) {
@@ -242,7 +244,7 @@ export default {
               this.loadText = "加载完成";
               this.finished = true;
             }
-            // console.log(this.upGoodsInfo);
+            console.log(this.upGoodsInfo);
             this.upGoodsInfo.forEach(item => {
               // console.log(this.$global);
 

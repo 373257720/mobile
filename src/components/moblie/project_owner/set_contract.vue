@@ -62,7 +62,7 @@ export default {
     // console.log(VueUeditorWrap);
     console.log(this.$route.query);
   },
-  computed(){
+  computed:{
       
   },
   methods: {

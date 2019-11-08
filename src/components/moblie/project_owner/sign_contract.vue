@@ -19,7 +19,6 @@ export default {
     commit(data) {
       console.log(data);
       let str=this.$store.state.contract+'!!!!!'+data
-      console.log(str);
           this.$store.commit('contract_set',str);
           this.$routerto('p_submit_contract',this.$route.query)
     },

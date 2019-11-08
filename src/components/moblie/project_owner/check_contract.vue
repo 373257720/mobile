@@ -55,8 +55,8 @@ export default {
     let str = this.$store.state.contract;
     let a = str.split("!!!!!");
     // console.log(a);
-    this.content = a[1];
-    this.signature = a[0];
+    this.content = a[0];
+    this.signature = a[1];
     console.log(this.content);
 
     if (this.$route.query.from == "a_wait_signed") {

@@ -52,7 +52,7 @@ export default {
       projectId:null,
       investorsId:null,
       dad_text:'签约请求',
-         nav_lists: [
+      nav_lists: [
          {
           keyword: "financingStage",
           name: "融资阶段",

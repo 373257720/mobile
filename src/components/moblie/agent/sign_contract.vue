@@ -19,9 +19,9 @@ export default {
     commit(data) {
       console.log(data);
       let str=this.$store.state.contract+'!!!!!'+data;
-      // console.log(str);
-      let a =str.split('!!!!!')
-      console.log(a);
+      console.log(str);
+      // let a =str.split('!!!!!');
+      // console.log(a);
       this.$store.commit('contract_set',str);
       this.$routerto('a_submit_contract',this.$route.query)
     },
