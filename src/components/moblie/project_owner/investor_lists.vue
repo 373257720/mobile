@@ -1,5 +1,5 @@
 <template>
-  <div id="p_investor_infor">
+  <div id="p_investor_lists">
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />投资者资料
     </nav>
@@ -104,7 +104,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#p_investor_infor {
+#p_investor_lists {
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -126,7 +126,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#p_investor_infor {
+#p_investor_lists {
   width: 100%;
   nav {
     width: 100%;

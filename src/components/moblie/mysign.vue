@@ -77,14 +77,20 @@ export default {
       pageNum: 0,
       loadNumUp: 5,
       usertype: "",
-      upGoodsInfo: [],
-      result: [1, 2, 4, 6, 3, 7]
+      upGoodsInfo: []
     };
   },
   computed: {
+    result: function() {
+      if (this.usertype == 1 || this.usertype == 4) {
+        return [1, 2, 4, 6, 3, 7];
+      } else if (this.usertype == 3) {
+        return [5, 6, 7];
+      }
+    },
     list: function() {
       // console.log(usertype);
-      if (this.usertype == 1 || this.usertype ==4) {
+      if (this.usertype == 1 || this.usertype == 4) {
         return [
           {
             value: 1,
@@ -115,7 +121,7 @@ export default {
       } else if (this.usertype == 3) {
         return [
           {
-            value: 4,
+            value: 5,
             text: "待确认项目",
             pic: "../../../static/pic/20190819104641.png"
           },
@@ -125,7 +131,7 @@ export default {
             pic: "../../../static/pic/201908191046411.png"
           },
           {
-            value: 3,
+            value: 7,
             text: "拒绝签约项目",
             pic: "../../../static/pic/201908191046414.png"
           }
@@ -159,10 +165,10 @@ export default {
         } else if (signStatus == 3 || signStatus == 7) {
           this.$routerto("p_sign_failed", obj);
         }
-      }else if(this.usertype == 4 ){
+      } else if (this.usertype == 4) {
         console.log(signStatus);
-        
-          if (signStatus == 1) {
+
+        if (signStatus == 1) {
           this.$routerto("a_wait_review", obj);
         } else if (signStatus == 2) {
           this.$routerto("a_wait_signed", obj);
@@ -173,6 +179,16 @@ export default {
         } else if (signStatus == 3 || signStatus == 7) {
           this.$routerto("a_sign_failed", obj);
         }
+      }else if (this.usertype == 3) {
+        console.log(signStatus);
+
+          if (signStatus == 5) {
+            this.$routerto("i_wait_confirm", obj);
+          } else if (signStatus == 6) {
+            this.$routerto("i_conected_project", obj);
+          } else if (signStatus == 7) {
+            this.$routerto("i_sign_failed", obj);
+          } 
       }
 
       //待签约

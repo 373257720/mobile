@@ -3,15 +3,15 @@
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />签署合约
     </nav>
-    <main v-if="isshow==2">
+    <!-- <main>
       <article>
         <div v-html="content"></div>
         <footer>
           <button @click="gg">导出</button>
         </footer>
       </article>
-    </main>
-    <main v-if="isshow===1">
+    </main> -->
+    <main>
       <article>
         <div class="contract">
           <div class="top"></div>
@@ -29,9 +29,9 @@
             </p>
           </div>
         </div>
-        <footer>
+        <!-- <footer>
           <button @click="$routerto('a_sign_contract',$route.query)">签署</button>
-        </footer>
+        </footer> -->
       </article>
     </main>
 

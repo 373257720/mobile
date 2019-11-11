@@ -11,23 +11,55 @@
             <p class="row1">投资者类型</p>
             <p class="row2">
               <van-dropdown-menu>
-                <van-dropdown-item v-model="form.userType" :options="option1" />
+                <van-dropdown-item v-model="form.investorsType" :options="option1" />
               </van-dropdown-menu>
             </p>
           </li>
-          <li i v-for="(item) in details_lists" :key="item.name">
-            <p class="row1">{{item.name}}</p>
+          <li>
+            <p class="row1">投资者公司：</p>
             <p class="row2">
-              <van-cell-group>
-                <van-field v-model="item.response" placeholder="请输入用户名" />
-              </van-cell-group>
+              <van-field v-model="form.investorsCompany" placeholder="请输入密码" clearable />
+            </p>
+          </li>
+          <li>
+            <p class="row1">投资者姓名：</p>
+            <p class="row2">
+              <van-field v-model="form.investorsName" placeholder="请输入密码" clearable />
+            </p>
+          </li>
+          <li>
+            <p class="row1">投资者地区：</p>
+            <p class="row2">
+              <van-field v-model="form.investorsArea" placeholder="请输入密码" clearable />
+            </p>
+          </li>
+          <li>
+            <p class="row1">投资者电话：</p>
+            <p class="row2">
+              <van-field v-model="form.investorsMobile" placeholder="请输入密码" clearable />
+            </p>
+          </li>
+          <li>
+            <p class="row1">投资者邮箱：</p>
+            <p class="row2">
+              <van-field v-model="form.investorsEmail" placeholder="请输入密码" clearable />
+            </p>
+          </li>
+          <li>
+            <p class="row1">公司地址：</p>
+            <p class="row2">
+              <van-field v-model="form.investorsCompanyAddress" placeholder="请输入密码" clearable />
             </p>
           </li>
           <li>
             <p class="row1">感兴趣行业：</p>
             <p class="row2">
-              <van-checkbox-group v-model="result">
-                <van-checkbox v-for="(item) in countrylist" :key="item.industryId" :name="item.industryId">{{ item.industryNameCh }}</van-checkbox>
+              <van-checkbox-group v-model="form.interestedIndustries">
+                <van-checkbox
+                  v-for="(item) in countrylist"
+                  :key="item.industryId"
+                  :name="item.industryId"
+                >{{ item.industryNameCh }}</van-checkbox>
               </van-checkbox-group>
             </p>
           </li>
@@ -47,92 +79,83 @@ export default {
   name: "i_perfect_infor",
   data() {
     return {
-      // value: ["", "", ""],
-      form:{
-          userType:'',
-          signId:'',
-          signStatus:'',
-          investorsId:'',
-          investorsEmail:'',
-          investorsMobile:'',
-          interestedIndustries:'',
-          investorsCompanyAddress:'',
+      form: {
+        signId: this.$route.query.signId,
+        signStatus: 6,
+        investorsId: this.$route.query.investorsId,
+        investorsType: null,
+        investorsCompany: "",
+        investorsName: "",
+        investorsArea: "",
+        investorsEmail: "",
+        investorsMobile: "",
+        interestedIndustries: [],
+        investorsCompanyAddress: "",
+        investorsName: ""
       },
-      countrylist:[],
-      result: [],
-        option1: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }],
-      details_lists: [
-  
-        {
-          name: "投资者公司:",
-          response: ""
-        },
-        {
-          name: "投资者姓名:",
-          response: ""
-        },
-        {
-          name: "投资者地区:",
-          response: ""
-        },
-        {
-          name: "投资者电话",
-          response: ""
-        },
-        {
-          name: "投资者邮箱:",
-          response: ""
-        },
-        // {
-        //   name: "感兴趣行业:",
-        //   response: ""
-        // },
-        {
-          name: "公司地址",
-          response: ""
-        }
-      ]
+      countrylist: [],
+      option1: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }]
     };
   },
-  created(){
+  created() {
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
     })
       .then(res => {
         console.log(res);
-  
         this.countrylist = res.data.data;
-        // for (let i = 0; i < this.countrylist.length; i++) {
-        //   this.countrylist[i].value = i;
-        //   this.countrylist[i].text = this.countrylist[i].countryTcname;
-        // }
-        // console.log(this.countrylist);
       })
       .catch(err => {
         console.log(err);
       });
   },
   methods: {
-    submit(){
-      console.log();
+    submit() {
       
-    },
-    gg() {
-      // console.log(this.$dialog);
-
-      this.$dialog
-        .confirm({
-          title: "标题",
-          message: "弹窗内容"
+      // let a =JSON.stringify(this.form.interestedIndustries);
+      // let  formtable= {
+      //   signId: this.$route.query.signId,
+      //   signStatus: 6,
+      //   investorsId: this.$route.query.investorsId,
+      //   investorsType: 1,
+      //   investorsCompany: "2",
+      //   investorsName: "2",
+      //   investorsArea: "2",
+      //   investorsEmail: "2",
+      //   investorsMobile: "2",
+      //   interestedIndustries: a ,
+      //   investorsCompanyAddress: "2",
+      //   investorsName: "33"
+      // };
+      console.log(this.form);
+      this.$axios({
+        method: "post",
+        url: `${this.$baseurl}/bsl_web/projectSign/signProject3`,
+        data: this.$qs.stringify (this.form),
+        
+        // header：
+      })
+        .then(res => {
+          console.log(res);
         })
-        .then(() => {
-          // on confirm
-        })
-        .catch(() => {
-          // on cancel
+        .catch(err => {
+          console.log(err);
         });
     }
+    // gg() {
+    //   this.$dialog
+    //     .confirm({
+    //       title: "标题",
+    //       message: "弹窗内容"
+    //     })
+    //     .then(() => {
+    //       // on confirm
+    //     })
+    //     .catch(() => {
+    //       // on cancel
+    //     });
+    // }
   }
 };
 </script>
@@ -181,11 +204,11 @@ export default {
   //    line-height: 0.4rem;
   // }
 
-  .van-icon-success{
-        height: 0.4rem;
-        width:0.4rem;
-        line-height: 0.4rem;
-        font-size: 0.2rem;
+  .van-icon-success {
+    height: 0.4rem;
+    width: 0.4rem;
+    line-height: 0.4rem;
+    font-size: 0.2rem;
   }
   .van-field__control {
     // padding: 0 0.2rem;
@@ -205,7 +228,7 @@ export default {
     transform: rotate(0);
     border-color: currentColor transparent transparent transparent;
   }
- 
+
   .van-dropdown-menu__title--down::after {
     border: 0.1rem solid;
     top: 50%;

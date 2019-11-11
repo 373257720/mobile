@@ -3,15 +3,15 @@
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />签署合约
     </nav>
-    <main v-if="isshow==2">
+    <!-- <main v-if="isshow==2">
       <article>
         <div v-html="content"></div>
         <footer>
           <button @click="gg">导出</button>
         </footer>
       </article>
-    </main>
-    <main v-if="isshow===1">
+    </main> -->
+    <main>
       <article>
         <div class="contract">
           <div class="top"></div>
@@ -106,3 +106,61 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+#a_check_contract {
+  width: 100%;
+  nav {
+    width: 100%;
+    text-align: center;
+    line-height: 1.5rem;
+    height: 1.5rem;
+    position: fixed;
+    top: 0;
+    z-index: 5;
+    font-size: 0.46rem;
+    background: white;
+    border-bottom: 0.1rem solid #b5b5b5;
+  }
+  main {
+    margin-top: 1.5rem;
+    padding: 0.5rem;
+    background: #ffffff;
+    .contract {
+      background: #f2f2f2;
+      box-sizing: border-box;
+      font-size: 0.4rem;
+      line-height: 0.6rem;
+      padding: 0.4rem 0.4rem;
+      width: 100%;
+      height: 12rem;
+      overflow-y: auto;
+      word-wrap: break-word;
+      color: rgb(169, 169, 169);
+        div.button{
+          margin-top:2rem;
+          display: flex;
+          justify-content: space-between;
+          p{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            img{
+              width: 3rem;
+              height: 1rem;
+              border-bottom:1px solid rgb(169, 169, 169);
+            }
+          }
+        }
+    }
+    footer {
+      width: 100%;
+      button {
+        width: 100%;
+        margin-top: 1rem;
+        background: #00adef;
+        color: white;
+        height: 0.8rem;
+      }
+    }
+  }
+}
+</style>

@@ -34,7 +34,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('p_check_contract',$route.query)">查看合约</button>
+            <button @click="$routerto('a_check_contract',$route.query)">查看合约</button>
             <!-- <button @click="gg">拒绝签约</button> -->
           </aside>
         </footer>

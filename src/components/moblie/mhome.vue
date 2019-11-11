@@ -48,7 +48,7 @@
         :loading-text="loadText"
         :offset="300"
       >
-        <div v-for="goods in  upGoodsInfo" :key="goods.projectId" class="goodlists">
+        <div v-for="(goods,item) in  upGoodsInfo" :key="item" class="goodlists">
           <article @click="routerto(goods)">
             <nav>{{goods.projectName}}</nav>
             <section>
@@ -68,11 +68,14 @@
               <ul>
                 <li v-for="(item) in  tags" :key="item.text">{{item.text}}（{{item.number}}）</li>
               </ul>
-            </footer> 
+            </footer>
           </article>
           <footer>
-            <button v-if="usertype==1" @click="$routerto('p_investor_infor',{pro:JSON.stringify(goods.signUserResp)})">签约投资者资料（0）</button>
-             <button v-else-if="usertype==4" @click="routerto(goods)">感兴趣项目</button>
+            <button
+              v-if="usertype==1"
+              @click="$routerto('p_investor_infor',{pro:JSON.stringify(goods.signUserResp)})"
+            >签约投资者资料（0）</button>
+            <button v-else-if="usertype==4" @click="routerto(goods)">感兴趣项目</button>
           </footer>
         </div>
       </van-list>
@@ -92,7 +95,7 @@ export default {
           children: []
         }
       ],
-      usertype:'',
+      usertype: "",
       activeIds: 0,
       tags: [
         {
@@ -105,7 +108,7 @@ export default {
         },
         {
           text: "待确认",
-          number:0
+          number: 0
         },
         {
           text: "拒绝",
@@ -127,7 +130,7 @@ export default {
       pageNum: 0,
       loadNumUp: 5,
       upGoodsInfo: [],
-      value1: "",//行业value
+      value1: "", //行业value
       region_name: "",
       region_nametitle: "",
       option: [
@@ -140,7 +143,7 @@ export default {
     };
   },
   created() {
-    // console.log(this.$store.state.currentUsertype);
+   
     this.usertype = this.$store.state.currentUsertype;
     console.log(this.usertype);
     let axiosList = [
@@ -187,11 +190,11 @@ export default {
       } else if (this.$store.state.currentUsertype == 3) {
         // this.$routerto("a_project_intro", { projectId: projectId });
       } else if (this.$store.state.currentUsertype == 4) {
-         this.$routerto("a_project_intro", {
-            projectId: item.projectId,
-            signStatus: item.signUserResp[0].signStatus,
-            signId: item.signUserResp[0].signId
-          });
+        this.$routerto("a_project_intro", {
+          projectId: item.projectId,
+          signStatus: item.signUserResp[0].signStatus,
+          signId: item.signUserResp[0].signId
+        });
       }
     },
     region(value, region) {
@@ -226,7 +229,6 @@ export default {
       if (this.activeIds == 0) {
         this.activeIds = "";
       }
-      // console.log(this.region_name, this.activeIds);
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getAllProject?`,
@@ -257,7 +259,7 @@ export default {
             this.finished = true;
           }
           console.log(this.upGoodsInfo);
-          let arr=[];
+          // let arr=[];
           // for(let i=0;i<this.upGoodsInfo.length;i++){
           //   arr.push()  this.upGoodsInfo[i].signUserResp
           // }

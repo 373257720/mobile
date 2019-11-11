@@ -5,7 +5,10 @@
     </h2>
     <div class="main">
        <p>{{remind}}</p>
-      <div class="username">
+      <div class="username" v-if="$route.query.email">
+        <van-field v-model="username" placeholder="电子邮箱" disabled/>
+      </div>
+      <div class="username" v-if="!$route.query.email">
         <van-field v-model="username" placeholder="电子邮箱" clearable />
       </div>
       <div class="password">
@@ -15,9 +18,9 @@
         <button @click="login">登 录</button>
       </div>
       <div class="registerbtn">
-        <router-link :to="'register'">
-          <button>注册新账号</button>
-        </router-link>
+        <!-- <router-link :to="'register'"> -->
+          <button @click="$routerto('register',{email:username})">注册新账号</button>
+        <!-- </router-link> -->
       </div>
     </div>
   </div>
@@ -31,6 +34,11 @@ export default {
       password: "",
       remind: ""
     };
+  },
+    created(){
+    this.username=this.$route.query.email
+    // console.log(this.$route.query.email);
+    
   },
   methods: {
     login() {
@@ -52,8 +60,6 @@ export default {
           console.log(global);
           if (rescode == 10000) {
             console.log("登陆成功");
-            console.log();
-            
             this.$store.dispatch("usertype", res.data.data.userType);
             this.$store.dispatch("setUser", this.username);
             if (res.data.data.isAuth == 1) {

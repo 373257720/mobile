@@ -62,6 +62,7 @@ export default {
       owner_signature: "",
       content: "",
       str: "",
+      investorsId:'',
       emailadress: "",
       show2: false, //邮箱
       agent_signature: "",
@@ -90,12 +91,15 @@ export default {
   },
   methods: {
     submit_email() {
+      console.log(this.investorsId);
+      
       this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/sendProject4`,
         data: this.$qs.stringify({
           signId: this.signId,
           memberEmail: this.emailadress,
+          investorsId:this.investorsId,
           emailData: `<html lang="en">
     <head>
     <meta charset="UTF-8">
@@ -283,13 +287,15 @@ export default {
         console.log(res);
         if (res.data.resultCode == 10000) {
           //   this.success=false;
-          this.signId = res.data.data.signId;
+        this.signId = res.data.data.signId;
           this.show2 = true;
           this.$axios({
             method: "get",
             url: `${this.$baseurl}/bsl_web/project/getDetails?signId=${this.signId}`
           }).then(res => {
             console.log(res.data.data);
+                 this.investorsId=res.data.data.investorsId;
+          
             this.custmoers_obj = res.data.data;
           });
         }

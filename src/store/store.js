@@ -3,8 +3,8 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
-    currentUser: null,
-    topright: true,
+    currentUser: '',
+    login: false,
     currentUsertype: null,
     contract:'',
   },
@@ -16,7 +16,7 @@ export default new Vuex.Store({
       }
     },
     username_set(state, user) {
-      if (user) {
+      if (user && user!='null') { 
         state.currentUser = user
         //    state.isLogin = true
       } else if (user == null) {
@@ -36,7 +36,7 @@ export default new Vuex.Store({
       }
     },
 
-    toprightt(state, user) {
+    topright(state, user) {
       if (user == 'login' || user == 'register' || user == 'usercheck') {
         state.topright = false;
       } else {

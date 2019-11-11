@@ -6,7 +6,10 @@
 
     <div class="main">
       <p>{{remind}}</p>
-      <div class="username">
+      <div class="username" v-if="$route.query.email">
+        <van-field v-model="username" placeholder="电子邮箱" disabled/>
+      </div>
+      <div class="username" v-if="$route.query.email==''" >
         <van-field v-model="username" placeholder="电子邮箱" clearable />
       </div>
       <div class="password">
@@ -31,6 +34,11 @@ export default {
       password2: "",
       remind: ""
     };
+  },
+  created(){
+    this.username=this.$route.query.email
+    // console.log(this.$route.query.email);
+    
   },
   methods: {
     register() {

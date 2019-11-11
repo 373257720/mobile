@@ -34,7 +34,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('i_perfect_infor',$route.query)">完善资料</button>
+            <button @click="agree()">完善资料</button>
             <button @click="refuse">拒绝</button>
           </aside>
         </footer>
@@ -50,6 +50,7 @@ export default {
     return {
       show: false,
       // dad_text:'待确认项目',
+      investorsEmailSend:'',
       nav_lists: [
          {
           keyword: "financingStage",
@@ -71,22 +72,22 @@ export default {
         {
           keyword:'investorsType',
           name: "投资者类型:",
-          response: "放水电费水电费"
+          response: ""
         },
         {
           keyword:'investorsCompany',
           name: "投资者公司:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
           keyword:'investorsName',
           name: "投资者姓名:",
-          response: "发地方水电"
+          response: ""
         },
         {
           keyword:'investorsArea',
           name: "投资者地区:",
-          response: "斯蒂芬发地方发地方水电发地方水电"
+          response: ""
         }
       ],
       details_lists: [
@@ -117,13 +118,12 @@ export default {
   created(){
     console.log(this.$route.query);
     let que=this.$route.query;
-    this.$axios({
+      this.$axios({
       method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails.do?projectLan=${que.projectLan}&signId=${que.signId}`
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${que.projectId}&signStatus=${que.signStatus}&signId=${que.signId}`
     }).then(res => {
-      for (var i in res.data.data) {
-        // this.projectId=res.data.data.projectId;
-        // this.investorsId=res.data.data.investorsId; 
+          for (var i in res.data.data) {
+             this.$route.query.investorsId=res.data.data.investorsId;
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
             this.details_lists[j].response = res.data.data[i];
@@ -140,11 +140,51 @@ export default {
           }
         }
       }
-      this.$route.query.investorsId=res.data.data.investorsId;
-      console.log(this.details_lists);
+      
+
     });
+    // this.$axios({
+    //   method: "get",
+    //   url: `${this.$baseurl}/bsl_web/project/getProjectDetails.do?projectLan=${que.projectLan}&signId=${que.signId}`
+    // }).then(res => {
+      
+    //   for (var i in res.data.data) {
+    //     for (var j = 0; j < this.details_lists.length; j++) {
+    //       if (this.details_lists[j].keyword == i) {
+    //         this.details_lists[j].response = res.data.data[i];
+    //       }
+    //     }
+    //     for (var w = 0; w < this.nav_lists.length; w++) {
+    //       if (this.nav_lists[w].keyword == i) {
+    //         this.nav_lists[w].response = res.data.data[i];
+    //       }
+    //     }
+    //       for (var k = 0; k < this.investor_infor.length; k++) {
+    //       if (this.investor_infor[k].keyword == i) {
+    //         this.investor_infor[k].response = res.data.data[i];
+    //       }
+    //     }
+    //   }
+    //   // this.$route.query.investorsId=res.data.data.investorsId;
+      // this.investorsEmailSend=res.data.data.investorsEmailSend;
+    //   console.log(this.details_lists);
+    // });
+  },
+  mounted(){
+
+    
   },
   methods: {
+
+    agree(){
+        let isyes=this.$store.state.currentUser;
+        console.log(isyes);
+        if(isyes){
+            this.$routerto('i_perfect_infor',this.$route.query)
+        }else{
+             this.$routerto('login', {email:this.investorsEmailSend})
+        }
+    },
     refuse() {
       // console.log(this.$dialog);
 

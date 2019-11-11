@@ -27,7 +27,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('a_recommand_i',{projectId:details})">推荐投资人</button>
+            <button @click="$routerto('a_recommand_i',details)">推荐投资人</button>
             <button @click="$global.previous()">再考虑一下</button>
           </aside>
         </footer>

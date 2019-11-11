@@ -67,7 +67,7 @@ export default {
     };
   },
   created() {
-    this.form = this.$route.query.projectId;
+    this.form.projectId = this.$route.query.projectId;
   },
   methods: {
     submit() {
