@@ -20,6 +20,22 @@ Vue.prototype.$axios = axios;
 
 // 引入公共组件
 axios.defaults.withCredentials = true;
+axios.interceptors.response.use(res => {
+    if (res.data && res.data.resultCode) {
+      let code = res.data.resultCode
+      // 10101是未登录状态码
+      if (code == 10090) { // 如果是未登录直接踢出去 
+        console.log(code);
+        location.href = '/'
+      }
+    }
+    return res
+  },
+  error => {
+    alert('请求失败，请稍后重试！')
+    return Promise.reject(error)
+  }
+)
 Vue.prototype.$goto = function goto(name, id) {
   let obj = {
     name
@@ -33,7 +49,7 @@ Vue.prototype.$goto = function goto(name, id) {
   this.$router.push(obj);
 }
 
-Vue.prototype.$routerto =function routerTo(name, obj) {
+Vue.prototype.$routerto = function routerTo(name, obj) {
   this.$router.push({
     name: name,
     query: obj
@@ -48,7 +64,7 @@ Vue.prototype.$routerto =function routerTo(name, obj) {
 
 var baseurl = {
   api: "http://192.168.1.37:8080",
-  //  api: "http://192.168.1.37:8080",
+  //  api: "http://47.90.62.114:8082",
 }
 Vue.prototype.$baseurl = baseurl.api;
 Vue.prototype.$global = global;
@@ -66,9 +82,9 @@ Vue.component('mbottom', mbottom)
 import cavans from './components/moblie/cavans.vue'
 Vue.component('cavans', cavans)
 import common_nav from './components/moblie/common_nav.vue'
-Vue.component('commonnav',common_nav)
+Vue.component('commonnav', common_nav)
 import box from './components/moblie/3box'
-Vue.component('boxx',box)
+Vue.component('boxx', box)
 
 
 // Vue.component('Vue-ueditor-wrap ',VueUeditorWrap )

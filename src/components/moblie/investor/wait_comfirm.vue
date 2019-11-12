@@ -118,10 +118,11 @@ export default {
   created(){
     console.log(this.$route.query);
     let que=this.$route.query;
-      this.$axios({
+    if(this.$store.state.currentUser){
+        this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${que.projectId}&signStatus=${que.signStatus}&signId=${que.signId}`
-    }).then(res => {
+      }).then(res => {
           for (var i in res.data.data) {
              this.$route.query.investorsId=res.data.data.investorsId;
         for (var j = 0; j < this.details_lists.length; j++) {
@@ -140,35 +141,37 @@ export default {
           }
         }
       }
-      
-
     });
-    // this.$axios({
-    //   method: "get",
-    //   url: `${this.$baseurl}/bsl_web/project/getProjectDetails.do?projectLan=${que.projectLan}&signId=${que.signId}`
-    // }).then(res => {
+    }else{
+   this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails.do?projectLan=${que.projectLan}&signId=${que.signId}`
+    }).then(res => {
       
-    //   for (var i in res.data.data) {
-    //     for (var j = 0; j < this.details_lists.length; j++) {
-    //       if (this.details_lists[j].keyword == i) {
-    //         this.details_lists[j].response = res.data.data[i];
-    //       }
-    //     }
-    //     for (var w = 0; w < this.nav_lists.length; w++) {
-    //       if (this.nav_lists[w].keyword == i) {
-    //         this.nav_lists[w].response = res.data.data[i];
-    //       }
-    //     }
-    //       for (var k = 0; k < this.investor_infor.length; k++) {
-    //       if (this.investor_infor[k].keyword == i) {
-    //         this.investor_infor[k].response = res.data.data[i];
-    //       }
-    //     }
-    //   }
-    //   // this.$route.query.investorsId=res.data.data.investorsId;
-      // this.investorsEmailSend=res.data.data.investorsEmailSend;
-    //   console.log(this.details_lists);
-    // });
+      for (var i in res.data.data) {
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            this.details_lists[j].response = res.data.data[i];
+          }
+        }
+        for (var w = 0; w < this.nav_lists.length; w++) {
+          if (this.nav_lists[w].keyword == i) {
+            this.nav_lists[w].response = res.data.data[i];
+          }
+        }
+          for (var k = 0; k < this.investor_infor.length; k++) {
+          if (this.investor_infor[k].keyword == i) {
+            this.investor_infor[k].response = res.data.data[i];
+          }
+        }
+      }
+      // this.$route.query.investorsId=res.data.data.investorsId;
+      this.investorsEmailSend=res.data.data.investorsEmailSend;
+      console.log(this.details_lists);
+    });
+    }
+      
+ 
   },
   mounted(){
 

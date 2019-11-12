@@ -1,16 +1,8 @@
 <template>
   <div id="p_check_contract">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签署合约
+      <van-icon name="arrow-left" @click="$global.previous()" />查看合约
     </nav>
-    <!-- <main>
-      <article>
-        <div v-html="content"></div>
-        <footer>
-          <button @click="gg">导出</button>
-        </footer>
-      </article>
-    </main> -->
     <main>
       <article>
         <div class="contract">
@@ -51,17 +43,15 @@ export default {
   },
   created() {
     console.log(this.$route);
-    // console.log(this.$store.state.contract);
     let str = this.$store.state.contract;
     let a = str.split("!!!!!");
-    // console.log(a);
     this.content = a[0];
     this.signature = a[1];
     console.log(this.content);
 
-    if (this.$route.query.from == "a_wait_signed") {
-      this.isshow = 1;
-    }
+    // if (this.$route.query.from == "a_wait_signed") {
+    //   this.isshow = 1;
+    // }
     //  else if (this.$route.name== "a_sign_contract") {
     //   this.isshow = 3;
     // }

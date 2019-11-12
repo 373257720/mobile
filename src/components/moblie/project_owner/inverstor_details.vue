@@ -12,7 +12,7 @@
         <ul>
           <li v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-            <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
+            <p class="row2">{{item.response}}</p>
           </li>
         </ul>
         <footer>
@@ -30,48 +30,66 @@ export default {
   data() {
     return {
       details_lists: [
-        // {
-        //   name: "申请时间:",
-        //   response: ""
-        // },
-        // {
-        //   name: "申请中间人:",
-        //   response: ""
-        // },
         {
+          keyword: "investorsCompany",
           name: "投资者公司:",
           response: ""
         },
         {
+          keyword: "investorsName",
           name: "投资者名称",
           response: ""
         },
         {
+          keyword: "investorsArea",
           name: "投资者地区:",
           response: ""
         },
         {
+          keyword: "investorsMobile",
           name: "投资者电话:",
           response: ""
         },
         {
+          keyword: "interestedIndustries",
           name: "感兴趣行业:",
           response: ""
         },
         {
+          keyword: "investorsEmail",
           name: "投资者邮箱:",
           response: ""
         },
         {
+          keyword: "investorsCompanyAddress",
           name: "公司地址:",
           response: ""
         },
         {
+          keyword: "signTime3",
           name: "签约时间:",
           response: ""
         }
       ]
     };
+  },
+  created() {
+    console.log(this.$route.query);
+
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail?investorsId=${this.$route.query.investorsId}`
+    }).then(res => {
+      console.log(res);
+      for (var i in res.data.data) {
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            this.details_lists[j].response = res.data.data[i];
+          }
+        }
+  
+      }
+    });
   }
 };
 </script>

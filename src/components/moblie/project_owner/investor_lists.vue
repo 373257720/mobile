@@ -9,15 +9,15 @@
         <ul>
           <li
             i
-            v-for="(item,index) in details_lists"
+            v-for="(item,index) in totallists"
             :key="item.item"
-            @click="$routerto('p_inverstor_details',)"
+            @click="$routerto('p_inverstor_details',{investorsId:item.investorsId})"
           >
             <aside>{{index+1}}</aside>
             <article class="main_right">
-              <section v-for="(item) in details_lists" :key="item.name">
-                <span class="row1">{{item.name}}</span>
-                <span class="row2">{{item.response}}</span>
+              <section v-for="(ite) in details_lists" :key="ite.name">
+                <span class="row1">{{ite.name}}</span>
+                <span class="row2">{{item[ite.keyword]}}</span>
               </section>
             </article>
             <footer class="checkall">
@@ -36,30 +36,42 @@ export default {
   data() {
     return {
       dad_text: "投资者资料",
+      form:{
+        investorsIdList:[]
+      },
+      // investorsId:'',
       details_lists: [
         {
+          keyword:'signTime3',
           name: "签约成功时间:",
-          response: "2019-15-26"
+          response: ""
         },
         {
+          keyword:'investorsCompany',
           name: "投资者公司:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
+          keyword:'investorsName',
           name: "投资者名称:",
-          response: "斯蒂芬发地方"
+          response: ""
         },
         {
+          keyword:'investorsMobile',
           name: "投资者电话",
-          response: "13178523855"
+          response: ""
         },
         {
+          keyword:'interestedIndustries',
           name: "投资者兴趣:",
-          response: "金融"
+          response: ""
         }
-      ]
+      ],
+      totallists:[],
+
     };
   },
+
   methods: {
     gg() {
       // console.log(this.$dialog);
@@ -79,26 +91,32 @@ export default {
   },
   created() {
     let arr = [];
+    console.log(this.$route.query);
+    arr=  JSON.parse(this.$route.query.arr)  
+    this.form.investorsIdList=arr;
+    // arr=JSON.parse(this.$route.query.arr)
     // if (this.$store.state.investor_arr.length > 0) {
     //   arr = this.$store.state.investor_arr;
     // } else {
-      let brr = JSON.parse(this.$route.query.pro)
-      // console.log(JSON.parse(this.$route.query.pro));
+      // let brr = JSON.parse(this.$route.query.pro)
+      // // console.log(JSON.parse(this.$route.query.pro));
        
-      brr.forEach(item => {
-        arr.push(item.signId);
-      });
-
-    console.log(arr);
+      // brr.forEach(item => {
+      //   arr.push(item.signId);
+      // });
+      console.log(this.form);
+      
     this.$axios({
       method: "post",
       url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
-      data: this.$qs.stringify(arr),
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
+      data: this.$qs.stringify( this.form, { arrayFormat: 'brackets' })
     }).then(res => {
-      console.log(res);
+      // console.log(res);
+      this.totallists=res.data.data;
+     
+      console.log(this.totallists);
+
+      
     });
   }
 };

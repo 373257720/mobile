@@ -12,10 +12,9 @@
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-            <p class="row2">地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非官方地方</p>
+            <p class="row2">{{item.response}}</p>
           </li>
         </ul>
-     
       </article>
     </main>
     <mbottom></mbottom>
@@ -27,49 +26,65 @@ export default {
   data() {
     return {
       details_lists: [
-        // {
-        //   name: "申请时间:",
-        //   response: ""
-        // },
-        // {
-        //   name: "申请中间人:",
-        //   response: ""
-        // },
         {
+          keyword: "investorsCompany",
           name: "投资者公司:",
           response: ""
         },
         {
+          keyword: "investorsName",
           name: "投资者名称",
           response: ""
         },
         {
+          keyword: "investorsArea",
           name: "投资者地区:",
           response: ""
         },
-          {
+        {
+          keyword: "investorsMobile",
           name: "投资者电话:",
           response: ""
         },
-   
+
         {
+          keyword: "investorsEmail",
           name: "投资者邮箱:",
           response: ""
         },
-          {
+        {
+          keyword: "interestedIndustries",
           name: "投资者兴趣:",
           response: ""
         },
         {
+          keyword: "investorsCompanyAddress",
           name: "投资者地址:",
           response: ""
-        },
+        }
         // {
         //   name: "签约时间:",
         //   response: ""
         // }
       ]
     };
+  },
+  created() {
+    this.$axios({
+      method: "post",
+      url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail?investorsId=${this.$route.query.investorsId}`
+    }).then(res => {
+      for (var i in res.data.data) {
+
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            this.details_lists[j].response = res.data.data[i];
+          }
+        }
+      }
+      // console.log(res);
+      
+    });
   }
 };
 </script>
@@ -112,7 +127,7 @@ export default {
     }
     article {
       margin: 0 0 1.3rem 0;
-  
+
       ul {
         padding: 0.5rem 0.5rem 0 0.5rem;
         li {
@@ -133,7 +148,6 @@ export default {
           }
         }
       }
-
     }
   }
 }

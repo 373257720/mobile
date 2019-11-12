@@ -15,7 +15,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="gg">投资者资料</button>
+            <button @click="$routerto('p_investor_lists')">投资者资料</button>
             <!-- <button @click="gg">合约</button> -->
           </aside>
         </footer>

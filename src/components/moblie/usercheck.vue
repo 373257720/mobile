@@ -22,6 +22,10 @@
       </div>
       <div class="identy_check" v-show="form.userIdentityType==2?false:true">
         <div class="idcard_num">
+          <p>个人姓名</p>
+          <van-field v-model="form.userIdentity" placeholder="请输入密码" clearable />
+        </div>
+        <div class="idcard_num">
           <p>身份证号码</p>
           <van-field v-model="form.userIdentity" placeholder="请输入密码" clearable />
         </div>
@@ -113,6 +117,7 @@ export default {
         userCountryEn: "",
         userCountryCh: "",
         userIdentity: "",
+        userName:'',
         identityType: "",
         identityPicOne: [],
         identityPicTwo: [],

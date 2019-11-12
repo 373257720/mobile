@@ -58,7 +58,7 @@
                 <van-checkbox
                   v-for="(item) in countrylist"
                   :key="item.industryId"
-                  :name="item.industryId"
+                  :name="item.industryNameCh"
                 >{{ item.industryNameCh }}</van-checkbox>
               </van-checkbox-group>
             </p>
@@ -103,8 +103,10 @@ export default {
       url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
     })
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.countrylist = res.data.data;
+        console.log(this.countrylist);
+        
       })
       .catch(err => {
         console.log(err);
@@ -112,8 +114,10 @@ export default {
   },
   methods: {
     submit() {
-      
-      // let a =JSON.stringify(this.form.interestedIndustries);
+     let formtable=JSON.parse(JSON.stringify(this.form));
+      let a =this.form.interestedIndustries.join("/");
+      formtable.interestedIndustries=a;
+
       // let  formtable= {
       //   signId: this.$route.query.signId,
       //   signStatus: 6,
@@ -128,16 +132,17 @@ export default {
       //   investorsCompanyAddress: "2",
       //   investorsName: "33"
       // };
-      console.log(this.form);
+      console.log(formtable);
       this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/signProject3`,
-        data: this.$qs.stringify (this.form),
-        
-        // header：
+        data: this.$qs.stringify (formtable),
       })
         .then(res => {
           console.log(res);
+          if(res.data.resultCode==10000){
+              this.$routerto('mhome')
+          }
         })
         .catch(err => {
           console.log(err);

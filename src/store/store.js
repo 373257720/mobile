@@ -10,6 +10,7 @@ export default new Vuex.Store({
   },
   getters: {},
   mutations: {
+    
     contract_set(state,content){
       if(content){
         state.contract=content;

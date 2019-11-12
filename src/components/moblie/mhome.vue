@@ -64,17 +64,25 @@
               <span v-html="goods.projectDescribe.substr(0, [70])+'...'"></span>
               <!-- <div class="van-multi-ellipsis--l2">{{goods.projectDescribe}}</div> -->
             </section>
-            <footer>
+            <footer v-if="usertype==1">
               <ul>
-                <li v-for="(item) in  tags" :key="item.text">{{item.text}}（{{item.number}}）</li>
+                <li v-for="(item) in  tags" :key="item.text">
+                  <div
+                    v-if="goods.signUserList[item.keywork][0].signCount"
+                  >{{item.text}}（{{goods.signUserList[item.keywork][0].signCount?goods.signUserList[item.keywork][0].signCount:0}}）</div>
+                </li>
               </ul>
             </footer>
           </article>
           <footer>
             <button
               v-if="usertype==1"
-              @click="$routerto('p_investor_infor',{pro:JSON.stringify(goods.signUserResp)})"
-            >签约投资者资料（0）</button>
+              @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList6'][0].investorsIdList) })"
+            >签约投资者资料（{{goods.signUserList['signUserList6'][0].signCount?goods.signUserList['signUserList6'][0].signCount:0}}）</button>
+            <button
+              v-else-if="usertype==3"
+              @click="$routerto('i_conected_project',{projectId:goods.projectId,signStatus:goods.signUserResp[0].signStatus,signId:goods.signUserResp[0].signId})"
+            >已连接项目</button>
             <button v-else-if="usertype==4" @click="routerto(goods)">感兴趣项目</button>
           </footer>
         </div>
@@ -99,23 +107,28 @@ export default {
       activeIds: 0,
       tags: [
         {
+          keywork: "signUserList1",
           text: "待审核",
           number: 0
         },
         {
+          keywork: "signUserList2",
           text: "待签约",
           number: 0
         },
         {
+          keywork: "signUserList4",
           text: "待确认",
           number: 0
         },
         {
-          text: "拒绝",
+          keywork: "signUserList6",
+          text: "已签约",
           number: 0
         },
         {
-          text: "已签约",
+          keywork: "signUserList37",
+          text: "已拒绝",
           number: 0
         }
       ],
@@ -143,7 +156,6 @@ export default {
     };
   },
   created() {
-   
     this.usertype = this.$store.state.currentUsertype;
     console.log(this.usertype);
     let axiosList = [
@@ -173,6 +185,14 @@ export default {
     );
   },
   methods: {
+    router(name,obj){
+      
+   
+      if(obj.arr && obj.arr.length>0){
+        this.$routerto(name,obj)
+      }
+      
+    },
     routerto(item) {
       this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
@@ -246,6 +266,8 @@ export default {
         .then(res => {
           if (res.status === 200) {
             let re = res.data.data.lists;
+            console.log(re);
+            
             if (re.length !== 0) {
               // this.upGoodsInfo = [];
               this.upGoodsInfo = this.upGoodsInfo.concat(re);
@@ -261,7 +283,7 @@ export default {
           console.log(this.upGoodsInfo);
           // let arr=[];
           // for(let i=0;i<this.upGoodsInfo.length;i++){
-          //   arr.push()  this.upGoodsInfo[i].signUserResp
+
           // }
         })
         .catch(err => {
@@ -416,11 +438,13 @@ export default {
           box-sizing: border-box;
         }
         ul {
+          width: 100%;
+          height: 100%;
           display: flex;
           font-size: 0.03rem;
           flex-wrap: wrap;
 
-          li {
+          div {
             display: flex;
             height: 0.5rem;
             width: 2.36rem;

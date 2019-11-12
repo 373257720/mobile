@@ -72,6 +72,7 @@ export default {
       visible: false,
       text: "全部",
       loading: false,
+      result: [],
       finished: false,
       loadText: "加载中…",
       pageNum: 0,
@@ -81,13 +82,7 @@ export default {
     };
   },
   computed: {
-    result: function() {
-      if (this.usertype == 1 || this.usertype == 4) {
-        return [1, 2, 4, 6, 3, 7];
-      } else if (this.usertype == 3) {
-        return [5, 6, 7];
-      }
-    },
+
     list: function() {
       // console.log(usertype);
       if (this.usertype == 1 || this.usertype == 4) {
@@ -141,6 +136,11 @@ export default {
   },
   created() {
     this.usertype = this.$store.state.currentUsertype;
+    if (this.usertype == 1 || this.usertype == 4) {
+      this.result = [1, 2, 4, 6, 3, 7];
+    } else if (this.usertype == 3) {
+      this.result = [5, 6, 7];
+    }
   },
   mounted() {},
   methods: {
@@ -179,16 +179,16 @@ export default {
         } else if (signStatus == 3 || signStatus == 7) {
           this.$routerto("a_sign_failed", obj);
         }
-      }else if (this.usertype == 3) {
+      } else if (this.usertype == 3) {
         console.log(signStatus);
 
-          if (signStatus == 5) {
-            this.$routerto("i_wait_confirm", obj);
-          } else if (signStatus == 6) {
-            this.$routerto("i_conected_project", obj);
-          } else if (signStatus == 7) {
-            this.$routerto("i_sign_failed", obj);
-          } 
+        if (signStatus == 5) {
+          this.$routerto("i_wait_confirm", obj);
+        } else if (signStatus == 6) {
+          this.$routerto("i_conected_project", obj);
+        } else if (signStatus == 7) {
+          this.$routerto("i_sign_failed", obj);
+        }
       }
 
       //待签约
@@ -197,18 +197,19 @@ export default {
       //拒绝
     },
     confirm_lists() {
-      if (this.result.indexOf(3) >= 0) {
-        if (this.result.indexOf(7) <= 0) {
-          this.result.push(7);
-          console.log(111111);
+      if (this.usertype == 1 || this.usertype == 4) {
+        if (this.result.indexOf(3) >= 0) {
+          if (this.result.indexOf(7) <= 0) {
+            this.result.push(7);
+            console.log(111111);
+          }
+        } else if (this.result.indexOf(3) < 0) {
+          if (this.result.indexOf(7) >= 0) {
+            console.log(222222);
+            this.result.splice(this.result.indexOf(7), 1);
+          }
         }
-      } else if (this.result.indexOf(3) < 0) {
-        if (this.result.indexOf(7) >= 0) {
-          console.log(222222);
-          this.result.splice(this.result.indexOf(7), 1);
-        }
-      }
-
+      } 
       this.upGoodsInfo = [];
       this.onLoad();
       this.visible = false;
@@ -263,12 +264,10 @@ export default {
             console.log(this.upGoodsInfo);
             this.upGoodsInfo.forEach(item => {
               // console.log(this.$global);
-
               item.signTime = this.$global.timestampToTime(item.signTime);
               item.signTime4Submit = this.$global.timestampToTime(
                 item.signTime4Submit
               );
-              //  this.upGoodsInfo
               this.list.forEach(ite => {
                 if (item.signStatus == ite.value) {
                   item.signStatustext = ite.text;

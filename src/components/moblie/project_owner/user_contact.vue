@@ -3,9 +3,9 @@
     <nav>
       <header>
         <!-- <van-icon name="arrow-left" @click="$global.previous()" />联络人 -->
-         <commonnav :msg="dad_text"></commonnav>
+        <commonnav :msg="dad_text"></commonnav>
       </header>
-      <main >
+      <main>
         <van-search
           v-model="searchkey"
           placeholder="请输入搜索关键词"
@@ -15,7 +15,7 @@
           @search="onSearch"
         >
           <div slot="action" @click="onSearch">
-            <van-icon name="search"/>
+            <van-icon name="search" />
           </div>
         </van-search>
       </main>
@@ -25,8 +25,8 @@
         <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
         <!-- <h2></h2> -->
         <p>
-          <span>联系人名字</span>
-          <span>到发广告的非fg的发给的发给官锅</span>
+          <span>{{item.userName}}</span>
+          <span>{{item.bslEmail}}</span>
           <!-- <van-icon name="arrow" /> -->
         </p>
       </li>
@@ -39,11 +39,37 @@ export default {
   name: "p_user_contact",
   data() {
     return {
-      dad_text:"联络人",
-      arr: [1, 2, 3, 5, 9, 8, 10, 90, 40],
+      dad_text: "联络人",
+      arr: [
+        // {
+        //   keyword:'bslEmail',
+        //   response:'',
+        // },{
+        //    keyword:'userName',
+        //   response:'',
+        // }
+
+      ],
       searchkey: "",
       value1: 0
     };
+  },
+  created() {
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/user/getRelationUser`
+    }).then(res => {
+      console.log(res);
+      this.arr=[...res.data.data]
+      // for (var i in res.data.data) {
+      //   for (var j = 0; j < this.arr.length; j++) {
+      //     if (this.arr[j].keyword == i) {
+      //       this.arr[j].response = res.data.data[i];
+      //     }
+      //   }
+      // }
+      
+    });
   },
   methods: {
     onSearch() {
@@ -82,17 +108,16 @@ export default {
     // height: 0.5rem;
     // font-size: 0.1rem;
   }
-.van-icon-search{
-    background: #FFC303;
+  .van-icon-search {
+    background: #ffc303;
     border-radius: 50%;
     width: 0.6rem;
-    height:0.6rem;
-    color:#282407;
+    height: 0.6rem;
+    color: #282407;
     text-align: center;
     line-height: 0.6rem;
-      font-size: 0.4rem;
-
-}
+    font-size: 0.4rem;
+  }
   header {
     position: relative;
 

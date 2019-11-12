@@ -61,6 +61,8 @@ export default {
   created() {
     // console.log(VueUeditorWrap);
     console.log(this.$route.query);
+
+    
   },
   computed:{
       
