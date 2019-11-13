@@ -5,11 +5,11 @@
     <ul>
       <li>
         <!-- <p> -->
-          <span>
-            <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
-          </span>
-          <span>大煞风景看到发送到放到水电费地方路交口</span>
-          <!-- <van-icon name="arrow" /> -->
+        <span>
+          <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
+        </span>
+        <span>{{name}}</span>
+        <!-- <van-icon name="arrow" /> -->
         <!-- </p> -->
       </li>
       <li>
@@ -34,43 +34,76 @@ export default {
       dad_text: "联络人",
       details_lists: [
         {
+          keyword: "investorsCompany",
           name: "投资者公司:",
-          response: "234234"
+          response: ""
         },
         {
+          keyword: "investorsName",
           name: "投资者名称",
-          response: "的发给"
+          response: ""
         },
         {
+          keyword: "investorsArea",
           name: "投资者地区:",
-          response: "地方删掉发sdfsdfdsdfsdfsdfsdf送到"
+          response: ""
         },
         {
+          keyword: "investorsMobile",
           name: "投资者电话:",
-          response: "发给地方"
+          response: ""
         },
         {
+          keyword: "interestedIndustries",
           name: "投资者兴趣:",
-          response: "个"
+          response: ""
         },
         {
+          keyword: "investorsEmail",
           name: "投资者邮箱:",
           response: ""
         },
         {
+          keyword: "investorsCompanyAddress",
           name: "公司地址:",
           response: ""
         },
         {
+          keyword: "signTime3",
           name: "签约时间:",
           response: ""
         }
       ]
     };
   },
+  computed:{
+      name(){
+        return this.$route.query.idname;
+      }
+  },
+  created() {
+    this.$global
+      .changepage(
+        `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail?investorsId=${this.$route.query.investorsId}`,
+        "get"
+      )
+      .then(res => {
+        for (let i in res.data.data) {
+          for (let j = 0; j < this.details_lists.length; j++) {
+            if (this.details_lists[j].keyword == i) {
+              this.details_lists[j].response = res.data.data[i];
+            }
+          }
+        }
+        
+      });
+
+    // if(a.er
+  },
   methods: {
     onSearch() {
       console.log(this.searchkey);
+      
     }
   }
 };
@@ -166,14 +199,13 @@ export default {
       img {
         height: 1.46rem;
         width: 1.46rem;
-        
       }
 
       span:nth-child(1) {
         // display: inline;
         // font-weight: 600;
         // color: #4c4c4c;
-        margin-right:0.76rem;
+        margin-right: 0.76rem;
         // font-size: 0.3rem;
         // line-height: 1.5rem;
       }
@@ -195,12 +227,12 @@ export default {
         // flex-direction: column;
         // margin-left: 0.4rem;
         margin-bottom: 0.5rem;
-             font-size: 0.36rem;
+        font-size: 0.36rem;
         // align-items: baseline;
         span:nth-child(1) {
           font-weight: 550;
           width: 2.3rem;
-     
+
           line-height: 0.5rem;
           color: #4c4c4c;
           display: inline-block;

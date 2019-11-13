@@ -21,7 +21,7 @@
       </main>
     </nav>
     <ul>
-      <li v-for="item in arr" :key="item" @click="$routerto('p_user_contact2')">
+      <li v-for="item in arr" :key="item.username" @click="$routerto('p_user_contact2',{investorsId:item.investorsId,idname:item.userName})">
         <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
         <!-- <h2></h2> -->
         <p>
@@ -57,7 +57,7 @@ export default {
   created() {
     this.$axios({
       method: "get",
-      url: `${this.$baseurl}/bsl_web/user/getRelationUser`
+      url: `${this.$baseurl}/bsl_web/user/getRelationUser?searchKey=${this.searchkey}`
     }).then(res => {
       console.log(res);
       this.arr=[...res.data.data]

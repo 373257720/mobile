@@ -15,7 +15,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('p_investor_lists')">投资者资料</button>
+            <button @click="$routerto('p_inverstor_details',{investorsId:investorsId})">投资者资料</button>
             <!-- <button @click="gg">合约</button> -->
           </aside>
         </footer>
@@ -29,6 +29,7 @@ export default {
   name: "p_sign_successful",
   data() {
     return {
+      investorsId:'',
       nav_lists: [
           {
           keyword: "financingStage",
@@ -78,6 +79,7 @@ export default {
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId}`
     }).then(res => {
       for (var i in res.data.data) {
+        this.investorsId=res.data.data.investorsId;
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
             this.details_lists[j].response = res.data.data[i];

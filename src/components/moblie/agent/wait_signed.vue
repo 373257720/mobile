@@ -71,22 +71,22 @@ export default {
         {
           keyword:'investorsType',
           name: "投资者类型:",
-          response: "放水电费水电费"
+          response: ""
         },
         {
           keyword:'investorsCompany',
           name: "投资者公司:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
           keyword:'investorsName',
           name: "投资者姓名:",
-          response: "发地方水电"
+          response: ""
         },
         {
           keyword:'investorsArea',
           name: "投资者地区:",
-          response: "斯蒂芬发地方发地方水电发地方水电"
+          response: ""
         }
       ],
       details_lists: [
@@ -124,7 +124,9 @@ export default {
     }).then(res => {
       for (var i in res.data.data) {
         // this.projectId=res.data.data.projectId;
-        this.$store.dispatch('contract_check',res.data.data.signAgreement)
+        // console.log();
+        
+        this.$store.dispatch('contract_check',res.data.data.signAgreement);
         // this.investorsId=res.data.data.investorsId; 
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
@@ -142,7 +144,7 @@ export default {
           }
         }
       }
-     this.$route.query.from='a_wait_signed';
+    //  this.$route.query.from='a_wait_signed';
      this.$route.query.investorsId=res.data.data.investorsId
      console.log(this.$route.query);
      

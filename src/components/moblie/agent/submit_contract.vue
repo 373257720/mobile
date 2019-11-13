@@ -74,12 +74,11 @@ export default {
   created() {
     // console.log(this.$route.query);
     // console.log(this.$store.state.contract);
-    this.str = this.$store.state.contract;
-    let a = this.str.split("!!!!!");
-
-    this.owner_signature = a[1];
-    this.content = a[0];
-    this.agent_signature = a[2];
+    this.str = JSON.parse(this.$store.state.contract.body);this.$store.state.contract;
+    console.log(this.str);
+    this.owner_signature = this.str.owner;
+    this.content =this.str.body;
+    this.agent_signature = this.str.agent;
     // console.log(this.content);
   },
   computed: {
@@ -262,6 +261,9 @@ export default {
         })
       }).then(res => {
         console.log(res);
+        if(res.data.resultCode==10000){
+          this.$routerto('mysign');
+        }
         // console.log();
         // this.show2 = true;
         // if (res.data.resultCode == 10000) {
@@ -281,7 +283,7 @@ export default {
         data: this.$qs.stringify({
           projectId: this.$route.query.projectId,
           investorsId: this.$route.query.investorsId,
-          signAgreement: this.str
+          signAgreement:JSON.stringify(this.str) 
         })
       }).then(res => {
         console.log(res);

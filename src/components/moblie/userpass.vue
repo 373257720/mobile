@@ -1,7 +1,8 @@
 <template>
   <div id="userpass">
     <header>
-      <van-icon name="arrow-left" @click="$global.previous()" />个人审核
+      <!-- <van-icon name="arrow-left" @click="$global.previous()" /> -->
+       <commonnav :msg="dad_text"></commonnav>
     </header>
     <main>
       <ul>
@@ -10,35 +11,43 @@
           <div>{{form.userType}}</div>
         </li>
         <li>
+          <p>身份:</p>
+          <div>{{form.userIdentityType}}</div>
+        </li>
+        <li>
           <p>国籍:</p>
           <div>{{form.userCountryCh}}</div>
         </li>
         <li>
-          <p>身份证号:</p>
+          <p>姓名:</p>
+          <div>{{form.userName}}</div>
+        </li>
+        <li>
+          <p v-if="switchon">身份证号:</p>
           <p></p>
           <div>{{form.userIdentity}}</div>
         </li>
-        <li>
+        <li v-if="form.userIdentityType==2">
           <p>公司名称:</p>
           <div>{{form.userCompanyCh}}</div>
         </li>
-        <li>
+        <li v-if="form.userIdentityType==2">
           <p>公司地址:</p>
           <div>{{form.userAddressCh}}</div>
         </li>
         <li class="idcard_left">
-          <p>{{success==true?'身份证正面':'护照'}}</p>
+          <p>{{switchon==true?'身份证正面':'护照'}}</p>
           <div class="pic">
             <img :src="$baseurl+form.identityPicOne" alt />
           </div>
         </li>
-        <li class="idcard_right" v-if="success">
+        <li class="idcard_right" v-if="switchon">
           <p>身份证反面</p>
           <div class="pic">
             <img :src="$baseurl+form.identityPicTwo" alt />
           </div>
         </li>
-        <li class="idcard_right">
+        <li v-if="form.userIdentityType==2" class="idcard_right">
           <p>公司营业执照</p>
           <div class="pic">
             <img :src="$baseurl+form.userCompanyPic" alt />
@@ -54,10 +63,14 @@ export default {
   name: "userpass",
   data() {
     return {
-      success: true,
+      dad_text:'个人审核',
+      switchon: true,//护照和身份证,
+
       form: {
+        userName:'',
         userCountry: "",
         userCountryEn: "",
+        userIdentityType:'',
         userCountryCh: "",
         userIdentity: "",
         identityType: "",
@@ -91,13 +104,13 @@ export default {
           }
           if (key == "userCountry") {
             if (
-              this.form[key] == "HKG" ||
-              this.form[key] == "MAC" ||
+              // this.form[key] == "HKG" ||
+              // this.form[key] == "MAC" ||
               this.form[key] == "CHN"
             ) {
-              this.success = true;
+              this.switchon = true;
             } else {
-              this.success = false;
+              this.switchon = false;
             }
           }
         }
@@ -146,15 +159,16 @@ export default {
         margin-bottom: 0.5rem;
         p {
           margin-bottom: 0.1rem;
-          font-size: 0.25rem;
+          font-size: 0.36rem;
         }
         div {
           background: #f6f6f6;
-          height: 0.7rem;
-          line-height: 0.7rem;
+          height: 1rem;
+          line-height: 1rem;
           font-size: 0.2rem;
           border: 0.02rem solid #d9d9d9;
           padding: 0 0.2rem;
+          color:#8A8A8A;
         }
         div.pic {
           padding: 0;

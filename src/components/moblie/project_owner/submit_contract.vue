@@ -14,13 +14,13 @@
                 <i>
                   <img :src="signature" alt />
                 </i>
-              
+
                 <span>投行</span>
                 <span>2019.11.11</span>
               </p>
               <p>
                 <i></i>
-                
+
                 <span>中间人</span>
                 <span>2019.11.11</span>
               </p>
@@ -58,10 +58,11 @@ export default {
   created() {
     console.log(this.$route.query);
     console.log(this.$store.state.contract);
-    this.str = this.$store.state.contract;
-    let a = this.str.split("!!!!!");
-    this.content =a[0];
-    this.signature =a[1]
+
+    // let a = this.str.split("!!!!!");
+    this.content = this.$store.state.contract.body;
+    this.signature = this.$store.state.contract.owner;
+    this.str = JSON.stringify(this.$store.state.contract);
     // console.log(this.content);
   },
   computed: {
@@ -80,15 +81,14 @@ export default {
           projectId: this.$route.query.projectId,
           investorsId: this.$route.query.investorsId,
           signStatus: 2,
-          signAgreement:this.str
+          signAgreement: this.str
         })
       }).then(res => {
         console.log(res);
         if (res.data.resultCode == 10000) {
-          this.success=false;
+          this.success = false;
         }
       });
-
     }
   }
 };
@@ -179,13 +179,13 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
-          i{
+          i {
             width: 3rem;
             height: 1rem;
             border-bottom: 1px solid rgb(169, 169, 169);
-            img{
-               width: 3rem;
-            height: 1rem;
+            img {
+              width: 3rem;
+              height: 1rem;
             }
           }
         }

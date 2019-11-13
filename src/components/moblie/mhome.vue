@@ -46,6 +46,7 @@
         :finished="finished"
         @load="onLoad"
         :loading-text="loadText"
+       
         :offset="300"
       >
         <div v-for="(goods,item) in  upGoodsInfo" :key="item" class="goodlists">
@@ -140,7 +141,7 @@ export default {
       loading: false,
       finished: false,
       loadText: "loading…",
-      pageNum: 0,
+      pageNum: 1,
       loadNumUp: 5,
       upGoodsInfo: [],
       value1: "", //行业value
@@ -148,7 +149,7 @@ export default {
       region_nametitle: "",
       option: [
         {
-          text: "全部地区",
+          text: "地区",
           value: 0,
           remark: ""
         }
@@ -183,6 +184,8 @@ export default {
         }
       })
     );
+    // this.loading = true
+    // this.onLoad();
   },
   methods: {
     router(name,obj){
@@ -221,14 +224,18 @@ export default {
       this.region_name = region.remark;
       this.region_nametitle = region.text;
       console.log(value, region, this.region_name);
-      this.pageNum = 0;
+      this.pageNum = 1;
       this.upGoodsInfo = [];
+      this.loading = true;//下拉加载中
+      this.finished = false;//下拉结
       this.onLoad();
     },
     onSearch() {
       // console.log(this.searchkey);
       this.pageNum = 0;
       this.upGoodsInfo = [];
+        this.loading = true;//下拉加载中
+      this.finished = false;//下拉结
       this.onLoad();
     },
     onClickNav(index) {
@@ -243,18 +250,23 @@ export default {
       }
       this.pageNum = 0;
       this.upGoodsInfo = [];
+        this.loading = true;//下拉加载中
+      this.finished = false;//下拉结
       this.onLoad();
     },
     onLoad() {
+      // this.loading = true; 
       if (this.activeIds == 0) {
         this.activeIds = "";
       }
+      console.log(this.loading);
+      
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getAllProject?`,
         params: {
           searchKey: this.searchkey,
-          pageIndex: ++this.pageNum,
+          pageIndex: this.pageNum,
           pageSize: this.loadNumUp,
           bslAreaCode: this.region_name,
           industryId: this.activeIds
@@ -265,22 +277,21 @@ export default {
       })
         .then(res => {
           if (res.status === 200) {
-            let re = res.data.data.lists;
-            console.log(re);
-            
-            if (re.length !== 0) {
-              // this.upGoodsInfo = [];
+            let re = res.data.data.lists;    
+            if (re.length > 0) {
               this.upGoodsInfo = this.upGoodsInfo.concat(re);
+                 this.loading = false;      
             }
-            this.loading = false;
             if (this.upGoodsInfo.length >= res.data.data.pageTotal) {
               this.loadText = "加载完成";
-              this.finished = true;
+              this.finished = true;       
             }
+            this.pageNum++;
           } else {
+            this.loading = false;
             this.finished = true;
           }
-          console.log(this.upGoodsInfo);
+             console.log(this.loading);
           // let arr=[];
           // for(let i=0;i<this.upGoodsInfo.length;i++){
 

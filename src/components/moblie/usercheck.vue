@@ -23,11 +23,11 @@
       <div class="identy_check" v-show="form.userIdentityType==2?false:true">
         <div class="idcard_num">
           <p>个人姓名</p>
-          <van-field v-model="form.userIdentity" placeholder="请输入密码" clearable />
+          <van-field v-model="form.userName" placeholder="请输入" clearable />
         </div>
         <div class="idcard_num">
-          <p>身份证号码</p>
-          <van-field v-model="form.userIdentity" placeholder="请输入密码" clearable />
+          <p>{{form.userCountry==2?'身份证号码':'passport'}}</p>
+          <van-field v-model="form.userIdentity" placeholder="请输入" clearable />
         </div>
         <div class="id_front">
           <p>{{switchon==true?'身份证正面':'护照'}}</p>
@@ -322,6 +322,7 @@ export default {
     background: #f6f6f6;
     border: 0;
     height: 3.3rem;
+    margin: 0;
     // border: 1px solid #ababab;
     border-radius: 0.05rem;
     box-sizing: border-box;

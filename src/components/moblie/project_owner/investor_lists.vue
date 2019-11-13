@@ -8,7 +8,7 @@
       <article>
         <ul>
           <li
-            i
+            
             v-for="(item,index) in totallists"
             :key="item.item"
             @click="$routerto('p_inverstor_details',{investorsId:item.investorsId})"

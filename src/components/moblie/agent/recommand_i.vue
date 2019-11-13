@@ -223,7 +223,7 @@ export default {
         text-align: center;
         font-weight: 600;
         line-height: 2rem;
-        border-bottom: 0.1rem solid #b5b5b5;
+        // border-bottom: 0.1rem solid #b5b5b5;
       }
       ul {
         padding: 0.5rem 0.5rem 2rem 0.5rem;

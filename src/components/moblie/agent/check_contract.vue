@@ -52,16 +52,19 @@ export default {
   created() {
     console.log(this.$route);
     // console.log(this.$store.state.contract);
-    let str = this.$store.state.contract;
-    let a = str.split("!!!!!");
+    //  let str =this.$store.state.contract;
+    let str =JSON.parse(this.$store.state.contract.body) ;
+    // let a = str.split("!!!!!");
+    console.log(str);
+    
     // console.log(a);
-    this.content = a[0];
-    this.signature = a[1];
-    console.log(this.content);
+    this.content = str.body;
+    this.signature = str.owner;
+    // console.log(this.content);
 
-    if (this.$route.query.from == "a_wait_signed") {
-      this.isshow = 1;
-    }
+    // if (this.$route.query.from == "a_wait_signed") {
+    //   this.isshow = 1;
+    // }
     //  else if (this.$route.name== "a_sign_contract") {
     //   this.isshow = 3;
     // }
@@ -81,7 +84,7 @@ export default {
   },
   methods: {
     signname() {
-      console.log(this.content);
+      // console.log(this.content);
     }
   }
 };

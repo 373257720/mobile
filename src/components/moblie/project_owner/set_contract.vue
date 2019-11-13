@@ -1,7 +1,7 @@
 <template>
   <div id="p_set_contract">
     <nav>
-      <van-icon name="arrow-left" />签署合约
+      <van-icon name="arrow-left" @click="$global.previous()" />签署合约
     </nav>
     <main>
       <article>

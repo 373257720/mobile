@@ -13,13 +13,13 @@ export default {
   },
   created() {
     console.log(this.$route.query);
-    console.log(this.$store.state.contract);
+    console.log(this.$store.state.contract.body);
   },
   methods: {
     commit(data) {
       console.log(data);
-      let str=this.$store.state.contract+'!!!!!'+data
-          this.$store.commit('contract_set',str);
+      // let str=this.$store.state.contract+'!!!!!'+data
+          this.$store.commit('contract_owner',data);
           this.$routerto('p_submit_contract',this.$route.query)
     },
     gg() {

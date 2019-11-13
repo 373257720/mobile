@@ -6,14 +6,33 @@ export default new Vuex.Store({
     currentUser: '',
     login: false,
     currentUsertype: null,
-    contract:'',
+    contract:{
+        // owner:'',
+        // body:'',
+        // agent:'',
+    },
   },
   getters: {},
   mutations: {
-    
+    contract_sign(state,content){
+      if(content){
+        // state.contract={};
+        state.contract=content;
+      }
+    },
+    contract_owner(state,content){
+      if(content){
+        state.contract.owner=content;
+      }
+    },
+    contract_agent(state,content){
+      if(content){
+        state.contract.agent=content;
+      }
+    },
     contract_set(state,content){
       if(content){
-        state.contract=content;
+        state.contract.body=content;
       }
     },
     username_set(state, user) {
