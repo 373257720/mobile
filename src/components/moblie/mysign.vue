@@ -238,8 +238,10 @@ export default {
         method: "get",
         url: `${this.$baseurl}/bsl_web/projectSign/project`,
         // data: this.$qs.stringify(this.form),
+        
         params: {
-          signStatusList: this.result,
+          // this.$qs.stringify( this.form, { arrayFormat: 'brackets' })
+          signStatusList:this.result,
           pageIndex: ++this.pageNum,
           pageSize: this.loadNumUp
         },

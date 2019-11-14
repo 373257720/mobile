@@ -120,7 +120,7 @@ export default {
   let details = this.$route.query;
     this.$axios({
       method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:''}`
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
     }).then(res => {
       for (var i in res.data.data) {
         this.projectId=res.data.data.projectId;
