@@ -120,7 +120,7 @@ export default {
   let details = this.$route.query;
     this.$axios({
       method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId}`
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${this.details.signId?this.details.signId:''}`
     }).then(res => {
        console.log( this.$store.state.contract);
       this.$store.dispatch('contract_check',JSON.parse(res.data.data.signAgreement) );

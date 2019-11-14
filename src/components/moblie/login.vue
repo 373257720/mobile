@@ -43,6 +43,8 @@ export default {
   methods: {
     login() {
       this.remind = "";
+      // console.log(this.$baseurl);
+      
       if (this.username && this.password) {
         this.$axios({
           method: "post",
