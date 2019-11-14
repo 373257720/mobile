@@ -197,7 +197,7 @@ export default {
     // 返回 Promise
     asyncBeforeRead(file, index) {
       if (file.type !== "image/jpeg") {
-        Toast("请上传 jpg 格式图片");
+        this.$toast("请上传 jpg 格式图片");
         return false;
       }
       let formData = new FormData();
@@ -211,6 +211,8 @@ export default {
         }
       }).then(res => {
         var imgurl = res.data.data.url;
+        console.log(imgurl);
+        
         if (index == 1) {
           this.form.identityPicOne = imgurl;
         } else if (index == 2) {
@@ -218,6 +220,8 @@ export default {
         } else if (index == 3) {
           this.form.userCompanyPic = imgurl;
         }
+        // console.log(this.form.userCompanyPic);
+        
       });
       return true;
     },
@@ -264,6 +268,9 @@ export default {
     width: 100%;
     // text-align: left;
   }
+  .van-cell__value--alone{
+        border: 1px solid #ababab;
+  }
   .van-dropdown-menu__item {
     // display:inline;
     justify-content: left;
@@ -273,7 +280,7 @@ export default {
   .van-dropdown-menu {
     height: 1rem;
     border-radius: 0.05rem;
-    border: 0.01rem solid #ababab;
+    border: 1px solid #ababab;
     background: #f6f6f6;
   }
   .van-field__body {
@@ -305,7 +312,7 @@ export default {
     margin: 0;
     width: 100%;
     height: 3.3rem;
-    //  border: 0.01rem solid #ababab;
+    //  border: 1px solid #ababab;
     //  overflow: hidden;
 
     img {
@@ -323,7 +330,7 @@ export default {
     border: 0;
     height: 3.3rem;
     margin: 0;
-    // border: 1px solid #ababab;
+    border: 1px solid #ababab;
     border-radius: 0.05rem;
     box-sizing: border-box;
     .van-uploader__upload-icon {

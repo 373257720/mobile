@@ -12,11 +12,13 @@ export default new Vuex.Store({
         // agent:'',
     },
   },
-  getters: {},
+  getters: {
+    
+  },
   mutations: {
     contract_sign(state,content){
       if(content){
-        // state.contract={};
+        state.contract={};
         state.contract=content;
       }
     },

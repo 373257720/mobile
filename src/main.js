@@ -63,8 +63,8 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
 // };
 
 var baseurl = {
-  api: "http://192.168.1.37:8080",
-  //  api: "http://47.90.62.114:8082",
+  // api: "http://192.168.1.37:8080",
+   api: "http://47.90.62.114:8082",
 }
 Vue.prototype.$baseurl = baseurl.api;
 Vue.prototype.$global = global;

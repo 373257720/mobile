@@ -141,26 +141,28 @@ export default {
         .then(res => {
           console.log(res);
           if(res.data.resultCode==10000){
-              this.$routerto('mhome')
+              // this.$routerto('mhome')
+              this.gg();
           }
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    gg() {
+      this.$dialog
+        .confirm({
+          title: "提交成功",
+          // message: "弹窗内容"
+        })
+        .then(() => {
+          // on confirm
+           this.$routerto('mhome')
+        })
+        .catch(() => {
+          // on cancel
+        });
     }
-    // gg() {
-    //   this.$dialog
-    //     .confirm({
-    //       title: "标题",
-    //       message: "弹窗内容"
-    //     })
-    //     .then(() => {
-    //       // on confirm
-    //     })
-    //     .catch(() => {
-    //       // on cancel
-    //     });
-    // }
   }
 };
 </script>
@@ -268,13 +270,13 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-        border-bottom: 0.1rem solid #b5b5b5;
-        height: 1.5rem;
+        // border-bottom: 0.1rem solid #b5b5b5;
+        height: 2rem;
         font-size: 0.38rem;
         color: #0f6ebe;
         text-align: center;
-        font-weight: 600;
-        line-height: 1.5rem;
+        // font-weight: 600;
+        line-height: 2rem;
       }
       ul {
         padding: 0.5rem 0.5rem 2rem 0.5rem;

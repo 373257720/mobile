@@ -6,7 +6,7 @@
      <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <div class="investors_infor">
-        <h2>标题水电费加开发水电费水电费水电费是电风扇的丰盛的</h2>
+        <h2>{{projectName}}</h2>
         <header>投资者资料</header>
         <ul>
           <li i v-for="(item) in investor_infor" :key="item.name">
@@ -51,6 +51,7 @@ export default {
       show: false,
       // dad_text:'待确认项目',
       investorsEmailSend:'',
+      projectName:'',
       nav_lists: [
          {
           keyword: "financingStage",
@@ -118,11 +119,11 @@ export default {
   created(){
     console.log(this.$route.query);
     let que=this.$route.query;
-    if(this.$store.state.currentUser){
         this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${que.projectId}&signStatus=${que.signStatus}&signId=${que.signId}`
       }).then(res => {
+        this.projectName=res.data.data.projectName;
           for (var i in res.data.data) {
              this.$route.query.investorsId=res.data.data.investorsId;
         for (var j = 0; j < this.details_lists.length; j++) {
@@ -142,34 +143,7 @@ export default {
         }
       }
     });
-    }else{
-   this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails.do?projectLan=${que.projectLan}&signId=${que.signId}`
-    }).then(res => {
-      
-      for (var i in res.data.data) {
-        for (var j = 0; j < this.details_lists.length; j++) {
-          if (this.details_lists[j].keyword == i) {
-            this.details_lists[j].response = res.data.data[i];
-          }
-        }
-        for (var w = 0; w < this.nav_lists.length; w++) {
-          if (this.nav_lists[w].keyword == i) {
-            this.nav_lists[w].response = res.data.data[i];
-          }
-        }
-          for (var k = 0; k < this.investor_infor.length; k++) {
-          if (this.investor_infor[k].keyword == i) {
-            this.investor_infor[k].response = res.data.data[i];
-          }
-        }
-      }
-      // this.$route.query.investorsId=res.data.data.investorsId;
-      this.investorsEmailSend=res.data.data.investorsEmailSend;
-      console.log(this.details_lists);
-    });
-    }
+    
       
  
   },
@@ -193,14 +167,14 @@ export default {
 
       this.$dialog
         .confirm({
-          title: "标题",
-          message: "弹窗内容"
+          title: "是否拒绝",
+          // message: "弹窗内容"
         })
         .then(() => {
           // on confirm
             this.$axios({
           method: "get",
-          url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}`
+          url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.$route.query.investorsEmailSend}`
     }).then(res=>{
           console.log(res.data);
           
@@ -261,10 +235,12 @@ export default {
     }
     div.investors_infor {
       h2 {
-        padding: 0.2rem 0.3rem;
-        font-size: 0.38rem;
+        // padding: 0.2rem 0.3rem;
+        font-size: 0.4rem;
         color: #0f6ebe;
-        line-height: 0.5rem;
+        height: 2rem;
+        text-align: center;
+        line-height: 2rem;
       }
       header {
         height: 0.8rem;

@@ -16,7 +16,7 @@
           </li>
         </ul>
         <footer>
-          <button @click="$goto('p_check_contract')">查看合约</button>
+          <button @click="$routerto('p_check_done_contract',$route.query)">查看合约</button>
           <!-- <button @click="$goto('p_check_contract')">查看合约</button> -->
         </footer>
       </article>
@@ -75,12 +75,12 @@ export default {
   },
   created() {
     console.log(this.$route.query);
-
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail?investorsId=${this.$route.query.investorsId}`
     }).then(res => {
       console.log(res);
+      this.$route.query.signId=res.data.data.signId;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {

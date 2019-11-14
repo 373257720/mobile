@@ -1,16 +1,8 @@
 <template>
-  <div id="a_check_contract">
+  <div id="p_check_done_contract">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签署合约
+      <van-icon name="arrow-left" @click="$global.previous()" />查看合约
     </nav>
-    <!-- <main v-if="isshow==2">
-      <article>
-        <div v-html="content"></div>
-        <footer>
-          <button @click="gg">导出</button>
-        </footer>
-      </article>
-    </main>-->
     <main>
       <article>
         <div class="contract">
@@ -19,23 +11,25 @@
           <div class="button">
             <p>
               <i>
-                <img :src="signature" alt />
+                <img :src="owner" alt />
               </i>
 
               <span>投行</span>
               <span>2019.11.11</span>
             </p>
             <p>
-              <i></i>
-              <!-- <img src alt /> -->
+              <i>
+                <img :src="agent" alt />
+              </i>
+
               <span>中间人</span>
               <span>2019.11.11</span>
             </p>
           </div>
         </div>
-        <footer>
+        <!-- <footer>
           <button @click="$routerto('a_sign_contract',$route.query)">签署</button>
-        </footer>
+        </footer>-->
       </article>
     </main>
 
@@ -47,54 +41,47 @@ export default {
   name: "goods_details",
   data() {
     return {
-      signature: "",
+      owner: "",
       content: "",
+      agent: "",
       isshow: null,
       details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
     };
   },
   created() {
-    console.log(this.$route);
-    // console.log(this.$store.state.contract);
-    //  let str =this.$store.state.contract;
-    let str = this.$store.state.contract.body;
-    // let a = str.split("!!!!!");
-    console.log(str);
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
+      // data: this.$qs.stringify(this.form)
+    }).then(res => {
+      // let str = JSON.parse(res.data.data.signAgreement);
+      console.log(res.data.data.signAgreement);
+      
+      // console.log(res.data.data.signAgreement.body.body.owner);
 
-    // console.log(a);
-    this.content = str.body;
-    this.signature = str.owner;
-    // console.log(this.content);
+      this.owner = str.body.owner;
+      this.content = str.body.body;
+      this.agent = str.agent;
+      // console.log(this.owner);
 
-    // if (this.$route.query.from == "a_wait_signed") {
-    //   this.isshow = 1;
-    // }
-    //  else if (this.$route.name== "a_sign_contract") {
-    //   this.isshow = 3;
-    // }
-    // this.$axios({
-    //   method: "post",
-    //   url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
-    //   data: this.$qs.stringify(this.form)
-    // }).then(res => {
-    //   if (res.data.resultCode == 10000);
-    //   {
-    //     // this.$goto("mhome");
-    //   }
-    // });
+      // if (res.data.resultCode == 10000);
+      // {
+      //   // this.$goto("mhome");
+      // }
+    });
   },
   mounted() {
     // this.content = "";
   },
   methods: {
     signname() {
-      // console.log(this.content);
+      console.log(this.content);
     }
   }
 };
 </script>
 <style lang="scss">
-#a_check_contract {
+#p_check_done_contract {
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -113,7 +100,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#a_check_contract {
+#p_check_done_contract {
   width: 100%;
   nav {
     width: 100%;
@@ -154,9 +141,10 @@ export default {
             width: 3rem;
             height: 1rem;
             border-bottom: 1px solid rgb(169, 169, 169);
-            img{
-               width: 3rem;
-            height: 1rem;
+            img {
+              width: 3rem;
+              height: 1rem;
+              // border-bottom:1px solid rgb(169, 169, 169);
             }
           }
         }

@@ -23,6 +23,8 @@ export default {
       // let a =str.split('!!!!!');
       // console.log(a);
       this.$store.commit('contract_agent',data);
+      console.log(  this.$store.state.contract);
+      
       this.$routerto('a_submit_contract',this.$route.query)
     },
     gg() {

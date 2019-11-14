@@ -9,7 +9,7 @@
       <div class="username" v-if="$route.query.email">
         <van-field v-model="username" placeholder="电子邮箱" disabled/>
       </div>
-      <div class="username" v-if="$route.query.email==''" >
+      <div class="username" v-if="!$route.query.email">
         <van-field v-model="username" placeholder="电子邮箱" clearable />
       </div>
       <div class="password">

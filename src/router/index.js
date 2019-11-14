@@ -30,6 +30,7 @@ import p_user_contact2 from '@/components/moblie/project_owner/user_contact2'
 import p_submit_contract from '@/components/moblie/project_owner/submit_contract'
 import p_sign_successful from '@/components/moblie/project_owner/sign_successful'
 import p_inverstor_details from'@/components/moblie/project_owner/inverstor_details'
+import p_check_done_contract from'@/components/moblie/project_owner/check_done_contract'
 
 
 // agent/
@@ -53,7 +54,7 @@ import i_conected_project from '@/components/moblie/investor/conected_project'
 import i_inverstor_infor from '@/components/moblie/investor/investor_infor'
 import i_perfect_infor from '@/components/moblie/investor/perfect_infor'
 import i_sign_failed from '@/components/moblie/investor/sign_failed'
-
+import i_emailto_confirm from '@/components/moblie/investor/emailto_confirm'
 // moblie
 
 Vue.use(Router);
@@ -134,6 +135,11 @@ const routes = [
     path: '/p_inverstor_details',
     name: 'p_inverstor_details',
     component:p_inverstor_details,
+  },
+  {
+    path: '/p_check_done_contract',
+    name: 'p_check_done_contract',
+    component:p_check_done_contract,
   },
  
 
@@ -222,6 +228,11 @@ const routes = [
   path: '/i_wait_confirm',
   name: 'i_wait_confirm',
   component:i_wait_confirm,
+},
+{
+  path: '/i_emailto_confirm',
+  name: 'i_emailto_confirm',
+  component:i_emailto_confirm ,
 },
 
 

@@ -122,11 +122,13 @@ export default {
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId}`
     }).then(res => {
+       console.log( this.$store.state.contract);
+      this.$store.dispatch('contract_check',JSON.parse(res.data.data.signAgreement) );
       for (var i in res.data.data) {
         // this.projectId=res.data.data.projectId;
-        // console.log();
+       
         
-        this.$store.dispatch('contract_check',res.data.data.signAgreement);
+     
         // this.investorsId=res.data.data.investorsId; 
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {

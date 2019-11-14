@@ -165,10 +165,10 @@ export default {
     }
     div.investors_infor {
       h2 {
-        padding: 0.2rem 0.3rem;
-        font-size: 0.38rem;
+             font-size: 0.38rem;
         color: #0f6ebe;
-        line-height: 0.5rem;
+        height: 2rem;
+        line-height:2rem;
       }
       header {
         height: 0.8rem;

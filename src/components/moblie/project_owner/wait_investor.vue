@@ -15,7 +15,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('p_check_contract')">查看合约</button>
+            <button @click="$routerto('p_check_done_contract',$route.query)">查看合约</button>
             <!-- <button @click="gg">合约</button> -->
           </aside>
         </footer>
@@ -29,9 +29,6 @@ export default {
   name: "p_wait_investor",
   data() {
     return {
-      value: ["", "", ""],
-      list: ["a", "b", "c"],
-      result: ["a", "b"],
       details_lists: [
         {
           keyword: "projectIndustry",

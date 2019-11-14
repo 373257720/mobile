@@ -11,12 +11,18 @@
             <div class="middle" v-html="content"></div>
             <div class="button">
               <p>
-                <img :src="owner_signature" alt />
+                <i>
+                  <img :src="owner_signature" alt />
+                </i>
+
                 <span>投行</span>
                 <span>2019.11.11</span>
               </p>
               <p>
-                <img :src="agent_signature" alt />
+                <i>
+                  <img :src="agent_signature" alt />
+                </i>
+
                 <span>中间人</span>
                 <span>2019.11.11</span>
               </p>
@@ -62,7 +68,7 @@ export default {
       owner_signature: "",
       content: "",
       str: "",
-      investorsId:'',
+      investorsId: "",
       emailadress: "",
       show2: false, //邮箱
       agent_signature: "",
@@ -74,10 +80,10 @@ export default {
   created() {
     // console.log(this.$route.query);
     // console.log(this.$store.state.contract);
-    this.str = JSON.parse(this.$store.state.contract.body);this.$store.state.contract;
+    this.str = this.$store.state.contract;
     console.log(this.str);
-    this.owner_signature = this.str.owner;
-    this.content =this.str.body;
+    this.owner_signature = this.str.body.owner;
+    this.content = this.str.body.body;
     this.agent_signature = this.str.agent;
     // console.log(this.content);
   },
@@ -91,14 +97,14 @@ export default {
   methods: {
     submit_email() {
       console.log(this.investorsId);
-      
+
       this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/sendProject4`,
         data: this.$qs.stringify({
           signId: this.signId,
           memberEmail: this.emailadress,
-          investorsId:this.investorsId,
+          investorsId: this.investorsId,
           emailData: `<html lang="en">
     <head>
     <meta charset="UTF-8">
@@ -246,7 +252,7 @@ export default {
                 <span style="display:block;width: 400px;">${this.custmoers_obj.bslName1}</span>
             </div>
             <div class="column" style="display: flex;justify-content: space-around;margin-top:20px;">
-                   <a href="http://localhost:8080/#/i_wait_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}">
+                   <a href="${this.$baseurl}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}">
                      <div class="button"
                     style="width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">
                     了解详情</div>
@@ -261,8 +267,8 @@ export default {
         })
       }).then(res => {
         console.log(res);
-        if(res.data.resultCode==10000){
-          this.$routerto('mysign');
+        if (res.data.resultCode == 10000) {
+          this.$routerto("mysign");
         }
         // console.log();
         // this.show2 = true;
@@ -283,21 +289,21 @@ export default {
         data: this.$qs.stringify({
           projectId: this.$route.query.projectId,
           investorsId: this.$route.query.investorsId,
-          signAgreement:JSON.stringify(this.str) 
+          signAgreement: JSON.stringify(this.str)
         })
       }).then(res => {
         console.log(res);
         if (res.data.resultCode == 10000) {
           //   this.success=false;
-        this.signId = res.data.data.signId;
+          this.signId = res.data.data.signId;
           this.show2 = true;
           this.$axios({
             method: "get",
             url: `${this.$baseurl}/bsl_web/project/getDetails?signId=${this.signId}`
           }).then(res => {
             console.log(res.data.data);
-                 this.investorsId=res.data.data.investorsId;
-          
+            this.investorsId = res.data.data.investorsId;
+
             this.custmoers_obj = res.data.data;
           });
         }
@@ -428,10 +434,14 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
-          img {
+          i {
             width: 3rem;
             height: 1rem;
             border-bottom: 1px solid rgb(169, 169, 169);
+            img {
+              width: 3rem;
+              height: 1rem;
+            }
           }
         }
       }

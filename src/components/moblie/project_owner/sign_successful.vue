@@ -77,7 +77,7 @@ export default {
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId}`
-    }).then(res => {
+    }).then(res => {  
       for (var i in res.data.data) {
         this.investorsId=res.data.data.investorsId;
         for (var j = 0; j < this.details_lists.length; j++) {
@@ -93,6 +93,8 @@ export default {
       }
       console.log(this.details_lists);
     });
+
+
   },
   methods: {
     gg() {

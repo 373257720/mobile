@@ -12,17 +12,17 @@
         </li>
         <li>
           <p>身份:</p>
-          <div>{{form.userIdentityType}}</div>
+          <div>{{form.userIdentityType==1?'个人':'公司'}}</div>
         </li>
         <li>
           <p>国籍:</p>
           <div>{{form.userCountryCh}}</div>
         </li>
-        <li>
+        <li v-if='form.userIdentityType==1'>
           <p>姓名:</p>
           <div>{{form.userName}}</div>
         </li>
-        <li>
+        <li v-if='form.userIdentityType==1'>
           <p v-if="switchon">身份证号:</p>
           <p></p>
           <div>{{form.userIdentity}}</div>
@@ -35,13 +35,13 @@
           <p>公司地址:</p>
           <div>{{form.userAddressCh}}</div>
         </li>
-        <li class="idcard_left">
+        <li class="idcard_left" v-if='form.userIdentityType==1'>
           <p>{{switchon==true?'身份证正面':'护照'}}</p>
           <div class="pic">
             <img :src="$baseurl+form.identityPicOne" alt />
           </div>
         </li>
-        <li class="idcard_right" v-if="switchon">
+        <li class="idcard_right" v-if="switchon && form.userIdentityType==1" >
           <p>身份证反面</p>
           <div class="pic">
             <img :src="$baseurl+form.identityPicTwo" alt />

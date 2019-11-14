@@ -1,12 +1,12 @@
 <template>
-  <div id="a_sign_failed">
-    <!-- <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签约请求
-    </nav> -->
-     <commonnav :msg="dad_text"></commonnav>
+  <div id="i_emailto_confirm">
+    <nav>
+      <van-icon  @click="$global.previous()" />待确认项目
+    </nav>
+     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <div class="investors_infor">
-        <h2>标题水电费加开发水电费水电费水电费是电风扇的丰盛的</h2>
+        <h2>{{projectName}}</h2>
         <header>投资者资料</header>
         <ul>
           <li i v-for="(item) in investor_infor" :key="item.name">
@@ -32,15 +32,15 @@
             <p class="row2">{{item.response}}</p>
           </li>
         </ul>
-         <footer>
+        <footer>
           <aside>
-            <button @click="$routerto('p_check_contract')">查看合约</button>
-            <!-- <button @click="gg">拒绝签约</button> -->
+            <button @click="agree()">完善资料</button>
+            <button @click="refuse">拒绝</button>
           </aside>
         </footer>
       </article>
     </main>
-    <mbottom></mbottom>
+    <!-- <mbottom></mbottom> -->
   </div>
 </template>
 <script>
@@ -49,85 +49,158 @@ export default {
   data() {
     return {
       show: false,
-      dad_text:'拒签项目',
-         nav_lists: [
-        {
+      // dad_text:'待确认项目',
+      investorsEmailSend:'',
+      projectName:'',
+      nav_lists: [
+         {
+          keyword: "financingStage",
           name: "融资阶段",
-          response: "12"
+          response: ""
         },
         {
+          keyword: "interestProjectCount",
           name: "项目方<br>有兴趣数量",
-          response: "16"
+          response: ""
         },
         {
+          keyword:'committedCount',
           name: "已提交</br>投资者数量",
-          response: "118"
+          response: ""
         }
       ],
       investor_infor: [
         {
+          keyword:'investorsType',
           name: "投资者类型:",
-          response: "放水电费水电费"
+          response: ""
         },
         {
+          keyword:'investorsCompany',
           name: "投资者公司:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
+          keyword:'investorsName',
           name: "投资者姓名:",
-          response: "发地方水电"
+          response: ""
         },
         {
+          keyword:'investorsArea',
           name: "投资者地区:",
-          response: "斯蒂芬发地方发地方水电发地方水电"
+          response: ""
         }
       ],
       details_lists: [
-        {
+      {
+          keyword: "projectIndustry",
           name: "行业:",
-          response: "2019-15-26"
+          response: ""
         },
         {
+          keyword: "projectArea",
           name: "地区:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
-         {
+        {
+          keyword: "signStatus",
           name: "项目状态:",
-          response: "金融"
+          response: ""
         },
-         {
-          name: "项目详情:",
-          response: "金融"
-        },
-           {
-          name: "签约状态:",
-          response: "金融"
-        },
-       
+        { keyword: "projectCompany", name: "公司名称:", response: "" },
+        { keyword: "publicCompany", name: "是否上市公司:", response: "" },
+        { keyword: "collectMoney", name: "集资额:", response: "" },
+        { keyword: "projectMobile", name: "联系电话:", response: "" },
+        { keyword: "projectEmail", name: "电邮:", response: "" },
+        { keyword: "projectDescribe", name: "项目详情:", response: "" }
       ]
     };
   },
-  methods: {
-    gg() {
-      // console.log(this.$dialog);
+  created(){
+    console.log(this.$route.query);
+    let que=this.$route.query;
+   this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails.do?projectLan=${que.projectLan}&signId=${que.signId}`
+    }).then(res => {
+       this.projectName=res.data.data.projectName;
+      for (var i in res.data.data) {
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            this.details_lists[j].response = res.data.data[i];
+          }
+        }
+        for (var w = 0; w < this.nav_lists.length; w++) {
+          if (this.nav_lists[w].keyword == i) {
+            this.nav_lists[w].response = res.data.data[i];
+          }
+        }
+          for (var k = 0; k < this.investor_infor.length; k++) {
+          if (this.investor_infor[k].keyword == i) {
+            this.investor_infor[k].response = res.data.data[i];
+          }
+        }
+      }
+      // this.$route.query.investorsId=res.data.data.investorsId;
+      this.investorsEmailSend=res.data.data.investorsEmailSend;
+      console.log(this.details_lists);
+    });
 
+      
+ 
+  },
+  mounted(){
+
+    
+  },
+  methods: {
+
+    agree(){
+        let isyes=this.$store.state.currentUser;
+        console.log(isyes);
+        if(isyes){
+            this.$routerto('i_perfect_infor',this.$route.query)
+        }else{
+             this.$routerto('login', {email:this.investorsEmailSend})
+        }
+    },
+    
+    refuse() {
+      // console.log(this.$dialog);
+ 
       this.$dialog
         .confirm({
-          title: "标题",
-          message: "弹窗内容"
+          title: "是否拒绝",
+          // message: "弹窗内容"
         })
         .then(() => {
           // on confirm
+        this.$axios({
+          method: "get",
+          url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.$route.query.investorsEmailSend}`
+            }).then(res=>{
+          console.log(res.data);
+            if(res.data.resultCode=10000){
+                   this.$dialog.alert({
+                    title: '拒绝成功',
+                    //   message: '弹窗内容'
+                    }).then(() => {
+                    // on close
+                    });
+             }
+
+            })
         })
         .catch(() => {
           // on cancel
+        
         });
     }
   }
 };
 </script>
 <style lang="scss">
-#a_sign_failed {
+#i_emailto_confirm  {
   nav {
     // position: relative;
     .van-icon-arrow-left {
@@ -149,20 +222,19 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#a_sign_failed {
+#i_emailto_confirm  {
   width: 100%;
-  // nav {
-  //   width: 100%;
-  //   text-align: center;
-  //   line-height: 1.5rem;
-  //   height: 1.5rem;
-
-  //   position: fixed;
-  //   top: 0;
-  //   font-size: 0.38rem;
-  //   background: white;
-  //   border-bottom: 0.02rem dashed #b5b5b5;
-  // }
+  nav {
+    width: 100%;
+    text-align: center;
+    line-height: 1.5rem;
+    height: 1.5rem;
+    position: fixed;
+    top: 0;
+    font-size: 0.46rem;
+    background: white;
+    border-bottom: 0.1rem solid #b5b5b5;
+  }
   main {
     margin-top: 1.5rem;
     background: #ffffff;
@@ -175,10 +247,11 @@ export default {
     div.investors_infor {
       h2 {
         // padding: 0.2rem 0.3rem;
-        font-size: 0.38rem;
+        font-size: 0.4rem;
         color: #0f6ebe;
         height: 2rem;
-        line-height:2rem;
+        text-align: center;
+        line-height: 2rem;
       }
       header {
         height: 0.8rem;
@@ -293,9 +366,26 @@ export default {
             box-sizing: border-box;
           }
         }
-
+        .contract {
+          display: block;
+          .row2 {
+            width: 8rem;
+            height: 6rem;
+            border: 0.01rem solid #b3b3b3;
+            // box-sizing: border-box;
+            padding: 0;
+            background: #f2f2f2;
+            .draft1_middle {
+              padding: 0.3rem;
+              box-sizing: border-box;
+              width: 100%;
+              height: 100%;
+              overflow-y: auto;
+            }
+          }
+        }
       }
-            footer {
+      footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         aside {
           height: 2rem;
@@ -314,7 +404,6 @@ export default {
           }
         }
       }
-
     }
   }
 }
