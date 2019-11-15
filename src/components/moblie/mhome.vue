@@ -46,7 +46,6 @@
         :finished="finished"
         @load="onLoad"
         :loading-text="loadText"
-       
         :offset="300"
       >
         <div v-for="(goods,item) in  upGoodsInfo" :key="item" class="goodlists">
@@ -188,13 +187,10 @@ export default {
     // this.onLoad();
   },
   methods: {
-    router(name,obj){
-      
-   
-      if(obj.arr && obj.arr.length>0){
-        this.$routerto(name,obj)
+    router(name, obj) {
+      if (obj.arr && obj.arr.length > 0) {
+        this.$routerto(name, obj);
       }
-      
     },
     routerto(item) {
       this.$store.state.currentUsertype;
@@ -226,16 +222,16 @@ export default {
       console.log(value, region, this.region_name);
       this.pageNum = 1;
       this.upGoodsInfo = [];
-      this.loading = true;//下拉加载中
-      this.finished = false;//下拉结
+      this.loading = true; //下拉加载中
+      this.finished = false; //下拉结
       this.onLoad();
     },
     onSearch() {
       // console.log(this.searchkey);
       this.pageNum = 0;
       this.upGoodsInfo = [];
-        this.loading = true;//下拉加载中
-      this.finished = false;//下拉结
+      this.loading = true; //下拉加载中
+      this.finished = false; //下拉结
       this.onLoad();
     },
     onClickNav(index) {
@@ -250,17 +246,17 @@ export default {
       }
       this.pageNum = 0;
       this.upGoodsInfo = [];
-        this.loading = true;//下拉加载中
-      this.finished = false;//下拉结
+      this.loading = true; //下拉加载中
+      this.finished = false; //下拉结
       this.onLoad();
     },
     onLoad() {
-      // this.loading = true; 
+      // this.loading = true;
       if (this.activeIds == 0) {
         this.activeIds = "";
       }
       console.log(this.loading);
-      
+
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getAllProject?`,
@@ -277,21 +273,27 @@ export default {
       })
         .then(res => {
           if (res.status === 200) {
-            let re = res.data.data.lists;    
+            let re = res.data.data.lists;
             if (re.length > 0) {
               this.upGoodsInfo = this.upGoodsInfo.concat(re);
-                 this.loading = false;      
+              this.loading = false;
             }
-            if (this.upGoodsInfo.length >= res.data.data.pageTotal) {
-              this.loadText = "加载完成";
-              this.finished = true;       
+            if (
+              this.upGoodsInfo.length >= res.data.data.pageTotal ||
+              this.upGoodsInfo.length == 0
+            ) {
+              this.loadText = "没有记录";
+              document.querySelector(
+                "#mhome .van-loading__circular"
+              ).style.display = "none";
+              this.finished = true;
             }
             this.pageNum++;
           } else {
             this.loading = false;
             this.finished = true;
           }
-             console.log(this.loading);
+          console.log(this.loading);
           // let arr=[];
           // for(let i=0;i<this.upGoodsInfo.length;i++){
 
@@ -318,30 +320,36 @@ export default {
   }
   header {
     .van-search {
-      padding: 0.3rem 0.4rem 0 0.4rem;
+      // padding: 0.3rem 0.4rem 0 0.4rem;
+      // background: #2E3063 !important;
     }
     .van-hairline--top-bottom::after {
       border: 0;
     }
     .van-search__action {
-      font-size: 0.38rem;
-      line-height: 0.76rem;
+      // font-size: 4rem;
+      div {
+        display: flex;
+        align-items: center;
+        .van-icon-search {
+          background: #ffc303;
+          border-radius: 50%;
+          width: 0.8rem;
+          height: 0.8rem;
+          font-weight: 600;
+          color: #282407;
+          text-align: center;
+          line-height: 0.8rem;
+          font-size: 0.44rem;
+        }
+      }
     }
-    .van-icon-search {
-      background: #ffc303;
-      border-radius: 50%;
-      width: 0.6rem;
-      height: 0.6rem;
-      color: #282407;
-      text-align: center;
-      line-height: 0.6rem;
-      font-size: 0.4rem;
-    }
+
     .van-popup {
       max-height: 62%;
     }
     .van-cell {
-      font-size: 0.1rem;
+      font-size: 0.32rem;
       line-height: 0.5rem;
       // height: 0.76rem;
       padding: 0 0.25rem 0 0;
@@ -356,6 +364,7 @@ export default {
     }
     .van-tree-select__item {
       line-height: 1rem;
+      font-weight: 400;
     }
     .van-tree-select__nav-item--active {
       border-color: rgb(25, 137, 250);
@@ -368,7 +377,9 @@ export default {
       margin-top: -0.2rem;
     }
     .van-field__control {
-      height: 0.76rem;
+      height: 1rem;
+      line-height: 1rem;
+      font-size: 0.38rem;
       // font-size: 0.36rem;
     }
     .van-field__clear {
@@ -380,13 +391,14 @@ export default {
     }
     .van-dropdown-menu {
       height: 1.06rem;
+      border-bottom: 1px solid #ccc;
       // line-height: 1.06rem;
       .van-dropdown-menu__title {
-        font-size: 0.32rem;
+        font-size: 0.38rem;
       }
       .van-dropdown-item--down {
         .van-tree-select {
-          font-size: 0.32rem;
+          font-size: 0.38rem;
         }
       }
     }
@@ -425,7 +437,7 @@ export default {
     }
   }
   .main {
-    margin: 3.95rem 0 1.5rem 0;
+    margin: 4.5rem 0 1.5rem 0;
     // margin-bottom: 5rem;
     height: 100%;
     background: #eeeeee;
@@ -457,22 +469,24 @@ export default {
 
           div {
             display: flex;
-            height: 0.5rem;
-            width: 2.36rem;
+            // height:0.6rem;
+            width: 2.7rem;
             // font-size: 0.1rem;
             color: #fdfffe;
             // text-align: center;
-            justify-content: center;
-            line-height: 0.5rem;
+            // justify-content: center;
+            text-indent: 0.5rem;
+            line-height: 0.6rem;
             margin-right: 0.44rem;
             margin-bottom: 0.12rem;
             background: url(../../assets/c5652240e4485f406fbaf8cb89b0afb.png)
               no-repeat;
+               background-size: 2.7rem 0.6rem;
           }
         }
         section {
-          font-size: 0.28rem;
-          margin-bottom: 0.32rem;
+          font-size: 0.38rem;
+          margin-bottom: 0.1rem;
           color: #747474;
           // display: flex;
           span:nth-of-type(1) {
@@ -496,20 +510,21 @@ export default {
       footer {
         // flex: 1;
         height: 1.2rem;
-        // position: relative;
+        position: relative;
         display: flex;
-        justify-content: center;
+        // justify-content: center;
         align-items: center;
-        button {
-          width: 95%;
 
-          // position: absolute;
-          // right: 0.25rem;
+        button {
+          width: 45%;
+          text-align: center;
+          position: absolute;
+          right: 0.25rem;
           height: 0.88rem;
           background: #00adef;
           color: white;
-          font-size: 0.3rem;
-          top: 50%;
+          font-size: 0.38rem;
+          // top: 50%;
           // transform: translateY(-50%);
         }
         button.active {

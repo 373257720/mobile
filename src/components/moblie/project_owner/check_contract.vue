@@ -113,6 +113,7 @@ export default {
   main {
     margin-top: 1.5rem;
     padding: 0.5rem;
+    // height:100%;
     background: #ffffff;
     .contract {
       background: #f2f2f2;
@@ -121,7 +122,7 @@ export default {
       line-height: 0.6rem;
       padding: 0.4rem 0.4rem;
       width: 100%;
-      height: 12rem;
+      height: 15rem;
       overflow-y: auto;
       word-wrap: break-word;
       color: rgb(169, 169, 169);

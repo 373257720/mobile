@@ -8,7 +8,7 @@ export default new Vuex.Store({
     currentUsertype: null,
     contract:{
         // owner:'',
-        // body:'',
+        // article:'',
         // agent:'',
     },
   },
@@ -21,6 +21,7 @@ export default new Vuex.Store({
         state.contract={};
         state.contract=content;
       }
+  
     },
     contract_owner(state,content){
       if(content){

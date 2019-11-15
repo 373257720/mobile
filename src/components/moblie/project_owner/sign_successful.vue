@@ -5,7 +5,7 @@
     </nav>
     <main>
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <header>{{title}}</header>
         <boxx :nav_lists="nav_lists"></boxx>
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
@@ -30,6 +30,7 @@ export default {
   data() {
     return {
       investorsId:'',
+      title:'',
       nav_lists: [
           {
           keyword: "financingStage",
@@ -78,8 +79,10 @@ export default {
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
     }).then(res => {  
+   this.investorsId=res.data.data.investorsId;
+   this.title=res.data.data.projectName
       for (var i in res.data.data) {
-        this.investorsId=res.data.data.investorsId;
+     
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
             this.details_lists[j].response = res.data.data[i];
@@ -174,12 +177,15 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-        height: 1.5rem;
-        font-size: 0.38rem;
+        height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
+        // font-size: 0.5rem;
         color: #0f6ebe;
-        text-align: center;
+        // text-align: center;
         font-weight: 600;
-        line-height: 1.5rem;
+        line-height: 0.7rem;
       }
       ul {
         padding: 0.5rem 0.5rem 0.5rem 0.5rem;
@@ -187,7 +193,7 @@ export default {
           margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;

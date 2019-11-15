@@ -26,7 +26,7 @@ export default {
         > p {
           flex: 1;
           height: 2.5rem;  
-          font-size: 0.34rem;
+          font-size: 0.38rem;
           display: flex;
           align-items:center;
           section.box{
@@ -34,13 +34,13 @@ export default {
               width: 100%;
               display: flex;
               text-align: center;
-             height: 1.66rem;
+             height: 2rem;
             //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
             justify-content:space-between;
             span.rowb{
-                 font-size: 0.38rem;
+                 font-size: 0.6rem;
                   color: #0f6ebe;
                   font-weight: 550;
             }

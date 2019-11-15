@@ -18,9 +18,7 @@
         <button @click="login">登 录</button>
       </div>
       <div class="registerbtn">
-        <!-- <router-link :to="'register'"> -->
           <button @click="$routerto('register',{email:username})">注册新账号</button>
-        <!-- </router-link> -->
       </div>
     </div>
   </div>
@@ -61,14 +59,12 @@ export default {
           // sessionStorage.setItem("usertype", resultCode.data.data.userType);
           console.log(global);
           if (rescode == 10000) {
-            console.log("登陆成功");
+            // console.log("登陆成功");
             this.$store.dispatch("usertype", res.data.data.userType);
             this.$store.dispatch("setUser", this.username);
             if (res.data.data.isAuth == 1) {
               this.$goto("mhome");
             } else if (res.data.data.isAuth == 0) {
-              console.log(12123);
-              
               this.$goto("usercheck");
             }
           } else if (rescode == 10011) {
@@ -98,7 +94,7 @@ export default {
     box-sizing: border-box;
   }
   .van-field__control {
-    font-size: 0.36rem;
+    font-size: 0.38rem;
       // line-height: 0.7rem;
 
   }
@@ -140,7 +136,7 @@ export default {
     flex-direction: column;
     align-items: center;
     p {
-      font-size: 0.34rem;
+      font-size: 0.38rem;
       height: 0.84rem;
       line-height: 0.84rem;
       color: #f36c69;
@@ -158,12 +154,12 @@ export default {
     }
     .loginbtn button {
       background: #00adef;
-       font-size: 0.3rem;
+       font-size: 0.38rem;
     }
     .registerbtn button {
       background: #ff7c2c;
         // font-size: 0.1rem;
-         font-size: 0.3rem;
+         font-size: 0.38rem;
     }
   }
 }

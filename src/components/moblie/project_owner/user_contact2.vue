@@ -163,29 +163,6 @@ export default {
 <style lang="scss" scoped>
 #p_user_contact2 {
   width: 100%;
-  // nav {
-  //   width: 100%;
-  //   position: fixed;
-  //   z-index: 5;
-  //   text-align: center;
-  //   top: 0;
-  //   background: white;
-  //   header {
-  //     line-height: 1.5rem;
-  //     height: 1.5rem;
-  //     font-size: 0.4rem;
-  //     border-bottom: 0.1rem solid #d2d2d2;
-  //   }
-  // }
-  // main{
-  //      height: 1.5rem;
-  //       font-size: 0.38rem;
-  //       color: #0f6ebe;
-  //       text-align: center;
-  //       font-weight: 600;
-  //       line-height: 1.5rem;
-  //       //  border-bottom: 0.1rem solid #f2f2f2;
-  // }
 
   ul {
     padding: 1.6rem 0 1.5rem 0;
@@ -212,7 +189,7 @@ export default {
       span:nth-child(2) {
         font-weight: 600;
         color: #4c4c4c;
-        font-size: 0.3rem;
+        font-size: 0.38rem;
         // line-height: 1.5rem;
       }
     }
@@ -226,14 +203,13 @@ export default {
         display: flex;
         // flex-direction: column;
         // margin-left: 0.4rem;
-        margin-bottom: 0.5rem;
-        font-size: 0.36rem;
+        margin-bottom: 0.4rem;
+        font-size: 0.38rem;
+        line-height: 0.5rem;
         // align-items: baseline;
         span:nth-child(1) {
           font-weight: 550;
           width: 2.3rem;
-
-          line-height: 0.5rem;
           color: #4c4c4c;
           display: inline-block;
           //   width: 2rem;

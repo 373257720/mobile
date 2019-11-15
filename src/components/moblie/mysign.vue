@@ -2,7 +2,7 @@
   <div id="mysign">
     <nav>
       <header>
-        <van-icon name="arrow-left" @click="$global.previous()" />我的簽約項目
+        <van-icon name="arrow-left" @click="$global.previous()" />我的項目
       </header>
       <main>
         <div class="sort_box" @click="gg">
@@ -42,7 +42,7 @@
           </p>
           <p>
             <span>申请中间人:</span>
-            <span>{{item.bslName}}</span>
+            <span>{{item.userIdentityType==1?item.userName:item.userCompany}}</span>
           </p>
           <p>
             <span>申请项目:</span>
@@ -82,7 +82,6 @@ export default {
     };
   },
   computed: {
-
     list: function() {
       // console.log(usertype);
       if (this.usertype == 1 || this.usertype == 4) {
@@ -209,7 +208,7 @@ export default {
             this.result.splice(this.result.indexOf(7), 1);
           }
         }
-      } 
+      }
       this.upGoodsInfo = [];
       this.onLoad();
       this.visible = false;
@@ -233,18 +232,17 @@ export default {
     // },
     onLoad() {
       console.log(this.result);
-
-      this.$axios({
-        method: "get",
+      let a = this.$axios({
+        method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/project`,
-        // data: this.$qs.stringify(this.form),
-        
-        params: {
-          // this.$qs.stringify( this.form, { arrayFormat: 'brackets' })
-          signStatusList:this.result,
-          pageIndex: ++this.pageNum,
-          pageSize: this.loadNumUp
-        },
+        data: this.$qs.stringify(
+          {
+            signStatusList: this.result,
+            pageIndex: ++this.pageNum,
+            pageSize: this.loadNumUp
+          },
+          { arrayFormat: "brackets" }
+        ),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
         }
@@ -392,20 +390,20 @@ export default {
     }
   }
   .van-list ul {
-    padding: 3rem 0 1.3rem 0;
+    padding: 2.9rem 0 1.3rem 0;
     background: white;
     li {
       // line-height: 0.6rem;
       position: relative;
       word-break: break-all;
       margin: 0 0.54rem;
-      padding: 0.3rem 0 0 0;
+      padding: 0.3rem  0;
       border-bottom: 0.02rem dashed #b5b5b5;
       font-size: 0.36rem;
       p {
         // display: flex;
         // align-items: baseline;
-        margin-bottom: 0.24rem;
+        margin-bottom: 0.2rem;
         font-size: 0.34rem;
         span:nth-child(1) {
           font-weight: 600;

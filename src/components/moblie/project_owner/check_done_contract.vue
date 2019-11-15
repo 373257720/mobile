@@ -27,9 +27,10 @@
             </p>
           </div>
         </div>
-        <!-- <footer>
-          <button @click="$routerto('a_sign_contract',$route.query)">签署</button>
-        </footer>-->
+        <footer>
+          <!-- @click="$routerto('a_sign_contract',$route.query)" -->
+          <button >导出</button>
+        </footer>
       </article>
     </main>
 
@@ -54,8 +55,8 @@ export default {
       url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
       // data: this.$qs.stringify(this.form)
     }).then(res => {
-      // let str = JSON.parse(res.data.data.signAgreement);
-      console.log(res.data.data.signAgreement);
+      let str = JSON.parse(res.data.data.signAgreement);
+      // console.log(res.data.data.signAgreement);
       
       // console.log(res.data.data.signAgreement.body.body.owner);
 
@@ -102,6 +103,7 @@ export default {
 <style lang="scss" scoped>
 #p_check_done_contract {
   width: 100%;
+  // height:100%;
   nav {
     width: 100%;
     text-align: center;
@@ -119,16 +121,20 @@ export default {
     padding: 0.5rem;
     background: #ffffff;
     .contract {
-      background: #f2f2f2;
+      // background: #f2f2f2;
+       border: 1px solid #b5b5b5;
       box-sizing: border-box;
       font-size: 0.4rem;
       line-height: 0.6rem;
       padding: 0.4rem 0.4rem;
       width: 100%;
-      height: 12rem;
+      height: 13rem;
       overflow-y: auto;
       word-wrap: break-word;
       color: rgb(169, 169, 169);
+      .middle{
+        margin: 0.2rem 0.4rem;
+      }
       div.button {
         margin-top: 2rem;
         display: flex;
@@ -157,7 +163,8 @@ export default {
         margin-top: 1rem;
         background: #00adef;
         color: white;
-        height: 0.8rem;
+        height: 1rem;
+        // font-size: 0.38rem;
       }
     }
   }

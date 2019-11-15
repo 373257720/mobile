@@ -191,7 +191,7 @@ export default {
         // align-items: baseline;
         span:nth-child(1) {
           font-weight: 550;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
 
           color: #4c4c4c;
           display: inline-block;
@@ -200,7 +200,7 @@ export default {
         span:nth-child(2) {
           font-weight: 500;
           color: #787878;
-          font-size: 0.2rem;
+          font-size: 0.38rem;
           display: inline-block;
           //   width: 3rem;
         }

@@ -12,7 +12,12 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
-
+// let VConsole = require('../../node_modules/vconsole/dist/vconsole.min');
+// var vConsole = new VConsole();
+// let vConsole = new VConsole();
+import Vconsole from 'vconsole'
+let vConsole = new Vconsole()
+Vue.use(vConsole);
 Vue.use(Vuex);
 import Vant from 'vant';
 Vue.use(Vant)
@@ -63,10 +68,10 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
 // };
 
 var baseurl = {
-  // api: "http://192.168.1.37:8080",
+  api: "http://192.168.1.37:8080",
   
   // api:'/apis',
-   api: "http://47.90.62.114:8082",
+  //  api: "http://47.90.62.114:8082",
 }
 Vue.prototype.$baseurl = baseurl.api;
 Vue.prototype.$global = global;
