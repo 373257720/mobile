@@ -78,7 +78,10 @@ export default {
       pageNum: 1,
       loadNumUp: 5,
       usertype: "",
-      upGoodsInfo: []
+      upGoodsInfo: [],
+      classname:{
+        // "0":
+      }
     };
   },
   computed: {
@@ -327,7 +330,7 @@ export default {
               if (item.signStatus == ite.value) {
                 item.signStatustext = ite.text;
                 item.pic = ite.pic;
-                
+
                 // switch (ite.value) {
                 //   case 1:
                 //       item.classname = ''
@@ -475,7 +478,7 @@ export default {
         margin-bottom: 0.2rem;
         font-size: 0.34rem;
         span:nth-child(1) {
-          font-weight: 600;
+          font-weight: 900;
           line-height: 0.46rem;
           display: inline-block;
           width: 2.6rem;

@@ -22,7 +22,8 @@
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-            <p class="row2">{{item.response}}</p>
+            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
+            <p class="row2" v-else-if="item.keyword!='projectDescribe'">{{item.response}}</p>
           </li>
         </ul>
         <footer>
@@ -171,12 +172,15 @@ export default {
     }
     div.investors_infor {
       h2 {
-        // padding: 0.2rem 0.3rem;
-        height: 2rem;
-        text-align: center;
-        font-size: 0.38rem;
+     height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
+        // font-size: 0.5rem;
         color: #0f6ebe;
-        line-height: 2rem;
+        // text-align: center;
+        font-weight: 600;
+        line-height: 0.7rem;  
       }
       header {
         height: 0.8rem;
@@ -243,13 +247,13 @@ export default {
               width: 100%;
               display: flex;
               text-align: center;
-             height: 1.5rem;
+             height: 2rem;
             //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
             justify-content:space-between;
             span.rowb{
-                 font-size: 0.38rem;
+                 font-size: 0.6rem;
                   color: #0f6ebe;
 
             }
@@ -315,6 +319,7 @@ export default {
         aside {
           height: 2rem;
           display: flex;
+          font-size: 0.38rem;
           flex-direction: column;
           justify-content: space-between;
           button {

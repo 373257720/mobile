@@ -15,7 +15,8 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('p_check_contract')">查看合约</button>
+            <button @click="$routerto('p_check_contract',$route.query)">查看合约</button>
+
             <!-- <button @click="gg">合约</button> -->
           </aside>
         </footer>
@@ -172,12 +173,15 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-        height: 1.5rem;
-        font-size: 0.38rem;
+             height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
+        // font-size: 0.5rem;
         color: #0f6ebe;
-        text-align: center;
+        // text-align: center;
         font-weight: 600;
-        line-height: 1.5rem;
+        line-height: 0.7rem;
       }
       ul {
         padding: 0.5rem 0.5rem 0.5rem 0.5rem;
@@ -185,7 +189,7 @@ export default {
           margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
@@ -199,47 +203,12 @@ export default {
             color: #787878;
           }
         }
-        // .contract {
-        //   display: block;
-        //   section {
-        //     width: 6.5rem;
-        //     height: 8rem;
-        //     border: 0.01rem solid #b3b3b3;
-        //     padding: 0;
-        //     background: #f2f2f2;
-        //     .draft1_middle {
-        //       padding: 0.3rem;
-        //       box-sizing: border-box;
-        //       width: 100%;
-        //       height: 100%;
-        //       overflow-y: auto;
-        //       .signature {
-        //         margin: 0.5rem 0;
-        //         display: flex;
-        //         width: 100%;
-        //         justify-content: space-between;
-        //         span {
-        //           display: inline-block;
-        //           width: 2.5rem;
-        //           height: 1rem;
-        //           text-align: center;
-        //           border-bottom: 0.02rem solid #b3b3b3;
-        //           img {
-        //             width: auto;
-        //             height: auto;
-        //             max-width: 100%;
-        //             max-height: 100%;
-        //           }
-        //         }
-        //       }
-        //     }
-        //   }
-        // }
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         button {
           width: 9.9rem;
+          font-size: 0.38rem;
           height: 1rem;
           background: #00adef;
           color: white;

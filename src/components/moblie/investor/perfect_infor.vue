@@ -169,22 +169,22 @@ export default {
 <style lang="scss">
 #i_perfect_infor {
   .van-cell {
-    font-size: 0.32rem;
+    font-size: 0.38rem;
     padding: 0 1rem;
     line-height: 1rem;
     // padding: 0;
   }
   .van-dropdown-menu__title {
-    font-size: 0.16rem;
+    font-size: 0.38rem;
     width: 100%;
     // text-align: left;
   }
-  .van-dropdown-menu__item {
-    // display:inline;
-    justify-content: left;
-    width: 100%;
-    flex: none;
-  }
+  // .van-dropdown-menu__item {
+  //   // display:inline;
+  //   justify-content: left;
+  //   width: 100%;
+  //   flex: none;
+  // }
   .van-icon-arrow-left {
     position: absolute;
     left: 0.6rem;
@@ -195,7 +195,7 @@ export default {
   .van-dropdown-menu {
     height: 1rem;
     border-radius: 0.05rem;
-    border: 0.01rem solid #ababab;
+    // border: 1px solid #ababab;
     background: #f6f6f6;
   }
   .van-field__body {

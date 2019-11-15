@@ -16,7 +16,8 @@
         <footer>
           <aside>
             <!-- <button @click="$routerto('p_inverstor_details',{investorsId:investorsId})">投资者资料</button> -->
-            <button >查看合约</button>
+              <button @click="$routerto('p_check_done_contract',$route.query)">查看合约</button>
+            <!-- <button >查看合约</button> -->
           </aside>
         </footer>
       </article>

@@ -3,7 +3,7 @@
     <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <!-- <header>{{title}}</header> -->
         <ul>
           <li class="identity">
             <p class="row1">投资者类型:</p>
@@ -54,8 +54,8 @@ export default {
   data() {
     return {
       option2: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }],
-      dad_text: "完善资料",
-
+      dad_text: "推荐投资人",
+      title:'',
       form: {
         investorsType: "",
         investorsCompany: "",
@@ -75,8 +75,8 @@ export default {
 
       this.$dialog
         .confirm({
-          title: "标题",
-          message: "弹窗内容"
+          title: "确认提交",
+          // message: "确认提交"
         })
         .then(() => {
           // on confirm
@@ -206,6 +206,7 @@ export default {
 #a_recommand_i {
   width: 100%;
   main {
+    // z-index: -999;
     margin-top: 1.6rem;
     background: #ffffff;
     aside {
@@ -217,12 +218,15 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-        height: 2rem;
-        font-size: 0.38rem;
+          height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
+        // font-size: 0.5rem;
         color: #0f6ebe;
-        text-align: center;
+        // text-align: center;
         font-weight: 600;
-        line-height: 2rem;
+        line-height: 0.7rem;
         // border-bottom: 0.1rem solid #b5b5b5;
       }
       ul {
@@ -270,6 +274,7 @@ export default {
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
+        font-size: 0.38rem;
         button {
           width: 9.9rem;
           height: 1rem;

@@ -131,10 +131,10 @@ export default {
       ul {
         padding: 0.5rem 0.5rem 0 0.5rem;
         li {
-          margin-bottom: 0.1rem;
+          margin-bottom: 0.12rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;

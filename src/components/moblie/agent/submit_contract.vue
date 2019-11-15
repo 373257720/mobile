@@ -252,7 +252,7 @@ export default {
                 <span style="display:block;width: 400px;">${this.custmoers_obj.bslName1}</span>
             </div>
             <div class="column" style="display: flex;justify-content: space-around;margin-top:20px;">
-                   <a href="${this.$baseurl}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}">
+                   <a href="${$baseurl.api}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}">
                      <div class="button"
                     style="width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">
                     了解详情</div>

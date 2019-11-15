@@ -116,19 +116,17 @@ export default {
     };
   },
     created(){
-
+   
+      
   let details = this.$route.query;
+     console.log(details);
     this.$axios({
       method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${this.details.signId?this.details.signId:-1}`
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
     }).then(res => {
        console.log( this.$store.state.contract);
       this.$store.dispatch('contract_check',JSON.parse(res.data.data.signAgreement) );
       for (var i in res.data.data) {
-        // this.projectId=res.data.data.projectId;
-       
-        
-     
         // this.investorsId=res.data.data.investorsId; 
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
@@ -209,7 +207,7 @@ export default {
   //   border-bottom: 0.02rem dashed #b5b5b5;
   // }
   main {
-    margin-top: 1.5rem;
+    margin-top: 1.6rem;
     background: #ffffff;
     aside {
       display: flex;
@@ -219,16 +217,19 @@ export default {
     }
     div.investors_infor {
       h2 {
-        padding: 0.2rem 0.3rem;
-        font-size: 0.38rem;
+         height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
+        // font-size: 0.5rem;
         color: #0f6ebe;
-        height: 1.6rem;
-        text-align: center;
-        line-height:1.6rem;
+        // text-align: center;
+        font-weight: 600;
+        line-height: 0.7rem;
       }
       header {
         height: 0.8rem;
-        font-size: 0.32rem;
+        font-size: 0.38rem;
         text-align: center;
         background: #f2f2f2;
         line-height: 0.8rem;
@@ -267,7 +268,7 @@ export default {
       margin: 0 0 1.3rem 0;
       header {
         height: 0.8rem;
-        font-size: 0.32rem;
+        font-size: 0.38rem;
         text-align: center;
         // font-weight: 600;
         background: #f2f2f2;
@@ -281,7 +282,7 @@ export default {
         border-bottom: 0.2rem solid #f2f2f2;
         > p {
           flex: 1;
-          height: 2rem;  
+          height: 2.5rem;  
           font-size: 0.3rem;
           display: flex;
           align-items:center;
@@ -291,13 +292,13 @@ export default {
               width: 100%;
               display: flex;
               text-align: center;
-             height: 1.5rem;
+             height: 2rem;
             //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
             justify-content:space-between;
             span.rowb{
-                 font-size: 0.38rem;
+                 font-size: 0.6rem;
                   color: #0f6ebe;
 
             }
@@ -319,7 +320,7 @@ export default {
           margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;

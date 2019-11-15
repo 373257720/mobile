@@ -145,7 +145,7 @@ export default {
     //   // border: 0.01rem solid #8e8e8e;
     // }
     textarea {
-      background: #f2f2f2;
+      // background: #f2f2f2;
       box-sizing: border-box;
       font-size: 0.4rem;
       line-height: 0.6rem;
@@ -156,10 +156,11 @@ export default {
       width: 100%;
       button {
         width: 100%;
+        font-size: 0.38rem;
         margin-top: 1rem;
         background: #00adef;
         color: white;
-        height: 0.8rem;
+        height: 1rem;
       }
     }
   }

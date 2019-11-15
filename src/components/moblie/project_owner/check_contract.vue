@@ -10,7 +10,7 @@
           <div class="middle" v-html="content"></div>
           <div class="button">
             <p>
-              <img :src='signature' alt />
+              <img :src='owner' alt />
               <span>投行</span>
               <span>2019.11.11</span>
             </p>
@@ -35,7 +35,7 @@ export default {
   name: "goods_details",
   data() {
     return {
-      signature: "",
+      owner: "",
       content: "",
       isshow: null,
       details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
@@ -55,15 +55,36 @@ export default {
     //  else if (this.$route.name== "a_sign_contract") {
     //   this.isshow = 3;
     // }
+    // this.$axios({
+    //   method: "post",
+    //   url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
+    //   data: this.$qs.stringify(this.form)
+    // }).then(res => {
+    //   if (res.data.resultCode == 10000);
+    //   {
+    //     // this.$goto("mhome");
+    //   }
+    // });
+
     this.$axios({
-      method: "post",
-      url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
-      data: this.$qs.stringify(this.form)
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
+      // data: this.$qs.stringify(this.form)
     }).then(res => {
-      if (res.data.resultCode == 10000);
-      {
-        // this.$goto("mhome");
-      }
+      console.log(res.data.data.signAgreement);
+      
+      let str = JSON.parse(res.data.data.signAgreement);
+      this.owner = str.owner;
+      this.content = str.body;
+      // console.log(this.owner);
+      
+      // this.agent = str.agent;
+      // console.log(this.owner);
+
+      // if (res.data.resultCode == 10000);
+      // {
+      //   // this.$goto("mhome");
+      // }
     });
   },
   mounted() {
@@ -116,10 +137,11 @@ export default {
     // height:100%;
     background: #ffffff;
     .contract {
-      background: #f2f2f2;
+      // background: #f2f2f2;
       box-sizing: border-box;
       font-size: 0.4rem;
       line-height: 0.6rem;
+      border: 1px solid  rgb(169, 169, 169);
       padding: 0.4rem 0.4rem;
       width: 100%;
       height: 15rem;

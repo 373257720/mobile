@@ -46,8 +46,8 @@
           <footer>
             <p>你选择退出当前登录账户,是否继续</p>
             <aside>
-              <button @click="loginout">确定</button>
-              <button @click="loginout">取消</button>
+              <button @click="loginout(1)">确定</button>
+              <button @click="loginout(2)">取消</button>
             </aside>
           </footer>
 
@@ -68,9 +68,8 @@ export default {
       radio: "en_US"
     };
   },
-  created(){
+  created() {
     // console.log(this.$store.state.currentUser);
-    
   },
   methods: {
     // beforeClose(action, done) {
@@ -104,9 +103,21 @@ export default {
     switch_language() {
       this.show = true;
     },
-    loginout() {
+    loginout(num) {
       // console.log(this.$dialog);
-        this.show2 = !this.show2;
+      this.show2 = !this.show2;
+      if (num == 1) {
+        this.$global
+          .changepage(`${this.$baseurl}/bsl_web/user/logOut`, "get")
+          .then(res => {
+            console.log(res);
+            if (res.data.resultCode == 10000) {
+              this.$goto("login");
+            }
+          });
+      }else if(num==2){
+           this.show2 = false;
+      }
     }
   }
 };
@@ -194,26 +205,27 @@ export default {
         }
         img {
           height: 0.58rem;
-         width: 0.58rem;
-          margin-right:0.55rem;
+          width: 0.58rem;
+          margin-right: 0.55rem;
         }
       }
       footer {
         padding: 0 0.6rem 0.5rem 0.6rem;
+         font-size: 0.38rem;
         p {
           text-align: center;
           height: 1.5rem;
-          font-size: 0.4rem;
+          // font-size: 0.4rem;
           margin-top: 1rem;
         }
         aside {
-          height: 2rem;
+          height: 2.5rem;
           display: flex;
-          font-size: 0.3rem;
+          // font-size: 0.38rem;
           flex-direction: column;
           justify-content: space-between;
           button {
-            height: 0.8rem;
+            height: 1rem;
             color: #ffffff;
           }
           button:nth-of-type(1) {

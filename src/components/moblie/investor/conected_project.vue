@@ -227,6 +227,7 @@ export default {
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
+        font-size: 0.38rem;
         button {
           width: 9.9rem;
           height: 1rem;

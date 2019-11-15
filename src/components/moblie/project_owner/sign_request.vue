@@ -190,7 +190,7 @@ export default {
 #p_sign_request {
   width: 100%;
   main {
-    margin-top: 1.5rem;
+    margin-top: 1.6rem;
     background: #ffffff;
     aside {
       display: flex;
@@ -201,16 +201,20 @@ export default {
     div.investors_infor {
       h2 {
         // padding: 0.2rem 0.3rem;
-        height: 2rem;
-        font-size: 0.38rem;
+         height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
+        // font-size: 0.5rem;
         color: #0f6ebe;
-        line-height: 2rem;
-        text-align: center;
+        // text-align: center;
+        font-weight: 600;
+        line-height: 0.7rem;
       }
       
       header {
         height: 0.8rem;
-        font-size: 0.32rem;
+        font-size: 0.38rem;
         text-align: center;
         background: #f2f2f2;
         line-height: 0.8rem;
@@ -250,7 +254,7 @@ export default {
       margin: 0 0 1.3rem 0;
       header {
         height: 0.8rem;
-        font-size: 0.32rem;
+        font-size: 0.38rem;
         text-align: center;
         // font-weight: 600;
         background: #f2f2f2;
@@ -267,7 +271,7 @@ export default {
         border-bottom: 0.2rem solid #f2f2f2;
         > p {
           flex: 1;
-          height: 2rem;  
+          height: 2.5rem;  
           font-size: 0.3rem;
           display: flex;
           align-items:center;
@@ -277,13 +281,13 @@ export default {
               width: 100%;
               display: flex;
               text-align: center;
-             height: 1.5rem;
+             height: 2rem;
             //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
             justify-content:space-between;
             span.rowb{
-                 font-size: 0.38rem;
+                 font-size: 0.6rem;
                   color: #0f6ebe;
 
             }
@@ -305,7 +309,7 @@ export default {
           margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
@@ -346,13 +350,14 @@ export default {
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
+        font-size: 0.38rem;
         aside {
-          height: 2rem;
+          height: 2.4rem;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           button {
-            height: 0.8rem;
+            height: 1rem;
             color: #ffffff;
           }
           button:nth-of-type(1) {
