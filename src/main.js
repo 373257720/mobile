@@ -16,13 +16,16 @@ import Vuex from 'vuex';
 // var vConsole = new VConsole();
 // let vConsole = new VConsole();
 import Vconsole from 'vconsole'
-let vConsole = new Vconsole()
-Vue.use(vConsole);
+// let vConsole = new Vconsole()
+// Vue.use(vConsole);
 Vue.use(Vuex);
 import Vant from 'vant';
 Vue.use(Vant)
 Vue.prototype.$axios = axios;
 
+
+import moment from 'moment'
+Vue.prototype.$moment = moment
 // 引入公共组件
 axios.defaults.withCredentials = true;
 axios.interceptors.response.use(res => {

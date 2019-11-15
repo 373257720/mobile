@@ -4,9 +4,9 @@
       <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
     </h2>
     <div class="main">
-       <p>{{remind}}</p>
+      <p>{{remind}}</p>
       <div class="username" v-if="$route.query.email">
-        <van-field v-model="username" placeholder="电子邮箱" disabled/>
+        <van-field v-model="username" placeholder="电子邮箱" disabled />
       </div>
       <div class="username" v-if="!$route.query.email">
         <van-field v-model="username" placeholder="电子邮箱" clearable />
@@ -18,7 +18,7 @@
         <button @click="login">登 录</button>
       </div>
       <div class="registerbtn">
-          <button @click="$routerto('register',{email:username})">注册新账号</button>
+        <button @click="$routerto('register',{email:username})">注册新账号</button>
       </div>
     </div>
   </div>
@@ -33,16 +33,13 @@ export default {
       remind: ""
     };
   },
-    created(){
-    this.username=this.$route.query.email
+  created() {
+    this.username = this.$route.query.email;
     // console.log(this.$route.query.email);
-    
   },
   methods: {
     login() {
       this.remind = "";
-      // console.log(this.$baseurl);
-      
       if (this.username && this.password) {
         this.$axios({
           method: "post",
@@ -70,9 +67,11 @@ export default {
           } else if (rescode == 10011) {
             this.remind = "登录账号不能为空";
           } else if (rescode == 10012) {
-            this.remind = "邮箱地址无效请重新输入";
+            this.remind = "密码不能为空";
+          } else if (rescode == 10013) {
+            this.remind = "账号不存在";
           } else if ((rescode = 10014)) {
-            this.remind = "该邮箱已注册，请登录";
+            this.remind = "账号或密码不正确";
           }
         });
       } else {
@@ -81,13 +80,18 @@ export default {
     }
   }
 };
+// 10011	登录账号不能为空
+// 10012	密码不能为空
+// 10013	账号不存在
+// 10014	账号或密码不正确
+// 10000	登录成功
 </script>
 <style lang='scss'>
 #login {
   .van-field__body {
     //  width: 100%;
     height: 1rem;
-    border: 0.02rem solid #DDDDDD;
+    border: 0.02rem solid #dddddd;
     border-radius: 0.05rem;
     background: #f6f6f6;
     padding: 0.34rem;
@@ -95,10 +99,9 @@ export default {
   }
   .van-field__control {
     font-size: 0.38rem;
-      // line-height: 0.7rem;
-
+    // line-height: 0.7rem;
   }
-   .van-field__clear {
+  .van-field__clear {
     // height: 0.1rem;
     font-size: 0.36rem;
   }
@@ -118,7 +121,7 @@ export default {
   // width: 9.90rem;
   // margin: 0 auto;
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
   // justify-content: center;
 
   h2 {
@@ -148,18 +151,18 @@ export default {
       color: white;
       // width: 100%;
       // font-size: 0.1rem;
-        border-radius: 0.05rem;
+      border-radius: 0.05rem;
       width: 9.8rem;
       height: 1rem;
     }
     .loginbtn button {
       background: #00adef;
-       font-size: 0.38rem;
+      font-size: 0.38rem;
     }
     .registerbtn button {
       background: #ff7c2c;
-        // font-size: 0.1rem;
-         font-size: 0.38rem;
+      // font-size: 0.1rem;
+      font-size: 0.38rem;
     }
   }
 }

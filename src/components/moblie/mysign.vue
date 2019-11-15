@@ -75,7 +75,7 @@ export default {
       result: [],
       finished: false,
       loadText: "加载中…",
-      pageNum: 0,
+      pageNum: 1,
       loadNumUp: 5,
       usertype: "",
       upGoodsInfo: []
@@ -210,6 +210,7 @@ export default {
         }
       }
       this.upGoodsInfo = [];
+      this.pageNum = 1;
       this.onLoad();
       this.visible = false;
     },
@@ -238,7 +239,7 @@ export default {
         data: this.$qs.stringify(
           {
             signStatusList: this.result,
-            pageIndex: ++this.pageNum,
+            pageIndex: this.pageNum,
             pageSize: this.loadNumUp
           },
           { arrayFormat: "brackets" }
@@ -247,40 +248,108 @@ export default {
           "Content-Type": "application/x-www-form-urlencoded"
         }
       })
+        // .then(res => {
+        //   if (res.status === 200) {
+        //     let re = res.data.data.lists;
+        //     if (re.length> 0) {
+        //       this.upGoodsInfo = this.upGoodsInfo.concat(re);
+        //     }
+        //     else if (re.length == 0) {
+        //       // this.loadText = "no datas";
+        //       // console.log(this.loadText);
+        //       console.log(1111);
+
+        //     }
+        //     this.loading = false;
+        //     if (this.upGoodsInfo.length >= res.data.data.pageTotal) {
+        //       this.loadText = "加载完成";
+        //       this.finished = true;
+        //     }
+        //     // console.log(this.upGoodsInfo);
+        //     this.upGoodsInfo.forEach(item => {
+        //       // console.log(this.$global);
+        //       console.log(item.signTime);
+
+        //       // item.signTime = this.$global.timestampToTime(item.signTime);
+        //       // item.signTime4Submit = this.$global.timestampToTime(
+        //       //   item.signTime4Submit
+        //       // );
+        //     //  item.signTime4Submit = this.$moment(item.signTime4Submit).format('YYYY-MM-DD')
+        //     //   // console.log( item.signTime );
+        //     //   item.signTime = this.$moment(item.signTime).format('YYYY-MM-DD')
+        //     //   console.log( item.signTime );
+
+        //       this.list.forEach(ite => {
+        //         if (item.signStatus == ite.value) {
+        //           item.signStatustext = ite.text;
+        //           item.pic = ite.pic;
+        //         }
+        //       });
+        //     });
+        //   } else {
+        //     this.finished = true;
+        //   }
+        // })
+        // .catch(err => {
+        //   this.loadText = "加载失败";
+        //   // console.log(a);
+        // });
         .then(res => {
           if (res.status === 200) {
-            let re = res.data.data.lists;
-            if (re.length !== 0) {
-              this.upGoodsInfo = this.upGoodsInfo.concat(re);
-            } else if (re.length == 0) {
-              this.loadText = "no datas";
-              console.log(this.loadText);
+            let re = [...res.data.data.lists];
+            for (let i = 0; i < re.length; i++) {
+              re[i].signTime4Submit = this.$global.timestampToTime(
+                re[i].signTime4Submit
+              );
+              re[i].signTime = this.$global.timestampToTime(re[i].signTime);
             }
-            this.loading = false;
-            if (this.upGoodsInfo.length >= res.data.data.pageTotal) {
-              this.loadText = "加载完成";
+            if (re.length > 0) {
+              this.upGoodsInfo = this.upGoodsInfo.concat(re);
+              this.loading = false;
+            }
+            if (
+              this.upGoodsInfo.length >= res.data.data.pageTotal ||
+              this.upGoodsInfo.length == 0
+            ) {
+              this.loadText = "没有记录";
+              // document.querySelector(
+              //   "#mhome .van-loading__circular"
+              // ).style.display = "none";
               this.finished = true;
             }
-            console.log(this.upGoodsInfo);
-            this.upGoodsInfo.forEach(item => {
-              // console.log(this.$global);
-              item.signTime = this.$global.timestampToTime(item.signTime);
-              item.signTime4Submit = this.$global.timestampToTime(
-                item.signTime4Submit
-              );
-              this.list.forEach(ite => {
-                if (item.signStatus == ite.value) {
-                  item.signStatustext = ite.text;
-                  item.pic = ite.pic;
-                }
-              });
-            });
+            this.pageNum++;
           } else {
+            this.loading = false;
             this.finished = true;
           }
+          this.upGoodsInfo.forEach(item => {
+            this.list.forEach(ite => {
+              if (item.signStatus == ite.value) {
+                item.signStatustext = ite.text;
+                item.pic = ite.pic;
+                
+                // switch (ite.value) {
+                //   case 1:
+                //       item.classname = ''
+                //     break;
+                //   case n:
+                //     代码块;
+                //     break;
+                //   default:
+                //     默认代码块;
+                // }
+              }
+            });
+          });
+          console.log(this.loading);
         })
         .catch(err => {
-          this.loadText = "加载失败";
+          this.loadText = "loading failed";
+          // document.querySelector(
+          //   "#mhome .van-loading__circular"
+          // ).style.display = "none";
+          // let a = (document.querySelector("#mhome .van-loading__text").style =
+          //   "margin-left:0");
           // console.log(a);
         });
     }
@@ -390,14 +459,14 @@ export default {
     }
   }
   .van-list ul {
-    padding: 2.9rem 0 1.3rem 0;
+    padding: 2.8rem 0 1.3rem 0;
     background: white;
     li {
       // line-height: 0.6rem;
       position: relative;
       word-break: break-all;
       margin: 0 0.54rem;
-      padding: 0.3rem  0;
+      padding: 0.3rem 0;
       border-bottom: 0.02rem dashed #b5b5b5;
       font-size: 0.36rem;
       p {
@@ -413,13 +482,13 @@ export default {
           vertical-align: top;
         }
         span:nth-child(2) {
-          // font-weight: 500;
           vertical-align: top;
-          // font-size: 0.28rem;
           color: #575757;
-          // display: inline-block;
-          // width: 3rem;
         }
+        //
+      }
+      p:last-of-type {
+        margin: 0;
       }
       img {
         position: absolute;

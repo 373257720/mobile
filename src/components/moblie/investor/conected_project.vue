@@ -3,32 +3,20 @@
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />已连接项目
     </nav>
-     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
-      <div class="investors_infor">
-        <h2>标题水电费加开发水电费水电费水电费是电风扇的丰盛的</h2>
-      </div>
       <article>
-        <header>放水电费鼎飞丹砂</header>
-            <div class="nav_lists">
-          <p v-for="(item) in nav_lists" :key="item.name">
-            <section class="box">
-               <span class="1row" v-html="item.name"></span>
-              <span class="rowb" >{{item.response}}</span>
-            </section>
-          
-          </p>
-        </div>
+        <header>{{title}}</header>
+        <boxx :nav_lists="nav_lists"></boxx>
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
             <p class="row2">{{item.response}}</p>
           </li>
         </ul>
-       <footer>
+        <footer>
           <aside>
-            <button @click="$routerto('i_inverstor_infor',{investorsId:investorsId})">我的资料</button>
-            <!-- <button @click="gg">拒绝</button> -->
+            <button @click="$routerto('i_inverstor_infor',{investorsId:investorsId})">投资者资料</button>
+            <!-- <button @click="gg">合约</button> -->
           </aside>
         </footer>
       </article>
@@ -38,14 +26,13 @@
 </template>
 <script>
 export default {
-  name: "goods_details",
+  name: "i_conected_project",
   data() {
     return {
-      show: false,
       investorsId:'',
-      // dad_text:'待确认项目',
+      title:'',
       nav_lists: [
-         {
+          {
           keyword: "financingStage",
           name: "融资阶段",
           response: ""
@@ -61,30 +48,8 @@ export default {
           response: ""
         }
       ],
-      investor_infor: [
+       details_lists: [
         {
-          keyword:'investorsType',
-          name: "投资者类型:",
-          response: "放水电费水电费"
-        },
-        {
-          keyword:'investorsCompany',
-          name: "投资者公司:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
-        },
-        {
-          keyword:'investorsName',
-          name: "投资者姓名:",
-          response: "发地方水电"
-        },
-        {
-          keyword:'investorsArea',
-          name: "投资者地区:",
-          response: "斯蒂芬发地方发地方水电发地方水电"
-        }
-      ],
-      details_lists: [
-      {
           keyword: "projectIndustry",
           name: "行业:",
           response: ""
@@ -108,16 +73,16 @@ export default {
       ]
     };
   },
-  created(){
-      console.log(this.$route.query);
-    let que=this.$route.query;
-       this.$axios({
+  created() {
+    let details = this.$route.query;
+    this.$axios({
       method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${que.projectId}&signStatus=${que.signStatus}&signId=${que.signId?que.signId:''}`
-      }).then(res => {
-        this.investorsId= res.data.data.investorsId;
-          for (var i in res.data.data) {
-             this.$route.query.investorsId=res.data.data.investorsId;
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
+    }).then(res => {  
+   this.investorsId=res.data.data.investorsId;
+   this.title=res.data.data.projectName
+      for (var i in res.data.data) {
+        
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
             this.details_lists[j].response = res.data.data[i];
@@ -128,13 +93,11 @@ export default {
             this.nav_lists[w].response = res.data.data[i];
           }
         }
-          for (var k = 0; k < this.investor_infor.length; k++) {
-          if (this.investor_infor[k].keyword == i) {
-            this.investor_infor[k].response = res.data.data[i];
-          }
-        }
       }
+      console.log(this.details_lists);
     });
+
+
   },
   methods: {
     gg() {
@@ -157,8 +120,24 @@ export default {
 </script>
 <style lang="scss">
 #i_conected_project {
+  .van-checkbox__icon {
+    //   line-height:0.625rem;
+    font-size: 0.2rem;
+  }
+  .van-hairline--top-bottom::after {
+    border: 0.01rem solid #8e8e8e;
+  }
+  .van-cell {
+    padding: 0;
+    .van-field__control {
+      background: #f2f2f2;
+      font-size: 0.3rem;
+      padding: 0 0.2rem;
+      box-sizing: border-box;
+    }
+  }
   nav {
-    // position: relative;
+    position: relative;
     .van-icon-arrow-left {
       position: absolute;
       left: 0.6rem;
@@ -194,85 +173,32 @@ export default {
   main {
     margin-top: 1.5rem;
     background: #ffffff;
-    aside {
-      display: flex;
-      width: 100%;
-      height: 3rem;
-      justify-content: center;
-    }
-    div.investors_infor {
-      h2 {
-        padding: 0.2rem 0.3rem;
-        font-size: 0.38rem;
-        color: #0f6ebe;
-        line-height: 0.5rem;
-      }
-   
-    }
-    article {
-      margin: 0 0 1.3rem 0;
-      header {
-        height: 0.8rem;
-        font-size: 0.32rem;
-        text-align: center;
-        // font-weight: 600;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
-      }
-       div.nav_lists {
-        display: flex;
-        // border-top: 0.2rem solid #f2f2f2;
-        border-bottom: 0.2rem solid #f2f2f2;
-        > p {
-          flex: 1;
-          height: 2rem;  
-          font-size: 0.3rem;
-          display: flex;
-          align-items:center;
-         
-          section.box{
-            box-sizing: border-box;
-              width: 100%;
-              display: flex;
-              text-align: center;
-             height: 1.5rem;
-            //  padding: 0.1rem;
-            border-right: 0.08rem solid #f2f2f2;
-            flex-direction: column;
-            justify-content:space-between;
-            span.rowb{
-                 font-size: 0.38rem;
-                  color: #0f6ebe;
 
-            }
-          }
-            
-        }
-        p:nth-last-child(1){
-            section.box{
-              border-right: 0;
-            }
-            
-          }
-           
-      
+    article {
+      margin: 0 0 1rem 0;
+      header {
+        height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
+        // font-size: 0.5rem;
+        color: #0f6ebe;
+        // text-align: center;
+        font-weight: 600;
+        line-height: 0.7rem;
       }
       ul {
-        padding: 0.5rem;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
         li {
           margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
             width: 4rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
           }
           .row2 {
             width: 7rem;
@@ -280,33 +206,46 @@ export default {
             line-height: 0.48rem;
             color: #787878;
           }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
+        }
+        .contract {
+          display: block;
+          section {
+            width: 6.5rem;
+            height: 8rem;
+            border: 0.01rem solid #b3b3b3;
+            padding: 0;
+            background: #f2f2f2;
+            .draft1_middle {
+              padding: 0.3rem;
+              box-sizing: border-box;
+              width: 100%;
+              height: 100%;
+              overflow-y: auto;
+            }
           }
         }
-    
       }
-            footer {
+      footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
-        aside {
-          height: 2rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          button {
-            height: 0.8rem;
-            color: #ffffff;
-          }
-          button:nth-of-type(1) {
-            background: #00adef;
-          }
-          button:nth-of-type(2) {
-            background: #ff7c2c;
-          }
+        button {
+          width: 9.9rem;
+          height: 1rem;
+          background: #00adef;
+          color: white;
         }
+        // button {
+        //   margin-bottom: 0.4rem;
+        // }
+        // aside {
+        //   height: 1.5rem;
+        //   // width: 6.5rem;
+        //   display: flex;
+        //   justify-content: space-between;
+        //   button {
+        //     width: 3rem;
+        //   }
+        // }
       }
-      
     }
   }
 }

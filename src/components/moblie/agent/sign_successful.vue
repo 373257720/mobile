@@ -1,31 +1,12 @@
 <template>
   <div id="a_sign_successful">
-    <!-- <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签约请求
-    </nav> -->
-     <commonnav :msg="dad_text"></commonnav>
+    <nav>
+      <van-icon name="arrow-left" @click="$global.previous()" />签约成功
+    </nav>
     <main>
-      <div class="investors_infor">
-        <h2>标题水电费加开发水电费水电费水电费是电风扇的丰盛的</h2>
-        <header>投资者资料</header>
-        <ul>
-          <li i v-for="(item) in investor_infor" :key="item.name">
-            <p class="row1">{{item.name}}</p>
-            <p class="row2">{{item.response}}</p>
-          </li>
-        </ul>
-      </div>
       <article>
-        <header>放水电费鼎飞丹砂</header>
-            <div class="nav_lists">
-          <p v-for="(item) in nav_lists" :key="item.name">
-            <section class="box">
-               <span class="1row" v-html="item.name"></span>
-              <span class="rowb" >{{item.response}}</span>
-            </section>
-          
-          </p>
-        </div>
+        <header>{{title}}</header>
+        <boxx :nav_lists="nav_lists"></boxx>
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
@@ -34,8 +15,8 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('p_check_contract')">查看合约</button>
-            <!-- <button @click="gg">拒绝签约</button> -->
+            <!-- <button @click="$routerto('p_inverstor_details',{investorsId:investorsId})">投资者资料</button> -->
+            <button >查看合约</button>
           </aside>
         </footer>
       </article>
@@ -45,95 +26,78 @@
 </template>
 <script>
 export default {
-  name: "goods_details",
+  name: "a_sign_successful",
   data() {
     return {
-      show: false,
-      dad_text:'签约请求',
-         nav_lists: [
-        {
+      investorsId:'',
+      title:'',
+      nav_lists: [
+          {
+          keyword: "financingStage",
           name: "融资阶段",
-          response: "12"
+          response: ""
         },
         {
+          keyword: "interestProjectCount",
           name: "项目方<br>有兴趣数量",
-          response: "16"
+          response: ""
         },
         {
+          keyword:'committedCount',
           name: "已提交</br>投资者数量",
-          response: "118"
+          response: ""
         }
       ],
-      investor_infor: [
+       details_lists: [
         {
-          name: "投资者类型:",
-          response: "放水电费水电费"
-        },
-        {
-          name: "投资者公司:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
-        },
-        {
-          name: "投资者姓名:",
-          response: "发地方水电"
-        },
-           {
-          name: "投资者电话:",
-          response: "发地方水电"
-        },
-              {
-          name: "投资者兴趣:",
-          response: "发地方水电"
-        },
-               {
-          name: "投资者邮箱",
-          response: "发地方水电"
-        },
-        {
-          name: "投资者地址:",
-          response: "斯蒂芬发地方发地方水电发地方水电"
-        }
-      ],
-      details_lists: [
-        {
+          keyword: "projectIndustry",
           name: "行业:",
-          response: "2019-15-26"
+          response: ""
         },
         {
+          keyword: "projectArea",
           name: "地区:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
-         {
+        {
+          keyword: "signStatus",
           name: "项目状态:",
-          response: "金融"
+          response: ""
         },
-        {
-          name: "公司名称:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "是否是上市公司:",
-          response: "13178523855"
-        },
-        {
-          name: "集资额:",
-          response: "金融"
-        },
-        {
-          name: "联络电话:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "电邮:",
-          response: "13178523855"
-        },
-         {
-          name: "项目详情:",
-          response: "金融"
-        },
-       
+        { keyword: "projectCompany", name: "公司名称:", response: "" },
+        { keyword: "publicCompany", name: "是否上市公司:", response: "" },
+        { keyword: "collectMoney", name: "集资额:", response: "" },
+        { keyword: "projectMobile", name: "联系电话:", response: "" },
+        { keyword: "projectEmail", name: "电邮:", response: "" },
+        { keyword: "projectDescribe", name: "项目详情:", response: "" }
       ]
     };
+  },
+  created() {
+    let details = this.$route.query;
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
+    }).then(res => {  
+   this.investorsId=res.data.data.investorsId;
+   this.title=res.data.data.projectName
+      for (var i in res.data.data) {
+     
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            this.details_lists[j].response = res.data.data[i];
+          }
+        }
+        for (var w = 0; w < this.nav_lists.length; w++) {
+          if (this.nav_lists[w].keyword == i) {
+            this.nav_lists[w].response = res.data.data[i];
+          }
+        }
+      }
+      console.log(this.details_lists);
+    });
+
+
   },
   methods: {
     gg() {
@@ -156,8 +120,24 @@ export default {
 </script>
 <style lang="scss">
 #a_sign_successful {
+  .van-checkbox__icon {
+    //   line-height:0.625rem;
+    font-size: 0.2rem;
+  }
+  .van-hairline--top-bottom::after {
+    border: 0.01rem solid #8e8e8e;
+  }
+  .van-cell {
+    padding: 0;
+    .van-field__control {
+      background: #f2f2f2;
+      font-size: 0.3rem;
+      padding: 0 0.2rem;
+      box-sizing: border-box;
+    }
+  }
   nav {
-    // position: relative;
+    position: relative;
     .van-icon-arrow-left {
       position: absolute;
       left: 0.6rem;
@@ -179,135 +159,46 @@ export default {
 <style lang="scss" scoped>
 #a_sign_successful {
   width: 100%;
-  // nav {
-  //   width: 100%;
-  //   text-align: center;
-  //   line-height: 1.5rem;
-  //   height: 1.5rem;
-
-  //   position: fixed;
-  //   top: 0;
-  //   font-size: 0.38rem;
-  //   background: white;
-  //   border-bottom: 0.02rem dashed #b5b5b5;
-  // }
+  nav {
+    width: 100%;
+    text-align: center;
+    line-height: 1.5rem;
+    height: 1.5rem;
+    position: fixed;
+    top: 0;
+    font-size: 0.46rem;
+    background: white;
+    border-bottom: 0.1rem solid #b5b5b5;
+  }
   main {
     margin-top: 1.5rem;
     background: #ffffff;
-    aside {
-      display: flex;
-      width: 100%;
-      height: 3rem;
-      justify-content: center;
-    }
-    div.investors_infor {
-      h2 {
-         font-size: 0.38rem;
-        color: #0f6ebe;
-        height: 2rem;
-        line-height:2rem;
-      }
-      header {
-        height: 0.8rem;
-        font-size: 0.32rem;
-        text-align: center;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
-      }
-      ul {
-        padding: 0.1rem 0.5rem;
-        li {
-          margin-bottom: 0.1rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.28rem;
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 3rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
-        }
-      }
-    }
-    article {
-      margin: 0 0 1.3rem 0;
-      header {
-        height: 0.8rem;
-        font-size: 0.32rem;
-        text-align: center;
-        // font-weight: 600;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
-      }
-       div.nav_lists {
-        display: flex;
-        // border-top: 0.2rem solid #f2f2f2;
-        border-bottom: 0.2rem solid #f2f2f2;
-        > p {
-          flex: 1;
-          height: 2rem;  
-          font-size: 0.3rem;
-          display: flex;
-          align-items:center;
-         
-          section.box{
-            box-sizing: border-box;
-              width: 100%;
-              display: flex;
-              text-align: center;
-             height: 1.5rem;
-            //  padding: 0.1rem;
-            border-right: 0.08rem solid #f2f2f2;
-            flex-direction: column;
-            justify-content:space-between;
-            span.rowb{
-                 font-size: 0.38rem;
-                  color: #0f6ebe;
 
-            }
-          }
-            
-        }
-        p:nth-last-child(1){
-            section.box{
-              border-right: 0;
-            }
-            
-          }
-           
-      
+    article {
+      margin: 0 0 1rem 0;
+      header {
+        height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
+        // font-size: 0.5rem;
+        color: #0f6ebe;
+        // text-align: center;
+        font-weight: 600;
+        line-height: 0.7rem;
       }
       ul {
-        padding: 0.5rem;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
         li {
           margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
             width: 4rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
           }
           .row2 {
             width: 7rem;
@@ -315,18 +206,13 @@ export default {
             line-height: 0.48rem;
             color: #787878;
           }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
         }
         .contract {
           display: block;
-          .row2 {
-            width: 8rem;
-            height: 6rem;
+          section {
+            width: 6.5rem;
+            height: 8rem;
             border: 0.01rem solid #b3b3b3;
-            // box-sizing: border-box;
             padding: 0;
             background: #f2f2f2;
             .draft1_middle {
@@ -341,22 +227,24 @@ export default {
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
-        aside {
-          height: 2rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          button {
-            height: 0.8rem;
-            color: #ffffff;
-          }
-          button:nth-of-type(1) {
-            background: #00adef;
-          }
-          button:nth-of-type(2) {
-            background: #ff7c2c;
-          }
+        button {
+          width: 9.9rem;
+          height: 1rem;
+          background: #00adef;
+          color: white;
         }
+        // button {
+        //   margin-bottom: 0.4rem;
+        // }
+        // aside {
+        //   height: 1.5rem;
+        //   // width: 6.5rem;
+        //   display: flex;
+        //   justify-content: space-between;
+        //   button {
+        //     width: 3rem;
+        //   }
+        // }
       }
     }
   }

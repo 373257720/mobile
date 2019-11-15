@@ -228,7 +228,7 @@ export default {
     },
     onSearch() {
       // console.log(this.searchkey);
-      this.pageNum = 0;
+      this.pageNum = 1;
       this.upGoodsInfo = [];
       this.loading = true; //下拉加载中
       this.finished = false; //下拉结
@@ -244,7 +244,7 @@ export default {
       } else {
         this.activeIds = data.id;
       }
-      this.pageNum = 0;
+      this.pageNum = 1;
       this.upGoodsInfo = [];
       this.loading = true; //下拉加载中
       this.finished = false; //下拉结
@@ -256,7 +256,6 @@ export default {
         this.activeIds = "";
       }
       console.log(this.loading);
-
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getAllProject?`,
@@ -411,6 +410,7 @@ export default {
   display: flex;
   height: 100%;
   flex-direction: column;
+  
   > header {
     // height: 3.8rem;
     width: 100%;
@@ -437,9 +437,9 @@ export default {
     }
   }
   .main {
-    margin: 4.5rem 0 1.5rem 0;
+    margin: 4.5rem 0 1.3rem 0;
     // margin-bottom: 5rem;
-    height: 100%;
+    // height: 100%;
     background: #eeeeee;
     box-sizing: border-box;
     .goodlists {
