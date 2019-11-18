@@ -40,54 +40,57 @@
         />
       </van-dropdown-menu>
     </header>
-    <div class="main">
-      <van-list
-        v-model="loading"
-        :finished="finished"
-        @load="onLoad"
-        :loading-text="loadText"
-        :offset="300"
-      >
-        <div v-for="(goods,item) in  upGoodsInfo" :key="item" class="goodlists">
-          <article @click="routerto(goods)">
-            <nav>{{goods.projectName}}</nav>
-            <section>
-              <span>行业：</span>
-              <span>{{goods.projectIndustry}}</span>
-            </section>
-            <section>
-              <span>地区：</span>
-              <span>{{goods.projectArea}}</span>
-            </section>
-            <section>
-              <span>简介：</span>
-              <span v-html="goods.projectDescribe.substr(0, [70])+'...'"></span>
-              <!-- <div class="van-multi-ellipsis--l2">{{goods.projectDescribe}}</div> -->
-            </section>
-            <footer v-if="usertype==1">
-              <ul>
-                <li v-for="(item) in  tags" :key="item.text">
-                  <div
-                    v-if="goods.signUserList[item.keywork][0].signCount"
-                  >{{item.text}}（{{goods.signUserList[item.keywork][0].signCount?goods.signUserList[item.keywork][0].signCount:0}}）</div>
-                </li>
-              </ul>
+    <div id="main">
+      <div class="main">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          @load="onLoad"
+          :loading-text="loadText"
+          :offset="300"
+        >
+          <div v-for="(goods,item) in  upGoodsInfo" :key="item" class="goodlists">
+            <article @click="routerto(goods)">
+              <nav>{{goods.projectName}}</nav>
+              <section>
+                <span>行业：</span>
+                <span>{{goods.projectIndustry}}</span>
+              </section>
+              <section>
+                <span>地区：</span>
+                <span>{{goods.projectArea}}</span>
+              </section>
+              <section>
+                <span>简介：</span>
+                <span v-html="goods.projectDescribe.substr(0, [70])+'...'"></span>
+                <!-- <div class="van-multi-ellipsis--l2">{{goods.projectDescribe}}</div> -->
+              </section>
+              <footer v-if="usertype==1">
+                <ul>
+                  <li v-for="(item) in  tags" :key="item.text">
+                    <div
+                      v-if="goods.signUserList[item.keywork][0].signCount"
+                    >{{item.text}}（{{goods.signUserList[item.keywork][0].signCount?goods.signUserList[item.keywork][0].signCount:0}}）</div>
+                  </li>
+                </ul>
+              </footer>
+            </article>
+            <footer>
+              <button
+                v-if="usertype==1"
+                @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList6'][0].investorsIdList) })"
+              >签约投资者资料（{{goods.signUserList['signUserList6'][0].signCount?goods.signUserList['signUserList6'][0].signCount:0}}）</button>
+              <button
+                v-else-if="usertype==3"
+                @click="$routerto('i_conected_project',{projectId:goods.projectId,signStatus:goods.signUserResp[0].signStatus,signId:goods.signUserResp[0].signId})"
+              >已连接项目</button>
+              <button v-else-if="usertype==4" @click="routerto(goods)">感兴趣项目</button>
             </footer>
-          </article>
-          <footer>
-            <button
-              v-if="usertype==1"
-              @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList6'][0].investorsIdList) })"
-            >签约投资者资料（{{goods.signUserList['signUserList6'][0].signCount?goods.signUserList['signUserList6'][0].signCount:0}}）</button>
-            <button
-              v-else-if="usertype==3"
-              @click="$routerto('i_conected_project',{projectId:goods.projectId,signStatus:goods.signUserResp[0].signStatus,signId:goods.signUserResp[0].signId})"
-            >已连接项目</button>
-            <button v-else-if="usertype==4" @click="routerto(goods)">感兴趣项目</button>
-          </footer>
-        </div>
-      </van-list>
+          </div>
+        </van-list>
+      </div>
     </div>
+
     <mbottom></mbottom>
   </div>
 </template>
@@ -407,9 +410,9 @@ export default {
 <style lang="scss" scoped>
 #mhome {
   display: flex;
-  height: 100%;
+  height: 100vh;
   flex-direction: column;
-  
+
   > header {
     // height: 3.8rem;
     width: 100%;
@@ -435,8 +438,12 @@ export default {
       }
     }
   }
+  #main{
+    background:#eeeeee;
+    height: 100%;
+  }
   .main {
-    margin: 4.5rem 0 1.3rem 0;
+    margin: 4.7rem 0 1.3rem 0;
     // margin-bottom: 5rem;
     // height: 100%;
     background: #eeeeee;
@@ -480,7 +487,7 @@ export default {
             margin-bottom: 0.12rem;
             background: url(../../assets/c5652240e4485f406fbaf8cb89b0afb.png)
               no-repeat;
-               background-size: 2.7rem 0.6rem;
+            background-size: 2.7rem 0.6rem;
           }
         }
         section {
@@ -519,6 +526,7 @@ export default {
           text-align: center;
           position: absolute;
           right: 0.25rem;
+          border-radius: 0.125rem;
           height: 0.88rem;
           background: #00adef;
           color: white;

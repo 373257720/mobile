@@ -12,12 +12,9 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
-// let VConsole = require('../../node_modules/vconsole/dist/vconsole.min');
-// var vConsole = new VConsole();
-// let vConsole = new VConsole();
 import Vconsole from 'vconsole'
-// let vConsole = new Vconsole()
-// Vue.use(vConsole);
+let vConsole = new Vconsole()
+Vue.use(vConsole);
 Vue.use(Vuex);
 import Vant from 'vant';
 Vue.use(Vant)
