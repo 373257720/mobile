@@ -50,18 +50,16 @@ export default {
     };
   },
   created() {
+     this.$loading();
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
       // data: this.$qs.stringify(this.form)
     }).then(res => {
+       this.$toast.clear();
       let str = JSON.parse(res.data.data.signAgreement);
-      // console.log(res.data.data.signAgreement);
-      
-      // console.log(res.data.data.signAgreement.body.body.owner);
-
-      this.owner = str.body.owner;
-      this.content = str.body.body;
+      this.owner = str.owner;
+      this.content = str.article;
       this.agent = str.agent;
       // console.log(this.owner);
 

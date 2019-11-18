@@ -379,7 +379,7 @@ export default {
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
-        font-size: 0.38rem;
+        font-size: 0.38rem; 
         aside {
           height: 2rem;
           display: flex;

@@ -1,7 +1,7 @@
 <template>
   <div id="p_sign_failed">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />等待中间人输入
+      <van-icon name="arrow-left" @click="$global.previous()" />拒绝签约项目
     </nav>
     <main>
       <article>
@@ -10,15 +10,11 @@
         <ul>
           <li v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-            <p class="row2">{{item.response}}</p>
+            <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
+            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html='item.response'></p>
           </li>
         </ul>
-        <footer>
-          <aside>
-            <button @click="$routerto('p_check_contract')">查看合约</button>
-            <!-- <button @click="gg">合约</button> -->
-          </aside>
-        </footer>
+      
       </article>
     </main>
     <mbottom></mbottom>
@@ -67,7 +63,8 @@ export default {
         { keyword: "collectMoney", name: "集资额:", response: "" },
         { keyword: "projectMobile", name: "联系电话:", response: "" },
         { keyword: "projectEmail", name: "电邮:", response: "" },
-        { keyword: "projectDescribe", name: "项目详情:", response: "" }
+        { keyword: "projectDescribe", name: "项目详情:", response: "" },
+        { keyword: "signStatus", name: "签约状态:", response: "" }
       ]
     };
   },
@@ -75,12 +72,25 @@ export default {
     let details = this.$route.query;
     this.$axios({
       method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
+      url: `${
+        this.$baseurl
+      }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+        details.projectId
+      }&signStatus=${details.signStatus}&signId=${
+        details.signId ? details.signId : -1
+      }`
     }).then(res => {
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
             this.details_lists[j].response = res.data.data[i];
+            if (this.details_lists[j].keyword == "signStatus") {
+              if (res.data.data[i] == 3) {
+                this.details_lists[j].response = "你已拒绝";
+              } else if (res.data.data[i] == 7) {
+                this.details_lists[j].response = "投资者已拒绝";
+              }
+            }
           }
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
@@ -168,12 +178,13 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-        height: 1.5rem;
-        font-size: 0.38rem;
+      height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
         color: #0f6ebe;
-        text-align: center;
         font-weight: 600;
-        line-height: 1.5rem;
+        line-height: 0.7rem;
         //  border-bottom: 0.1rem solid #f2f2f2;
       }
       div.nav_lists {
@@ -213,7 +224,7 @@ export default {
         li {
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
@@ -227,30 +238,12 @@ export default {
             color: #787878;
           }
         }
-        // .contract {
-        //   display: block;
-        //   section {
-        //     width: 6.5rem;
-        //     height: 9rem;
-        //     border: 0.01rem solid #b3b3b3;
-        //     padding: 0;
-        //     background: #f2f2f2;
-        //     .draft1_middle {
-        //       padding: 0.3rem;
-        //       box-sizing: border-box;
-        //       width: 100%;
-        //       line-height: 0.5rem;
-        //       height: 100%;
-        //       overflow-y: auto;
-        //           color: #787878;
-        //     }
-        //   }
-        // }
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
+               font-size: 0.38rem;
         button {
-          width:9.9rem;
+          width: 9.9rem;
           height: 1rem;
           background: #00adef;
           color: white;

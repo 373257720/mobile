@@ -57,31 +57,10 @@ export default {
     console.log(this.$route);
     // console.log(this.$store.state.contract);
     //  let str =this.$store.state.contract;
-    let str = this.$store.state.contract.body;
-    // let a = str.split("!!!!!");
+    let str = this.$store.state.contract;
     console.log(str);
-
-    // console.log(a);
-    this.content = str.body;
+    this.content = str.article;
     this.signature = str.owner;
-    // console.log(this.content);
-
-    // if (this.$route.query.from == "a_wait_signed") {
-    //   this.isshow = 1;
-    // }
-    //  else if (this.$route.name== "a_sign_contract") {
-    //   this.isshow = 3;
-    // }
-    // this.$axios({
-    //   method: "post",
-    //   url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
-    //   data: this.$qs.stringify(this.form)
-    // }).then(res => {
-    //   if (res.data.resultCode == 10000);
-    //   {
-    //     // this.$goto("mhome");
-    //   }
-    // });
   },
   mounted() {
     // this.content = "";

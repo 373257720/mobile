@@ -82,8 +82,8 @@ export default {
     // console.log(this.$store.state.contract);
     this.str = this.$store.state.contract;
     console.log(this.str);
-    this.owner_signature = this.str.body.owner;
-    this.content = this.str.body.body;
+    this.owner_signature = this.str.owner;
+    this.content = this.str.article;
     this.agent_signature = this.str.agent;
     // console.log(this.content);
   },
@@ -97,7 +97,6 @@ export default {
   methods: {
     submit_email() {
       console.log(this.investorsId);
-
       this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/sendProject4`,
@@ -252,7 +251,7 @@ export default {
                 <span style="display:block;width: 400px;">${this.custmoers_obj.bslName1}</span>
             </div>
             <div class="column" style="display: flex;justify-content: space-around;margin-top:20px;">
-                   <a href="${$baseurl.api}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}">
+                   <a href="${this.$baseurl.api3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}">
                      <div class="button"
                     style="width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">
                     了解详情</div>
@@ -303,7 +302,6 @@ export default {
           }).then(res => {
             console.log(res.data.data);
             this.investorsId = res.data.data.investorsId;
-
             this.custmoers_obj = res.data.data;
           });
         }

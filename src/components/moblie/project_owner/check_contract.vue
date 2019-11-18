@@ -42,49 +42,16 @@ export default {
     };
   },
   created() {
-    // console.log(this.$route);
-    // let str = this.$store.state.contract;
-    // let a = str.split("!!!!!");
-    // this.content = a[0];
-    // this.signature = a[1];
-    // console.log(this.content);
-
-    // if (this.$route.query.from == "a_wait_signed") {
-    //   this.isshow = 1;
-    // }
-    //  else if (this.$route.name== "a_sign_contract") {
-    //   this.isshow = 3;
-    // }
-    // this.$axios({
-    //   method: "post",
-    //   url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
-    //   data: this.$qs.stringify(this.form)
-    // }).then(res => {
-    //   if (res.data.resultCode == 10000);
-    //   {
-    //     // this.$goto("mhome");
-    //   }
-    // });
 
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
       // data: this.$qs.stringify(this.form)
     }).then(res => {
-      console.log(res.data.data.signAgreement);
-      
+      console.log(res.data.data.signAgreement);   
       let str = JSON.parse(res.data.data.signAgreement);
       this.owner = str.owner;
-      this.content = str.body;
-      // console.log(this.owner);
-      
-      // this.agent = str.agent;
-      // console.log(this.owner);
-
-      // if (res.data.resultCode == 10000);
-      // {
-      //   // this.$goto("mhome");
-      // }
+      this.content = str.article;
     });
   },
   mounted() {

@@ -16,7 +16,7 @@
         </ul>
       </div>
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <header>项目详情</header>
             <div class="nav_lists">
           <p v-for="(item) in nav_lists" :key="item.name">
             <section class="box">
@@ -32,12 +32,12 @@
             <p class="row2">{{item.response}}</p>
           </li>
         </ul>
-         <footer>
+         <!-- <footer>
           <aside>
             <button @click="$routerto('p_check_contract')">查看合约</button>
-            <!-- <button @click="gg">拒绝签约</button> -->
+            <button @click="gg">拒绝签约</button>
           </aside>
-        </footer>
+        </footer> -->
       </article>
     </main>
     <mbottom></mbottom>
@@ -48,64 +48,105 @@ export default {
   name: "goods_details",
   data() {
     return {
-      show: false,
       dad_text:'拒签项目',
-         nav_lists: [
+    nav_lists: [
         {
+          keyword: "financingStage",
           name: "融资阶段",
-          response: "12"
+          response: ""
         },
         {
+          keyword: "interestProjectCount",
           name: "项目方<br>有兴趣数量",
-          response: "16"
+          response: ""
         },
         {
+          keyword: "committedCount",
           name: "已提交</br>投资者数量",
-          response: "118"
+          response: ""
         }
       ],
-      investor_infor: [
+    investor_infor: [
         {
+          keyword:'investorsType',
           name: "投资者类型:",
-          response: "放水电费水电费"
+          response: ""
         },
         {
+          keyword:'investorsCompany',
           name: "投资者公司:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
+          keyword:'investorsName',
           name: "投资者姓名:",
-          response: "发地方水电"
+          response: ""
         },
         {
+          keyword:'investorsArea',
           name: "投资者地区:",
-          response: "斯蒂芬发地方发地方水电发地方水电"
+          response: ""
         }
       ],
       details_lists: [
         {
+          keyword: "projectIndustry",
           name: "行业:",
-          response: "2019-15-26"
+          response: ""
         },
         {
+          keyword: "projectArea",
           name: "地区:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
-         {
+        {
+          keyword: "signStatus",
           name: "项目状态:",
-          response: "金融"
+          response: ""
         },
-         {
-          name: "项目详情:",
-          response: "金融"
-        },
-           {
-          name: "签约状态:",
-          response: "金融"
-        },
-       
+        { keyword: "projectDescribe", name: "项目简介:", response: "" },
+        { keyword: "signStatus", name: "签约状态:", response: "" }
       ]
     };
+  },
+   created() {
+    let details = this.$route.query;
+    this.$axios({
+      method: "get",
+      url: `${
+        this.$baseurl
+      }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+        details.projectId
+      }&signStatus=${details.signStatus}&signId=${
+        details.signId ? details.signId : -1
+      }`
+    }).then(res => {
+      for (var i in res.data.data) {
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            this.details_lists[j].response = res.data.data[i];
+            if (this.details_lists[j].keyword == "signStatus") {
+              if (res.data.data[i] == 3) {
+                this.details_lists[j].response = "投行已拒绝";
+              } else if (res.data.data[i] == 7) {
+                this.details_lists[j].response = "投资者已拒绝";
+              }
+            }
+          }
+        }
+        for (var w = 0; w < this.nav_lists.length; w++) {
+          if (this.nav_lists[w].keyword == i) {
+            this.nav_lists[w].response = res.data.data[i];
+          }
+        };
+           for (var k = 0; k < this.investor_infor.length; k++) {
+          if (this.investor_infor[k].keyword == i) {
+            this.investor_infor[k].response = res.data.data[i];
+          }
+        }
+      }
+      console.log(this.details_lists);
+    });
   },
   methods: {
     gg() {
@@ -151,20 +192,9 @@ export default {
 <style lang="scss" scoped>
 #a_sign_failed {
   width: 100%;
-  // nav {
-  //   width: 100%;
-  //   text-align: center;
-  //   line-height: 1.5rem;
-  //   height: 1.5rem;
 
-  //   position: fixed;
-  //   top: 0;
-  //   font-size: 0.38rem;
-  //   background: white;
-  //   border-bottom: 0.02rem dashed #b5b5b5;
-  // }
   main {
-    margin-top: 1.5rem;
+    margin-top: 1.6rem;
     background: #ffffff;
     aside {
       display: flex;
@@ -174,11 +204,13 @@ export default {
     }
     div.investors_infor {
       h2 {
-        // padding: 0.2rem 0.3rem;
-        font-size: 0.38rem;
+         height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
         color: #0f6ebe;
-        height: 2rem;
-        line-height:2rem;
+        font-weight: 600;
+        line-height: 0.7rem;
       }
       header {
         height: 0.8rem;
@@ -231,12 +263,12 @@ export default {
       }
        div.nav_lists {
         display: flex;
-        // border-top: 0.2rem solid #f2f2f2;
+        border-top: 0;
         border-bottom: 0.2rem solid #f2f2f2;
         > p {
           flex: 1;
-          height: 2rem;  
-          font-size: 0.3rem;
+          height: 2.5rem;  
+          font-size: 0.38rem;
           display: flex;
           align-items:center;
          
@@ -245,13 +277,13 @@ export default {
               width: 100%;
               display: flex;
               text-align: center;
-             height: 1.5rem;
+             height: 2rem;
             //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
             justify-content:space-between;
             span.rowb{
-                 font-size: 0.38rem;
+                 font-size: 0.6rem;
                   color: #0f6ebe;
 
             }
@@ -273,7 +305,7 @@ export default {
           margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;

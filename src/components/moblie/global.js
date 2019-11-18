@@ -31,6 +31,7 @@ const global = {
  
   },
 
+
   // new Promise (function (resolve,reject){
   //   axios({
   //     method: "get",

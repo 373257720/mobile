@@ -1,6 +1,6 @@
 <template>
   <div id="p_submit_contract">
-    <div class="p_submit_contract" v-if="success">
+    <div class="p_submit_contract">
       <nav class="p_submit_contract">
         <van-icon name="arrow-left" @click="$global.previous()" />签署合约
       </nav>
@@ -33,7 +33,7 @@
       </main>
       <mbottom></mbottom>
     </div>
-    <div class="usercheck2" v-if="!success">
+    <!-- <div class="usercheck2" v-if="!success">
       <h2>
         <img src="../../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
       </h2>
@@ -41,7 +41,7 @@
       <nav class="backbtn">
         <button @click="$goto('mhome')">进入首页</button>
       </nav>
-    </div>
+    </div>-->
   </div>
 </template>
 <script>
@@ -51,18 +51,17 @@ export default {
     return {
       signature: "",
       content: "",
-      str: "",
-      success: true
+      str: ""
+      // success: true
     };
   },
   created() {
     console.log(this.$route.query);
     console.log(this.$store.state.contract);
 
-    // let a = this.str.split("!!!!!");
-    this.content = this.$store.state.contract.body;
+    this.content = this.$store.state.contract.article;
     this.signature = this.$store.state.contract.owner;
-    this.str = JSON.stringify(this.$store.state.contract);
+    // this.str = JSON.stringify(this.$store.state.contract);
     // console.log(this.content);
   },
   computed: {
@@ -74,6 +73,8 @@ export default {
   },
   methods: {
     contract_submit() {
+      console.log(JSON.stringify(this.$store.state.contract));
+
       this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
@@ -81,12 +82,21 @@ export default {
           projectId: this.$route.query.projectId,
           investorsId: this.$route.query.investorsId,
           signStatus: 2,
-          signAgreement: this.str
+          signAgreement: JSON.stringify(this.$store.state.contract)
         })
       }).then(res => {
         console.log(res);
         if (res.data.resultCode == 10000) {
-          this.success = false;
+          // this.success = false;
+          this.$dialog
+            .alert({
+              title: "提交成功",
+              message: "返回我的项目"
+            })
+            .then(() => {
+              // on close
+              this.$routerto("mysign");
+            });
         }
       });
     }

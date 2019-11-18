@@ -181,9 +181,7 @@ export default {
         font-size: 0.46rem;
         padding: 0.4rem;
         box-sizing: border-box;
-        // font-size: 0.5rem;
         color: #0f6ebe;
-        // text-align: center;
         font-weight: 600;
         line-height: 0.7rem;
       }
@@ -227,6 +225,7 @@ export default {
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
+          font-size: 0.38rem;
         button {
           width: 9.9rem;
           height: 1rem;

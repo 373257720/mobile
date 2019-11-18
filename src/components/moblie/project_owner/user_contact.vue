@@ -85,14 +85,37 @@ export default {
     // background: #1F2652;
   }
   .van-search__action {
-    font-size: 0.3rem;
-    line-height: 0.5rem;
+    // font-size: 0.3rem;
+    // line-height: 0.5rem;
+      div {
+        display: flex;
+        align-items: center;
+        .van-icon-search {
+          background: #ffc303;
+          border-radius: 50%;
+          width: 0.8rem;
+          height: 0.8rem;
+          font-weight: 600;
+          color: #282407;
+          text-align: center;
+          line-height: 0.8rem;
+          font-size: 0.44rem;
+        }
+      }
   }
+  
   .van-cell {
-    font-size: 0.1rem;
-    line-height: 0.5rem;
-    padding: 0.1rem 0.25rem 0.1rem 0;
+       font-size: 0.32rem;
+      line-height: 0.5rem;
+      // height: 0.76rem;
+      padding: 0 0.25rem 0 0;
   }
+  .van-field__control {
+      height: 1rem;
+      line-height: 1rem;
+      font-size: 0.38rem;
+      // font-size: 0.36rem;
+    }
   .van-cell--clickable {
     padding: 0.1rem 0.3rem;
   }

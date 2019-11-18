@@ -55,7 +55,7 @@ export default {
     return {
       option2: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }],
       dad_text: "推荐投资人",
-      title:'',
+      title: "",
       form: {
         investorsType: "",
         investorsCompany: "",
@@ -75,7 +75,7 @@ export default {
 
       this.$dialog
         .confirm({
-          title: "确认提交",
+          title: "确认提交"
           // message: "确认提交"
         })
         .then(() => {
@@ -87,7 +87,15 @@ export default {
           }).then(res => {
             if (res.data.resultCode == 10000);
             {
-              this.$goto("mhome");
+              this.$dialog
+                .alert({
+                  title: "提交成功"
+                  // message: "弹窗内容"
+                })
+                .then(() => {
+                  // on close
+                  this.$goto("mhome");
+                });
             }
           });
         })
@@ -218,7 +226,7 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-          height: 2rem;
+        height: 2rem;
         font-size: 0.46rem;
         padding: 0.4rem;
         box-sizing: border-box;

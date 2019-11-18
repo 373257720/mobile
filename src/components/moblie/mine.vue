@@ -24,14 +24,14 @@
         <section>
           <van-dialog v-model="show" title="标题" show-cancel-button :beforeClose="changelanguage">
             <van-radio-group v-model="radio">
-              <van-cell-group>
+              <!-- <van-cell-group> -->
                 <van-cell title="ENGLISH" clickable @click="radio = 'en_US'">
                   <van-radio slot="right-icon" name="en_US" />
                 </van-cell>
                 <van-cell title="中文" clickable @click="radio = 'zh_CN'">
                   <van-radio slot="right-icon" name="zh_CN" />
                 </van-cell>
-              </van-cell-group>
+              <!-- </van-cell-group> -->
             </van-radio-group>
           </van-dialog>
         </section>

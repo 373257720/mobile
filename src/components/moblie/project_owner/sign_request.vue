@@ -6,7 +6,7 @@
      <commonnav :msg="dad_text"></commonnav>
     <main>
       <div class="investors_infor">
-        <h2>标题水电费加开发水电费水电费水电费是电风扇的丰盛的</h2>
+        <h2>{{title}}</h2>
         <header>投资者资料</header>
         <ul>
           <li i v-for="(item) in investor_infor" :key="item.name">
@@ -16,7 +16,7 @@
         </ul>
       </div>
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <header>项目详情  </header>
             <div class="nav_lists">
           <p v-for="(item) in nav_lists" :key="item.name">
             <section class="box">
@@ -29,7 +29,8 @@
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-            <p class="row2">{{item.response}}</p>
+            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html='item.response'></p>
+            <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
           </li>
         </ul>
         <footer>
@@ -51,6 +52,8 @@ export default {
       show: false,
       projectId:null,
       investorsId:null,
+      title:'',
+      details:{},
       dad_text:'签约请求',
       nav_lists: [
          {
@@ -117,14 +120,18 @@ export default {
     };
   },
   created(){
-  let details = this.$route.query;
+  this.details = this.$route.query;
+   this.$loading();
     this.$axios({
       method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.details.projectId}&signStatus=${this.details.signStatus}&signId=${this.details.signId?this.details.signId:-1}`
     }).then(res => {
-      for (var i in res.data.data) {
-        this.projectId=res.data.data.projectId;
+        this.$toast.clear();
+         this.projectId=res.data.data.projectId; 
         this.investorsId=res.data.data.investorsId; 
+        this.title=res.data.data.projectName;
+      for (var i in res.data.data) {
+       
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
             this.details_lists[j].response = res.data.data[i];
@@ -146,15 +153,31 @@ export default {
   },
   methods: {
     agreement(num) {
-      // console.log(this.$dialog);
-
       this.$dialog
         .confirm({
-          title: "标题",
-          message: "弹窗内容"
+          title: "拒绝签约",
+          // message: "弹窗内容"
         })
         .then(() => {
-          // on confirm
+            this.$global.changepage(`${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,'post',this.$qs.stringify({projectId:this.projectId,investorsId:this.investorsId,signStatus:3})).then(res=>{
+              console.log(res);
+              if(res.data.resultCode==10000){
+                   this.$dialog.alert({
+                      title: '拒绝成功',
+                      // message: '弹窗内容'
+                    }).then(() => {
+                      this.$routerto('mysign')
+                    });
+              }else if(res.data.resultCode==10012){
+                   this.$dialog.alert({
+                      title: '你已拒绝',
+                      // message: '弹窗内容'
+                    }).then(() => {
+                    });
+              }
+              
+            })
+ 
 
         })
         .catch(() => {

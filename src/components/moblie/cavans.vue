@@ -208,7 +208,7 @@ input {
   align-items: center;
 } */
 canvas {
-  margin: 5% 5% 0 5%;
+  margin: 2% 5% 0 5%;
   flex: 1;
   /* width: 100%; */
   cursor: crosshair;
@@ -232,7 +232,7 @@ canvas {
   font-size: 0.46rem;
   /* height: 2rem; */
   text-align: center;
-  margin: 0.5rem 0;
+  margin: 0.3rem 0;
 }
 .btnBox > button {
   /* border: 1px solid #00adef; */

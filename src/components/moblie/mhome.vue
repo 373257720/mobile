@@ -196,7 +196,6 @@ export default {
       this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
         console.log(item.signUserResp);
-        // console.log(item.signUserResp.length);
         if (item.signUserResp.length > 1) {
           this.$routerto("mysign");
         } else if (item.signUserResp.length <= 1) {
@@ -219,7 +218,7 @@ export default {
     region(value, region) {
       this.region_name = region.remark;
       this.region_nametitle = region.text;
-      console.log(value, region, this.region_name);
+      // console.log(value, region, this.region_name);
       this.pageNum = 1;
       this.upGoodsInfo = [];
       this.loading = true; //下拉加载中
@@ -238,7 +237,7 @@ export default {
       this.mainActiveIndex = index;
     },
     onClickItem(data) {
-      console.log(data);
+      // console.log(data);
       if (this.activeIds == data.id) {
         this.activeIds = 0;
       } else {
@@ -255,7 +254,7 @@ export default {
       if (this.activeIds == 0) {
         this.activeIds = "";
       }
-      console.log(this.loading);
+      // console.log(this.loading);
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getAllProject?`,
@@ -292,7 +291,7 @@ export default {
             this.loading = false;
             this.finished = true;
           }
-          console.log(this.loading);
+          // console.log(this.loading);
           // let arr=[];
           // for(let i=0;i<this.upGoodsInfo.length;i++){
 
@@ -464,7 +463,7 @@ export default {
           width: 100%;
           height: 100%;
           display: flex;
-          font-size: 0.03rem;
+          font-size: 0.34rem;
           flex-wrap: wrap;
 
           div {

@@ -44,6 +44,7 @@ export default {
     register() {
       this.remind = "";
       if (this.username && this.password) {
+         this.$loading();
         this.$axios({
           method: "post",
           url: `${this.$baseurl}/bsl_web/user/register.do`,
@@ -57,16 +58,20 @@ export default {
         }).then(res => {
           var rescode = res.data.resultCode;
           console.log(res);
+           this.$toast.clear();
           if (rescode == 10000) {
             console.log("注册成功");
             this.$goto('usercheck');
           } else if (rescode == 10011) {
             this.remind = "登录账号不能为空";
           } else if (rescode == 10012) {
+            this.remind = "密码不能为空";
+          } else if ((rescode = 10013)) {
             this.remind = "邮箱地址无效请重新输入";
           } else if ((rescode = 10014)) {
             this.remind = "该邮箱已注册，请登录";
           }
+         
         });
       } else {
         this.remind = "账号和密码不能为空，请输入 ";

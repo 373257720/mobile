@@ -40,7 +40,11 @@ export default {
   methods: {
     login() {
       this.remind = "";
+      // this.$global.loading();
+    
+      // console.log(   this.$global.loading);
       if (this.username && this.password) {
+          this.$loading();
         this.$axios({
           method: "post",
           url: `${this.$baseurl}/bsl_web/user/login.do`,
@@ -52,11 +56,9 @@ export default {
             "Content-Type": "application/x-www-form-urlencoded"
           }
         }).then(res => {
+          this.$toast.clear();
           var rescode = res.data.resultCode;
-          // sessionStorage.setItem("usertype", resultCode.data.data.userType);
-          console.log(global);
           if (rescode == 10000) {
-            // console.log("登陆成功");
             this.$store.dispatch("usertype", res.data.data.userType);
             this.$store.dispatch("setUser", this.username);
             if (res.data.data.isAuth == 1) {
@@ -73,6 +75,7 @@ export default {
           } else if ((rescode = 10014)) {
             this.remind = "账号或密码不正确";
           }
+                
         });
       } else {
         this.remind = "账号和密码不能为空，请输入 ";
