@@ -25,12 +25,12 @@
           <van-dialog v-model="show" title="标题" show-cancel-button :beforeClose="changelanguage">
             <van-radio-group v-model="radio">
               <!-- <van-cell-group> -->
-                <van-cell title="ENGLISH" clickable @click="radio = 'en_US'">
-                  <van-radio slot="right-icon" name="en_US" />
-                </van-cell>
-                <van-cell title="中文" clickable @click="radio = 'zh_CN'">
-                  <van-radio slot="right-icon" name="zh_CN" />
-                </van-cell>
+              <van-cell title="ENGLISH" clickable @click="radio = 'en_US'">
+                <van-radio slot="right-icon" name="en_US" />
+              </van-cell>
+              <van-cell title="中文" clickable @click="radio = 'zh_CN'">
+                <van-radio slot="right-icon" name="zh_CN" />
+              </van-cell>
               <!-- </van-cell-group> -->
             </van-radio-group>
           </van-dialog>
@@ -112,11 +112,16 @@ export default {
           .then(res => {
             console.log(res);
             if (res.data.resultCode == 10000) {
+              // window.location.reload();
+              // window.addEventListener("onunload", () => {
+              //   console.log("onunload！！！！！");
+                sessionStorage.clear();
+              // });
               this.$goto("login");
             }
           });
-      }else if(num==2){
-           this.show2 = false;
+      } else if (num == 2) {
+        this.show2 = false;
       }
     }
   }
@@ -210,26 +215,28 @@ export default {
         }
       }
       footer {
-        padding: 0 0.6rem 0.5rem 0.6rem;
-         font-size: 0.38rem;
+        padding: 1rem;
+        font-size: 0.38rem;
         p {
           text-align: center;
           height: 1.5rem;
           // font-size: 0.4rem;
-          margin-top: 1rem;
+          // margin-top: 1rem;
         }
         aside {
           height: 2.5rem;
           display: flex;
-          // font-size: 0.38rem;
+          font-size: 0.38rem;
           flex-direction: column;
           justify-content: space-between;
           button {
             height: 1rem;
+            line-height: 1rem;
             color: #ffffff;
           }
           button:nth-of-type(1) {
             background: #00adef;
+            // margin-bottom: 0.5rem;
           }
           button:nth-of-type(2) {
             background: #ff7c2c;

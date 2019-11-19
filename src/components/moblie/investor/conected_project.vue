@@ -234,18 +234,6 @@ export default {
           background: #00adef;
           color: white;
         }
-        // button {
-        //   margin-bottom: 0.4rem;
-        // }
-        // aside {
-        //   height: 1.5rem;
-        //   // width: 6.5rem;
-        //   display: flex;
-        //   justify-content: space-between;
-        //   button {
-        //     width: 3rem;
-        //   }
-        // }
       }
     }
   }

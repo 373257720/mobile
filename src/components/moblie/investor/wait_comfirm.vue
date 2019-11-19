@@ -16,7 +16,7 @@
         </ul>
       </div>
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <header>项目详情</header>
             <div class="nav_lists">
           <p v-for="(item) in nav_lists" :key="item.name">
             <section class="box">
@@ -158,8 +158,16 @@ export default {
         console.log(isyes);
         if(isyes){
             this.$routerto('i_perfect_infor',this.$route.query)
-        }else{
-             this.$routerto('login', {email:this.investorsEmailSend})
+        }else{ 
+            this.$dialog
+              .confirm({
+                title: "请登录后操作",
+                // message: "弹窗内容"
+              })
+              .then(() => {
+                // on confirm
+                 this.$routerto('login', {email:this.investorsEmailSend})
+              })
         }
     },
     refuse() {

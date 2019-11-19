@@ -24,7 +24,7 @@
         </li>
         <li v-if='form.userIdentityType==1'>
           <p v-if="switchon">身份证号:</p>
-          <p></p>
+          <p v-if="!switchon">护照:</p>
           <div>{{form.userIdentity}}</div>
         </li>
         <li v-if="form.userIdentityType==2">
@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       dad_text:'个人审核',
-      switchon: true,//护照和身份证,
+      switchon: true,//护照和身份证,true是身份证
 
       form: {
         userName:'',
@@ -102,11 +102,14 @@ export default {
               this.form[key] = "投资中间人";
             }
           }
-          if (key == "userCountry") {
+          console.log(key);
+          
+          if (key == "userCountryEn") {
+            console.log(111);
             if (
               // this.form[key] == "HKG" ||
               // this.form[key] == "MAC" ||
-              this.form[key] == "CHN"
+              this.form[key] == "China"
             ) {
               this.switchon = true;
             } else {

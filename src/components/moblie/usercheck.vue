@@ -117,7 +117,7 @@ export default {
         userCountryEn: "",
         userCountryCh: "",
         userIdentity: "",
-        userName:'',
+        userName: "",
         identityType: "",
         identityPicOne: [],
         identityPicTwo: [],
@@ -212,7 +212,7 @@ export default {
       }).then(res => {
         var imgurl = res.data.data.url;
         console.log(imgurl);
-        
+
         if (index == 1) {
           this.form.identityPicOne = imgurl;
         } else if (index == 2) {
@@ -221,12 +221,12 @@ export default {
           this.form.userCompanyPic = imgurl;
         }
         // console.log(this.form.userCompanyPic);
-        
       });
       return true;
     },
     commit() {
       console.log(this.form);
+      this.$loading();
       this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/user/submitAuth`,
@@ -238,13 +238,7 @@ export default {
         .then(res => {
           if (res.data.resultCode == 10000) {
             this.success = !this.success;
-            // var aa = setInterval(() => {
-            //   --this.timeout;
-            // }, 1000);
-            // setTimeout(() => {
-            //   clearInterval(aa);
-            //   this.$goto("login");
-            // }, 4000);
+            this.$toast.clear();
           }
         })
         .catch(err => {
@@ -268,8 +262,8 @@ export default {
     width: 100%;
     // text-align: left;
   }
-  .van-cell__value--alone{
-        border: 1px solid #ababab;
+  .van-cell__value--alone {
+    border: 1px solid #ababab;
   }
   .van-dropdown-menu__item {
     // display:inline;
@@ -302,7 +296,7 @@ export default {
   .van-field {
     padding: 0;
   }
-  
+
   .van-uploader__preview {
     margin: 0;
 
@@ -374,7 +368,7 @@ export default {
       text-align: center;
       font-size: 0.64rem;
       font-weight: 600;
-      margin:3.3rem 0 1.1rem 0;
+      margin: 3.3rem 0 1.1rem 0;
     }
     .backbtn {
       text-align: center;

@@ -6,7 +6,7 @@
      <commonnav :msg="dad_text"></commonnav>
     <main>
       <div class="investors_infor">
-        <h2>标题水电费加开发水电费水电费水电费是电风扇的丰盛的</h2>
+        <h2>{{title}}</h2>
         <header>投资者资料</header>
         <ul>
           <li i v-for="(item) in investor_infor" :key="item.name">
@@ -47,6 +47,7 @@ export default {
   name: "goods_details",
   data() {
     return {
+      title:'',
       dad_text:'拒签项目',
     nav_lists: [
         {
@@ -124,6 +125,7 @@ export default {
         details.signId ? details.signId : -1
       }`
     }).then(res => {
+       this.title=res.data.data.projectName;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {

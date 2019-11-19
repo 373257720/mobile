@@ -5,7 +5,7 @@
     <van-tabbar-item
       v-if="this.$store.state.currentUsertype==1"
       name="p_user_contact"
-      icon="contact"
+      icon="friends-o"
       @click="$goto('p_user_contact')"
     >联络</van-tabbar-item>
     <van-tabbar-item name="mine" icon="contact" @click="$goto('mine')">我的</van-tabbar-item>

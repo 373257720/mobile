@@ -18,10 +18,6 @@ export default {
   methods: {
     commit(data) {
       console.log(data);
-      // let str=this.$store.state.contract+'!!!!!'+data;
-      // console.log(str);
-      // let a =str.split('!!!!!');
-      // console.log(a);
       this.$store.commit('contract_agent',data);
       console.log( this.$store.state.contract);
       

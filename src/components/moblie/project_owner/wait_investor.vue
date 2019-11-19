@@ -5,7 +5,7 @@
     </nav>
     <main>
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <header>{{title}}</header>
         <boxx :nav_lists="nav_lists"></boxx>
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
@@ -30,52 +30,53 @@ export default {
   name: "p_wait_investor",
   data() {
     return {
+      title:'',
       details_lists: [
         {
           keyword: "projectIndustry",
           name: "行业:",
-          response: "2019-15-26"
+          response: ""
         },
         {
           keyword: "projectArea",
           name: "地区:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
           keyword: "signStatus",
           name: "项目状态",
-          response: "金融"
+          response: ""
         },
         {
           keyword: "projectCompany",
           name: "公司名称:",
-          response: "斯蒂芬发地方"
+          response: ""
         },
         {
           keyword: "publicCompany",
           name: "是否是上市公司",
-          response: "13178523855"
+          response: ""
         },
         {
           keyword: "collectMoney",
           name: "集资额:",
-          response: "金融"
+          response: ""
         },
         {
           keyword: "projectMobile",
           name: "联络电话:",
-          response: "斯蒂芬发地方"
+          response: ""
         },
         {
           keyword: "projectEmail",
           name: "电邮",
-          response: "13178523855"
+          response: ""
         },
 
         {
           keyword: "projectDescribe",
           name: "项目介绍",
-          response: "金融"
+          response: ""
         }
       ],
       nav_lists: [
@@ -104,7 +105,7 @@ export default {
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
     }).then(res => {
-       this.$toast.clear();
+      this.title=res.data.data.projectName;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
@@ -118,6 +119,7 @@ export default {
         }
       }
       console.log(this.details_lists);
+       this.$toast.clear();
     });
   },
 

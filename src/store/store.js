@@ -6,40 +6,64 @@ export default new Vuex.Store({
     currentUser: '',
     login: false,
     currentUsertype: null,
-    contract:{
-        // owner:'',
-        // article:'',
-        // agent:'',
+    contract: {
+      // owner:'',
+      // article:'',
+      // agent:'',
     },
+    genre: [],
   },
   getters: {
-    
+
   },
   mutations: {
-    contract_sign(state,content){
-      if(content){
-        state.contract={};
-        state.contract=content;
+    // reset(state) {
+    //   // if (state) {
+    //     state = {};
+    //   // }
+    // },
+    genre_array(state, content) {
+      if (content) {
+        state.genre = [];
+        state.genre = [...content];
+      }else{
+        state.genre = [];
       }
-  
+
     },
-    contract_owner(state,content){
-      if(content){
-        state.contract.owner=content;
+    contract_sign(state, content) {
+      if (content) {
+        state.contract = {};
+        state.contract = content;
+      }else{
+        state.contract = {};
+      }
+
+
+    },
+    contract_owner(state, content) {
+      if (content) {
+        state.contract.owner = content;
+      }else{
+        state.contract.owner='';
       }
     },
-    contract_agent(state,content){
-      if(content){
-        state.contract.agent=content;
+    contract_agent(state, content) {
+      if (content) {
+        state.contract.agent = content;
+      }else{
+        state.contract.agent='';
       }
     },
-    contract_set(state,content){
-      if(content){
-        state.contract.article=content;
+    contract_set(state, content) {
+      if (content) {
+        state.contract.article = content;
+      }else{
+        state.contract.article='';
       }
     },
     username_set(state, user) {
-      if (user && user!='null') { 
+      if (user && user != 'null') {
         state.currentUser = user
         //    state.isLogin = true
       } else if (user == null) {
@@ -50,10 +74,10 @@ export default new Vuex.Store({
         state.currentUser = null;
         //  state.isLogin = false;
       }
-    }, 
+    },
     userStatus(state, usertype) {
       if (usertype) {
-        state.currentUsertype =usertype
+        state.currentUsertype = usertype
       } else if (usertype == null) {
         state.currentUsertype = null;
       }
@@ -69,23 +93,29 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    // reset_actions(context) {
+    //   // commit('userStatus',user)
+    //   context.commit('reset')
+    //   //context.commit('userStatus',user) 
+    //   // 通过接口获取的后台数据保存到store中，等待组件取用
+    // },
     setUser(context, username) {
       // commit('userStatus',user)
       context.commit('username_set', username)
       //context.commit('userStatus',user) 
       // 通过接口获取的后台数据保存到store中，等待组件取用
     },
-    contract_agentsign(context,content){
+    contract_agentsign(context, content) {
       context.commit('contract_sign', content)
     },
-    contract_check(context,content){
+    contract_check(context, content) {
 
-        context.commit('contract_set', content)
+      context.commit('contract_set', content)
 
-    },  
+    },
     usertype(context, usertype) {
       console.log(context);
-      
+
       context.commit('userStatus', usertype)
     },
 

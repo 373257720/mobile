@@ -6,7 +6,7 @@
     <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <header>{{title}}</header>
         <ul>
           <li i v-for="(item) in details_lists" :key="item">
             <p class="row1">{{item}}</p>
@@ -17,7 +17,7 @@
             <section class="row2 draft1">
               <article
                 class="draft1_middle"
-              >地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方地方地方个梵蒂冈发给的发给地方个的发给的发给的发给的非sd 第三方地方第三方斯蒂芬发快递发送到地方到发送到辅导费是的发是的发送到时代复分发斯蒂芬斯蒂芬谁到发送到发送斯蒂芬发斯蒂芬斯蒂芬斯蒂芬是否，发送到，发， 发，是的，发是的发送到，发，斯蒂芬，斯蒂芬，斯蒂芬，斯蒂芬，是的，发送到，发送到，发送到，发送到，f官方地方</article>
+              ></article>
             </section>
           </li>
           <!-- <li i v-for="(item,idx) in a_input_investor_infor" :key="item">
@@ -50,6 +50,7 @@ export default {
   name: "a_input_investor_infor",
   data() {
     return {
+      title:'',
       dad_text:'等待中间人输入',
       // value: ["", "", ""],
       // list: ["a", "b", "c"],
@@ -87,7 +88,7 @@ export default {
   methods: {
     gg() {
       // console.log(this.$dialog);
-
+     this.title=res.data.data.projectName;
       this.$dialog
         .confirm({
           title: "标题",

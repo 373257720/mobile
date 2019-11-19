@@ -10,7 +10,7 @@
           <div class="middle" v-html="content"></div>
           <div class="button">
             <p>
-              <img :src='owner' alt />
+              <img :src="owner" alt />
               <span>投行</span>
               <span>2019.11.11</span>
             </p>
@@ -23,7 +23,7 @@
         </div>
         <!-- <footer>
           <button @click="$routerto('a_sign_contract',$route.query)">签署</button>
-        </footer> -->
+        </footer>-->
       </article>
     </main>
 
@@ -42,16 +42,17 @@ export default {
     };
   },
   created() {
+    this.$loading();
 
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
-      // data: this.$qs.stringify(this.form)
     }).then(res => {
-      console.log(res.data.data.signAgreement);   
+      console.log(res.data.data.signAgreement);
       let str = JSON.parse(res.data.data.signAgreement);
       this.owner = str.owner;
       this.content = str.article;
+      this.$toast.clear();
     });
   },
   mounted() {
@@ -108,28 +109,28 @@ export default {
       box-sizing: border-box;
       font-size: 0.4rem;
       line-height: 0.6rem;
-      border: 1px solid  rgb(169, 169, 169);
+      border: 1px solid rgb(169, 169, 169);
       padding: 0.4rem 0.4rem;
       width: 100%;
       height: 15rem;
       overflow-y: auto;
       word-wrap: break-word;
       color: rgb(169, 169, 169);
-        div.button{
-          margin-top:2rem;
+      div.button {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        p {
           display: flex;
-          justify-content: space-between;
-          p{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            img{
-              width: 3rem;
-              height: 1rem;
-              border-bottom:1px solid rgb(169, 169, 169);
-            }
+          flex-direction: column;
+          align-items: center;
+          img {
+            width: 3rem;
+            height: 1rem;
+            border-bottom: 1px solid rgb(169, 169, 169);
           }
         }
+      }
     }
     footer {
       width: 100%;

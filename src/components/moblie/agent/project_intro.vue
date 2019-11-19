@@ -6,7 +6,7 @@
      <commonnav :msg="dad_text"></commonnav>
     <main>
       <div class="investors_infor">
-        <h2>标题水电费加开发水电费水电费水电费是电风扇的丰盛的</h2>
+        <h2>{{title}}</h2>
       
       </div>
       <article>
@@ -43,6 +43,7 @@ export default {
   data() {
     return {
       show: false,
+      title:'',
       dad_text:'项目简介',
       details:{},
       nav_lists: [
@@ -90,6 +91,7 @@ export default {
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.details.projectId}&signStatus=${this.details.signStatus}&signId=${this.details.signId?this.details.signId:-1}`
     }).then(res => {
+       this.title=res.data.data.projectName;
       for (var i in res.data.data) {
         for(var j=0;j<this.details_lists.length;j++){
           if(this.details_lists[j].keyword==i){

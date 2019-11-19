@@ -93,19 +93,7 @@ export default {
     let arr = [];
     console.log(this.$route.query);
     arr=  JSON.parse(this.$route.query.arr)  
-    this.form.investorsIdList=arr;
-    // arr=JSON.parse(this.$route.query.arr)
-    // if (this.$store.state.investor_arr.length > 0) {
-    //   arr = this.$store.state.investor_arr;
-    // } else {
-      // let brr = JSON.parse(this.$route.query.pro)
-      // // console.log(JSON.parse(this.$route.query.pro));
-       
-      // brr.forEach(item => {
-      //   arr.push(item.signId);
-      // });
-      console.log(this.form);
-      
+    this.form.investorsIdList=arr;     
     this.$axios({
       method: "post",
       url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,

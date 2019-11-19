@@ -29,7 +29,7 @@
         </div>
         <footer>
           <!-- @click="$routerto('a_sign_contract',$route.query)" -->
-          <button >导出</button>
+          <button>导出</button>
         </footer>
       </article>
     </main>
@@ -50,24 +50,22 @@ export default {
     };
   },
   created() {
-     this.$loading();
+    this.$loading();
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
       // data: this.$qs.stringify(this.form)
-    }).then(res => {
-       this.$toast.clear();
-      let str = JSON.parse(res.data.data.signAgreement);
-      this.owner = str.owner;
-      this.content = str.article;
-      this.agent = str.agent;
-      // console.log(this.owner);
-
-      // if (res.data.resultCode == 10000);
-      // {
-      //   // this.$goto("mhome");
-      // }
-    });
+    })
+      .then(res => {
+        let str = JSON.parse(res.data.data.signAgreement);
+        this.owner = str.owner;
+        this.content = str.article;
+        this.agent = str.agent;
+        this.$toast.clear();
+      })
+      .catch(err => {
+        this.$loadingfail();
+      });
   },
   mounted() {
     // this.content = "";
@@ -120,7 +118,7 @@ export default {
     background: #ffffff;
     .contract {
       // background: #f2f2f2;
-       border: 1px solid #b5b5b5;
+      border: 1px solid #b5b5b5;
       box-sizing: border-box;
       font-size: 0.4rem;
       line-height: 0.6rem;
@@ -130,7 +128,7 @@ export default {
       overflow-y: auto;
       word-wrap: break-word;
       color: rgb(169, 169, 169);
-      .middle{
+      .middle {
         margin: 0.2rem 0.4rem;
       }
       div.button {

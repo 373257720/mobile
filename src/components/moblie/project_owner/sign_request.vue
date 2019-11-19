@@ -35,7 +35,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('p_set_contract',{projectId:projectId,investorsId:investorsId})">感兴趣</button>
+            <button @click="$routerto('p_set_contract',{projectId:projectId,signId:signId})">感兴趣</button>
             <button @click="agreement(3)">拒绝签约</button>
           </aside>
         </footer>
@@ -51,7 +51,7 @@ export default {
     return {
       show: false,
       projectId:null,
-      investorsId:null,
+      signId:null,
       title:'',
       details:{},
       dad_text:'签约请求',
@@ -76,22 +76,22 @@ export default {
         {
           keyword:'investorsType',
           name: "投资者类型:",
-          response: "放水电费水电费"
+          response: ""
         },
         {
           keyword:'investorsCompany',
           name: "投资者公司:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
           keyword:'investorsName',
           name: "投资者姓名:",
-          response: "发地方水电"
+          response: ""
         },
         {
           keyword:'investorsArea',
           name: "投资者地区:",
-          response: "斯蒂芬发地方发地方水电发地方水电"
+          response: ""
         }
       ],
       details_lists: [
@@ -126,9 +126,9 @@ export default {
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.details.projectId}&signStatus=${this.details.signStatus}&signId=${this.details.signId?this.details.signId:-1}`
     }).then(res => {
-        this.$toast.clear();
+       
          this.projectId=res.data.data.projectId; 
-        this.investorsId=res.data.data.investorsId; 
+        this.signId=res.data.data.signId; 
         this.title=res.data.data.projectName;
       for (var i in res.data.data) {
        
@@ -149,6 +149,7 @@ export default {
         }
       }
       console.log(this.details_lists);
+       this.$toast.clear();
     });
   },
   methods: {
@@ -159,7 +160,7 @@ export default {
           // message: "弹窗内容"
         })
         .then(() => {
-            this.$global.changepage(`${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,'post',this.$qs.stringify({projectId:this.projectId,investorsId:this.investorsId,signStatus:3})).then(res=>{
+            this.$global.changepage(`${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,'post',this.$qs.stringify({projectId:this.projectId,signId:this.signId,signStatus:3})).then(res=>{
               console.log(res);
               if(res.data.resultCode==10000){
                    this.$dialog.alert({

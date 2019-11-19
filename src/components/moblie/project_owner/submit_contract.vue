@@ -74,20 +74,18 @@ export default {
   methods: {
     contract_submit() {
       console.log(JSON.stringify(this.$store.state.contract));
-
       this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
         data: this.$qs.stringify({
           projectId: this.$route.query.projectId,
-          investorsId: this.$route.query.investorsId,
+          signId:this.$route.query.signId,
           signStatus: 2,
           signAgreement: JSON.stringify(this.$store.state.contract)
         })
       }).then(res => {
         console.log(res);
         if (res.data.resultCode == 10000) {
-          // this.success = false;
           this.$dialog
             .alert({
               title: "提交成功",
@@ -128,32 +126,6 @@ export default {
 <style lang="scss" scoped>
 #p_submit_contract {
   width: 100%;
-  .usercheck2 {
-    padding: 3.24rem 0 3.04rem 0;
-    text-align: center;
-    img {
-      // width: 4.28rem;
-      height: 1.54rem;
-    }
-    section {
-      text-align: center;
-      font-size: 0.64rem;
-      font-weight: 600;
-      margin: 3.3rem 0 1.1rem 0;
-    }
-    .backbtn {
-      text-align: center;
-      // width: 100px;
-      button {
-        background: #00adef;
-        width: 8rem;
-        height: 1rem;
-        line-height: 1rem;
-        font-size: 0.4rem;
-        color: white;
-      }
-    }
-  }
   nav.p_submit_contract {
     width: 100%;
     text-align: center;
@@ -171,13 +143,14 @@ export default {
     padding: 0.5rem;
     background: #ffffff;
     .contract {
-      background: #f2f2f2;
+        border: 1px solid #b5b5b5;
+      // background: #f2f2f2;
       box-sizing: border-box;
       font-size: 0.4rem;
       line-height: 0.6rem;
       padding: 0.4rem 0.4rem;
       width: 100%;
-      height: 12rem;
+      height: 13rem;
       overflow-y: auto;
       word-wrap: break-word;
       color: rgb(169, 169, 169);
@@ -203,12 +176,13 @@ export default {
     }
     footer {
       width: 100%;
+      font-size: 0.38rem;
       button {
         width: 100%;
         margin-top: 1rem;
         background: #00adef;
         color: white;
-        height: 0.8rem;
+        height: 1rem;
       }
     }
   }

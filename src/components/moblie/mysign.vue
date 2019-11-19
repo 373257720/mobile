@@ -79,7 +79,7 @@ export default {
       loadNumUp: 5,
       usertype: "",
       upGoodsInfo: [],
-      classname:{
+      classname: {
         // "0":
       }
     };
@@ -138,11 +138,19 @@ export default {
   },
   created() {
     this.usertype = this.$store.state.currentUsertype;
-    if (this.usertype == 1 || this.usertype == 4) {
-      this.result = [1, 2, 4, 6, 3, 7];
-    } else if (this.usertype == 3) {
-      this.result = [5, 6, 7];
+    console.log(this.$store.state.genre);
+    
+    if (this.$store.state.genre.length > 0) {
+      this.result = [...this.$store.state.genre];
+    } else {
+      if (this.usertype == 1 || this.usertype == 4) {
+        this.result = [1, 2, 4, 6, 3, 7];
+      } else if (this.usertype == 3) {
+        this.result = [5, 6, 7];
+      }
     }
+    // console.log( this.result);
+    
   },
   mounted() {},
   methods: {
@@ -203,15 +211,14 @@ export default {
         if (this.result.indexOf(3) >= 0) {
           if (this.result.indexOf(7) <= 0) {
             this.result.push(7);
-            console.log(111111);
           }
         } else if (this.result.indexOf(3) < 0) {
           if (this.result.indexOf(7) >= 0) {
-            console.log(222222);
             this.result.splice(this.result.indexOf(7), 1);
           }
         }
       }
+      this.$store.commit("genre_array", this.result);
       this.upGoodsInfo = [];
       this.pageNum = 1;
       this.onLoad();
@@ -251,52 +258,6 @@ export default {
           "Content-Type": "application/x-www-form-urlencoded"
         }
       })
-        // .then(res => {
-        //   if (res.status === 200) {
-        //     let re = res.data.data.lists;
-        //     if (re.length> 0) {
-        //       this.upGoodsInfo = this.upGoodsInfo.concat(re);
-        //     }
-        //     else if (re.length == 0) {
-        //       // this.loadText = "no datas";
-        //       // console.log(this.loadText);
-        //       console.log(1111);
-
-        //     }
-        //     this.loading = false;
-        //     if (this.upGoodsInfo.length >= res.data.data.pageTotal) {
-        //       this.loadText = "加载完成";
-        //       this.finished = true;
-        //     }
-        //     // console.log(this.upGoodsInfo);
-        //     this.upGoodsInfo.forEach(item => {
-        //       // console.log(this.$global);
-        //       console.log(item.signTime);
-
-        //       // item.signTime = this.$global.timestampToTime(item.signTime);
-        //       // item.signTime4Submit = this.$global.timestampToTime(
-        //       //   item.signTime4Submit
-        //       // );
-        //     //  item.signTime4Submit = this.$moment(item.signTime4Submit).format('YYYY-MM-DD')
-        //     //   // console.log( item.signTime );
-        //     //   item.signTime = this.$moment(item.signTime).format('YYYY-MM-DD')
-        //     //   console.log( item.signTime );
-
-        //       this.list.forEach(ite => {
-        //         if (item.signStatus == ite.value) {
-        //           item.signStatustext = ite.text;
-        //           item.pic = ite.pic;
-        //         }
-        //       });
-        //     });
-        //   } else {
-        //     this.finished = true;
-        //   }
-        // })
-        // .catch(err => {
-        //   this.loadText = "加载失败";
-        //   // console.log(a);
-        // });
         .then(res => {
           if (res.status === 200) {
             let re = [...res.data.data.lists];
@@ -314,7 +275,7 @@ export default {
               this.upGoodsInfo.length >= res.data.data.pageTotal ||
               this.upGoodsInfo.length == 0
             ) {
-              this.loadText = "没有记录";
+              this.loadText = "加载完成";
               // document.querySelector(
               //   "#mhome .van-loading__circular"
               // ).style.display = "none";
@@ -330,17 +291,6 @@ export default {
               if (item.signStatus == ite.value) {
                 item.signStatustext = ite.text;
                 item.pic = ite.pic;
-
-                // switch (ite.value) {
-                //   case 1:
-                //       item.classname = ''
-                //     break;
-                //   case n:
-                //     代码块;
-                //     break;
-                //   default:
-                //     默认代码块;
-                // }
               }
             });
           });

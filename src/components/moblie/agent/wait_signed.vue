@@ -6,7 +6,7 @@
      <commonnav :msg="dad_text"></commonnav>
     <main>
       <div class="investors_infor">
-        <h2>标题水电费加开发水电费水电费水电费是电风扇的丰盛的</h2>
+        <h2>{{title}}</h2>
         <header>投资者资料</header>
         <ul>
           <li i v-for="(item) in investor_infor" :key="item.name">
@@ -48,6 +48,7 @@ export default {
   name: "goods_details",
   data() {
     return {
+      title:'',
       show: false,
       dad_text:'待签约项目',
          nav_lists: [
@@ -126,7 +127,7 @@ export default {
     }).then(res => {
       //  console.log(JSON.parse(this.$store.state.contract) );
       // console.log(JSON.parse(res.data.data.signAgreement));
-      
+       this.title=res.data.data.projectName;
       this.$store.dispatch('contract_agentsign',JSON.parse(res.data.data.signAgreement) );
       for (var i in res.data.data) {
         // this.investorsId=res.data.data.investorsId; 

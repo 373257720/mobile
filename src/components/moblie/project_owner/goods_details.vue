@@ -9,7 +9,7 @@
         <img src="../../assets/26566ffb301dac8c24d21969b538612.png" alt />
       </aside>-->
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <header>{{title}}</header>
         <boxx :nav_lists="nav_lists"></boxx>
         <ul>
           <li v-for="(item) in details_lists" :key="item.keyword">
@@ -19,7 +19,7 @@
           </li>
         </ul>
         <footer>
-          <!-- <button @click="$goto('p_investor_infor')">投资者资料</button> -->
+          <button @click="$goto('p_investor_infor')">投资者资料</button>
           <!-- <button @click="$goto('investor_infor')">未签约</button> -->
         </footer>
       </article>
@@ -32,6 +32,7 @@ export default {
   name: "p_goods_details",
   data() {
     return {
+      title:'',
       dad_text: "项目详情",
       nav_lists: [
         {
@@ -76,6 +77,7 @@ export default {
     };
   },
   created() {
+        this.$loading();
     let details = this.$route.query;
     console.log(details);
     
@@ -83,6 +85,7 @@ export default {
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
     }).then(res => {
+       this.title=res.data.data.projectName;
       for (var i in res.data.data) {
         for(var j=0;j<this.details_lists.length;j++){
           if(this.details_lists[j].keyword==i){
@@ -96,6 +99,7 @@ export default {
         }
       }
       console.log(this.details_lists);
+       this.$toast.clear();
     });
   }
 };

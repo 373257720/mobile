@@ -59,6 +59,7 @@ export default {
           this.$toast.clear();
           var rescode = res.data.resultCode;
           if (rescode == 10000) {
+            //  this.$store.dispatch("reset_actions");
             this.$store.dispatch("usertype", res.data.data.userType);
             this.$store.dispatch("setUser", this.username);
             if (res.data.data.isAuth == 1) {

@@ -74,6 +74,7 @@ export default {
     };
   },
   created() {
+    this.$loading();
     console.log(this.$route.query);
     this.$axios({
       method: "get",
@@ -89,6 +90,7 @@ export default {
         }
   
       }
+        this.$toast.clear();
     });
   }
 };

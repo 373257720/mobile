@@ -5,7 +5,7 @@
     </nav>
     <main>
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <header>{{title}}</header>
         <boxx :nav_lists="nav_lists"></boxx>
         <ul>
           <li v-for="(item) in details_lists" :key="item.name">
@@ -25,6 +25,7 @@ export default {
   name: "p_sign_failed",
   data() {
     return {
+      title:'',
       nav_lists: [
         {
           keyword: "financingStage",
@@ -70,6 +71,7 @@ export default {
   },
   created() {
     let details = this.$route.query;
+     this.$loading();
     this.$axios({
       method: "get",
       url: `${
@@ -80,6 +82,7 @@ export default {
         details.signId ? details.signId : -1
       }`
     }).then(res => {
+      this.title=res.data.data.projectName;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
@@ -100,7 +103,9 @@ export default {
         }
       }
       console.log(this.details_lists);
+       this.$toast.clear();
     });
+      
   },
   methods: {
     gg() {

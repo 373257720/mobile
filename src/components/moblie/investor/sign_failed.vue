@@ -6,7 +6,7 @@
      <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <div class="investors_infor">
-        <h2>标题水电费加开发水电费水电费水电费是电风扇的丰盛的</h2>
+        <h2>{{title}}</h2>
         <header>投资者资料</header>
         <ul>
           <li i v-for="(item) in investor_infor" :key="item.name">
@@ -16,7 +16,7 @@
         </ul>
       </div>
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <header>项目详情</header>
             <div class="nav_lists">
           <p v-for="(item) in nav_lists" :key="item.name">
             <section class="box">
@@ -43,8 +43,9 @@ export default {
   name: "goods_details",
   data() {
     return {
-      show: false,
+      // show: false,
       // dad_text:'待确认项目',
+      title:'',
          nav_lists: [
         {
           name: "融资阶段",
@@ -116,6 +117,37 @@ export default {
         },
       ]
     };
+  },
+    created(){
+    console.log(this.$route.query);
+    let que=this.$route.query;
+        this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${que.projectId}&signStatus=${que.signStatus}&signId=${que.signId?que.signId:-1}`
+      }).then(res => {
+        this.projectName=res.data.data.projectName;
+          for (var i in res.data.data) {
+             this.$route.query.investorsId=res.data.data.investorsId;
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            this.details_lists[j].response = res.data.data[i];
+          }
+        }
+        for (var w = 0; w < this.nav_lists.length; w++) {
+          if (this.nav_lists[w].keyword == i) {
+            this.nav_lists[w].response = res.data.data[i];
+          }
+        }
+          for (var k = 0; k < this.investor_infor.length; k++) {
+          if (this.investor_infor[k].keyword == i) {
+            this.investor_infor[k].response = res.data.data[i];
+          }
+        }
+      }
+    });
+    
+      
+ 
   },
   methods: {
     gg() {

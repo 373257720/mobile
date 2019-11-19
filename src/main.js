@@ -12,9 +12,9 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
-import Vconsole from 'vconsole'
-let vConsole = new Vconsole()
-Vue.use(vConsole);
+// import Vconsole from 'vconsole'
+// let vConsole = new Vconsole()
+// Vue.use(vConsole);
 Vue.use(Vuex);
 import Vant from 'vant';
 Vue.use(Vant)
@@ -69,9 +69,12 @@ Vue.prototype.$loading=function loading(){
       forbidClick:true,
       duration:0,
     });
-
-
-
+};
+Vue.prototype.$loadingfail=function loadingfail(){
+  this.$toast.fail({
+    // loadingType: 'spinner',
+    message: 'failed',
+  });
 };
 
 // Vue.prototype.$previous=function previous(){
@@ -81,10 +84,12 @@ Vue.prototype.$loading=function loading(){
 // };
 
 var baseurl = {
-  // api: "http://192.168.1.37:8080",
-  api3:'http://47.90.62.114:8083',
-   api: "http://47.90.62.114:8082",
+  api: "http://192.168.1.37:8080",
+  // api3:'http://47.90.62.114:8083'
+  api3:'http://localhost:8080'
+  //  api: "http://47.90.62.114:8082",
 }
+Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl = baseurl.api;
 Vue.prototype.$global = global;
 

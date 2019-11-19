@@ -62,8 +62,8 @@
               </section>
               <section>
                 <span>简介：</span>
-                <span v-html="goods.projectDescribe.substr(0, [70])+'...'"></span>
-                <!-- <div class="van-multi-ellipsis--l2">{{goods.projectDescribe}}</div> -->
+                <span v-html="goods.projectDescribe.substr(0, [90])+'...'"></span>
+                <!-- <div class="van-multi-ellipsis--l3" v-html="goods.projectDescribe"></div> -->
               </section>
               <footer v-if="usertype==1">
                 <ul>
@@ -475,13 +475,9 @@ export default {
 
           div {
             display: flex;
-            // height:0.6rem;
             width: 2.7rem;
-            // font-size: 0.1rem;
             color: #fdfffe;
-            // text-align: center;
-            // justify-content: center;
-            text-indent: 0.5rem;
+            text-indent: 0.6rem;
             line-height: 0.6rem;
             margin-right: 0.44rem;
             margin-bottom: 0.12rem;

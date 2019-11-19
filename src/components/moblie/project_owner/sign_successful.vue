@@ -75,6 +75,7 @@ export default {
   },
   created() {
     let details = this.$route.query;
+      this.$loading();
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
@@ -95,6 +96,7 @@ export default {
         }
       }
       console.log(this.details_lists);
+       this.$toast.clear();
     });
 
 

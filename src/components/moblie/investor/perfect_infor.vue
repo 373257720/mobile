@@ -5,7 +5,7 @@
     </nav>
     <main>
       <article>
-        <header>放水电费鼎飞丹砂</header>
+        <header>{{title}}</header>
         <ul>
           <li>
             <p class="row1">投资者类型</p>
@@ -79,6 +79,7 @@ export default {
   name: "i_perfect_infor",
   data() {
     return {
+      title:'',
       form: {
         signId: this.$route.query.signId,
         signStatus: 6,
@@ -103,6 +104,7 @@ export default {
       url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
     })
       .then(res => {
+         this.title=res.data.data.projectName;
         // console.log(res);
         this.countrylist = res.data.data;
         console.log(this.countrylist);
@@ -115,8 +117,8 @@ export default {
   methods: {
     submit() {
      let formtable=JSON.parse(JSON.stringify(this.form));
-      let a =this.form.interestedIndustries.join("/");
-      formtable.interestedIndustries=a;
+      let interestedIndustries =this.form.interestedIndustries.join("/");
+      formtable.interestedIndustries=interestedIndustries;
 
       // let  formtable= {
       //   signId: this.$route.query.signId,
@@ -159,9 +161,9 @@ export default {
           // on confirm
            this.$routerto('mhome')
         })
-        .catch(() => {
-          // on cancel
-        });
+        // .catch(() => {
+        //   // on cancel
+        // });
     }
   }
 };
@@ -179,12 +181,6 @@ export default {
     width: 100%;
     // text-align: left;
   }
-  // .van-dropdown-menu__item {
-  //   // display:inline;
-  //   justify-content: left;
-  //   width: 100%;
-  //   flex: none;
-  // }
   .van-icon-arrow-left {
     position: absolute;
     left: 0.6rem;
@@ -207,9 +203,6 @@ export default {
     padding: 0 0.2rem;
     box-sizing: border-box;
   }
-  // .van-checkbox__icon{
-  //    line-height: 0.4rem;
-  // }
 
   .van-icon-success {
     height: 0.4rem;

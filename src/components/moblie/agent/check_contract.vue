@@ -3,14 +3,6 @@
     <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />签署合约
     </nav>
-    <!-- <main v-if="isshow==2">
-      <article>
-        <div v-html="content"></div>
-        <footer>
-          <button @click="gg">导出</button>
-        </footer>
-      </article>
-    </main>-->
     <main>
       <article>
         <div class="contract">
@@ -27,7 +19,6 @@
             </p>
             <p>
               <i></i>
-              <!-- <img src alt /> -->
               <span>中间人</span>
               <span>2019.11.11</span>
             </p>
@@ -55,8 +46,6 @@ export default {
   },
   created() {
     console.log(this.$route);
-    // console.log(this.$store.state.contract);
-    //  let str =this.$store.state.contract;
     let str = this.$store.state.contract;
     console.log(str);
     this.content = str.article;
