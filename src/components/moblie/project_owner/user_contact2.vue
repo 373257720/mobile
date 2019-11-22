@@ -76,10 +76,10 @@ export default {
       ]
     };
   },
-  computed:{
-      name(){
-        return this.$route.query.idname;
-      }
+  computed: {
+    name() {
+      return this.$route.query.idname;
+    }
   },
   created() {
     this.$global
@@ -91,11 +91,19 @@ export default {
         for (let i in res.data.data) {
           for (let j = 0; j < this.details_lists.length; j++) {
             if (this.details_lists[j].keyword == i) {
-              this.details_lists[j].response = res.data.data[i];
+              if (this.details_lists[j].keyword == "signStatus") {
+                this.details_lists[j].response = this.$global.pic_obj[
+                  res.data.data[i]
+                ];
+              } else if (details_lists[j].keyword == "publicCompany") {
+                details_lists[j].response =
+                  res.data.data[i] == false ? "否" : "是";
+              } else {
+                this.details_lists[j].response = res.data.data[i];
+              }
             }
           }
         }
-        
       });
 
     // if(a.er
@@ -103,7 +111,6 @@ export default {
   methods: {
     onSearch() {
       console.log(this.searchkey);
-      
     }
   }
 };

@@ -101,8 +101,10 @@ export default {
             } else if (this.form[key] == 4) {
               this.form[key] = "投资中间人";
             }
+            // console.log(this.form[key]);
+            
           }
-          console.log(key);
+          // console.log(key);
           
           if (key == "userCountryEn") {
             console.log(111);

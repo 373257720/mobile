@@ -31,96 +31,111 @@ export default {
   data() {
     return {
       title:'',
-      details_lists: [
-        {
-          keyword: "projectIndustry",
-          name: "行业:",
-          response: ""
-        },
-        {
-          keyword: "projectArea",
-          name: "地区:",
-          response: ""
-        },
-        {
-          keyword: "signStatus",
-          name: "项目状态",
-          response: ""
-        },
-        {
-          keyword: "projectCompany",
-          name: "公司名称:",
-          response: ""
-        },
-        {
-          keyword: "publicCompany",
-          name: "是否是上市公司",
-          response: ""
-        },
-        {
-          keyword: "collectMoney",
-          name: "集资额:",
-          response: ""
-        },
-        {
-          keyword: "projectMobile",
-          name: "联络电话:",
-          response: ""
-        },
-        {
-          keyword: "projectEmail",
-          name: "电邮",
-          response: ""
-        },
+      details_lists:[],
+      nav_lists:[],
+      // details_lists: [
+      //   {
+      //     keyword: "projectIndustry",
+      //     name: "行业:",
+      //     response: ""
+      //   },
+      //   {
+      //     keyword: "projectArea",
+      //     name: "地区:",
+      //     response: ""
+      //   },
+      //   {
+      //     keyword: "signStatus",
+      //     name: "项目状态",
+      //     response: ""
+      //   },
+      //   {
+      //     keyword: "projectCompany",
+      //     name: "公司名称:",
+      //     response: ""
+      //   },
+      //   {
+      //     keyword: "publicCompany",
+      //     name: "是否是上市公司",
+      //     response: ""
+      //   },
+      //   {
+      //     keyword: "collectMoney",
+      //     name: "集资额:",
+      //     response: ""
+      //   },
+      //   {
+      //     keyword: "projectMobile",
+      //     name: "联络电话:",
+      //     response: ""
+      //   },
+      //   {
+      //     keyword: "projectEmail",
+      //     name: "电邮",
+      //     response: ""
+      //   },
 
-        {
-          keyword: "projectDescribe",
-          name: "项目介绍",
-          response: ""
-        }
-      ],
-      nav_lists: [
-          {
-          keyword: "financingStage",
-          name: "融资阶段",
-          response: ""
-        },
-        {
-          keyword: "interestProjectCount",
-          name: "项目方<br>有兴趣数量",
-          response: ""
-        },
-        {
-          keyword:'committedCount',
-          name: "已提交</br>投资者数量",
-          response: ""
-        }
-      ]
+      //   {
+      //     keyword: "projectDescribe",
+      //     name: "项目介绍",
+      //     response: ""
+      //   }
+      // ],
+      // nav_lists: [
+      //     {
+      //     keyword: "financingStage",
+      //     name: "融资阶段",
+      //     response: ""
+      //   },
+      //   {
+      //     keyword: "interestProjectCount",
+      //     name: "项目方<br>有兴趣数量",
+      //     response: ""
+      //   },
+      //   {
+      //     keyword:'committedCount',
+      //     name: "已提交</br>投资者数量",
+      //     response: ""
+      //   }
+      // ]
     };
   },
   created() {
-    let details = this.$route.query;
+  let details = this.$route.query;
      this.$loading();
-    this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
-    }).then(res => {
-      this.title=res.data.data.projectName;
-      for (var i in res.data.data) {
-        for (var j = 0; j < this.details_lists.length; j++) {
-          if (this.details_lists[j].keyword == i) {
-            this.details_lists[j].response = res.data.data[i];
-          }
-        }
-        for (var w = 0; w < this.nav_lists.length; w++) {
-          if (this.nav_lists[w].keyword == i) {
-            this.nav_lists[w].response = res.data.data[i];
-          }
-        }
-      }
-      console.log(this.details_lists);
-       this.$toast.clear();
-    });
+  this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`,'get').then(res=>{
+    console.log(res);
+    this.nav_lists=[...res.nav_lists]
+    this.details_lists= [...res.details_lists]
+    this.title=res.title;
+    this.$toast.clear();
+  })
+  // console.log(pp);
+  
+    // this.$axios({
+    //   method: "get",
+    //   url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
+    // }).then(res => {
+    //   this.title=res.data.data.projectName;
+    //   for (var i in res.data.data) {
+    //     for (var j = 0; j < this.details_lists.length; j++) {
+    //         if (this.details_lists[j].keyword == "signStatus") {
+    //           this.details_lists[j].response = this.$global.pic_obj[
+    //             res.data.data[i]
+    //           ];
+    //         } else {
+    //           this.details_lists[j].response = res.data.data[i];
+    //         }
+    //     }
+    //     for (var w = 0; w < this.nav_lists.length; w++) {
+    //       if (this.nav_lists[w].keyword == i) {
+    //         this.nav_lists[w].response = res.data.data[i];
+    //       }
+    //     }
+    //   }
+    //   console.log(this.details_lists);
+    //    this.$toast.clear();
+    // });
   },
 
   methods: {
@@ -220,7 +235,7 @@ export default {
             color: #4c4c4c;
             font-weight: 600;
             width: 4rem;
-            margin-bottom: 0.2rem;
+            // margin-bottom: 0.2rem;
           }
           .row2 {
             width: 7rem;

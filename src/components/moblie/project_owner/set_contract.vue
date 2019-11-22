@@ -7,24 +7,6 @@
       <article>
         <!-- <header>签署合约：</header> -->
         <div>
-          <!-- <van-cell-group>
-            <van-field
-              v-model="content"
-              rows="10"
-              clearable
-              autosize
-              type="textarea"
-              placeholder="请输入留言"
-            />
-          </van-cell-group>-->
-          <!-- <vue-ueditor-wrap
-            ref="ueditor"
-            class="textarea"
-            v-model="content"
-            :config="myConfig"
-            :destroy="false"
-            @ready="ready"
-          ></vue-ueditor-wrap> -->
           <textarea v-model="content" style="width:100%; height: 12rem" placeholder="请输入"></textarea>
         </div>
         <footer>

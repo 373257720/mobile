@@ -29,12 +29,13 @@
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-            <p class="row2">{{item.response}}</p>
+                <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
+            <p class="row2" v-if="item.keyword!='projectDescribe'" >{{item.response}}</p>
           </li>
         </ul>
          <footer>
           <aside>
-            <button @click="$routerto('p_check_contract')">查看合约</button>
+              <button @click="$routerto('p_check_done_contract',$route.query)">查看合约</button>
           </aside>
         </footer>
       </article>
@@ -48,7 +49,7 @@ export default {
   data() {
     return {
       title:'',
-      dad_text:'拒签项目',
+      dad_text:'待投资者确认项目',
     nav_lists: [
         {
           keyword: "financingStage",
@@ -128,47 +129,50 @@ export default {
        this.title=res.data.data.projectName;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
-          if (this.details_lists[j].keyword == i) {
-            this.details_lists[j].response = res.data.data[i];
+        if (this.details_lists[j].keyword == i) { 
             if (this.details_lists[j].keyword == "signStatus") {
-              if (res.data.data[i] == 3) {
-                this.details_lists[j].response = "投行已拒绝";
-              } else if (res.data.data[i] == 7) {
-                this.details_lists[j].response = "投资者已拒绝";
-              }
+              this.details_lists[j].response = this.$global.pic_obj[
+                res.data.data[i]
+              ];
+            }   else if (this.details_lists[j].keyword == "publicCompany" ) {
+                this.details_lists[j].response = res.data.data[i]==false?'否':'是'
+                
+              }else {
+              this.details_lists[j].response = res.data.data[i];
             }
-          }
+          }  
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
           if (this.nav_lists[w].keyword == i) {
+                  
             this.nav_lists[w].response = res.data.data[i];
           }
         };
-           for (var k = 0; k < this.investor_infor.length; k++) {
-          if (this.investor_infor[k].keyword == i) {
-            this.investor_infor[k].response = res.data.data[i];
+        for (var k = 0; k < this.investor_infor.length; k++) {
+          if(this.investor_infor[k].keyword==i){
+            if(this.investor_infor[k].keyword =='investorsType'){
+
+                         console.log(222);
+                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]] ;
+                 console.log(11);
+                 
+            }
+            else{
+              this.investor_infor[k].response = res.data.data[i];
+            }
           }
+          
         }
       }
       console.log(this.details_lists);
+      console.log(this.investor_infor);
+      
     });
   },
   methods: {
-    gg() {
-      // console.log(this.$dialog);
-
-      this.$dialog
-        .confirm({
-          title: "标题",
-          message: "弹窗内容"
-        })
-        .then(() => {
-          // on confirm
-        })
-        .catch(() => {
-          // on cancel
-        });
-    }
+      cancel() {
+      this.show2 = false;
+    },
   }
 };
 </script>
@@ -183,16 +187,19 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+   .van-dialog {
+    font-size: 0.4rem;
+  }
+   .van-cell {
+    font-size: 0.3rem;
+    background: #f2f2f2;
+    // padding: 0;
+    padding: 0.2rem 0.3rem;
+    margin: 0 0 0.5rem;
+    border: 1px solid #b5b5b5;
+  }
 }
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
-}
+
 </style>
 <style lang="scss" scoped>
 #a_wait_investor_comfirm {
@@ -352,6 +359,32 @@ export default {
           }
         }
       }
+        footer.email {
+    padding: 0 0.6rem 0.5rem 0.6rem;
+    p {
+      text-align: center;
+      height: 1.5rem;
+      font-size: 0.4rem;
+      margin-top: 1rem;
+    }
+    aside {
+      height: 2.2rem;
+      display: flex;
+      font-size: 0.3rem;
+      flex-direction: column;
+      justify-content: space-between;
+      button {
+        height: 1rem;
+        color: #ffffff;
+      }
+      button:nth-of-type(1) {
+        background: #00adef;
+      }
+      button:nth-of-type(2) {
+        background: #ff7c2c;
+      }
+    }
+  }
 
     }
   }

@@ -12,19 +12,19 @@
             <div class="button">
               <p>
                 <i>
-                  <img :src="owner_signature" alt />
+                  <img v-if="signature" :src="signature" alt />
                 </i>
 
                 <span>投行</span>
-                <span>2019.11.11</span>
+                <span>{{owner_signdate?owner_signdate:''}}</span>
               </p>
               <p>
                 <i>
-                  <img :src="agent_signature" alt />
+                  <img v-if="agent" :src="agent" alt />
                 </i>
 
                 <span>中间人</span>
-                <span>2019.11.11</span>
+                <span>{{agent_signdate?agent_signdate:''}}</span>
               </p>
             </div>
           </div>
@@ -33,20 +33,6 @@
           </footer>
         </article>
       </main>
-      <van-dialog v-model="show2" :show-confirm-button="false">
-        <footer class="email">
-          <p>请输入投资者邮箱</p>
-          <div class="emailadress">
-            <van-field v-model="emailadress" clearable />
-          </div>
-          <aside>
-            <button @click="submit_email">确定</button>
-            <button @click="loginout">取消</button>
-          </aside>
-        </footer>
-
-        <!-- <img src="https://img.yzcdn.cn/vant/apple-3.jpg" /> -->
-      </van-dialog>
       <mbottom></mbottom>
     </div>
     <iframe
@@ -56,334 +42,146 @@
       name="showHere"
       scrolling="auto"
       ref="iframe"
-      style="background-color:transparent; position:absolute; z-index: -1; width: 100%; height: 100%; top: 0;left:0;"
+      style="background-color:transparent; position:absolute; width: 100%; height: 100%; top: 0;left:0;"
       :src="`${$baseurl3}/#/upload_contract`"
     ></iframe>
-    <!-- <div class="usercheck2" v-if="!success">
-      <h2>
-        <img src="../../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
-      </h2>
-      <section>成功发送给中间人</section>
-      <nav class="backbtn">
-        <button @click="$goto('mhome')">进入首页</button>
-      </nav>
-    </div>-->
   </div>
 </template>
 <script>
+import { async } from "q";
 export default {
   name: "goods_details",
   data() {
     return {
-      iframeState: false,
-      owner_signature: "",
-      content: "",
-      str: "",
-      agent_signature: "",
-      investorsId: "",
-      emailadress: "",
-      show2: false, //邮箱
-
       signId: "",
-      custmoers_obj: {}
+      iframeState: false,
+      signature: "",
+      content: "",
+      agent: "",
+      str: ""
+      // success: true
     };
   },
   created() {
-    this.str = this.$store.state.contract;
-    console.log(this.str);
-    this.owner_signature = this.str.owner;
-    this.content = this.str.article;
-    this.agent_signature = this.str.agent;
+    console.log(this.$route.query);
+    console.log(this.$store.state.contract);
+    this.signId = this.$route.query.signId;
+    this.content = this.$store.state.contract.article;
+    this.signature = this.$store.state.contract.owner;
+    this.agent = this.$store.state.contract.agent;
+    // this.str = JSON.stringify(this.$store.state.contract);
+    // console.log(this.content);
   },
-  computed: {
-    // contract_content: function(){
-    // },
-  },
+
   mounted() {
     // this.content = "";
   },
-  methods: {
-    showIframe() {
-      // this.goBackState = true;
-      this.iframeState = true;
+  computed: {
+    owner_signdate: function() {
+      if (this.$store.state.contract.owner_signdate) {
+       let timestamp = this.$store.state.contract.owner_signdate;
+       return this.$global.stamptodate(timestamp);
+      }
     },
-    submit_email() {
-      this.$loading();
-      console.log(this.investorsId);
+    agent_signdate: function() {
+      let timestamp = new Date().getTime();
+      this.$store.commit("agent_signdate", timestamp);
+      console.log(this.$store.state);
+       return this.$global.stamptodate(timestamp);
+    }
+  },
+  methods: {
+    // iframe传值
+    // handleMessage(event) {
+    //   var data = event.data;
+    //   switch (data.cmd) {
+    //     case "returnFormJson":
+    //       // 处理业务逻辑
+    //       this.childData = data;
+    //       break;
+    //   }
+    // },
+    contract_submit() {
+      this.str = JSON.stringify(this.$store.state.contract);
+      // this.$loading();
+      console.log(this.str);
+      let p = new Promise((resolve, reject) => {
+        this.iframeState = true;
+        resolve("success");
+      });
+      p.then(result => {
+        // console.log(result); //success
+        if (result == "success") {
+          let iframeWin = this.$refs.iframe.contentWindow;
+          return iframeWin;
+        }
+      }).then(iframeWin => {
+        iframeWin.postMessage(
+          {
+            cmd: "toson",
+            params: this.str
+          },
+          "*"
+        );
+        this.$axios({
+          method: "post",
+          url: `${this.$baseurl}/bsl_web/base/htmlToPdf`,
+          data: this.$qs.stringify({
+            urlPath: `${this.$baseurl3}/#/upload_contract`,
+            signId: this.$route.query.signId
+          })
+        }).then(res => {
+          console.log(res);
+          // this.iframeState = false;
+          this.$toast.clear();
+          if (res.data.resultCode == 10000) {
+            this.signproject4();
+          } else {
+            this.$dialog
+              .alert({
+                title: "上传失败,请稍后再试"
+                // message: "下一步发送邮件到投资者"
+              })
+              .then(() => {});
+          }
+        });
+      });
+    }, // 签约
+    signproject4() {
       this.$axios({
         method: "post",
-        url: `${this.$baseurl}/bsl_web/projectSign/sendProject4`,
+        url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
         data: this.$qs.stringify({
-          signId: this.signId,
-          memberEmail: this.emailadress,
-          investorsId: this.investorsId,
-          emailData: `<html lang="en">
-                                  <head>
-                                  <meta charset="UTF-8">
-                                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                                  <title>Document</title>
-                                  <style> 
-                                      /**
-                                       * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
-                                       * http://cssreset.com
-                                       */
-                                      html, body, div, span, applet, object, iframe,
-                                      h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-                                      a, abbr, acronym, address, big, cite, code,
-                                      del, dfn, em, img, ins, kbd, q, s, samp,
-                                      small, strike, strong, sub, sup, tt, var,
-                                      b, u, i, center,
-                                      dl, dt, dd, ol, ul, li,
-                                      fieldset, form, label, legend,
-                                      table, caption, tbody, tfoot, thead, tr, th, td,
-                                      article, aside, canvas, details, embed,
-                                      figure, figcaption, footer, header,
-                                      menu, nav, output, ruby, section, summary,
-                                      time, mark, audio, video, input {
-                                          margin: 0;
-                                          padding: 0;
-                                          border: 0;
-                                          font-size: 100%;
-                                          font-weight: normal;
-                                          vertical-align: baseline;
-                                      }
-
-                                      /* HTML5 display-role reset for older browsers */
-                                      article, aside, details, figcaption, figure,
-                                      footer, header, menu, nav, section {
-                                          display: block;
-                                      }
-
-                                      body {
-                                          line-height: 1;
-                                      }
-
-                                      blockquote, q {
-                                          quotes: none;
-                                      }
-
-                                      blockquote:before, blockquote:after,
-                                      q:before, q:after {
-                                          content: none;
-                                      }
-
-                                      table {
-                                          border-collapse: collapse;
-                                          border-spacing: 0;
-                                      }
-
-                                      /* custom */
-                                      a {
-                                          color: #7e8c8d;
-                                          text-decoration: none;
-                                          -webkit-backface-visibility: hidden;
-                                      }
-
-                                      li {
-                                          list-style: none;
-                                      }
-
-                                      ::-webkit-scrollbar {
-                                          width: 5px;
-                                          height: 5px;
-                                      }
-
-                                      ::-webkit-scrollbar-track-piece {
-                                          background-color: rgba(0, 0, 0, 0.2);
-                                          -webkit-border-radius: 6px;
-                                      }
-
-                                      ::-webkit-scrollbar-thumb:vertical {
-                                          height: 5px;
-                                          background-color: rgba(125, 125, 125, 0.7);
-                                          -webkit-border-radius: 6px;
-                                      }
-
-                                      ::-webkit-scrollbar-thumb:horizontal {
-                                          width: 5px;
-                                          background-color: rgba(125, 125, 125, 0.7);
-                                          -webkit-border-radius: 6px;
-                                      }
-
-                                      html, body {
-                                          width: 100%;
-                                          height: 100%;
-                                      }
-
-                                      body {
-                                          -webkit-text-size-adjust: none;
-                                          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-                                      }
-
-                                      input, select, option, textarea, button {
-                                          outline: none;
-                                      }
-
-                                      img {
-                                          content: normal !important;
-                                      }
-                                      .email {
-                                          width:870px;
-                                          border-left:30px solid #4d98db;
-                                          border-top:36px solid #4d98db;
-                                          border-right:30px solid #4d98db;
-                                          border-bottom:86px solid #4d98db;
-                                          margin:auto;
-                                      }
-                                      .head {
-                                          line-height:82px;
-                                          margin-top:39px;
-                                      }
-                                  </style>
-                              </head>
-
-                      <body>
-                          <div id="box"  style="width: 100%;height: 100%; justify-content: center; 
-                          align-items: center; 
-                          display: -webkit-flex;">
-                              <div class="box"  style="border:1px solid #cccccc;border-radius:5px;width: 580px;height:310px;font-size: 14px; 
-                              justify-content: center; 
-                              flex-direction: column;
-                              box-sizing: border-box;
-                                      padding: 0 5%;
-                              display: -webkit-flex;">
-                                  <h2 style="text-align: center;margin-bottom: 15px;"><img style="width: 100px;height: 50px;"  src="${this.$basrurl}${this.custmoers_obj.picUrl}"  alt=""></h2>
-                                  <div class="column" style="display: flex;margin-bottom: 15px;">
-                                      <span style="display:block;width: 120px;">【投资银行】</span>
-                                      <span style="display:block;width: 430px;">你有一个投资项目，有<span style=""color:#67C4F3>中间人A</span>把<span style=""color:#67C4F3>投行B</span>推荐给你，同意吗</span>
-                                  </div>
-                                  <div class="column" style="display: flex;margin-bottom: 15px;">
-                                      <span style="display:block;width: 120px;">【投资项目】</span>
-                                      <span style="display:block;width: 430px;">${this.custmoers_obj.projectName}</span>
-                                  </div>
-                                  <div class="column" style="display: flex;margin-bottom: 15px;">
-                                      <span style="display:block;width: 120px;">【中间人】</span>
-                                      <span style="display:block;width: 430px;">${this.custmoers_obj.bslName4}</span>
-                                  </div>
-                                  <div class="column" style="display: flex;margin-bottom: 15px;">
-                                      <span style="display:block;width: 120px;">【投行B】</span>
-                                      <span style="display:block;width: 400px;">${this.custmoers_obj.bslName1}</span>
-                                  </div>
-                                  <div class="column" style="display: flex;justify-content: space-around;margin-top:20px;">
-                                        <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}">
-                                          <div class="button"
-                                          style="width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">
-                                          了解详情</div>
-                                          </a>
-                                      </a>
-                                  </div>
-                              </div>
-                          </div>
-                      </body>
-
-                      </html>`
+          signId: this.$route.query.signId,
+          signAgreement: this.str
         })
       }).then(res => {
-        this.$toast.clear();
         console.log(res);
         if (res.data.resultCode == 10000) {
+          this.$toast.clear();
+          this.signId = res.data.data.signId;
           this.$dialog
             .alert({
-              title: "发送成功"
-              // message: "弹窗内容"
+              title: "签约成功",
+              message: "下一步发送邮件到投资者"
             })
             .then(() => {
-              // on close
-              // this.$goto("mhome");
-              // this.$routerto("mysign");
+              this.$routerto("a_wait_sendemail", {
+                signId: this.signId,
+                projectId: this.$route.query.projectId,
+                signStatus: 4
+              });
+            });
+        }else{
+           this.$dialog
+            .alert({
+              title: "签约失败",
+              message: "返回"
+            })
+            .then(() => {
             });
         }
       });
-    },
-    handleMessage(event) {
-      var data = event.data;
-      switch (data.cmd) {
-        case "returnFormJson":
-          // 处理业务逻辑
-          this.childData = data;
-          break;
-      }
-    },
-    loginout() {
-      // console.log(this.$dialog);
-
-      this.show2 = !this.show2;
-    },
-    contract_submit() {
-      this.showIframe();
-      let iframeWin = this.$refs.iframe.contentWindow;
-      iframeWin.postMessage(
-        {
-          cmd: "toson",
-          params: this.str
-        },
-        "*"
-      );
-      // console.log();
-      // console.log(123);
-
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_web/base/htmlToPdf?signId=${this.$route.query.signId}&urlPath=${this.$baseurl3}/#/upload_contract`
-      }).then(res => {
-        console.log(res);
-        if (res.data.resultCode == 10000) {
-          this.$axios({
-            method: "post",
-            url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
-            data: this.$qs.stringify({
-              signId: this.$route.query.signId,
-              signAgreement: JSON.stringify(this.str)
-            })
-          }).then(res => {
-            console.log(res);
-            if (res.data.resultCode == 10000) {
-              this.signId = res.data.data.signId;
-
-              this.$axios({
-                method: "get",
-                url: `${this.$baseurl}/bsl_web/project/getDetails?signId=${this.signId}`
-              }).then(res => {
-                if (res.data.resultCode == 10000) {
-                  console.log(res.data.data);
-                  this.show2 = true;
-                  this.investorsId = res.data.data.investorsId;
-                  this.custmoers_obj = res.data.data;
-                }
-              });
-            }
-          });
-        } else {
-        }
-      });
-
-      // window.addEventListener("message", this.handleMessage);
-      // this.$axios({
-      //   method: "post",
-      //   url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
-      //   data: this.$qs.stringify({
-      //     // projectId: this.$route.query.projectId,
-      //     // investorsId: this.$route.query.investorsId,
-      //     signId: this.$route.query.signId,
-      //     signAgreement: JSON.stringify(this.str)
-      //   })
-      // }).then(res => {
-      //   console.log(res);
-      //   if (res.data.resultCode == 10000) {
-      //     //   this.success=false;
-      //     this.signId = res.data.data.signId;
-      //     this.show2 = true;
-      //     this.$axios({
-      //       method: "get",
-      //       url: `${this.$baseurl}/bsl_web/project/getDetails?signId=${this.signId}`
-      //     }).then(res => {
-      //       console.log(res.data.data);
-      //       this.investorsId = res.data.data.investorsId;
-      //       this.custmoers_obj = res.data.data;
-      //     });
-      //   }
-      // });
     }
   }
 };
@@ -399,82 +197,20 @@ export default {
       transform: (translate(0, -50%));
     }
   }
-  .van-cell {
-    font-size: 0.3rem;
-    background: #f2f2f2;
-    // padding: 0;
-    padding: 0.2rem 0.3rem;
-    margin: 0 0 0.5rem;
-    border: 1px solid #b5b5b5;
-  }
-  .van-field__control {
-    // font-size: 0.1rem;
-
-    // height: 1rem;
-  }
-  .van-dialog {
-    font-size: 0.4rem;
-  }
-  .van-icon-clear {
-    font-size: 0.4rem;
-  }
+}
+.van-dialog {
+  font-size: 0.3rem;
+}
+.van-dialog__message {
+  font-size: 0.3rem;
+}
+.van-button {
+  font-size: 0.3rem;
 }
 </style>
 <style lang="scss" scoped>
 #a_submit_contract {
   width: 100%;
-  footer.email {
-    padding: 0 0.6rem 0.5rem 0.6rem;
-    p {
-      text-align: center;
-      height: 1.5rem;
-      font-size: 0.4rem;
-      margin-top: 1rem;
-    }
-    aside {
-      height: 2.2rem;
-      display: flex;
-      font-size: 0.3rem;
-      flex-direction: column;
-      justify-content: space-between;
-      button {
-        height: 1rem;
-        color: #ffffff;
-      }
-      button:nth-of-type(1) {
-        background: #00adef;
-      }
-      button:nth-of-type(2) {
-        background: #ff7c2c;
-      }
-    }
-  }
-  .usercheck2 {
-    padding: 3.24rem 0 3.04rem 0;
-    text-align: center;
-    img {
-      // width: 4.28rem;
-      height: 1.54rem;
-    }
-    section {
-      text-align: center;
-      font-size: 0.64rem;
-      font-weight: 600;
-      margin: 3.3rem 0 1.1rem 0;
-    }
-    .backbtn {
-      text-align: center;
-      // width: 100px;
-      button {
-        background: #00adef;
-        width: 8rem;
-        height: 1rem;
-        line-height: 1rem;
-        font-size: 0.4rem;
-        color: white;
-      }
-    }
-  }
   nav.a_submit_contract {
     width: 100%;
     text-align: center;
@@ -487,13 +223,17 @@ export default {
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
   }
+  div.middle{
+      margin: 0 0.5rem;
+      box-sizing: border-box;
+  }
   main {
     margin-top: 1.5rem;
     padding: 0.5rem;
     background: #ffffff;
     .contract {
-      // background: #f2f2f2;
       border: 1px solid #b5b5b5;
+      // background: #f2f2f2;
       box-sizing: border-box;
       font-size: 0.4rem;
       line-height: 0.6rem;

@@ -9,7 +9,7 @@
             <img :src="owner" alt />
           </i>
           <span>投行</span>
-          <span>2019.11.11</span>
+          <span>{{owner_signdate?owner_signdate:''}}</span>
         </p>
         <p>
           <i>
@@ -17,7 +17,7 @@
           </i>
 
           <span>中间人</span>
-          <span>2019.11.11</span>
+          <span>{{agent_signdate?agent_signdate:''}}</span>
         </p>
       </div>
     </div>
@@ -31,7 +31,9 @@ export default {
       //   iframeData:{}
       owner: "",
       agent: "",
-      article: ""
+      article: "",
+      owner_signdate:'',
+      agent_signdate:'',
     };
   },
   created() {},
@@ -42,22 +44,31 @@ export default {
   mounted() {
     // 接受父页面发来的信息
     window.addEventListener("message", this.handleMessageFromParent); // 子接收方式二参数
+    // console.log(555);
+    
     // this.iframeData = this.$route.query; // 子接收方式一参数
   },
 
   methods: {
     handleMessageFromParent(event) {
       // 子接收父参数
+      // console.log(1111);
+      
       var data = event.data;
-
       switch (data.cmd) {
         case "toson":
           // 处理业务逻辑
-          this.owner = data.params.owner;
-          this.agent = data.params.agent;
-          this.article = data.params.article;
+          // console.log(data.params);
+            let ee=  JSON.parse(data.params);
+
+          this.owner = ee.owner;
+          this.agent = ee.agent;
+          this.article = ee.article;
+          this.owner_signdate=this.$global.stamptodate(ee.owner_signdate);
+          this.agent_signdate=this.$global.stamptodate(ee.agent_signdate);
+          
           //   this.iframeData = data;
-          // console.log(this.iframeData );
+          // console.log(data);
 
           break;
       }

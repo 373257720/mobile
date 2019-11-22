@@ -5,7 +5,7 @@
     </nav>
     <main>
       <article>
-        <header>{{title}}</header>
+        <!-- <header>{{title}}</header> -->
         <ul>
           <li>
             <p class="row1">投资者类型</p>

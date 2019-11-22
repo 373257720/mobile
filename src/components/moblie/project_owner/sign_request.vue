@@ -133,19 +133,38 @@ export default {
       for (var i in res.data.data) {
        
         for (var j = 0; j < this.details_lists.length; j++) {
-          if (this.details_lists[j].keyword == i) {
-            this.details_lists[j].response = res.data.data[i];
-          }
+               if (this.details_lists[j].keyword == i) { 
+            if (this.details_lists[j].keyword == "signStatus") {
+              this.details_lists[j].response = this.$global.pic_obj[
+                res.data.data[i]
+              ];
+            }   else if (this.details_lists[j].keyword == "publicCompany" ) {
+                this.details_lists[j].response = res.data.data[i]==false?'否':'是'
+                
+              }else {
+              this.details_lists[j].response = res.data.data[i];
+            }
+               }
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
           if (this.nav_lists[w].keyword == i) {
             this.nav_lists[w].response = res.data.data[i];
           }
         }
-          for (var k = 0; k < this.investor_infor.length; k++) {
-          if (this.investor_infor[k].keyword == i) {
-            this.investor_infor[k].response = res.data.data[i];
+            for (var k = 0; k < this.investor_infor.length; k++) {
+          if(this.investor_infor[k].keyword==i){
+            if(this.investor_infor[k].keyword =='investorsType'){
+
+                         console.log(222);
+                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]] ;
+                 console.log(11);
+                 
+            }
+            else{
+              this.investor_infor[k].response = res.data.data[i];
+            }
           }
+          
         }
       }
       console.log(this.details_lists);
@@ -243,7 +262,7 @@ export default {
         background: #f2f2f2;
         line-height: 0.8rem;
         color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
+        // border-bottom: 0.01rem dashed #b5b5b5;
       }
      
       ul {
@@ -284,7 +303,7 @@ export default {
         background: #f2f2f2;
         line-height: 0.8rem;
         color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
+        // border-bottom: 0.01rem dashed #b5b5b5;
       }
        .nav_lists{
         border-top:0;

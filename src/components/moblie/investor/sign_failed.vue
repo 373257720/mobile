@@ -29,7 +29,8 @@
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-            <p class="row2">{{item.response}}</p>
+                <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
+            <p class="row2" v-if="item.keyword!='projectDescribe'" >{{item.response}}</p>
           </li>
         </ul>
       
@@ -46,75 +47,69 @@ export default {
       // show: false,
       // dad_text:'待确认项目',
       title:'',
+          //  dad_text:'待签约项目',
          nav_lists: [
-        {
+         {
+          keyword: "financingStage",
           name: "融资阶段",
-          response: "12"
+          response: ""
         },
         {
+          keyword: "interestProjectCount",
           name: "项目方<br>有兴趣数量",
-          response: "16"
+          response: ""
         },
         {
+          keyword:'committedCount',
           name: "已提交</br>投资者数量",
-          response: "118"
+          response: ""
         }
       ],
-      investor_infor: [
+   investor_infor: [
         {
+          keyword:'investorsType',
           name: "投资者类型:",
-          response: "放水电费水电费"
+          response: ""
         },
         {
+          keyword:'investorsCompany',
           name: "投资者公司:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
+          keyword:'investorsName',
           name: "投资者姓名:",
-          response: "发地方水电"
+          response: ""
         },
         {
+          keyword:'investorsArea',
           name: "投资者地区:",
-          response: "斯蒂芬发地方发地方水电发地方水电"
+          response: ""
         }
       ],
       details_lists: [
-        {
+           {
+          keyword: "projectIndustry",
           name: "行业:",
-          response: "2019-15-26"
+          response: ""
         },
         {
+          keyword: "projectArea",
           name: "地区:",
-          response: "发地方水电是否水电费水电费诗圣杜甫费发"
+          response: ""
         },
         {
-          name: "公司名称:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "是否是上市公司:",
-          response: "13178523855"
-        },
-        {
-          name: "集资额:",
-          response: "金融"
-        },
-        {
-          name: "联络电话:",
-          response: "斯蒂芬发地方"
-        },
-        {
-          name: "电邮:",
-          response: "13178523855"
-        },
-        {
-          name: "融资阶段:",
-          response: "金融"
-        },
-        {
+          keyword: "signStatus",
           name: "项目状态:",
-          response: "金融"
+          response: ""
         },
+        { keyword: "projectCompany", name: "公司名称:", response: "" },
+        { keyword: "publicCompany", name: "是否上市公司:", response: "" },
+        { keyword: "collectMoney", name: "集资额:", response: "" },
+        { keyword: "projectMobile", name: "联系电话:", response: "" },
+        { keyword: "projectEmail", name: "电邮:", response: "" },
+        { keyword: "projectDescribe", name: "项目详情:", response: "" }
+       
       ]
     };
   },
@@ -125,23 +120,43 @@ export default {
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${que.projectId}&signStatus=${que.signStatus}&signId=${que.signId?que.signId:-1}`
       }).then(res => {
+           this.$route.query.investorsId=res.data.data.investorsId;
         this.projectName=res.data.data.projectName;
-          for (var i in res.data.data) {
-             this.$route.query.investorsId=res.data.data.investorsId;
+      for (var i in res.data.data) {
+          
         for (var j = 0; j < this.details_lists.length; j++) {
-          if (this.details_lists[j].keyword == i) {
-            this.details_lists[j].response = res.data.data[i];
-          }
+               if (this.details_lists[j].keyword == i) { 
+            if (this.details_lists[j].keyword == "signStatus") {
+              this.details_lists[j].response = this.$global.pic_obj[
+                res.data.data[i]
+              ];
+            }   else if (details_lists[j].keyword == "publicCompany" ) {
+                details_lists[j].response = res.data.data[i]==false?'否':'是'
+                
+              }else {
+              this.details_lists[j].response = res.data.data[i];
+            }
+               }
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
           if (this.nav_lists[w].keyword == i) {
             this.nav_lists[w].response = res.data.data[i];
           }
         }
-          for (var k = 0; k < this.investor_infor.length; k++) {
-          if (this.investor_infor[k].keyword == i) {
-            this.investor_infor[k].response = res.data.data[i];
+            for (var k = 0; k < this.investor_infor.length; k++) {
+          if(this.investor_infor[k].keyword==i){
+            if(this.investor_infor[k].keyword =='investorsType'){
+
+                         console.log(222);
+                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]] ;
+                 console.log(11);
+                 
+            }
+            else{
+              this.investor_infor[k].response = res.data.data[i];
+            }
           }
+          
         }
       }
     });

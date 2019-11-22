@@ -4,39 +4,54 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     currentUser: '',
-    login: false,
+    // login: false,
     currentUsertype: null,
     contract: {
-      // owner:'',
-      // article:'',
-      // agent:'',
+      owner:'',
+      article:'',
+      agent:'',
+      owner_signdate:null,
+      agent_signdate:null,
     },
     genre: [],
   },
   getters: {
-
+  
   },
   mutations: {
-    // reset(state) {
-    //   // if (state) {
-    //     state = {};
-    //   // }
-    // },
+    agent_signdate(state, content) {
+      if (content) {    
+        state.contract.agent_signdate= content;
+      }else if(content==null){
+        state.contract.agent_signdate=null
+      }
+
+    },
+    owner_signdate(state, content) {
+      if (content) {    
+        state.contract.owner_signdate= content;
+      }else if(content==null){
+        state.contract.owner_signdate=null
+      }
+    },
     genre_array(state, content) {
-      if (content) {
+      if (content.length>0) {    
         state.genre = [];
         state.genre = [...content];
-      }else{
+        
+      }else if(content.length<=0){
         state.genre = [];
       }
 
     },
     contract_sign(state, content) {
-      if (content) {
-        state.contract = {};
-        state.contract = content;
-      }else{
-        state.contract = {};
+      var arr = Object.keys(content);
+      if (arr.length>0) {
+        state.contract= Object.assign({}, content);
+        console.log(state);
+        // state.contract = content;
+      }else if(arr.length == 0){
+        state.contract={};
       }
 
 
@@ -44,22 +59,19 @@ export default new Vuex.Store({
     contract_owner(state, content) {
       if (content) {
         state.contract.owner = content;
-      }else{
-        state.contract.owner='';
       }
     },
     contract_agent(state, content) {
       if (content) {
-        state.contract.agent = content;
-      }else{
-        state.contract.agent='';
+        if (state.contract) {
+          state.contract.agent = content;
+        }
+
       }
     },
     contract_set(state, content) {
       if (content) {
         state.contract.article = content;
-      }else{
-        state.contract.article='';
       }
     },
     username_set(state, user) {
@@ -83,14 +95,14 @@ export default new Vuex.Store({
       }
     },
 
-    topright(state, user) {
-      if (user == 'login' || user == 'register' || user == 'usercheck') {
-        state.topright = false;
-      } else {
-        state.topright = true;
-      }
+    // topright(state, user) {
+    //   if (user == 'login' || user == 'register' || user == 'usercheck') {
+    //     state.topright = false;
+    //   } else {
+    //     state.topright = true;
+    //   }
 
-    },
+    // },
   },
   actions: {
     // reset_actions(context) {
@@ -99,20 +111,27 @@ export default new Vuex.Store({
     //   //context.commit('userStatus',user) 
     //   // 通过接口获取的后台数据保存到store中，等待组件取用
     // },
+    genre_action(context, username) {
+      // commit('userStatus',user)
+      context.commit('genre_array', username)
+      //context.commit('userStatus',user) 
+      // 通过接口获取的后台数据保存到store中，等待组件取用
+    },
     setUser(context, username) {
       // commit('userStatus',user)
       context.commit('username_set', username)
       //context.commit('userStatus',user) 
       // 通过接口获取的后台数据保存到store中，等待组件取用
     },
+
     contract_agentsign(context, content) {
       context.commit('contract_sign', content)
     },
-    contract_check(context, content) {
+    // contract_check(context, content) {
 
-      context.commit('contract_set', content)
+    //   context.commit('contract_set', content)
 
-    },
+    // },
     usertype(context, usertype) {
       console.log(context);
 

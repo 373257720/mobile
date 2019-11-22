@@ -10,8 +10,8 @@
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-                <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
-            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html='item.response'></p>
+            <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
+            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
           </li>
         </ul>
         <footer>
@@ -31,7 +31,7 @@ export default {
   name: "p_wait_agent_input",
   data() {
     return {
-      title:'',
+      title: "",
       nav_lists: [
         {
           keyword: "financingStage",
@@ -79,13 +79,28 @@ export default {
     this.$loading();
     this.$axios({
       method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
+      url: `${
+        this.$baseurl
+      }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+        details.projectId
+      }&signStatus=${details.signStatus}&signId=${
+        details.signId ? details.signId : -1
+      }`
     }).then(res => {
-      this.title=res.data.data.projectName;
+      this.title = res.data.data.projectName;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
-            this.details_lists[j].response = res.data.data[i];
+            if (this.details_lists[j].keyword == "signStatus") {
+              this.details_lists[j].response = this.$global.pic_obj[
+                res.data.data[i]
+              ];
+            } else if (this.details_lists[j].keyword == "publicCompany") {
+              this.details_lists[j].response =
+                res.data.data[i] == false ? "否" : "是";
+            } else {
+              this.details_lists[j].response = res.data.data[i];
+            }
           }
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
@@ -95,7 +110,7 @@ export default {
         }
       }
       console.log(this.details_lists);
-       this.$toast.clear();
+      this.$toast.clear();
     });
   },
   methods: {
@@ -175,7 +190,7 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-             height: 2rem;
+        height: 2rem;
         font-size: 0.46rem;
         padding: 0.4rem;
         box-sizing: border-box;

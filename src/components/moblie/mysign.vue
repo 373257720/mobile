@@ -87,32 +87,65 @@ export default {
   computed: {
     list: function() {
       // console.log(usertype);
-      if (this.usertype == 1 || this.usertype == 4) {
+      if (this.usertype == 1) {
         return [
           {
             value: 1,
             text: "待审核项目",
-            pic: "../../../static/pic/201908191046413.png"
+            pic: "../../../static/pic/waitreview.png"
           },
           {
             value: 2,
             text: "待签约项目",
-            pic: "../../../static/pic/201908191046412.png"
+            pic: "../../../static/pic/waitsign.png"
           },
           {
-            value: 4,
+            value: 5,
             text: "待确认项目",
-            pic: "../../../static/pic/20190819104641.png"
+            pic: "../../../static/pic/waitinvestor.png"
           },
           {
             value: 6,
             text: "成功签约项目",
-            pic: "../../../static/pic/201908191046411.png"
+            pic: "../../../static/pic/success.png"
           },
           {
             value: 3,
             text: "拒绝签约项目",
-            pic: "../../../static/pic/201908191046414.png"
+            pic: "../../../static/pic/false.png"
+          }
+        ];
+      } else if (this.usertype == 4) {
+        return [
+          {
+            value: 1,
+            text: "待审核项目",
+            pic: "../../../static/pic/waitreview.png"
+          },
+          {
+            value: 2,
+            text: "待签约项目",
+            pic: "../../../static/pic/waitsign.png"
+          },
+          {
+            value: 4,
+            text: "已签约待发送",
+            pic: "../../../static/pic/waitinvestor.png"
+          },
+          {
+            value: 5,
+            text: "待确认项目",
+            pic: "../../../static/pic/waitinvestor.png"
+          },
+          {
+            value: 6,
+            text: "成功签约项目",
+            pic: "../../../static/pic/success.png"
+          },
+          {
+            value: 3,
+            text: "拒绝签约项目",
+            pic: "../../../static/pic/false.png"
           }
         ];
       } else if (this.usertype == 3) {
@@ -120,17 +153,17 @@ export default {
           {
             value: 5,
             text: "待确认项目",
-            pic: "../../../static/pic/20190819104641.png"
+            pic: "../../../static/pic/waitinvestor.png"
           },
           {
             value: 6,
             text: "已连接的项目",
-            pic: "../../../static/pic/201908191046411.png"
+            pic: "../../../static/pic/success.png"
           },
           {
             value: 7,
             text: "拒绝签约项目",
-            pic: "../../../static/pic/201908191046414.png"
+            pic: "../../../static/pic/false.png"
           }
         ];
       }
@@ -139,18 +172,19 @@ export default {
   created() {
     this.usertype = this.$store.state.currentUsertype;
     console.log(this.$store.state.genre);
-    
+
     if (this.$store.state.genre.length > 0) {
       this.result = [...this.$store.state.genre];
     } else {
-      if (this.usertype == 1 || this.usertype == 4) {
-        this.result = [1, 2, 4, 6, 3, 7];
+      if (this.usertype == 1) {
+        this.result = [1, 2, 5, 6, 3, 7];
+      } else if (this.usertype == 4) {
+        this.result = [1, 2, 4, 5, 6, 3, 7];
       } else if (this.usertype == 3) {
         this.result = [5, 6, 7];
       }
     }
     // console.log( this.result);
-    
   },
   mounted() {},
   methods: {
@@ -168,7 +202,7 @@ export default {
           this.$routerto("p_sign_request", obj);
         } else if (signStatus == 2) {
           this.$routerto("p_wait_agent_input", obj);
-        } else if (signStatus == 4) {
+        } else if (signStatus == 5) {
           this.$routerto("p_wait_investor", obj);
         } else if (signStatus == 6) {
           this.$routerto("p_sign_successful", obj);
@@ -183,6 +217,8 @@ export default {
         } else if (signStatus == 2) {
           this.$routerto("a_wait_signed", obj);
         } else if (signStatus == 4) {
+          this.$routerto("a_wait_sendemail", obj);
+        } else if (signStatus == 5) {
           this.$routerto("a_wait_investor_comfirm", obj);
         } else if (signStatus == 6) {
           this.$routerto("a_sign_successful", obj);
@@ -191,7 +227,6 @@ export default {
         }
       } else if (this.usertype == 3) {
         console.log(signStatus);
-
         if (signStatus == 5) {
           this.$routerto("i_wait_confirm", obj);
         } else if (signStatus == 6) {
@@ -207,6 +242,7 @@ export default {
       //拒绝
     },
     confirm_lists() {
+
       if (this.usertype == 1 || this.usertype == 4) {
         if (this.result.indexOf(3) >= 0) {
           if (this.result.indexOf(7) <= 0) {
@@ -218,6 +254,8 @@ export default {
           }
         }
       }
+      console.log(this.result);
+      // this.$store.commit("genre_array", []);
       this.$store.commit("genre_array", this.result);
       this.upGoodsInfo = [];
       this.pageNum = 1;
@@ -242,7 +280,7 @@ export default {
     //   this.$refs.checkboxGroup.toggleAll();
     // },
     onLoad() {
-      console.log(this.result);
+      // console.log(this.result);
       let a = this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/project`,
@@ -276,9 +314,17 @@ export default {
               this.upGoodsInfo.length == 0
             ) {
               this.loadText = "加载完成";
-              // document.querySelector(
-              //   "#mhome .van-loading__circular"
-              // ).style.display = "none";
+              // let fff = document.querySelector(
+              //   "#mysign .van-loading__spinner--circular"
+              // );
+              // console.log(fff);
+              // // let a = (document.querySelector(
+              // //   "#mysign .van-loading__text"
+              // // ).style = "margin-left:0");
+  
+              // fff.parentNode.removeChild(fff);
+              // .style.display = "none";
+
               this.finished = true;
             }
             this.pageNum++;
@@ -294,15 +340,19 @@ export default {
               }
             });
           });
-          console.log(this.loading);
+          console.log(this.upGoodsInfo);
         })
         .catch(err => {
-          this.loadText = "loading failed";
-          // document.querySelector(
-          //   "#mhome .van-loading__circular"
-          // ).style.display = "none";
-          // let a = (document.querySelector("#mhome .van-loading__text").style =
-          //   "margin-left:0");
+          this.loadText = "加载失败";
+        //  let fff = document.querySelector(
+        //         "#mysign .van-loading__spinner--circular"
+        //       );
+        //       console.log(fff);
+        //       let a = (document.querySelector(
+        //         "#mysign .van-loading__text"
+        //       ).style = "margin-left:0");
+  
+        //       fff.parentNode.removeChild(fff);
           // console.log(a);
         });
     }

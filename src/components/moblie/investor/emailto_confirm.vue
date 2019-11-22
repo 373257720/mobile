@@ -29,7 +29,8 @@
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-            <p class="row2">{{item.response}}</p>
+                <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
+            <p class="row2" v-if="item.keyword!='projectDescribe'" >{{item.response}}</p>
           </li>
         </ul>
         <footer>
@@ -126,19 +127,39 @@ export default {
        this.projectName=res.data.data.projectName;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
-          if (this.details_lists[j].keyword == i) {
-            this.details_lists[j].response = res.data.data[i];
+          if(this.details_lists[j].keyword==i){
+              if (this.details_lists[j].keyword == "signStatus") {
+              this.details_lists[j].response = this.$global.pic_obj[
+                res.data.data[i]
+              ];
+            }  else if (this.details_lists[j].keyword == "publicCompany" ) {
+                this.details_lists[j].response = res.data.data[i]==false?'否':'是'
+                
+              } else {
+              this.details_lists[j].response = res.data.data[i];
+            }
           }
+           
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
           if (this.nav_lists[w].keyword == i) {
             this.nav_lists[w].response = res.data.data[i];
           }
         }
-          for (var k = 0; k < this.investor_infor.length; k++) {
-          if (this.investor_infor[k].keyword == i) {
-            this.investor_infor[k].response = res.data.data[i];
+             for (var k = 0; k < this.investor_infor.length; k++) {
+          if(this.investor_infor[k].keyword==i){
+            if(this.investor_infor[k].keyword =='investorsType'){
+
+                         console.log(222);
+                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]] ;
+                 console.log(11);
+                 
+            }
+            else{
+              this.investor_infor[k].response = res.data.data[i];
+            }
           }
+          
         }
       }
       // this.$route.query.investorsId=res.data.data.investorsId;
@@ -257,12 +278,13 @@ export default {
     }
     div.investors_infor {
       h2 {
-        // padding: 0.2rem 0.3rem;
-        font-size: 0.4rem;
+    height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
         color: #0f6ebe;
-        height: 2rem;
-        text-align: center;
-        line-height: 2rem;
+        font-weight: 600;
+        line-height: 0.7rem;
       }
       header {
         height: 0.8rem;
@@ -271,7 +293,7 @@ export default {
         background: #f2f2f2;
         line-height: 0.8rem;
         color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
+        // border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
         padding: 0.1rem 0.5rem;
@@ -319,8 +341,8 @@ export default {
         border-bottom: 0.2rem solid #f2f2f2;
         > p {
           flex: 1;
-          height: 2rem;  
-          font-size: 0.3rem;
+          height: 2.5rem;  
+          font-size: 0.38rem;
           display: flex;
           align-items:center;
          
@@ -329,13 +351,13 @@ export default {
               width: 100%;
               display: flex;
               text-align: center;
-             height: 1.5rem;
+             height: 2rem;
             //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
             justify-content:space-between;
             span.rowb{
-                 font-size: 0.38rem;
+                 font-size: 0.6rem;
                   color: #0f6ebe;
 
             }
@@ -357,7 +379,7 @@ export default {
           margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
@@ -399,12 +421,13 @@ export default {
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         aside {
-          height: 2rem;
+          height: 2.5rem;
+          font-size: 0.38rem;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           button {
-            height: 0.8rem;
+            height: 1rem;
             color: #ffffff;
           }
           button:nth-of-type(1) {

@@ -136,10 +136,11 @@ export default {
       var aa = this.draw.scale(100, 50, this.draw.canvas);
       this.imgurl = this.draw.getPNGImage(aa);
       // if(this.route)
-     if(this.$route.name=='a_sign_contract'){
-       this.$emit("a_imgurl",this.imgurl);
-     }else if(this.$route.name=='p_sign_contract')
+      console.log(this.$route);
       
+     if(this.$route.name=='a_sign_contract'){
+       this.$emit("aimgurl",this.imgurl);
+     }else if(this.$route.name=='p_sign_contract')
       this.$emit("imgurl",this.imgurl);
     },
     clear() {

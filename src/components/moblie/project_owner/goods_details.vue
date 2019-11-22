@@ -1,8 +1,5 @@
 <template>
   <div id="p_goods_details">
-    <!-- <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />项目详情
-    </nav>-->
     <commonnav :msg="dad_text"></commonnav>
     <main>
       <!-- <aside>
@@ -14,13 +11,12 @@
         <ul>
           <li v-for="(item) in details_lists" :key="item.keyword">
             <p class="row1">{{item.name}}</p>
-               <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
-            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html='item.response'></p>
+            <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
+            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
           </li>
         </ul>
         <footer>
           <button @click="$goto('p_investor_infor')">投资者资料</button>
-          <!-- <button @click="$goto('investor_infor')">未签约</button> -->
         </footer>
       </article>
     </main>
@@ -32,7 +28,7 @@ export default {
   name: "p_goods_details",
   data() {
     return {
-      title:'',
+      title: "",
       dad_text: "项目详情",
       nav_lists: [
         {
@@ -46,7 +42,7 @@ export default {
           response: ""
         },
         {
-          keyword:'committedCount',
+          keyword: "committedCount",
           name: "已提交</br>投资者数量",
           response: ""
         }
@@ -77,29 +73,64 @@ export default {
     };
   },
   created() {
-        this.$loading();
     let details = this.$route.query;
+    this.$loading();
+    this.$global
+      .goods_deatails(
+        `${
+          this.$baseurl
+        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+          details.projectId
+        }&signStatus=${details.signStatus}&signId=${
+          details.signId ? details.signId : -1
+        }`,
+        "get"
+      )
+      .then(res => {
+        console.log(res);
+        this.nav_lists = [...res.nav_lists];
+        this.details_lists = [...res.details_lists];
+        this.title = res.title;
+        this.$toast.clear();
+      });
+    // this.$loading();
+    // let details = this.$route.query;
     console.log(details);
-    
-    this.$axios({ 
+
+    this.$axios({
       method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
+      url: `${
+        this.$baseurl
+      }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+        details.projectId
+      }&signStatus=${details.signStatus}&signId=${
+        details.signId ? details.signId : -1
+      }`
     }).then(res => {
-       this.title=res.data.data.projectName;
+      this.title = res.data.data.projectName;
       for (var i in res.data.data) {
-        for(var j=0;j<this.details_lists.length;j++){
-          if(this.details_lists[j].keyword==i){
-            this.details_lists[j].response=res.data.data[i]
+        for (var j = 0; j < this.details_lists.length; j++) {
+          if (this.details_lists[j].keyword == i) {
+            if (this.details_lists[j].keyword == "signStatus") {
+              this.details_lists[j].response = this.$global.pic_obj[
+                res.data.data[i]
+              ];
+            }   else if (details_lists[j].keyword == "publicCompany" ) {
+                details_lists[j].response = res.data.data[i]==false?'否':'是'
+                
+              }else {
+              this.details_lists[j].response = res.data.data[i];
+            }
           }
         }
-        for(var w=0;w<this.nav_lists.length;w++){
-           if(this.nav_lists[w].keyword==i){
-            this.nav_lists[w].response=res.data.data[i]
+        for (var w = 0; w < this.nav_lists.length; w++) {
+          if (this.nav_lists[w].keyword == i) {
+            this.nav_lists[w].response = res.data.data[i];
           }
         }
       }
       console.log(this.details_lists);
-       this.$toast.clear();
+      this.$toast.clear();
     });
   }
 };

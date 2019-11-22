@@ -11,25 +11,25 @@
           <div class="button">
             <p>
               <i>
-                <img :src="owner" alt />
+                <img v-if="owner" :src="owner" alt />
               </i>
 
               <span>投行</span>
-              <span>2019.11.11</span>
+             <span>{{owner_signdate?owner_signdate:''}}</span>
             </p>
             <p>
               <i>
-                <img :src="agent" alt />
+                <img v-if="agent" :src="agent" alt />
               </i>
 
               <span>中间人</span>
-              <span>2019.11.11</span>
+              <span>{{agent_signdate?agent_signdate:''}}</span>
             </p>
           </div>
         </div>
         <footer>
           <!-- @click="$routerto('a_sign_contract',$route.query)" -->
-          <button>导出</button>
+          <button @click="output">导出</button>
         </footer>
       </article>
     </main>
@@ -46,6 +46,8 @@ export default {
       content: "",
       agent: "",
       isshow: null,
+      owner_signdate:'',
+      agent_signdate:'',
       details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
     };
   },
@@ -57,9 +59,13 @@ export default {
       // data: this.$qs.stringify(this.form)
     })
       .then(res => {
+        console.log(res);
+        
         let str = JSON.parse(res.data.data.signAgreement);
         this.owner = str.owner;
         this.content = str.article;
+        this.owner_signdate=this.$global.stamptodate(str.owner_signdate);
+        this.agent_signdate=this.$global.stamptodate(str.agent_signdate);
         this.agent = str.agent;
         this.$toast.clear();
       })
@@ -69,8 +75,22 @@ export default {
   },
   mounted() {
     // this.content = "";
+    
   },
   methods: {
+    output(){
+      this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/projectSign/pdfExport?signId=43`
+      // data: this.$qs.stringify(this.form)
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        // this.$loadingfail();
+      });
+    },
     signname() {
       console.log(this.content);
     }

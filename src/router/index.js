@@ -40,13 +40,13 @@ import a_wait_review from '@/components/moblie/agent/wait_review'
 import a_recommand_i from '@/components/moblie/agent/recommand_i'
 import a_wait_investor_comfirm from '@/components/moblie/agent/wait_investor_comfirm'
 import a_wait_signed from '@/components/moblie/agent/wait_signed'
-import a_input_investor_infor from '@/components/moblie/agent/input_investor_infor'
+// import a_input_investor_infor from '@/components/moblie/agent/input_investor_infor'
 import a_sign_failed from '@/components/moblie/agent/sign_failed'
 import a_sign_successful from '@/components/moblie/agent/sign_successful'
 import a_sign_contract from '@/components/moblie/agent/sign_contract'
 import a_submit_contract from '@/components/moblie/agent/submit_contract'
 import a_check_contract from '@/components/moblie/agent/check_contract'
-
+import a_wait_sendemail from '@/components/moblie/agent/wait_sendemail'
 
 
 // investor/
@@ -152,11 +152,11 @@ const routes = [
     name: 'a_sign_successful',
     component: a_sign_successful,
   },
-  {
-    path: '/a_input_investor_infor',
-    name: 'a_input_investor_infor',
-    component: a_input_investor_infor,
-  },
+  // {
+  //   path: '/a_input_investor_infor',
+  //   name: 'a_input_investor_infor',
+  //   component: a_input_investor_infor,
+  // },
   {
     path: '/a_project_intro',
     name: 'a_project_intro',
@@ -201,6 +201,12 @@ const routes = [
     name: 'a_check_contract',
     component: a_check_contract,
   },
+  {
+    path: '/a_wait_sendemail',
+    name: 'a_wait_sendemail',
+    component: a_wait_sendemail,
+  },
+  
 
 // investor
 

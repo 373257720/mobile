@@ -11,21 +11,21 @@
           <div class="button">
             <p>
               <i>
-                <img :src="signature" alt />
+                <img v-if="signature" :src="signature" alt />
               </i>
-
               <span>投行</span>
-              <span>2019.11.11</span>
+              <span>{{owner_signdate?owner_signdate:''}}</span>
             </p>
             <p>
               <i></i>
               <span>中间人</span>
-              <span>2019.11.11</span>
+              <span></span>
             </p>
           </div>
         </div>
         <footer>
           <button @click="$routerto('a_sign_contract',$route.query)">签署</button>
+          <!-- <button @click="signname"></button> -->
         </footer>
       </article>
     </main>
@@ -34,30 +34,43 @@
   </div>
 </template>
 <script>
+import { dirname } from 'path';
 export default {
   name: "goods_details",
   data() {
     return {
       signature: "",
       content: "",
-      isshow: null,
-      details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
+      // owner_signdate:'',
     };
   },
   created() {
     console.log(this.$route);
     let str = this.$store.state.contract;
     console.log(str);
+    
+    
+    // console.log(str);
+
     this.content = str.article;
     this.signature = str.owner;
+
+    // this.owner_signdate=str.owner_signdate;
+    // console.log( this.owner_signdate);
+  },
+  computed: {
+     owner_signdate: function() {
+      if (this.$store.state.contract.owner_signdate) {
+       let timestamp = this.$store.state.contract.owner_signdate;          return     this.$global.stamptodate(timestamp);
+      }   
+    },
   },
   mounted() {
+    
     // this.content = "";
   },
   methods: {
-    signname() {
-      // console.log(this.content);
-    }
+
   }
 };
 </script>
@@ -100,13 +113,14 @@ export default {
     padding: 0.5rem;
     background: #ffffff;
     .contract {
-      background: #f2f2f2;
+      // background: #f2f2f2;
+      border: 1px solid #b5b5b5;
       box-sizing: border-box;
       font-size: 0.4rem;
       line-height: 0.6rem;
       padding: 0.4rem 0.4rem;
       width: 100%;
-      height: 12rem;
+      height: 13rem;
       overflow-y: auto;
       word-wrap: break-word;
       color: rgb(169, 169, 169);
@@ -122,9 +136,9 @@ export default {
             width: 3rem;
             height: 1rem;
             border-bottom: 1px solid rgb(169, 169, 169);
-            img{
-               width: 3rem;
-            height: 1rem;
+            img {
+              width: 3rem;
+              height: 1rem;
             }
           }
         }
@@ -132,12 +146,13 @@ export default {
     }
     footer {
       width: 100%;
+      font-size: 0.38rem;
       button {
         width: 100%;
         margin-top: 1rem;
         background: #00adef;
         color: white;
-        height: 0.8rem;
+        height: 1rem;
       }
     }
   }

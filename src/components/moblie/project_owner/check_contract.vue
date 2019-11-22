@@ -10,14 +10,19 @@
           <div class="middle" v-html="content"></div>
           <div class="button">
             <p>
-              <img :src="owner" alt />
+              <i>
+                <img  v-if="owner" :src="owner" alt />
+              </i>
+
               <span>投行</span>
-              <span>2019.11.11</span>
+              <span>{{owner_signdate?owner_signdate:''}}</span>
             </p>
             <p>
-              <img src alt />
+              <i>
+                <!-- <img src alt /> -->
+              </i>
               <span>中间人</span>
-              <span>2019.11.11</span>
+              <span>{{agent_signdate?agent_signdate:''}}</span>
             </p>
           </div>
         </div>
@@ -38,6 +43,8 @@ export default {
       owner: "",
       content: "",
       isshow: null,
+      owner_signdate: "",
+      agent_signdate: "",
       details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
     };
   },
@@ -52,9 +59,11 @@ export default {
       let str = JSON.parse(res.data.data.signAgreement);
       this.owner = str.owner;
       this.content = str.article;
+      this.owner_signdate = this.$global.stamptodate(str.owner_signdate);
       this.$toast.clear();
     });
   },
+
   mounted() {
     // this.content = "";
   },
@@ -124,10 +133,15 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
-          img {
+          i {
             width: 3rem;
             height: 1rem;
             border-bottom: 1px solid rgb(169, 169, 169);
+            img {
+              width: 3rem;
+              height: 1rem;
+              // border-bottom: 1px solid rgb(169, 169, 169);
+            }
           }
         }
       }

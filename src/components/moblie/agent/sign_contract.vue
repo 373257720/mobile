@@ -1,6 +1,6 @@
 <template>
   <div id="a_sign_contract">
-    <cavans @a_imgurl="commit"></cavans>
+    <cavans @aimgurl="commit"></cavans>
   </div>
 </template>
 <script>
@@ -13,15 +13,14 @@ export default {
   },
   created() {
     console.log(this.$route.query);
-    console.log(this.$store.state.contract);
+    // console.log(this.$store.state.contract.body);
   },
   methods: {
     commit(data) {
       console.log(data);
-      this.$store.commit('contract_agent',data);
-      console.log( this.$store.state.contract);
-      
-      this.$routerto('a_submit_contract',this.$route.query)
+      // let str=this.$store.state.contract+'!!!!!'+data
+          this.$store.commit('contract_agent',data);
+          this.$routerto('a_submit_contract',this.$route.query)
     },
     gg() {
       // console.log(this.$dialog);

@@ -28,7 +28,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('a_recommand_i',details)">推荐投资人</button>
+            <button @click="$routerto('a_recommand_i',$route.query)">推荐投资人</button>
             <button @click="$global.previous()">再考虑一下</button>
           </aside>
         </footer>
@@ -45,67 +45,53 @@ export default {
       show: false,
       title:'',
       dad_text:'项目简介',
-      details:{},
+      // details:{},
       nav_lists: [
-        {
-          keyword: "financingStage",
-          name: "融资阶段",
-          response: ""
-        },
-        {
-          keyword: "interestProjectCount",
-          name: "项目方<br>有兴趣数量",
-          response: ""
-        },
-        {
-          keyword:'committedCount',
-          name: "已提交</br>投资者数量",
-          response: ""
-        }
+    
       ],
       details_lists: [
-        {
-          keyword: "projectIndustry",
-          name: "行业:",
-          response: ""
-        },
-        {
-          keyword: "projectArea",
-          name: "地区:",
-          response: ""
-        },
-        {
-          keyword: "signStatus",
-          name: "项目状态:",
-          response: ""
-        },
-        { keyword: "projectDescribe", name: "项目简介:", response: "" }
+    
       ]
     };
   },
     created() {
-   this.details = this.$route.query;
-    console.log(this.details);
+        let details = this.$route.query;
+     this.$loading();
+  this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`,'get').then(res=>{
+    console.log(res);
+    this.nav_lists=[...res.nav_lists]
+    this.details_lists= [...res.details_lists]
+    this.title=res.title;
+    this.$toast.clear();
+  })
+  //  this.details = this.$route.query;
+  //   console.log(this.details);
     
-    this.$axios({ 
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.details.projectId}&signStatus=${this.details.signStatus}&signId=${this.details.signId?this.details.signId:-1}`
-    }).then(res => {
-       this.title=res.data.data.projectName;
-      for (var i in res.data.data) {
-        for(var j=0;j<this.details_lists.length;j++){
-          if(this.details_lists[j].keyword==i){
-            this.details_lists[j].response=res.data.data[i]
-          }
-        }
-        for(var w=0;w<this.nav_lists.length;w++){
-           if(this.nav_lists[w].keyword==i){
-            this.nav_lists[w].response=res.data.data[i]
-          }
-        }
-      }
-      console.log(this.details_lists);
-    });
+  //   this.$axios({ 
+  //     method: "get",
+  //     url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.details.projectId}&signStatus=${this.details.signStatus}&signId=${this.details.signId?this.details.signId:-1}`
+  //   }).then(res => {
+  //      this.title=res.data.data.projectName;
+  //     for (var i in res.data.data) {
+  //       for(var j=0;j<this.details_lists.length;j++){
+  //         if(this.details_lists[j].keyword==i){
+  //           this.details_lists[j].response=res.data.data[i]
+  //           if(this.details_lists[j].keyword=='signStatus'){
+  //             this.details_lists[j].response= this.$global.pic_obj[res.data.data[i]] ;
+  //           }
+  //           //   if(this.details_lists[j].keyword=='signStatus'){
+                
+  //           // }
+  //         } 
+  //       }
+  //       for(var w=0;w<this.nav_lists.length;w++){
+  //          if(this.nav_lists[w].keyword==i){
+  //           this.nav_lists[w].response=res.data.data[i]
+  //         }
+  //       }
+  //     }
+  //     console.log(this.details_lists);
+  //   });
   },
   methods: {
     gg() {

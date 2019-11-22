@@ -12,17 +12,17 @@
             <div class="button">
               <p>
                 <i>
-                  <img :src="signature" alt />
+                  <img v-if="signature" :src="signature" alt />
                 </i>
 
                 <span>投行</span>
-                <span>2019.11.11</span>
+                <span>{{owner_signdate?owner_signdate:''}}</span>
               </p>
               <p>
                 <i></i>
 
                 <span>中间人</span>
-                <span>2019.11.11</span>
+                <span></span>
               </p>
             </div>
           </div>
@@ -51,7 +51,9 @@ export default {
     return {
       signature: "",
       content: "",
-      str: ""
+      str: "",
+      // timestamp :'',
+      // owner_signdate: ""
       // success: true
     };
   },
@@ -61,12 +63,25 @@ export default {
 
     this.content = this.$store.state.contract.article;
     this.signature = this.$store.state.contract.owner;
+    
     // this.str = JSON.stringify(this.$store.state.contract);
     // console.log(this.content);
   },
   computed: {
-    // contract_content: function(){
-    // },
+    owner_signdate: function() {
+      console.log(123);
+      let timestamp = new Date().getTime();
+       this.$store.commit('owner_signdate',timestamp)
+      var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为1
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D =
+        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+        return Y + M + D 
+    }
   },
   mounted() {
     // this.content = "";
@@ -79,7 +94,7 @@ export default {
         url: `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
         data: this.$qs.stringify({
           projectId: this.$route.query.projectId,
-          signId:this.$route.query.signId,
+          signId: this.$route.query.signId,
           signStatus: 2,
           signAgreement: JSON.stringify(this.$store.state.contract)
         })
@@ -94,6 +109,16 @@ export default {
             .then(() => {
               // on close
               this.$routerto("mysign");
+            });
+        }else{
+          this.$dialog
+            .alert({
+              title: "提交失败",
+              message: "返回"
+            })
+            .then(() => {
+              // on close
+              // this.$routerto("mysign");
             });
         }
       });
@@ -143,7 +168,7 @@ export default {
     padding: 0.5rem;
     background: #ffffff;
     .contract {
-        border: 1px solid #b5b5b5;
+      border: 1px solid #b5b5b5;
       // background: #f2f2f2;
       box-sizing: border-box;
       font-size: 0.4rem;
