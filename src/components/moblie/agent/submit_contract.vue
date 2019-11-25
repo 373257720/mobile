@@ -42,7 +42,7 @@
       name="showHere"
       scrolling="auto"
       ref="iframe"
-      style="background-color:transparent; position:absolute; width: 100%; height: 100%; top: 0;left:0;"
+      style="background-color:transparent; position:absolute; width: 100%; height: 100%; top: 0;left:0; z-index=-1;"
       :src="`${$baseurl3}/#/upload_contract`"
     ></iframe>
   </div>
@@ -103,7 +103,7 @@ export default {
     // },
     contract_submit() {
       this.str = JSON.stringify(this.$store.state.contract);
-      // this.$loading();
+      this.$loading();
       console.log(this.str);
       let p = new Promise((resolve, reject) => {
         this.iframeState = true;

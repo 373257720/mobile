@@ -352,7 +352,7 @@ export default {
                               flex-direction: column;
                               box-sizing: border-box;
                               display: -webkit-flex;  padding: 0 5%;">
-                                  <h2 style="text-align: center;margin-bottom: 20px;"><img style="width: 120px;height: 50px;"   src="${this.$basrurl}${this.custmoers_obj.picUrl}" alt=""></h2>
+                                  <h2 style="text-align: center;margin-bottom: 20px;"><img style="width: 120px;height: 50px;"   src="${this.$baseurl}${this.custmoers_obj.picUrl}" alt=""></h2>
                                   <div class="column" style="display: flex;margin-bottom: 15px;">
                                 <span style="display:block;width: 120px;">【投资银行】</span>
                                 <span style="display:block;width: 430px;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗</span>

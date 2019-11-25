@@ -32,8 +32,8 @@ export default {
       owner: "",
       agent: "",
       article: "",
-      owner_signdate:'',
-      agent_signdate:'',
+      owner_signdate: "",
+      agent_signdate: ""
     };
   },
   created() {},
@@ -45,7 +45,7 @@ export default {
     // 接受父页面发来的信息
     window.addEventListener("message", this.handleMessageFromParent); // 子接收方式二参数
     // console.log(555);
-    
+
     // this.iframeData = this.$route.query; // 子接收方式一参数
   },
 
@@ -53,20 +53,20 @@ export default {
     handleMessageFromParent(event) {
       // 子接收父参数
       // console.log(1111);
-      
+
       var data = event.data;
       switch (data.cmd) {
         case "toson":
           // 处理业务逻辑
           // console.log(data.params);
-            let ee=  JSON.parse(data.params);
-
+          let ee = JSON.parse(data.params);
+          console.dir(ee)
           this.owner = ee.owner;
           this.agent = ee.agent;
           this.article = ee.article;
-          this.owner_signdate=this.$global.stamptodate(ee.owner_signdate);
-          this.agent_signdate=this.$global.stamptodate(ee.agent_signdate);
-          
+          this.owner_signdate = this.$global.stamptodate(ee.owner_signdate);
+          this.agent_signdate = this.$global.stamptodate(ee.agent_signdate);
+
           //   this.iframeData = data;
           // console.log(data);
 

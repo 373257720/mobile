@@ -15,7 +15,7 @@ export default {
   created() {
     //在页面加载时读取sessionStorage里的状态信息
     if (sessionStorage.getItem("store")) {
-      // console.dir(this.$store.state);
+      console.dir(this.$store.state);
       // console.dir( JSON.parse(sessionStorage.getItem("store")));
       this.$store.replaceState(
         Object.assign(
