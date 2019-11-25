@@ -29,7 +29,7 @@
         </div>
         <footer>
           <!-- @click="$routerto('a_sign_contract',$route.query)" -->
-          <button @click="output">导出</button>
+          <!-- <button @click="output">导出</button> -->
         </footer>
       </article>
     </main>

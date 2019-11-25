@@ -12,9 +12,9 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
-// import Vconsole from 'vconsole'
-// let vConsole = new Vconsole()
-// Vue.use(vConsole);
+import Vconsole from 'vconsole'
+let vConsole = new Vconsole()
+Vue.use(vConsole);
 Vue.use(Vuex);
 import Vant from 'vant';
 Vue.use(Vant)
@@ -37,7 +37,7 @@ axios.interceptors.response.use(res => {
     return res
   },
   error => {
-    alert('请求失败，请稍后重试！')
+    alert('请求超时，请稍后重试！')
     return Promise.reject(error)
   }
 )

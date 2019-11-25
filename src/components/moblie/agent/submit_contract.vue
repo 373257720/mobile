@@ -157,8 +157,8 @@ export default {
         })
       }).then(res => {
         console.log(res);
+        this.$toast.clear();
         if (res.data.resultCode == 10000) {
-          this.$toast.clear();
           this.signId = res.data.data.signId;
           this.$dialog
             .alert({
