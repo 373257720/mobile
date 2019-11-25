@@ -85,8 +85,8 @@ Vue.prototype.$loadingfail=function loadingfail(){
 
 var baseurl = {
   api: "http://192.168.1.37:8080",
-  // api3:'http://47.90.62.114:8083',
-  api3:'http://localhost:8080',
+  api3:'http://47.90.62.114:8083',
+  // api3:'http://localhost:8080',
   //  api: "http://47.90.62.114:8082",
 }
 Vue.prototype.$baseurl3 = baseurl.api3;

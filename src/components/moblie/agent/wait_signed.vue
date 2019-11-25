@@ -121,7 +121,7 @@ export default {
    
       
   let details = this.$route.query;
-     console.log(details);
+    //  console.log(details);
      this.$loading();
     this.$axios({
       method: "get",
@@ -130,7 +130,7 @@ export default {
       this.$toast.clear();
        this.title=res.data.data.projectName;
       this.$store.dispatch('contract_agentsign',JSON.parse(res.data.data.signAgreement) );
-      console.log(this.$store.state);
+      // console.log(this.$store.state);
       
       for (var i in res.data.data) {
         // this.investorsId=res.data.data.investorsId; 
@@ -169,7 +169,7 @@ export default {
       }
     //  this.$route.query.from='a_wait_signed';
      this.$route.query.investorsId=res.data.data.investorsId
-     console.log(this.$route.query);
+    //  console.log(this.$route.query);
      
     });
   },

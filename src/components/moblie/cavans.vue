@@ -47,7 +47,7 @@ export default {
     // console.log(1111);
   },
   created() {
-    console.log(this.$route);
+    // console.log(this.$route);
     this.$nextTick(() => {
       window.addEventListener("resize", this.renderResize, false);
     });
@@ -135,7 +135,7 @@ export default {
       var aa = this.draw.scale(100, 50, this.draw.canvas);
       this.imgurl = this.draw.getPNGImage(aa);
       // if(this.route)
-      console.log(this.imgurl);
+      // console.log(this.imgurl);
       
       if (this.imgurl) {
         if (this.$route.name == "a_sign_contract") {

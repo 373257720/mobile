@@ -231,46 +231,47 @@ export default {
           <title>mobile</title>
          </head>
 
-<body>
-<div id="box" style="width: 100%;height: 100%; justify-content: center; 
-align-items: center; 
-display: -webkit-flex;">
-<div class="box" style="border:1px solid #cccccc;border-radius:5px;width: 580px;height:350px;font-size: 14px; 
-justify-content: center; 
-flex-direction: column;
-box-sizing: border-box;
-display: -webkit-flex;  padding: 0 5%;">
-<h2 style="text-align: center;margin-bottom: 20px;"><img style="width: 120px;height: 50px;"   src="${this.custmoers_obj.picUrl}" alt=""></h2>
-<div class="column" style="display: flex;margin-bottom: 15px;">
-<span style="display:block;width: 120px;">【投资银行】</span>
-<span style="display:block;width: 430px;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗</span>
-</div>
-<div class="column" style="display: flex;margin-bottom: 15px;">
 
-<span style="display:block;width: 120px;">【投资项目】</span>
-<span style="display:block;width: 430px;">${this.custmoers_obj.projectName}</span>
-</div>
-<div class="column" style="display: flex;margin-bottom: 15px;">
-<span style="display:block;width: 120px;">【中间人】</span>
-<span style="display:block;width: 430px;">${this.custmoers_obj.bslName4}</span>
-</div>
-<div class="column" style="display: flex;margin-bottom: 15px;">
-<span style="display:block;width: 120px;">【投行B】</span>
-<span style="display:block;width: 400px;">${this.custmoers_obj.bslName1}</span>
-</div>
+<body style="display: flex;justify-content:center;">
+    <table id="box" style="width: 580px;height:350px;
+     justify-content: center; 
+    align-items: center; 
+    border-collapse:separate; border-spacing:0px 10px;
+    border:1px solid #cccccc;border-radius:5px;
+    display: -webkit-flex;
+  ">
+        <tr style="display: flex;justify-content:center;margin-top:20px;">
+            <td style="text-align: center;">
+                <img style="width: 120px;height: 50px;" src="${this.custmoers_obj.picUrl}" alt="">
+            </td>
+        </tr>
+        <tr class="column" style="">
+            <td style="width: 120px;">【投资银行】</td>
+            <td style="width: 430px;">${this.custmoers_obj.projectName}</td>
+        </tr>
+        <tr class="column" style="display: -webkit-flex;margin-bottom: 15px;">
 
-<div class="column" style="display: flex;justify-content:center;margin-top:20px;">
-<a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}" class="button"
-style="text-decoration: none;width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">
-了解详情
-</a>
+            <td style="display:block;width: 120px;">【投资项目】</td>
+            <td style="display:block;width: 430px;">你有一地方个大改动个投资项目，有中间人A把投行B推荐给你，同意吗</td>
+        </tr>
+        <tr class="column" style="display: flex;margin-bottom: 15px;">
+            <td style="display:block;width: 120px;">【中间人】</td>
+            <td style="display:block;width: 430px;">${this.custmoers_obj.bslName4}</td>
+        </tr>
+        <tr class="column" style="display: flex;margin-bottom: 15px;">
+            <td style="display:block;width: 120px;">【投行B】</td>
+            <td style="display:block;width: 400px;">${this.custmoers_obj.bslName1}</td>
+        </tr>
 
-</div>
+        <tr class="column" style="display: flex;justify-content:center;margin-top:20px;">
+            <td style="display: flex;justify-content:center;>
+              <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}" style=" display:block;text-decoration: none;width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">了解详情</a>  
+            </td>
+        </tr>
 
 
 
-</div>
-</div>
+    </table>
 </body>
 
 </html>`

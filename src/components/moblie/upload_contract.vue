@@ -33,7 +33,9 @@ export default {
       agent: "",
       article: "",
       owner_signdate: "",
-      agent_signdate: ""
+      agent_signdate: "",
+      signid:'',
+      projectId:'',
     };
   },
 
@@ -49,30 +51,7 @@ export default {
     window.addEventListener("message", this.handleMessageFromParent);
   },
   methods: {
-    bang() {
-      this.$axios({
-        method: "post",
-        url: `${this.$baseurl}/bsl_web/base/htmlToPdf`,
-        data: this.$qs.stringify({
-          urlPath: `${this.$baseurl3}/#/upload_contract`,
-          signId: this.$route.query.signId
-        })
-      }).then(res => {
-        console.log(res);
-        this.iframeState = false;
-        this.$toast.clear();
-        if (res.data.resultCode == 10000) {
-          this.signproject4();
-        } else {
-          this.$dialog
-            .alert({
-              title: "上传失败,请稍后再试"
-              // message: "下一步发送邮件到投资者"
-            })
-            .then(() => {});
-        }
-      });
-    },
+    bang() {},
     handleMessageFromParent(event) {
       // 子接收父参数
       // console.log(1111);
@@ -81,18 +60,82 @@ export default {
       var data = event.data;
       switch (data.cmd) {
         case "toson":
-          let ee = JSON.parse(data.params);
+          let ee = data.params;
           this.owner = ee.owner;
           this.agent = ee.agent;
           this.article = ee.article;
-          this.owner_signdate = this.$global.timestampToTime(ee.owner_signdate);
+          this.projectId=ee.projectId;
+          this.signid=ee.signId;
+          this.owner_signdate = this.$global.stamptodate(ee.owner_signdate);
           this.agent_signdate = this.$global.stamptodate(ee.agent_signdate);
-          this.handleMessageToParent();
+          // this.handleMessageToParent();
           // resolve("success");
+          this.$loading();
+          this.$axios({
+            method: "post",
+            url: `${this.$baseurl}/bsl_web/base/htmlToPdf`,
+            data: this.$qs.stringify({
+              urlPath: `${this.$baseurl3}/#/upload_contract`,
+              //  urlPath: `http://192.168.159.1:8080/#/upload_contract`,
+              signId: this.signid
+            })
+          }).then(res => {
+            console.log(res);
+            // this.iframeState = false;
+            this.$toast.clear();
+            if (res.data.resultCode == 10000) {
+              this.signproject4();
+            } else {
+              this.$dialog
+                .alert({
+                  title: "上传失败,请稍后再试"
+                  // message: "下一步发送邮件到投资者"
+                })
+                .then(() => {});
+            }
+          });
           break;
       }
       // });
       // return p;
+    },
+       // 签约
+    signproject4() {
+      console.log(123123);
+      
+      this.$axios({
+        method: "post",
+        url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
+        data: this.$qs.stringify({
+          signId: this.signid,
+          signAgreement:JSON.stringify(this.$store.state.contract)
+        })
+      }).then(res => {
+        console.log(res);
+        this.$toast.clear();
+        if (res.data.resultCode == 10000) {
+          this.signId = res.data.data.signId;
+          this.$dialog
+            .alert({
+              title: "签约成功",
+              message: "下一步发送邮件到投资者"
+            })
+            .then(() => {
+              this.$routerto("a_wait_sendemail", {
+                signId: this.signId,
+                projectId: this.projectId,
+                signStatus: 4
+              });
+            });
+        } else {
+          this.$dialog
+            .alert({
+              title: "签约失败",
+              message: "返回"
+            })
+            .then(() => {});
+        }
+      });
     },
     handleMessageToParent() {
       // 子向父传参

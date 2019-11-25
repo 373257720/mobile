@@ -22,7 +22,7 @@ export default {
   },
   created() {
     this.active = this.$route.name;
-    console.log(this.$route.name);
+    // console.log(this.$route.name);
   }
 };
 </script>

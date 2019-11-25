@@ -13,8 +13,8 @@
          */
         html,
         body,
-        div,
-        span,
+        tr,
+        td,
         applet,
         object,
         iframe,
@@ -210,46 +210,56 @@
 </head>
 
 <body>
-    <div id="box" style="width: 100%;height: 100%; justify-content: center; 
+    <table id="box" style="width: 580px;height:350px;
+     justify-content: center; 
     align-items: center; 
+    border-collapse:separate; border-spacing:0px 10px;
+    border:1px solid #cccccc;border-radius:5px;
     display: -webkit-flex;
   ">
-        <div class="box" style="border:1px solid #cccccc;border-radius:5px;width: 580px;height:350px;font-size: 14px; 
+        <!-- <tr class="box" style="border:1px solid #cccccc;border-radius:5px;width: 580px;height:350px;font-size: 14px; 
         justify-content: center; 
         flex-direction: column;
         box-sizing: border-box;
-        display: -webkit-flex;  padding: 0 5%;">
-            <h2 style="text-align: center;margin-bottom: 20px;"><img style="width: 120px;height: 50px;"  src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt=""></h2>
-            <div class="column" style="display: flex;margin-bottom: 15px;">
-                <span style="display:block;width: 120px;">【投资银行】</span>
-                <span style="display:block;width: 430px;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗</span>
-            </div>
-            <div class="column" style="display: flex;margin-bottom: 15px;">
+        display: -webkit-flex;  padding: 0 5%;"> -->
+        <tr style="display: flex;justify-content:center;margin-top:20px;">
+            <td style="text-align: center;">
+                <img style="width: 120px;height: 50px;" src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt="">
+            </td>
+        </tr>
+        <tr class="column" style="">
+            <td style="width: 120px;">【投资银行】</td>
+            <td style="width: 430px;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗</td>
+        </tr>
+        <tr class="column" style="display: -webkit-flex;margin-bottom: 15px;">
 
-                <span style="display:block;width: 120px;">【投资项目】</span>
-                <span style="display:block;width: 430px;">你有一地方个大改动个投资项目，有中间人A把投行B推荐给你，同意吗</span>
-            </div>
-            <div class="column" style="display: flex;margin-bottom: 15px;">
-                <span style="display:block;width: 120px;">【中间人】</span>
-                <span style="display:block;width: 430px;">你有一个投资项目，有中fdsfdfsdfsdfsdfsd间人A把投行B推荐给你，同意吗</span>
-            </div>
-            <div class="column" style="display: flex;margin-bottom: 15px;">
-                <span style="display:block;width: 120px;">【投行B】</span>
-                <span style="display:block;width: 400px;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗</span>
-            </div>
+            <td style="display:block;width: 120px;">【投资项目】</td>
+            <td style="display:block;width: 430px;">你有一地方个大改动个投资项目，有中间人A把投行B推荐给你，同意吗</td>
+        </tr>
+        <tr class="column" style="display: flex;margin-bottom: 15px;">
+            <td style="display:block;width: 120px;">【中间人】</td>
+            <td style="display:block;width: 430px;">你有一个投资项目，有中fdsfdfsdfsdfsdfsd间人A把投行B推荐给你，同意吗</td>
+        </tr>
+        <tr class="column" style="display: flex;margin-bottom: 15px;">
+            <td style="display:block;width: 120px;">【投行B】</td>
+            <td style="display:block;width: 400px;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗</td>
+        </tr>
 
-            <div class="column" style="display: flex;justify-content:center;margin-top:20px;">
+        <tr class="column" style="display: flex;justify-content:center;margin-top:20px;">
+            <td>
                 <a href="" class="button"
-                    style="width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">
+                    style="display:block;width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">
                     了解详情
                 </a>
-
-            </div>
-
+            </td>
 
 
-        </div>
-    </div>
+        </tr>
+
+
+
+        <!-- </tr> -->
+    </table>
 </body>
 
 </html>
