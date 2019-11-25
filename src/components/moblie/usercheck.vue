@@ -236,6 +236,7 @@ export default {
         }
       })
         .then(res => {
+          this.$toast.clear();
           if (res.data.resultCode == 10000) {
             this.success = !this.success;
             this.$toast.clear();

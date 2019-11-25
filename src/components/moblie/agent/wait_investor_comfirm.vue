@@ -116,6 +116,7 @@ export default {
   },
    created() {
     let details = this.$route.query;
+    this.$loading();
     this.$axios({
       method: "get",
       url: `${
@@ -126,6 +127,7 @@ export default {
         details.signId ? details.signId : -1
       }`
     }).then(res => {
+      this.$toast.clear();
        this.title=res.data.data.projectName;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
@@ -348,15 +350,13 @@ export default {
           flex-direction: column;
           justify-content: space-between;
           button {
-            height: 0.8rem;
+            height: 1rem;
             color: #ffffff;
           }
           button:nth-of-type(1) {
             background: #00adef;
           }
-          button:nth-of-type(2) {
-            background: #ff7c2c;
-          }
+      
         }
       }
         footer.email {

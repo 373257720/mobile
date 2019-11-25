@@ -12,7 +12,7 @@
         <van-field v-model="username" placeholder="电子邮箱" clearable />
       </div>
       <div class="password">
-        <van-field v-model="password" placeholder="请输入密码" clearable />
+        <van-field v-model="password" type="password" placeholder="请输入密码" clearable />
       </div>
       <div class="loginbtn">
         <button @click="login">登 录</button>
@@ -59,7 +59,7 @@ export default {
           this.$toast.clear();
           var rescode = res.data.resultCode;
           if (rescode == 10000) {
-             this.$store.dispatch("genre_action",[]);
+            this.$store.dispatch("genre_action",[]);
             this.$store.dispatch("contract_agentsign",{});
              sessionStorage.clear();
 
@@ -77,7 +77,7 @@ export default {
             this.remind = "密码不能为空";
           } else if (rescode == 10013) {
             this.remind = "账号不存在";
-          } else if ((rescode = 10014)) {
+          } else if (rescode = 10014) {
             this.remind = "账号或密码不正确";
           }
         });
@@ -110,7 +110,7 @@ export default {
   }
   .van-field__clear {
     // height: 0.1rem;
-    font-size: 0.36rem;
+    font-size: 0.38rem;
   }
   .username,
   .password {

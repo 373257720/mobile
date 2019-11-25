@@ -7,16 +7,16 @@
     <div class="main">
       <p>{{remind}}</p>
       <div class="username" v-if="$route.query.email">
-        <van-field v-model="username" placeholder="电子邮箱" disabled/>
+        <van-field  v-model="username" placeholder="电子邮箱" disabled/>
       </div>
       <div class="username" v-if="!$route.query.email">
         <van-field v-model="username" placeholder="电子邮箱" clearable />
       </div>
       <div class="password">
-        <van-field v-model="password" placeholder="请输入密码" clearable />
+        <van-field type="password" v-model="password" placeholder="请输入密码" clearable />
       </div>
       <div class="repeatpassword">
-        <van-field v-model="password2" placeholder="请输入密码" clearable />
+        <van-field type="password" v-model="password2" placeholder="请再输入密码" clearable />
       </div>
       <div class="registerbtn">
         <button @click="register()">注册新账号</button>
@@ -43,7 +43,7 @@ export default {
   methods: {
     register() {
       this.remind = "";
-      if (this.username && this.password) {
+      if (this.username && this.password && this.password2) {
          this.$loading();
         this.$axios({
           method: "post",
@@ -66,9 +66,9 @@ export default {
             this.remind = "登录账号不能为空";
           } else if (rescode == 10012) {
             this.remind = "密码不能为空";
-          } else if ((rescode = 10013)) {
+          } else if (rescode = 10013) {
             this.remind = "邮箱地址无效请重新输入";
-          } else if ((rescode = 10014)) {
+          } else if (rescode = 10014) {
             this.remind = "该邮箱已注册，请登录";
           }
          
@@ -95,13 +95,13 @@ export default {
     box-sizing: border-box;
   }
   .van-field__control {
-    font-size: 0.36rem;
+    font-size: 0.38rem;
       // line-height: 0.7rem;
 
   }
    .van-field__clear {
     // height: 0.1rem;
-    font-size: 0.36rem;
+    font-size: 0.38rem;
   }
   .username,
   .password,

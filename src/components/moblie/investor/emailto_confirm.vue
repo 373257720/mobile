@@ -35,7 +35,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="agree()">完善资料</button>
+            <button @click="agree">完善资料</button>
             <button @click="refuse">拒绝</button>
           </aside>
         </footer>
@@ -333,11 +333,11 @@ export default {
         background: #f2f2f2;
         line-height: 0.8rem;
         color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
+        // border-bottom: 0.01rem dashed #b5b5b5;
       }
        div.nav_lists {
         display: flex;
-        // border-top: 0.2rem solid #f2f2f2;
+        border-top:0;
         border-bottom: 0.2rem solid #f2f2f2;
         > p {
           flex: 1;

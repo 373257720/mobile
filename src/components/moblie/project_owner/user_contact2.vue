@@ -95,11 +95,16 @@ export default {
                 this.details_lists[j].response = this.$global.pic_obj[
                   res.data.data[i]
                 ];
-              } else if (details_lists[j].keyword == "publicCompany") {
-                details_lists[j].response =
-                  res.data.data[i] == false ? "否" : "是";
+              } else if (this.details_lists[j].keyword == "publicCompany") {
+                this.details_lists[j].response =
+                  this.res.data.data[i] == false ? "否" : "是";
               } else {
                 this.details_lists[j].response = res.data.data[i];
+              }
+              if (this.details_lists[j].keyword == "signTime3") {
+                this.details_lists[j].response = this.$global.timestampToTime(
+                  res.data.data[i]
+                );
               }
             }
           }

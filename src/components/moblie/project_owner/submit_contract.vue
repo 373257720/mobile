@@ -51,19 +51,19 @@ export default {
     return {
       signature: "",
       content: "",
-      str: "",
+      str: ""
       // timestamp :'',
       // owner_signdate: ""
       // success: true
     };
   },
+ 
   created() {
     console.log(this.$route.query);
     console.log(this.$store.state.contract);
-
     this.content = this.$store.state.contract.article;
     this.signature = this.$store.state.contract.owner;
-    
+
     // this.str = JSON.stringify(this.$store.state.contract);
     // console.log(this.content);
   },
@@ -71,7 +71,7 @@ export default {
     owner_signdate: function() {
       console.log(123);
       let timestamp = new Date().getTime();
-       this.$store.commit('owner_signdate',timestamp)
+      this.$store.commit("owner_signdate", timestamp);
       var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为1
       var Y = date.getFullYear() + "-";
       var M =
@@ -80,7 +80,7 @@ export default {
           : date.getMonth() + 1) + "-";
       var D =
         (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
-        return Y + M + D 
+      return Y + M + D;
     }
   },
   mounted() {
@@ -88,40 +88,51 @@ export default {
   },
   methods: {
     contract_submit() {
-      console.log(JSON.stringify(this.$store.state.contract));
-      this.$axios({
-        method: "post",
-        url: `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
-        data: this.$qs.stringify({
-          projectId: this.$route.query.projectId,
-          signId: this.$route.query.signId,
-          signStatus: 2,
-          signAgreement: JSON.stringify(this.$store.state.contract)
-        })
-      }).then(res => {
-        console.log(res);
-        if (res.data.resultCode == 10000) {
-          this.$dialog
-            .alert({
-              title: "提交成功",
-              message: "返回我的项目"
-            })
-            .then(() => {
-              // on close
-              this.$routerto("mysign");
-            });
-        }else{
-          this.$dialog
-            .alert({
-              title: "提交失败",
-              message: "返回"
-            })
-            .then(() => {
-              // on close
-              // this.$routerto("mysign");
-            });
-        }
-      });
+      if (this.content && this.signature) {
+        this.$axios({
+          method: "post",
+          url: `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
+          data: this.$qs.stringify({
+            projectId: this.$route.query.projectId,
+            signId: this.$route.query.signId,
+            signStatus: 2,
+            signAgreement: JSON.stringify(this.$store.state.contract)
+          })
+        }).then(res => {
+          console.log(res);
+          if (res.data.resultCode == 10000) {
+            this.$dialog
+              .alert({
+                title: "提交成功",
+                message: "返回我的项目"
+              })
+              .then(() => {
+                // on close
+                this.$routerto("mysign");
+              });
+          } else {
+            this.$dialog
+              .alert({
+                title: "提交失败",
+                message: "返回"
+              })
+              .then(() => {
+                // on close
+                // this.$routerto("mysign");
+              });
+          }
+        });
+      } else {
+        this.$dialog
+          .confirm({
+            title: "请返回完成签名"
+            // message: "弹窗内容"
+          })
+          .then(() => {
+            // on confirm
+          });
+      }
+      // console.log(JSON.stringify(this.$store.state.contract));
     }
   }
 };

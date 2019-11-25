@@ -36,7 +36,7 @@ export default {
       showBox: false,
       imgurl: "",
       show: false,
-      domjiedian:''
+      domjiedian: ""
     };
   },
   components: {
@@ -47,17 +47,16 @@ export default {
     // console.log(1111);
   },
   created() {
-     console.log(this.$route);
+    console.log(this.$route);
     this.$nextTick(() => {
       window.addEventListener("resize", this.renderResize, false);
-      
     });
   },
   mounted() {
     this.canvasBox = document.getElementById("canvasBox");
-    this.domjiedian= document.querySelector("html"); 
+    this.domjiedian = document.querySelector("html");
     this.renderResize();
-     this.initCanvas();
+    this.initCanvas();
   },
   beforeDestroy() {
     this.domjiedian.style.fontSize = null;
@@ -136,13 +135,25 @@ export default {
       var aa = this.draw.scale(100, 50, this.draw.canvas);
       this.imgurl = this.draw.getPNGImage(aa);
       // if(this.route)
-      console.log(this.$route);
+      console.log(this.imgurl);
       
-     if(this.$route.name=='a_sign_contract'){
-       this.$emit("aimgurl",this.imgurl);
-     }else if(this.$route.name=='p_sign_contract')
-      this.$emit("imgurl",this.imgurl);
+      if (this.imgurl) {
+        if (this.$route.name == "a_sign_contract") {
+          this.$emit("aimgurl", this.imgurl);
+        } else if (this.$route.name == "p_sign_contract")
+          this.$emit("imgurl", this.imgurl);
+      } else {
+        this.$dialog
+          .confirm({
+            title: "请签名"
+            // message: "弹窗内容"
+          })
+          .then(() => {
+            // on confirm
+          });
+      }
     },
+
     clear() {
       this.draw.clear();
     }

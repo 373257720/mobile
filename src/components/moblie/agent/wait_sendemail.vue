@@ -138,8 +138,10 @@ export default {
     };
   },
    created() {
+    this.$loading();
     this.agent_beforesend();
     let details = this.$route.query;
+   
     this.$axios({
       method: "get",
       url: `${
@@ -150,6 +152,7 @@ export default {
         details.signId ? details.signId : -1
       }`
     }).then(res => {
+      this.$toast.clear();
        this.title=res.data.data.projectName;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
@@ -174,10 +177,7 @@ export default {
               for (var k = 0; k < this.investor_infor.length; k++) {
           if(this.investor_infor[k].keyword==i){
             if(this.investor_infor[k].keyword =='investorsType'){
-
-                         console.log(222);
                  this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]] ;
-                 console.log(11);
                  
             }
             else{
@@ -222,170 +222,58 @@ export default {
           signId: this.$route.query.signId,
           memberEmail: this.emailadress,
           investorsId: this.investorsId,
-          emailData: `<html lang="en">
-                                  <head>
-                                  <meta charset="UTF-8">
-                                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                                  <title>mobile</title>
-                                  <style> 
-                                      /**
-                                       * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
-                                       * http://cssreset.com
-                                       */
-                                      html, body, div, span, applet, object, iframe,
-                                      h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-                                      a, abbr, acronym, address, big, cite, code,
-                                      del, dfn, em, img, ins, kbd, q, s, samp,
-                                      small, strike, strong, sub, sup, tt, var,
-                                      b, u, i, center,
-                                      dl, dt, dd, ol, ul, li,
-                                      fieldset, form, label, legend,
-                                      table, caption, tbody, tfoot, thead, tr, th, td,
-                                      article, aside, canvas, details, embed,
-                                      figure, figcaption, footer, header,
-                                      menu, nav, output, ruby, section, summary,
-                                      time, mark, audio, video, input {
-                                          margin: 0;
-                                          padding: 0;
-                                          border: 0;
-                                          font-size: 100%;
-                                          font-weight: normal;
-                                          vertical-align: baseline;
-                                      }
+          emailData: `<html lang="en" style="width: 100%;margin: 0;padding: 0;
+  height: 100%;">
+          <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <meta http-equiv="X-UA-Compatible" content="ie=edge">
+          <title>mobile</title>
+         </head>
 
-                                      /* HTML5 display-role reset for older browsers */
-                                      article, aside, details, figcaption, figure,
-                                      footer, header, menu, nav, section {
-                                          display: block;
-                                      }
+<body>
+<div id="box" style="width: 100%;height: 100%; justify-content: center; 
+align-items: center; 
+display: -webkit-flex;">
+<div class="box" style="border:1px solid #cccccc;border-radius:5px;width: 580px;height:350px;font-size: 14px; 
+justify-content: center; 
+flex-direction: column;
+box-sizing: border-box;
+display: -webkit-flex;  padding: 0 5%;">
+<h2 style="text-align: center;margin-bottom: 20px;"><img style="width: 120px;height: 50px;"   src="${this.custmoers_obj.picUrl}" alt=""></h2>
+<div class="column" style="display: flex;margin-bottom: 15px;">
+<span style="display:block;width: 120px;">【投资银行】</span>
+<span style="display:block;width: 430px;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗</span>
+</div>
+<div class="column" style="display: flex;margin-bottom: 15px;">
 
-                                      body {
-                                          line-height: 1;
-                                      }
+<span style="display:block;width: 120px;">【投资项目】</span>
+<span style="display:block;width: 430px;">${this.custmoers_obj.projectName}</span>
+</div>
+<div class="column" style="display: flex;margin-bottom: 15px;">
+<span style="display:block;width: 120px;">【中间人】</span>
+<span style="display:block;width: 430px;">${this.custmoers_obj.bslName4}</span>
+</div>
+<div class="column" style="display: flex;margin-bottom: 15px;">
+<span style="display:block;width: 120px;">【投行B】</span>
+<span style="display:block;width: 400px;">${this.custmoers_obj.bslName1}</span>
+</div>
 
-                                      blockquote, q {
-                                          quotes: none;
-                                      }
+<div class="column" style="display: flex;justify-content:center;margin-top:20px;">
+<a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}" class="button"
+style="text-decoration: none;width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">
+了解详情
+</a>
 
-                                      blockquote:before, blockquote:after,
-                                      q:before, q:after {
-                                          content: none;
-                                      }
-
-                                      table {
-                                          border-collapse: collapse;
-                                          border-spacing: 0;
-                                      }
-
-                                      /* custom */
-                                      a {
-                                          color: #7e8c8d;
-                                          text-decoration: none;
-                                          -webkit-backface-visibility: hidden;
-                                      }
-
-                                      li {
-                                          list-style: none;
-                                      }
-
-                                      ::-webkit-scrollbar {
-                                          width: 5px;
-                                          height: 5px;
-                                      }
-
-                                      ::-webkit-scrollbar-track-piece {
-                                          background-color: rgba(0, 0, 0, 0.2);
-                                          -webkit-border-radius: 6px;
-                                      }
-
-                                      ::-webkit-scrollbar-thumb:vertical {
-                                          height: 5px;
-                                          background-color: rgba(125, 125, 125, 0.7);
-                                          -webkit-border-radius: 6px;
-                                      }
-
-                                      ::-webkit-scrollbar-thumb:horizontal {
-                                          width: 5px;
-                                          background-color: rgba(125, 125, 125, 0.7);
-                                          -webkit-border-radius: 6px;
-                                      }
-
-                                      html, body {
-                                          width: 100%;
-                                          height: 100%;
-                                      }
-
-                                      body {
-                                          -webkit-text-size-adjust: none;
-                                          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-                                      }
-
-                                      input, select, option, textarea, button {
-                                          outline: none;
-                                      }
-
-                                      img {
-                                          content: normal !important;
-                                      }
-                                      .email {
-                                          width:870px;
-                                          border-left:30px solid #4d98db;
-                                          border-top:36px solid #4d98db;
-                                          border-right:30px solid #4d98db;
-                                          border-bottom:86px solid #4d98db;
-                                          margin:auto;
-                                      }
-                                      .head {
-                                          line-height:82px;
-                                          margin-top:39px;
-                                      }
-                                  </style>
-                              </head>
-
-                            <body>
-                          <div id="box" style="width: 100%;height: 100%; justify-content: center; 
-                          align-items: center; 
-                          display: -webkit-flex;">
-                              <div class="box" style="border:1px solid #cccccc;border-radius:5px;width: 580px;height:350px;font-size: 14px; 
-                              justify-content: center; 
-                              flex-direction: column;
-                              box-sizing: border-box;
-                              display: -webkit-flex;  padding: 0 5%;">
-                                  <h2 style="text-align: center;margin-bottom: 20px;"><img style="width: 120px;height: 50px;"   src="${this.$baseurl}${this.custmoers_obj.picUrl}" alt=""></h2>
-                                  <div class="column" style="display: flex;margin-bottom: 15px;">
-                                <span style="display:block;width: 120px;">【投资银行】</span>
-                                <span style="display:block;width: 430px;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗</span>
-                            </div>
-                            <div class="column" style="display: flex;margin-bottom: 15px;">
-
-                                <span style="display:block;width: 120px;">【投资项目】</span>
-                                <span style="display:block;width: 430px;">${this.custmoers_obj.projectName}</span>
-                            </div>
-                            <div class="column" style="display: flex;margin-bottom: 15px;">
-                                <span style="display:block;width: 120px;">【中间人】</span>
-                                <span style="display:block;width: 430px;">${this.custmoers_obj.bslName4}</span>
-                            </div>
-                            <div class="column" style="display: flex;margin-bottom: 15px;">
-                                <span style="display:block;width: 120px;">【投行B】</span>
-                                <span style="display:block;width: 400px;">${this.custmoers_obj.bslName1}</span>
-                            </div>
-
-                            <div class="column" style="display: flex;justify-content:center;margin-top:20px;">
-                                <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}" class="button"
-                                    style="width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">
-                                    了解详情
-                                </a>
-
-                            </div>
+</div>
 
 
 
-        </div>
-    </div>
+</div>
+</div>
 </body>
 
-                      </html>`
+</html>`
         })
       }).then(res => {
         this.$toast.clear();
@@ -403,9 +291,24 @@ export default {
                 projectId: this.$route.query.projectId,
                 signStatus: 5,
               })
-              // on close
-              // this.$goto("mhome");
-              // this.$routerto("mysign");
+            });
+        }else if(res.data.resultCode == 10010){
+          this.$dialog
+            .alert({
+              title: "邮箱地址未填写"
+              // message: "弹窗内容"
+            })
+            .then(() => {
+             
+            });
+        }else if(res.data.resultCode == 10002){
+          this.$dialog
+            .alert({
+              title: "邮箱内容缺失"
+              // message: "弹窗内容"
+            })
+            .then(() => {
+             
             });
         }
       });
@@ -585,7 +488,7 @@ export default {
           flex-direction: column;
           justify-content: space-between;
           button {
-            height: 0.8rem;
+            height: 1rem;
             color: #ffffff;
           }
           button:nth-of-type(1) {

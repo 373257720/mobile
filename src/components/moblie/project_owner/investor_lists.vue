@@ -8,7 +8,6 @@
       <article>
         <ul>
           <li
-            
             v-for="(item,index) in totallists"
             :key="item.item"
             @click="$routerto('p_inverstor_details',{investorsId:item.investorsId})"
@@ -36,39 +35,38 @@ export default {
   data() {
     return {
       dad_text: "投资者资料",
-      form:{
-        investorsIdList:[]
+      form: {
+        investorsIdList: []
       },
       // investorsId:'',
       details_lists: [
         {
-          keyword:'signTime3',
+          keyword: "signTime3",
           name: "签约成功时间:",
           response: ""
         },
         {
-          keyword:'investorsCompany',
+          keyword: "investorsCompany",
           name: "投资者公司:",
           response: ""
         },
         {
-          keyword:'investorsName',
+          keyword: "investorsName",
           name: "投资者名称:",
           response: ""
         },
         {
-          keyword:'investorsMobile',
+          keyword: "investorsMobile",
           name: "投资者电话",
           response: ""
         },
         {
-          keyword:'interestedIndustries',
+          keyword: "interestedIndustries",
           name: "投资者兴趣:",
           response: ""
         }
       ],
-      totallists:[],
-
+      totallists: []
     };
   },
 
@@ -92,19 +90,22 @@ export default {
   created() {
     let arr = [];
     console.log(this.$route.query);
-    arr=  JSON.parse(this.$route.query.arr)  
-    this.form.investorsIdList=arr;     
+    arr = JSON.parse(this.$route.query.arr);
+    this.form.investorsIdList = arr;
     this.$axios({
       method: "post",
       url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
-      data: this.$qs.stringify( this.form, { arrayFormat: 'brackets' })
+      data: this.$qs.stringify(this.form, { arrayFormat: "brackets" })
     }).then(res => {
       // console.log(res);
-      this.totallists=res.data.data;
-     
-      console.log(this.totallists);
+      this.totallists = res.data.data;
+      for (let i = 0; i < this.totallists.length; i++) {
+        this.totallists[i].signTime3 = this.$global.timestampToTime(
+          this.totallists[i].signTime3
+        );
+      }
 
-      
+      console.log(this.totallists);
     });
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <div id="a_submit_contract">
-    <div class="a_submit_contract">
+    <div class="a_submit_contract" v-if="!iframeState">
       <nav class="a_submit_contract">
         <van-icon name="arrow-left" @click="$global.previous()" />签署合约
       </nav>
@@ -35,6 +35,7 @@
       </main>
       <mbottom></mbottom>
     </div>
+    <!-- <div class="iframe" v-show="iframeState"></div> -->
     <iframe
       v-show="iframeState"
       id="show-iframe"
@@ -42,13 +43,18 @@
       name="showHere"
       scrolling="auto"
       ref="iframe"
-      style="background-color:transparent; position:absolute; width: 100%; height: 100%; top: 0;left:0; z-index=-1;"
+      style="background-color:transparent; position:absolute; width: 100%; height: 100%; top: 0;left:0;"
       :src="`${$baseurl3}/#/upload_contract`"
     ></iframe>
+    <!-- z-index: -1; -->
   </div>
 </template>
 <script>
+</script>
+<script>
 import { async } from "q";
+import { resolve } from "url";
+// import
 export default {
   name: "goods_details",
   data() {
@@ -58,7 +64,8 @@ export default {
       signature: "",
       content: "",
       agent: "",
-      str: ""
+      str: "",
+      childData: ""
       // success: true
     };
   },
@@ -73,37 +80,39 @@ export default {
     // console.log(this.content);
   },
 
-  mounted() {
-    // this.content = "";
+  mounted: function() {
+    window.addEventListener("message", this.handleMessage);
   },
   computed: {
     owner_signdate: function() {
       if (this.$store.state.contract.owner_signdate) {
-       let timestamp = this.$store.state.contract.owner_signdate;
-       return this.$global.stamptodate(timestamp);
+        let timestamp = this.$store.state.contract.owner_signdate;
+        return this.$global.stamptodate(timestamp);
       }
     },
     agent_signdate: function() {
       let timestamp = new Date().getTime();
       this.$store.commit("agent_signdate", timestamp);
       console.log(this.$store.state);
-       return this.$global.stamptodate(timestamp);
+      return this.$global.stamptodate(timestamp);
     }
   },
   methods: {
     // iframe传值
-    // handleMessage(event) {
-    //   var data = event.data;
-    //   switch (data.cmd) {
-    //     case "returnFormJson":
-    //       // 处理业务逻辑
-    //       this.childData = data;
-    //       break;
-    //   }
-    // },
+    handleMessage(event) {
+      var data = event.data;
+      switch (data.cmd) {
+        case "returnFormJson":
+          // 处理业务逻辑
+          this.childData = data;
+          console.log(this.childData);
+
+          break;
+      }
+    },
     contract_submit() {
       this.str = JSON.stringify(this.$store.state.contract);
-      this.$loading();
+      // this.$loading();
       console.log(this.str);
       let p = new Promise((resolve, reject) => {
         this.iframeState = true;
@@ -115,74 +124,82 @@ export default {
           let iframeWin = this.$refs.iframe.contentWindow;
           return iframeWin;
         }
-      }).then(iframeWin => {
-        iframeWin.postMessage(
-          {
-            cmd: "toson",
-            params: this.str
-          },
-          "*"
-        );
-        this.$axios({
-          method: "post",
-          url: `${this.$baseurl}/bsl_web/base/htmlToPdf`,
-          data: this.$qs.stringify({
-            urlPath: `${this.$baseurl3}/#/upload_contract`,
-            signId: this.$route.query.signId
-          })
-        }).then(res => {
-          console.log(res);
-          // this.iframeState = false;
-          this.$toast.clear();
-          if (res.data.resultCode == 10000) {
-            this.signproject4();
-          } else {
-            this.$dialog
-              .alert({
-                title: "上传失败,请稍后再试"
-                // message: "下一步发送邮件到投资者"
-              })
-              .then(() => {});
-          }
-        });
-      });
-    }, // 签约
-    signproject4() {
-      this.$axios({
-        method: "post",
-        url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
-        data: this.$qs.stringify({
-          signId: this.$route.query.signId,
-          signAgreement: this.str
+      })
+        .then(iframeWin => {
+    
+            iframeWin.postMessage(
+              {
+                cmd: "toson",
+                params: this.str
+              },
+              "*"
+            );
+ 
+
+          // resolve(this.childData)
+          // this.handleMessage();
         })
-      }).then(res => {
-        console.log(res);
-        this.$toast.clear();
-        if (res.data.resultCode == 10000) {
-          this.signId = res.data.data.signId;
-          this.$dialog
-            .alert({
-              title: "签约成功",
-              message: "下一步发送邮件到投资者"
-            })
-            .then(() => {
-              this.$routerto("a_wait_sendemail", {
-                signId: this.signId,
-                projectId: this.$route.query.projectId,
-                signStatus: 4
-              });
-            });
-        }else{
-           this.$dialog
-            .alert({
-              title: "签约失败",
-              message: "返回"
-            })
-            .then(() => {
-            });
-        }
-      });
-    }
+        .then(res => {
+          console.log(res);
+        });
+      // this.$axios({
+      //   method: "post",
+      //   url: `${this.$baseurl}/bsl_web/base/htmlToPdf`,
+      //   data: this.$qs.stringify({
+      //     urlPath: `${this.$baseurl3}/#/upload_contract`,
+      //     signId: this.$route.query.signId
+      //   })
+      // }).then(res => {
+      //   console.log(res);
+      //   this.iframeState = false;
+      //   this.$toast.clear();
+      //   if (res.data.resultCode == 10000) {
+      //     this.signproject4();
+      //   } else {
+      //     this.$dialog
+      //       .alert({
+      //         title: "上传失败,请稍后再试"
+      //         // message: "下一步发送邮件到投资者"
+      //       })
+      //       .then(() => {});
+      //   }
+      // });
+    } // 签约
+    // signproject4() {
+    //   this.$axios({
+    //     method: "post",
+    //     url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
+    //     data: this.$qs.stringify({
+    //       signId: this.$route.query.signId,
+    //       signAgreement: this.str
+    //     })
+    //   }).then(res => {
+    //     console.log(res);
+    //     this.$toast.clear();
+    //     if (res.data.resultCode == 10000) {
+    //       this.signId = res.data.data.signId;
+    //       this.$dialog
+    //         .alert({
+    //           title: "签约成功",
+    //           message: "下一步发送邮件到投资者"
+    //         })
+    //         .then(() => {
+    //           this.$routerto("a_wait_sendemail", {
+    //             signId: this.signId,
+    //             projectId: this.$route.query.projectId,
+    //             signStatus: 4
+    //           });
+    //         });
+    //     } else {
+    //       this.$dialog
+    //         .alert({
+    //           title: "签约失败",
+    //           message: "返回"
+    //         })
+    //         .then(() => {});
+    //     }
+    //   });
+    // }
   }
 };
 </script>
@@ -223,9 +240,9 @@ export default {
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
   }
-  div.middle{
-      margin: 0 0.5rem;
-      box-sizing: border-box;
+  div.middle {
+    margin: 0 0.5rem;
+    box-sizing: border-box;
   }
   main {
     margin-top: 1.5rem;

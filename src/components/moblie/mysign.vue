@@ -314,16 +314,16 @@ export default {
               this.upGoodsInfo.length == 0
             ) {
               this.loadText = "加载完成";
-              // let fff = document.querySelector(
-              //   "#mysign .van-loading__spinner--circular"
-              // );
+             document.querySelector(
+                "#mysign .van-loading__spinner--circular"
+              ).style.display = "none";;
               // console.log(fff);
               // // let a = (document.querySelector(
               // //   "#mysign .van-loading__text"
               // // ).style = "margin-left:0");
   
               // fff.parentNode.removeChild(fff);
-              // .style.display = "none";
+          
 
               this.finished = true;
             }

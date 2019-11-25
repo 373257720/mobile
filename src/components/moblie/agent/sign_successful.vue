@@ -10,8 +10,8 @@
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-               <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
-            <p class="row2" v-if="item.keyword!='projectDescribe'" >{{item.response}}</p>
+            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
+            <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
           </li>
         </ul>
         <footer>
@@ -77,6 +77,8 @@ export default {
   },
   created() {
     let details = this.$route.query;
+
+    this.$loading();
     this.$axios({
       method: "get",
       url: `${
@@ -87,6 +89,7 @@ export default {
         details.signId ? details.signId : -1
       }`
     }).then(res => {
+      this.$toast.clear();
       this.investorsId = res.data.data.investorsId;
       this.title = res.data.data.projectName;
       for (var i in res.data.data) {
@@ -96,10 +99,10 @@ export default {
               this.details_lists[j].response = this.$global.pic_obj[
                 res.data.data[i]
               ];
-            }    else if (this.details_lists[j].keyword == "publicCompany" ) {
-                this.details_lists[j].response = res.data.data[i]==false?'否':'是'
-                
-              }else {
+            } else if (this.details_lists[j].keyword == "publicCompany") {
+              this.details_lists[j].response =
+                res.data.data[i] == false ? "否" : "是";
+            } else {
               this.details_lists[j].response = res.data.data[i];
             }
           }

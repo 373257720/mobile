@@ -114,6 +114,7 @@ export default {
   
    created() {
     let details = this.$route.query;
+    this.$loading();
     this.$axios({
       method: "get",
       url: `${
@@ -124,6 +125,7 @@ export default {
         details.signId ? details.signId : -1
       }`
     }).then(res => {
+      this.$toast.clear();
        this.title=res.data.data.projectName;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
@@ -147,10 +149,7 @@ export default {
             for (var k = 0; k < this.investor_infor.length; k++) {
           if(this.investor_infor[k].keyword==i){
             if(this.investor_infor[k].keyword =='investorsType'){
-
-                         console.log(222);
-                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]] ;
-                 console.log(11);
+                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]];
                  
             }
             else{

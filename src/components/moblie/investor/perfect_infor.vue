@@ -79,7 +79,7 @@ export default {
   name: "i_perfect_infor",
   data() {
     return {
-      title:'',
+      title: "",
       form: {
         signId: this.$route.query.signId,
         signStatus: 6,
@@ -104,11 +104,10 @@ export default {
       url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
     })
       .then(res => {
-         this.title=res.data.data.projectName;
+        this.title = res.data.data.projectName;
         // console.log(res);
         this.countrylist = res.data.data;
         console.log(this.countrylist);
-        
       })
       .catch(err => {
         console.log(err);
@@ -116,9 +115,9 @@ export default {
   },
   methods: {
     submit() {
-     let formtable=JSON.parse(JSON.stringify(this.form));
-      let interestedIndustries =this.form.interestedIndustries.join("/");
-      formtable.interestedIndustries=interestedIndustries;
+      let formtable = JSON.parse(JSON.stringify(this.form));
+      let interestedIndustries = this.form.interestedIndustries.join("/");
+      formtable.interestedIndustries = interestedIndustries;
 
       // let  formtable= {
       //   signId: this.$route.query.signId,
@@ -138,32 +137,37 @@ export default {
       this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/signProject3`,
-        data: this.$qs.stringify (formtable),
+        data: this.$qs.stringify(formtable)
       })
         .then(res => {
           console.log(res);
-          if(res.data.resultCode==10000){
-              // this.$routerto('mhome')
-              this.gg();
+          if (res.data.resultCode == 10000) {
+            this.gg("提交成功");
+            this.$routerto("mhome");
+          } else if (res.data.resultCode == 10017) {
+            this.gg("签约流程错误");
+          } else if (res.data.resultCode == 10010) {
+            this.gg("请填写投资者电话");
+          } else if (res.data.resultCode == 10011) {
+            this.gg("请填写投资者邮箱");
+          } else if (res.data.resultCode == 10012) {
+            this.gg("请填写感兴趣行业");
+          } else if (res.data.resultCode == 10013) {
+            this.gg("请填写公司的地址");
           }
         })
         .catch(err => {
           console.log(err);
         });
     },
-    gg() {
+    gg(str) {
       this.$dialog
         .confirm({
-          title: "提交成功",
-          // message: "弹窗内容"
+          title: str
         })
         .then(() => {
-          // on confirm
-           this.$routerto('mhome')
-        })
-        // .catch(() => {
-        //   // on cancel
-        // });
+          // this.$routerto("mhome");
+        });
     }
   }
 };

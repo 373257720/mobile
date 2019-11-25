@@ -18,7 +18,6 @@ export default {
   methods: {
     commit(data) {
       console.log(data);
-      // let str=this.$store.state.contract+'!!!!!'+data
           this.$store.commit('contract_owner',data);
           this.$routerto('p_submit_contract',this.$route.query)
     },

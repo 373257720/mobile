@@ -21,7 +21,7 @@
       </main>
     </nav>
     <ul>
-      <li v-for="item in arr" :key="item.username" @click="$routerto('p_user_contact2',{investorsId:item.investorsId,idname:item.userName})">
+      <li v-for="item in arr" :key="item.username" @click="$routerto('p_user_contact2',{investorsId:item.investorsId})">
         <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
         <!-- <h2></h2> -->
         <p>

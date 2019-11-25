@@ -64,7 +64,7 @@ export default {
     this.title=res.title;
     this.$toast.clear();
   })
-  //  this.details = this.$route.query;
+  //  this.details = this.$route.query;D
   //   console.log(this.details);
     
   //   this.$axios({ 
@@ -305,13 +305,13 @@ export default {
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         aside {
-          height: 2rem;
+          height: 2.5rem;
           display: flex;
           font-size: 0.38rem;
           flex-direction: column;
           justify-content: space-between;
           button {
-            height: 0.8rem;
+            height: 1rem;
             color: #ffffff;
           }
           button:nth-of-type(1) {

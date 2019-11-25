@@ -96,6 +96,11 @@ export default {
             } else {
               this.details_lists[j].response = res.data.data[i];
             }
+            if (this.details_lists[j].keyword == "signTime3") {
+              this.details_lists[j].response = this.$global.timestampToTime(
+                res.data.data[i]
+              );
+            }
           }
         }
       }

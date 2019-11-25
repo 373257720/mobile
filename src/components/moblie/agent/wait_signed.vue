@@ -122,15 +122,15 @@ export default {
       
   let details = this.$route.query;
      console.log(details);
+     this.$loading();
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
     }).then(res => {
-      //  console.log(JSON.parse(this.$store.state.contract) );
-      // console.log(JSON.parse(res.data.data.signAgreement));
+      this.$toast.clear();
        this.title=res.data.data.projectName;
       this.$store.dispatch('contract_agentsign',JSON.parse(res.data.data.signAgreement) );
-      // console.log(this.$store.state);
+      console.log(this.$store.state);
       
       for (var i in res.data.data) {
         // this.investorsId=res.data.data.investorsId; 
@@ -157,10 +157,7 @@ export default {
              for (var k = 0; k < this.investor_infor.length; k++) {
           if(this.investor_infor[k].keyword==i){
             if(this.investor_infor[k].keyword =='investorsType'){
-
-                         console.log(222);
                  this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]] ;
-                 console.log(11);
                  
             }
             else{
@@ -260,7 +257,7 @@ export default {
         background: #f2f2f2;
         line-height: 0.8rem;
         color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
+        // border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
         padding: 0.1rem 0.5rem;
@@ -300,11 +297,11 @@ export default {
         background: #f2f2f2;
         line-height: 0.8rem;
         color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
+        // border-bottom: 0.01rem dashed #b5b5b5;
       }
        div.nav_lists {
         display: flex;
-        // border-top: 0.2rem solid #f2f2f2;
+        border-top: 0;
         border-bottom: 0.2rem solid #f2f2f2;
         > p {
           flex: 1;
@@ -394,7 +391,7 @@ export default {
           flex-direction: column;
           justify-content: space-between;
           button {
-            height: 0.8rem;
+            height:1rem;
             color: #ffffff;
           }
           button:nth-of-type(1) {

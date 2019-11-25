@@ -6,14 +6,14 @@
       <div class="button">
         <p>
           <i>
-            <img :src="owner" alt />
+            <img v-if="owner" :src="owner" alt />
           </i>
           <span>投行</span>
           <span>{{owner_signdate?owner_signdate:''}}</span>
         </p>
         <p>
           <i>
-            <img :src="agent" alt />
+            <img v-if="agent" :src="agent" alt />
           </i>
 
           <span>中间人</span>
@@ -36,6 +36,7 @@ export default {
       agent_signdate: ""
     };
   },
+
   created() {},
   computed: {
     // contract_content: function(){
@@ -43,42 +44,62 @@ export default {
   },
   mounted() {
     // 接受父页面发来的信息
-    window.addEventListener("message", this.handleMessageFromParent); // 子接收方式二参数
-    // console.log(555);
-
-    // this.iframeData = this.$route.query; // 子接收方式一参数
+    // this.bang();
+    ///此时通过$on进行监听中间桥接函数bridge对目的方法childAction进行触发
+    window.addEventListener("message", this.handleMessageFromParent);
   },
-
   methods: {
+    bang() {
+      this.$axios({
+        method: "post",
+        url: `${this.$baseurl}/bsl_web/base/htmlToPdf`,
+        data: this.$qs.stringify({
+          urlPath: `${this.$baseurl3}/#/upload_contract`,
+          signId: this.$route.query.signId
+        })
+      }).then(res => {
+        console.log(res);
+        this.iframeState = false;
+        this.$toast.clear();
+        if (res.data.resultCode == 10000) {
+          this.signproject4();
+        } else {
+          this.$dialog
+            .alert({
+              title: "上传失败,请稍后再试"
+              // message: "下一步发送邮件到投资者"
+            })
+            .then(() => {});
+        }
+      });
+    },
     handleMessageFromParent(event) {
       // 子接收父参数
       // console.log(1111);
-
+      console.log(event);
+      // var p = new Promise((resolve, reject) => {
       var data = event.data;
       switch (data.cmd) {
         case "toson":
-          // 处理业务逻辑
-          // console.log(data.params);
           let ee = JSON.parse(data.params);
-          console.dir(ee)
           this.owner = ee.owner;
           this.agent = ee.agent;
           this.article = ee.article;
-          this.owner_signdate = this.$global.stamptodate(ee.owner_signdate);
+          this.owner_signdate = this.$global.timestampToTime(ee.owner_signdate);
           this.agent_signdate = this.$global.stamptodate(ee.agent_signdate);
-
-          //   this.iframeData = data;
-          // console.log(data);
-
+          this.handleMessageToParent();
+          // resolve("success");
           break;
       }
+      // });
+      // return p;
     },
     handleMessageToParent() {
       // 子向父传参
       window.parent.postMessage(
         {
           cmd: "returnFormJson",
-          params: {}
+          params: { isok: true }
         },
         "*"
       );

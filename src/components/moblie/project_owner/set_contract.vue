@@ -23,7 +23,7 @@ export default {
   name: "goods_details",
   data() {
     return {
-      content: "",
+      content: ""
       // details_lists: ["申请时间:", "申请中间人:", "申请项目:"],
       // myConfig: {
       //   //编辑器配置
@@ -43,22 +43,29 @@ export default {
   created() {
     // console.log(VueUeditorWrap);
     console.log(this.$route.query);
-
-    
   },
-  computed:{
-      
-  },
+  computed: {},
   methods: {
     signature() {
+      if (this.content) {
+        var content = this.content
+          .replace(/\r\n/g, "<br/>")
+          .replace(/\n/g, "<br/>")
+          .replace(/\s/g, "&nbsp;");
+        this.$store.commit("contract_set", content);
+        this.$routerto("p_sign_contract", this.$route.query);
+      } else {
+        this.$dialog
+          .confirm({
+            title: "请输入合同内容"
+            // message: "弹窗内容"
+          })
+          .then(() => {
+            // on confirm
+          });
+      }
       // console.log(this.content);
-      var content = this.content
-        .replace(/\r\n/g, "<br/>")
-        .replace(/\n/g, "<br/>")
-        .replace(/\s/g, "&nbsp;");
-      this.$store.commit("contract_set", content);
-      this.$routerto("p_sign_contract", this.$route.query);
-    },
+    }
     // ready(editorInstance) {
     //   //编辑器实例化
     //   console.log(`实例${editorInstance.key}已经初始化:`, editorInstance);

@@ -48,15 +48,8 @@ export default {
     console.log(this.$route);
     let str = this.$store.state.contract;
     console.log(str);
-    
-    
-    // console.log(str);
-
     this.content = str.article;
     this.signature = str.owner;
-
-    // this.owner_signdate=str.owner_signdate;
-    // console.log( this.owner_signdate);
   },
   computed: {
      owner_signdate: function() {
