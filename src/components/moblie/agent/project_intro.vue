@@ -55,11 +55,13 @@ export default {
     };
   },
     created() {
-        let details = this.$route.query;
+     let details = this.$route.query;
      this.$loading();
-  this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`,'get').then(res=>{
-    console.log(res);
-    this.nav_lists=[...res.nav_lists]
+    this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`,'get').then(res=>{
+      console.log(res);
+      this.nav_lists=[...res.nav_lists]
+
+    // if(this.nav_lists==)
     this.details_lists= [...res.details_lists]
     this.title=res.title;
     this.$toast.clear();
@@ -95,8 +97,6 @@ export default {
   },
   methods: {
     gg() {
-      // console.log(this.$dialog);
-
       this.$dialog
         .confirm({
           title: "标题",
@@ -226,7 +226,7 @@ export default {
         > p {
           flex: 1;
           height: 2.5rem;  
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           display: flex;
           align-items:center;
          
@@ -263,7 +263,7 @@ export default {
           margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;

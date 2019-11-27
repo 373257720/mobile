@@ -22,7 +22,7 @@
           <van-icon name="arrow" />
         </li>
         <section>
-          <van-dialog v-model="show" title="标题" show-cancel-button :beforeClose="changelanguage">
+          <van-dialog v-model="show" title="此功能暂没开通" show-cancel-button :beforeClose="changelanguage">
             <van-radio-group v-model="radio">
               <!-- <van-cell-group> -->
               <van-cell title="ENGLISH" clickable @click="radio = 'en_US'">

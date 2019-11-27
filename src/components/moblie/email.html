@@ -6,259 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <style>
-        /**
-         * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
-         * http://cssreset.com
-         */
-        html,
-        body,
-        tr,
-        td,
-        applet,
-        object,
-        iframe,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        blockquote,
-        pre,
-        a,
-        abbr,
-        acronym,
-        address,
-        big,
-        cite,
-        code,
-        del,
-        dfn,
-        em,
-        img,
-        ins,
-        kbd,
-        q,
-        s,
-        samp,
-        small,
-        strike,
-        strong,
-        sub,
-        sup,
-        tt,
-        var,
-        b,
-        u,
-        i,
-        center,
-        dl,
-        dt,
-        dd,
-        ol,
-        ul,
-        li,
-        fieldset,
-        form,
-        label,
-        legend,
-        table,
-        caption,
-        tbody,
-        tfoot,
-        thead,
-        tr,
-        th,
-        td,
-        article,
-        aside,
-        canvas,
-        details,
-        embed,
-        figure,
-        figcaption,
-        footer,
-        header,
-        menu,
-        nav,
-        output,
-        ruby,
-        section,
-        summary,
-        time,
-        mark,
-        audio,
-        video,
-        input {
-            margin: 0;
-            padding: 0;
-            border: 0;
-            font-size: 100%;
-            font-weight: normal;
-            vertical-align: baseline;
-        }
-
-        /* HTML5 display-role reset for older browsers */
-        article,
-        aside,
-        details,
-        figcaption,
-        figure,
-        footer,
-        header,
-        menu,
-        nav,
-        section {
-            display: block;
-        }
-
-        body {
-            line-height: 1;
-        }
-
-        blockquote,
-        q {
-            quotes: none;
-        }
-
-        blockquote:before,
-        blockquote:after,
-        q:before,
-        q:after {
-            content: none;
-        }
-
-        table {
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
-
-        /* custom */
-        a {
-            color: #7e8c8d;
-            text-decoration: none;
-            -webkit-backface-visibility: hidden;
-        }
-
-        li {
-            list-style: none;
-        }
-
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-
-        ::-webkit-scrollbar-track-piece {
-            background-color: rgba(0, 0, 0, 0.2);
-            -webkit-border-radius: 6px;
-        }
-
-        ::-webkit-scrollbar-thumb:vertical {
-            height: 5px;
-            background-color: rgba(125, 125, 125, 0.7);
-            -webkit-border-radius: 6px;
-        }
-
-        ::-webkit-scrollbar-thumb:horizontal {
-            width: 5px;
-            background-color: rgba(125, 125, 125, 0.7);
-            -webkit-border-radius: 6px;
-        }
-
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-        }
-
-        body {
-            -webkit-text-size-adjust: none;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        }
-
-        /*去掉有焦点边框被选中效果*/
-        input,
-        select,
-        option,
-        textarea,
-        button {
-            outline: none;
-        }
-
-        /*重要是应用vw作为单位，把img图片样式content修改，导致图片显示不了*/
-        img {
-            content: normal !important;
-        }
-
-        /*页面样式*/
-        /* .email {
-            width:870px;
-            border-left:30px solid #4d98db;
-            border-top:36px solid #4d98db;
-            border-right:30px solid #4d98db;
-            border-bottom:86px solid #4d98db;
-            margin:auto;
-        }
-        .head {
-            line-height:82px;
-            margin-top:39px;
-        } */
-    </style>
 </head>
 
 <body>
     <table id="box" style="width: 580px;height:350px;
-     justify-content: center; 
-    align-items: center; 
-    border-collapse:separate; border-spacing:0px 10px;
+     margin: auto;
+    border-collapse:collapse; border-spacing:0px 10px;
     border:1px solid #cccccc;border-radius:5px;
-    display: -webkit-flex;
+  
   ">
-        <!-- <tr class="box" style="border:1px solid #cccccc;border-radius:5px;width: 580px;height:350px;font-size: 14px; 
-        justify-content: center; 
-        flex-direction: column;
-        box-sizing: border-box;
-        display: -webkit-flex;  padding: 0 5%;"> -->
-        <tr style="display: flex;justify-content:center;margin-top:20px;">
-            <td style="text-align: center;">
-                <img style="width: 120px;height: 50px;" src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt="">
-            </td>
-        </tr>
-        <tr class="column" style="">
-            <td style="width: 120px;">【投资银行】</td>
-            <td style="width: 430px;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗</td>
-        </tr>
-        <tr class="column" style="display: -webkit-flex;margin-bottom: 15px;">
+        <thead>
+            <tr>
+                <th colspan="2" height="100">
+                    <img style="width: 100px;height: 50px;" src="../../assets/f2c54dee46c853237c6ac91840de782.png"
+                        alt="">
+                </th>
+            </tr>
+        </thead>
+        <tobody>
+            <tr class="column" style="">
+                <td style="text-align:center;vertical-align:top;">【投资银行】</td>
+                <td style="padding:0;width: 430px;text-align:left;vertical-align:top;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗
+                </td>
+            </tr>
+            <tr class="column" style="">
 
-            <td style="display:block;width: 120px;">【投资项目】</td>
-            <td style="display:block;width: 430px;">你有一地方个大改动个投资项目，有中间人A把投行B推荐给你，同意吗</td>
-        </tr>
-        <tr class="column" style="display: flex;margin-bottom: 15px;">
-            <td style="display:block;width: 120px;">【中间人】</td>
-            <td style="display:block;width: 430px;">你有一个投资项目，有中fdsfdfsdfsdfsdfsd间人A把投行B推荐给你，同意吗</td>
-        </tr>
-        <tr class="column" style="display: flex;margin-bottom: 15px;">
-            <td style="display:block;width: 120px;">【投行B】</td>
-            <td style="display:block;width: 400px;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗</td>
-        </tr>
+                <td style="text-align:center;vertical-align:top;">【投资项目】</td>
+                <td style="text-align:left;vertical-align:top;">
+                    你有一地方个大改动个投资项目，有中间人A把投行B推荐给你，同意吗</td>
+            </tr>
+            <tr class="column" style="margin-bottom: 15px;">
+                <td style="width: 120px;text-align:center;vertical-align:top;">【中间人】</td>
+                <td style="width: 430px;text-align:left;vertical-align:top;">
+                    你有一个投资项目，有中fdsfdfsdfsdfsdfsd间人A把投行B推荐给你，同意吗</td>
+            </tr>
+            <tr class="column" style="margin-bottom: 15px;">
+                <td style="width: 120px;text-align:center;vertical-align:top;">【投行B】</td>
+                <td style="width: 400px;text-align:left;vertical-align:top;">
+                    你有一个投资项目，有中间人A把投行B推荐给你，同意吗
+                </td>
+            </tr>
 
-        <tr class="column" style="display: flex;justify-content:center;margin-top:20px;">
-            <td>
-                <a href="" class="button"
-                    style="display:block;width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">
-                    了解详情
-                </a>
-            </td>
+            <tr class="column" style="">
+                <td colspan="2" style="text-align:center;vertical-align:center;">
+                    <a href="#" class="button" style="text-decoration:none;">
+                        <span
+                            style="display:inline-block;text-decoration:none;width:200px;height:40px;background: #00B1F5;color:white;line-height:40px;">
+                            了解详情
+                        </span>
+                    </a>
+                </td>
 
 
-        </tr>
+            </tr>
+        </tobody>
 
-
-
-        <!-- </tr> -->
     </table>
 </body>
 

@@ -13,7 +13,7 @@ export default {
   },
   created() {
     console.log(this.$route.query);
-    console.log(this.$store.state.contract.body);
+    // console.log(this.$store.state.contract.body);
   },
   methods: {
     commit(data) {

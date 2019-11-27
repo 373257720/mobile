@@ -143,7 +143,13 @@ export default {
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
           if (this.nav_lists[w].keyword == i) {
-            this.nav_lists[w].response = res.data.data[i];
+               if (this.nav_lists[w].keyword == "financingStage") {
+              this.nav_lists[w].response = this.$global.financingStage[
+                res.data.data[i]
+              ];
+            } else {
+              this.nav_lists[w].response = res.data.data[i];
+            }
           }
         };
             for (var k = 0; k < this.investor_infor.length; k++) {

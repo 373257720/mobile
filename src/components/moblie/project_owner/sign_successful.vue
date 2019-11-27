@@ -16,7 +16,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('p_inverstor_details',{investorsId:investorsId})">投资者资料</button>
+            <button @click="check_contract">投资者资料</button>
             <!-- <button @click="gg">合约</button> -->
           </aside>
         </footer>
@@ -106,7 +106,13 @@ export default {
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
           if (this.nav_lists[w].keyword == i) {
-            this.nav_lists[w].response = res.data.data[i];
+            if (this.nav_lists[w].keyword == "financingStage") {
+              this.nav_lists[w].response = this.$global.financingStage[
+                res.data.data[i]
+              ];
+            } else {
+              this.nav_lists[w].response = res.data.data[i];
+            }
           }
         }
       }
@@ -115,6 +121,21 @@ export default {
     });
   },
   methods: {
+     check_contract() {
+      this.$loading();
+      var newWindow = window.open();
+      this.$axios({
+        method: "get",
+        url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
+      }).then(res => {
+        this.$toast.clear();
+        console.log(res);
+        if (res.data.resultCode == 10000) {
+          // window.open();
+          newWindow.location.href = res.data.data.pdfPath;
+        }
+      });
+    },
     gg() {
       // console.log(this.$dialog);
 

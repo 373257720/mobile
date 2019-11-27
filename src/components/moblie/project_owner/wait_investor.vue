@@ -10,13 +10,13 @@
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
-              <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
-            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html='item.response'></p>
+            <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
+            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
           </li>
         </ul>
         <footer>
           <aside>
-            <button @click="$routerto('p_check_done_contract',$route.query)">查看合约</button>
+            <button @click="check_contract">查看合约</button>
             <!-- <button @click="gg">合约</button> -->
           </aside>
         </footer>
@@ -30,9 +30,9 @@ export default {
   name: "p_wait_investor",
   data() {
     return {
-      title:'',
-      details_lists:[],
-      nav_lists:[],
+      title: "",
+      details_lists: [],
+      nav_lists: []
       // details_lists: [
       //   {
       //     keyword: "projectIndustry",
@@ -101,17 +101,28 @@ export default {
     };
   },
   created() {
-  let details = this.$route.query;
-     this.$loading();
-  this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`,'get').then(res=>{
-    console.log(res);
-    this.nav_lists=[...res.nav_lists]
-    this.details_lists= [...res.details_lists]
-    this.title=res.title;
-    this.$toast.clear();
-  })
-  // console.log(pp);
-  
+    let details = this.$route.query;
+    this.$loading();
+    this.$global
+      .goods_deatails(
+        `${
+          this.$baseurl
+        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+          details.projectId
+        }&signStatus=${details.signStatus}&signId=${
+          details.signId ? details.signId : -1
+        }`,
+        "get"
+      )
+      .then(res => {
+        console.log(res);
+        this.nav_lists = [...res.nav_lists];
+        this.details_lists = [...res.details_lists];
+        this.title = res.title;
+        this.$toast.clear();
+      });
+    // console.log(pp);
+
     // this.$axios({
     //   method: "get",
     //   url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
@@ -139,6 +150,21 @@ export default {
   },
 
   methods: {
+    check_contract() {
+      this.$loading();
+      var newWindow = window.open();
+      this.$axios({
+        method: "get",
+        url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
+      }).then(res => {
+        this.$toast.clear();
+        console.log(res);
+        if (res.data.resultCode == 10000) {
+          // window.open();
+          newWindow.location.href = res.data.data.pdfPath;
+        }
+      });
+    },
     gg() {
       // console.log(this.$dialog);
 
@@ -216,7 +242,7 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-      height: 2rem;
+        height: 2rem;
         font-size: 0.46rem;
         padding: 0.4rem;
         box-sizing: border-box;
@@ -230,7 +256,7 @@ export default {
           margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-              font-size: 0.38rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
@@ -247,7 +273,7 @@ export default {
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
-             font-size: 0.38rem;
+        font-size: 0.38rem;
         button {
           width: 9.9rem;
           height: 1rem;

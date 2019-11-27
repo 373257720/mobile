@@ -48,15 +48,15 @@ export default {
   },
   created() {
     // console.log(this.$route);
-    this.$nextTick(() => {
-      window.addEventListener("resize", this.renderResize, false);
-    });
   },
   mounted() {
     this.canvasBox = document.getElementById("canvasBox");
     this.domjiedian = document.querySelector("html");
     this.renderResize();
     this.initCanvas();
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.renderResize, false);
+    });
   },
   beforeDestroy() {
     this.domjiedian.style.fontSize = null;
@@ -135,8 +135,7 @@ export default {
       var aa = this.draw.scale(100, 50, this.draw.canvas);
       this.imgurl = this.draw.getPNGImage(aa);
       // if(this.route)
-      // console.log(this.imgurl);
-      
+      console.log(this.imgurl);
       if (this.imgurl) {
         if (this.$route.name == "a_sign_contract") {
           this.$emit("aimgurl", this.imgurl);
@@ -224,7 +223,7 @@ canvas {
   flex: 1;
   /* width: 100%; */
   cursor: crosshair;
-  border: 0.02rem solid lightgray;
+  border: 1px solid lightgray;
 }
 /* .image-box {
   width: 100%;

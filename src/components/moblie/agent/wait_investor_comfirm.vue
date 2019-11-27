@@ -35,7 +35,7 @@
         </ul>
          <footer>
           <aside>
-              <button @click="$routerto('p_check_done_contract',$route.query)">查看合约</button>
+              <button @click="check_contract">查看合约</button>
           </aside>
         </footer>
       </article>
@@ -146,18 +146,20 @@ export default {
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
           if (this.nav_lists[w].keyword == i) {
-                  
-            this.nav_lists[w].response = res.data.data[i];
+               if (this.nav_lists[w].keyword == "financingStage") {
+              this.nav_lists[w].response = this.$global.financingStage[
+                res.data.data[i]
+              ];
+            } else {
+              this.nav_lists[w].response = res.data.data[i];
+            }
           }
         };
         for (var k = 0; k < this.investor_infor.length; k++) {
           if(this.investor_infor[k].keyword==i){
             if(this.investor_infor[k].keyword =='investorsType'){
-
-                         console.log(222);
-                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]] ;
-                 console.log(11);
-                 
+              
+                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]]           
             }
             else{
               this.investor_infor[k].response = res.data.data[i];
@@ -172,8 +174,23 @@ export default {
     });
   },
   methods: {
-      cancel() {
-      this.show2 = false;
+    //   cancel() {
+    //   this.show2 = false;
+    // },
+   check_contract() {
+      this.$loading();
+      var newWindow = window.open();
+      this.$axios({
+        method: "get",
+        url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
+      }).then(res => {
+        this.$toast.clear();
+        console.log(res);
+        if (res.data.resultCode == 10000) {
+          // window.open();
+          newWindow.location.href = res.data.data.pdfPath;
+        }
+      });
     },
   }
 };
@@ -273,12 +290,12 @@ export default {
         background: #f2f2f2;
         line-height: 0.8rem;
         color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
+        // border-bottom: 0.01rem dashed #b5b5b5;
       }
        div.nav_lists {
         display: flex;
         border-top: 0;
-        border-bottom: 0.2rem solid #f2f2f2;
+        // border-bottom: 0.2rem solid #f2f2f2;
         > p {
           flex: 1;
           height: 2.5rem;  

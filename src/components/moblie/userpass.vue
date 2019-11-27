@@ -129,7 +129,7 @@ export default {
     return {
       dad_text: "个人审核",
       switchon: true, //护照和身份证,true是身份证
-      optStatus: "",
+      optStatus: 3,
       form: {
         userName: "",
         userCountry: "",
@@ -150,15 +150,14 @@ export default {
     };
   },
   created() {
-     this.$loading();
+    this.$loading();
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/user/getAuthDetails`
     })
       .then(res => {
-          this.$toast.clear();
-        // console.log(res.data.data.optStatus);
-
+        this.$toast.clear();
+        console.log(res.data.data);
         if (res.data.data.optStatus == 0) {
           // 0审核中
           this.optStatus = 0;
@@ -185,8 +184,6 @@ export default {
           if (key == "userCountryEn") {
             console.log(111);
             if (
-              // this.form[key] == "HKG" ||
-              // this.form[key] == "MAC" ||
               this.form[key] == "China"
             ) {
               this.switchon = true;

@@ -10,17 +10,17 @@
             <div class="top"></div>
             <div class="middle" v-html="content"></div>
             <div class="button">
-              <p>
+              <p v-if="owner">
                 <i>
-                  <img v-if="signature" :src="signature" alt />
+                  <img :src="owner" alt />
                 </i>
 
                 <span>投行</span>
                 <span>{{owner_signdate?owner_signdate:''}}</span>
               </p>
-              <p>
+              <p v-if="agent">
                 <i>
-                  <img v-if="agent" :src="agent" alt />
+                  <img :src="agent" alt />
                 </i>
 
                 <span>中间人</span>
@@ -28,15 +28,18 @@
               </p>
             </div>
           </div>
-          <footer>
-            <button @click="contract_submit">提交</button>
+          <footer v-show="iswatch==1">
+            <button @click="signproject4">提交</button>
+          </footer>
+          <footer v-show="iswatch==2">
+            <button class="blockchain" @click="contract_submit">确认及上载到区块链</button>
           </footer>
         </article>
       </main>
       <mbottom></mbottom>
     </div>
     <!-- <div class="iframe" v-show="iframeState"></div> -->
-    <iframe
+    <!-- <iframe
       v-show="iframeState"
       id="show-iframe"
       frameborder="0"
@@ -44,44 +47,44 @@
       scrolling="auto"
       ref="iframe"
       style="background-color:transparent; position:absolute; width: 100%; height: 100%; top: 0;left:0;"
-      :src="`${$baseurl3}/#/upload_contract`"
-    ></iframe>
-    <!--  -->
+      :src="src"
+    ></iframe>-->
     <!-- z-index: -1; -->
   </div>
 </template>
 <script>
 </script>
 <script>
-// import { async } from "q";
-// import { resolve } from "url";
-// import
 export default {
   name: "goods_details",
   data() {
     return {
+      iswatch: 1,
+      // src: `${this.$baseurl3}/#/upload_contract?`,
       signId: "",
       iframeState: false,
-      signature: "",
+      owner: "",
       content: "",
       agent: "",
       str: {},
+      token: "",
       childData: "",
+      projectId: ""
       // success: true
     };
   },
   created() {
-    console.log(this.$route.query);
-    // console.log(this.$store.state.contract);
+    // console.log(this.$route.query);
+    console.log(this.$store.state.contract);
     this.content = this.$store.state.contract.article;
-    this.signature = this.$store.state.contract.owner;
+    this.owner = this.$store.state.contract.owner;
     this.agent = this.$store.state.contract.agent;
     // this.str = JSON.stringify(this.$store.state.contract);
     // console.log(this.content);
   },
 
-  mounted: function() {
-    window.addEventListener("message", this.handleMessage);
+  mounted() {
+    // window.addEventListener("message", this.handleMessage);
   },
   computed: {
     owner_signdate: function() {
@@ -98,48 +101,120 @@ export default {
     }
   },
   methods: {
-    // iframe传值
-    handleMessage(event) {
-      var data = event.data;
-      switch (data.cmd) {
-        case "returnFormJson":
-          // 处理业务逻辑
-          this.childData = data;
-          console.log(this.childData);
-
-          break;
-      }
-    },
+    // 上链
     contract_submit() {
-    
-      this.str = this.$store.state.contract;
-      this.str.signId = this.$route.query.signId;
-      this.str.projectId=this.$route.query.projectId;
-      console.log(this.str);
-      let p = new Promise((resolve, reject) => {
-        this.iframeState = true;
-        resolve("success");
-      });
-      p.then(result => {
-        // console.log(result); //success
-        if (result == "success") {
-          let iframeWin = this.$refs.iframe.contentWindow;
-          return iframeWin;
+      // this.str = this.$store.state.contract;
+      this.projectId = this.$route.query.projectId;
+      let urlpath = `${this.$baseurl3}/#/upload_contract?visitToken=${this.token}`;
+      console.log(urlpath);
+      this.$loading();
+      this.$axios({
+        method: "get",
+        url: `${this.$baseurl}/bsl_web/ipfs/update?`,
+        params: {
+          signId: `${this.signId}`,
+          urlPath: `${urlpath}`,
         }
-      }).then(iframeWin => {
-        console.log(this.str);
-        iframeWin.postMessage(
-          {
-            cmd: "toson",
-            params: this.str
-          },
-          "*"
-        );
-        // resolve(this.childData)
-        // this.handleMessage();
+      }).then(res => {
+        this.$toast.clear();
+        console.log(res);
+        if (res.data.resultCode == 10000) {
+          this.$dialog
+            .alert({
+              title: "上传成功",
+              message: "下一步发送邮件到投资者"
+            })
+            .then(() => {
+              this.$routerto("a_wait_sendemail", {
+                signId: this.signId,
+                projectId: this.projectId,
+                signStatus: 4
+              });
+            });
+        }
+      }).catch(err=>{
+         this.$dialog
+            .alert({
+              title: "上传失败",
+              message: "返回"
+            })
+            .then(() => {
+                
+            });
       });
-    } 
- 
+    },
+    // 签约
+    signproject4() {
+      this.signId = this.$route.query.signId;
+      this.$loading();
+      this.$axios({
+        method: "post",
+        url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
+        data: this.$qs.stringify({
+          signId: this.signId,
+          signAgreement: JSON.stringify(this.$store.state.contract)
+        })
+      }).then(res => {
+        console.log(res);
+        this.$toast.clear();
+        if (res.data.resultCode == 10000) {
+          this.iswatch = 2;
+          this.signId = res.data.data.signId;
+          this.token = res.data.data.visitToken;
+          this.$dialog
+            .alert({
+              title: "签约成功",
+              message: "下一步确认及上载到区块链"
+            })
+            .then(() => {
+              // this.$routerto("a_wait_sendemail", {
+              //   signId: this.signId,
+              //   projectId: this.projectId,
+              //   signStatus: 4
+              // });
+            });
+        } else {
+          this.$dialog
+            .alert({
+              title: "签约失败",
+              message: "返回"
+            })
+            .then(() => {});
+        }
+      });
+    }
+    // iframe传值
+    // handleMessage(event) {
+    //   var data = event.data;
+    //   switch (data.cmd) {
+    //     case "returnFormJson":
+    //       // 处理业务逻辑
+    //       this.childData = data;
+    //       console.log(this.childData);
+
+    //       break;
+    //   }
+    // },
+    // let p = new Promise((resolve, reject) => {
+    //   this.iframeState = true;
+    //   resolve("success");
+    // });
+    // p.then(result => {
+    //   // console.log(result); //success
+    //   if (result == "success") {
+    //     let iframeWin = this.$refs.iframe.contentWindow;
+    //     return iframeWin;
+    //   }
+    // }).then(iframeWin => {
+    //   console.log(this.str);
+    //   iframeWin.postMessage(
+    //     {
+    //       cmd: "toson",
+    //       params: this.str
+    //     },
+    //     "*"
+    //   );
+    // });
   }
 };
 </script>
@@ -229,6 +304,9 @@ export default {
         background: #00adef;
         color: white;
         height: 1rem;
+      }
+      .blockchain {
+        background: orange;
       }
     }
   }

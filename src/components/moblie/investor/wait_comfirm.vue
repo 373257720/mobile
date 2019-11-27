@@ -35,7 +35,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="agree()">完善资料</button>
+            <button @click="agree">完善资料</button>
             <button @click="refuse">拒绝</button>
           </aside>
         </footer>
@@ -121,7 +121,7 @@ export default {
     console.log(this.$route.query);
     this.$loading();
     let que=this.$route.query;
-        this.$axios({
+    this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${que.projectId}&signStatus=${que.signStatus}&signId=${que.signId?que.signId:-1}`
       }).then(res => {
@@ -149,7 +149,13 @@ export default {
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
           if (this.nav_lists[w].keyword == i) {
-            this.nav_lists[w].response = res.data.data[i];
+               if (this.nav_lists[w].keyword == "financingStage") {
+              this.nav_lists[w].response = this.$global.financingStage[
+                res.data.data[i]
+              ];
+            } else {
+              this.nav_lists[w].response = res.data.data[i];
+            }
           }
         }
            for (var k = 0; k < this.investor_infor.length; k++) {
@@ -207,10 +213,17 @@ export default {
             this.$axios({
           method: "get",
           url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.$route.query.investorsEmailSend}`
-    }).then(res=>{
-          console.log(res.data);
-          
-    })
+          }).then(res=>{
+                if(res.data.resultCode==10000){
+                     this.$dialog
+                      .confirm({
+                        title: '已拒绝'
+                      })
+                      .then(() => {
+
+                      });
+                }
+          })
         })
         .catch(() => {
           // on cancel

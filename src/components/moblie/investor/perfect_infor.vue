@@ -18,37 +18,37 @@
           <li>
             <p class="row1">投资者公司：</p>
             <p class="row2">
-              <van-field v-model="form.investorsCompany" placeholder="请输入密码" clearable />
+              <van-field v-model="form.investorsCompany" placeholder="请输入" clearable />
             </p>
           </li>
           <li>
             <p class="row1">投资者姓名：</p>
             <p class="row2">
-              <van-field v-model="form.investorsName" placeholder="请输入密码" clearable />
+              <van-field v-model="form.investorsName" placeholder="请输入" clearable />
             </p>
           </li>
           <li>
             <p class="row1">投资者地区：</p>
             <p class="row2">
-              <van-field v-model="form.investorsArea" placeholder="请输入密码" clearable />
+              <van-field v-model="form.investorsArea" placeholder="请输入" clearable />
             </p>
           </li>
           <li>
             <p class="row1">投资者电话：</p>
             <p class="row2">
-              <van-field v-model="form.investorsMobile" placeholder="请输入密码" clearable />
+              <van-field v-model="form.investorsMobile" placeholder="请输入" clearable />
             </p>
           </li>
           <li>
             <p class="row1">投资者邮箱：</p>
             <p class="row2">
-              <van-field v-model="form.investorsEmail" placeholder="请输入密码" clearable />
+              <van-field v-model="form.investorsEmail" placeholder="请输入" clearable />
             </p>
           </li>
           <li>
             <p class="row1">公司地址：</p>
             <p class="row2">
-              <van-field v-model="form.investorsCompanyAddress" placeholder="请输入密码" clearable />
+              <van-field v-model="form.investorsCompanyAddress" placeholder="请输入" clearable />
             </p>
           </li>
           <li>
@@ -59,7 +59,7 @@
                   v-for="(item) in countrylist"
                   :key="item.industryId"
                   :name="item.industryNameCh"
-                >{{ item.industryNameCh }}</van-checkbox>
+                >{{item.industryNameCh}}</van-checkbox>
               </van-checkbox-group>
             </p>
           </li>
@@ -105,7 +105,6 @@ export default {
     })
       .then(res => {
         this.title = res.data.data.projectName;
-        // console.log(res);
         this.countrylist = res.data.data;
         console.log(this.countrylist);
       })
@@ -142,8 +141,8 @@ export default {
         .then(res => {
           console.log(res);
           if (res.data.resultCode == 10000) {
-            this.gg("提交成功");
-            this.$routerto("mhome");
+            this.gg("提交成功", 10000);
+            // this.$routerto("mhome");
           } else if (res.data.resultCode == 10017) {
             this.gg("签约流程错误");
           } else if (res.data.resultCode == 10010) {
@@ -160,13 +159,15 @@ export default {
           console.log(err);
         });
     },
-    gg(str) {
+    gg(str, num) {
       this.$dialog
         .confirm({
           title: str
         })
         .then(() => {
-          // this.$routerto("mhome");
+          if (num == 10000) {
+            this.$routerto("mhome");
+          }
         });
     }
   }
@@ -223,6 +224,17 @@ export default {
   }
   .van-field {
     padding: 0;
+  }
+  .van-cell--clickable {
+    .van-cell__title {
+      margin-left: 2.7rem;
+    }
+    .van-cell__value {
+      display: none;
+    }
+  }
+  .van-checkbox__icon {
+    height: 100%;
   }
 
   .van-dropdown-menu__title::after {

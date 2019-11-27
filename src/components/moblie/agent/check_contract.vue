@@ -9,9 +9,9 @@
           <div class="top"></div>
           <div class="middle" v-html="content"></div>
           <div class="button">
-            <p>
+            <p v-if="signature">
               <i>
-                <img v-if="signature" :src="signature" alt />
+                <img :src="signature" alt />
               </i>
               <span>投行</span>
               <span>{{owner_signdate?owner_signdate:''}}</span>

@@ -171,7 +171,13 @@ export default {
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
           if (this.nav_lists[w].keyword == i) {
-            this.nav_lists[w].response = res.data.data[i];
+              if (this.nav_lists[w].keyword == "financingStage") {
+              this.nav_lists[w].response = this.$global.financingStage[
+                res.data.data[i]
+              ];
+            } else {
+              this.nav_lists[w].response = res.data.data[i];
+            }
           }
         };
               for (var k = 0; k < this.investor_infor.length; k++) {
@@ -206,7 +212,7 @@ export default {
         url: `${this.$baseurl}/bsl_web/project/getDetails?signId=${this.$route.query.signId}`
       }).then(res => {
         if (res.data.resultCode == 10000) {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           this.investorsId = res.data.data.investorsId;
           this.custmoers_obj = res.data.data;
         }
@@ -232,44 +238,60 @@ export default {
          </head>
 
 
-<body style="display: flex;justify-content:center;">
+
+
+<body>
     <table id="box" style="width: 580px;height:350px;
-     justify-content: center; 
-    align-items: center; 
-    border-collapse:separate; border-spacing:0px 10px;
+     margin: auto;
+    border-collapse:collapse; border-spacing:0px 10px;
     border:1px solid #cccccc;border-radius:5px;
-    display: -webkit-flex;
+  
   ">
-        <tr style="display: flex;justify-content:center;margin-top:20px;">
-            <td style="text-align: center;">
-                <img style="width: 120px;height: 50px;" src="${this.custmoers_obj.picUrl}" alt="">
-            </td>
-        </tr>
-        <tr class="column" style="">
-            <td style="width: 120px;">【投资银行】</td>
-            <td style="width: 430px;">${this.custmoers_obj.projectName}</td>
-        </tr>
-        <tr class="column" style="display: -webkit-flex;margin-bottom: 15px;">
+        <thead>
+            <tr>
+                <th colspan="2" height="100">
+                    <img style="width: 100px;height: 50px;" src="${this.custmoers_obj.picUrl}"
+                        alt="">
+                </th>
+            </tr>
+        </thead>
+        <tobody>
+            <tr class="column" style="">
+                <td style="text-align:center;vertical-align:top;">【投资银行】</td>
+                <td style="padding:0;width: 430px;text-align:left;vertical-align:top;">尊敬的投资人，您有一个投资项目，由中间人A把投行B推荐给您，同意与其签约？
+                </td>
+            </tr>
+            <tr class="column" style="">
 
-            <td style="display:block;width: 120px;">【投资项目】</td>
-            <td style="display:block;width: 430px;">你有一地方个大改动个投资项目，有中间人A把投行B推荐给你，同意吗</td>
-        </tr>
-        <tr class="column" style="display: flex;margin-bottom: 15px;">
-            <td style="display:block;width: 120px;">【中间人】</td>
-            <td style="display:block;width: 430px;">${this.custmoers_obj.bslName4}</td>
-        </tr>
-        <tr class="column" style="display: flex;margin-bottom: 15px;">
-            <td style="display:block;width: 120px;">【投行B】</td>
-            <td style="display:block;width: 400px;">${this.custmoers_obj.bslName1}</td>
-        </tr>
+                <td style="text-align:center;vertical-align:top;">【投资项目】</td>
+                <td style="text-align:left;vertical-align:top;">
+                   ${this.custmoers_obj.projectName}</td>
+            </tr>
+            <tr class="column" style="margin-bottom: 15px;">
+                <td style="width: 120px;text-align:center;vertical-align:top;">【中间人】</td>
+                <td style="width: 430px;text-align:left;vertical-align:top;">
+                    ${this.custmoers_obj.bslName4}</td>
+            </tr>
+            <tr class="column" style="margin-bottom: 15px;">
+                <td style="width: 120px;text-align:center;vertical-align:top;">【投行B】</td>
+                <td style="width: 400px;text-align:left;vertical-align:top;">
+                    ${this.custmoers_obj.bslName1}
+                </td>
+            </tr>
 
-        <tr class="column" style="display: flex;justify-content:center;margin-top:20px;">
-            <td style="display: flex;justify-content:center;>
-              <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}" style=" display:block;text-decoration: none;width: 250px;height: 40px;background: #00B1F5;color:white;text-align: center;line-height: 40px;">了解详情</a>  
-            </td>
-        </tr>
+            <tr class="column" style="">
+                <td colspan="2" style="text-align:center;vertical-align:center;">
+                    <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}"" class="button" style="text-decoration:none;">
+                        <span
+                            style="display:inline-block;text-decoration:none;width:200px;height:40px;background: #00B1F5;color:white;line-height:40px;">
+                            了解详情
+                        </span>
+                    </a>
+                </td>
 
 
+            </tr>
+        </tobody>
 
     </table>
 </body>
@@ -297,7 +319,6 @@ export default {
           this.$dialog
             .alert({
               title: "邮箱地址未填写"
-              // message: "弹窗内容"
             })
             .then(() => {
              
@@ -306,7 +327,6 @@ export default {
           this.$dialog
             .alert({
               title: "邮箱内容缺失"
-              // message: "弹窗内容"
             })
             .then(() => {
              

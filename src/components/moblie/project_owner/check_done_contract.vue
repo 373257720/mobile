@@ -15,7 +15,7 @@
               </i>
 
               <span>投行</span>
-             <span>{{owner_signdate?owner_signdate:''}}</span>
+              <span>{{owner_signdate==null?owner_signdate:''}}</span>
             </p>
             <p>
               <i>
@@ -23,7 +23,7 @@
               </i>
 
               <span>中间人</span>
-              <span>{{agent_signdate?agent_signdate:''}}</span>
+              <span>{{agent_signdate==null?agent_signdate:''}}</span>
             </p>
           </div>
         </div>
@@ -46,8 +46,8 @@ export default {
       content: "",
       agent: "",
       isshow: null,
-      owner_signdate:'',
-      agent_signdate:'',
+      owner_signdate: "",
+      agent_signdate: "",
       details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
     };
   },
@@ -60,12 +60,14 @@ export default {
     })
       .then(res => {
         console.log(res);
-        
+
         let str = JSON.parse(res.data.data.signAgreement);
         this.owner = str.owner;
         this.content = str.article;
-        this.owner_signdate=this.$global.stamptodate(str.owner_signdate);
-        this.agent_signdate=this.$global.stamptodate(str.agent_signdate);
+        this.owner_signdate = this.$global.stamptodate(str.owner_signdate);
+        console.log(this.owner_signdate);
+        
+        this.agent_signdate = this.$global.stamptodate(str.agent_signdate);
         this.agent = str.agent;
         this.$toast.clear();
       })
@@ -75,21 +77,20 @@ export default {
   },
   mounted() {
     // this.content = "";
-    
   },
   methods: {
-    output(){
+    output() {
       this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/projectSign/pdfExport?signId=43`
-      // data: this.$qs.stringify(this.form)
-    })
-      .then(res => {
-        console.log(res);
+        method: "get",
+        url: `${this.$baseurl}/bsl_web/projectSign/pdfExport?signId=43`
+        // data: this.$qs.stringify(this.form)
       })
-      .catch(err => {
-        // this.$loadingfail();
-      });
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          // this.$loadingfail();
+        });
     },
     signname() {
       console.log(this.content);

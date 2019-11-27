@@ -15,7 +15,7 @@
               <van-cell
                 v-for="(item, index) in list"
                 clickable
-                :key="item.text"
+                :key="index"
                 :title="`${item.text}`"
                 @click="toggle(index)"
               >
@@ -76,7 +76,7 @@ export default {
       finished: false,
       loadText: "加载中…",
       pageNum: 1,
-      loadNumUp: 5,
+      loadNumUp: 20,
       usertype: "",
       upGoodsInfo: [],
       classname: {
@@ -84,9 +84,27 @@ export default {
       }
     };
   },
+
+  created() {
+    this.usertype = this.$store.state.currentUsertype;
+    console.log(this.$store.state.genre);
+
+    if (this.$store.state.genre.length > 0) {
+      this.result = [...this.$store.state.genre];
+    } else {
+      if (this.usertype == 1) {
+        this.result = [1, 2, 5, 6, 3, 7];
+      } else if (this.usertype == 4) {
+        this.result = [1, 2, 4, 5, 6, 3, 7];
+      } else if (this.usertype == 3) {
+        this.result = [5, 6, 7];
+      }
+    }
+    // console.log( this.result);
+  },
   computed: {
     list: function() {
-      // console.log(usertype);
+      console.log(this.usertype);
       if (this.usertype == 1) {
         return [
           {
@@ -169,23 +187,6 @@ export default {
       }
     }
   },
-  created() {
-    this.usertype = this.$store.state.currentUsertype;
-    console.log(this.$store.state.genre);
-
-    if (this.$store.state.genre.length > 0) {
-      this.result = [...this.$store.state.genre];
-    } else {
-      if (this.usertype == 1) {
-        this.result = [1, 2, 5, 6, 3, 7];
-      } else if (this.usertype == 4) {
-        this.result = [1, 2, 4, 5, 6, 3, 7];
-      } else if (this.usertype == 3) {
-        this.result = [5, 6, 7];
-      }
-    }
-    // console.log( this.result);
-  },
   mounted() {},
   methods: {
     mysignto(item) {
@@ -242,7 +243,6 @@ export default {
       //拒绝
     },
     confirm_lists() {
-
       if (this.usertype == 1 || this.usertype == 4) {
         if (this.result.indexOf(3) >= 0) {
           if (this.result.indexOf(7) <= 0) {
@@ -280,7 +280,6 @@ export default {
     //   this.$refs.checkboxGroup.toggleAll();
     // },
     onLoad() {
-      // console.log(this.result);
       let a = this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/project`,
@@ -309,22 +308,15 @@ export default {
               this.upGoodsInfo = this.upGoodsInfo.concat(re);
               this.loading = false;
             }
+
             if (
               this.upGoodsInfo.length >= res.data.data.pageTotal ||
               this.upGoodsInfo.length == 0
             ) {
               this.loadText = "加载完成";
-             document.querySelector(
-                "#mysign .van-loading__spinner--circular"
-              ).style.display = "none";;
-              // console.log(fff);
-              // // let a = (document.querySelector(
-              // //   "#mysign .van-loading__text"
-              // // ).style = "margin-left:0");
-  
-              // fff.parentNode.removeChild(fff);
-          
-
+              // document.querySelector(
+              //   "#mysign .van-loading__spinner--circular"
+              // ).style.display = "none";
               this.finished = true;
             }
             this.pageNum++;
@@ -332,27 +324,30 @@ export default {
             this.loading = false;
             this.finished = true;
           }
+          // console.log(this.result);
           this.upGoodsInfo.forEach(item => {
             this.list.forEach(ite => {
+              // console.log(item.signStatus, ite.value);
               if (item.signStatus == ite.value) {
                 item.signStatustext = ite.text;
                 item.pic = ite.pic;
+                // console.log(item.signStatustext, item.pic);
               }
             });
           });
-          console.log(this.upGoodsInfo);
+          // console.log(this.upGoodsInfo);
         })
         .catch(err => {
           this.loadText = "加载失败";
-        //  let fff = document.querySelector(
-        //         "#mysign .van-loading__spinner--circular"
-        //       );
-        //       console.log(fff);
-        //       let a = (document.querySelector(
-        //         "#mysign .van-loading__text"
-        //       ).style = "margin-left:0");
-  
-        //       fff.parentNode.removeChild(fff);
+          //  let fff = document.querySelector(
+          //         "#mysign .van-loading__spinner--circular"
+          //       );
+          //       console.log(fff);
+          //       let a = (document.querySelector(
+          //         "#mysign .van-loading__text"
+          //       ).style = "margin-left:0");
+
+          //       fff.parentNode.removeChild(fff);
           // console.log(a);
         });
     }
@@ -481,11 +476,16 @@ export default {
           font-weight: 900;
           line-height: 0.46rem;
           display: inline-block;
-          width: 2.6rem;
+          width: 2.3rem;
           vertical-align: top;
         }
         span:nth-child(2) {
           vertical-align: top;
+           display: inline-block;
+          width: 6.3rem;
+          //   display: inline-block;
+          // width: 2.6rem;
+          // display: inline-block;
           color: #575757;
         }
         //

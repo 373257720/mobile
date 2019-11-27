@@ -144,7 +144,7 @@ export default {
       finished: false,
       loadText: "loading…",
       pageNum: 1,
-      loadNumUp: 5,
+      loadNumUp: 20,
       upGoodsInfo: [],
       value1: "", //行业value
       region_name: "",
@@ -284,9 +284,9 @@ export default {
               this.upGoodsInfo.length == 0
             ) {
               this.loadText = "没有记录";
-              document.querySelector(
-                "#mhome .van-loading__circular"
-              ).style.display = "none";
+              // document.querySelector(
+              //   "#mhome .van-loading__circular"
+              // ).style.display = "none";
               this.finished = true;
             }
             this.pageNum++;
@@ -302,11 +302,11 @@ export default {
         })
         .catch(err => {
           this.loadText = "loading failed";
-          document.querySelector(
-            "#mhome .van-loading__circular"
-          ).style.display = "none";
-          let a = (document.querySelector("#mhome .van-loading__text").style =
-            "margin-left:0");
+          // document.querySelector(
+          //   "#mhome .van-loading__circular"
+          // ).style.display = "none";
+          // let a = (document.querySelector("#mhome .van-loading__text").style =
+          //   "margin-left:0");
           console.log(a);
         });
     }

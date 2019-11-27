@@ -17,7 +17,7 @@
           </li>
         </ul>
         <footer>
-          <button @click="$routerto('p_check_done_contract',$route.query)">查看合约</button>
+          <button @click="check_contract">查看合约</button>
           <!-- <button @click="$goto('p_check_contract')">查看合约</button> -->
         </footer>
       </article>
@@ -106,6 +106,23 @@ export default {
       }
       this.$toast.clear();
     });
+  },
+  methods:{
+     check_contract() {
+      this.$loading();
+      var newWindow = window.open();
+      this.$axios({
+        method: "get",
+        url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
+      }).then(res => {
+        this.$toast.clear();
+        console.log(res);
+        if (res.data.resultCode == 10000) {
+          // window.open();
+          newWindow.location.href = res.data.data.pdfPath;
+        }
+      });
+    },
   }
 };
 </script>

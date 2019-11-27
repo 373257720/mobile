@@ -52,19 +52,19 @@
       <div v-show="form.userIdentityType==2?true:false" class="gongsi">
         <div class="companyname2">
           <p>公司名字</p>
-          <van-field v-model="form.userCompanyCh" placeholder="请输入密码" clearable />
+          <van-field v-model="form.userCompanyCh" placeholder="请输入公司名称" clearable />
         </div>
         <div class="companyname">
           <p>company name</p>
-          <van-field v-model="form.userCompanyEn" placeholder="公司名字" clearable />
+          <van-field v-model="form.userCompanyEn" placeholder="请输入公司名称" clearable />
         </div>
         <div class="company_address">
           <p>公司地址</p>
-          <van-field v-model="form.userAddressCh" placeholder="公司地址" clearable />
+          <van-field v-model="form.userAddressCh" placeholder="请输入公司地址" clearable />
         </div>
         <div class="company_address_eng">
           <p>company address</p>
-          <van-field v-model="form.userAddressEn" placeholder="公司地址" clearable />
+          <van-field v-model="form.userAddressEn" placeholder="请输入公司地址" clearable />
         </div>
         <div class="companycheck">
           <p>公司证书</p>

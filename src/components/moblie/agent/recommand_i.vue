@@ -8,16 +8,22 @@
           <li class="identity">
             <p class="row1">投资者类型:</p>
             <p class="row2">
-              <van-dropdown-menu>
-                <van-dropdown-item v-model="form.investorsType" :options="option2" />
-              </van-dropdown-menu>
+              <van-cell-group>
+                <van-dropdown-menu>
+                  <van-dropdown-item v-model="form.investorsType" :options="investors_type" />
+                </van-dropdown-menu>
+              </van-cell-group>
             </p>
           </li>
-          <li class="investorsCompany">
+          <li class="investorsCompany" v-if="form.investorsType==2">
             <p class="row1">投资者公司:</p>
             <p class="row2">
               <van-cell-group>
-                <van-field v-model="form.investorsCompany" placeholder="请输入" />
+                <van-field
+                  :disabled="typeofidentity"
+                  v-model="form.investorsCompany"
+                  placeholder="请输入"
+                />
               </van-cell-group>
             </p>
           </li>
@@ -33,7 +39,10 @@
             <p class="row1">地区</p>
             <p class="row2">
               <van-cell-group>
-                <van-field v-model="form.investorsArea" placeholder="请输入" />
+                <van-dropdown-menu>
+                  <van-dropdown-item v-model="form.investorsType" :options="region" />
+                </van-dropdown-menu>
+                <!-- <van-field v-model="form.investorsArea" placeholder="请输入" /> -->
               </van-cell-group>
             </p>
           </li>
@@ -53,9 +62,16 @@ export default {
   name: "a_recommand_i",
   data() {
     return {
-      option2: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }],
+      investors_type: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }],
       dad_text: "推荐投资人",
       title: "",
+      region: [
+        // {
+        //   text: "地区",
+        //   value: 0,
+        //   remark: ""
+        // }
+      ],
       form: {
         investorsType: "",
         investorsCompany: "",
@@ -68,6 +84,25 @@ export default {
   },
   created() {
     this.form.projectId = this.$route.query.projectId;
+    this.$global
+      .changepage(`${this.$baseurl}/bsl_web/base/countryList.do`, "get")
+      .then(res => {
+        // console.log(res);
+        // this.region = [...res.data.data];
+        // console.log(this.region);
+         for (let i = 0; i < res.data.data.length; i++) {
+            this.region.push({
+              text: res.data.data[i].countryZhname,
+              value: i,
+              remark: res.data.data[i].countryCode
+            });
+          }
+      });
+  },
+  computed: {
+    // typeofidentity(){
+    //     this.form.investorsType
+    // }
   },
   methods: {
     submit() {
@@ -135,7 +170,7 @@ export default {
   .van-dropdown-menu {
     height: 1rem;
     border-radius: 0.05rem;
-    border: 0.01rem solid #ababab;
+    // border: 0.01rem solid #ababab;
     background: #f6f6f6;
   }
   .van-field__body {

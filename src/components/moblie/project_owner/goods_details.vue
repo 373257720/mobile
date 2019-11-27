@@ -16,7 +16,7 @@
           </li>
         </ul>
         <footer>
-          <button @click="$goto('p_investor_infor')">投资者资料</button>
+          <!-- <button @click="$goto('p_investor_infor')">投资者资料</button> -->
         </footer>
       </article>
     </main>
@@ -87,8 +87,10 @@ export default {
         "get"
       )
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.nav_lists = [...res.nav_lists];
+        console.log(this.nav_lists);
+        
         this.details_lists = [...res.details_lists];
         this.title = res.title;
         this.$toast.clear();
@@ -115,8 +117,8 @@ export default {
               this.details_lists[j].response = this.$global.pic_obj[
                 res.data.data[i]
               ];
-            }   else if (details_lists[j].keyword == "publicCompany" ) {
-                details_lists[j].response = res.data.data[i]==false?'否':'是'
+            }   else if (this.details_lists[j].keyword == "publicCompany" ) {
+                this.details_lists[j].response = res.data.data[i]==false?'否':'是'
                 
               }else {
               this.details_lists[j].response = res.data.data[i];
@@ -125,7 +127,13 @@ export default {
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
           if (this.nav_lists[w].keyword == i) {
-            this.nav_lists[w].response = res.data.data[i];
+            if (this.nav_lists[w].keyword == "financingStage") {
+              this.nav_lists[w].response = this.$global.financingStage[
+                res.data.data[i]
+              ];
+            } else {
+              this.nav_lists[w].response = res.data.data[i];
+            }
           }
         }
       }
@@ -164,12 +172,13 @@ export default {
     article {
       margin: 1.6rem 0 1.3rem 0;
       header {
-        height: 2rem;
-        font-size: 0.5rem;
+      height: 2rem;
+        font-size: 0.46rem;
+        padding: 0.4rem;
+        box-sizing: border-box;
         color: #0f6ebe;
-        text-align: center;
-        font-weight: 550;
-        line-height: 2rem;
+        font-weight: 600;
+        line-height: 0.7rem;
       }
       ul {
         padding: 0.5rem 0.54rem 0 0.54rem;

@@ -57,7 +57,7 @@ export default {
       // success: true
     };
   },
- 
+
   created() {
     console.log(this.$route.query);
     console.log(this.$store.state.contract);
@@ -69,18 +69,10 @@ export default {
   },
   computed: {
     owner_signdate: function() {
-      console.log(123);
+      // console.log(123);
       let timestamp = new Date().getTime();
       this.$store.commit("owner_signdate", timestamp);
-      var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为1
-      var Y = date.getFullYear() + "-";
-      var M =
-        (date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1) + "-";
-      var D =
-        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
-      return Y + M + D;
+      return this.$global.stamptodate(timestamp);
     }
   },
   mounted() {
@@ -88,6 +80,7 @@ export default {
   },
   methods: {
     contract_submit() {
+      this.$loading();
       if (this.content && this.signature) {
         this.$axios({
           method: "post",
@@ -99,6 +92,7 @@ export default {
             signAgreement: JSON.stringify(this.$store.state.contract)
           })
         }).then(res => {
+          this.$toast.clear();
           console.log(res);
           if (res.data.resultCode == 10000) {
             this.$dialog

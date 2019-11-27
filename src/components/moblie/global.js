@@ -3,16 +3,16 @@ import Vue from 'vue'
 import router from '../../router';
 
 const global = {
-  stamptodate:function(stamp){
+  stamptodate: function (stamp) {
     var date = new Date(stamp);
     var Y = date.getFullYear() + "-";
     var M =
-      (date.getMonth() + 1 < 10
-        ? "0" + (date.getMonth() + 1)
-        : date.getMonth() + 1) + "-";
+      (date.getMonth() + 1 < 10 ?
+        "0" + (date.getMonth() + 1) :
+        date.getMonth() + 1) + "-";
     var D =
       (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
-      return Y + M + D 
+    return Y + M + D
   },
   timestampToTime: function (timestamp) {
     var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为1
@@ -51,10 +51,20 @@ const global = {
     '7': "投资者已拒绝"
 
   },
+  financingStage: {
+    '0': '种子轮',
+    '1': "天使轮",
+    '2': "A轮",
+    '3': "B轮",
+    '4': "C轮",
+    '5': "PRE-IPO",
+    '6': "IPO",
+
+  },
   // 投资者身份类型：1个人，2公司
-  investorsType:{
-      '1':'个人',
-      '2':'公司'
+  investorsType: {
+    '1': '个人',
+    '2': '公司'
   },
 
   goods_deatails: function (url, methods, datas) {
@@ -121,24 +131,23 @@ const global = {
         response: ""
       }
     ];
-    let investor_infor= [
-      {
-        keyword:'investorsType',
+    let investor_infor = [{
+        keyword: 'investorsType',
         name: "投资者类型:",
         response: ""
       },
       {
-        keyword:'investorsCompany',
+        keyword: 'investorsCompany',
         name: "投资者公司:",
         response: ""
       },
       {
-        keyword:'investorsName',
+        keyword: 'investorsName',
         name: "投资者姓名:",
         response: ""
       },
       {
-        keyword:'investorsArea',
+        keyword: 'investorsArea',
         name: "投资者地区:",
         response: ""
       }
@@ -150,30 +159,32 @@ const global = {
         data: datas
       }).then((res) => {
 
-     let projectName=res.data.data.projectName;
+        let projectName = res.data.data.projectName;
         for (var i in res.data.data) {
           for (var j = 0; j < details_lists.length; j++) {
-            if(details_lists[j].keyword ==i){
+            if (details_lists[j].keyword == i) {
               if (details_lists[j].keyword == "signStatus") {
                 details_lists[j].response = this.pic_obj[
                   res.data.data[i]
                 ];
-              }
-             else if (details_lists[j].keyword == "publicCompany" ) {
-                details_lists[j].response = res.data.data[i]==false?'否':'是'
-                
-              }
-              
-              
-              else {
+              } else if (details_lists[j].keyword == "publicCompany") {
+                details_lists[j].response = res.data.data[i] == false ? '否' : '是'
+
+              } else {
                 details_lists[j].response = res.data.data[i];
               }
             }
-           
+
           }
           for (var w = 0; w < nav_lists.length; w++) {
             if (nav_lists[w].keyword == i) {
-              nav_lists[w].response = res.data.data[i];
+              if (nav_lists[w].keyword == "financingStage") {
+                nav_lists[w].response = this.financingStage[
+                  res.data.data[i]
+                ];
+              } else {
+                nav_lists[w].response = res.data.data[i];
+              }
             }
           }
           // if()
@@ -181,7 +192,7 @@ const global = {
         let combin = {
           details_lists: details_lists,
           nav_lists: nav_lists,
-          title:projectName
+          title: projectName
         }
         resolve(combin)
 
