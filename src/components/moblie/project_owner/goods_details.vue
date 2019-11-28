@@ -14,9 +14,19 @@
             <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
             <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
           </li>
+          <!-- <li class="uploadblock">
+            <p class="row1">HASH序列号:</p>
+            <p class="row2" v-if="hash_id">
+              {{hash_id}}
+              <i @click="share(hash_id)">
+                <img src="../../../../static/pic/0ae32d519e5102a03ca5028b0b9e244.png" alt />
+              </i>
+            </p>
+          </li> -->
         </ul>
+    
         <footer>
-          <!-- <button @click="$goto('p_investor_infor')">投资者资料</button> -->
+          <!-- <button @click="$goto('p_investor_lists')">投资者资料</button> -->
         </footer>
       </article>
     </main>
@@ -28,6 +38,8 @@ export default {
   name: "p_goods_details",
   data() {
     return {
+      show: false,
+      hash_id: "",
       title: "",
       dad_text: "项目详情",
       nav_lists: [
@@ -58,10 +70,15 @@ export default {
           name: "地区:",
           response: ""
         },
+        // {
+        //   keyword: "signStatus",
+        //   name: "项目状态:",
+        //   response: ""
+        // },
         {
-          keyword: "signStatus",
+          keyword: "signStatu",
           name: "项目状态:",
-          response: ""
+          response: "暂无"
         },
         { keyword: "projectCompany", name: "公司名称:", response: "" },
         { keyword: "publicCompany", name: "是否上市公司:", response: "" },
@@ -90,7 +107,7 @@ export default {
         // console.log(res);
         this.nav_lists = [...res.nav_lists];
         console.log(this.nav_lists);
-        
+
         this.details_lists = [...res.details_lists];
         this.title = res.title;
         this.$toast.clear();
@@ -109,6 +126,7 @@ export default {
         details.signId ? details.signId : -1
       }`
     }).then(res => {
+      this.hash_id = res.data.data.signAgreementKey;
       this.title = res.data.data.projectName;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
@@ -117,10 +135,10 @@ export default {
               this.details_lists[j].response = this.$global.pic_obj[
                 res.data.data[i]
               ];
-            }   else if (this.details_lists[j].keyword == "publicCompany" ) {
-                this.details_lists[j].response = res.data.data[i]==false?'否':'是'
-                
-              }else {
+            } else if (this.details_lists[j].keyword == "publicCompany") {
+              this.details_lists[j].response =
+                res.data.data[i] == false ? "否" : "是";
+            } else {
               this.details_lists[j].response = res.data.data[i];
             }
           }
@@ -140,6 +158,9 @@ export default {
       console.log(this.details_lists);
       this.$toast.clear();
     });
+  },
+  methods: {
+ 
   }
 };
 </script>
@@ -155,11 +176,30 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+    .van-dialog__header{
+    font-size: 0.5rem;
+  }
+ .van-dialog__content {
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    div {
+      width: 6rem;
+      // height: 2rem;
+      text-align: center;
+      word-wrap: break-word;
+    }
+    .hash {
+      margin-top:0.2rem;  
+      color: #0f6ebe;
+    }
+  }
 }
 </style>
 <style lang="scss" scoped>
 #p_goods_details {
   width: 100%;
+  
   main {
     // margin-top: 1.5rem;
     background: #ffffff;
@@ -172,7 +212,7 @@ export default {
     article {
       margin: 1.6rem 0 1.3rem 0;
       header {
-      height: 2rem;
+        height: 2rem;
         font-size: 0.46rem;
         padding: 0.4rem;
         box-sizing: border-box;
@@ -197,6 +237,13 @@ export default {
             word-break: break-all;
             line-height: 0.48rem;
             color: #787878;
+          }
+        }
+            li.uploadblock {
+          img {
+            width: 0.6rem;
+            vertical-align: middle;
+            height: 0.6rem;
           }
         }
       }

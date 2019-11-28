@@ -7,19 +7,30 @@
       <article>
         <header>{{title}}</header>
         <boxx :nav_lists="nav_lists"></boxx>
+        <!-- <commondetails></commondetails> -->
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
             <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
             <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
           </li>
+          <li class="uploadblock">
+            <p class="row1">HASH序列号:</p>
+            <p class="row2" v-if="hash_id">
+              {{hash_id}}
+              <i @click="share(hash_id)">
+                <img src="../../../../static/pic/0ae32d519e5102a03ca5028b0b9e244.png" alt />
+              </i>
+            </p>
+          </li>
         </ul>
-        <footer>
-          <aside>
-            <button @click="check_contract">查看合约</button>
-            <!-- <button @click="gg">合约</button> -->
-          </aside>
-        </footer>
+        <van-dialog v-model="show" title="复制成功">
+          <img src="https://img.yzcdn.cn/vant/apple-3.jpg" />{{hash_id}}
+          <div>
+            <p>你可以把刚刚复制HASH序列号黏贴到网站里搜索,即可看到合约pdf</p>
+            <p class="hash" @click="daship">http://www.wearetechman.com:5001/webui</p>
+          </div>
+        </van-dialog>
       </article>
     </main>
     <mbottom></mbottom>
@@ -30,78 +41,16 @@ export default {
   name: "p_wait_investor",
   data() {
     return {
+      show: false,
+      hash_id: "",
       title: "",
       details_lists: [],
       nav_lists: []
-      // details_lists: [
-      //   {
-      //     keyword: "projectIndustry",
-      //     name: "行业:",
-      //     response: ""
-      //   },
-      //   {
-      //     keyword: "projectArea",
-      //     name: "地区:",
-      //     response: ""
-      //   },
-      //   {
-      //     keyword: "signStatus",
-      //     name: "项目状态",
-      //     response: ""
-      //   },
-      //   {
-      //     keyword: "projectCompany",
-      //     name: "公司名称:",
-      //     response: ""
-      //   },
-      //   {
-      //     keyword: "publicCompany",
-      //     name: "是否是上市公司",
-      //     response: ""
-      //   },
-      //   {
-      //     keyword: "collectMoney",
-      //     name: "集资额:",
-      //     response: ""
-      //   },
-      //   {
-      //     keyword: "projectMobile",
-      //     name: "联络电话:",
-      //     response: ""
-      //   },
-      //   {
-      //     keyword: "projectEmail",
-      //     name: "电邮",
-      //     response: ""
-      //   },
-
-      //   {
-      //     keyword: "projectDescribe",
-      //     name: "项目介绍",
-      //     response: ""
-      //   }
-      // ],
-      // nav_lists: [
-      //     {
-      //     keyword: "financingStage",
-      //     name: "融资阶段",
-      //     response: ""
-      //   },
-      //   {
-      //     keyword: "interestProjectCount",
-      //     name: "项目方<br>有兴趣数量",
-      //     response: ""
-      //   },
-      //   {
-      //     keyword:'committedCount',
-      //     name: "已提交</br>投资者数量",
-      //     response: ""
-      //   }
-      // ]
     };
   },
   created() {
-    let details = this.$route.query;
+    
+  this.details = this.$route.query;
     this.$loading();
     this.$global
       .goods_deatails(
@@ -116,58 +65,39 @@ export default {
       )
       .then(res => {
         console.log(res);
+        // if (res.signAgreementKey) {
+        //   this.hash_id = res.data.data.signAgreementKey;
+        // }
+        this.hash_id = res.signAgreementKey;
         this.nav_lists = [...res.nav_lists];
         this.details_lists = [...res.details_lists];
         this.title = res.title;
         this.$toast.clear();
       });
     // console.log(pp);
-
-    // this.$axios({
-    //   method: "get",
-    //   url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`
-    // }).then(res => {
-    //   this.title=res.data.data.projectName;
-    //   for (var i in res.data.data) {
-    //     for (var j = 0; j < this.details_lists.length; j++) {
-    //         if (this.details_lists[j].keyword == "signStatus") {
-    //           this.details_lists[j].response = this.$global.pic_obj[
-    //             res.data.data[i]
-    //           ];
-    //         } else {
-    //           this.details_lists[j].response = res.data.data[i];
-    //         }
-    //     }
-    //     for (var w = 0; w < this.nav_lists.length; w++) {
-    //       if (this.nav_lists[w].keyword == i) {
-    //         this.nav_lists[w].response = res.data.data[i];
-    //       }
-    //     }
-    //   }
-    //   console.log(this.details_lists);
-    //    this.$toast.clear();
-    // });
   },
 
   methods: {
-    check_contract() {
-      this.$loading();
+    daship() {
       var newWindow = window.open();
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
-      }).then(res => {
-        this.$toast.clear();
-        console.log(res);
-        if (res.data.resultCode == 10000) {
-          // window.open();
-          newWindow.location.href = res.data.data.pdfPath;
+      newWindow.location.href = "http://www.wearetechman.com:5001/webui";
+      // tempwindow.location=hash_id;
+    },
+    // 点击事件
+    share(val) {
+      console.log(val);
+      this.message = val;
+      this.$copyText(this.message).then(
+        e => {
+          this.show = true;
+        },
+        function(e) {
+          // alert("Can not copy");
+          console.log(e);
         }
-      });
+      );
     },
     gg() {
-      // console.log(this.$dialog);
-
       this.$dialog
         .confirm({
           title: "标题",
@@ -210,7 +140,26 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+  .van-dialog__header {
+    font-size: 0.5rem;
+  }
+ .van-dialog__content {
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    div {
+      width: 6rem;
+      // height: 2rem;
+      text-align: center;
+      word-wrap: break-word;
+    }
+    .hash {
+      margin-top:0.2rem;  
+      color: #0f6ebe;
+    }
+  }
 }
+
 .van-dialog {
   font-size: 0.3rem;
 }
@@ -268,6 +217,14 @@ export default {
             word-break: break-all;
             line-height: 0.48rem;
             color: #787878;
+          }
+        }
+
+        li.uploadblock {
+          img {
+            width: 0.6rem;
+            vertical-align: middle;
+            height: 0.6rem;
           }
         }
       }

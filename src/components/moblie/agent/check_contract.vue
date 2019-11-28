@@ -103,6 +103,7 @@ export default {
   }
   main {
     margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     padding: 0.5rem;
     background: #ffffff;
     .contract {

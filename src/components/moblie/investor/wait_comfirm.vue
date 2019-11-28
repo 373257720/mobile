@@ -103,10 +103,15 @@ export default {
           name: "地区:",
           response: ""
         },
-        {
-          keyword: "signStatus",
+        // {
+        //   keyword: "signStatus",
+        //   name: "项目状态:",
+        //   response: ""
+        // },
+          {
+          keyword: "signStatu",
           name: "项目状态:",
-          response: ""
+          response: "暂无"
         },
         { keyword: "projectCompany", name: "公司名称:", response: "" },
         { keyword: "publicCompany", name: "是否上市公司:", response: "" },
@@ -126,6 +131,7 @@ export default {
       url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${que.projectId}&signStatus=${que.signStatus}&signId=${que.signId?que.signId:-1}`
       }).then(res => {
         this.$toast.clear();
+        this.investorsEmailSend=res.data.data.investorsEmailSend
         this.projectName=res.data.data.projectName;
         this.$route.query.investorsId=res.data.data.investorsId;
       for (var i in res.data.data) {
@@ -212,7 +218,7 @@ export default {
           // on confirm
             this.$axios({
           method: "get",
-          url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.$route.query.investorsEmailSend}`
+          url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.investorsEmailSend}`
           }).then(res=>{
                 if(res.data.resultCode==10000){
                      this.$dialog

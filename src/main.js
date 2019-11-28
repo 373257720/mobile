@@ -12,6 +12,9 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
+// 复制插件
+import VueClipboards from 'vue-clipboard2'
+Vue.use(VueClipboards);
 // import Vconsole from 'vconsole'
 // let vConsole = new Vconsole()
 // Vue.use(vConsole);
@@ -111,6 +114,8 @@ import common_nav from './components/moblie/common_nav.vue'
 Vue.component('commonnav', common_nav)
 import box from './components/moblie/3box'
 Vue.component('boxx', box)
+import commondetails from './components/moblie/common_details'
+Vue.component('commondetails', commondetails)
 
 
 // Vue.component('Vue-ueditor-wrap ',VueUeditorWrap )

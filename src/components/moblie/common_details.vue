@@ -1,11 +1,7 @@
 <template>
-  <div id="a_wait_investor_comfirm">
-    <!-- <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签约请求
-    </nav> -->
-     <commonnav :msg="dad_text"></commonnav>
+  <div id="common_details">
     <main>
-      <div class="investors_infor">
+      <!-- <div class="common_details">
         <h2>{{title}}</h2>
         <header>投资者资料</header>
         <ul>
@@ -14,18 +10,17 @@
             <p class="row2">{{item.response}}</p>
           </li>
         </ul>
-      </div>
+      </div> -->
       <article>
-        <header>项目详情</header>
+        <!-- <header>项目详情</header>
             <div class="nav_lists">
           <p v-for="(item) in nav_lists" :key="item.name">
             <section class="box">
                <span class="1row" v-html="item.name"></span>
               <span class="rowb" >{{item.response}}</span>
-            </section>
-          
+            </section>   
           </p>
-        </div>
+        </div> -->
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
@@ -37,7 +32,7 @@
             <p class="row2" v-if="hash_id">
               {{hash_id}}
               <i @click="share(hash_id)">
-                <img src="../../../../static/pic/0ae32d519e5102a03ca5028b0b9e244.png" alt />
+                <img src="../../../static/pic/0ae32d519e5102a03ca5028b0b9e244.png" alt />
               </i>
             </p>
           </li>
@@ -48,14 +43,8 @@
             <p class="hash" @click="daship">http://www.wearetechman.com:5001/webui</p>
           </div>
         </van-dialog>
-         <!-- <footer>
-          <aside>
-              <button @click="check_contract">查看合约</button>
-          </aside>
-        </footer> -->
       </article>
     </main>
-    <mbottom></mbottom>
   </div>
 </template>
 <script>
@@ -64,48 +53,48 @@ export default {
   data() {
     return {
       show:false,
-      title:'',
+    //   title:'',
       hash_id:'',
-      dad_text:'待投资者确认项目',
-    nav_lists: [
-        {
-          keyword: "financingStage",
-          name: "融资阶段",
-          response: ""
-        },
-        {
-          keyword: "interestProjectCount",
-          name: "项目方<br>有兴趣数量",
-          response: ""
-        },
-        {
-          keyword: "committedCount",
-          name: "已提交</br>投资者数量",
-          response: ""
-        }
-      ],
-    investor_infor: [
-        {
-          keyword:'investorsType',
-          name: "投资者类型:",
-          response: ""
-        },
-        {
-          keyword:'investorsCompany',
-          name: "投资者公司:",
-          response: ""
-        },
-        {
-          keyword:'investorsName',
-          name: "投资者姓名:",
-          response: ""
-        },
-        {
-          keyword:'investorsArea',
-          name: "投资者地区:",
-          response: ""
-        }
-      ],
+    //   dad_text:'待投资者确认项目',
+    // nav_lists: [
+    //     {
+    //       keyword: "financingStage",
+    //       name: "融资阶段",
+    //       response: ""
+    //     },
+    //     {
+    //       keyword: "interestProjectCount",
+    //       name: "项目方<br>有兴趣数量",
+    //       response: ""
+    //     },
+    //     {
+    //       keyword: "committedCount",
+    //       name: "已提交</br>投资者数量",
+    //       response: ""
+    //     }
+    //   ],
+    // investor_infor: [
+    //     {
+    //       keyword:'investorsType',
+    //       name: "投资者类型:",
+    //       response: ""
+    //     },
+    //     {
+    //       keyword:'investorsCompany',
+    //       name: "投资者公司:",
+    //       response: ""
+    //     },
+    //     {
+    //       keyword:'investorsName',
+    //       name: "投资者姓名:",
+    //       response: ""
+    //     },
+    //     {
+    //       keyword:'investorsArea',
+    //       name: "投资者地区:",
+    //       response: ""
+    //     }
+    //   ],
        details_lists: [
       {
           keyword: "projectIndustry",
@@ -138,63 +127,63 @@ export default {
   },
    created() {
     let details = this.$route.query;
-    this.$loading();
-    this.$axios({
-      method: "get",
-      url: `${
-        this.$baseurl
-      }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-        details.projectId
-      }&signStatus=${details.signStatus}&signId=${
-        details.signId ? details.signId : -1
-      }`
-    }).then(res => {
-      this.$toast.clear();
-      this.hash_id = res.data.data.signAgreementKey;
-       this.title=res.data.data.projectName;
-      for (var i in res.data.data) {
-        for (var j = 0; j < this.details_lists.length; j++) {
-        if (this.details_lists[j].keyword == i) { 
-            if (this.details_lists[j].keyword == "signStatus") {
-              this.details_lists[j].response = this.$global.pic_obj[
-                res.data.data[i]
-              ];
-            }   else if (this.details_lists[j].keyword == "publicCompany" ) {
-                this.details_lists[j].response = res.data.data[i]==false?'否':'是'
+    // this.$loading();
+    // this.$axios({
+    //   method: "get",
+    //   url: `${
+    //     this.$baseurl
+    //   }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+    //     details.projectId
+    //   }&signStatus=${details.signStatus}&signId=${
+    //     details.signId ? details.signId : -1
+    //   }`
+    // }).then(res => {
+    //   this.$toast.clear();
+    //   this.hash_id = res.data.data.signAgreementKey;
+    //    this.title=res.data.data.projectName;
+    //   for (var i in res.data.data) {
+    //     for (var j = 0; j < this.details_lists.length; j++) {
+    //     if (this.details_lists[j].keyword == i) { 
+    //         if (this.details_lists[j].keyword == "signStatus") {
+    //           this.details_lists[j].response = this.$global.pic_obj[
+    //             res.data.data[i]
+    //           ];
+    //         }   else if (this.details_lists[j].keyword == "publicCompany" ) {
+    //             this.details_lists[j].response = res.data.data[i]==false?'否':'是'
                 
-              }else {
-              this.details_lists[j].response = res.data.data[i];
-            }
-          }  
-        }
-        for (var w = 0; w < this.nav_lists.length; w++) {
-          if (this.nav_lists[w].keyword == i) {
-               if (this.nav_lists[w].keyword == "financingStage") {
-              this.nav_lists[w].response = this.$global.financingStage[
-                res.data.data[i]
-              ];
-            } else {
-              this.nav_lists[w].response = res.data.data[i];
-            }
-          }
-        };
-        for (var k = 0; k < this.investor_infor.length; k++) {
-          if(this.investor_infor[k].keyword==i){
-            if(this.investor_infor[k].keyword =='investorsType'){
+    //           }else {
+    //           this.details_lists[j].response = res.data.data[i];
+    //         }
+    //       }  
+    //     }
+    //     for (var w = 0; w < this.nav_lists.length; w++) {
+    //       if (this.nav_lists[w].keyword == i) {
+    //            if (this.nav_lists[w].keyword == "financingStage") {
+    //           this.nav_lists[w].response = this.$global.financingStage[
+    //             res.data.data[i]
+    //           ];
+    //         } else {
+    //           this.nav_lists[w].response = res.data.data[i];
+    //         }
+    //       }
+    //     };
+    //     for (var k = 0; k < this.investor_infor.length; k++) {
+    //       if(this.investor_infor[k].keyword==i){
+    //         if(this.investor_infor[k].keyword =='investorsType'){
               
-                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]]           
-            }
-            else{
-              this.investor_infor[k].response = res.data.data[i];
-            }
-          }
+    //              this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]]           
+    //         }
+    //         else{
+    //           this.investor_infor[k].response = res.data.data[i];
+    //         }
+    //       }
           
-        }
-      }
-      console.log(this.details_lists);
-      console.log(this.investor_infor);
+    //     }
+    //   }
+    //   console.log(this.details_lists);
+    //   console.log(this.investor_infor);
       
-    });
+    // });
   },
   methods: {
     //   cancel() {
@@ -238,7 +227,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#a_wait_investor_comfirm {
+#common_details {
   nav {
     // position: relative;
     .van-icon-arrow-left {
@@ -252,12 +241,12 @@ export default {
     font-size: 0.5rem;
   }
   .van-dialog__content {
-    margin: 0.5rem 0;
+    // margin: 0 auto;
     display: flex;
     justify-content: center;
     div {
       width: 6rem;
-      // height: 2rem;
+      height: 2rem;
       text-align: center;
       word-wrap: break-word;
     }
@@ -266,7 +255,6 @@ export default {
       color: #0f6ebe;
     }
   }
- 
    .van-dialog {
     font-size: 0.3rem;
   }
@@ -282,7 +270,7 @@ export default {
 
 </style>
 <style lang="scss" scoped>
-#a_wait_investor_comfirm {
+#common_details {
   width: 100%;
 
   main {

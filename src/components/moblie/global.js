@@ -78,10 +78,15 @@ const global = {
         name: "地区:",
         response: ""
       },
+      // {
+      //   keyword: "signStatus",
+      //   name: "项目状态",
+      //   response: ""
+      // },
       {
-        keyword: "signStatus",
-        name: "项目状态",
-        response: ""
+        keyword: "signStatu",
+        name: "项目状态:",
+        response: "暂无"
       },
       {
         keyword: "projectCompany",
@@ -158,7 +163,7 @@ const global = {
         method: methods,
         data: datas
       }).then((res) => {
-
+        let signAgreementKey=res.data.data.signAgreementKey;
         let projectName = res.data.data.projectName;
         for (var i in res.data.data) {
           for (var j = 0; j < details_lists.length; j++) {
@@ -192,7 +197,8 @@ const global = {
         let combin = {
           details_lists: details_lists,
           nav_lists: nav_lists,
-          title: projectName
+          title: projectName,
+          signAgreementKey:signAgreementKey,
         }
         resolve(combin)
 

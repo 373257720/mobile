@@ -11,6 +11,7 @@ import userpass from '@/components/moblie/userpass'
 import mhome from '@/components/moblie/mhome'
 import mine from '@/components/moblie/mine'
 import cavans from '@/components/moblie/cavans'
+import common_details from '@/components/moblie/common_details'
 import upload_contract from '@/components/moblie/upload_contract'
 // import testcavans from '@/components/moblie/test_canvans'
 
@@ -250,6 +251,11 @@ const routes = [
   path: '/upload_contract',
   name: 'upload_contract',
   component: upload_contract,
+},
+{
+  path: '/common_details',
+  name: 'common_details',
+  component: common_details,
 },
 
   {

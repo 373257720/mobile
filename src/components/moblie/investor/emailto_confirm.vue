@@ -103,10 +103,15 @@ export default {
           name: "地区:",
           response: ""
         },
-        {
-          keyword: "signStatus",
+        // {
+        //   keyword: "signStatus",
+        //   name: "项目状态:",
+        //   response: ""
+        // },
+           {
+          keyword: "signStatu",
           name: "项目状态:",
-          response: ""
+          response: "暂无"
         },
         { keyword: "projectCompany", name: "公司名称:", response: "" },
         { keyword: "publicCompany", name: "是否上市公司:", response: "" },

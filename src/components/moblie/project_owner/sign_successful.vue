@@ -13,13 +13,24 @@
             <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
             <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
           </li>
+             <li class="uploadblock">
+            <p class="row1">HASH序列号:</p>
+            <p class="row2">
+              {{hash_id}}
+              <i @click="share(hash_id)">
+                <img src="../../../../static/pic/0ae32d519e5102a03ca5028b0b9e244.png" alt />
+              </i>
+            </p>
+          </li>
         </ul>
-        <footer>
-          <aside>
-            <button @click="check_contract">投资者资料</button>
-            <!-- <button @click="gg">合约</button> -->
-          </aside>
-        </footer>
+          <van-dialog v-model="show" title="复制成功">
+          <!-- <img src="https://img.yzcdn.cn/vant/apple-3.jpg" />{{hash_id}} -->
+          <div>
+            <p>你可以把刚刚复制HASH序列号黏贴到网站里搜索,即可看到合约pdf</p> 
+            <p class="hash" @click="daship">http://www.wearetechman.com:5001/webui</p>
+          </div>
+        </van-dialog>
+  
       </article>
     </main>
     <mbottom></mbottom>
@@ -30,6 +41,8 @@ export default {
   name: "p_sign_successful",
   data() {
     return {
+       show: false,
+ hash_id: "",
       investorsId: "",
       title: "",
       nav_lists: [
@@ -60,10 +73,15 @@ export default {
           name: "地区:",
           response: ""
         },
-        {
-          keyword: "signStatus",
+        // {
+        //   keyword: "signStatus",
+        //   name: "项目状态:",
+        //   response: ""
+        // },
+         {
+          keyword: "signStatu",
           name: "项目状态:",
-          response: ""
+          response: "暂无"
         },
         { keyword: "projectCompany", name: "公司名称:", response: "" },
         { keyword: "publicCompany", name: "是否上市公司:", response: "" },
@@ -89,6 +107,7 @@ export default {
     }).then(res => {
       this.investorsId = res.data.data.investorsId;
       this.title = res.data.data.projectName;
+      this.hash_id = res.data.data.signAgreementKey;
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
@@ -121,21 +140,42 @@ export default {
     });
   },
   methods: {
-     check_contract() {
-      this.$loading();
+      daship(){
       var newWindow = window.open();
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
-      }).then(res => {
-        this.$toast.clear();
-        console.log(res);
-        if (res.data.resultCode == 10000) {
-          // window.open();
-          newWindow.location.href = res.data.data.pdfPath;
-        }
-      });
+        newWindow.location.href ='http://www.wearetechman.com:5001/webui';
+      // tempwindow.location=hash_id;
     },
+    // 点击事件
+    share(val) {
+      console.log(val);
+      // this.message=,
+      // this.handleData(val);
+      this.message=val;
+      this.$copyText(this.message).then(
+        e => {
+          this.show = true;
+        },
+        function(e) {
+          // alert("Can not copy");
+          console.log(e);
+        }
+      );
+    },
+    //  check_contract() {
+    //   this.$loading();
+    //   var newWindow = window.open();
+    //   this.$axios({
+    //     method: "get",
+    //     url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
+    //   }).then(res => {
+    //     this.$toast.clear();
+    //     console.log(res);
+    //     if (res.data.resultCode == 10000) {
+    //       // window.open();
+    //       newWindow.location.href = res.data.data.pdfPath;
+    //     }
+    //   });
+    // },
     gg() {
       // console.log(this.$dialog);
 
@@ -179,6 +219,24 @@ export default {
       left: 0.6rem;
       top: 50%;
       transform: (translate(0, -50%));
+    }
+  }
+    .van-dialog__header{
+    font-size: 0.5rem;
+  }
+ .van-dialog__content {
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    div {
+      width: 6rem;
+      // height: 2rem;
+      text-align: center;
+      word-wrap: break-word;
+    }
+    .hash {
+      margin-top:0.2rem;  
+      color: #0f6ebe;
     }
   }
 }
@@ -239,6 +297,13 @@ export default {
             word-break: break-all;
             line-height: 0.48rem;
             color: #787878;
+          }
+        }
+           li.uploadblock {
+          img {
+            width: 0.6rem;
+            vertical-align: middle;
+            height: 0.6rem;
           }
         }
         .contract {

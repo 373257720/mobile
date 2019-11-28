@@ -101,10 +101,15 @@ export default {
           name: "地区:",
           response: ""
         },
-        {
-          keyword: "signStatus",
+        // {
+        //   keyword: "signStatus",
+        //   name: "项目状态:",
+        //   response: "-"
+        // },
+         {
+          keyword: "signStatu",
           name: "项目状态:",
-          response: ""
+          response: "暂无"
         },
         { keyword: "projectDescribe", name: "项目简介:", response: "" },
         { keyword: "signStatus", name: "签约状态:", response: "" }

@@ -15,15 +15,11 @@
               </van-cell-group>
             </p>
           </li>
-          <li class="investorsCompany" v-if="form.investorsType==2">
+          <li class="investorsCompany" v-show="form.investorsType==2">
             <p class="row1">投资者公司:</p>
             <p class="row2">
               <van-cell-group>
-                <van-field
-                  :disabled="typeofidentity"
-                  v-model="form.investorsCompany"
-                  placeholder="请输入"
-                />
+                <van-field v-model="form.investorsCompany" placeholder="请输入" />
               </van-cell-group>
             </p>
           </li>
@@ -40,7 +36,14 @@
             <p class="row2">
               <van-cell-group>
                 <van-dropdown-menu>
-                  <van-dropdown-item v-model="form.investorsType" :options="region" />
+                  <van-dropdown-item
+                    v-model="form.investorsArea"
+                    :options="region"
+                    :title="region_nametitle"
+                    @change="function(value){
+          return regionchoose(value,region[value])
+        }"
+                  />
                 </van-dropdown-menu>
                 <!-- <van-field v-model="form.investorsArea" placeholder="请输入" /> -->
               </van-cell-group>
@@ -72,12 +75,14 @@ export default {
         //   remark: ""
         // }
       ],
+      region_nametitle: "",
       form: {
         investorsType: "",
         investorsCompany: "",
         investorsName: "",
         investorsArea: "",
-        projectId: ""
+        projectId: "",
+        areaCode: ""
         // identity: ""
       }
     };
@@ -90,13 +95,13 @@ export default {
         // console.log(res);
         // this.region = [...res.data.data];
         // console.log(this.region);
-         for (let i = 0; i < res.data.data.length; i++) {
-            this.region.push({
-              text: res.data.data[i].countryZhname,
-              value: i,
-              remark: res.data.data[i].countryCode
-            });
-          }
+        for (let i = 0; i < res.data.data.length; i++) {
+          this.region.push({
+            text: res.data.data[i].countryZhname,
+            value: i,
+            remark: res.data.data[i].countryCode
+          });
+        }
       });
   },
   computed: {
@@ -105,6 +110,12 @@ export default {
     // }
   },
   methods: {
+    regionchoose(value, region) {
+      this.region_nametitle = region.text;
+      this.form.investorsArea = region.text;
+      this.form.areaCode = region.remark;
+      //  console.log(this.form.investorsArea,region.remark)
+    },
     submit() {
       console.log(this.form);
 

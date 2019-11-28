@@ -7,7 +7,7 @@
       <article>
         <!-- <header>签署合约：</header> -->
         <div>
-          <textarea v-model="content" style="width:100%; height: 12rem" placeholder="请输入"></textarea>
+          <textarea v-model="content"  placeholder="请输入"></textarea>
         </div>
         <footer>
           <button @click="signature">签署</button>
@@ -122,6 +122,7 @@ export default {
   }
   main {
     margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     padding: 0.5rem;
     background: #ffffff;
     // div {
@@ -140,6 +141,8 @@ export default {
       line-height: 0.6rem;
       padding: 0.3rem 0.4rem;
       color: rgb(169, 169, 169);
+      width:100%;
+      height: 13rem
     }
     footer {
       width: 100%;

@@ -15,7 +15,7 @@
               </van-dropdown-menu>
             </p>
           </li>
-          <li>
+          <li v-show="form.investorsType==2">
             <p class="row1">投资者公司：</p>
             <p class="row2">
               <van-field v-model="form.investorsCompany" placeholder="请输入" clearable />
