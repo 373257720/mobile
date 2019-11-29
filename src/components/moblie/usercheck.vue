@@ -56,7 +56,7 @@
         </div>
         <div class="companyname">
           <p>company name</p>
-          <van-field v-model="form.userCompanyEn" placeholder="请输入公司名称" clearable />
+          <van-field v-model="form.userCompanyEn" placeholder="Please enter the company name" clearable />
         </div>
         <div class="company_address">
           <p>公司地址</p>
@@ -64,7 +64,7 @@
         </div>
         <div class="company_address_eng">
           <p>company address</p>
-          <van-field v-model="form.userAddressEn" placeholder="请输入公司地址" clearable />
+          <van-field v-model="form.userAddressEn" placeholder="Please enter the company address" clearable />
         </div>
         <div class="companycheck">
           <p>公司证书</p>
@@ -119,14 +119,14 @@ export default {
         userIdentity: "",
         userName: "",
         identityType: "",
-        identityPicOne: [],
-        identityPicTwo: [],
+        identityPicOne: "",
+        identityPicTwo: "",
         userCompanyCh: "",
         userCompanyEn: "",
         userAddressCh: "",
         userAddressEn: "",
-        userCompanyPic: [],
-        userType: this.$store.state.currentUsertype
+        userCompanyPic: "",
+        userType: ""
         // identity: ""
       }
     };
@@ -253,7 +253,7 @@ export default {
 #usercheck {
   // background: white;
   .van-cell {
-    font-size: 0.32rem;
+    font-size: 0.38rem;
     padding: 0 1.05rem;
     line-height: 1rem;
     // padding: 0;
@@ -306,24 +306,25 @@ export default {
   .van-uploader__preview-image {
     margin: 0;
     width: 100%;
-    height: 3.3rem;
-    //  border: 1px solid #ababab;
-    //  overflow: hidden;
-
+    height: 4rem;
     img {
       //  border-radius: 0.02rem;
       border-radius: 0.1rem;
+      height: 100%;
+      width: 100%;
     }
   }
   .van-uploader {
     width: 100%;
-    height: 3.3rem;
+    height: 4rem; 
+    margin-bottom: 0;
+    
   }
   .van-uploader__upload {
     width: 100%;
     background: #f6f6f6;
     border: 0;
-    height: 3.3rem;
+    height: 4rem;
     margin: 0;
     border: 1px solid #ababab;
     border-radius: 0.05rem;
@@ -385,30 +386,30 @@ export default {
     }
   }
   .usercheck {
-    font-size: 0.36rem;
+    font-size: 0.38rem;
     > div {
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.6rem;
       padding: 0 0.8rem;
       > p {
         margin-bottom: 0.1rem;
-        font-size: 0.36rem;
+        font-size: 0.38rem;
       }
     }
     div.identy_check {
-      div {
-        margin-bottom: 0.4rem;
+      >div {
+        margin-bottom: 0.8rem;
         > p {
           margin-bottom: 0.1rem;
-          font-size: 0.36rem;
+          font-size: 0.38rem;
         }
       }
     }
     div.gongsi {
       > div {
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.6rem;
         > p {
           margin-bottom: 0.1rem;
-          font-size: 0.36rem;
+          font-size: 0.38rem;
         }
       }
     }

@@ -26,33 +26,13 @@
           
           </p>
         </div>
-        <ul>
-          <li i v-for="(item) in details_lists" :key="item.name">
-            <p class="row1">{{item.name}}</p>
-                <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
-            <p class="row2" v-if="item.keyword!='projectDescribe'" >{{item.response}}</p>
-          </li>
-            <li class="uploadblock">
-            <p class="row1">HASH序列号:</p>
-            <p class="row2" v-if="hash_id">
-              {{hash_id}}
-              <i @click="share(hash_id)">
-                <img src="../../../../static/pic/0ae32d519e5102a03ca5028b0b9e244.png" alt />
-              </i>
-            </p>
-          </li>
-        </ul>
-         <van-dialog v-model="show" title="复制成功">
-          <div>
-            <p>你可以把刚刚复制HASH序列号黏贴到网站里搜索,即可看到合约pdf</p> 
-            <p class="hash" @click="daship">http://www.wearetechman.com:5001/webui</p>
-          </div>
-        </van-dialog>
-         <!-- <footer>
+        <commondetails :toson="details_lists" v-if="details_lists.length>0"></commondetails>
+        <footer>
           <aside>
-              <button @click="check_contract">查看合约</button>
+            <p>(合约同步到IPFS需要时间，如不能打开请稍后再试)</p>
+            <button @click="check_contract">查看合约</button>
           </aside>
-        </footer> -->
+        </footer>
       </article>
     </main>
     <mbottom></mbottom>
@@ -63,9 +43,8 @@ export default {
   name: "goods_details",
   data() {
     return {
-      show:false,
       title:'',
-      hash_id:'',
+      details:{},
       dad_text:'待投资者确认项目',
     nav_lists: [
         {
@@ -85,116 +64,123 @@ export default {
         }
       ],
     investor_infor: [
-        {
-          keyword:'investorsType',
-          name: "投资者类型:",
-          response: ""
-        },
-        {
-          keyword:'investorsCompany',
-          name: "投资者公司:",
-          response: ""
-        },
-        {
-          keyword:'investorsName',
-          name: "投资者姓名:",
-          response: ""
-        },
-        {
-          keyword:'investorsArea',
-          name: "投资者地区:",
-          response: ""
-        }
-      ],
-       details_lists: [
-      {
-          keyword: "projectIndustry",
-          name: "行业:",
-          response: ""
-        },
-        {
-          keyword: "projectArea",
-          name: "地区:",
-          response: ""
-        },
         // {
-        //   keyword: "signStatus",
-        //   name: "项目状态:",
+        //   keyword:'investorsType',
+        //   name: "投资者类型:",
         //   response: ""
         // },
-           {
-          keyword: "signStatu",
-          name: "项目状态:",
-          response: "暂无"
-        },
-        { keyword: "projectCompany", name: "公司名称:", response: "" },
-        { keyword: "publicCompany", name: "是否上市公司:", response: "" },
-        { keyword: "collectMoney", name: "集资额:", response: "" },
-        { keyword: "projectMobile", name: "联系电话:", response: "" },
-        { keyword: "projectEmail", name: "电邮:", response: "" },
-        { keyword: "projectDescribe", name: "项目详情:", response: "" }
+        // {
+        //   keyword:'investorsCompany',
+        //   name: "投资者公司:",
+        //   response: ""
+        // },
+        // {
+        //   keyword:'investorsName',
+        //   name: "投资者姓名:",
+        //   response: ""
+        // },
+        // {
+        //   keyword:'investorsArea',
+        //   name: "投资者地区:",
+        //   response: ""
+        // }
+      ],
+       details_lists: [
+      // {
+      //     keyword: "projectIndustry",
+      //     name: "行业:",
+      //     response: ""
+      //   },
+      //   {
+      //     keyword: "projectArea",
+      //     name: "地区:",
+      //     response: ""
+      //   },
+      //   // {
+      //   //   keyword: "signStatus",
+      //   //   name: "项目状态:",
+      //   //   response: ""
+      //   // },
+      //      {
+      //     keyword: "signStatu",
+      //     name: "项目状态:",
+      //     response: "暂无"
+      //   },
+      //   { keyword: "projectCompany", name: "公司名称:", response: "" },
+      //   { keyword: "publicCompany", name: "是否上市公司:", response: "" },
+      //   { keyword: "collectMoney", name: "集资额:", response: "" },
+      //   { keyword: "projectMobile", name: "联系电话:", response: "" },
+      //   { keyword: "projectEmail", name: "电邮:", response: "" },
+      //   { keyword: "projectDescribe", name: "项目详情:", response: "" }
       ]
     };
   },
    created() {
-    let details = this.$route.query;
+    this.details = this.$route.query;
     this.$loading();
-    this.$axios({
-      method: "get",
-      url: `${
-        this.$baseurl
-      }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-        details.projectId
-      }&signStatus=${details.signStatus}&signId=${
-        details.signId ? details.signId : -1
-      }`
-    }).then(res => {
-      this.$toast.clear();
-      this.hash_id = res.data.data.signAgreementKey;
-       this.title=res.data.data.projectName;
-      for (var i in res.data.data) {
-        for (var j = 0; j < this.details_lists.length; j++) {
-        if (this.details_lists[j].keyword == i) { 
-            if (this.details_lists[j].keyword == "signStatus") {
-              this.details_lists[j].response = this.$global.pic_obj[
-                res.data.data[i]
-              ];
-            }   else if (this.details_lists[j].keyword == "publicCompany" ) {
-                this.details_lists[j].response = res.data.data[i]==false?'否':'是'
-                
-              }else {
-              this.details_lists[j].response = res.data.data[i];
-            }
-          }  
-        }
-        for (var w = 0; w < this.nav_lists.length; w++) {
-          if (this.nav_lists[w].keyword == i) {
-               if (this.nav_lists[w].keyword == "financingStage") {
-              this.nav_lists[w].response = this.$global.financingStage[
-                res.data.data[i]
-              ];
-            } else {
-              this.nav_lists[w].response = res.data.data[i];
-            }
-          }
-        };
-        for (var k = 0; k < this.investor_infor.length; k++) {
-          if(this.investor_infor[k].keyword==i){
-            if(this.investor_infor[k].keyword =='investorsType'){
+    this.$global
+      .goods_deatails(
+        `${
+          this.$baseurl
+        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+          this.details.projectId
+        }&signStatus=${this.details.signStatus}&signId=${
+          this.details.signId ? this.details.signId : -1
+        }`,
+        "get"
+      )
+      .then(res => {
+        console.log(res);
+        this.investor_infor=[...res.investor_infor]
+        this.nav_lists = [...res.nav_lists];
+        this.details_lists = [...res.details_lists];
+        this.title = res.title;
+        this.$toast.clear();
+      });
+    // let details = this.$route.query;
+    // this.$loading();
+    // this.$axios({
+    //   method: "get",
+    //   url: `${
+    //     this.$baseurl
+    //   }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+    //     details.projectId
+    //   }&signStatus=${details.signStatus}&signId=${
+    //     details.signId ? details.signId : -1
+    //   }`
+    // }).then(res => {
+    //   this.$toast.clear();
+    //   // this.hash_id = res.data.data.signAgreementKey;
+    //    this.title=res.data.data.projectName;
+    //   for (var i in res.data.data) {
+    //     for (var w = 0; w < this.nav_lists.length; w++) {
+    //       if (this.nav_lists[w].keyword == i) {
+    //            if (this.nav_lists[w].keyword == "financingStage") {
+    //           this.nav_lists[w].response = this.$global.financingStage[
+    //             res.data.data[i]
+    //           ];
+    //         } else {
+    //           this.nav_lists[w].response = res.data.data[i];
+    //         }
+    //       }
+    //     };
+        // for (var k = 0; k < this.investor_infor.length; k++) {
+        //   if(this.investor_infor[k].keyword==i){
+        //     if(this.investor_infor[k].keyword =='investorsType'){
               
-                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]]           
-            }
-            else{
-              this.investor_infor[k].response = res.data.data[i];
-            }
-          }
+        //          this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]]           
+        //     }
+        //     else{
+        //       this.investor_infor[k].response = res.data.data[i];
+        //     }
+        //   }
           
-        }
-      }
-      console.log(this.details_lists);
-      console.log(this.investor_infor);
+        // }
+    //   }
+    //   console.log(this.details_lists);
+    //   console.log(this.investor_infor);
       
-    });
+    // });
   },
   methods: {
     //   cancel() {
@@ -427,14 +413,17 @@ export default {
         }
 
       }
-            footer {
+  footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         font-size: 0.38rem;
+        text-align: center;
         aside {
-          height: 2rem;
+          height: 1.8rem;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          p {
+          }
           button {
             height: 1rem;
             color: #ffffff;
@@ -442,35 +431,9 @@ export default {
           button:nth-of-type(1) {
             background: #00adef;
           }
-      
         }
       }
-        footer.email {
-    padding: 0 0.6rem 0.5rem 0.6rem;
-    p {
-      text-align: center;
-      height: 1.5rem;
-      font-size: 0.4rem;
-      margin-top: 1rem;
-    }
-    aside {
-      height: 2.2rem;
-      display: flex;
-      font-size: 0.3rem;
-      flex-direction: column;
-      justify-content: space-between;
-      button {
-        height: 1rem;
-        color: #ffffff;
-      }
-      button:nth-of-type(1) {
-        background: #00adef;
-      }
-      button:nth-of-type(2) {
-        background: #ff7c2c;
-      }
-    }
-  }
+ 
 
     }
   }

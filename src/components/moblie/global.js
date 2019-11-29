@@ -192,9 +192,21 @@ const global = {
               }
             }
           }
+          for (var k = 0; k < investor_infor.length; k++) {
+            if(investor_infor[k].keyword==i){
+              if(investor_infor[k].keyword =='investorsType'){    
+                   investor_infor[k].response= this.investorsType[res.data.data[i]]           
+              }
+              else{
+                  investor_infor[k].response = res.data.data[i];
+              }
+            }
+            
+          }
           // if()
         }
         let combin = {
+          investor_infor:investor_infor,
           details_lists: details_lists,
           nav_lists: nav_lists,
           title: projectName,

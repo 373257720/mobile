@@ -75,7 +75,7 @@ export default {
         { keyword: "collectMoney", name: "集资额:", response: "" },
         { keyword: "projectMobile", name: "联系电话:", response: "" },
         { keyword: "projectEmail", name: "电邮:", response: "" },
-        { keyword: "projectDescribe", name: "项目详情:", response: "" }
+        { keyword: "projectDescribe", name: "项目简介:", response: "" }
       ]
     };
   },

@@ -104,11 +104,11 @@ export default {
                 // on close
                 this.$routerto("mysign");
               });
-          } else {
+          } else if(res.data.resultCode==10051) {
             this.$dialog
               .alert({
-                title: "提交失败",
-                message: "返回"
+                title: "提醒",
+                message: "您的注册审核不通过，请前往我的-个人审核里修改"
               })
               .then(() => {
                 // on close

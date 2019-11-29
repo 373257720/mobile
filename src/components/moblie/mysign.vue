@@ -87,8 +87,14 @@ export default {
 
   created() {
     this.usertype = this.$store.state.currentUsertype;
-    console.log(this.$store.state.genre);
-
+    // console.log(this.$store.state.genre);
+    // console.log(this.$route.query);
+  
+    if(this.$route.query){
+        // let a=JSON.parse(this.$route.query);
+        // console.log(a);
+    }
+    
     if (this.$store.state.genre.length > 0) {
       this.result = [...this.$store.state.genre];
     } else {
@@ -481,7 +487,7 @@ export default {
         }
         span:nth-child(2) {
           vertical-align: top;
-           display: inline-block;
+          display: inline-block;
           width: 6.3rem;
           //   display: inline-block;
           // width: 2.6rem;

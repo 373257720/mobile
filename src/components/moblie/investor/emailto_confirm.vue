@@ -310,7 +310,7 @@ export default {
           margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.28rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;

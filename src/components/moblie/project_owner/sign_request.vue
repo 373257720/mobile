@@ -1,9 +1,6 @@
 <template>
   <div id="p_sign_request">
-    <!-- <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签约请求
-    </nav> -->
-     <commonnav :msg="dad_text"></commonnav>
+    <commonnav :msg="dad_text"></commonnav>
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
@@ -16,8 +13,8 @@
         </ul>
       </div>
       <article>
-        <header>项目详情  </header>
-            <div class="nav_lists">
+        <header>项目详情</header>
+        <div class="nav_lists">
           <p v-for="(item) in nav_lists" :key="item.name">
             <section class="box">
                <span class="1row" v-html="item.name"></span>
@@ -50,13 +47,13 @@ export default {
   data() {
     return {
       show: false,
-      projectId:null,
-      signId:null,
-      title:'',
-      details:{},
-      dad_text:'签约请求',
+      projectId: null,
+      signId: null,
+      title: "",
+      details: {},
+      dad_text: "签约请求",
       nav_lists: [
-         {
+        {
           keyword: "financingStage",
           name: "融资阶段",
           response: ""
@@ -67,35 +64,35 @@ export default {
           response: ""
         },
         {
-          keyword:'committedCount',
+          keyword: "committedCount",
           name: "已提交</br>投资者数量",
           response: ""
         }
       ],
       investor_infor: [
         {
-          keyword:'investorsType',
+          keyword: "investorsType",
           name: "投资者类型:",
           response: ""
         },
         {
-          keyword:'investorsCompany',
+          keyword: "investorsCompany",
           name: "投资者公司:",
           response: ""
         },
         {
-          keyword:'investorsName',
+          keyword: "investorsName",
           name: "投资者姓名:",
           response: ""
         },
         {
-          keyword:'investorsArea',
+          keyword: "investorsArea",
           name: "投资者地区:",
           response: ""
         }
       ],
       details_lists: [
-      {
+        {
           keyword: "projectIndustry",
           name: "行业:",
           response: ""
@@ -120,40 +117,44 @@ export default {
         { keyword: "collectMoney", name: "集资额:", response: "" },
         { keyword: "projectMobile", name: "联系电话:", response: "" },
         { keyword: "projectEmail", name: "电邮:", response: "" },
-        { keyword: "projectDescribe", name: "项目详情:", response: "" }
+        { keyword: "projectDescribe", name: "项目简介:", response: "" }
       ]
     };
   },
-  created(){
-  this.details = this.$route.query;
-   this.$loading();
+  created() {
+    this.details = this.$route.query;
+    this.$loading();
     this.$axios({
       method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.details.projectId}&signStatus=${this.details.signStatus}&signId=${this.details.signId?this.details.signId:-1}`
+      url: `${
+        this.$baseurl
+      }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+        this.details.projectId
+      }&signStatus=${this.details.signStatus}&signId=${
+        this.details.signId ? this.details.signId : -1
+      }`
     }).then(res => {
-       
-         this.projectId=res.data.data.projectId; 
-        this.signId=res.data.data.signId; 
-        this.title=res.data.data.projectName;
+      this.projectId = res.data.data.projectId;
+      this.signId = res.data.data.signId;
+      this.title = res.data.data.projectName;
       for (var i in res.data.data) {
-       
         for (var j = 0; j < this.details_lists.length; j++) {
-               if (this.details_lists[j].keyword == i) { 
+          if (this.details_lists[j].keyword == i) {
             if (this.details_lists[j].keyword == "signStatus") {
               this.details_lists[j].response = this.$global.pic_obj[
                 res.data.data[i]
               ];
-            }   else if (this.details_lists[j].keyword == "publicCompany" ) {
-                this.details_lists[j].response = res.data.data[i]==false?'否':'是'
-                
-              }else {
+            } else if (this.details_lists[j].keyword == "publicCompany") {
+              this.details_lists[j].response =
+                res.data.data[i] == false ? "否" : "是";
+            } else {
               this.details_lists[j].response = res.data.data[i];
             }
-               }
+          }
         }
         for (var w = 0; w < this.nav_lists.length; w++) {
           if (this.nav_lists[w].keyword == i) {
-               if (this.nav_lists[w].keyword == "financingStage") {
+            if (this.nav_lists[w].keyword == "financingStage") {
               this.nav_lists[w].response = this.$global.financingStage[
                 res.data.data[i]
               ];
@@ -162,53 +163,60 @@ export default {
             }
           }
         }
-            for (var k = 0; k < this.investor_infor.length; k++) {
-          if(this.investor_infor[k].keyword==i){
-            if(this.investor_infor[k].keyword =='investorsType'){
-
-  
-                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]] ;
-                 
-            }
-            else{
+        for (var k = 0; k < this.investor_infor.length; k++) {
+          if (this.investor_infor[k].keyword == i) {
+            if (this.investor_infor[k].keyword == "investorsType") {
+              this.investor_infor[k].response = this.$global.investorsType[
+                res.data.data[i]
+              ];
+            } else {
               this.investor_infor[k].response = res.data.data[i];
             }
           }
-          
         }
       }
       console.log(this.details_lists);
-       this.$toast.clear();
+      this.$toast.clear();
     });
   },
   methods: {
     agreement(num) {
       this.$dialog
         .confirm({
-          title: "拒绝签约",
+          title: "拒绝签约"
           // message: "弹窗内容"
         })
         .then(() => {
-            this.$global.changepage(`${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,'post',this.$qs.stringify({projectId:this.projectId,signId:this.signId,signStatus:3})).then(res=>{
+          this.$global
+            .changepage(
+              `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
+              "post",
+              this.$qs.stringify({
+                projectId: this.projectId,
+                signId: this.signId,
+                signStatus: 3
+              })
+            )
+            .then(res => {
               console.log(res);
-              if(res.data.resultCode==10000){
-                   this.$dialog.alert({
-                      title: '拒绝成功',
-                      // message: '弹窗内容'
-                    }).then(() => {
-                      this.$routerto('mysign')
-                    });
-              }else if(res.data.resultCode==10012){
-                   this.$dialog.alert({
-                      title: '你已拒绝',
-                      // message: '弹窗内容'
-                    }).then(() => {
-                    });
+              if (res.data.resultCode == 10000) {
+                this.$dialog
+                  .alert({
+                    title: "拒绝成功"
+                    // message: '弹窗内容'
+                  })
+                  .then(() => {
+                    this.$routerto("mysign");
+                  });
+              } else if (res.data.resultCode == 10012) {
+                this.$dialog
+                  .alert({
+                    title: "你已拒绝"
+                    // message: '弹窗内容'
+                  })
+                  .then(() => {});
               }
-              
-            })
- 
-
+            });
         })
         .catch(() => {
           // on cancel
@@ -254,7 +262,7 @@ export default {
     div.investors_infor {
       h2 {
         // padding: 0.2rem 0.3rem;
-         height: 2rem;
+        height: 2rem;
         font-size: 0.46rem;
         padding: 0.4rem;
         box-sizing: border-box;
@@ -264,7 +272,7 @@ export default {
         font-weight: 600;
         line-height: 0.7rem;
       }
-      
+
       header {
         height: 0.8rem;
         font-size: 0.38rem;
@@ -274,14 +282,17 @@ export default {
         color: #868686;
         // border-bottom: 0.01rem dashed #b5b5b5;
       }
-     
+
       ul {
         padding: 0.1rem 0.5rem;
+        display: flex;
+        flex-direction: column;
         li {
-          margin-bottom: 0.1rem;
+          // margin-bottom: 0.1rem;
           display: flex;
           align-items: baseline;
-          font-size: 0.28rem;
+          font-size: 0.38rem;
+          line-height: 0.56rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
@@ -315,46 +326,41 @@ export default {
         color: #868686;
         // border-bottom: 0.01rem dashed #b5b5b5;
       }
-       .nav_lists{
-        border-top:0;
+      .nav_lists {
+        border-top: 0;
       }
-       div.nav_lists {
+      div.nav_lists {
         display: flex;
         // border-top: 0.2rem solid #f2f2f2;
         border-bottom: 0.2rem solid #f2f2f2;
         > p {
           flex: 1;
-          height: 2.5rem;  
+          height: 2.5rem;
           font-size: 0.3rem;
           display: flex;
-          align-items:center;
-         
-          section.box{
+          align-items: center;
+
+          section.box {
             box-sizing: border-box;
-              width: 100%;
-              display: flex;
-              text-align: center;
-             height: 2rem;
+            width: 100%;
+            display: flex;
+            text-align: center;
+            height: 2rem;
             //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
-            justify-content:space-between;
-            span.rowb{
-                 font-size: 0.6rem;
-                  color: #0f6ebe;
-
+            justify-content: space-between;
+            span.rowb {
+              font-size: 0.6rem;
+              color: #0f6ebe;
             }
           }
-            
         }
-        p:nth-last-child(1){
-            section.box{
-              border-right: 0;
-            }
-            
+        p:nth-last-child(1) {
+          section.box {
+            border-right: 0;
           }
-           
-      
+        }
       }
       ul {
         padding: 0.5rem;

@@ -106,42 +106,47 @@ export default {
       // this.str = this.$store.state.contract;
       this.projectId = this.$route.query.projectId;
       let urlpath = `${this.$baseurl3}/#/upload_contract?visitToken=${this.token}`;
-      console.log(urlpath);
-      this.$loading();
+      // console.log(urlpath);
+      this.$toast.loading({
+        loadingType: "spinner",
+        message: "上传大概需要1分钟,请耐心等候",
+        // forbidClick:true,
+        duration: 0
+      });
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/ipfs/update?`,
         params: {
           signId: `${this.signId}`,
-          urlPath: `${urlpath}`,
+          urlPath: `${urlpath}`
         }
-      }).then(res => {
-        this.$toast.clear();
-        console.log(res);
-        if (res.data.resultCode == 10000) {
-          this.$dialog
-            .alert({
-              title: "上传成功",
-              message: "下一步发送邮件到投资者"
-            })
-            .then(() => {
-              this.$routerto("a_wait_sendemail", {
-                signId: this.signId,
-                projectId: this.projectId,
-                signStatus: 4
+      })
+        .then(res => {
+          this.$toast.clear();
+          console.log(res);
+          if (res.data.resultCode == 10000) {
+            this.$dialog
+              .alert({
+                title: "上传成功",
+                message: "下一步发送邮件到投资者"
+              })
+              .then(() => {
+                this.$routerto("a_wait_sendemail", {
+                  signId: this.signId,
+                  projectId: this.projectId,
+                  signStatus: 4
+                });
               });
-            });
-        }
-      }).catch(err=>{
-         this.$dialog
+          }
+        })
+        .catch(err => {
+          this.$dialog
             .alert({
               title: "上传失败",
               message: "返回"
             })
-            .then(() => {
-                
-            });
-      });
+            .then(() => {});
+        });
     },
     // 签约
     signproject4() {
@@ -261,7 +266,7 @@ export default {
   }
   main {
     margin-top: 1.5rem;
-     margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
     padding: 0.5rem;
     background: #ffffff;
     .contract {

@@ -157,6 +157,8 @@ export default {
         details.signId ? details.signId : -1
       }`
     }).then(res => {
+      console.log(res);
+      
       this.$toast.clear();
        this.title=res.data.data.projectName;
       for (var i in res.data.data) {
@@ -216,6 +218,7 @@ export default {
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getDetails?signId=${this.$route.query.signId}`
       }).then(res => {
+        
         if (res.data.resultCode == 10000) {
           // console.log(res.data.data);
           this.investorsId = res.data.data.investorsId;
@@ -286,7 +289,7 @@ export default {
 
             <tr class="column" style="">
                 <td colspan="2" style="text-align:center;vertical-align:center;">
-                    <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}"" class="button" style="text-decoration:none;">
+                    <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}&investorsEmailSend=${this.custmoers_obj.investorsEmailSend}"" class="button" style="text-decoration:none;">
                         <span
                             style="display:inline-block;text-decoration:none;width:200px;height:40px;background: #00B1F5;color:white;line-height:40px;">
                             了解详情

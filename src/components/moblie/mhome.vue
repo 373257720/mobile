@@ -198,9 +198,25 @@ export default {
     routerto(item) {
       this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
-        console.log(item.signUserResp);
+        // console.log(item.signUserResp);
+        let hash = [];
+        for (var i = 0; i < item.signUserResp.length; i++) {
+          if (hash.indexOf(item.signUserResp[i].signStatus) == -1) {
+            hash.push(item.signUserResp[i].signStatus);
+          }
+        }
+        console.log(hash);
+
         if (item.signUserResp.length > 1) {
-          this.$routerto("mysign");
+          this.$routerto(
+            "mysign",
+            JSON.stringify({
+              projectId: item.projectId,
+              array: hash
+              // signStatus: item.signUserResp[0].signStatus,
+              // signId: item.signUserResp[0].signId
+            })
+          );
         } else if (item.signUserResp.length <= 1) {
           this.$routerto("p_goods_details", {
             projectId: item.projectId,
@@ -438,8 +454,8 @@ export default {
       }
     }
   }
-  #main{
-    background:#eeeeee;
+  #main {
+    background: #eeeeee;
     height: 100%;
   }
   .main {
