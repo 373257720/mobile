@@ -1,31 +1,13 @@
 <template>
   <div id="a_project_intro">
-    <!-- <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签约请求
-    </nav> -->
-     <commonnav :msg="dad_text"></commonnav>
+    <commonnav :msg="dad_text"></commonnav>
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-      
       </div>
       <article>
-            <div class="nav_lists">
-          <p v-for="(item) in nav_lists" :key="item.name">
-            <section class="box">
-               <span class="1row" v-html="item.name"></span>
-              <span class="rowb" >{{item.response}}</span>
-            </section>
-          
-          </p>
-        </div>
-        <ul>
-          <li i v-for="(item) in details_lists" :key="item.name">
-            <p class="row1">{{item.name}}</p>
-            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
-            <p class="row2" v-else-if="item.keyword!='projectDescribe'">{{item.response}}</p>
-          </li>
-        </ul>
+        <boxx :nav_lists="nav_lists"></boxx>
+        <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
             <button @click="$routerto('a_recommand_i',$route.query)">推荐投资人</button>
@@ -42,58 +24,85 @@ export default {
   name: "goods_details",
   data() {
     return {
-      show: false,
-      title:'',
-      dad_text:'项目简介',
-      // details:{},
-      nav_lists: [
-    
-      ],
-      details_lists: [
-    
-      ]
+      title: "",
+      dad_text: "项目简介",
+      nav_lists: {
+        financingStage: {
+          name: "融资阶段",
+          response: ""
+        },
+        interestProjectCount: {
+          name: "项目方<br>有兴趣数量",
+          response: ""
+        },
+        committedCount: {
+          name: "已提交</br>投资者数量",
+          response: ""
+        }
+      },
+      details_lists: {
+        projectIndustry: {
+          name: "行业:",
+          response: ""
+        },
+        projectArea: {
+          name: "地区:",
+          response: ""
+        },
+        signStatu: {
+          name: "项目状态:",
+          response: "暂无"
+        },
+        projectCompany: {
+          name: "公司名称:",
+          response: ""
+        },
+        publicCompany: {
+          name: "是否上市公司:",
+          response: ""
+        },
+        collectMoney: {
+          name: "集资额:",
+          response: ""
+        },
+        projectMobile: {
+          name: "联系电话:",
+          response: ""
+        },
+        projectEmail: {
+          name: "电邮:",
+          response: ""
+        },
+        projectDescribe: {
+          name: "项目简介:",
+          response: ""
+        }
+      }
     };
   },
-    created() {
-     let details = this.$route.query;
-     this.$loading();
-    this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`,'get').then(res=>{
-      console.log(res);
-      this.nav_lists=[...res.nav_lists]
-
-    // if(this.nav_lists==)
-    this.details_lists= [...res.details_lists]
-    this.title=res.title;
-    this.$toast.clear();
-  })
-  //  this.details = this.$route.query;D
-  //   console.log(this.details);
-    
-  //   this.$axios({ 
-  //     method: "get",
-  //     url: `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.details.projectId}&signStatus=${this.details.signStatus}&signId=${this.details.signId?this.details.signId:-1}`
-  //   }).then(res => {
-  //      this.title=res.data.data.projectName;
-  //     for (var i in res.data.data) {
-  //       for(var j=0;j<this.details_lists.length;j++){
-  //         if(this.details_lists[j].keyword==i){
-  //           this.details_lists[j].response=res.data.data[i]
-  //           if(this.details_lists[j].keyword=='signStatus'){
-  //             this.details_lists[j].response= this.$global.pic_obj[res.data.data[i]] ;
-  //           }
-  //           //   if(this.details_lists[j].keyword=='signStatus'){
-                
-  //           // }
-  //         } 
-  //       }
-  //       for(var w=0;w<this.nav_lists.length;w++){
-  //          if(this.nav_lists[w].keyword==i){
-  //           this.nav_lists[w].response=res.data.data[i]
-  //         }
-  //       }
-  //     }
-  //     console.log(this.details_lists);
-  //   });
+  created() {
+    let details = this.$route.query;
+    this.$loading();
+    this.$global
+      .goods_deatails(
+        `${
+          this.$baseurl
+        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+          details.projectId
+        }&signStatus=${details.signStatus}&signId=${
+          details.signId ? details.signId : -1
+        }`,
+        "get",
+        {},
+        this.details_lists,
+        this.nav_lists,
+        []
+      )
+      .then(res => {
+        console.log(res);
+        this.title = res.title;
+        this.$toast.clear();
+      });
   },
   methods: {
     gg() {
@@ -160,15 +169,19 @@ export default {
     }
     div.investors_infor {
       h2 {
-     height: 2rem;
+        min-height: 2rem;
         font-size: 0.46rem;
         padding: 0.4rem;
         box-sizing: border-box;
-        // font-size: 0.5rem;
+        word-break: break-all;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
         color: #0f6ebe;
-        // text-align: center;
         font-weight: 600;
-        line-height: 0.7rem;  
+        line-height: 0.68rem;
       }
       header {
         height: 0.8rem;
@@ -219,43 +232,38 @@ export default {
         color: #868686;
         border-bottom: 0.01rem dashed #b5b5b5;
       }
-       div.nav_lists {
+      div.nav_lists {
         display: flex;
         border-top: 0.2rem solid #f2f2f2;
         border-bottom: 0.2rem solid #f2f2f2;
         > p {
           flex: 1;
-          height: 2.5rem;  
+          height: 2.5rem;
           font-size: 0.38rem;
           display: flex;
-          align-items:center;
-         
-          section.box{
+          align-items: center;
+
+          section.box {
             box-sizing: border-box;
-              width: 100%;
-              display: flex;
-              text-align: center;
-             height: 2rem;
+            width: 100%;
+            display: flex;
+            text-align: center;
+            height: 2rem;
             //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
-            justify-content:space-between;
-            span.rowb{
-                 font-size: 0.6rem;
-                  color: #0f6ebe;
-
+            justify-content: space-between;
+            span.rowb {
+              font-size: 0.6rem;
+              color: #0f6ebe;
             }
           }
-            
         }
-        p:nth-last-child(1){
-            section.box{
-              border-right: 0;
-            }
-            
+        p:nth-last-child(1) {
+          section.box {
+            border-right: 0;
           }
-           
-      
+        }
       }
       ul {
         padding: 0.5rem;

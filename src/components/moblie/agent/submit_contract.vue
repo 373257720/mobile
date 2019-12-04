@@ -137,9 +137,17 @@ export default {
                   signStatus: 4
                 });
               });
+          } else {
+            this.$dialog
+              .alert({
+                title: "上传失败",
+                message: "返回"
+              })
+              .then(() => {});
           }
         })
         .catch(err => {
+          this.$toast.clear();
           this.$dialog
             .alert({
               title: "上传失败",

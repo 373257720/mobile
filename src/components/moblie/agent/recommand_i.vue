@@ -110,6 +110,16 @@ export default {
     // }
   },
   methods: {
+    remind(meg) {
+      this.$dialog
+        .alert({
+          title: meg
+          // message: "弹窗内容"
+        })
+        .then(() => {
+          // this.$goto("mhome");
+        });
+    },
     regionchoose(value, region) {
       this.region_nametitle = region.text;
       this.form.investorsArea = region.text;
@@ -118,7 +128,6 @@ export default {
     },
     submit() {
       console.log(this.form);
-
       this.$dialog
         .confirm({
           title: "确认提交"
@@ -131,17 +140,17 @@ export default {
             url: `${this.$baseurl}/bsl_web/projectSign/submitInvestors`,
             data: this.$qs.stringify(this.form)
           }).then(res => {
-            if (res.data.resultCode == 10000);
-            {
+            if (res.data.resultCode == 10000) {
               this.$dialog
                 .alert({
                   title: "提交成功"
                   // message: "弹窗内容"
                 })
                 .then(() => {
-                  // on close
                   this.$goto("mhome");
                 });
+            } else {
+              this.remind(res.data.resultDesc);
             }
           });
         })
@@ -155,14 +164,17 @@ export default {
 <style lang="scss">
 #a_recommand_i {
   .van-cell {
-    font-size: 0.32rem;
+    font-size: 0.38rem;
     padding: 0 1rem;
     line-height: 1rem;
     // padding: 0;
   }
   .van-dropdown-menu__title {
-    font-size: 0.16rem;
+    font-size: 0.38rem;
     width: 100%;
+ 
+    padding: 0 0.5rem;
+    box-sizing: border-box;
     // text-align: left;
   }
   .van-dropdown-menu__item {
@@ -198,7 +210,7 @@ export default {
     // height: 0.5rem;
   }
   .van-field__clear {
-    font-size: 0.3rem;
+    font-size: 0.32rem;
   }
   .van-field {
     padding: 0;
@@ -288,8 +300,9 @@ export default {
         li {
           margin-bottom: 0.4rem;
           display: flex;
+          height: 1.2rem;
           align-items: baseline;
-          font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
@@ -298,9 +311,11 @@ export default {
           }
           .row2 {
             width: 7rem;
+            // height: 100%;
             word-break: break-all;
             line-height: 0.48rem;
             color: #787878;
+             border: 1px solid #b3b3b3; 
           }
         }
         .contract {
@@ -312,7 +327,7 @@ export default {
           .row2 {
             width: 6.5rem;
             height: 6rem;
-            border: 0.01rem solid #b3b3b3;
+            // border: 1px solid #b3b3b3;
             // box-sizing: border-box;
             padding: 0;
             background: #f2f2f2;

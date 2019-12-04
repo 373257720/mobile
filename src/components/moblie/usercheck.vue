@@ -1,6 +1,6 @@
 <template>
   <div id="usercheck">
-    <div class="usercheck" v-if="success">
+    <div class="usercheck">
       <header>审核</header>
       <div class="usertype">
         <p>类型</p>
@@ -56,7 +56,11 @@
         </div>
         <div class="companyname">
           <p>company name</p>
-          <van-field v-model="form.userCompanyEn" placeholder="Please enter the company name" clearable />
+          <van-field
+            v-model="form.userCompanyEn"
+            placeholder="Please enter the company name"
+            clearable
+          />
         </div>
         <div class="company_address">
           <p>公司地址</p>
@@ -64,7 +68,11 @@
         </div>
         <div class="company_address_eng">
           <p>company address</p>
-          <van-field v-model="form.userAddressEn" placeholder="Please enter the company address" clearable />
+          <van-field
+            v-model="form.userAddressEn"
+            placeholder="Please enter the company address"
+            clearable
+          />
         </div>
         <div class="companycheck">
           <p>公司证书</p>
@@ -81,15 +89,15 @@
         <button @click="commit">提交</button>
       </div>
     </div>
-    <div class="usercheck2" v-if="!success">
+    <!-- <div class="usercheck2" v-if="!success">
       <h2>
         <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
       </h2>
       <section>你的资料已提交</section>
       <nav class="backbtn">
-        <button @click="$goto('login')">进入首页</button>
+        <button @click="$goto('login')"></button>
       </nav>
-    </div>
+    </div>-->
   </div>
 </template>
 <script>
@@ -98,7 +106,7 @@ export default {
   name: "usercheck",
   data() {
     return {
-      success: true,
+      // success: true,
       switchon: false,
       countrylist: [],
       option1: [
@@ -238,8 +246,22 @@ export default {
         .then(res => {
           this.$toast.clear();
           if (res.data.resultCode == 10000) {
-            this.success = !this.success;
-            this.$toast.clear();
+            this.$dialog
+              .alert({
+                title: res.data.resultDesc,
+                message: "确定返回登录页"
+              })
+              .then(() => {
+                this.$goto("login");
+              });
+            // this.success = !this.success;
+            // this.$toast.clear();
+          } else {
+            this.$dialog
+              .alert({
+                title: res.data.resultDesc
+              })
+              .then(() => {});
           }
         })
         .catch(err => {
@@ -259,7 +281,7 @@ export default {
     // padding: 0;
   }
   .van-dropdown-menu__title {
-    font-size: 0.16rem;
+    font-size: 0.38rem;
     width: 100%;
     // text-align: left;
   }
@@ -288,11 +310,13 @@ export default {
     box-sizing: border-box;
   }
   .van-field__control {
+    font-size: 0.38rem;
     // padding: 0 0.2rem;
-    // height: 0.5rem;
+    height: 0.5rem;
+    height: 100%;
   }
   .van-field__clear {
-    font-size: 0.3rem;
+    font-size: 0.38rem;
   }
   .van-field {
     padding: 0;
@@ -306,25 +330,24 @@ export default {
   .van-uploader__preview-image {
     margin: 0;
     width: 100%;
-    height: 4rem;
+    height: 5rem;
     img {
       //  border-radius: 0.02rem;
-      border-radius: 0.1rem;
+      // border-radius: 0.1rem;
       height: 100%;
       width: 100%;
     }
   }
   .van-uploader {
     width: 100%;
-    height: 4rem; 
+    height: 5rem;
     margin-bottom: 0;
-    
   }
   .van-uploader__upload {
     width: 100%;
     background: #f6f6f6;
     border: 0;
-    height: 4rem;
+    height: 5rem;
     margin: 0;
     border: 1px solid #ababab;
     border-radius: 0.05rem;
@@ -396,7 +419,7 @@ export default {
       }
     }
     div.identy_check {
-      >div {
+      > div {
         margin-bottom: 0.8rem;
         > p {
           margin-bottom: 0.1rem;

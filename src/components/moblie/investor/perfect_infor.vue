@@ -10,27 +10,28 @@
           <li>
             <p class="row1">投资者类型</p>
             <p class="row2">
-              <van-dropdown-menu>
-                <van-dropdown-item v-model="form.investorsType" :options="option1" />
-              </van-dropdown-menu>
+              <!-- <van-dropdown-menu>
+                <van-dropdown-item disabled v-model="form.investorsType" :options="option1" />
+              </van-dropdown-menu>-->
+              <van-field disabled v-model="form.investorsType" placeholder="-" />
             </p>
           </li>
-          <li v-show="form.investorsType==2">
+          <li v-show="form.investorsType=='公司'">
             <p class="row1">投资者公司：</p>
             <p class="row2">
-              <van-field v-model="form.investorsCompany" placeholder="请输入" clearable />
+              <van-field disabled v-model="form.investorsCompany" placeholder="-" clearable />
             </p>
           </li>
           <li>
             <p class="row1">投资者姓名：</p>
             <p class="row2">
-              <van-field v-model="form.investorsName" placeholder="请输入" clearable />
+              <van-field disabled v-model="form.investorsName" placeholder="-" clearable />
             </p>
           </li>
           <li>
             <p class="row1">投资者地区：</p>
             <p class="row2">
-              <van-field v-model="form.investorsArea" placeholder="请输入" clearable />
+              <van-field disabled v-model="form.investorsArea" placeholder="-" clearable />
             </p>
           </li>
           <li>
@@ -98,7 +99,23 @@ export default {
       option1: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }]
     };
   },
+  // beforeRouteEnter(to,from,next){
+  //   next(vm=>{
+  //     // vm.targetU
+  //     // console.log(vm);
+  //     vm.target=JSON.parse(to.query.investor_infor)
+  //     console.log(vm.target);
+
+  //   })
+  // },
   created() {
+    let a = JSON.parse(this.$route.query.investor_infor);
+    console.log(a);
+
+    this.form.investorsType = a[0].response;
+    this.form.investorsName = a[2].response;
+    this.form.investorsCompany = a[1].response;
+    this.form.investorsArea = a[3].response;
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
@@ -106,7 +123,7 @@ export default {
       .then(res => {
         this.title = res.data.data.projectName;
         this.countrylist = res.data.data;
-        console.log(this.countrylist);
+        // console.log(this.countrylist);
       })
       .catch(err => {
         console.log(err);
@@ -132,6 +149,12 @@ export default {
       //   investorsCompanyAddress: "2",
       //   investorsName: "33"
       // };
+      if (formtable.investorsType == "个人") {
+        formtable.investorsType = 1;
+      } else if (formtable.investorsType == "公司") {
+        formtable.investorsType = 2;
+      }
+
       console.log(formtable);
       this.$axios({
         method: "post",
@@ -303,32 +326,33 @@ export default {
           .row2 {
             width: 7rem;
             word-break: break-all;
+
             line-height: 0.48rem;
             color: #787878;
           }
         }
-        .contract {
-          display: block;
+        // .contract {
+        //   display: block;
 
-          .row1 {
-            margin-bottom: 0.1rem;
-          }
-          .row2 {
-            width: 6.5rem;
-            height: 6rem;
-            border: 0.01rem solid #b3b3b3;
-            // box-sizing: border-box;
-            padding: 0;
-            background: #f2f2f2;
-            .draft1_middle {
-              padding: 0.3rem;
-              box-sizing: border-box;
-              width: 100%;
-              height: 100%;
-              overflow-y: auto;
-            }
-          }
-        }
+        //   .row1 {
+        //     margin-bottom: 0.1rem;
+        //   }
+        //   .row2 {
+        //     width: 6.5rem;
+        //     height: 6rem;
+        //     border: 0.01rem solid #b3b3b3;
+        //     // box-sizing: border-box;
+        //     padding: 0;
+        //     background: #f2f2f2;
+        //     .draft1_middle {
+        //       padding: 0.3rem;
+        //       box-sizing: border-box;
+        //       width: 100%;
+        //       height: 100%;
+        //       overflow-y: auto;
+        //     }
+        //   }
+        // }
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;

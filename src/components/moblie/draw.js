@@ -1,3 +1,4 @@
+let draw_stauts = 0;
 function Draw(canvas, degree, config = {}) {
   if (!(this instanceof Draw)) {
     return new Draw(canvas, config);
@@ -52,22 +53,28 @@ function Draw(canvas, degree, config = {}) {
   let pressed = false;
 
   const paint = (signal) => {
-    // console.log(signal);
+
 
     switch (signal) {
       case 1:
         context.beginPath();
         context.moveTo(point.x, point.y);
+       
+        
       case 2:
+       
         context.lineTo(point.x, point.y);
         context.stroke();
+  
         break;
+
       default:
     }
   };
 
 
-  const create = signal => (e) => {
+  const create = signal => (e) => { 
+    
     e.preventDefault();
     if (signal === 1) {
       pressed = true;
@@ -77,6 +84,12 @@ function Draw(canvas, degree, config = {}) {
       point.x = e.clientX - left;
       point.y = e.clientY - top;
       paint(signal);
+        if(signal==2){
+          console.log(draw_stauts);
+          
+          draw_stauts=1;
+        }
+      
     }
   };
   const start = create(1);
@@ -126,21 +139,26 @@ Draw.prototype = {
     const h = canvas.height;
     width = width || w;
     height = height || h;
-    if (width !== w || height !== h) {
-      const tmpCanvas = document.createElement('canvas');
-      const tmpContext = tmpCanvas.getContext('2d');
-      tmpCanvas.width = width;
-      tmpCanvas.height = height;
-      console.log(tmpContext);
+    // if (width !== w || height !== h) {
+    //   const tmpCanvas = document.createElement('canvas');
+    //   const tmpContext = tmpCanvas.getContext('2d');
+    //   tmpCanvas.width = width;
+    //   console.log(tmpCanvas);
       
-      tmpContext.lineWidth = 10;
-      // tmpContext.strokeStyle = 'red';
-      // tmpContext.lineCap = 'round';
-      // tmpContext.lineJoin = 'round';
+    //   tmpCanvas.height = height;
+    //   console.log(tmpContext);
+    //   tmpContext.lineWidth =5;
+    //   tmpContext.strokeStyle = 'red';
+    //   tmpContext.lineCap = 'round';
+    //   tmpContext.lineJoin = 'round';
 
-      tmpContext.drawImage(canvas, 0, 0, w, h, 0, 0, width, height);
-      canvas = tmpCanvas;
-    }
+    //   tmpContext.drawImage(canvas, 0, 0, w, h, 0, 0, width, height);
+    //   console.log(tmpContext);
+      
+   
+    //   canvas = tmpCanvas;
+
+    // }
     return canvas;
   },
   rotate(degree, image = this.canvas) {
@@ -188,8 +206,6 @@ Draw.prototype = {
     }
     return image;
   },
-
-
   getPNGImage(canvas = this.canvas) {
     // console.log(this);
     return canvas.toDataURL('image/png');
@@ -216,7 +232,11 @@ Draw.prototype = {
       type: mime
     });
   },
+  commit(){
+    draw_stauts=0;
+  },
   clear() {
+    draw_stauts = 0;
     let width;
     let height;
     switch (this.degree) {
@@ -257,4 +277,7 @@ Draw.prototype = {
 };
 // console.log(Draw);
 
-export default Draw;
+export {
+  Draw,
+  draw_stauts
+};

@@ -4,54 +4,67 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     currentUser: '',
-    // login: false,
     currentUsertype: null,
     contract: {
-      owner:'',
-      article:'',
-      agent:'',
-      owner_signdate:null,
-      agent_signdate:null,
+      owner: '',
+      article: '',
+      agent: '',
+      owner_signdate: null,
+      agent_signdate: null,
     },
     genre: [],
+    // genre_projectid: [],
+    // investor_infor:[],
   },
   getters: {
-  
+
   },
   mutations: {
     agent_signdate(state, content) {
-      if (content) {    
-        state.contract.agent_signdate= content;
-      }else if(content==null){
-        state.contract.agent_signdate=null
+      if (content) {
+        state.contract.agent_signdate = content;
+      } else if (content == null) {
+        state.contract.agent_signdate = null
       }
 
     },
     owner_signdate(state, content) {
-      if (content) {    
-        state.contract.owner_signdate= content;
-      }else if(content==null){
-        state.contract.owner_signdate=null
+      if (content) {
+        state.contract.owner_signdate = content;
+      } else if (content == null) {
+        state.contract.owner_signdate = null
       }
     },
     genre_array(state, content) {
-      if (content.length>0) {    
+      if (content.length > 0) {
         state.genre = [];
         state.genre = [...content];
-        
-      }else if(content.length<=0){
+
+      } else if (content.length <= 0) {
         state.genre = [];
       }
 
     },
+    // 项目方点击项目跳转
+    // genre_projectid(state, content) {
+    //   if (content.length > 0) {
+    //     state.genre_projectid = [];
+    //     state.genre_projectid = [...content];
+
+    //   } else if (content.length <= 0) {
+    //     state.genre_projectid = [];
+    //   }
+
+    // },
+
     contract_sign(state, content) {
       var arr = Object.keys(content);
-      if (arr.length>0) {
-        state.contract= Object.assign({}, content);
+      if (arr.length > 0) {
+        state.contract = Object.assign({}, content);
         console.log(state);
         // state.contract = content;
-      }else if(arr.length == 0){
-        state.contract={};
+      } else if (arr.length == 0) {
+        state.contract = {};
       }
 
 
@@ -94,20 +107,27 @@ export default new Vuex.Store({
         state.currentUsertype = null;
       }
     },
-
-    // topright(state, user) {
-    //   if (user == 'login' || user == 'register' || user == 'usercheck') {
-    //     state.topright = false;
-    //   } else {
-    //     state.topright = true;
+    reset_mutation(state, usertype) {
+        Object.assign(state, usertype)
+    },
+    // RESET_STATE(state, initState) {
+    //   if (initState) {
+    //     /**
+    //      * 注：如果目标对象与源对象有同名属性，或多个源对象有同名属性，则后面的属性会覆盖前面的属性
+    //      * Object.assign方法用来将源对象（source）的所有可枚举属性，复制到目标对象（target）。
+    //      *  */
+    //     Object.assign(state, initState);
     //   }
-
-    // },
+    // }
   },
   actions: {
-    // reset_actions(context) {
+      // 重置所有状态
+    reset_actions(context,obj) {
+      context.commit('reset_mutation',obj)
+    },
+    // genre_projectid_action(context, username) {
     //   // commit('userStatus',user)
-    //   context.commit('reset')
+    //   context.commit('genre_projectid', username)
     //   //context.commit('userStatus',user) 
     //   // 通过接口获取的后台数据保存到store中，等待组件取用
     // },

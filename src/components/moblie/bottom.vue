@@ -1,7 +1,7 @@
 <template>
   <van-tabbar v-model="active" id="moblie_bottom">
     <van-tabbar-item name="mhome" icon="home-o" @click="$goto('mhome')">首页</van-tabbar-item>
-    <van-tabbar-item name="mysign" icon="records" @click="$goto('mysign')">签约</van-tabbar-item>
+    <van-tabbar-item name="mysign" icon="records" @click="$goto('mysign')">我的项目</van-tabbar-item>
     <van-tabbar-item
       v-if="this.$store.state.currentUsertype==1"
       name="p_user_contact"

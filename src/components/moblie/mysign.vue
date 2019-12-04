@@ -32,6 +32,8 @@
       :finished="finished"
       @load="onLoad()"
       :loading-text="loadText"
+      finished-text="没有更多了"
+      error-text="请求失败，点击重新加载"
       :offset="300"
     >
       <ul>
@@ -79,6 +81,43 @@ export default {
       loadNumUp: 20,
       usertype: "",
       upGoodsInfo: [],
+      piclists: [
+        {
+          value: 1,
+          text: "待审核项目",
+          pic: "../../../static/pic/waitreview.png"
+        },
+        {
+          value: 2,
+          text: "待签约项目",
+          pic: "../../../static/pic/waitsign.png"
+        },
+        {
+          value: 4,
+          text: "已签约待发送",
+          pic: "../../../static/pic/waitinvestor.png"
+        },
+        {
+          value: 5,
+          text: "待确认项目",
+          pic: "../../../static/pic/waitinvestor.png"
+        },
+        {
+          value: 6,
+          text: "成功签约项目",
+          pic: "../../../static/pic/success.png"
+        },
+        {
+          value: 3,
+          text: "投行已拒绝",
+          pic: "../../../static/pic/false.png"
+        },
+        {
+          value: 7,
+          text: "投资者已拒绝",
+          pic: "../../../static/pic/false.png"
+        }
+      ],
       classname: {
         // "0":
       }
@@ -87,26 +126,27 @@ export default {
 
   created() {
     this.usertype = this.$store.state.currentUsertype;
-    // console.log(this.$store.state.genre);
-    // console.log(this.$route.query);
-  
-    if(this.$route.query){
-        // let a=JSON.parse(this.$route.query);
-        // console.log(a);
-    }
-    
-    if (this.$store.state.genre.length > 0) {
-      this.result = [...this.$store.state.genre];
+    if (this.$route.query.projectId) {
+      let a=  JSON.parse(this.$route.query.array);
+      if (a.length > 0) {
+        this.result = [...a];
+        if (this.result.indexOf(4)!=-1) {
+          this.result.splice(this.result.indexOf(4), 1);
+        }
+      }
     } else {
-      if (this.usertype == 1) {
-        this.result = [1, 2, 5, 6, 3, 7];
-      } else if (this.usertype == 4) {
-        this.result = [1, 2, 4, 5, 6, 3, 7];
-      } else if (this.usertype == 3) {
-        this.result = [5, 6, 7];
+      if (this.$store.state.genre.length > 0) {
+        this.result = [...this.$store.state.genre];
+      } else {
+        if (this.usertype == 1) {
+          this.result = [1, 2, 5, 6, 3, 7];
+        } else if (this.usertype == 4) {
+          this.result = [1, 2, 4, 5, 6, 3, 7];
+        } else if (this.usertype == 3) {
+          this.result = [5, 6, 7];
+        }
       }
     }
-    // console.log( this.result);
   },
   computed: {
     list: function() {
@@ -135,7 +175,7 @@ export default {
           },
           {
             value: 3,
-            text: "拒绝签约项目",
+            text: "已拒绝项目",
             pic: "../../../static/pic/false.png"
           }
         ];
@@ -168,7 +208,7 @@ export default {
           },
           {
             value: 3,
-            text: "拒绝签约项目",
+            text: "已拒绝项目",
             pic: "../../../static/pic/false.png"
           }
         ];
@@ -291,6 +331,7 @@ export default {
         url: `${this.$baseurl}/bsl_web/projectSign/project`,
         data: this.$qs.stringify(
           {
+            projectId: this.$route.query.projectId,
             signStatusList: this.result,
             pageIndex: this.pageNum,
             pageSize: this.loadNumUp
@@ -319,7 +360,8 @@ export default {
               this.upGoodsInfo.length >= res.data.data.pageTotal ||
               this.upGoodsInfo.length == 0
             ) {
-              this.loadText = "加载完成";
+              // this.loadText = "加载完成";
+              this.loading = false;
               // document.querySelector(
               //   "#mysign .van-loading__spinner--circular"
               // ).style.display = "none";
@@ -330,9 +372,8 @@ export default {
             this.loading = false;
             this.finished = true;
           }
-          // console.log(this.result);
           this.upGoodsInfo.forEach(item => {
-            this.list.forEach(ite => {
+            this.piclists.forEach(ite => {
               // console.log(item.signStatus, ite.value);
               if (item.signStatus == ite.value) {
                 item.signStatustext = ite.text;
@@ -344,7 +385,7 @@ export default {
           // console.log(this.upGoodsInfo);
         })
         .catch(err => {
-          this.loadText = "加载失败";
+          // this.loadText = "加载失败";
           //  let fff = document.querySelector(
           //         "#mysign .van-loading__spinner--circular"
           //       );

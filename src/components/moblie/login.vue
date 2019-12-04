@@ -34,6 +34,7 @@ export default {
     };
   },
   created() {
+    console.log(this.$restore_obj);
     this.username = this.$route.query.email;
     // console.log(this.$route.query.email);
   },
@@ -51,21 +52,18 @@ export default {
           data: this.$qs.stringify({
             bslEmail: this.username,
             bslPwd: this.password
-          }),
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          }
+          })
+          // headers: {
+          //   "Content-Type": "application/x-www-form-urlencoded"
+          // }
         }).then(res => {
           this.$toast.clear();
           var rescode = res.data.resultCode;
           if (rescode == 10000) {
-            this.$store.dispatch("genre_action",[]);
-            this.$store.dispatch("contract_agentsign",{});
-             sessionStorage.clear();
-
+            sessionStorage.clear();
+            this.$store.dispatch("reset_actions", this.$restore_obj);
             this.$store.dispatch("usertype", res.data.data.userType);
             this.$store.dispatch("setUser", this.username);
-                console.log(this.$store.state);
             if (res.data.data.isAuth == 1) {
               this.$goto("mhome");
             } else if (res.data.data.isAuth == 0) {
@@ -77,10 +75,17 @@ export default {
             this.remind = "密码不能为空";
           } else if (rescode == 10013) {
             this.remind = "账号不存在";
-          } else if (rescode = 10014) {
+          } else if ((rescode = 10014)) {
             this.remind = "账号或密码不正确";
           }
         });
+        // .catch(err => {
+        //   alert(123)
+        // if (err) {
+        //   this.$toast.clear();
+        //   this.$loadingfail("登录失败");
+        // }
+        // });
       } else {
         this.remind = "账号和密码不能为空，请输入 ";
       }

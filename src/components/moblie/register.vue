@@ -6,10 +6,10 @@
 
     <div class="main">
       <p>{{remind}}</p>
-      <div class="username" v-if="$route.query.email">
-        <van-field  v-model="username" placeholder="电子邮箱" disabled/>
-      </div>
-      <div class="username" v-if="!$route.query.email">
+      <!-- <div class="username" v-if="$route.query.email">
+        <van-field v-model="username" placeholder="电子邮箱" disabled />
+      </div>-->
+      <div class="username">
         <van-field v-model="username" placeholder="电子邮箱" clearable />
       </div>
       <div class="password">
@@ -21,6 +21,10 @@
       <div class="registerbtn">
         <button @click="register()">注册新账号</button>
       </div>
+       <div class="tologin">
+         <p class="tologin" @click="$goto('login')">已有账号,前往登录</p>
+      </div>
+     
     </div>
   </div>
 </template>
@@ -35,16 +39,20 @@ export default {
       remind: ""
     };
   },
-  created(){
-    this.username=this.$route.query.email
+  created() {
+    this.username = this.$route.query.email;
     // console.log(this.$route.query.email);
-    
   },
   methods: {
     register() {
       this.remind = "";
-      if (this.username && this.password && this.password2) {
-         this.$loading();
+      if (
+        this.username &&
+        this.password &&
+        this.password2 &&
+        this.password == this.password2
+      ) {
+        this.$loading();
         this.$axios({
           method: "post",
           url: `${this.$baseurl}/bsl_web/user/register.do`,
@@ -58,21 +66,28 @@ export default {
         }).then(res => {
           var rescode = res.data.resultCode;
           console.log(res);
-           this.$toast.clear();
+          this.$toast.clear();
           if (rescode == 10000) {
-            console.log("注册成功");
-            this.$goto('usercheck');
-          } else if (rescode == 10011) {
-            this.remind = "登录账号不能为空";
-          } else if (rescode == 10012) {
-            this.remind = "密码不能为空";
-          } else if (rescode = 10013) {
-            this.remind = "邮箱地址无效请重新输入";
-          } else if (rescode = 10014) {
-            this.remind = "该邮箱已注册，请登录";
+            // console.log("注册成功");
+            this.$dialog
+              .alert({
+                title: "注册成功",
+                message: "下一步填写个人信息"
+              })
+              .then(() => {
+                this.$goto("usercheck");
+              });
+          } else {
+            this.remind = res.data.resultDesc;
           }
-         
         });
+      } else if (
+        this.username &&
+        this.password &&
+        this.password2 &&
+        this.password != this.password2
+      ) {
+        this.remind = "与第一次输入密码不相符";
       } else {
         this.remind = "账号和密码不能为空，请输入 ";
       }
@@ -88,7 +103,7 @@ export default {
   .van-field__body {
     //  width: 100%;
     height: 1rem;
-    border: 0.02rem solid #DDDDDD;
+    border: 0.02rem solid #dddddd;
     border-radius: 0.05rem;
     background: #f6f6f6;
     padding: 0.34rem;
@@ -96,17 +111,15 @@ export default {
   }
   .van-field__control {
     font-size: 0.38rem;
-      // line-height: 0.7rem;
-
+    // line-height: 0.7rem;
   }
-   .van-field__clear {
+  .van-field__clear {
     // height: 0.1rem;
     font-size: 0.38rem;
   }
   .username,
   .password,
-  .repeatpassword
-   {
+  .repeatpassword {
     .van-field {
       padding: 0;
       width: 9.8rem;
@@ -121,7 +134,7 @@ export default {
   // width: 9.90rem;
   // margin: 0 auto;
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
   // justify-content: center;
 
   h2 {
@@ -138,11 +151,23 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+
     p {
       font-size: 0.34rem;
       height: 0.84rem;
       line-height: 0.84rem;
       color: #f36c69;
+    }
+    div.tologin{
+       width: 9.8rem;
+       display: flex;
+       justify-content:flex-end;  
+       p{
+        //  align-self:  flex-end;
+          color:#00adef;
+          text-decoration:underline;
+          cursor: pointer;
+       }
     }
     > div {
       margin-bottom: 0.5rem;
@@ -151,18 +176,18 @@ export default {
       color: white;
       // width: 100%;
       // font-size: 0.1rem;
-        border-radius: 0.05rem;
+      border-radius: 0.05rem;
       width: 9.8rem;
       height: 1rem;
     }
     .registerbtn button {
       background: #00adef;
-       font-size: 0.3rem;
+      font-size: 0.3rem;
     }
     .registerbtn button {
       background: #ff7c2c;
-        // font-size: 0.1rem;
-         font-size: 0.3rem;
+      // font-size: 0.1rem;
+      font-size: 0.3rem;
     }
   }
 }

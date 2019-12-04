@@ -42,6 +42,9 @@ export default {
   // },
   created() {
     // console.log(VueUeditorWrap);
+    // if( this.$store.state.contract.article){
+    //     this.content=this.$store.state.contract.article;
+    // }
     console.log(this.$route.query);
   },
   computed: {},

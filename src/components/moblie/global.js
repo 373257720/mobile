@@ -67,157 +67,62 @@ const global = {
     '2': '公司'
   },
 
-  goods_deatails: function (url, methods, datas) {
-    let details_lists = [{
-        keyword: "projectIndustry",
-        name: "行业:",
-        response: ""
-      },
-      {
-        keyword: "projectArea",
-        name: "地区:",
-        response: ""
-      },
-      // {
-      //   keyword: "signStatus",
-      //   name: "项目状态",
-      //   response: ""
-      // },
-      {
-        keyword: "signStatu",
-        name: "项目状态:",
-        response: "暂无"
-      },
-      {
-        keyword: "projectCompany",
-        name: "公司名称:",
-        response: ""
-      },
-      {
-        keyword: "publicCompany",
-        name: "是否是上市公司",
-        response: ""
-      },
-      {
-        keyword: "collectMoney",
-        name: "集资额:",
-        response: ""
-      },
-      {
-        keyword: "projectMobile",
-        name: "联络电话:",
-        response: ""
-      },
-      {
-        keyword: "projectEmail",
-        name: "电邮",
-        response: ""
-      },
-
-      {
-        keyword: "projectDescribe",
-        name: "项目介绍",
-        response: ""
-      }
-    ];
-    let nav_lists = [{
-        keyword: "financingStage",
-        name: "融资阶段",
-        response: ""
-      },
-      {
-        keyword: "interestProjectCount",
-        name: "项目方<br>有兴趣数量",
-        response: ""
-      },
-      {
-        keyword: 'committedCount',
-        name: "已提交</br>投资者数量",
-        response: ""
-      }
-    ];
-    let investor_infor = [{
-        keyword: 'investorsType',
-        name: "投资者类型:",
-        response: ""
-      },
-      {
-        keyword: 'investorsCompany',
-        name: "投资者公司:",
-        response: ""
-      },
-      {
-        keyword: 'investorsName',
-        name: "投资者姓名:",
-        response: ""
-      },
-      {
-        keyword: 'investorsArea',
-        name: "投资者地区:",
-        response: ""
-      }
-    ];
+  goods_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor) {
     return new Promise((resolve, reject) => {
       axios({
-        url: url,
-        method: methods,
-        data: datas
-      }).then((res) => {
-        let signAgreementKey=res.data.data.signAgreementKey;
-        let projectName = res.data.data.projectName;
-        for (var i in res.data.data) {
-          for (var j = 0; j < details_lists.length; j++) {
-            if (details_lists[j].keyword == i) {
-              if (details_lists[j].keyword == "signStatus") {
-                details_lists[j].response = this.pic_obj[
+          url: url,
+          method: methods,
+          params: datas
+        })
+        .then((res) => {
+          let signAgreement = res.data.data.signAgreement;
+          let investorsId = res.data.data.investorsId;
+          let projectName = res.data.data.projectName;
+          let signAgreementKey = res.data.data.signAgreementKey;
+          for (let i in res.data.data) {
+            if (details_lists[i]) {
+              if (i == "signStatus") {
+                details_lists[i].response = this.pic_obj[
                   res.data.data[i]
                 ];
-              } else if (details_lists[j].keyword == "publicCompany") {
-                details_lists[j].response = res.data.data[i] == false ? '否' : '是'
-
+              } else if (i == "publicCompany") {
+                details_lists[i].response = res.data.data[i] == false ? '否' : '是'
               } else {
-                details_lists[j].response = res.data.data[i];
+                details_lists[i].response = res.data.data[i];
               }
             }
-
-          }
-          for (var w = 0; w < nav_lists.length; w++) {
-            if (nav_lists[w].keyword == i) {
-              if (nav_lists[w].keyword == "financingStage") {
-                nav_lists[w].response = this.financingStage[
+            if (nav_lists[i]) {
+              if (i == "financingStage") {
+                nav_lists[i].response = this.financingStage[
                   res.data.data[i]
                 ];
               } else {
-                nav_lists[w].response = res.data.data[i];
+                nav_lists[i].response = res.data.data[i];
+              }
+            }
+            if (investor_infor[i]) {
+              if (i == 'investorsType') {
+                investor_infor[i].response = this.investorsType[res.data.data[i]]
+              } else {
+                investor_infor[i].response = res.data.data[i];
               }
             }
           }
-          for (var k = 0; k < investor_infor.length; k++) {
-            if(investor_infor[k].keyword==i){
-              if(investor_infor[k].keyword =='investorsType'){    
-                   investor_infor[k].response= this.investorsType[res.data.data[i]]           
-              }
-              else{
-                  investor_infor[k].response = res.data.data[i];
-              }
-            }
-            
+          let combin = {
+            // investor_infor: investor_infor,
+            // details_lists: details_lists,
+            // nav_lists: nav_lists,
+            signAgreement: signAgreement,
+            investorsId: investorsId,
+            title: projectName,
+            signAgreementKey: signAgreementKey,
           }
-          // if()
-        }
-        let combin = {
-          investor_infor:investor_infor,
-          details_lists: details_lists,
-          nav_lists: nav_lists,
-          title: projectName,
-          signAgreementKey:signAgreementKey,
-        }
-        resolve(combin)
+          resolve(combin)
 
-      }).catch(function (error) {
-        reject(error)
-        // console.log(error);
-      })
+        }).catch(function (error) {
+          reject(error)
+          // console.log(error);
+        })
     })
 
   },

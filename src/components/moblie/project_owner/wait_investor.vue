@@ -7,7 +7,7 @@
       <article>
         <header>{{title}}</header>
         <boxx :nav_lists="nav_lists"></boxx>
-        <commondetails :toson="details_lists" v-if="details_lists.length>0"></commondetails>
+        <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
             <p>(合约同步到IPFS需要时间，如不能打开请稍后再试)</p>
@@ -24,33 +24,83 @@ export default {
   name: "p_wait_investor",
   data() {
     return {
-      show: false,
       hash_id: "",
       title: "",
-      details_lists: [],
-      nav_lists: [],
-      details: {}
+      nav_lists: {
+        financingStage: {
+          name: "融资阶段",
+          response: ""
+        },
+        interestProjectCount: {
+          name: "项目方<br>有兴趣数量",
+          response: ""
+        },
+        committedCount: {
+          name: "已提交</br>投资者数量",
+          response: ""
+        }
+      },
+      details_lists: {
+        projectIndustry: {
+          name: "行业:",
+          response: ""
+        },
+        projectArea: {
+          name: "地区:",
+          response: ""
+        },
+        signStatu: {
+          name: "项目状态:",
+          response: "暂无"
+        },
+        projectCompany: {
+          name: "公司名称:",
+          response: ""
+        },
+        publicCompany: {
+          name: "是否上市公司:",
+          response: ""
+        },
+        collectMoney: {
+          name: "集资额:",
+          response: ""
+        },
+        projectMobile: {
+          name: "联系电话:",
+          response: ""
+        },
+        projectEmail: {
+          name: "电邮:",
+          response: ""
+        },
+        projectDescribe: {
+          name: "项目简介:",
+          response: ""
+        }
+      }
     };
   },
   created() {
-    this.details = this.$route.query;
+    let details = this.$route.query;
     this.$loading();
     this.$global
       .goods_deatails(
         `${
           this.$baseurl
         }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          this.details.projectId
-        }&signStatus=${this.details.signStatus}&signId=${
-          this.details.signId ? this.details.signId : -1
+          details.projectId
+        }&signStatus=${details.signStatus}&signId=${
+          details.signId ? details.signId : -1
         }`,
-        "get"
+        "get",
+        {},
+        this.details_lists,
+        this.nav_lists,
+        []
       )
       .then(res => {
         console.log(res);
         this.hash_id = res.signAgreementKey;
-        this.nav_lists = [...res.nav_lists];
-        this.details_lists = [...res.details_lists];
         this.title = res.title;
         this.$toast.clear();
       });
@@ -58,25 +108,13 @@ export default {
   },
 
   methods: {
-    daship() {
-      var newWindow = window.open();
-      newWindow.location.href = "http://www.wearetechman.com:5001/webui";
-      // tempwindow.location=hash_id;
-    },
+    // daship() {
+    //   var newWindow = window.open();
+    //   newWindow.location.href = "http://www.wearetechman.com:5001/webui";
+    //   // tempwindow.location=hash_id;
+    // },
     // 点击事件
-    share(val) {
-      console.log(val);
-      this.message = val;
-      this.$copyText(this.message).then(
-        e => {
-          this.show = true;
-        },
-        function(e) {
-          // alert("Can not copy");
-          console.log(e);
-        }
-      );
-    },
+
     check_contract() {
       this.$loading();
       var newWindow = window.open();
@@ -185,13 +223,19 @@ export default {
     article {
       margin: 0 0 1rem 0;
       header {
-        height: 2rem;
+        min-height: 2rem;
         font-size: 0.46rem;
         padding: 0.4rem;
         box-sizing: border-box;
+        word-break: break-all;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
         color: #0f6ebe;
         font-weight: 600;
-        line-height: 0.7rem;
+        line-height: 0.68rem;
       }
       ul {
         padding: 0.5rem 0.5rem 0.5rem 0.5rem;

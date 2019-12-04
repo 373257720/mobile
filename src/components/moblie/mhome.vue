@@ -47,6 +47,8 @@
           :finished="finished"
           @load="onLoad"
           :loading-text="loadText"
+           finished-text="没有更多了"
+           error-text="请求失败，点击重新加载"
           :offset="300"
         >
           <div v-for="(goods,item) in  upGoodsInfo" :key="item" class="goodlists">
@@ -62,7 +64,7 @@
               </section>
               <section>
                 <span>简介：</span>
-                <span v-html="goods.projectDescribe.substr(0, [90])+'...'"></span>
+                <span v-html="goods.projectDescribe.length>90? goods.projectDescribe.substr(0, [90])+'...':goods.projectDescribe"></span>
                 <!-- <div class="van-multi-ellipsis--l3" v-html="goods.projectDescribe"></div> -->
               </section>
               <footer v-if="usertype==1">
@@ -142,7 +144,7 @@ export default {
       searchkey: "",
       loading: false,
       finished: false,
-      loadText: "loading…",
+      loadText: "加载中…",
       pageNum: 1,
       loadNumUp: 20,
       upGoodsInfo: [],
@@ -160,7 +162,7 @@ export default {
   },
   created() {
     this.usertype = this.$store.state.currentUsertype;
-    console.log(this.usertype);
+    // console.log();
     let axiosList = [
       this.$axios.get(`${this.$baseurl}/bsl_web/base/getAllIndustry`),
       this.$axios.get(`${this.$baseurl}/bsl_web/base/countryList.do`)
@@ -206,16 +208,15 @@ export default {
           }
         }
         console.log(hash);
-
+        // this.$store.commit("genre_projectid", hash);
+        // this.dispatch() genre_array
         if (item.signUserResp.length > 1) {
           this.$routerto(
             "mysign",
-            JSON.stringify({
+             {
               projectId: item.projectId,
-              array: hash
-              // signStatus: item.signUserResp[0].signStatus,
-              // signId: item.signUserResp[0].signId
-            })
+              array:JSON.stringify(hash),
+            } 
           );
         } else if (item.signUserResp.length <= 1) {
           this.$routerto("p_goods_details", {
@@ -299,7 +300,8 @@ export default {
               this.upGoodsInfo.length >= res.data.data.pageTotal ||
               this.upGoodsInfo.length == 0
             ) {
-              this.loadText = "没有记录";
+              // this.loadText = "加载完成";
+               this.loading = false;
               // document.querySelector(
               //   "#mhome .van-loading__circular"
               // ).style.display = "none";

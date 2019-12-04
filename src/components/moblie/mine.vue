@@ -113,6 +113,7 @@ export default {
             console.log(res);
             if (res.data.resultCode == 10000) {
               // window.location.reload();
+               this.$store.dispatch("reset_actions",this.$restore_obj)
               // window.addEventListener("onunload", () => {
               //   console.log("onunload！！！！！");
                 sessionStorage.clear();
@@ -155,7 +156,7 @@ export default {
       line-height: 1.2rem;
     }
     .van-cell {
-      font-size: 0.3rem;
+      font-size: 0.38rem;
     }
   }
 }

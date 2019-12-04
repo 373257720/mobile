@@ -24,8 +24,6 @@ export default {
           JSON.parse(sessionStorage.getItem("store"))
         )
       );
-      // console.dir(this.$store.state);
-      
     }
     window.addEventListener("beforeunload", () => {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state));

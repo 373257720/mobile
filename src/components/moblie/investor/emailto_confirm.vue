@@ -1,38 +1,19 @@
 <template>
   <div id="i_emailto_confirm">
     <nav>
-      <van-icon  @click="$global.previous()" />待确认项目
+      <van-icon @click="$global.previous()" />待确认项目
     </nav>
-     <!-- <commonnav :msg="dad_text"></commonnav> -->
+    <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <div class="investors_infor">
         <h2>{{projectName}}</h2>
         <header>投资者资料</header>
-        <ul>
-          <li i v-for="(item) in investor_infor" :key="item.name">
-            <p class="row1">{{item.name}}</p>
-            <p class="row2">{{item.response}}</p>
-          </li>
-        </ul>
+          <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
         <header>项目详情</header>
-            <div class="nav_lists">
-          <p v-for="(item) in nav_lists" :key="item.name">
-            <section class="box">
-               <span class="1row" v-html="item.name"></span>
-              <span class="rowb" >{{item.response}}</span>
-            </section>
-          
-          </p>
-        </div>
-        <ul>
-          <li i v-for="(item) in details_lists" :key="item.name">
-            <p class="row1">{{item.name}}</p>
-                <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
-            <p class="row2" v-if="item.keyword!='projectDescribe'" >{{item.response}}</p>
-          </li>
-        </ul>
+        <boxx :nav_lists="nav_lists"></boxx>
+        <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
             <button @click="agree">完善资料</button>
@@ -49,199 +30,162 @@ export default {
   name: "goods_details",
   data() {
     return {
-      show: false,
       // dad_text:'待确认项目',
-      investorsEmailSend:'',
-      projectName:'',
-      nav_lists: [
-         {
-          keyword: "financingStage",
-          name: "融资阶段",
-          response: ""
-        },
-        {
-          keyword: "interestProjectCount",
-          name: "项目方<br>有兴趣数量",
-          response: ""
-        },
-        {
-          keyword:'committedCount',
-          name: "已提交</br>投资者数量",
-          response: ""
-        }
-      ],
-      investor_infor: [
-        {
-          keyword:'investorsType',
+      investorsEmailSend: "",
+      projectName: "",
+      investor_infor: {
+        investorsType: {
           name: "投资者类型:",
           response: ""
         },
-        {
-          keyword:'investorsCompany',
+        investorsCompany: {
           name: "投资者公司:",
           response: ""
         },
-        {
-          keyword:'investorsName',
+        investorsName: {
           name: "投资者姓名:",
           response: ""
         },
-        {
-          keyword:'investorsArea',
+        investorsArea: {
           name: "投资者地区:",
           response: ""
         }
-      ],
-      details_lists: [
-      {
-          keyword: "projectIndustry",
+      },
+      nav_lists: {
+        financingStage: {
+          name: "融资阶段",
+          response: ""
+        },
+        interestProjectCount: {
+          name: "项目方<br>有兴趣数量",
+          response: ""
+        },
+        committedCount: {
+          name: "已提交</br>投资者数量",
+          response: ""
+        }
+      },
+      details_lists: {
+        projectIndustry: {
           name: "行业:",
           response: ""
         },
-        {
-          keyword: "projectArea",
+        projectArea: {
           name: "地区:",
           response: ""
         },
-        // {
-        //   keyword: "signStatus",
-        //   name: "项目状态:",
-        //   response: ""
-        // },
-           {
-          keyword: "signStatu",
+        signStatu: {
           name: "项目状态:",
           response: "暂无"
         },
-        { keyword: "projectCompany", name: "公司名称:", response: "" },
-        { keyword: "publicCompany", name: "是否上市公司:", response: "" },
-        { keyword: "collectMoney", name: "集资额:", response: "" },
-        { keyword: "projectMobile", name: "联系电话:", response: "" },
-        { keyword: "projectEmail", name: "电邮:", response: "" },
-        { keyword: "projectDescribe", name: "项目详情:", response: "" }
-      ]
-    };
-  },
-  created(){
-    console.log(this.$route.query);
-    let que=this.$route.query;
-   this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/project/getProjectDetails.do?projectLan=${que.projectLan}&signId=${que.signId}`
-    }).then(res => {
-       this.projectName=res.data.data.projectName;
-      for (var i in res.data.data) {
-        for (var j = 0; j < this.details_lists.length; j++) {
-          if(this.details_lists[j].keyword==i){
-              if (this.details_lists[j].keyword == "signStatus") {
-              this.details_lists[j].response = this.$global.pic_obj[
-                res.data.data[i]
-              ];
-            }  else if (this.details_lists[j].keyword == "publicCompany" ) {
-                this.details_lists[j].response = res.data.data[i]==false?'否':'是'
-                
-              } else {
-              this.details_lists[j].response = res.data.data[i];
-            }
-          }
-           
-        }
-        for (var w = 0; w < this.nav_lists.length; w++) {
-          if (this.nav_lists[w].keyword == i) {
-               if (this.nav_lists[w].keyword == "financingStage") {
-              this.nav_lists[w].response = this.$global.financingStage[
-                res.data.data[i]
-              ];
-            } else {
-              this.nav_lists[w].response = res.data.data[i];
-            }
-          }
-        }
-             for (var k = 0; k < this.investor_infor.length; k++) {
-          if(this.investor_infor[k].keyword==i){
-            if(this.investor_infor[k].keyword =='investorsType'){
-                 this.investor_infor[k].response= this.$global.investorsType[res.data.data[i]] ;
-       
-                 
-            }
-            else{
-              this.investor_infor[k].response = res.data.data[i];
-            }
-          }
-          
+        projectCompany: {
+          name: "公司名称:",
+          response: ""
+        },
+        publicCompany: {
+          name: "是否上市公司:",
+          response: ""
+        },
+        collectMoney: {
+          name: "集资额:",
+          response: ""
+        },
+        projectMobile: {
+          name: "联系电话:",
+          response: ""
+        },
+        projectEmail: {
+          name: "电邮:",
+          response: ""
+        },
+        projectDescribe: {
+          name: "项目简介:",
+          response: ""
         }
       }
-      // this.$route.query.investorsId=res.data.data.investorsId;
-      this.investorsEmailSend=res.data.data.investorsEmailSend;
-      console.log(this.details_lists);
-    });
-
-      
- 
+    };
   },
-  mounted(){
-
-    
+  created() {
+    // console.log(this.$route.query);
+    let details = this.$route.query;
+    this.$loading();
+    this.$global
+      .goods_deatails(
+        `${
+          this.$baseurl
+        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+          details.projectId
+        }&signStatus=${details.signStatus}&signId=${
+          details.signId ? details.signId : -1
+        }`,
+        "get",
+        {},
+        this.details_lists,
+        this.nav_lists,
+        this.investor_infor
+      )
+      .then(res => {
+        console.log(res);
+        this.title = res.title;
+        this.$toast.clear();
+      });
   },
+  mounted() {},
   methods: {
+    agree() {
+      let isyes = this.$store.state.currentUser;
+      console.log(isyes);
 
-    agree(){
-        let isyes=this.$store.state.currentUser;
-        console.log(isyes);
-        
-        if(isyes){
-            this.$routerto('i_perfect_infor',this.$route.query)
-        }else{
-            
-            this.$dialog
-              .confirm({
-                title: "请登录后操作",
-                // message: "弹窗内容"
-              })
-              .then(() => {
-                // on confirm
-                 this.$routerto('login', {email:this.investorsEmailSend})
-              })
-              // .catch(() => {
-              //   // on cancel
-              // });
-        }
+      if (isyes) {
+        this.$routerto("i_perfect_infor", this.$route.query);
+      } else {
+        this.$dialog
+          .confirm({
+            title: "请登录后操作"
+            // message: "弹窗内容"
+          })
+          .then(() => {
+            // on confirm
+            this.$routerto("login", { email: this.investorsEmailSend });
+          });
+        // .catch(() => {
+        //   // on cancel
+        // });
+      }
     },
-    
+
     refuse() {
       this.$dialog
         .confirm({
-          title: "是否拒绝",
+          title: "是否拒绝"
           // message: "弹窗内容"
         })
         .then(() => {
-          // on confirm
-        this.$axios({
-          method: "get",
-          url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.$route.query.investorsEmailSend}`
-            }).then(res=>{
-          console.log(res.data);
-            if(res.data.resultCode=10000){
-                   this.$dialog.alert({
-                    title: '拒绝成功',
-                    //   message: '弹窗内容'
-                    }).then(() => {
-                    // on close
-                    });
-             }
-
-            })
+          this.$axios({
+            method: "get",
+            url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.investorsEmailSend}`
+          }).then(res => {
+            console.log(res.data);
+            if ((res.data.resultCode = 10000)) {
+              this.$dialog
+                .alert({
+                  title: "拒绝成功"
+                })
+                .then(() => {
+                  this.$routerto("login");
+                });
+            }
+          });
         })
         .catch(() => {
           // on cancel
-        
         });
     }
   }
 };
 </script>
 <style lang="scss">
-#i_emailto_confirm  {
+#i_emailto_confirm {
   nav {
     // position: relative;
     .van-icon-arrow-left {
@@ -263,7 +207,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#i_emailto_confirm  {
+#i_emailto_confirm {
   width: 100%;
   nav {
     width: 100%;
@@ -287,13 +231,19 @@ export default {
     }
     div.investors_infor {
       h2 {
-    height: 2rem;
+        min-height: 2rem;
         font-size: 0.46rem;
         padding: 0.4rem;
         box-sizing: border-box;
+        word-break: break-all;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
         color: #0f6ebe;
         font-weight: 600;
-        line-height: 0.7rem;
+        line-height: 0.68rem;
       }
       header {
         height: 0.8rem;
@@ -307,10 +257,12 @@ export default {
       ul {
         padding: 0.1rem 0.5rem;
         li {
-          margin-bottom: 0.1rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.38rem;
+          > div {
+            margin-bottom: 0.1rem;
+            display: flex;
+            align-items: baseline;
+            font-size: 0.38rem;
+          }
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
@@ -344,43 +296,38 @@ export default {
         color: #868686;
         // border-bottom: 0.01rem dashed #b5b5b5;
       }
-       div.nav_lists {
+      div.nav_lists {
         display: flex;
-        border-top:0;
+        border-top: 0;
         border-bottom: 0.2rem solid #f2f2f2;
         > p {
           flex: 1;
-          height: 2.5rem;  
+          height: 2.5rem;
           font-size: 0.38rem;
           display: flex;
-          align-items:center;
-         
-          section.box{
+          align-items: center;
+
+          section.box {
             box-sizing: border-box;
-              width: 100%;
-              display: flex;
-              text-align: center;
-             height: 2rem;
+            width: 100%;
+            display: flex;
+            text-align: center;
+            height: 2rem;
             //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
-            justify-content:space-between;
-            span.rowb{
-                 font-size: 0.6rem;
-                  color: #0f6ebe;
-
+            justify-content: space-between;
+            span.rowb {
+              font-size: 0.6rem;
+              color: #0f6ebe;
             }
           }
-            
         }
-        p:nth-last-child(1){
-            section.box{
-              border-right: 0;
-            }
-            
+        p:nth-last-child(1) {
+          section.box {
+            border-right: 0;
           }
-           
-      
+        }
       }
       ul {
         padding: 0.5rem;
