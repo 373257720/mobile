@@ -68,7 +68,7 @@ export default {
       //     }
       //   }
       // }
-      
+
     });
   },
   methods: {
@@ -83,6 +83,9 @@ export default {
   .van-search {
     // padding: 0.2rem 0.2rem;
     // background: #1F2652;
+  }
+  .van-search__content--round{
+    border:1px solid #ccc;
   }
   .van-search__action {
     // font-size: 0.3rem;
@@ -103,7 +106,7 @@ export default {
         }
       }
   }
-  
+
   .van-cell {
        font-size: 0.32rem;
       line-height: 0.5rem;

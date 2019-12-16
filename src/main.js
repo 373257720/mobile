@@ -50,7 +50,7 @@ axios.interceptors.response.use(res => {
     if (res.data && res.data.resultCode) {
       let code = res.data.resultCode
       // 10101是未登录状态码
-      if (code == 10090) { // 如果是未登录直接踢出去 
+      if (code == 10090) { // 如果是未登录直接踢出去
         console.log(code);
         location.href = '/'
       }

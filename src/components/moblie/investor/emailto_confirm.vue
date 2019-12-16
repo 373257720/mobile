@@ -113,9 +113,7 @@ export default {
       .goods_deatails(
         `${
           this.$baseurl
-        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          details.projectId
-        }&signStatus=${details.signStatus}&signId=${
+        }/bsl_web/project/getProjectDetails.do?projectLan=${details.projectLan}&signId=${
           details.signId ? details.signId : -1
         }`,
         "get",

@@ -67,21 +67,21 @@
                 <span v-html="goods.projectDescribe.length>90? goods.projectDescribe.substr(0, [90])+'...':goods.projectDescribe"></span>
                 <!-- <div class="van-multi-ellipsis--l3" v-html="goods.projectDescribe"></div> -->
               </section>
-              <footer v-if="usertype==1">
+              <div class="tag" v-if="usertype==1">
                 <ul>
-                  <li v-for="(item) in  tags" :key="item.text">
+                  <li v-for="(item,key) in  tags" :key="item.text">
                     <div
-                      v-if="goods.signUserList[item.keywork][0].signCount"
-                    >{{item.text}}（{{goods.signUserList[item.keywork][0].signCount?goods.signUserList[item.keywork][0].signCount:0}}）</div>
+                      v-if="goods.signUserList[key].length>0 && goods.signUserList[key][0].signCount"
+                    >{{item.text}}（goods.signUserList[key][0].signCount）</div>
                   </li>
                 </ul>
-              </footer>
+              </div>
             </article>
             <footer>
               <button
                 v-if="usertype==1"
                 @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList6'][0].investorsIdList) })"
-              >签约投资者资料（{{goods.signUserList['signUserList6'][0].signCount?goods.signUserList['signUserList6'][0].signCount:0}}）</button>
+              >签约投资者资料（{{goods.signUserList['signUserList6'][1]?goods.signUserList['signUserList6'][1]:0}}）</button>
               <button
                 v-else-if="usertype==3"
                 @click="$routerto('i_conected_project',{projectId:goods.projectId,signStatus:goods.signUserResp[0].signStatus,signId:goods.signUserResp[0].signId})"
@@ -110,33 +110,27 @@ export default {
       ],
       usertype: "",
       activeIds: 0,
-      tags: [
-        {
-          keywork: "signUserList1",
+      tags: {
+        signUserList1: {
           text: "待审核",
           number: 0
         },
-        {
-          keywork: "signUserList2",
+        signUserList2: {
           text: "待签约",
           number: 0
         },
-        {
-          keywork: "signUserList4",
+        signUserList4: {
           text: "待确认",
           number: 0
         },
-        {
-          keywork: "signUserList6",
+        signUserList6: {
           text: "已签约",
           number: 0
         },
-        {
-          keywork: "signUserList37",
+        signUserList37: {
           text: "已拒绝",
           number: 0
-        }
-      ],
+        }},
       // 左侧高亮元素的index
       mainActiveIndex: 0,
       // 被选中元素的id
@@ -198,6 +192,7 @@ export default {
       }
     },
     routerto(item) {
+
       this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
         // console.log(item.signUserResp);
@@ -216,7 +211,7 @@ export default {
              {
               projectId: item.projectId,
               array:JSON.stringify(hash),
-            } 
+            }
           );
         } else if (item.signUserResp.length <= 1) {
           this.$routerto("p_goods_details", {
@@ -228,11 +223,20 @@ export default {
       } else if (this.$store.state.currentUsertype == 3) {
         // this.$routerto("a_project_intro", { projectId: projectId });
       } else if (this.$store.state.currentUsertype == 4) {
-        this.$routerto("a_project_intro", {
-          projectId: item.projectId,
-          signStatus: item.signUserResp[0].signStatus,
-          signId: item.signUserResp[0].signId
-        });
+        console.log(item)
+        if(item.isSign==1){
+          this.$routerto("a_project_intro", {
+            projectId: item.projectId,
+            signStatus: item.signUserResp[0].signStatus,
+            signId: item.signUserResp[0].signId
+          });
+        }else if(item.isSign==-1){
+          this.$routerto("a_project_intro", {
+            projectId: item.projectId,
+            signStatus: 0,
+          });
+        }
+
       }
     },
     region(value, region) {
@@ -274,7 +278,6 @@ export default {
       if (this.activeIds == 0) {
         this.activeIds = "";
       }
-      // console.log(this.loading);
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getAllProject?`,
@@ -300,7 +303,6 @@ export default {
               this.upGoodsInfo.length >= res.data.data.pageTotal ||
               this.upGoodsInfo.length == 0
             ) {
-              // this.loadText = "加载完成";
                this.loading = false;
               // document.querySelector(
               //   "#mhome .van-loading__circular"
@@ -340,10 +342,13 @@ export default {
   header {
     .van-search {
       // padding: 0.3rem 0.4rem 0 0.4rem;
-      // background: #2E3063 !important;
+     /*background: #2E3063 !important;*/
     }
     .van-hairline--top-bottom::after {
       border: 0;
+    }
+    .van-search__content--round{
+      border:1px solid #ccc;
     }
     .van-search__action {
       // font-size: 4rem;
@@ -471,10 +476,10 @@ export default {
       background: white;
       display: flex;
       flex-direction: column;
-      border: 0.02rem solid #ccc;
+      border: 1px solid #ccc;
       article {
         padding: 0.27rem 0.46rem 0.27rem 0.46rem;
-        border-bottom: 0.02rem solid #ccc;
+        border-bottom: 1px solid #ccc;
         nav {
           // width: 6.3rem;
           font-size: 0.5rem;
@@ -503,6 +508,8 @@ export default {
               no-repeat;
             background-size: 2.7rem 0.6rem;
           }
+          /*foot*/
+
         }
         section {
           font-size: 0.38rem;
@@ -526,15 +533,16 @@ export default {
             line-height: 0.4rem;
           }
         }
+        div.tag{
+          min-height: 0rem;
+          max-height: 1.2rem;
+        }
       }
       footer {
-        // flex: 1;
         height: 1.2rem;
         position: relative;
         display: flex;
-        // justify-content: center;
         align-items: center;
-
         button {
           width: 45%;
           text-align: center;

@@ -196,7 +196,7 @@ export default {
               margin: auto;
               border-collapse:collapse; border-spacing:0px 10px;
               border:1px solid #cccccc;border-radius:5px;
-            
+
             ">
                   <thead>
                       <tr>
@@ -283,8 +283,8 @@ export default {
       }else{
           this.show='邮箱格式不正确';
       }
-  
- 
+
+
     }
   }
 };
