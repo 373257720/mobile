@@ -71,8 +71,10 @@
                 <ul>
                   <li v-for="(item,key) in  tags" :key="item.text">
                     <div
-                      v-if="goods.signUserList[key].length>0 && goods.signUserList[key][0].signCount"
-                    >{{item.text}}（goods.signUserList[key][0].signCount）</div>
+                      v-if="goods.signUserList[key].length>0 && goods.signUserList[key][0].signCount">
+                      <span> {{item.text}}</span>
+                      <span>( {{goods.signUserList[key][0].signCount}} )</span>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -81,7 +83,7 @@
               <button
                 v-if="usertype==1"
                 @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList6'][0].investorsIdList) })"
-              >签约投资者资料（{{goods.signUserList['signUserList6'][1]?goods.signUserList['signUserList6'][1]:0}}）</button>
+              >签约投资者资料 ( {{goods.signUserList['signUserList6'][0].signCount?goods.signUserList['signUserList6'][0].signCount:0}} )</button>
               <button
                 v-else-if="usertype==3"
                 @click="$routerto('i_conected_project',{projectId:goods.projectId,signStatus:goods.signUserResp[0].signStatus,signId:goods.signUserResp[0].signId})"
@@ -203,8 +205,6 @@ export default {
           }
         }
         console.log(hash);
-        // this.$store.commit("genre_projectid", hash);
-        // this.dispatch() genre_array
         if (item.signUserResp.length > 1) {
           this.$routerto(
             "mysign",
@@ -298,6 +298,7 @@ export default {
             if (re.length > 0) {
               this.upGoodsInfo = this.upGoodsInfo.concat(re);
               this.loading = false;
+              this.finished = true;
             }
             if (
               this.upGoodsInfo.length >= res.data.data.pageTotal ||
@@ -309,6 +310,7 @@ export default {
               // ).style.display = "none";
               this.finished = true;
             }
+
             this.pageNum++;
           } else {
             this.loading = false;
@@ -484,8 +486,8 @@ export default {
           // width: 6.3rem;
           font-size: 0.5rem;
           color: #0f6ebe;
-          font-weight: 550;
-          line-height: 0.5rem;
+          font-weight: 600;
+          line-height: 0.7rem;
           margin-bottom: 0.7rem;
           box-sizing: border-box;
         }
@@ -506,7 +508,13 @@ export default {
             margin-bottom: 0.12rem;
             background: url(../../assets/c5652240e4485f406fbaf8cb89b0afb.png)
               no-repeat;
-            background-size: 2.7rem 0.6rem;
+            background-size: cover;
+            span:nth-of-type(1){
+
+            }
+            span:nth-of-type(2){
+              text-indent:0.1rem;
+            }
           }
           /*foot*/
 

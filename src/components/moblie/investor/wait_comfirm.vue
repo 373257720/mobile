@@ -6,7 +6,7 @@
     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <div class="investors_infor">
-        <h2>{{projectName}}</h2>
+        <h2>{{title}}</h2>
         <header>投资者资料</header>
          <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
@@ -34,7 +34,8 @@ export default {
       show: false,
       // dad_text:'待确认项目',
       investorsEmailSend: "",
-      projectName: "",
+      title: "",
+      investorsId:'',
       investor_infor: {
         investorsType: {
           name: "投资者类型:",
@@ -115,9 +116,7 @@ export default {
       .goods_deatails(
         `${
           this.$baseurl
-        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          details.projectId
-        }&signStatus=${details.signStatus}&signId=${
+        }/bsl_web/project/getProjectDetails.do?projectLan=zh_CN&signId=${
           details.signId ? details.signId : -1
         }`,
         "get",
@@ -127,7 +126,9 @@ export default {
         this.investor_infor
       )
       .then(res => {
-        console.log(res);
+        this.investorsEmailSend=res.investorsEmailSend;
+        // console.log(res);
+        this.investorsId=res.investorsId;
         this.title = res.title;
         this.$toast.clear();
       });
@@ -138,8 +139,10 @@ export default {
       let isyes = this.$store.state.currentUser;
       console.log(isyes);
       if (isyes) {
-        this.$route.query.investor_infor = JSON.stringify(this.investor_infor);
 
+        this.$route.query.investor_infor = JSON.stringify(this.investor_infor);
+        this.$route.query.investorsId=this.investorsId;
+        console.log(this.$route.query)
         this.$routerto("i_perfect_infor", this.$route.query);
       } else {
         this.$dialog
@@ -172,7 +175,9 @@ export default {
                 .confirm({
                   title: "已拒绝"
                 })
-                .then(() => {});
+                .then(() => {
+                  this.$routerto('mysign');
+                });
             }
           });
         })

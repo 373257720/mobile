@@ -94,16 +94,20 @@ export default {
         },
         {
           value: 4,
-          text: "已签约待发送",
+          text: "已签约待上链",
           pic: "../../../static/pic/waitinvestor.png"
-        },
-        {
-          value: 5,
+        },{
+          value: 6,
           text: "待确认项目",
           pic: "../../../static/pic/waitinvestor.png"
         },
         {
-          value: 6,
+          value: 5,
+          text: "已上链待发送",
+          pic: "../../../static/pic/waitinvestor.png"
+        },
+        {
+          value: 8,
           text: "成功签约项目",
           pic: "../../../static/pic/success.png"
         },
@@ -130,20 +134,23 @@ export default {
       let a=  JSON.parse(this.$route.query.array);
       if (a.length > 0) {
         this.result = [...a];
-        if (this.result.indexOf(4)!=-1) {
-          this.result.splice(this.result.indexOf(4), 1);
-        }
+        // if (this.result.indexOf(4)!=-1) {
+        //   this.result.splice(this.result.indexOf(4), 1);
+        // }
       }
     } else {
       if (this.$store.state.genre.length > 0) {
         this.result = [...this.$store.state.genre];
       } else {
+        // 1投行（项目方），3投资者，4投资中间人
         if (this.usertype == 1) {
-          this.result = [1, 2, 5, 6, 3, 7];
+          // 投行（项目方） ：待审核项目->1 待签约项目->2  已签约待上链->4    已上链待发送->5  待确认项目->6  签约成功项目->8  拒绝签约项目->3，7
+          this.result = [1, 2, 4, 5, 6, 3, 7,8];
         } else if (this.usertype == 4) {
-          this.result = [1, 2, 4, 5, 6, 3, 7];
+          // 待审核项目->1 待签约项目->2  已签约待上链->4    已上链待发送->5  待确认项目->6  签约成功项目->8  拒绝签约项目->3，7
+          this.result = [1, 2, 4, 5, 6, 3, 7,8];
         } else if (this.usertype == 3) {
-          this.result = [5, 6, 7];
+          this.result = [8, 6, 7];
         }
       }
     }
@@ -151,35 +158,7 @@ export default {
   computed: {
     list: function() {
       console.log(this.usertype);
-      if (this.usertype == 1) {
-        return [
-          {
-            value: 1,
-            text: "待审核项目",
-            pic: "../../../static/pic/waitreview.png"
-          },
-          {
-            value: 2,
-            text: "待签约项目",
-            pic: "../../../static/pic/waitsign.png"
-          },
-          {
-            value: 5,
-            text: "待确认项目",
-            pic: "../../../static/pic/waitinvestor.png"
-          },
-          {
-            value: 6,
-            text: "成功签约项目",
-            pic: "../../../static/pic/success.png"
-          },
-          {
-            value: 3,
-            text: "已拒绝项目",
-            pic: "../../../static/pic/false.png"
-          }
-        ];
-      } else if (this.usertype == 4) {
+      if (this.usertype == 1 ||this.usertype == 4) {
         return [
           {
             value: 1,
@@ -193,17 +172,22 @@ export default {
           },
           {
             value: 4,
-            text: "已签约待发送",
-            pic: "../../../static/pic/waitinvestor.png"
+            text: "已签约待上链",
+            pic: "../../../static/pic/waitsign.png"
           },
           {
             value: 5,
-            text: "待确认项目",
+            text: "已上链待发送",
             pic: "../../../static/pic/waitinvestor.png"
           },
           {
             value: 6,
-            text: "成功签约项目",
+            text: "待确认项项目",
+            pic: "../../../static/pic/waitinvestor.png"
+          },
+          {
+            value: 8,
+            text: "签约成功项目",
             pic: "../../../static/pic/success.png"
           },
           {
@@ -212,15 +196,16 @@ export default {
             pic: "../../../static/pic/false.png"
           }
         ];
-      } else if (this.usertype == 3) {
+      }
+       else if (this.usertype == 3) {
         return [
           {
-            value: 5,
+            value: 6,
             text: "待确认项目",
             pic: "../../../static/pic/waitinvestor.png"
           },
           {
-            value: 6,
+            value: 8,
             text: "已连接的项目",
             pic: "../../../static/pic/success.png"
           },
@@ -237,7 +222,7 @@ export default {
   methods: {
     mysignto(item) {
       //待审核
-      console.log(item);
+      // console.log(item);
       let signStatus = item.signStatus;
       let obj = {
         projectId: item.projectId,
@@ -249,34 +234,40 @@ export default {
           this.$routerto("p_sign_request", obj);
         } else if (signStatus == 2) {
           this.$routerto("p_wait_agent_input", obj);
+        } else if (signStatus == 4) {
+          this.$routerto("p_wait_agent_input", obj);
         } else if (signStatus == 5) {
           this.$routerto("p_wait_investor", obj);
-        } else if (signStatus == 6) {
+        }
+        else if (signStatus == 6) {
+          this.$routerto("p_wait_investor", obj);
+        } else if (signStatus == 8) {
           this.$routerto("p_sign_successful", obj);
         } else if (signStatus == 3 || signStatus == 7) {
           this.$routerto("p_sign_failed", obj);
         }
       } else if (this.usertype == 4) {
-        console.log(signStatus);
-
+        // console.log(signStatus);
         if (signStatus == 1) {
           this.$routerto("a_wait_review", obj);
         } else if (signStatus == 2) {
           this.$routerto("a_wait_signed", obj);
         } else if (signStatus == 4) {
-          this.$routerto("a_wait_sendemail", obj);
+          this.$routerto("a_submit_contract", obj);
         } else if (signStatus == 5) {
+          this.$routerto("a_wait_sendemail", obj);
+        }  else if (signStatus == 6) {
           this.$routerto("a_wait_investor_comfirm", obj);
-        } else if (signStatus == 6) {
+        }else if (signStatus == 8) {
           this.$routerto("a_sign_successful", obj);
         } else if (signStatus == 3 || signStatus == 7) {
           this.$routerto("a_sign_failed", obj);
         }
       } else if (this.usertype == 3) {
         console.log(signStatus);
-        if (signStatus == 5) {
+        if (signStatus == 6) {
           this.$routerto("i_wait_confirm", obj);
-        } else if (signStatus == 6) {
+        } else if (signStatus == 8) {
           this.$routerto("i_conected_project", obj);
         } else if (signStatus == 7) {
           this.$routerto("i_sign_failed", obj);
@@ -354,8 +345,8 @@ export default {
             if (re.length > 0) {
               this.upGoodsInfo = this.upGoodsInfo.concat(re);
               this.loading = false;
+              this.finished = true;
             }
-
             if (
               this.upGoodsInfo.length >= res.data.data.pageTotal ||
               this.upGoodsInfo.length == 0

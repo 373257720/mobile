@@ -28,11 +28,12 @@ import p_sign_request from '@/components/moblie/project_owner/sign_request'
 import p_wait_investor from '@/components/moblie/project_owner/wait_investor'
 import p_goods_details from '@/components/moblie/project_owner/goods_details'
 import p_user_contact from '@/components/moblie/project_owner/user_contact'
-import p_user_contact2 from '@/components/moblie/project_owner/user_contact2' 
+import p_user_contact2 from '@/components/moblie/project_owner/user_contact2'
 import p_submit_contract from '@/components/moblie/project_owner/submit_contract'
 import p_sign_successful from '@/components/moblie/project_owner/sign_successful'
 import p_inverstor_details from'@/components/moblie/project_owner/inverstor_details'
 import p_check_done_contract from'@/components/moblie/project_owner/check_done_contract'
+import owner_set_contract from "../components/moblie/project_owner/owner_set_contract";
 
 
 // agent/
@@ -61,7 +62,6 @@ import i_emailto_confirm from '@/components/moblie/investor/emailto_confirm'
 
 Vue.use(Router);
 const routes = [
-
   // project/
   {
     path: '/p_sign_request',
@@ -113,20 +113,33 @@ const routes = [
     name: 'p_investor_details',
     component: p_investor_details,
   },
+  // {
+  //   path: '/p_set_contract',
+  //   name: 'p_set_contract',
+  //   component: p_set_contract,
+  // },
   {
-    path: '/p_set_contract',
-    name: 'p_set_contract',
-    component: p_set_contract,
-  },
-  {
-    path: '/p_sign_contract',
-    name: 'p_sign_contract',
-    component: p_sign_contract,
-  },
-  {
-    path: '/p_submit_contract',
-    name: 'p_submit_contract',
-    component: p_submit_contract,
+    path: '/owner_set_contract',
+    name: 'owner_set_contract',
+    component: owner_set_contract,
+    redirect: '/owner_set_contract/p_set_contract',
+    children:[
+      {
+        path: 'p_set_contract',
+        name: 'p_set_contract',
+        component: p_set_contract,
+      },
+      {
+        path: 'p_sign_contract',
+        name: 'p_sign_contract',
+        component: p_sign_contract,
+      },
+      {
+        path: 'p_submit_contract',
+        name: 'p_submit_contract',
+        component: p_submit_contract,
+      },
+    ]
   },
   {
     path: '/p_sign_successful',
@@ -143,10 +156,6 @@ const routes = [
     name: 'p_check_done_contract',
     component:p_check_done_contract,
   },
- 
-
-
-
   // agent
   {
     path: '/a_sign_successful',
@@ -166,7 +175,7 @@ const routes = [
     path: '/a_sign_failed',
     name: 'a_sign_failed',
     component: a_sign_failed,
-  }, 
+  },
   {
     path: '/a_wait_signed',
     name: 'a_wait_signed',
@@ -207,7 +216,7 @@ const routes = [
     name: 'a_wait_sendemail',
     component: a_wait_sendemail,
   },
-  
+
 
 // investor
 
@@ -280,7 +289,7 @@ const routes = [
     name: 'mysign',
     component: mysign,
   },
- 
+
   {
     path: '/register',
     name: 'register',

@@ -28,6 +28,7 @@
 import { Draw, draw_stauts } from "./draw";
 export default {
   name: "canvans",
+  // inject:['app'],
   data() {
     return {
       msg: "请在下方空白处签名",
@@ -47,6 +48,8 @@ export default {
     // console.log(1111);
   },
   created() {
+    // if()
+    // console.log(this.app)
     // console.log(draw_stauts);
   },
   mounted() {

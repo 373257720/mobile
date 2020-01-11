@@ -123,8 +123,9 @@ export default {
         this.investor_infor
       )
       .then(res => {
+        this.investorsEmailSend=res.investorsEmailSend;
         console.log(res);
-        this.title = res.title;
+        this.projectName = res.title;
         this.$toast.clear();
       });
   },

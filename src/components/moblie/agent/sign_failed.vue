@@ -97,6 +97,11 @@ export default {
         projectDescribe: {
           name: "项目简介:",
           response: ""
+        },
+        signStatus: {
+          name: "签约状态:",
+          response: "",
+          classname:'red',
         }
       }
     };

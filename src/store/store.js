@@ -26,7 +26,6 @@ export default new Vuex.Store({
       } else if (content == null) {
         state.contract.agent_signdate = null
       }
-
     },
     owner_signdate(state, content) {
       if (content) {
@@ -62,9 +61,9 @@ export default new Vuex.Store({
       if (arr.length > 0) {
         state.contract = Object.assign({}, content);
         console.log(state);
-        // state.contract = content;
       } else if (arr.length == 0) {
         state.contract = {};
+        // console.log(state);
       }
 
 
@@ -128,19 +127,19 @@ export default new Vuex.Store({
     // genre_projectid_action(context, username) {
     //   // commit('userStatus',user)
     //   context.commit('genre_projectid', username)
-    //   //context.commit('userStatus',user) 
+    //   //context.commit('userStatus',user)
     //   // 通过接口获取的后台数据保存到store中，等待组件取用
     // },
     genre_action(context, username) {
       // commit('userStatus',user)
       context.commit('genre_array', username)
-      //context.commit('userStatus',user) 
+      //context.commit('userStatus',user)
       // 通过接口获取的后台数据保存到store中，等待组件取用
     },
     setUser(context, username) {
       // commit('userStatus',user)
       context.commit('username_set', username)
-      //context.commit('userStatus',user) 
+      //context.commit('userStatus',user)
       // 通过接口获取的后台数据保存到store中，等待组件取用
     },
 

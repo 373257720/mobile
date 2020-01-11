@@ -9,17 +9,20 @@
           <div class="top"></div>
           <div class="middle" v-html="content"></div>
           <div class="button">
-            <p v-if="signature">
+            <p>
               <i>
-                <img :src="signature" alt />
+                <img  v-if="owner" :src="owner" alt />
               </i>
+
               <span>投行</span>
-              <span>{{owner_signdate?owner_signdate:''}}</span>
+              <span>{{owner_signdate}}</span>
             </p>
             <p>
-              <i></i>
+              <i>
+                <img  v-if="agent" :src="agent" alt />
+              </i>
               <span>中间人</span>
-              <span></span>
+              <span>{{agent_signdate}}</span>
             </p>
           </div>
         </div>
@@ -34,32 +37,43 @@
   </div>
 </template>
 <script>
-import { dirname } from 'path';
+// import { dirname } from 'path';
 export default {
   name: "goods_details",
   data() {
     return {
-      signature: "",
+      owner: "",
+      agent: "",
       content: "",
-      // owner_signdate:'',
+      agent_signdate:'',
+      owner_signdate:'',
     };
   },
   created() {
-    console.log(this.$route);
-    let str = this.$store.state.contract;
-    console.log(str);
-    this.content = str.article;
-    this.signature = str.owner;
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
+    }).then(res => {
+      let str = JSON.parse(res.data.data.signAgreement);
+      console.log(str)
+      this.owner = str.owner;
+      this.content = str.article;
+      this.agent=str.agent;
+      this.agent_signdate =str.agent_signdate>0? this.$global.stamptodate(str.agent_signdate):'';
+      this.owner_signdate =str.owner_signdate>0? this.$global.stamptodate(str.owner_signdate):'';
+      this.$toast.clear();
+    });
   },
-  computed: {
-     owner_signdate: function() {
-      if (this.$store.state.contract.owner_signdate) {
-       let timestamp = this.$store.state.contract.owner_signdate;          return     this.$global.stamptodate(timestamp);
-      }   
-    },
-  },
+  // computed: {
+  //    owner_signdate: function() {
+  //     if (this.$store.state.contract.owner_signdate) {
+  //      let timestamp = this.$store.state.contract.owner_signdate;
+  //      return     this.$global.stamptodate(timestamp);
+  //     }
+  //   },
+  // },
   mounted() {
-    
+
     // this.content = "";
   },
   methods: {

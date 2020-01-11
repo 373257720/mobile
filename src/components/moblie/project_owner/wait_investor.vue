@@ -1,7 +1,8 @@
 <template>
   <div id="p_wait_investor">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />待投资者确认
+      <van-icon name="arrow-left" @click="$global.previous()" />
+      {{dad_text}}
     </nav>
     <main>
       <article>
@@ -25,6 +26,7 @@ export default {
   data() {
     return {
       hash_id: "",
+      dad_text:'',
       title: "",
       nav_lists: {
         financingStage: {
@@ -82,6 +84,12 @@ export default {
   },
   created() {
     let details = this.$route.query;
+    if(this.$route.query.signStatus==5){
+      this.dad_text='已上链待发送'
+    }else if(this.$route.query.signStatus==6){
+      this.dad_text='待投资者确认';
+    }
+
     this.$loading();
     this.$global
       .goods_deatails(

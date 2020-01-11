@@ -6,6 +6,7 @@
 <script>
 export default {
   name: "goods_details",
+  // props:['contract'],
   data() {
     return {
       // imgurl: ""
@@ -13,11 +14,9 @@ export default {
   },
   created() {
     console.log(this.$route.query);
-    // console.log(this.$store.state.contract.body);
   },
   methods: {
     commit(data) {
-      console.log(data);
           this.$store.commit('contract_owner',data);
           this.$routerto('p_submit_contract',this.$route.query)
     },

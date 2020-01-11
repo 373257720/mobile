@@ -8,6 +8,7 @@
       <div class="investors_infor">
         <h2>{{title}}</h2>
         <header>投资者资料</header>
+        <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
         <header>项目详情</header>

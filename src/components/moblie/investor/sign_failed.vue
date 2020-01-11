@@ -1,12 +1,12 @@
 <template>
   <div id="i_sign_failed">
     <nav>
-      <van-icon @click="$global.previous()" />待确认项目
+      <van-icon name="arrow-left" @click="$global.previous()" />拒绝签约项目
     </nav>
     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <div class="investors_infor">
-        <h2>{{projectName}}</h2>
+        <h2>{{title}}</h2>
         <header>投资者资料</header>
           <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
@@ -27,7 +27,7 @@ export default {
       show: false,
       // dad_text:'待确认项目',
       investorsEmailSend: "",
-      projectName: "",
+      title:'',
       investor_infor: {
         investorsType: {
           name: "投资者类型:",
@@ -95,6 +95,9 @@ export default {
         },
         projectDescribe: {
           name: "项目简介:",
+          response: ""
+        },signStatus: {
+          name: "签约状态:",
           response: ""
         }
       }

@@ -13,7 +13,9 @@
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button @click="$routerto('p_set_contract',$route.query)">感兴趣</button>
+
+
+            <button @click="routerto">感兴趣</button>
             <button @click="agreement(3)">拒绝签约</button>
           </aside>
         </footer>
@@ -105,20 +107,31 @@ export default {
     };
   },
   created() {
+    this.projectId=this.$route.query.projectId;
+    this.signId=this.$route.query.signId;
     let details = this.$route.query;
     this.$loading();
-      this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`,'get',{},this.details_lists,this.nav_lists,this.investor_infor).then(res=>{
-      console.log(res);
+    this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`,'get',{},this.details_lists,this.nav_lists,this.investor_infor).then(res=>{
+    console.log(res);
     this.title=res.title;
     this.$toast.clear();
   })
   },
   methods: {
+    routerto(){
+      this.$store.commit('contract_sign', {
+        owner: '',
+        article: '',
+        agent: '',
+        owner_signdate: null,
+        agent_signdate: null,
+      })
+      this.$routerto('p_set_contract',this.$route.query)
+    },
     agreement(num) {
       this.$dialog
         .confirm({
           title: "拒绝签约"
-          // message: "弹窗内容"
         })
         .then(() => {
           this.$global
@@ -137,7 +150,6 @@ export default {
                 this.$dialog
                   .alert({
                     title: "拒绝成功"
-                    // message: '弹窗内容'
                   })
                   .then(() => {
                     this.$routerto("mysign");
@@ -146,7 +158,6 @@ export default {
                 this.$dialog
                   .alert({
                     title: "你已拒绝"
-                    // message: '弹窗内容'
                   })
                   .then(() => {});
               }
@@ -205,7 +216,7 @@ export default {
         justify-content: center;
         align-content: center;
         flex-wrap:  wrap;
-        color: #0f6ebe; 
+        color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
       }

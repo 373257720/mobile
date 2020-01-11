@@ -19,8 +19,10 @@ export default {
     commit(data) {
       console.log(data);
       // let str=this.$store.state.contract+'!!!!!'+data
-          this.$store.commit('contract_agent',data);
-          this.$routerto('a_submit_contract',this.$route.query)
+      let timestamp = new Date().getTime();
+      this.$store.commit("agent_signdate", timestamp);
+      this.$store.commit('contract_agent',data);
+      this.$routerto('a_submit_contract',this.$route.query)
     },
     gg() {
       // console.log(this.$dialog);

@@ -46,11 +46,11 @@ export default {
           name: "投资者地区:",
           response: ""
         },
-        projectMobile: {
+        investorsMobile: {
           name: "投资者电话:",
           response: ""
         },
-        projectEmail: {
+        investorsEmailSend: {
           name: "投资者邮箱:",
           response: ""
         }

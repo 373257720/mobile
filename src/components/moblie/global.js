@@ -39,7 +39,6 @@ const global = {
         // console.log(error);
       })
     })
-
   },
   pic_obj: {
     '1': "待审核",
@@ -66,7 +65,30 @@ const global = {
     '1': '个人',
     '2': '公司'
   },
+  get_encapsulation: function (url,  datas) {
+    return new Promise((resolve, reject) => {
+      axios.get(url, {
+        params: datas
+      }).then((res) => {
+        resolve(res)
+      }).catch(function (error) {
+        reject(error)
+        // console.log(error);
+      })
+    })
+  },
+  post_encapsulation: function (url,  datas) {
+    return new Promise((resolve, reject) => {
+      axios.post(url, qs.stringify(datas))
+        .then((res) => {
+          resolve(res)
+        }).catch(function (error) {
+        reject(error)
+        // console.log(error);
+      })
+    })
 
+  },
   goods_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor) {
     return new Promise((resolve, reject) => {
       axios({
@@ -75,7 +97,9 @@ const global = {
           params: datas
         })
         .then((res) => {
+          console.log(res)
           let signAgreement = res.data.data.signAgreement;
+          let investorsEmailSend=res.data.data.investorsEmailSend;
           let investorsId = res.data.data.investorsId;
           let projectName = res.data.data.projectName;
           let signAgreementKey = res.data.data.signAgreementKey;
@@ -112,6 +136,7 @@ const global = {
             // investor_infor: investor_infor,
             // details_lists: details_lists,
             // nav_lists: nav_lists,
+            investorsEmailSend:investorsEmailSend,
             signAgreement: signAgreement,
             investorsId: investorsId,
             title: projectName,

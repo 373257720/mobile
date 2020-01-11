@@ -21,6 +21,7 @@
 // import VueUeditorWrap from "vue-ueditor-wrap";
 export default {
   name: "goods_details",
+  // props:['contract'],
   data() {
     return {
       content: ""
@@ -42,20 +43,27 @@ export default {
   // },
   created() {
     // console.log(VueUeditorWrap);
-    // if( this.$store.state.contract.article){
-    //     this.content=this.$store.state.contract.article;
-    // }
-    console.log(this.$route.query);
+    if(this.$store.state.contract.article){
+        this.content=this.$store.state.contract.article;
+    }
+  },
+  watch:{
+    // contract: {
+    //   handler(newValue, oldValue) {
+    //     // var content = this.contract.content
+    //     //   .replace(/\r\n/g, "<br/>")
+    //     //   .replace(/\n/g, "<br/>")
+    //     //   .replace(/\s/g, "&nbsp;");
+    //     // this.$emit('getchildren',content)
+    //   },
+    //   deep: true
+    // },
   },
   computed: {},
   methods: {
     signature() {
       if (this.content) {
-        var content = this.content
-          .replace(/\r\n/g, "<br/>")
-          .replace(/\n/g, "<br/>")
-          .replace(/\s/g, "&nbsp;");
-        this.$store.commit("contract_set", content);
+        this.$store.commit("contract_set", this.content);
         this.$routerto("p_sign_contract", this.$route.query);
       } else {
         this.$dialog

@@ -112,10 +112,10 @@ export default {
     let a = JSON.parse(this.$route.query.investor_infor);
     console.log(a);
 
-    this.form.investorsType = a[0].response;
-    this.form.investorsName = a[2].response;
-    this.form.investorsCompany = a[1].response;
-    this.form.investorsArea = a[3].response;
+    this.form.investorsType =a.investorsType.response;
+    this.form.investorsName =a.investorsName.response;
+    this.form.investorsCompany =a.investorsCompany.response;
+    this.form.investorsArea =a.investorsArea.response;
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/base/getAllIndustry`

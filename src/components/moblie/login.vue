@@ -78,14 +78,13 @@ export default {
           } else if ((rescode = 10014)) {
             this.remind = "账号或密码不正确";
           }
+        })
+        .catch(err => {
+        if (err) {
+          this.$toast.clear();
+          this.$loadingfail("网络异常");
+        }
         });
-        // .catch(err => {
-        //   alert(123)
-        // if (err) {
-        //   this.$toast.clear();
-        //   this.$loadingfail("登录失败");
-        // }
-        // });
       } else {
         this.remind = "账号和密码不能为空，请输入 ";
       }

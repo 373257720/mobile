@@ -10,28 +10,27 @@
             <div class="top"></div>
             <div class="middle" v-html="content"></div>
             <div class="button">
-              <p v-if="owner">
+              <p>
                 <i>
-                  <img :src="owner" alt />
+                  <img  v-if="owner" :src="owner" alt />
                 </i>
 
                 <span>投行</span>
-                <span>{{owner_signdate?owner_signdate:''}}</span>
+                <span>{{owner_signdate}}</span>
               </p>
-              <p v-if="agent">
+              <p>
                 <i>
-                  <img :src="agent" alt />
+                  <img  v-if="agent" :src="agent" alt />
                 </i>
-
                 <span>中间人</span>
-                <span>{{agent_signdate?agent_signdate:''}}</span>
+                <span>{{agent_signdate}}</span>
               </p>
             </div>
           </div>
-          <footer v-show="iswatch==1">
+          <footer v-show="iswatch==2">
             <button @click="signproject4">提交</button>
           </footer>
-          <footer v-show="iswatch==2">
+          <footer v-show="iswatch==4">
             <button class="blockchain" @click="contract_submit">确认及上载到区块链</button>
           </footer>
         </article>
@@ -59,7 +58,7 @@ export default {
   name: "goods_details",
   data() {
     return {
-      iswatch: 1,
+      iswatch:'',
       // src: `${this.$baseurl3}/#/upload_contract?`,
       signId: "",
       iframeState: false,
@@ -69,48 +68,68 @@ export default {
       str: {},
       token: "",
       childData: "",
-      projectId: ""
+      projectId: "",
+      agent_signdate:'',
       // success: true
+      owner_signdate:'',
     };
   },
   created() {
-    // console.log(this.$route.query);
-    console.log(this.$store.state.contract);
-    this.content = this.$store.state.contract.article;
-    this.owner = this.$store.state.contract.owner;
-    this.agent = this.$store.state.contract.agent;
-    // this.str = JSON.stringify(this.$store.state.contract);
-    // console.log(this.content);
+    this.iswatch=this.$route.query.signStatus;
+    let axiosList = [
+      this.$axios.get(`${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`,),
+      this.$axios.get(`${this.$baseurl3}/bsl_web/projectSign/getVisitToken?signId=${this.$route.query.signId}&signStatus=${this.$route.query.signStatus}`)
+    ];
+    if(this.iswatch==4){
+      this.$axios.allSettled(axiosList)
+        .then(
+        // (results=>results.forEach((result)=>{
+        //     console.log(result)
+        //   })
+        // )
+        )
+      // this.$axios({
+      //   method: "get",
+      //   url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`,
+      // }).then(res=>{
+      //   let str = JSON.parse(res.data.data.signAgreement);
+      //   this.owner = str.owner;
+      //   this.content = str.article;
+      //   this.agent=str.agent;
+      //   this.agent_signdate =str.agent_signdate>0? this.$global.stamptodate(str.agent_signdate):'';
+      //   this.owner_signdate =str.owner_signdate>0? this.$global.stamptodate(str.owner_signdate):'';
+      // })
+    }else if(this.iswatch==2){
+      this.content = this.$store.state.contract.article;
+      this.owner = this.$store.state.contract.owner;
+      this.agent = this.$store.state.contract.agent;
+      this.owner_signdate=this.$global.stamptodate(this.$store.state.contract.owner_signdate);
+      this.agent_signdate=this.$global.stamptodate(this.$store.state.contract.agent_signdate);
+    }
+
   },
 
   mounted() {
     // window.addEventListener("message", this.handleMessage);
   },
   computed: {
-    owner_signdate: function() {
-      if (this.$store.state.contract.owner_signdate) {
-        let timestamp = this.$store.state.contract.owner_signdate;
-        return this.$global.stamptodate(timestamp);
-      }
-    },
-    agent_signdate: function() {
-      let timestamp = new Date().getTime();
-      this.$store.commit("agent_signdate", timestamp);
-      console.log(this.$store.state);
-      return this.$global.stamptodate(timestamp);
-    }
+
   },
   methods: {
     // 上链
+    // 192.168.1.37:8080/bsl_web/projectSign/getVisitToken?signId=235&signStatus=4
+    get_visittoken(){
+    this.$global.get_encapsulation(`${this.$baseurl3}/bsl_web/projectSign/getVisitToken?signId=${this.query.$route.signId}&signStatus=${this.query.$route.signStatus}`).then(res=>{
+      console.log(res)
+    })
+      // 192.168.1.37:8080/bsl_web/projectSign/getVisitToken?signId=235&signStatus=4
+    },
     contract_submit() {
-      // this.str = this.$store.state.contract;
       this.projectId = this.$route.query.projectId;
       let urlpath = `${this.$baseurl3}/#/upload_contract?visitToken=${this.token}`;
-      // console.log(urlpath);
       this.$toast.loading({
         loadingType: "spinner",
         message: "上传大概需要1分钟,请耐心等候",
-        // forbidClick:true,
         duration: 0
       });
       this.$axios({
@@ -165,18 +184,19 @@ export default {
         url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
         data: this.$qs.stringify({
           signId: this.signId,
+          projectId:this.$route.query.projectId,
           signAgreement: JSON.stringify(this.$store.state.contract)
         })
       }).then(res => {
         console.log(res);
         this.$toast.clear();
         if (res.data.resultCode == 10000) {
-          this.iswatch = 2;
+          this.iswatch = 5;
           this.signId = res.data.data.signId;
           this.token = res.data.data.visitToken;
           this.$dialog
             .alert({
-              title: "签约成功",
+              title: res.data.resultDesc,
               message: "下一步确认及上载到区块链"
             })
             .then(() => {
@@ -189,8 +209,8 @@ export default {
         } else {
           this.$dialog
             .alert({
-              title: "签约失败",
-              message: "返回"
+              title: res.data.resultDesc,
+              // message: "返回"
             })
             .then(() => {});
         }
@@ -269,7 +289,7 @@ export default {
     border-bottom: 0.1rem solid #b5b5b5;
   }
   div.middle {
-    margin: 0 0.5rem;
+    /*margin: 0 0.5rem;*/
     box-sizing: border-box;
   }
   main {
@@ -283,7 +303,7 @@ export default {
       box-sizing: border-box;
       font-size: 0.4rem;
       line-height: 0.6rem;
-      padding: 0.4rem 0.4rem;
+      padding: 0.4rem 0.5rem;
       width: 100%;
       height: 13rem;
       overflow-y: auto;
