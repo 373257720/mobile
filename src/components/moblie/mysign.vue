@@ -5,9 +5,7 @@
         <van-icon name="arrow-left" @click="$global.previous()" />我的項目
       </header>
       <main>
-        <div class="sort_box" @click="gg">
-          项目筛选
-          <van-icon name="arrow-down" />
+        <div class="sort_box" @click="gg">项目筛选<van-icon name="arrow-down" />
         </div>
         <transition name="fade">
           <van-checkbox-group v-show="visible" v-model="result">
@@ -38,27 +36,29 @@
     >
       <ul>
         <li v-for="item in upGoodsInfo" :key="item.signId" @click="mysignto(item)">
-          <p>
-            <span>申请时间:</span>
-            <span>{{item.signTime4Submit}}</span>
-          </p>
-          <p>
-            <span>申请中间人:</span>
-            <span>{{item.userIdentityType==1?item.userName:item.userCompany}}</span>
-          </p>
-          <p>
-            <span>申请项目:</span>
-            <span>{{item.projectName}}</span>
-          </p>
-          <p>
-            <span>签约时间:</span>
-            <span>{{item.signTime}}</span>
-          </p>
-          <p>
-            <span>签约状态:</span>
+          <div>
+            <p>
+              <span>申请时间:</span>
+              <span>{{item.signTime4Submit}}</span>
+            </p>
+            <p>
+              <span>申请中间人:</span>
+              <span>{{item.userIdentityType==1?item.userName:item.userCompany}}</span>
+            </p>
+            <p>
+              <span>申请项目:</span>
+              <span>{{item.projectName}}</span>
+            </p>
+            <p>
+              <span>签约时间:</span>
+              <span>{{item.signTime}}</span>
+            </p>
+          </div>
+          <aside>
+            <img :src="item.pic" alt />
             <span>{{item.signStatustext}}</span>
-          </p>
-          <img :src="item.pic" alt />
+          </aside>
+
         </li>
       </ul>
     </van-list>
@@ -499,43 +499,48 @@ export default {
     background: white;
     li {
       // line-height: 0.6rem;
-      position: relative;
-      word-break: break-all;
+      /*position: relative;*/
+      display: flex;
+      /*word-break: break-all;*/
       margin: 0 0.54rem;
       padding: 0.3rem 0;
       border-bottom: 0.02rem dashed #b5b5b5;
       font-size: 0.36rem;
-      p {
-        // display: flex;
-        // align-items: baseline;
-        margin-bottom: 0.2rem;
-        font-size: 0.34rem;
-        span:nth-child(1) {
-          font-weight: 900;
-          line-height: 0.46rem;
-          display: inline-block;
-          width: 2.3rem;
-          vertical-align: top;
+      div{
+        width: 9rem;
+        /*display: flex;*/
+        /*flex-direction: column;*/
+        /*justify-content: space-evenly;*/
+        p {
+          display: flex;
+          margin-bottom: 0.2rem;
+          font-size: 0.34rem;
+          span:nth-child(1) {
+            font-weight: 900;
+            line-height: 0.46rem;
+            display: inline-block;
+            width: 2.3rem;
+            vertical-align: top;
+          }
+          span:nth-child(2) {
+            vertical-align: top;
+            display: inline-block;
+            width: 6.3rem;
+            color: #575757;
+          }
+          //
         }
-        span:nth-child(2) {
-          vertical-align: top;
-          display: inline-block;
-          width: 6.3rem;
-          //   display: inline-block;
-          // width: 2.6rem;
-          // display: inline-block;
-          color: #575757;
+        p:nth-last-child(1){
+          margin-bottom: 0;
         }
-        //
       }
-      p:last-of-type {
-        margin: 0;
+      aside{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
       img {
-        position: absolute;
-        top: 50%;
-        right: 0;
-        transform: translateY(-50%);
         height: 0.78rem;
         width: 0.78rem;
       }

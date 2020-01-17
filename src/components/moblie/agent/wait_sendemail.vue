@@ -264,7 +264,7 @@ export default {
               this.$routerto("a_wait_investor_comfirm", {
                 signId: this.$route.query.signId,
                 projectId: this.$route.query.projectId,
-                signStatus: 5
+                signStatus: 6
               });
             });
         } else if (res.data.resultCode == 10010) {

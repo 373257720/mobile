@@ -2,91 +2,100 @@
   <div id="usercheck">
     <div class="usercheck">
       <header>审核</header>
-      <div class="usertype">
-        <p>类型</p>
-        <van-dropdown-menu>
-          <van-dropdown-item v-model="form.userType" :options="option1" />
-        </van-dropdown-menu>
-      </div>
-      <div class="identity">
-        <p>身份</p>
-        <van-dropdown-menu>
-          <van-dropdown-item v-model="form.userIdentityType" :options="option2" />
-        </van-dropdown-menu>
-      </div>
-      <div class="nationality">
-        <p>国籍</p>
-        <van-dropdown-menu>
-          <van-dropdown-item v-model="form.userCountry" @change="nation" :options="countrylist" />
-        </van-dropdown-menu>
-      </div>
-      <div class="identy_check" v-show="form.userIdentityType==2?false:true">
-        <div class="idcard_num">
-          <p>个人姓名</p>
-          <van-field v-model="form.userName" placeholder="请输入" clearable />
-        </div>
-        <div class="idcard_num">
-          <p>{{form.userCountry==2?'身份证号码':'passport'}}</p>
-          <van-field v-model="form.userIdentity" placeholder="请输入" clearable />
-        </div>
-        <div class="id_front">
-          <p>{{switchon==true?'身份证正面':'护照'}}</p>
-          <van-uploader
-            :before-read="function(params){return asyncBeforeRead(params,1)}"
-            v-model="fileList_front"
-            multiple
-            :max-count="1"
-          />
-        </div>
-        <div class="id_back" v-show="switchon">
-          <p>身份证背面</p>
-          <van-uploader
-            :before-read="function(params){return asyncBeforeRead(params,2)}"
-            v-model="fileList_back"
-            multiple
-            :max-count="1"
-          />
-        </div>
-      </div>
-
-      <div v-show="form.userIdentityType==2?true:false" class="gongsi">
-        <div class="companyname2">
-          <p>公司名字</p>
-          <van-field v-model="form.userCompanyCh" placeholder="请输入公司名称" clearable />
-        </div>
-        <div class="companyname">
-          <p>company name</p>
-          <van-field
-            v-model="form.userCompanyEn"
-            placeholder="Please enter the company name"
-            clearable
-          />
-        </div>
-        <div class="company_address">
-          <p>公司地址</p>
-          <van-field v-model="form.userAddressCh" placeholder="请输入公司地址" clearable />
-        </div>
-        <div class="company_address_eng">
-          <p>company address</p>
-          <van-field
-            v-model="form.userAddressEn"
-            placeholder="Please enter the company address"
-            clearable
-          />
-        </div>
-        <div class="companycheck">
-          <p>公司证书</p>
-          <van-uploader
-            :before-read="function(params){return asyncBeforeRead(params,3)}"
-            v-model="fileList_company"
-            multiple
-            :max-count="1"
-          />
-        </div>
-      </div>
-
+      <van-cell-group class="vanForm">
+          <div class="usertype">
+            <p>类型</p>
+            <van-dropdown-menu  :class="{ 'isactive': true, 'sort':false }">
+              <van-dropdown-item  @change="function(params){return signer_submit(params,'userType')}" v-model="form.userType" :options="option1" />
+            </van-dropdown-menu>
+            <footer>{{form_err.userType}}</footer>
+          </div>
+          <div class="identity">
+            <p>身份</p>
+            <van-dropdown-menu>
+              <van-dropdown-item @blur="" v-model="form.userIdentityType" :options="option2" />
+            </van-dropdown-menu>
+            <footer>{{form_err.userIdentityType}}</footer>
+          </div>
+          <div class="nationality">
+            <p>国籍</p>
+            <van-dropdown-menu>
+              <van-dropdown-item v-model="form.userCountry" @change="nation" :options="countrylist" />
+            </van-dropdown-menu>
+            <footer>{{form_err.userCountry}}</footer>
+          </div>
+          <div class="identy_check" v-show="form.userIdentityType==2?false:true">
+            <div class="idcard_num">
+              <p>个人姓名</p>
+              <van-field   v-model="form.userName" placeholder="请输入" clearable />
+              <footer>{{form_err.userName}}</footer>
+            </div>
+            <div class="idcard_num">
+              <p>{{form.userCountry==2?'身份证号码':'passport'}}</p>
+              <van-field v-model="form.userIdentity" placeholder="请输入" clearable />
+              <footer>{{form_err.userIdentity}}</footer>
+            </div>
+            <div class="id_front">
+              <p>{{switchon==true?'身份证正面':'护照'}}</p>
+              <van-uploader
+                :before-read="function(params){return asyncBeforeRead(params,1)}"
+                v-model="fileList_front"
+                multiple
+                :max-count="1"
+              />
+<!--              <footer>{{form_err.userIdentity}}</footer>-->
+            </div>
+            <div class="id_back" v-show="switchon">
+              <p>身份证背面</p>
+              <van-uploader
+                :before-read="function(params){return asyncBeforeRead(params,2)}"
+                v-model="fileList_back"
+                multiple
+                :max-count="1"
+              />
+            </div>
+          </div>
+          <div  class="gongsi" v-show="form.userIdentityType==2?true:false">
+            <div class="companyname2" >
+              <p>公司名字</p>
+              <van-field v-model="form.userCompanyCh" placeholder="请输入公司名称" clearable />
+            </div>
+            <div class="companyname" >
+              <p>company name</p>
+              <van-field
+                required
+                v-model="form.userCompanyEn"
+                placeholder="Please enter the company name"
+                clearable
+              />
+            </div>
+            <div class="company_address" >
+              <p>公司地址</p>
+              <van-field  v-model="form.userAddressCh" placeholder="请输入公司地址" clearable />
+            </div>
+            <div class="company_address_eng">
+              <p>company address</p>
+              <van-field
+                v-model="form.userAddressEn"
+                required
+                placeholder="Please enter the company address"
+                clearable
+              />
+            </div>
+            <div class="companycheck">
+              <p>公司证书</p>
+              <van-uploader
+                :before-read="function(params){return asyncBeforeRead(params,3)}"
+                v-model="fileList_company"
+                multiple
+                :max-count="1"
+              />
+            </div>
+          </div>
+<!--        </vantForm>-->
+      </van-cell-group>
       <div class="commit">
-        <button @click="commit">提交</button>
+        <button @click="submit">提交</button>
       </div>
     </div>
     <!-- <div class="usercheck2" v-if="!success">
@@ -101,9 +110,12 @@
   </div>
 </template>
 <script>
-import { resolve } from "url";
+  import validator from './validator.js'
 export default {
   name: "usercheck",
+  components: {
+    // VantForm
+  },
   data() {
     return {
       // success: true,
@@ -115,11 +127,10 @@ export default {
         { text: "投资者", value: 3 }
       ],
       option2: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }],
-      // countryname: "",
       fileList_front: [],
       fileList_back: [],
       fileList_company: [],
-      form: {
+      form_err:{
         userCountry: "",
         userIdentityType: "",
         userCountryEn: "",
@@ -135,13 +146,54 @@ export default {
         userAddressEn: "",
         userCompanyPic: "",
         userType: ""
+      },
+      form: {
+        userCountry: "",
+        userIdentityType: '',
+        userCountryEn: "",
+        userCountryCh: "",
+        userIdentity: "",
+        userName: "",
+        identityType: "",
+        identityPicOne: "",
+        identityPicTwo: "",
+        userCompanyCh: "",
+        userCompanyEn: "",
+        userAddressCh: "",
+        userAddressEn: "",
+        userCompanyPic: "",
+        userType: '',
         // identity: ""
-      }
+      },
+      rules: {
+        userType: [
+          {required: true, message: '请选择' ,trigger: "change" }
+        ],
+        userName :[
+          {required: true, message: '请选择',trigger: "blur"  }
+        ],
+        mobile: [
+          {
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback('请输入手机号码');
+              } else if (/^[1][0-9]{10}$/.test(value)) {
+                callback();
+              } else {
+                callback('请输入正确的手机号码');
+              }
+            }
+          }
+        ],
+        code: [
+          {required: true, message: '请输入验证码'}
+        ]
+      },
+
     };
   },
   created() {
-    // console.log(this.$store.state.currentUsertype);
-
+    this.validator = validator(this.rules, this.form);
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/base/countryList.do`
@@ -168,15 +220,36 @@ export default {
     // }
   },
   methods: {
-    // 返回布尔值
-    // beforeRead(file) {
-    //   if (file.type !== "image/jpeg") {
-    //     Toast("请上传 jpg 格式图片");
-    //     return false;
-    //   }
-
-    //   return true;
-    // },
+    signer_submit(value,type){
+      console.log(value,type)
+      this.validator.validate((error,fields)=>{
+        console.log(error,fields)
+      })
+    },
+    resetField(attrs) {
+      attrs = !attrs ? Object.keys(this.form_err) : ( Array.isArray(attrs) ? attrs : [attrs]);
+      attrs.forEach(attr => {
+        this.form_err[attr] = ''
+      })
+    },
+    validate(callback, data) {
+      this.validator.validate((errors, fields) => {
+        this.resetField();
+        if (errors) {
+          console.log(fields)
+          fields.forEach(item => {
+            // console.log(item)
+            this.form_err[item.field] = item.message
+          })
+        }
+        callback && callback(errors, fields)
+      }, data);
+    },
+    submit() {
+      this.validate((errors, fields) => {
+        console.log(errors, fields)
+      })
+    },
     nation(value) {
       console.log(value);
       if (value == 2) {
@@ -186,21 +259,8 @@ export default {
         this.switchon = false;
         this.form.identityType = 2; //护照
       }
-      // if (value > 2) {
-      //   this.switchon = false;
-      //   this.form.identityType = 2;
-      //   // console.log(this.switch);
-      // } else if (value >= 0 && value <= 2) {
-      //   this.switchon = true;
-      //   this.form.identityType = 1;
-      // }
-      // this.form.userCountry = this.countrylist[value].countryCode;
-      // console.log(this.form.userCountry);
-
       this.form.userCountryEn = this.countrylist[value].countryEnname;
       this.form.userCountryCh = this.countrylist[value].countryZhname;
-      // console.log(this.switchon);
-      // console.log(this.form.userCountryCh,this.form.userCountryEn );
     },
     // 返回 Promise
     asyncBeforeRead(file, index) {
@@ -230,43 +290,45 @@ export default {
         }
         // console.log(this.form.userCompanyPic);
       });
+      console.log(this.fileList_front)
       return true;
     },
     commit() {
       console.log(this.form);
-      this.$loading();
-      this.$axios({
-        method: "post",
-        url: `${this.$baseurl}/bsl_web/user/submitAuth`,
-        data: this.$qs.stringify(this.form),
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      })
-        .then(res => {
-          this.$toast.clear();
-          if (res.data.resultCode == 10000) {
-            this.$dialog
-              .alert({
-                title: res.data.resultDesc,
-                message: "确定返回登录页"
-              })
-              .then(() => {
-                this.$goto("login");
-              });
-            // this.success = !this.success;
-            // this.$toast.clear();
-          } else {
-            this.$dialog
-              .alert({
-                title: res.data.resultDesc
-              })
-              .then(() => {});
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+
+      // this.$loading();
+      // this.$axios({
+      //   method: "post",
+      //   url: `${this.$baseurl}/bsl_web/user/submitAuth`,
+      //   data: this.$qs.stringify(this.form),
+      //   headers: {
+      //     "Content-Type": "application/x-www-form-urlencoded"
+      //   }
+      // })
+      //   .then(res => {
+      //     this.$toast.clear();
+      //     if (res.data.resultCode == 10000) {
+      //       this.$dialog
+      //         .alert({
+      //           title: res.data.resultDesc,
+      //           message: "确定返回登录页"
+      //         })
+      //         .then(() => {
+      //           this.$goto("login");
+      //         });
+      //       // this.success = !this.success;
+      //       // this.$toast.clear();
+      //     } else {
+      //       this.$dialog
+      //         .alert({
+      //           title: res.data.resultDesc
+      //         })
+      //         .then(() => {});
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
     }
   }
 };
@@ -286,7 +348,10 @@ export default {
     // text-align: left;
   }
   .van-cell__value--alone {
-    border: 1px solid #ababab;
+    .van-field__body{
+      border: 1px solid #ababab;
+    }
+
   }
   .van-dropdown-menu__item {
     // display:inline;
@@ -300,6 +365,21 @@ export default {
     border: 1px solid #ababab;
     background: #f6f6f6;
   }
+
+
+    .van-dropdown-menu {
+      height: 1rem;
+      border-radius: 0.05rem;
+      border: 1px solid #ababab;
+      background: #f6f6f6;
+    }
+    .isactive{
+      border-color:#ee0a24;;
+    }
+    .issort{
+      border-color:#ababab;
+    }
+
   .van-field__body {
     //  width: 100%;
     height: 1rem;
@@ -360,19 +440,14 @@ export default {
   //   height: 3.3rem;
   // }
   .van-dropdown-menu__title::after {
-    border: 0.1rem solid;
-    top: 50%;
     right: 0.5rem;
-    transform: rotate(0);
-    border-color: currentColor transparent transparent transparent;
+
   }
   .van-hairline--top-bottom::after {
     border: 0;
   }
   .van-dropdown-menu__title--down::after {
-    border: 0.1rem solid;
-    top: 50%;
-    border-color: currentColor transparent transparent transparent;
+    right: 0.5rem;
   }
 }
 </style>
@@ -410,17 +485,24 @@ export default {
   }
   .usercheck {
     font-size: 0.38rem;
-    > div {
-      margin-bottom: 0.6rem;
-      padding: 0 0.8rem;
-      > p {
-        margin-bottom: 0.1rem;
-        font-size: 0.38rem;
-      }
+    .vanForm{
+      >div {
+        /*margin-bottom: 0.6rem;*/
+        padding: 0 0.8rem;
+        > p {
+          margin-bottom: 0.1rem;
+          font-size: 0.38rem;
+        }
+        footer{
+          height: 0.8rem;
+          color: #ee0a24;
+        }
+    }
+
     }
     div.identy_check {
       > div {
-        margin-bottom: 0.8rem;
+        /*margin-bottom: 0.8rem;*/
         > p {
           margin-bottom: 0.1rem;
           font-size: 0.38rem;
@@ -443,14 +525,19 @@ export default {
       padding: 0.44rem 0 0.36rem 0;
       box-sizing: border-box;
     }
-    .commit button {
+    .commit{
+      padding: 0 0.8rem;
+      button {
       width: 100%;
       color: white;
+
       border-radius: 0.05rem;
       margin: 0.6rem 0;
       height: 1rem;
       background: #00adef;
     }
+    }
+
   }
 }
 </style>

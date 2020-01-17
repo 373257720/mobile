@@ -13,17 +13,13 @@ Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
 Vue.use(Vuex);
-// import { ValidationProvider } from 'vee-validate';
-// Vue.component('ValidationProvider', ValidationProvider);
-// 复制插件
-// import VueClipboards from 'vue-clipboard2'
-// Vue.use(VueClipboards);
+
 // import Vconsole from 'vconsole';
 // new Vconsole();
 import Promise from 'es6-promise';
 Promise.polyfill();
 import Vant from 'vant';
-Vue.use(Vant)
+Vue.use(Vant);
 Vue.prototype.$axios = axios;
 const restore_obj=deepCopy(store._modules.root.state);
 Vue.prototype.$restore_obj=restore_obj;
@@ -61,6 +57,8 @@ axios.interceptors.response.use(res => {
     return Promise.reject(error)
   }
 )
+
+
 Vue.prototype.$goto = function goto(name, id) {
   let obj = {
     name
@@ -97,10 +95,10 @@ Vue.prototype.$loadingfail = function loadingfail(reminder) {
 
 
 var baseurl = {
-  api: "http://192.168.1.37:8085",
+  // api: "http://192.168.1.37:8085",
   api3: 'http://47.90.62.114:8083',
   // api3:'http://localhost:8080',
-  // api: "http://47.90.62.114:8082",
+  api: "http://47.90.62.114:8082",
 }
 Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl = baseurl.api;

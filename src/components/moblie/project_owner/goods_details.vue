@@ -78,27 +78,47 @@ export default {
   },
   created() {
     let details = this.$route.query;
+    // projectId=1576493020&signStatus=0&signId=0
     this.$loading();
-    this.$global
-      .goods_deatails(
-        `${
-          this.$baseurl
-        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          details.projectId
-        }&signStatus=${details.signStatus}&signId=${
-          details.signId ? details.signId : -1
-        }`,
-        "get",
-        {},
-        this.details_lists,
-        this.nav_lists,
-        []
-      )
-      .then(res => {
-        console.log(res);
-        this.title = res.title;
-        this.$toast.clear();
-      });
+    if(details.signStatus && details.signId){
+      this.$global
+        .goods_deatails(
+          `${
+            this.$baseurl
+          }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+            details.projectId
+          }&signStatus=${details.signStatus}&signId=${
+            details.signId ? details.signId : -1
+          }`,
+          "get",
+          {},
+          this.details_lists,
+          this.nav_lists,
+          []
+        )
+        .then(res => {
+          console.log(res);
+          this.title = res.title;
+          this.$toast.clear();
+        });
+    }else{
+      this.$global
+        .goods_deatails(
+          `${this.$baseurl}/bsl_web/connected/getConnectedDetails?projectId=${details.projectId}`,
+          "get",
+          {},
+          this.details_lists,
+          this.nav_lists,
+          []
+        )
+        .then(res => {
+          console.log(res);
+          this.title = res.title;
+          this.$toast.clear();
+        });
+    }
+
+
   }
 };
 </script>

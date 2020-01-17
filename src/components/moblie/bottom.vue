@@ -2,8 +2,10 @@
   <van-tabbar v-model="active" id="moblie_bottom">
     <van-tabbar-item name="mhome" icon="home-o" @click="$goto('mhome')">首页</van-tabbar-item>
     <van-tabbar-item name="mysign" icon="records" @click="$goto('mysign')">我的项目</van-tabbar-item>
+    <van-tabbar-item name="connected" icon="records" @click="$goto('connected_projects')" v-if="this.$store.state.currentUsertype==1"
+    >已连接项目</van-tabbar-item>
     <van-tabbar-item
-      v-if="this.$store.state.currentUsertype==1"
+
       name="p_user_contact"
       icon="friends-o"
       @click="$goto('p_user_contact')"

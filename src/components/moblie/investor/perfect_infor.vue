@@ -23,15 +23,15 @@
             </p>
           </li>
           <li>
-            <p class="row1">投资者姓名：</p>
-            <p class="row2">
-              <van-field disabled v-model="form.investorsName" placeholder="-" clearable />
-            </p>
-          </li>
-          <li>
             <p class="row1">投资者地区：</p>
             <p class="row2">
               <van-field disabled v-model="form.investorsArea" placeholder="-" clearable />
+            </p>
+          </li>
+          <li>
+            <p class="row1">投资者姓名：</p>
+            <p class="row2">
+              <van-field  v-model="form.investorsName" placeholder="请输入" clearable />
             </p>
           </li>
           <li>
@@ -83,7 +83,7 @@ export default {
       title: "",
       form: {
         signId: this.$route.query.signId,
-        signStatus: 6,
+        signStatus: 8,
         investorsId: this.$route.query.investorsId,
         investorsType: null,
         investorsCompany: "",
@@ -134,7 +134,6 @@ export default {
       let formtable = JSON.parse(JSON.stringify(this.form));
       let interestedIndustries = this.form.interestedIndustries.join("/");
       formtable.interestedIndustries = interestedIndustries;
-
       // let  formtable= {
       //   signId: this.$route.query.signId,
       //   signStatus: 6,
@@ -163,26 +162,30 @@ export default {
       })
         .then(res => {
           console.log(res);
-          if (res.data.resultCode == 10000) {
-            this.gg("提交成功", 10000);
-            // this.$routerto("mhome");
-          } else if (res.data.resultCode == 10017) {
-            this.gg("签约流程错误");
-          } else if (res.data.resultCode == 10010) {
-            this.gg("请填写投资者电话");
-          } else if (res.data.resultCode == 10011) {
-            this.gg("请填写投资者邮箱");
-          } else if (res.data.resultCode == 10012) {
-            this.gg("请填写感兴趣行业");
-          } else if (res.data.resultCode == 10013) {
-            this.gg("请填写公司的地址");
-          }
+          // if (res.data.resultCode == 10000) {
+          //   this.dialog("提交成功", res.data.resultCode);
+          //   // this.$routerto("mhome");
+          // }
+          this.dialog(res.data.resultDesc, res.data.resultCode);
+          // else if (res.data.resultDesc == 10017) {
+          //   this.dialog("签约流程错误");
+          // } else if (res.data.resultCode == 10010) {
+          //   this.dialog("请填写投资者电话");
+          // } else if (res.data.resultCode == 10011) {
+          //   this.dialog("请填写投资者邮箱");
+          // } else if (res.data.resultCode == 10012) {
+          //   this.dialog("请填写感兴趣行业");
+          // } else if (res.data.resultCode == 10013) {
+          //   this.dialog("请填写公司的地址");
+          // }else if (res.data.resultCode == 10051) {
+          //   this.dialog("用户资料尚未审核，请耐心等待");
+          // }
         })
         .catch(err => {
           console.log(err);
         });
     },
-    gg(str, num) {
+    dialog(str, num) {
       this.$dialog
         .confirm({
           title: str

@@ -76,29 +76,25 @@ export default {
   },
   created() {
     this.iswatch=this.$route.query.signStatus;
-    let axiosList = [
-      this.$axios.get(`${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`,),
-      this.$axios.get(`${this.$baseurl3}/bsl_web/projectSign/getVisitToken?signId=${this.$route.query.signId}&signStatus=${this.$route.query.signStatus}`)
-    ];
+    this.signId=this.$route.query.signId;
     if(this.iswatch==4){
-      this.$axios.allSettled(axiosList)
-        .then(
-        // (results=>results.forEach((result)=>{
-        //     console.log(result)
-        //   })
-        // )
-        )
-      // this.$axios({
-      //   method: "get",
-      //   url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`,
-      // }).then(res=>{
-      //   let str = JSON.parse(res.data.data.signAgreement);
-      //   this.owner = str.owner;
-      //   this.content = str.article;
-      //   this.agent=str.agent;
-      //   this.agent_signdate =str.agent_signdate>0? this.$global.stamptodate(str.agent_signdate):'';
-      //   this.owner_signdate =str.owner_signdate>0? this.$global.stamptodate(str.owner_signdate):'';
-      // })
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getVisitToken?signId=${this.$route.query.signId}&signStatus=${this.$route.query.signStatus}`).then(res=>{
+        // console.log(res)
+        if(res.data.resultCode==10000){
+          this.token=res.data.data.visitToken;
+        }
+      })
+      this.$axios({
+        method: "get",
+        url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`,
+      }).then(res=>{
+        let str = JSON.parse(res.data.data.signAgreement);
+        this.owner = str.owner;
+        this.content = str.article;
+        this.agent=str.agent;
+        this.agent_signdate =str.agent_signdate>0? this.$global.stamptodate(str.agent_signdate):'';
+        this.owner_signdate =str.owner_signdate>0? this.$global.stamptodate(str.owner_signdate):'';
+      })
     }else if(this.iswatch==2){
       this.content = this.$store.state.contract.article;
       this.owner = this.$store.state.contract.owner;
@@ -118,15 +114,15 @@ export default {
   methods: {
     // 上链
     // 192.168.1.37:8080/bsl_web/projectSign/getVisitToken?signId=235&signStatus=4
-    get_visittoken(){
-    this.$global.get_encapsulation(`${this.$baseurl3}/bsl_web/projectSign/getVisitToken?signId=${this.query.$route.signId}&signStatus=${this.query.$route.signStatus}`).then(res=>{
-      console.log(res)
-    })
-      // 192.168.1.37:8080/bsl_web/projectSign/getVisitToken?signId=235&signStatus=4
-    },
+    // get_visittoken(){
+    // this.$global.get_encapsulation(`${this.$baseurl3}/bsl_web/projectSign/getVisitToken?signId=${this.query.$route.signId}&signStatus=${this.query.$route.signStatus}`).then(res=>{
+    //   console.log(res)
+    // })
+    //   // 192.168.1.37:8080/bsl_web/projectSign/getVisitToken?signId=235&signStatus=4
+    // },
     contract_submit() {
       this.projectId = this.$route.query.projectId;
-      let urlpath = `${this.$baseurl3}/#/upload_contract?visitToken=${this.token}`;
+      let urlpath = `${this.$baseurl}/#/upload_contract?visitToken=${this.token}`;
       this.$toast.loading({
         loadingType: "spinner",
         message: "上传大概需要1分钟,请耐心等候",
@@ -142,24 +138,23 @@ export default {
       })
         .then(res => {
           this.$toast.clear();
-          console.log(res);
           if (res.data.resultCode == 10000) {
             this.$dialog
               .alert({
-                title: "上传成功",
+                title: res.data.resultDesc,
                 message: "下一步发送邮件到投资者"
               })
               .then(() => {
-                this.$routerto("a_wait_sendemail", {
+                this.$routerto("a_wait_sendemail",  {
                   signId: this.signId,
                   projectId: this.projectId,
-                  signStatus: 4
+                  signStatus: 5
                 });
               });
           } else {
             this.$dialog
               .alert({
-                title: "上传失败",
+                title: res.data.resultDesc,
                 message: "返回"
               })
               .then(() => {});

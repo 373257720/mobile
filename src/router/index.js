@@ -4,9 +4,7 @@ import Router from 'vue-router'
 import register from '@/components/moblie/register'
 import login from '@/components/moblie/login'
 import usercheck from '@/components/moblie/usercheck'
-
 import mysign from '@/components/moblie/mysign'
-
 import userpass from '@/components/moblie/userpass'
 import mhome from '@/components/moblie/mhome'
 import mine from '@/components/moblie/mine'
@@ -34,7 +32,7 @@ import p_sign_successful from '@/components/moblie/project_owner/sign_successful
 import p_inverstor_details from'@/components/moblie/project_owner/inverstor_details'
 import p_check_done_contract from'@/components/moblie/project_owner/check_done_contract'
 import owner_set_contract from "../components/moblie/project_owner/owner_set_contract";
-
+import connected_projects from "../components/moblie/project_owner/connected_projects";
 
 // agent/
 import a_project_intro from '@/components/moblie/agent/project_intro'
@@ -113,11 +111,11 @@ const routes = [
     name: 'p_investor_details',
     component: p_investor_details,
   },
-  // {
-  //   path: '/p_set_contract',
-  //   name: 'p_set_contract',
-  //   component: p_set_contract,
-  // },
+  {
+    path: '/connected_projects',
+    name: 'connected_projects',
+    component: connected_projects,
+  },
   {
     path: '/owner_set_contract',
     name: 'owner_set_contract',

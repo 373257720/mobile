@@ -69,20 +69,13 @@ export default {
             } else if (res.data.data.isAuth == 0) {
               this.$goto("usercheck");
             }
-          } else if (rescode == 10011) {
-            this.remind = "登录账号不能为空";
-          } else if (rescode == 10012) {
-            this.remind = "密码不能为空";
-          } else if (rescode == 10013) {
-            this.remind = "账号不存在";
-          } else if ((rescode = 10014)) {
-            this.remind = "账号或密码不正确";
           }
+          this.remind=res.data.resultDesc;
         })
         .catch(err => {
         if (err) {
           this.$toast.clear();
-          this.$loadingfail("网络异常");
+          this.$loadingfail('网络故障');
         }
         });
       } else {

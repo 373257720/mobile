@@ -323,13 +323,13 @@ export default {
           // }
         })
         .catch(err => {
-          this.loadText = "loading failed";
+          // this.loadText = "加载失败";
           // document.querySelector(
           //   "#mhome .van-loading__circular"
           // ).style.display = "none";
           // let a = (document.querySelector("#mhome .van-loading__text").style =
           //   "margin-left:0");
-          console.log(a);
+          // console.log(a);
         });
     }
   }

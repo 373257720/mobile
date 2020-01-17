@@ -98,7 +98,8 @@
         <li class="idcard_left" v-if="form.userIdentityType==1">
           <p>{{switchon==true?'身份证正面':'护照'}}</p>
           <div class="pic">
-            <img :src="$baseurl+form.identityPicOne" alt />
+            {{$baseurl+form.identityPicOne}}
+<!--            <img :src="$baseurl+form.identityPicOne" alt />-->
           </div>
         </li>
         <li class="idcard_right" v-if="switchon && form.userIdentityType==1">
@@ -114,7 +115,7 @@
           </div>
         </li>
       </ul>
-       <div class="failure">  
+       <div class="failure">
         <button @click="$goto('usercheck')">再次申请</button>
       </div>
     </main>
@@ -288,7 +289,7 @@ export default {
   main.userpass2 {
     padding: 3.24rem 0 3.04rem 0;
     text-align: center;
-  
+
     img {
       // width: 4.28rem;
       height: 1.54rem;
