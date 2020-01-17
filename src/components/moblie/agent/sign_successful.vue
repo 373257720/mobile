@@ -61,26 +61,26 @@ export default {
         // }
       ],
     investor_infor: [
-        {
-          keyword:'investorsType',
-          name: "投资者类型:",
-          response: ""
-        },
-        {
-          keyword:'investorsCompany',
-          name: "投资者公司:",
-          response: ""
-        },
-        {
-          keyword:'investorsName',
-          name: "投资者姓名:",
-          response: ""
-        },
-        {
-          keyword:'investorsArea',
-          name: "投资者地区:",
-          response: ""
-        },
+        // {
+        //   keyword:'investorsType',
+        //   name: "投资者类型:",
+        //   response: ""
+        // },
+        // {
+        //   keyword:'investorsCompany',
+        //   name: "投资者公司:",
+        //   response: ""
+        // },
+        // {
+        //   keyword:'investorsName',
+        //   name: "投资者姓名:",
+        //   response: ""
+        // },
+        // {
+        //   keyword:'investorsArea',
+        //   name: "投资者地区:",
+        //   response: ""
+        // },
         //     {
         //   keyword:'projectMobile',
         //   name: "投资者电话:",

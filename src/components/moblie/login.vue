@@ -80,6 +80,9 @@ export default {
           } else if (rescode = 10014) {
             this.remind = "账号或密码不正确";
           }
+        }).catch(err=>{
+            this.$toast.clear();
+            this.$loadingfail();
         });
       } else {
         this.remind = "账号和密码不能为空，请输入 ";

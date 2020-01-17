@@ -13,13 +13,13 @@ Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
 // 复制插件
-import VueClipboards from 'vue-clipboard2'
-Vue.use(VueClipboards);
+// import VueClipboards from 'vue-clipboard2'
+// Vue.use(VueClipboards);
 // import Vconsole from 'vconsole'
 // let vConsole = new Vconsole()
 // Vue.use(vConsole);
-import Promise from 'es6-promise';
-Promise.polyfill()
+// import Promise from 'es6-promise';
+// Promise.polyfill()
 Vue.use(Vuex);
 import Vant from 'vant';
 Vue.use(Vant)
@@ -89,10 +89,10 @@ Vue.prototype.$loadingfail = function loadingfail() {
 // };
 
 var baseurl = {
-  api: "http://192.168.1.37:8080",
+  // api: "http://192.168.1.37:8080",
   // api3: 'http://47.90.62.114:8083',
   api3:'http://localhost:8080',
-  // api: "http://47.90.62.114:8082",
+  api: "http://47.90.62.114:8082",
 }
 Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl = baseurl.api;
