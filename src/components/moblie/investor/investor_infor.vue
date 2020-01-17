@@ -11,9 +11,12 @@
         <!-- <header>放水电费鼎飞丹砂</header> -->
         <ul>
           <li i v-for="(item) in details_lists" :key="item.name">
-            <p class="row1">{{item.name}}</p>
-            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
-            <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
+            <div
+              v-if="item.keyword!='investorsCompany' || (item.keyword=='investorsCompany' && item.response!='')"
+            >
+              <p class="row1">{{item.name}}</p>
+              <p class="row2">{{item.response}}</p>
+            </div>
           </li>
         </ul>
       </article>
@@ -60,7 +63,7 @@ export default {
         },
         {
           keyword: "investorsCompanyAddress",
-          name: "投资者地址:",
+          name: "投资者公司地址:",
           response: ""
         }
         // {
@@ -130,10 +133,12 @@ export default {
       ul {
         padding: 0.5rem 0.5rem 0 0.5rem;
         li {
-          margin-bottom: 0.12rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.38rem;
+          > div {
+            margin-bottom: 0.12rem;
+            display: flex;
+            align-items: baseline;
+            font-size: 0.38rem;
+          }
           .row1 {
             color: #4c4c4c;
             font-weight: 600;

@@ -8,10 +8,10 @@
       </div>
       <canvas></canvas>
       <div class="btnBox">
-        <button @touchstart="clear" @mousedown="clear">重写</button>
+        <button @mousedown="clear">重写</button>
         <button @mousedown="commit">提交签名</button>
       </div>
-      <!-- <van-dialog v-model="show" title="标题" show-cancel-button :beforeClose="beforeClose"></van-dialog> -->
+      <van-dialog v-model="show" title="请在方框内签名"></van-dialog>
     </div>
     <!-- <img :src="url" alt=""> -->
     <!-- <div class="image-box" v-show="showBox">
@@ -25,9 +25,10 @@
 </template>
 
 <script>
-import Draw from "./draw";
+import { Draw, draw_stauts } from "./draw";
 export default {
   name: "canvans",
+  // inject:['app'],
   data() {
     return {
       msg: "请在下方空白处签名",
@@ -40,14 +41,16 @@ export default {
     };
   },
   components: {
-    Draw
+    // Draw
   },
   beforeCreate() {
     // document.title = "手写签名";
     // console.log(1111);
   },
   created() {
-    // console.log(this.$route);
+    // if()
+    // console.log(this.app)
+    // console.log(draw_stauts);
   },
   mounted() {
     this.canvasBox = document.getElementById("canvasBox");
@@ -57,10 +60,12 @@ export default {
     this.$nextTick(() => {
       window.addEventListener("resize", this.renderResize, false);
     });
+    //  console.log(this.draw);
   },
   beforeDestroy() {
     this.domjiedian.style.fontSize = null;
     window.removeEventListener("resize", this.renderResize, false);
+
     // var html = document.querySelector("html");
   },
   computed: {
@@ -107,13 +112,6 @@ export default {
     }
   },
   methods: {
-    // beforeClose(action, done) {
-    //   if (action === "confirm") {
-    //     setTimeout(done, 1000);
-    //   } else {
-    //     done();
-    //   }
-    // },
     renderResize() {
       let width = document.documentElement.clientWidth;
       let height = document.documentElement.clientHeight;
@@ -132,24 +130,17 @@ export default {
       this.draw = new Draw(canvas, -this.degree);
     },
     commit() {
-      var aa = this.draw.scale(100, 50, this.draw.canvas);
-      this.imgurl = this.draw.getPNGImage(aa);
-      // if(this.route)
-      console.log(this.imgurl);
-      if (this.imgurl) {
+      console.log(draw_stauts);
+      // var aa = this.draw.scale(100, 50, this.draw.canvas);
+      this.imgurl = this.draw.getPNGImage(this.draw.canvas);
+      if (draw_stauts == 1) {
+        this.draw.commit();
         if (this.$route.name == "a_sign_contract") {
           this.$emit("aimgurl", this.imgurl);
         } else if (this.$route.name == "p_sign_contract")
           this.$emit("imgurl", this.imgurl);
-      } else {
-        this.$dialog
-          .confirm({
-            title: "请签名"
-            // message: "弹窗内容"
-          })
-          .then(() => {
-            // on confirm
-          });
+      } else if (draw_stauts == 0) {
+        this.show = true;
       }
     },
 
@@ -179,7 +170,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 nav.visaDetailTop .van-icon-arrow-left {
   line-height: 1rem;
   position: absolute;
@@ -196,6 +187,13 @@ nav.visaDetailTop {
 .container {
   width: 100%;
   height: 100%;
+  .van-dialog {
+    width: 50%;
+    font-size: 0.38rem;
+    .van-button {
+      font-size: 0.36rem;
+    }
+  }
 }
 #canvasBox {
   display: flex;

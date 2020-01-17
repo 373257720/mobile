@@ -14,9 +14,8 @@ export default {
   },
   created() {
     //在页面加载时读取sessionStorage里的状态信息
+    // console.log(sessionStorage.getItem("test"))
     if (sessionStorage.getItem("store")) {
-      // console.dir(this.$store.state);
-      // console.dir( JSON.parse(sessionStorage.getItem("store")));
       this.$store.replaceState(
         Object.assign(
           {},
@@ -24,11 +23,10 @@ export default {
           JSON.parse(sessionStorage.getItem("store"))
         )
       );
-      // console.dir(this.$store.state);
-      
     }
     window.addEventListener("beforeunload", () => {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state));
+      // sessionStorage.setItem('test',123456)
     });
   }
   // created() {
@@ -79,8 +77,13 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   /* text-align: center;
   color: #2c3e50;
   margin-top: 60px; */
+}
+.van-toast{
+  /*background: none;*/
+  /*color:blue;*/
 }
 </style>

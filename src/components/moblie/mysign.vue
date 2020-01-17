@@ -5,9 +5,7 @@
         <van-icon name="arrow-left" @click="$global.previous()" />我的項目
       </header>
       <main>
-        <div class="sort_box" @click="gg">
-          项目筛选
-          <van-icon name="arrow-down" />
+        <div class="sort_box" @click="gg">项目筛选<van-icon name="arrow-down" />
         </div>
         <transition name="fade">
           <van-checkbox-group v-show="visible" v-model="result">
@@ -32,31 +30,35 @@
       :finished="finished"
       @load="onLoad()"
       :loading-text="loadText"
+      finished-text="没有更多了"
+      error-text="请求失败，点击重新加载"
       :offset="300"
     >
       <ul>
         <li v-for="item in upGoodsInfo" :key="item.signId" @click="mysignto(item)">
-          <p>
-            <span>申请时间:</span>
-            <span>{{item.signTime4Submit}}</span>
-          </p>
-          <p>
-            <span>申请中间人:</span>
-            <span>{{item.userIdentityType==1?item.userName:item.userCompany}}</span>
-          </p>
-          <p>
-            <span>申请项目:</span>
-            <span>{{item.projectName}}</span>
-          </p>
-          <p>
-            <span>签约时间:</span>
-            <span>{{item.signTime}}</span>
-          </p>
-          <p>
-            <span>签约状态:</span>
+          <div>
+            <p>
+              <span>申请时间:</span>
+              <span>{{item.signTime4Submit}}</span>
+            </p>
+            <p>
+              <span>申请中间人:</span>
+              <span>{{item.userIdentityType==1?item.userName:item.userCompany}}</span>
+            </p>
+            <p>
+              <span>申请项目:</span>
+              <span>{{item.projectName}}</span>
+            </p>
+            <p>
+              <span>签约时间:</span>
+              <span>{{item.signTime}}</span>
+            </p>
+          </div>
+          <aside>
+            <img :src="item.pic" alt />
             <span>{{item.signStatustext}}</span>
-          </p>
-          <img :src="item.pic" alt />
+          </aside>
+
         </li>
       </ul>
     </van-list>
@@ -79,6 +81,47 @@ export default {
       loadNumUp: 20,
       usertype: "",
       upGoodsInfo: [],
+      piclists: [
+        {
+          value: 1,
+          text: "待审核项目",
+          pic: "../../../static/pic/waitreview.png"
+        },
+        {
+          value: 2,
+          text: "待签约项目",
+          pic: "../../../static/pic/waitsign.png"
+        },
+        {
+          value: 4,
+          text: "已签约待上链",
+          pic: "../../../static/pic/waitinvestor.png"
+        },{
+          value: 6,
+          text: "待确认项目",
+          pic: "../../../static/pic/waitinvestor.png"
+        },
+        {
+          value: 5,
+          text: "已上链待发送",
+          pic: "../../../static/pic/waitinvestor.png"
+        },
+        {
+          value: 8,
+          text: "成功签约项目",
+          pic: "../../../static/pic/success.png"
+        },
+        {
+          value: 3,
+          text: "投行已拒绝",
+          pic: "../../../static/pic/false.png"
+        },
+        {
+          value: 7,
+          text: "投资者已拒绝",
+          pic: "../../../static/pic/false.png"
+        }
+      ],
       classname: {
         // "0":
       }
@@ -87,59 +130,35 @@ export default {
 
   created() {
     this.usertype = this.$store.state.currentUsertype;
-    // console.log(this.$store.state.genre);
-    // console.log(this.$route.query);
-  
-    if(this.$route.query){
-        // let a=JSON.parse(this.$route.query);
-        // console.log(a);
-    }
-    
-    if (this.$store.state.genre.length > 0) {
-      this.result = [...this.$store.state.genre];
+    if (this.$route.query.projectId) {
+      let a=  JSON.parse(this.$route.query.array);
+      if (a.length > 0) {
+        this.result = [...a];
+        // if (this.result.indexOf(4)!=-1) {
+        //   this.result.splice(this.result.indexOf(4), 1);
+        // }
+      }
     } else {
-      if (this.usertype == 1) {
-        this.result = [1, 2, 5, 6, 3, 7];
-      } else if (this.usertype == 4) {
-        this.result = [1, 2, 4, 5, 6, 3, 7];
-      } else if (this.usertype == 3) {
-        this.result = [5, 6, 7];
+      if (this.$store.state.genre.length > 0) {
+        this.result = [...this.$store.state.genre];
+      } else {
+        // 1投行（项目方），3投资者，4投资中间人
+        if (this.usertype == 1) {
+          // 投行（项目方） ：待审核项目->1 待签约项目->2  已签约待上链->4    已上链待发送->5  待确认项目->6  签约成功项目->8  拒绝签约项目->3，7
+          this.result = [1, 2, 4, 5, 6, 3, 7,8];
+        } else if (this.usertype == 4) {
+          // 待审核项目->1 待签约项目->2  已签约待上链->4    已上链待发送->5  待确认项目->6  签约成功项目->8  拒绝签约项目->3，7
+          this.result = [1, 2, 4, 5, 6, 3, 7,8];
+        } else if (this.usertype == 3) {
+          this.result = [8, 6, 7];
+        }
       }
     }
-    // console.log( this.result);
   },
   computed: {
     list: function() {
       console.log(this.usertype);
-      if (this.usertype == 1) {
-        return [
-          {
-            value: 1,
-            text: "待审核项目",
-            pic: "../../../static/pic/waitreview.png"
-          },
-          {
-            value: 2,
-            text: "待签约项目",
-            pic: "../../../static/pic/waitsign.png"
-          },
-          {
-            value: 5,
-            text: "待确认项目",
-            pic: "../../../static/pic/waitinvestor.png"
-          },
-          {
-            value: 6,
-            text: "成功签约项目",
-            pic: "../../../static/pic/success.png"
-          },
-          {
-            value: 3,
-            text: "拒绝签约项目",
-            pic: "../../../static/pic/false.png"
-          }
-        ];
-      } else if (this.usertype == 4) {
+      if (this.usertype == 1 ||this.usertype == 4) {
         return [
           {
             value: 1,
@@ -153,34 +172,40 @@ export default {
           },
           {
             value: 4,
-            text: "已签约待发送",
-            pic: "../../../static/pic/waitinvestor.png"
+            text: "已签约待上链",
+            pic: "../../../static/pic/waitsign.png"
           },
           {
             value: 5,
-            text: "待确认项目",
+            text: "已上链待发送",
             pic: "../../../static/pic/waitinvestor.png"
           },
           {
             value: 6,
-            text: "成功签约项目",
+            text: "待确认项项目",
+            pic: "../../../static/pic/waitinvestor.png"
+          },
+          {
+            value: 8,
+            text: "签约成功项目",
             pic: "../../../static/pic/success.png"
           },
           {
             value: 3,
-            text: "拒绝签约项目",
+            text: "已拒绝项目",
             pic: "../../../static/pic/false.png"
           }
         ];
-      } else if (this.usertype == 3) {
+      }
+       else if (this.usertype == 3) {
         return [
           {
-            value: 5,
+            value: 6,
             text: "待确认项目",
             pic: "../../../static/pic/waitinvestor.png"
           },
           {
-            value: 6,
+            value: 8,
             text: "已连接的项目",
             pic: "../../../static/pic/success.png"
           },
@@ -197,7 +222,7 @@ export default {
   methods: {
     mysignto(item) {
       //待审核
-      console.log(item);
+      // console.log(item);
       let signStatus = item.signStatus;
       let obj = {
         projectId: item.projectId,
@@ -209,34 +234,40 @@ export default {
           this.$routerto("p_sign_request", obj);
         } else if (signStatus == 2) {
           this.$routerto("p_wait_agent_input", obj);
+        } else if (signStatus == 4) {
+          this.$routerto("p_wait_agent_input", obj);
         } else if (signStatus == 5) {
           this.$routerto("p_wait_investor", obj);
-        } else if (signStatus == 6) {
+        }
+        else if (signStatus == 6) {
+          this.$routerto("p_wait_investor", obj);
+        } else if (signStatus == 8) {
           this.$routerto("p_sign_successful", obj);
         } else if (signStatus == 3 || signStatus == 7) {
           this.$routerto("p_sign_failed", obj);
         }
       } else if (this.usertype == 4) {
-        console.log(signStatus);
-
+        // console.log(signStatus);
         if (signStatus == 1) {
           this.$routerto("a_wait_review", obj);
         } else if (signStatus == 2) {
           this.$routerto("a_wait_signed", obj);
         } else if (signStatus == 4) {
-          this.$routerto("a_wait_sendemail", obj);
+          this.$routerto("a_submit_contract", obj);
         } else if (signStatus == 5) {
+          this.$routerto("a_wait_sendemail", obj);
+        }  else if (signStatus == 6) {
           this.$routerto("a_wait_investor_comfirm", obj);
-        } else if (signStatus == 6) {
+        }else if (signStatus == 8) {
           this.$routerto("a_sign_successful", obj);
         } else if (signStatus == 3 || signStatus == 7) {
           this.$routerto("a_sign_failed", obj);
         }
       } else if (this.usertype == 3) {
         console.log(signStatus);
-        if (signStatus == 5) {
+        if (signStatus == 6) {
           this.$routerto("i_wait_confirm", obj);
-        } else if (signStatus == 6) {
+        } else if (signStatus == 8) {
           this.$routerto("i_conected_project", obj);
         } else if (signStatus == 7) {
           this.$routerto("i_sign_failed", obj);
@@ -291,6 +322,7 @@ export default {
         url: `${this.$baseurl}/bsl_web/projectSign/project`,
         data: this.$qs.stringify(
           {
+            projectId: this.$route.query.projectId,
             signStatusList: this.result,
             pageIndex: this.pageNum,
             pageSize: this.loadNumUp
@@ -313,13 +345,14 @@ export default {
             if (re.length > 0) {
               this.upGoodsInfo = this.upGoodsInfo.concat(re);
               this.loading = false;
+              this.finished = true;
             }
-
             if (
               this.upGoodsInfo.length >= res.data.data.pageTotal ||
               this.upGoodsInfo.length == 0
             ) {
-              this.loadText = "加载完成";
+              // this.loadText = "加载完成";
+              this.loading = false;
               // document.querySelector(
               //   "#mysign .van-loading__spinner--circular"
               // ).style.display = "none";
@@ -330,9 +363,8 @@ export default {
             this.loading = false;
             this.finished = true;
           }
-          // console.log(this.result);
           this.upGoodsInfo.forEach(item => {
-            this.list.forEach(ite => {
+            this.piclists.forEach(ite => {
               // console.log(item.signStatus, ite.value);
               if (item.signStatus == ite.value) {
                 item.signStatustext = ite.text;
@@ -344,7 +376,7 @@ export default {
           // console.log(this.upGoodsInfo);
         })
         .catch(err => {
-          this.loadText = "加载失败";
+          // this.loadText = "加载失败";
           //  let fff = document.querySelector(
           //         "#mysign .van-loading__spinner--circular"
           //       );
@@ -467,43 +499,48 @@ export default {
     background: white;
     li {
       // line-height: 0.6rem;
-      position: relative;
-      word-break: break-all;
+      /*position: relative;*/
+      display: flex;
+      /*word-break: break-all;*/
       margin: 0 0.54rem;
       padding: 0.3rem 0;
       border-bottom: 0.02rem dashed #b5b5b5;
       font-size: 0.36rem;
-      p {
-        // display: flex;
-        // align-items: baseline;
-        margin-bottom: 0.2rem;
-        font-size: 0.34rem;
-        span:nth-child(1) {
-          font-weight: 900;
-          line-height: 0.46rem;
-          display: inline-block;
-          width: 2.3rem;
-          vertical-align: top;
+      div{
+        width: 9rem;
+        /*display: flex;*/
+        /*flex-direction: column;*/
+        /*justify-content: space-evenly;*/
+        p {
+          display: flex;
+          margin-bottom: 0.2rem;
+          font-size: 0.34rem;
+          span:nth-child(1) {
+            font-weight: 900;
+            line-height: 0.46rem;
+            display: inline-block;
+            width: 2.3rem;
+            vertical-align: top;
+          }
+          span:nth-child(2) {
+            vertical-align: top;
+            display: inline-block;
+            width: 6.3rem;
+            color: #575757;
+          }
+          //
         }
-        span:nth-child(2) {
-          vertical-align: top;
-          display: inline-block;
-          width: 6.3rem;
-          //   display: inline-block;
-          // width: 2.6rem;
-          // display: inline-block;
-          color: #575757;
+        p:nth-last-child(1){
+          margin-bottom: 0;
         }
-        //
       }
-      p:last-of-type {
-        margin: 0;
+      aside{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
       img {
-        position: absolute;
-        top: 50%;
-        right: 0;
-        transform: translateY(-50%);
         height: 0.78rem;
         width: 0.78rem;
       }

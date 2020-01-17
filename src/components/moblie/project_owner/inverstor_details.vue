@@ -16,6 +16,7 @@
             <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
           </li>
         </ul>
+        
         <!-- <footer>
           <button @click="check_contract">查看合约</button>
           <button @click="$goto('p_check_contract')">查看合约</button>

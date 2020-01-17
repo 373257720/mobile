@@ -64,6 +64,7 @@
       </ul>
     </main>
     <main v-if="optStatus==2">
+     <h2>很抱歉,您的审核没通过</h2>
       <ul>
         <li>
           <p>类型:</p>
@@ -97,7 +98,8 @@
         <li class="idcard_left" v-if="form.userIdentityType==1">
           <p>{{switchon==true?'身份证正面':'护照'}}</p>
           <div class="pic">
-            <img :src="$baseurl+form.identityPicOne" alt />
+            {{$baseurl+form.identityPicOne}}
+<!--            <img :src="$baseurl+form.identityPicOne" alt />-->
           </div>
         </li>
         <li class="idcard_right" v-if="switchon && form.userIdentityType==1">
@@ -113,8 +115,7 @@
           </div>
         </li>
       </ul>
-      <div class="failure">
-        <section>很抱歉,您的审核没通过</section>
+       <div class="failure">
         <button @click="$goto('usercheck')">再次申请</button>
       </div>
     </main>
@@ -182,7 +183,7 @@ export default {
             }
           }
           if (key == "userCountryEn") {
-            console.log(111);
+            // console.log(111);
             if (
               this.form[key] == "China"
             ) {
@@ -230,7 +231,13 @@ export default {
   }
   main {
     background: white;
-    padding: 1.6rem 0 1rem 0;
+    padding: 1.6rem 0 2rem 0;
+      h2{
+           text-align: center;
+      font-size: 0.64rem;
+      font-weight: 600;
+      margin: 0.8rem 0 0rem 0;
+    }
     .failure {
       text-align: center;
       section {
@@ -254,21 +261,21 @@ export default {
         margin-bottom: 0.5rem;
         p {
           margin-bottom: 0.1rem;
-          font-size: 0.36rem;
+          font-size: 0.38rem;
         }
         div {
           background: #f6f6f6;
           height: 1rem;
           line-height: 1rem;
-          font-size: 0.2rem;
-          border: 0.02rem solid #d9d9d9;
+          font-size: 0.38rem;
+          border: 1px solid #d9d9d9;
           padding: 0 0.2rem;
           color: #8a8a8a;
         }
         div.pic {
           padding: 0;
           // border-radius: 0.1rem;
-          border: 0.02rem solid #d9d9d9;
+          border: 1px solid #d9d9d9;
           height: 3rem;
           overflow: hidden;
           img {
@@ -282,6 +289,7 @@ export default {
   main.userpass2 {
     padding: 3.24rem 0 3.04rem 0;
     text-align: center;
+
     img {
       // width: 4.28rem;
       height: 1.54rem;

@@ -20,17 +20,17 @@
         </van-search>
       </main>
     </nav>
-    <ul>
-      <li v-for="item in arr" :key="item.username" @click="$routerto('p_user_contact2',{investorsId:item.investorsId})">
-        <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
-        <!-- <h2></h2> -->
-        <p>
-          <span>{{item.userName}}</span>
-          <span>{{item.bslEmail}}</span>
-          <!-- <van-icon name="arrow" /> -->
-        </p>
-      </li>
-    </ul>
+      <ul>
+        <li v-for="item in arr" :key="item.username" @click="$routerto('p_user_contact2',{investorsId:item.investorsId})">
+          <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
+          <!-- <h2></h2> -->
+          <p>
+            <span>{{item.userName}}</span>
+            <span>{{item.bslEmail}}</span>
+            <!-- <van-icon name="arrow" /> -->
+          </p>
+        </li>
+      </ul>
     <mbottom></mbottom>
   </div>
 </template>
@@ -40,6 +40,9 @@ export default {
   data() {
     return {
       dad_text: "联络人",
+      loadText: "加载中…",
+      loading: false,
+      finished: false,
       arr: [
         // {
         //   keyword:'bslEmail',
@@ -55,25 +58,25 @@ export default {
     };
   },
   created() {
-    this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/user/getRelationUser?searchKey=${this.searchkey}`
-    }).then(res => {
-      console.log(res);
-      this.arr=[...res.data.data]
-      // for (var i in res.data.data) {
-      //   for (var j = 0; j < this.arr.length; j++) {
-      //     if (this.arr[j].keyword == i) {
-      //       this.arr[j].response = res.data.data[i];
-      //     }
-      //   }
-      // }
-      
-    });
+    this.onLoad()
   },
   methods: {
     onSearch() {
       console.log(this.searchkey);
+    },
+    onLoad() {
+      this.$axios({
+        method: "get",
+        url: `${this.$baseurl}/bsl_web/user/getRelationUser?searchKey=${this.searchkey}`
+      })
+        .then(res => {
+          if (res.status === 200) {
+            this.arr = [...res.data.data]
+          }
+        })
+        .catch(err => {
+          // this.loadText = "加载失败";
+        });
     }
   }
 };
@@ -83,6 +86,9 @@ export default {
   .van-search {
     // padding: 0.2rem 0.2rem;
     // background: #1F2652;
+  }
+  .van-search__content--round{
+    border:1px solid #ccc;
   }
   .van-search__action {
     // font-size: 0.3rem;
@@ -103,7 +109,7 @@ export default {
         }
       }
   }
-  
+
   .van-cell {
        font-size: 0.32rem;
       line-height: 0.5rem;

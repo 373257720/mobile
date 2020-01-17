@@ -72,7 +72,7 @@ export default {
         this.$toast.clear();
       })
       .catch(err => {
-        this.$loadingfail();
+        this.$loadingfail('网络出错,查看失败');
       });
   },
   mounted() {

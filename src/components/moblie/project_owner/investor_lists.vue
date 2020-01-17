@@ -97,7 +97,6 @@ export default {
       url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
       data: this.$qs.stringify(this.form, { arrayFormat: "brackets" })
     }).then(res => {
-      // console.log(res);
       this.totallists = res.data.data;
       for (let i = 0; i < this.totallists.length; i++) {
         this.totallists[i].signTime3 = this.$global.timestampToTime(

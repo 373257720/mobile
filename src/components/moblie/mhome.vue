@@ -47,6 +47,8 @@
           :finished="finished"
           @load="onLoad"
           :loading-text="loadText"
+           finished-text="没有更多了"
+           error-text="请求失败，点击重新加载"
           :offset="300"
         >
           <div v-for="(goods,item) in  upGoodsInfo" :key="item" class="goodlists">
@@ -62,24 +64,26 @@
               </section>
               <section>
                 <span>简介：</span>
-                <span v-html="goods.projectDescribe.substr(0, [90])+'...'"></span>
+                <span v-html="goods.projectDescribe.length>90? goods.projectDescribe.substr(0, [90])+'...':goods.projectDescribe"></span>
                 <!-- <div class="van-multi-ellipsis--l3" v-html="goods.projectDescribe"></div> -->
               </section>
-              <footer v-if="usertype==1">
+              <div class="tag" v-if="usertype==1">
                 <ul>
-                  <li v-for="(item) in  tags" :key="item.text">
+                  <li v-for="(item,key) in  tags" :key="item.text">
                     <div
-                      v-if="goods.signUserList[item.keywork][0].signCount"
-                    >{{item.text}}（{{goods.signUserList[item.keywork][0].signCount?goods.signUserList[item.keywork][0].signCount:0}}）</div>
+                      v-if="goods.signUserList[key].length>0 && goods.signUserList[key][0].signCount">
+                      <span> {{item.text}}</span>
+                      <span>( {{goods.signUserList[key][0].signCount}} )</span>
+                    </div>
                   </li>
                 </ul>
-              </footer>
+              </div>
             </article>
             <footer>
               <button
                 v-if="usertype==1"
                 @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList6'][0].investorsIdList) })"
-              >签约投资者资料（{{goods.signUserList['signUserList6'][0].signCount?goods.signUserList['signUserList6'][0].signCount:0}}）</button>
+              >签约投资者资料 ( {{goods.signUserList['signUserList6'][0].signCount?goods.signUserList['signUserList6'][0].signCount:0}} )</button>
               <button
                 v-else-if="usertype==3"
                 @click="$routerto('i_conected_project',{projectId:goods.projectId,signStatus:goods.signUserResp[0].signStatus,signId:goods.signUserResp[0].signId})"
@@ -108,33 +112,27 @@ export default {
       ],
       usertype: "",
       activeIds: 0,
-      tags: [
-        {
-          keywork: "signUserList1",
+      tags: {
+        signUserList1: {
           text: "待审核",
           number: 0
         },
-        {
-          keywork: "signUserList2",
+        signUserList2: {
           text: "待签约",
           number: 0
         },
-        {
-          keywork: "signUserList4",
+        signUserList4: {
           text: "待确认",
           number: 0
         },
-        {
-          keywork: "signUserList6",
+        signUserList6: {
           text: "已签约",
           number: 0
         },
-        {
-          keywork: "signUserList37",
+        signUserList37: {
           text: "已拒绝",
           number: 0
-        }
-      ],
+        }},
       // 左侧高亮元素的index
       mainActiveIndex: 0,
       // 被选中元素的id
@@ -142,7 +140,7 @@ export default {
       searchkey: "",
       loading: false,
       finished: false,
-      loadText: "loading…",
+      loadText: "加载中…",
       pageNum: 1,
       loadNumUp: 20,
       upGoodsInfo: [],
@@ -160,7 +158,7 @@ export default {
   },
   created() {
     this.usertype = this.$store.state.currentUsertype;
-    console.log(this.usertype);
+    // console.log();
     let axiosList = [
       this.$axios.get(`${this.$baseurl}/bsl_web/base/getAllIndustry`),
       this.$axios.get(`${this.$baseurl}/bsl_web/base/countryList.do`)
@@ -196,6 +194,7 @@ export default {
       }
     },
     routerto(item) {
+
       this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
         // console.log(item.signUserResp);
@@ -206,16 +205,13 @@ export default {
           }
         }
         console.log(hash);
-
         if (item.signUserResp.length > 1) {
           this.$routerto(
             "mysign",
-            JSON.stringify({
+             {
               projectId: item.projectId,
-              array: hash
-              // signStatus: item.signUserResp[0].signStatus,
-              // signId: item.signUserResp[0].signId
-            })
+              array:JSON.stringify(hash),
+            }
           );
         } else if (item.signUserResp.length <= 1) {
           this.$routerto("p_goods_details", {
@@ -227,11 +223,20 @@ export default {
       } else if (this.$store.state.currentUsertype == 3) {
         // this.$routerto("a_project_intro", { projectId: projectId });
       } else if (this.$store.state.currentUsertype == 4) {
-        this.$routerto("a_project_intro", {
-          projectId: item.projectId,
-          signStatus: item.signUserResp[0].signStatus,
-          signId: item.signUserResp[0].signId
-        });
+        console.log(item)
+        if(item.isSign==1){
+          this.$routerto("a_project_intro", {
+            projectId: item.projectId,
+            signStatus: item.signUserResp[0].signStatus,
+            signId: item.signUserResp[0].signId
+          });
+        }else if(item.isSign==-1){
+          this.$routerto("a_project_intro", {
+            projectId: item.projectId,
+            signStatus: 0,
+          });
+        }
+
       }
     },
     region(value, region) {
@@ -273,7 +278,6 @@ export default {
       if (this.activeIds == 0) {
         this.activeIds = "";
       }
-      // console.log(this.loading);
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getAllProject?`,
@@ -294,17 +298,19 @@ export default {
             if (re.length > 0) {
               this.upGoodsInfo = this.upGoodsInfo.concat(re);
               this.loading = false;
+              this.finished = true;
             }
             if (
               this.upGoodsInfo.length >= res.data.data.pageTotal ||
               this.upGoodsInfo.length == 0
             ) {
-              this.loadText = "没有记录";
+               this.loading = false;
               // document.querySelector(
               //   "#mhome .van-loading__circular"
               // ).style.display = "none";
               this.finished = true;
             }
+
             this.pageNum++;
           } else {
             this.loading = false;
@@ -317,13 +323,13 @@ export default {
           // }
         })
         .catch(err => {
-          this.loadText = "loading failed";
+          // this.loadText = "加载失败";
           // document.querySelector(
           //   "#mhome .van-loading__circular"
           // ).style.display = "none";
           // let a = (document.querySelector("#mhome .van-loading__text").style =
           //   "margin-left:0");
-          console.log(a);
+          // console.log(a);
         });
     }
   }
@@ -338,10 +344,13 @@ export default {
   header {
     .van-search {
       // padding: 0.3rem 0.4rem 0 0.4rem;
-      // background: #2E3063 !important;
+     /*background: #2E3063 !important;*/
     }
     .van-hairline--top-bottom::after {
       border: 0;
+    }
+    .van-search__content--round{
+      border:1px solid #ccc;
     }
     .van-search__action {
       // font-size: 4rem;
@@ -469,16 +478,16 @@ export default {
       background: white;
       display: flex;
       flex-direction: column;
-      border: 0.02rem solid #ccc;
+      border: 1px solid #ccc;
       article {
         padding: 0.27rem 0.46rem 0.27rem 0.46rem;
-        border-bottom: 0.02rem solid #ccc;
+        border-bottom: 1px solid #ccc;
         nav {
           // width: 6.3rem;
           font-size: 0.5rem;
           color: #0f6ebe;
-          font-weight: 550;
-          line-height: 0.5rem;
+          font-weight: 600;
+          line-height: 0.7rem;
           margin-bottom: 0.7rem;
           box-sizing: border-box;
         }
@@ -499,8 +508,16 @@ export default {
             margin-bottom: 0.12rem;
             background: url(../../assets/c5652240e4485f406fbaf8cb89b0afb.png)
               no-repeat;
-            background-size: 2.7rem 0.6rem;
+            background-size: cover;
+            span:nth-of-type(1){
+
+            }
+            span:nth-of-type(2){
+              text-indent:0.1rem;
+            }
           }
+          /*foot*/
+
         }
         section {
           font-size: 0.38rem;
@@ -524,15 +541,16 @@ export default {
             line-height: 0.4rem;
           }
         }
+        div.tag{
+          min-height: 0rem;
+          max-height: 1.2rem;
+        }
       }
       footer {
-        // flex: 1;
         height: 1.2rem;
         position: relative;
         display: flex;
-        // justify-content: center;
         align-items: center;
-
         button {
           width: 45%;
           text-align: center;

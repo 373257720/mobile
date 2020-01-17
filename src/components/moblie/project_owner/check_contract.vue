@@ -15,14 +15,14 @@
               </i>
 
               <span>投行</span>
-              <span>{{owner_signdate?owner_signdate:''}}</span>
+              <span>{{owner_signdate}}</span>
             </p>
             <p>
               <i>
-                <!-- <img src alt /> -->
+                <img  v-if="agent" :src="agent" alt />
               </i>
               <span>中间人</span>
-              <span>{{agent_signdate?agent_signdate:''}}</span>
+              <span>{{agent_signdate}}</span>
             </p>
           </div>
         </div>
@@ -42,6 +42,7 @@ export default {
     return {
       owner: "",
       content: "",
+      agent:'',
       isshow: null,
       owner_signdate: "",
       agent_signdate: "",
@@ -50,16 +51,16 @@ export default {
   },
   created() {
     this.$loading();
-
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
     }).then(res => {
-      console.log(res.data.data.signAgreement);
       let str = JSON.parse(res.data.data.signAgreement);
       this.owner = str.owner;
       this.content = str.article;
-      this.owner_signdate = this.$global.stamptodate(str.owner_signdate);
+      this.agent=str.agent;
+      this.agent_signdate =str.agent_signdate>0? this.$global.stamptodate(str.agent_signdate):'';
+      this.owner_signdate = str.owner_signdate>0?this.$global.stamptodate(str.owner_signdate):'';
       this.$toast.clear();
     });
   },

@@ -5,34 +5,17 @@
       <div class="investors_infor">
         <h2>{{title}}</h2>
         <header>投资者资料</header>
-        <ul>
-          <li i v-for="(item) in investor_infor" :key="item.name">
-            <p class="row1">{{item.name}}</p>
-            <p class="row2">{{item.response}}</p>
-          </li>
-        </ul>
+           <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
         <header>项目详情</header>
-        <div class="nav_lists">
-          <p v-for="(item) in nav_lists" :key="item.name">
-            <section class="box">
-               <span class="1row" v-html="item.name"></span>
-              <span class="rowb" >{{item.response}}</span>
-            </section>
-          
-          </p>
-        </div>
-        <ul>
-          <li i v-for="(item) in details_lists" :key="item.name">
-            <p class="row1">{{item.name}}</p>
-            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html='item.response'></p>
-            <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
-          </li>
-        </ul>
+        <boxx :nav_lists="nav_lists"></boxx>
+        <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button @click="$routerto('p_set_contract',{projectId:projectId,signId:signId})">感兴趣</button>
+
+
+            <button @click="routerto">感兴趣</button>
             <button @click="agreement(3)">拒绝签约</button>
           </aside>
         </footer>
@@ -50,141 +33,105 @@ export default {
       projectId: null,
       signId: null,
       title: "",
-      details: {},
-      dad_text: "签约请求",
-      nav_lists: [
-        {
-          keyword: "financingStage",
-          name: "融资阶段",
-          response: ""
-        },
-        {
-          keyword: "interestProjectCount",
-          name: "项目方<br>有兴趣数量",
-          response: ""
-        },
-        {
-          keyword: "committedCount",
-          name: "已提交</br>投资者数量",
-          response: ""
-        }
-      ],
-      investor_infor: [
-        {
-          keyword: "investorsType",
+      dad_text: "待审核项目",
+     investor_infor: {
+        investorsType: {
           name: "投资者类型:",
           response: ""
         },
-        {
-          keyword: "investorsCompany",
+        investorsCompany: {
           name: "投资者公司:",
           response: ""
         },
-        {
-          keyword: "investorsName",
+        investorsName: {
           name: "投资者姓名:",
           response: ""
         },
-        {
-          keyword: "investorsArea",
+        investorsArea: {
           name: "投资者地区:",
           response: ""
         }
-      ],
-      details_lists: [
-        {
-          keyword: "projectIndustry",
+      },
+      nav_lists: {
+        financingStage: {
+          name: "融资阶段",
+          response: ""
+        },
+        interestProjectCount: {
+          name: "项目方<br>有兴趣数量",
+          response: ""
+        },
+        committedCount: {
+          name: "已提交</br>投资者数量",
+          response: ""
+        }
+      },
+      details_lists: {
+        projectIndustry: {
           name: "行业:",
           response: ""
         },
-        {
-          keyword: "projectArea",
+        projectArea: {
           name: "地区:",
           response: ""
         },
-        // {
-        //   keyword: "signStatus",
-        //   name: "项目状态:",
-        //   response: ""
-        // },
-        {
-          keyword: "signStatu",
+        signStatu: {
           name: "项目状态:",
           response: "暂无"
         },
-        { keyword: "projectCompany", name: "公司名称:", response: "" },
-        { keyword: "publicCompany", name: "是否上市公司:", response: "" },
-        { keyword: "collectMoney", name: "集资额:", response: "" },
-        { keyword: "projectMobile", name: "联系电话:", response: "" },
-        { keyword: "projectEmail", name: "电邮:", response: "" },
-        { keyword: "projectDescribe", name: "项目简介:", response: "" }
-      ]
+        projectCompany: {
+          name: "公司名称:",
+          response: ""
+        },
+        publicCompany: {
+          name: "是否上市公司:",
+          response: ""
+        },
+        collectMoney: {
+          name: "集资额:",
+          response: ""
+        },
+        projectMobile: {
+          name: "联系电话:",
+          response: ""
+        },
+        projectEmail: {
+          name: "电邮:",
+          response: ""
+        },
+        projectDescribe: {
+          name: "项目简介:",
+          response: ""
+        }
+      }
     };
   },
   created() {
-    this.details = this.$route.query;
+    this.projectId=this.$route.query.projectId;
+    this.signId=this.$route.query.signId;
+    let details = this.$route.query;
     this.$loading();
-    this.$axios({
-      method: "get",
-      url: `${
-        this.$baseurl
-      }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-        this.details.projectId
-      }&signStatus=${this.details.signStatus}&signId=${
-        this.details.signId ? this.details.signId : -1
-      }`
-    }).then(res => {
-      this.projectId = res.data.data.projectId;
-      this.signId = res.data.data.signId;
-      this.title = res.data.data.projectName;
-      for (var i in res.data.data) {
-        for (var j = 0; j < this.details_lists.length; j++) {
-          if (this.details_lists[j].keyword == i) {
-            if (this.details_lists[j].keyword == "signStatus") {
-              this.details_lists[j].response = this.$global.pic_obj[
-                res.data.data[i]
-              ];
-            } else if (this.details_lists[j].keyword == "publicCompany") {
-              this.details_lists[j].response =
-                res.data.data[i] == false ? "否" : "是";
-            } else {
-              this.details_lists[j].response = res.data.data[i];
-            }
-          }
-        }
-        for (var w = 0; w < this.nav_lists.length; w++) {
-          if (this.nav_lists[w].keyword == i) {
-            if (this.nav_lists[w].keyword == "financingStage") {
-              this.nav_lists[w].response = this.$global.financingStage[
-                res.data.data[i]
-              ];
-            } else {
-              this.nav_lists[w].response = res.data.data[i];
-            }
-          }
-        }
-        for (var k = 0; k < this.investor_infor.length; k++) {
-          if (this.investor_infor[k].keyword == i) {
-            if (this.investor_infor[k].keyword == "investorsType") {
-              this.investor_infor[k].response = this.$global.investorsType[
-                res.data.data[i]
-              ];
-            } else {
-              this.investor_infor[k].response = res.data.data[i];
-            }
-          }
-        }
-      }
-      console.log(this.details_lists);
-      this.$toast.clear();
-    });
+    this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`,'get',{},this.details_lists,this.nav_lists,this.investor_infor).then(res=>{
+    console.log(res);
+    this.title=res.title;
+    this.$toast.clear();
+  })
   },
   methods: {
+    routerto(){
+      this.$store.commit('contract_sign', {
+        owner: '',
+        article: '',
+        agent: '',
+        owner_signdate: null,
+        agent_signdate: null,
+      })
+      this.$routerto('p_set_contract',this.$route.query)
+    },
     agreement(num) {
       this.$dialog
         .confirm({
           title: "拒绝签约"
-          // message: "弹窗内容"
         })
         .then(() => {
           this.$global
@@ -203,7 +150,6 @@ export default {
                 this.$dialog
                   .alert({
                     title: "拒绝成功"
-                    // message: '弹窗内容'
                   })
                   .then(() => {
                     this.$routerto("mysign");
@@ -212,7 +158,6 @@ export default {
                 this.$dialog
                   .alert({
                     title: "你已拒绝"
-                    // message: '弹窗内容'
                   })
                   .then(() => {});
               }
@@ -261,16 +206,19 @@ export default {
     }
     div.investors_infor {
       h2 {
-        // padding: 0.2rem 0.3rem;
-        height: 2rem;
+      min-height: 2rem;
         font-size: 0.46rem;
         padding: 0.4rem;
         box-sizing: border-box;
-        // font-size: 0.5rem;
+        word-break: break-all;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap:  wrap;
         color: #0f6ebe;
-        // text-align: center;
         font-weight: 600;
-        line-height: 0.7rem;
+        line-height: 0.68rem;
       }
 
       header {
@@ -288,11 +236,12 @@ export default {
         display: flex;
         flex-direction: column;
         li {
-          // margin-bottom: 0.1rem;
+          >div{
           display: flex;
           align-items: baseline;
           font-size: 0.38rem;
           line-height: 0.56rem;
+          }
           .row1 {
             color: #4c4c4c;
             font-weight: 600;

@@ -25,49 +25,61 @@
       //   name: "项目状态",
       //   response: ""
       // },
-      {
-          keyword: "signStatus",
-          name: "项目状态:",
-          response: "暂无"
-        },
-      {
-        keyword: "projectCompany",
-        name: "公司名称:",
-        response: ""
-      },
-      {
-        keyword: "publicCompany",
-        name: "是否是上市公司",
-        response: ""
-      },
-      {
-        keyword: "collectMoney",
-        name: "集资额:",
-        response: ""
-      },
-      {
-        keyword: "projectMobile",
-        name: "联络电话:",
-        response: ""
-      },
-      {
-        keyword: "projectEmail",
-        name: "电邮",
-        response: ""
-      },
+      // {
+      //     keyword: "signStatus",
+      //     name: "项目状态:",
+      //     response: "暂无"
+      //   },
+      // {
+      //   keyword: "projectCompany",
+      //   name: "公司名称:",
+      //   response: ""
+      // },
+      // {
+      //   keyword: "publicCompany",
+      //   name: "是否是上市公司",
+      //   response: ""
+      // },
+      // {
+      //   keyword: "collectMoney",
+      //   name: "集资额:",
+      //   response: ""
+      // },
+      // {
+      //   keyword: "projectMobile",
+      //   name: "联络电话:",
+      //   response: ""
+      // },
+      // {
+      //   keyword: "projectEmail",
+      //   name: "电邮",
+      //   response: ""
+      // },
 
-      {
-        keyword: "projectDescribe",
-        name: "项目介绍",
-        response: ""
-      }
+      // {
+      //   keyword: "projectDescribe",
+      //   name: "项目介绍",
+      //   response: ""
+      // }
     ];
-
+    let details_lists2 = [{
+        keyword: "projectIndustry",
+        name: "行业:",
+        response: "1"
+      },
+      {
+        keyword: "projectArea",
+        name: "地区:",
+        response: "2"
+      },
+    ];
     function a(details_lists){
         console.log(details_lists);
         
     }
-    a(details_lists);
+    let bb=Object.assign(details_lists,details_lists2)
+   console.log(bb);
+   
         // var page = require('webpage').create();
         // var system = require('system');
         // ////读取命令行参数，也就是js文件路径。
