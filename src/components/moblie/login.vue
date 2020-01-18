@@ -39,9 +39,9 @@ export default {
     // console.log(this.$route.query.email);
   },
   methods: {
-    login() {
-      this.remind = "";
-      // this.$global.loading();
+    // login() {
+    //   this.remind = "";
+    //   // this.$global.loading();
 
       // console.log(   this.$global.loading);
       if (this.username && this.password) {
@@ -56,38 +56,6 @@ export default {
           // headers: {
           //   "Content-Type": "application/x-www-form-urlencoded"
           // }
-        }).then(res => {
-          this.$toast.clear();
-          var rescode = res.data.resultCode;
-          if (rescode == 10000) {
-            sessionStorage.clear();
-            this.$store.dispatch("reset_actions", this.$restore_obj);
-            this.$store.dispatch("usertype", res.data.data.userType);
-            this.$store.dispatch("setUser", this.username);
-            if (res.data.data.isAuth == 1) {
-              this.$goto("mhome");
-            } else if (res.data.data.isAuth == 0) {
-              this.$goto("usercheck");
-            }
-          }
-<<<<<<< HEAD
-        }).catch(err=>{
-            this.$toast.clear();
-            this.$loadingfail();
-=======
-          this.remind=res.data.resultDesc;
-        })
-        .catch(err => {
-        if (err) {
-          this.$toast.clear();
-          this.$loadingfail('网络故障');
-        }
->>>>>>> bed9e3e090e53b3e4c9acd60a379292d204dd6e2
-        });
-      } else {
-        this.remind = "账号和密码不能为空，请输入 ";
-      }
-    }
   }
 };
 // 10011	登录账号不能为空
