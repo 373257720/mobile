@@ -12,6 +12,17 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
+<<<<<<< HEAD
+// 复制插件
+// import VueClipboards from 'vue-clipboard2'
+// Vue.use(VueClipboards);
+// import Vconsole from 'vconsole'
+// let vConsole = new Vconsole()
+// Vue.use(vConsole);
+// import Promise from 'es6-promise';
+// Promise.polyfill()
+=======
+>>>>>>> bed9e3e090e53b3e4c9acd60a379292d204dd6e2
 Vue.use(Vuex);
 
 // import Vconsole from 'vconsole';
@@ -94,9 +105,15 @@ Vue.prototype.$loadingfail = function loadingfail(reminder) {
   });
 };
 var baseurl = {
+<<<<<<< HEAD
+  // api: "http://192.168.1.37:8080",
+  // api3: 'http://47.90.62.114:8083',
+  api3:'http://localhost:8080',
+=======
   // api: "http://192.168.1.37:8085",
   api3: 'http://47.90.62.114:8083',
   // api3:'http://localhost:8080',
+>>>>>>> bed9e3e090e53b3e4c9acd60a379292d204dd6e2
   api: "http://47.90.62.114:8082",
 }
 Vue.prototype.$baseurl3 = baseurl.api3;

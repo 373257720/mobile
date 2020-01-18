@@ -70,6 +70,11 @@ export default {
               this.$goto("usercheck");
             }
           }
+<<<<<<< HEAD
+        }).catch(err=>{
+            this.$toast.clear();
+            this.$loadingfail();
+=======
           this.remind=res.data.resultDesc;
         })
         .catch(err => {
@@ -77,6 +82,7 @@ export default {
           this.$toast.clear();
           this.$loadingfail('网络故障');
         }
+>>>>>>> bed9e3e090e53b3e4c9acd60a379292d204dd6e2
         });
       } else {
         this.remind = "账号和密码不能为空，请输入 ";
