@@ -7,7 +7,7 @@
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item v-for="(l,i) in lists" :key="l.projectUserId"  :name="i">
           <div slot="title" class="title">
-              <h3>{{l.projectName}}</h3>
+              <header>{{l.projectName}}</header>
           </div>
               <div><span>序号</span><span>投资者资料</span></div>
              <ul class="item">
@@ -101,6 +101,7 @@
       .van-cell{
         /*min-height: 2rem;*/
         min-height: 2rem;
+
         font-size: 0.46rem;
         padding:  0.5rem 0;
         width: initial;
@@ -121,10 +122,14 @@
         line-height: 0.68rem;
         /*.borderstyle{*/
         /*  height: 0.3rem;*/
-          border-bottom: 1px dashed #969799;
+        /*  border-bottom: 1px dashed #969799;*/
         /*}*/
-
       }
+      /*.van-collapse-item__wrapper{*/
+      /*    border-bottom: 1px dashed #969799;*/
+      /*    top:0;*/
+      /*  !*will-change*!*/
+      /*}*/
       .van-collapse-item__content{
         /*padding: 0rem;*/
         padding: 0;
@@ -232,7 +237,6 @@
           min-height: 2rem;
           font-size: 0.46rem;
           z-index: 9999999;
-          /*padding: 0.4rem;*/
           box-sizing: border-box;
           word-break: break-all;
           display: -webkit-flex;
@@ -251,6 +255,7 @@
           line-height: 0.68rem;
         }
     }
+
 
     }
   }

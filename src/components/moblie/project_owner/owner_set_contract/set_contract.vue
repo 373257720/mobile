@@ -5,10 +5,33 @@
     </nav>
     <main>
       <article>
-        <!-- <header>签署合约：</header> -->
-        <div>
-          <textarea v-model="content"  placeholder="请输入"></textarea>
+        <div class="sub_title">
+          <header>For and on behalf of:</header>
+          <div >
+            <input v-model="contract.owner_behalf"  placeholder="请输入"></input>
+          </div>
         </div>
+        <div class="sub_title">
+          <header>Name:</header>
+          <div >
+            <input v-model="contract.owner_name"  placeholder="请输入"></input>
+          </div>
+        </div>
+       <div class="sub_title">
+         <header>Title:</header>
+         <div>
+           <input v-model="contract.owner_title"  placeholder="请输入"></input>
+         </div>
+       </div>
+      <div class="sub_title">
+        <header>签署合约:</header>
+        <div>
+          <textarea v-model="contract.article"  placeholder="请输入"></textarea>
+        </div>
+      </div>
+<!--        <div>-->
+<!--          <textarea v-model="content"  placeholder="请输入"></textarea>-->
+<!--        </div>-->
         <footer>
           <button @click="signature">签署</button>
         </footer>
@@ -21,10 +44,20 @@
 // import VueUeditorWrap from "vue-ueditor-wrap";
 export default {
   name: "goods_details",
-  // props:['contract'],
+  props:['contract'],
   data() {
     return {
-      content: ""
+      // contract:{
+      //   article:'',
+      //   owner_sign:'',
+      //   owner_name:'',
+      //   owner_title:'',
+      //   owner_signdate:null,
+      //   agent_name:'',
+      //   agent_title:'',
+      //   agent_signdate:null,
+      // }
+
       // details_lists: ["申请时间:", "申请中间人:", "申请项目:"],
       // myConfig: {
       //   //编辑器配置
@@ -42,10 +75,13 @@ export default {
   //   "vue-ueditor-wrap": VueUeditorWrap
   // },
   created() {
-    // console.log(VueUeditorWrap);
-    if(this.$store.state.contract.article){
-        this.content=this.$store.state.contract.article;
-    }
+    // if(this.$store.state.contract.signId==this.$route.query.signId){
+    //     for(let i in this.contract){
+    //         if(this.$store.state.contract.hasOwnProperty(i)){
+    //           this.contract[i]=this.$store.state.contract[i]
+    //         }
+    //     }
+    // }
   },
   watch:{
     // contract: {
@@ -62,13 +98,14 @@ export default {
   computed: {},
   methods: {
     signature() {
-      if (this.content) {
-        this.$store.commit("contract_set", this.content);
+      if (this.contract.article && this.contract.owner_name && this.contract.owner_title) {
+        // this.$store.commit("contract_sign", this.contract);
+        // this.$emit('todad',this.contract)
         this.$routerto("p_sign_contract", this.$route.query);
       } else {
         this.$dialog
           .confirm({
-            title: "请输入合同内容"
+            title: "请检查,输入完整信息"
             // message: "弹窗内容"
           })
           .then(() => {
@@ -145,13 +182,28 @@ export default {
     //   // border-radius: 0.05rem;
     //   // border: 0.01rem solid #8e8e8e;
     // }
+    .sub_title{
+      margin-bottom:0.5rem;
+      header{
+        margin-bottom: 0.2rem;
+      }
+      input{
+        box-sizing: border-box;
+        font-size: 0.36rem;
+        line-height: 0.6rem;
+        padding: 0.2rem;
+        width: 100%;
+        /*height: 13rem;*/
+        border: 1px solid rgb(169, 169, 169);
+      }
+    }
     textarea {
       // background: #f2f2f2;
       box-sizing: border-box;
-      font-size: 0.4rem;
-      line-height: 0.6rem;
+      font-size: 0.36rem;
+      line-height: 0.56rem;
       padding: 0.3rem 0.4rem;
-      color: rgb(169, 169, 169);
+      /*color: rgb(169, 169, 169);*/
       width:100%;
       height: 13rem
     }
@@ -160,7 +212,7 @@ export default {
       button {
         width: 100%;
         font-size: 0.38rem;
-        margin-top: 1rem;
+        margin-bottom: 1rem;
         background: #00adef;
         color: white;
         height: 1rem;

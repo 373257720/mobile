@@ -13,7 +13,6 @@
               <i>
                 <img v-if="owner" :src="owner" alt />
               </i>
-
               <span>投行</span>
               <span>{{owner_signdate==null?owner_signdate:''}}</span>
             </p>
@@ -66,7 +65,7 @@ export default {
         this.content = str.article;
         this.owner_signdate = this.$global.stamptodate(str.owner_signdate);
         console.log(this.owner_signdate);
-        
+
         this.agent_signdate = this.$global.stamptodate(str.agent_signdate);
         this.agent = str.agent;
         this.$toast.clear();
