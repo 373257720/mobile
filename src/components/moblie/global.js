@@ -59,7 +59,6 @@ const global = {
     '4': "C轮",
     '5': "PRE-IPO",
     '6': "IPO",
-
   },
   // 投资者身份类型：1个人，2公司
   investorsType: {
@@ -99,6 +98,7 @@ const global = {
         })
         .then((res) => {
           console.log(res)
+          let projectLifeCycle=res.data.data.projectLifeCycle;
           let signAgreement = res.data.data.signAgreement;
           let investorsEmailSend=res.data.data.investorsEmailSend;
           let investorsId = res.data.data.investorsId;
@@ -137,6 +137,7 @@ const global = {
             // investor_infor: investor_infor,
             // details_lists: details_lists,
             // nav_lists: nav_lists,
+            projectLifeCycle:projectLifeCycle,
             investorsEmailSend:investorsEmailSend,
             signAgreement: signAgreement,
             investorsId: investorsId,

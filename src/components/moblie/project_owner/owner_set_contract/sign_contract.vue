@@ -1,23 +1,28 @@
 <template>
   <div id="p_sign_contract">
-    <cavans @imgurl="commit"></cavans>
+    <cavans :contract="contract" @imgurl="commit"></cavans>
   </div>
 </template>
 <script>
 export default {
   name: "goods_details",
-  // props:['contract'],
+  props:['contract'],
   data() {
     return {
       // imgurl: ""
     };
   },
   created() {
-    console.log(this.$route.query);
+    // console.log(this.$route.query);
   },
   methods: {
     commit(data) {
-          this.$store.commit('contract_owner',data);
+      let timestamp = new Date().getTime();
+      // let obj = {owner_sign:data, owner_signdate:timestamp,}
+      this.contract.owner_sign=data;
+      this.contract.owner_signdate=timestamp;
+          // this.$store.commit('agent_signdate',timestamp);
+          // this.$store.commit('contract_owner',data);
           this.$routerto('p_submit_contract',this.$route.query)
     },
     gg() {

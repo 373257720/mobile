@@ -28,10 +28,11 @@
 import { Draw, draw_stauts } from "./draw";
 export default {
   name: "canvans",
+  props:['contract'],
   // inject:['app'],
   data() {
     return {
-      msg: "请在下方空白处签名",
+      msg: "请在空白处签名",
       degree: 90,
       signImage: null,
       showBox: false,
@@ -133,18 +134,25 @@ export default {
       console.log(draw_stauts);
       // var aa = this.draw.scale(100, 50, this.draw.canvas);
       this.imgurl = this.draw.getPNGImage(this.draw.canvas);
-      if (draw_stauts == 1) {
+      // if (draw_stauts == 1) {
+      //
+      // } else if (draw_stauts == 0 ) {
+      //   this.show = true;
+      // }
+      if(draw_stauts == 0 && this.contract.owner_sign==''){
+        this.show = true;
+      }else{
         this.draw.commit();
         if (this.$route.name == "a_sign_contract") {
           this.$emit("aimgurl", this.imgurl);
         } else if (this.$route.name == "p_sign_contract")
           this.$emit("imgurl", this.imgurl);
-      } else if (draw_stauts == 0) {
-        this.show = true;
       }
     },
 
     clear() {
+      this.contract.owner_sign='';
+      // this.contractagent='';
       this.draw.clear();
     }
     // download() {

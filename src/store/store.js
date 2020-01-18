@@ -6,11 +6,16 @@ export default new Vuex.Store({
     currentUser: '',
     currentUsertype: null,
     contract: {
-      owner: '',
-      article: '',
-      agent: '',
-      owner_signdate: null,
-      agent_signdate: null,
+      signId:'',
+      article:'',
+      owner_sign:'',
+      owner_name:'',
+      owner_title:'',
+      owner_signdate:null,
+
+      agent_name:'',
+      agent_title:'',
+      agent_signdate:null,
     },
     genre: [],
     // genre_projectid: [],
@@ -55,7 +60,6 @@ export default new Vuex.Store({
     //   }
 
     // },
-
     contract_sign(state, content) {
       var arr = Object.keys(content);
       if (arr.length > 0) {
@@ -63,20 +67,17 @@ export default new Vuex.Store({
         console.log(state);
       } else if (arr.length == 0) {
         state.contract = {};
-        // console.log(state);
       }
-
-
     },
     contract_owner(state, content) {
       if (content) {
-        state.contract.owner = content;
+        state.contract.owner_sign = content;
       }
     },
     contract_agent(state, content) {
       if (content) {
         if (state.contract) {
-          state.contract.agent = content;
+          state.contract.agent_sign = content;
         }
 
       }

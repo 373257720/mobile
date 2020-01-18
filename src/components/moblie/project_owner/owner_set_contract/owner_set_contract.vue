@@ -1,6 +1,8 @@
 <template>
   <div>
-    <router-view  ></router-view>
+    <keep-alive>
+    <router-view :contract='contract' v-on:todad="fromkids" ></router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -14,17 +16,27 @@
     },
       data(){
         return{
-          // contract:{
-          //   content:'',
-          //   own:'',
-          //   own_signtime:''
-          // },
+          contract: {
+            // signId:'',
+            article:'',
+            owner_sign:'',
+            owner_behalf:'',
+            owner_name:'',
+            owner_title:'',
+            owner_signdate:null,
+            // agent_name:'',
+            // agent_title:'',
+            // agent_signdate:null,
+          },
         }
       },
+ created() {
+
+ },
     methods:{
-      fromchildren(a){
-        console.log(a)
-        // console.log(this.contract.content)
+      fromkids(a){
+        // this.contract=object.assign(this.contract,a)
+        console.log(this.contract)
         // this.contract.content=a;
         // console.log(this.contract.content)
         // if(a){

@@ -6,7 +6,6 @@
         <header>{{title}}</header>
          <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
-
         <!-- <footer>
           <button @click="$goto('p_investor_lists')">投资者资料</button>
         </footer> -->
@@ -28,7 +27,7 @@ export default {
           response: ""
         },
         interestProjectCount: {
-          name: "项目方<br>有兴趣数量",
+          name: "已接受<br>投资者数量",
           response: ""
         },
         committedCount: {
@@ -45,21 +44,23 @@ export default {
           name: "地区:",
           response: ""
         },
-        signStatu: {
+        projectStatus: {
           name: "项目状态:",
-          response: "暂无"
+          response: ""
         },
         projectCompany: {
           name: "公司名称:",
           response: ""
         },
-        publicCompany: {
-          name: "是否上市公司:",
+        currencyType: {
+          name: "币种:",
           response: ""
         },
         collectMoney: {
           name: "集资额:",
-          response: ""
+          collectMoneyMin:'',
+          collectMoneyMax: "",
+
         },
         projectMobile: {
           name: "联系电话:",
@@ -72,22 +73,37 @@ export default {
         projectDescribe: {
           name: "项目简介:",
           response: ""
+        },
+        projectDetail:{
+          name: "项目详情:",
+          response: ""
         }
-      }
+      },
+      // ：0初步接洽；1在物色投資者；2已完成部份融；3完成融資
+      project_status:{
+        '0':'初步接洽',
+        '1':'在物色投資者',
+        '2':'已完成部份融资',
+        '3':'完成融資'
+      },
+      financingStage: {
+        '0': '种子轮',
+        '1': "天使轮",
+        '2': "A轮",
+        '3': "B轮",
+        '4': "C轮",
+        '5': "PRE-IPO",
+        '6': "IPO",
+      },
     };
   },
   created() {
     let details = this.$route.query;
     // projectId=1576493020&signStatus=0&signId=0
-    this.$loading();
+    // this.$loading();
     if(details.signStatus && details.signId){
-      this.$global
-        .goods_deatails(
-          `${
-            this.$baseurl
-          }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-            details.projectId
-          }&signStatus=${details.signStatus}&signId=${
+      this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId
+      }&signStatus=${details.signStatus}&signId=${
             details.signId ? details.signId : -1
           }`,
           "get",
@@ -98,24 +114,42 @@ export default {
         )
         .then(res => {
           console.log(res);
+          console.log(this.nav_lists)
           this.title = res.title;
           this.$toast.clear();
         });
     }else{
-      this.$global
-        .goods_deatails(
-          `${this.$baseurl}/bsl_web/connected/getConnectedDetails?projectId=${details.projectId}`,
-          "get",
-          {},
-          this.details_lists,
-          this.nav_lists,
-          []
-        )
-        .then(res => {
-          console.log(res);
-          this.title = res.title;
-          this.$toast.clear();
-        });
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/connected/getConnectedDetails?projectId=${details.projectId}`).then(
+        res=>{
+          let res_obj=res.data.data[0];
+          this.title=res_obj.projectName;
+          for (let i in res_obj) {
+            if (this.details_lists.hasOwnProperty(i)) {
+              if (i == "projectStatus") {
+                this.details_lists[i].response =this.project_status[res_obj[i]] ;
+              }
+              else {
+                this.details_lists[i].response = res_obj[i];
+              }
+            }
+            if (this.nav_lists.hasOwnProperty(i)) {
+              if (i == "financingStage") {
+                this.nav_lists[i].response =this.financingStage[res_obj[i]] ;
+              }
+              else {
+                this.nav_lists[i].response = res_obj[i];
+              }
+            }
+            if(this.details_lists.collectMoney.hasOwnProperty(i)){
+                if (i == "collectMoneyMax"){
+                this.details_lists.collectMoney[i]=res_obj[i].toLocaleString();
+              }else if (i == "collectMoneyMin"){
+                this.details_lists.collectMoney[i]=res_obj[i].toLocaleString();
+              }
+            }
+          }
+        }
+      )
     }
 
 

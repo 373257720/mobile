@@ -49,6 +49,10 @@
               <span>申请项目:</span>
               <span>{{item.projectName}}</span>
             </p>
+            <p v-if="usertype==1">
+              <span>投资者名称:</span>
+              <span>{{item.investorsName}}</span>
+            </p>
             <p>
               <span>签约时间:</span>
               <span>{{item.signTime}}</span>
@@ -428,13 +432,13 @@ export default {
   .van-icon-arrow-down {
     //  width: 0.2rem;
     //     height: 0.2rem;
-    font-size: 0.1rem;
+    font-size: 0.3rem;
   }
   .van-icon-success {
     width: 0.4rem;
     height: 0.4rem;
     line-height: 0.4rem;
-    font-size: 0.1rem;
+    font-size: 0.3rem;
   }
   .van-hairline--top-bottom {
     // z-index: -3;
@@ -507,7 +511,7 @@ export default {
       border-bottom: 0.02rem dashed #b5b5b5;
       font-size: 0.36rem;
       div{
-        width: 9rem;
+        /*width: 9rem;*/
         /*display: flex;*/
         /*flex-direction: column;*/
         /*justify-content: space-evenly;*/
@@ -535,7 +539,9 @@ export default {
         }
       }
       aside{
+        flex: 1;
         display: flex;
+        font-size: 0.34rem;
         flex-direction: column;
         justify-content: center;
         align-items: center;

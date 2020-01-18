@@ -22,7 +22,7 @@ name:'common_nav',
     height: 1.6rem;
     position: fixed;
     top: 0;
-    font-weight: 550;
+    font-weight: 500;
     font-size: 0.5rem;
     background: white;
     border-bottom: 1px dashed #b5b5b5;

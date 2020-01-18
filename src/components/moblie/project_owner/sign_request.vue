@@ -112,21 +112,30 @@ export default {
     let details = this.$route.query;
     this.$loading();
     this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`,'get',{},this.details_lists,this.nav_lists,this.investor_infor).then(res=>{
-    console.log(res);
+    // console.log(res);
     this.title=res.title;
     this.$toast.clear();
+    if(res.projectLifeCycle==-1){
+      this.$dialog
+        .alert({
+          title: "该项目已删除",
+        })
+        .then(() => {
+          this.$routerto("mysign");
+        });
+    }
   })
   },
   methods: {
     routerto(){
-      this.$store.commit('contract_sign', {
-        owner: '',
-        article: '',
-        agent: '',
-        owner_signdate: null,
-        agent_signdate: null,
-      })
-      this.$routerto('p_set_contract',this.$route.query)
+      // this.$store.commit('contract_sign', {
+      //   owner: '',
+      //   article: '',
+      //   agent: '',
+      //   owner_signdate: null,
+      //   agent_signdate: null,
+      // })
+      this.$routerto('owner_set_contract',this.$route.query)
     },
     agreement(num) {
       this.$dialog
@@ -145,7 +154,7 @@ export default {
               })
             )
             .then(res => {
-              console.log(res);
+              // console.log(res);
               if (res.data.resultCode == 10000) {
                 this.$dialog
                   .alert({

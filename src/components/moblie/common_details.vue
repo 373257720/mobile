@@ -5,8 +5,12 @@
         <ul>
           <li v-for="(item,key) in toson" :key="item.name">
             <p class="row1">{{item.name}}</p>
-            <p class="row2" v-if="key=='projectDescribe'" v-html="item.response">{{item}}</p>
-            <p class="row2" v-else-if="key!='projectDescribe'">{{item.response}}</p>
+            <p class="row2" v-if="key=='projectDescribe'" v-html="item.response"></p>
+            <p class="row2" v-else-if="key=='projectDetail'" v-html="item.response"></p>
+            <p class="row2 money" v-else-if="key=='collectMoney'">
+              <span>{{item.collectMoneyMin?item.collectMoneyMin:0}}</span><span>-</span><span>{{item.collectMoneyMax?item.collectMoneyMax:0}}</span>
+            </p>
+            <p class="row2" v-else>{{item.response}}</p>
           </li>
         </ul>
       </article>
@@ -65,7 +69,7 @@ export default {
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
-            width: 4rem;
+            width: 3rem;
           }
           .draft {
             margin-bottom: 0.25rem;
@@ -75,6 +79,12 @@ export default {
             word-break: break-all;
             line-height: 0.48rem;
             color: #787878;
+          }
+          .money{
+            display: flex;
+            span:nth-child(2){
+              margin: 0 0.3rem;
+            }
           }
           .draft1 {
             padding: 0.2rem 0.4rem;
