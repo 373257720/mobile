@@ -65,6 +65,7 @@
     </main>
     <main v-if="optStatus==2">
      <h2>很抱歉,您的审核没通过</h2>
+<!--      <h2>{{flut}}}</h2>-->
       <ul>
         <li>
           <p>类型:</p>
@@ -98,8 +99,7 @@
         <li class="idcard_left" v-if="form.userIdentityType==1">
           <p>{{switchon==true?'身份证正面':'护照'}}</p>
           <div class="pic">
-            {{$baseurl+form.identityPicOne}}
-<!--            <img :src="$baseurl+form.identityPicOne" alt />-->
+            <img :src="$baseurl+form.identityPicOne" alt="">
           </div>
         </li>
         <li class="idcard_right" v-if="switchon && form.userIdentityType==1">

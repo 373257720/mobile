@@ -10,22 +10,22 @@
           <li>
             <p class="row1">投资者类型</p>
             <p class="row2">
-              <!-- <van-dropdown-menu>
-                <van-dropdown-item disabled v-model="form.investorsType" :options="option1" />
-              </van-dropdown-menu>-->
-              <van-field disabled v-model="form.investorsType" placeholder="-" />
+            <van-dropdown-menu>
+                <van-dropdown-item  v-model="form.investorsType" :options="option1" />
+              </van-dropdown-menu>
+<!--              <van-field  v-model="form.investorsType" placeholder="-" />-->
             </p>
           </li>
-          <li v-show="form.investorsType=='公司'">
+          <li v-show="form.investorsType==2">
             <p class="row1">投资者公司：</p>
             <p class="row2">
-              <van-field disabled v-model="form.investorsCompany" placeholder="-" clearable />
+              <van-field  v-model="form.investorsCompany" placeholder="-" clearable />
             </p>
           </li>
           <li>
             <p class="row1">投资者地区：</p>
             <p class="row2">
-              <van-field disabled v-model="form.investorsArea" placeholder="-" clearable />
+              <van-field v-model="form.investorsArea" placeholder="-" clearable />
             </p>
           </li>
           <li>
@@ -46,7 +46,7 @@
               <van-field v-model="form.investorsEmail" placeholder="请输入" clearable />
             </p>
           </li>
-          <li>
+          <li v-show="form.investorsType==2">
             <p class="row1">公司地址：</p>
             <p class="row2">
               <van-field v-model="form.investorsCompanyAddress" placeholder="请输入" clearable />
@@ -109,21 +109,22 @@ export default {
   //   })
   // },
   created() {
-    let a = JSON.parse(this.$route.query.investor_infor);
-    console.log(a);
-
-    this.form.investorsType =a.investorsType.response;
-    this.form.investorsName =a.investorsName.response;
-    this.form.investorsCompany =a.investorsCompany.response;
-    this.form.investorsArea =a.investorsArea.response;
+    // let a = JSON.parse(this.$route.query.investor_infor);
+    // console.log(a)
+    // this.form.investorsType =a.investorsType.response;
+    // this.form.investorsName =a.investorsName.response;
+    // this.form.investorsCompany =a.investorsCompany.response;
+    // this.form.investorsArea =a.investorsArea.response;
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
     })
       .then(res => {
-        this.title = res.data.data.projectName;
-        this.countrylist = res.data.data;
-        // console.log(this.countrylist);
+        if(res.data.resultCode==10000){
+          this.title = res.data.data.projectName;
+          this.countrylist = res.data.data;
+        }
+
       })
       .catch(err => {
         console.log(err);
@@ -222,13 +223,15 @@ export default {
   .van-dropdown-menu {
     height: 1rem;
     border-radius: 0.05rem;
-    // border: 1px solid #ababab;
+    box-sizing: border-box;
+    border: 1px solid #ababab;
     background: #f6f6f6;
   }
   .van-field__body {
     //  width: 100%;
     height: 1rem;
-    // border: 0.02rem solid #ababab;
+    line-height: 1rem;
+     border: 1px solid #ababab;
     border-radius: 0.05rem;
     background: #f6f6f6;
     padding: 0 0.2rem;
@@ -239,7 +242,7 @@ export default {
     height: 0.4rem;
     width: 0.4rem;
     line-height: 0.4rem;
-    font-size: 0.2rem;
+    font-size: 0.3rem;
   }
   .van-field__control {
     // padding: 0 0.2rem;
@@ -265,15 +268,16 @@ export default {
 
   .van-dropdown-menu__title::after {
     border: 0.1rem solid;
-    top: 50%;
+    /*top: 50%;*/
     right: 0.5rem;
+    margin: 0;
     transform: rotate(0);
     border-color: currentColor transparent transparent transparent;
   }
 
   .van-dropdown-menu__title--down::after {
     border: 0.1rem solid;
-    top: 50%;
+    /*top: 50%;*/
     border-color: currentColor transparent transparent transparent;
   }
 }
@@ -314,53 +318,29 @@ export default {
         line-height: 2rem;
       }
       ul {
-        padding: 0.5rem 0.5rem 2rem 0.5rem;
+        padding: 0.5rem;
         li {
           margin-bottom: 0.4rem;
           display: flex;
-          align-items: baseline;
+          /*line-height: 0.48rem;*/
+          align-items: center;
           font-size: 0.3rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
             width: 3rem;
-            margin-bottom: 0.2rem;
           }
           .row2 {
             width: 7rem;
             word-break: break-all;
-
-            line-height: 0.48rem;
             color: #787878;
           }
         }
-        // .contract {
-        //   display: block;
-
-        //   .row1 {
-        //     margin-bottom: 0.1rem;
-        //   }
-        //   .row2 {
-        //     width: 6.5rem;
-        //     height: 6rem;
-        //     border: 0.01rem solid #b3b3b3;
-        //     // box-sizing: border-box;
-        //     padding: 0;
-        //     background: #f2f2f2;
-        //     .draft1_middle {
-        //       padding: 0.3rem;
-        //       box-sizing: border-box;
-        //       width: 100%;
-        //       height: 100%;
-        //       overflow-y: auto;
-        //     }
-        //   }
-        // }
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         button {
-          width: 6.5rem;
+          width: 8rem;
           height: 1rem;
           background: #00adef;
           color: white;

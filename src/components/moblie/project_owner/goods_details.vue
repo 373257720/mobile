@@ -26,14 +26,15 @@ export default {
           name: "融资阶段",
           response: ""
         },
+        committedCount: {
+          name: "已提交</br>投资者数量",
+          response: ""
+        },
         interestProjectCount: {
           name: "已接受<br>投资者数量",
           response: ""
         },
-        committedCount: {
-          name: "已提交</br>投资者数量",
-          response: ""
-        }
+
       },
       details_lists: {
         projectIndustry: {

@@ -6,13 +6,13 @@
     <div class="main">
       <p>{{remind}}</p>
       <div class="username" v-if="$route.query.email">
-        <van-field v-model="username" placeholder="电子邮箱" disabled />
+        <van-field v-model.trim="username" placeholder="电子邮箱" disabled />
       </div>
       <div class="username" v-if="!$route.query.email">
-        <van-field v-model="username" placeholder="电子邮箱" clearable />
+        <van-field v-model.trim="username" placeholder="电子邮箱" clearable />
       </div>
       <div class="password">
-        <van-field v-model="password" type="password" placeholder="请输入密码" clearable />
+        <van-field v-model.trim="password" type="password" placeholder="请输入密码" clearable />
       </div>
       <div class="loginbtn">
         <button @click="login">登 录</button>
@@ -70,11 +70,7 @@ export default {
               this.$goto("usercheck");
             }
           }
-<<<<<<< HEAD
-        }).catch(err=>{
-            this.$toast.clear();
-            this.$loadingfail();
-=======
+
           this.remind=res.data.resultDesc;
         })
         .catch(err => {
@@ -82,7 +78,6 @@ export default {
           this.$toast.clear();
           this.$loadingfail('网络故障');
         }
->>>>>>> bed9e3e090e53b3e4c9acd60a379292d204dd6e2
         });
       } else {
         this.remind = "账号和密码不能为空，请输入 ";

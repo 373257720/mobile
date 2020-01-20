@@ -1,8 +1,7 @@
 <template>
   <div>
-    <keep-alive>
     <router-view :contract='contract' v-on:todad="fromkids" ></router-view>
-    </keep-alive>
+
   </div>
 </template>
 

@@ -8,19 +8,19 @@
         <div class="sub_title">
           <header>For and on behalf of:</header>
           <div >
-            <input v-model="contract.owner_behalf"  placeholder="请输入"></input>
+            <input maxlength="50" v-model="contract.owner_behalf"  placeholder="请输入"></input>
           </div>
         </div>
         <div class="sub_title">
           <header>Name:</header>
           <div >
-            <input v-model="contract.owner_name"  placeholder="请输入"></input>
+            <input maxlength="30" v-model="contract.owner_name"  placeholder="请输入"></input>
           </div>
         </div>
        <div class="sub_title">
          <header>Title:</header>
          <div>
-           <input v-model="contract.owner_title"  placeholder="请输入"></input>
+           <input maxlength="30" v-model="contract.owner_title"  placeholder="请输入"></input>
          </div>
        </div>
       <div class="sub_title">
@@ -98,7 +98,7 @@ export default {
   computed: {},
   methods: {
     signature() {
-      if (this.contract.article && this.contract.owner_name && this.contract.owner_title) {
+      if (this.contract.article && this.contract.owner_name && this.contract.owner_title && this.contract.owner_behalf) {
         // this.$store.commit("contract_sign", this.contract);
         // this.$emit('todad',this.contract)
         this.$routerto("p_sign_contract", this.$route.query);
@@ -173,25 +173,19 @@ export default {
     margin-bottom: 1.5rem;
     padding: 0.5rem;
     background: #ffffff;
-    // div {
-    //   width: 100%;
-    //   background: #f2f2f2;
-    //   height: 8rem;
-    //   // font-size: 0.3rem;
-    //   // line-height: 0.4rem;
-    //   // border-radius: 0.05rem;
-    //   // border: 0.01rem solid #8e8e8e;
-    // }
     .sub_title{
       margin-bottom:0.5rem;
       header{
-        margin-bottom: 0.2rem;
+        /*margin-bottom: 0.2rem;*/
+        font-size: 0.38rem;
       }
       input{
         box-sizing: border-box;
-        font-size: 0.36rem;
-        line-height: 0.6rem;
+        font-size: 0.38rem;
+        line-height: 1rem;
         padding: 0.2rem;
+        /*box-sizing: border-box !important;*/
+        height: 1rem;
         width: 100%;
         /*height: 13rem;*/
         border: 1px solid rgb(169, 169, 169);

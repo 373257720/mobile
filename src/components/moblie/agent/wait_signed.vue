@@ -5,16 +5,6 @@
       <div class="investors_infor">
         <h2>{{title}}</h2>
         <header>投资者资料</header>
-        <!-- <ul>
-          <li i v-for="(item) in investor_infor" :key="item.name">
-            <div
-              v-if="item.keyword!='investorsCompany' || (item.keyword=='investorsCompany' && item.response!='')"
-            >
-              <p class="row1">{{item.name}}</p>
-              <p class="row2">{{item.response}}</p>
-            </div>
-          </li>
-        </ul>-->
         <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
@@ -23,7 +13,7 @@
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button @click="$routerto('a_check_contract',$route.query)">查看合约</button>
+            <button @click="$routerto('agent_set_contract',$route.query)">查看合约</button>
             <!-- <button @click="gg">拒绝签约</button> -->
           </aside>
         </footer>
@@ -64,14 +54,15 @@ export default {
           name: "融资阶段",
           response: ""
         },
+
+        committedCount: {
+          name: "已提交</br>投资者数量",
+          response: ""
+        },
         interestProjectCount: {
           name: "项目方<br>有兴趣数量",
           response: ""
         },
-        committedCount: {
-          name: "已提交</br>投资者数量",
-          response: ""
-        }
       },
       details_lists: {
         projectIndustry: {
@@ -90,8 +81,8 @@ export default {
           name: "公司名称:",
           response: ""
         },
-        publicCompany: {
-          name: "是否上市公司:",
+        currencyType: {
+          name: "币种:",
           response: ""
         },
         collectMoney: {

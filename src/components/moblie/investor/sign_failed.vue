@@ -51,14 +51,15 @@ export default {
           name: "融资阶段",
           response: ""
         },
+        committedCount: {
+          name: "已提交</br>投资者数量",
+          response: ""
+        },
         interestProjectCount: {
           name: "项目方<br>有兴趣数量",
           response: ""
         },
-        committedCount: {
-          name: "已提交</br>投资者数量",
-          response: ""
-        }
+
       },
       details_lists: {
         projectIndustry: {
@@ -77,8 +78,8 @@ export default {
           name: "公司名称:",
           response: ""
         },
-        publicCompany: {
-          name: "是否上市公司:",
+        currencyType: {
+          name: "币种:",
           response: ""
         },
         collectMoney: {

@@ -18,12 +18,11 @@ export default {
   methods: {
     commit(data) {
       let timestamp = new Date().getTime();
-      // let obj = {owner_sign:data, owner_signdate:timestamp,}
       this.contract.owner_sign=data;
       this.contract.owner_signdate=timestamp;
-          // this.$store.commit('agent_signdate',timestamp);
-          // this.$store.commit('contract_owner',data);
-          this.$routerto('p_submit_contract',this.$route.query)
+      // this.$store.commit('agent_signdate',timestamp);
+      // this.$store.commit('contract_owner',data);
+      this.$routerto('p_submit_contract',this.$route.query)
     },
     gg() {
       // console.log(this.$dialog);
@@ -78,27 +77,27 @@ export default {
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
   }
-  main {
-    margin-top: 1.5rem;
-    padding: 0.5rem;
-    background: #ffffff;
-    div {
-      width: 100%;
-      background: #f2f2f2;
-      height: 2rem;
-      border-radius: 0.05rem;
-      border: 0.01rem solid #8e8e8e;
-    }
-    footer {
-      width: 100%;
-      button {
-        width: 100%;
-        margin-top: 1rem;
-        background: #00adef;
-        color: white;
-        height: 0.8rem;
-      }
-    }
-  }
+  /*main {*/
+  /*  margin-top: 1.5rem;*/
+  /*  padding: 0.5rem;*/
+  /*  background: #ffffff;*/
+  /*  div {*/
+  /*    width: 100%;*/
+  /*    background: #f2f2f2;*/
+  /*    height: 2rem;*/
+  /*    border-radius: 0.05rem;*/
+  /*    border: 0.01rem solid #8e8e8e;*/
+  /*  }*/
+  /*  footer {*/
+  /*    width: 100%;*/
+  /*    button {*/
+  /*      width: 100%;*/
+  /*      margin-top: 1rem;*/
+  /*      background: #00adef;*/
+  /*      color: white;*/
+  /*      height: 0.8rem;*/
+  /*    }*/
+  /*  }*/
+  /*}*/
 }
 </style>

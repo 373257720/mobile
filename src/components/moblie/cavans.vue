@@ -134,12 +134,7 @@ export default {
       console.log(draw_stauts);
       // var aa = this.draw.scale(100, 50, this.draw.canvas);
       this.imgurl = this.draw.getPNGImage(this.draw.canvas);
-      // if (draw_stauts == 1) {
-      //
-      // } else if (draw_stauts == 0 ) {
-      //   this.show = true;
-      // }
-      if(draw_stauts == 0 && this.contract.owner_sign==''){
+      if(draw_stauts == 0){
         this.show = true;
       }else{
         this.draw.commit();
@@ -148,11 +143,13 @@ export default {
         } else if (this.$route.name == "p_sign_contract")
           this.$emit("imgurl", this.imgurl);
       }
+
+
     },
 
     clear() {
       this.contract.owner_sign='';
-      // this.contractagent='';
+      this.contract.agent_sign='';
       this.draw.clear();
     }
     // download() {

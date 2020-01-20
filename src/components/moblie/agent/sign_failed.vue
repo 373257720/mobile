@@ -70,16 +70,16 @@ export default {
           name: "地区:",
           response: ""
         },
-        signStatu: {
-          name: "项目状态:",
-          response: "暂无"
-        },
+        // signStatu: {
+        //   name: "项目状态:",
+        //   response: "暂无"
+        // },
         projectCompany: {
           name: "公司名称:",
           response: ""
         },
-        publicCompany: {
-          name: "是否上市公司:",
+        currencyType: {
+          name: "币种:",
           response: ""
         },
         collectMoney: {

@@ -1,32 +1,12 @@
 <template>
   <div id="a_submit_contract">
-    <div class="a_submit_contract" v-show="!iframeState">
+    <div class="a_submit_contract">
       <nav class="a_submit_contract">
         <van-icon name="arrow-left" @click="$global.previous()" />签署合约
       </nav>
       <main>
         <article>
-          <div class="contract">
-            <div class="top"></div>
-            <div class="middle" v-html="content"></div>
-            <div class="button">
-              <p>
-                <i>
-                  <img  v-if="owner" :src="owner" alt />
-                </i>
-
-                <span>投行</span>
-                <span>{{owner_signdate}}</span>
-              </p>
-              <p>
-                <i>
-                  <img  v-if="agent" :src="agent" alt />
-                </i>
-                <span>中间人</span>
-                <span>{{agent_signdate}}</span>
-              </p>
-            </div>
-          </div>
+          <contract_component :contract="contract"></contract_component>
           <footer v-show="iswatch==2">
             <button @click="signproject4">提交</button>
           </footer>
@@ -37,18 +17,6 @@
       </main>
       <mbottom></mbottom>
     </div>
-    <!-- <div class="iframe" v-show="iframeState"></div> -->
-    <!-- <iframe
-      v-show="iframeState"
-      id="show-iframe"
-      frameborder="0"
-      name="showHere"
-      scrolling="auto"
-      ref="iframe"
-      style="background-color:transparent; position:absolute; width: 100%; height: 100%; top: 0;left:0;"
-      :src="src"
-    ></iframe>-->
-    <!-- z-index: -1; -->
   </div>
 </template>
 <script>
@@ -56,70 +24,36 @@
 <script>
 export default {
   name: "goods_details",
+  props:['contract','signStatu'],
   data() {
     return {
       iswatch:'',
-      // src: `${this.$baseurl3}/#/upload_contract?`,
-      signId: "",
-      iframeState: false,
-      owner: "",
-      content: "",
-      agent: "",
-      str: {},
-      token: "",
-      childData: "",
-      projectId: "",
-      agent_signdate:'',
-      // success: true
-      owner_signdate:'',
+      token:'',
     };
   },
   created() {
-    this.iswatch=this.$route.query.signStatus;
+    console.log(this.signStatu)
+   this.iswatch=this.signStatu;
     this.signId=this.$route.query.signId;
     if(this.iswatch==4){
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getVisitToken?signId=${this.$route.query.signId}&signStatus=${this.$route.query.signStatus}`).then(res=>{
-        // console.log(res)
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getVisitToken?signId=${this.$route.query.signId}&signStatus=${this.signStatu}`).then(res=>{
         if(res.data.resultCode==10000){
           this.token=res.data.data.visitToken;
         }
       })
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`,
-      }).then(res=>{
-        let str = JSON.parse(res.data.data.signAgreement);
-        this.owner = str.owner;
-        this.content = str.article;
-        this.agent=str.agent;
-        this.agent_signdate =str.agent_signdate>0? this.$global.stamptodate(str.agent_signdate):'';
-        this.owner_signdate =str.owner_signdate>0? this.$global.stamptodate(str.owner_signdate):'';
-      })
     }else if(this.iswatch==2){
-      this.content = this.$store.state.contract.article;
-      this.owner = this.$store.state.contract.owner;
-      this.agent = this.$store.state.contract.agent;
-      this.owner_signdate=this.$global.stamptodate(this.$store.state.contract.owner_signdate);
-      this.agent_signdate=this.$global.stamptodate(this.$store.state.contract.agent_signdate);
+
     }
 
   },
 
   mounted() {
-    // window.addEventListener("message", this.handleMessage);
   },
   computed: {
 
   },
   methods: {
     // 上链
-    // 192.168.1.37:8080/bsl_web/projectSign/getVisitToken?signId=235&signStatus=4
-    // get_visittoken(){
-    // this.$global.get_encapsulation(`${this.$baseurl3}/bsl_web/projectSign/getVisitToken?signId=${this.query.$route.signId}&signStatus=${this.query.$route.signStatus}`).then(res=>{
-    //   console.log(res)
-    // })
-    //   // 192.168.1.37:8080/bsl_web/projectSign/getVisitToken?signId=235&signStatus=4
-    // },
     contract_submit() {
       this.projectId = this.$route.query.projectId;
       let urlpath = `${this.$baseurl}/#/upload_contract?visitToken=${this.token}`;
@@ -180,13 +114,13 @@ export default {
         data: this.$qs.stringify({
           signId: this.signId,
           projectId:this.$route.query.projectId,
-          signAgreement: JSON.stringify(this.$store.state.contract)
+          signAgreement: JSON.stringify(this.contract),
         })
       }).then(res => {
-        console.log(res);
         this.$toast.clear();
         if (res.data.resultCode == 10000) {
-          this.iswatch = 5;
+          // this.$emit('todad');
+          this.iswatch = 4;
           this.signId = res.data.data.signId;
           this.token = res.data.data.visitToken;
           this.$dialog
@@ -205,7 +139,6 @@ export default {
           this.$dialog
             .alert({
               title: res.data.resultDesc,
-              // message: "返回"
             })
             .then(() => {});
         }
@@ -257,6 +190,7 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+
 }
 .van-dialog {
   font-size: 0.3rem;

@@ -4,6 +4,7 @@
       <van-icon name="arrow-left" @click="$global.previous()" />已连接项目
     </nav>
     <main>
+      <div style="text-align: center;margin-top: 2rem;color: #969799">{{reminder}}</div>
       <van-collapse v-model="activeName" accordion>
         <van-collapse-item v-for="(l,i) in lists" :key="l.projectUserId"  :name="i">
           <div slot="title" class="title">
@@ -36,13 +37,8 @@
     data() {
       return {
         activeName:'',
-        lastclick:'',
+        reminder:'',
         lists:[],
-        // lists: [
-        //   { title:'我的同学我的同学我的我的同学我的同我的同学我的同我的同学我的同我的同学我的同同学我的同学', items:["张三", "李四", "王五"] },
-        //   { title:'我的同事', items:[{email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}] },
-        //   { title:'我的同事', items:[{email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}] },          { title:'我的同事', items:[{email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}] },          { title:'我的同事', items:[{email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}] },          { title:'我的同事', items:[{email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}] },          { title:'我的同事', items:[{email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}] },          { title:'我的同事', items:[{email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}] },          { title:'我的同事', items:[{email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}] },          { title:'我的同事', items:[{email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}, {email:'jsjsj@qq.com',name:'张三',address:'广州大道地方开圣诞节疯狂'}] },
-        // ]
       };
     },
     created() {
@@ -59,6 +55,11 @@
           res=>{
             this.$toast.clear();
             this.lists=[...res.data.data];
+            if(this.lists.length<=0){
+              this.reminder='没有更多了';
+              return
+            }
+            this.reminder='';
             this.lists.forEach((item=>{
               item.investorsResp =  item.investorsResp.map(x=>{
              return  {
@@ -69,13 +70,6 @@
               })
             }))
             console.log(this.lists)
-            // res.data.data.forEach(item =>{
-            //   item.investorsResp=   item.investorsResp.map(x=>{
-
-            //
-            //
-            //     })
-            // })
 
           }
         )
@@ -230,8 +224,9 @@
     }
     main {
       margin-top: 1.5rem;
+      border: 0;
       /*padding: 0 0.5rem;*/
-      background: #ffffff;
+      /*background: #ffffff;*/
     div.list{
         h2{
           min-height: 2rem;

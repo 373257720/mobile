@@ -1,11 +1,12 @@
 <template>
   <div id="a_sign_contract">
-    <cavans @aimgurl="commit"></cavans>
+    <cavans :contract="contract"  @aimgurl="commit"></cavans>
   </div>
 </template>
 <script>
 export default {
   name: "goods_details",
+  props:['contract'],
   data() {
     return {
       // imgurl: ""
@@ -17,11 +18,9 @@ export default {
   },
   methods: {
     commit(data) {
-      console.log(data);
-      // let str=this.$store.state.contract+'!!!!!'+data
       let timestamp = new Date().getTime();
-      this.$store.commit("agent_signdate", timestamp);
-      this.$store.commit('contract_agent',data);
+      this.contract.agent_sign=data;
+      this.contract.agent_signdate=timestamp;
       this.$routerto('a_submit_contract',this.$route.query)
     },
     gg() {

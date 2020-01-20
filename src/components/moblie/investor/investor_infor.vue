@@ -37,7 +37,7 @@ export default {
         },
         {
           keyword: "investorsName",
-          name: "投资者名称",
+          name: "投资者名称:",
           response: ""
         },
         {
@@ -134,18 +134,19 @@ export default {
         padding: 0.5rem 0.5rem 0 0.5rem;
         li {
           > div {
-            margin-bottom: 0.12rem;
-            display: flex;
+            margin-bottom: 0.5rem;
+            /*display: flex;*/
             align-items: baseline;
             font-size: 0.38rem;
+            line-height: 0.56rem;
           }
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
-            width: 3rem;
+            /*width: 3.2rem;*/
           }
           .row2 {
-            width: 7rem;
+            /*width: 7rem;*/
             word-break: break-all;
             line-height: 0.48rem;
             color: #787878;

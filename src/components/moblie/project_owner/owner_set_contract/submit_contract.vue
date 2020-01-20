@@ -31,93 +31,72 @@ export default {
   props:['contract'],
   data() {
     return {
-      // contract:{
-      //   name:"",
-      //   title:'',
-      //   owner: '',
-      //   article: '',
-      //   // agent: '',
-      //   owner_signdate: null,
-      //   // agent_signdate: null,
-      // }
     };
   },
 
   created() {
     console.log(this.contract)
-    // let timestamp = new Date().getTime();
-    // if(this.$store.state.contract){
-    //   for(let i in this.contract){
-    //     if(this.$store.state.contract.hasOwnProperty(i)){
-    //       if(i=='owner_signdate'){
-    //        this.contract[i]=timestamp;
-    //       }else{
-    //         this.contract[i]=this.$store.state.contract[i]
-    //       }
-    //     }
-    //   }
-    // }
-    // this.$store.commit("contract_sign", this.contract);
-    // this.contract.owner_signdate=this.$global.stamptodate(timestamp);
-    // this.content = this.$store.state.contract.article;
-    // this.signature = this.$store.state.contract.owner;
-
-    // this.str = JSON.stringify(this.$store.state.contract);
-    // console.log(this.content);
   },
   computed: {
   },
   mounted() {
-    // this.content = "";
+
   },
   methods: {
     contract_submit() {
-      // this.$loading();
-      console.log(this.contract)
-      // if (this.content &&   this.signature) {
-      //   this.$axios({
-      //     method: "post",
-      //     url: `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
-      //     data: this.$qs.stringify({
-      //       projectId: this.$route.query.projectId,
-      //       signId: this.$route.query.signId,
-      //       signStatus: 2,
-      //       signAgreement: JSON.stringify(this.$store.state.contract)
-      //     })
-      //   }).then(res => {
-      //     this.$toast.clear();
-      //     if (res.data.resultCode == 10000) {
-      //       this.$dialog
-      //         .alert({
-      //           title: "提交成功",
-      //           message: "返回我的项目"
-      //         })
-      //         .then(() => {
-      //           this.$routerto("mysign");
-      //         });
-      //     } else if(res.data.resultCode==10051) {
-      //       this.$dialog
-      //         .alert({
-      //           title: "提醒",
-      //           message: "您的注册审核不通过，请前往我的-个人审核里修改"
-      //         })
-      //         .then(() => {
-      //           // on close
-      //           // this.$routerto("mysign");
-      //         });
-      //     }
-      //   });
-      // } else {
-      //   this.$dialog
-      //     .confirm({
-      //       title: "请返回完成签名"
-      //       // message: "弹窗内容"
-      //     })
-      //     .then(() => {
-      //       // on confirm
-      //     });
-      // }
-      // console.log(JSON.stringify(this.$store.state.contract));
+      for(let i in this.contract){
+        if(!this.contract[i]){
+          this.$dialog
+            .confirm({
+              title: "请返回完成信息填写"
+              // message: "弹窗内容"
+            })
+            .then(() => {
+                this.$routerto('p_set_contract',this.$route.query)
+            });
+            return;
+        }
+      }
+        this.$loading();
+        this.$axios({
+          method: "post",
+          url: `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
+          data: this.$qs.stringify({
+            projectId: this.$route.query.projectId,
+            signId: this.$route.query.signId,
+            signStatus: 2,
+            signAgreement: JSON.stringify(this.contract)
+          })
+        }).then(res => {
+          this.$toast.clear();
+          if (res.data.resultCode == 10000) {
+            this.$dialog
+              .alert({
+                title: res.data.resultDesc,
+                message: "返回我的项目"
+              })
+              .then(() => {
+                this.$routerto("mysign");
+              });
+          } else if(res.data.resultCode==10051) {
+            this.$dialog
+              .alert({
+                title: "提醒",
+                message: "您的注册审核不通过，请前往我的-个人审核里修改"
+              })
+              .then(() => {
+              });
+          }else{
+            this.$dialog
+              .alert({
+                title: "提醒",
+                message: res.data.resultDesc,
+              })
+              .then(() => {
+
+              });
+          }
+        });
     }
   }
 };
@@ -170,54 +149,43 @@ export default {
     margin-bottom: 1.5rem;
     padding: 0.5rem;
     background: #ffffff;
-    .contract {
-      border: 1px solid #b5b5b5;
-      // background: #f2f2f2;
-      box-sizing: border-box;
-      font-size: 0.4rem;
-      line-height: 0.6rem;
-      padding: 0.4rem 0.4rem;
-      width: 100%;
-      height: 13rem;
-      overflow-y: auto;
-      word-wrap: break-word;
-      /*color: rgb(169, 169, 169);*/
-      div.button {
-        margin-top: 1rem;
-        display: flex;
-        justify-content: space-between;
-        ul{
-          width: 3rem;
-          li{
-            p{
-              height: 1rem;
-                  img {
-                    width: 3rem;
-                    height: 1rem;
-                  }
-            }
-            p:nth-child(1){
-              line-height:1rem;
-              border-bottom: 1px solid;
-            }
-          }
-        }
-        /*p {*/
-        /*  display: flex;*/
-        /*  flex-direction: column;*/
-        /*  align-items: center;*/
-        /*  i {*/
-        /*    width: 3rem;*/
-        /*    height: 1rem;*/
-        /*    border-bottom: 1px solid;*/
-        /*    img {*/
-        /*      width: 3rem;*/
-        /*      height: 1rem;*/
-        /*    }*/
-        /*  }*/
-        /*}*/
-      }
-    }
+    /*.contract {*/
+    /*  border: 1px solid #b5b5b5;*/
+    /*  // background: #f2f2f2;*/
+    /*  box-sizing: border-box;*/
+    /*  font-size: 0.38rem;*/
+    /*  line-height: 0.6rem;*/
+    /*  padding: 0.4rem 0.4rem;*/
+    /*  width: 100%;*/
+    /*  height: 13rem;*/
+    /*  overflow-y: auto;*/
+    /*  word-wrap: break-word;*/
+    /*  div.button {*/
+    /*    margin-top: 1rem;*/
+    /*    display: flex;*/
+    /*    justify-content: space-between;*/
+    /*    ul{*/
+    /*      width: 3rem;*/
+    /*      li{*/
+    /*        height: 2rem;*/
+    /*        p{*/
+    /*          height: 1rem;*/
+    /*              img {*/
+    /*                width: 3rem;*/
+    /*                height: 1rem;*/
+    /*              }*/
+    /*        }*/
+    /*        p:nth-child(1){*/
+    /*          line-height:1rem;*/
+    /*          border-bottom: 1px solid;*/
+    /*        }*/
+    /*      }*/
+    /*      !*li:nth-of-type(1){*!*/
+    /*      !*  height: 2rem;*!*/
+    /*      !*}*!*/
+    /*    }*/
+    /*  }*/
+    /*}*/
     footer {
       width: 100%;
       font-size: 0.38rem;

@@ -5,7 +5,7 @@
       <van-cell-group class="vanForm">
           <div class="usertype">
             <p>类型</p>
-            <van-dropdown-menu  :class="{ 'isactive': true, 'sort':false }">
+            <van-dropdown-menu >
               <van-dropdown-item  @change="function(params){return signer_submit(params,'userType')}" v-model="form.userType" :options="option1" />
             </van-dropdown-menu>
             <footer>{{form_err.userType}}</footer>
@@ -13,26 +13,26 @@
           <div class="identity">
             <p>身份</p>
             <van-dropdown-menu>
-              <van-dropdown-item @blur="" v-model="form.userIdentityType" :options="option2" />
+              <van-dropdown-item v-model="form.userIdentityType" :options="option2" />
             </van-dropdown-menu>
             <footer>{{form_err.userIdentityType}}</footer>
           </div>
           <div class="nationality">
             <p>国籍</p>
             <van-dropdown-menu>
-              <van-dropdown-item v-model="form.userCountry" @change="nation" :options="countrylist" />
+              <van-dropdown-item @close="choose_nation" v-model="form.userCountry" @change="nation" :options="countrylist" />
             </van-dropdown-menu>
             <footer>{{form_err.userCountry}}</footer>
           </div>
           <div class="identy_check" v-show="form.userIdentityType==2?false:true">
             <div class="idcard_num">
               <p>个人姓名</p>
-              <van-field   v-model="form.userName" placeholder="请输入" clearable />
+              <van-field  @blur="(e)=>{vertify(e,'userName')}" v-model="form.userName" clearable placeholder="请输入"/>
               <footer>{{form_err.userName}}</footer>
             </div>
             <div class="idcard_num">
-              <p>{{form.userCountry==2?'身份证号码':'passport'}}</p>
-              <van-field v-model="form.userIdentity" placeholder="请输入" clearable />
+              <p>{{form.userCountry==2?'身份证号码':'Passport'}}</p>
+              <van-field  @blur="(e)=>{vertify(e,'userIdentity')}" v-model="form.userIdentity" placeholder="请输入" clearable />
               <footer>{{form_err.userIdentity}}</footer>
             </div>
             <div class="id_front">
@@ -43,7 +43,7 @@
                 multiple
                 :max-count="1"
               />
-<!--              <footer>{{form_err.userIdentity}}</footer>-->
+              <footer>{{form_err.identityPicOne}}</footer>
             </div>
             <div class="id_back" v-show="switchon">
               <p>身份证背面</p>
@@ -53,34 +53,41 @@
                 multiple
                 :max-count="1"
               />
+              <footer>{{form_err.identityPicTwo}}</footer>
             </div>
           </div>
           <div  class="gongsi" v-show="form.userIdentityType==2?true:false">
             <div class="companyname2" >
               <p>公司名字</p>
-              <van-field v-model="form.userCompanyCh" placeholder="请输入公司名称" clearable />
+              <van-field  @blur="(e)=>{vertify(e,'userCompanyCh')}" v-model="form.userCompanyCh" placeholder="请输入公司名称" clearable />
+              <footer>{{form_err.userCompanyCh}}</footer>
             </div>
             <div class="companyname" >
-              <p>company name</p>
+              <p>Company Name</p>
               <van-field
                 required
+                @blur="(e)=>{vertify(e,'userCompanyEn')}"
                 v-model="form.userCompanyEn"
                 placeholder="Please enter the company name"
                 clearable
               />
+              <footer>{{form_err.userCompanyEn}}</footer>
             </div>
             <div class="company_address" >
               <p>公司地址</p>
-              <van-field  v-model="form.userAddressCh" placeholder="请输入公司地址" clearable />
+              <van-field   @blur="(e)=>{vertify(e,'userAddressCh')}" v-model="form.userAddressCh" placeholder="请输入公司地址" clearable />
+              <footer>{{form_err.userAddressCh}}</footer>
             </div>
             <div class="company_address_eng">
-              <p>company address</p>
+              <p>Company Address</p>
               <van-field
                 v-model="form.userAddressEn"
                 required
+                @blur="(e)=>{vertify(e,'userAddressEn')}"
                 placeholder="Please enter the company address"
                 clearable
               />
+              <footer>{{form_err.userAddressEn}}</footer>
             </div>
             <div class="companycheck">
               <p>公司证书</p>
@@ -149,7 +156,7 @@ export default {
       },
       form: {
         userCountry: "",
-        userIdentityType: '',
+        userIdentityType: 1,
         userCountryEn: "",
         userCountryCh: "",
         userIdentity: "",
@@ -162,7 +169,7 @@ export default {
         userAddressCh: "",
         userAddressEn: "",
         userCompanyPic: "",
-        userType: '',
+        userType: 1,
         // identity: ""
       },
       rules: {
@@ -192,8 +199,11 @@ export default {
 
     };
   },
+  watch:{
+
+  },
   created() {
-    this.validator = validator(this.rules, this.form);
+    // this.validator = validator(this.rules, this.form);
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/base/countryList.do`
@@ -204,7 +214,6 @@ export default {
           this.countrylist[i].value = i;
           this.countrylist[i].text = this.countrylist[i].countryTcname;
         }
-        // console.log(this.countrylist);
       })
       .catch(err => {
         console.log(err);
@@ -220,6 +229,57 @@ export default {
     // }
   },
   methods: {
+    vertify(e,b){
+      var reg = /^[0-9a-zA-Z]+$/;
+      if(b=='userName'){
+        if(!this.form.userName){
+          this.form_err.userName='请输入个人姓名';
+        }else{
+          this.form_err.userName='';
+
+        }
+      }else if(b=='userIdentity'){
+        if(!this.form.userIdentity){
+          this.form_err.userIdentity='请输入证件号码';
+        }else{
+          this.form_err.userIdentity='';
+          if(!reg.test(this.form.userIdentity)){
+            this.form_err.userIdentity="你输入证件号码格式不正确";
+          }
+        }
+      }else if(b=='userCompanyCh'){
+        if(!this.form.userCompanyCh){
+          this.form_err.userCompanyCh='请输入公司中文名称';
+        }else{
+          this.form_err.userCompanyCh=''
+        }
+      }else if(b=='userCompanyEn'){
+        if(!this.form.userCompanyEn){
+          this.form_err.userCompanyEn='Please input the company name';
+        }else{
+          this.form_err.userCompanyEn=''
+        }
+      }else if(b=='userAddressCh'){
+        if(!this.form.userAddressCh){
+          this.form_err.userAddressCh='请输入公司中文地址';
+        }else{
+          this.form_err.userAddressCh=''
+        }
+      }else if(b=='userAddressEn'){
+        if(!this.form.userAddressEn){
+          this.form_err.userAddressEn='Please input the company address';
+        }else{
+          this.form_err.userAddressEn=''
+        }
+      }
+    },
+    choose_nation(){
+      if(!this.form.userCountry && this.form.userCountry!==0){
+        this.form_err.userCountry="请选择"
+      }else{
+        this.form_err.userCountry=''
+      }
+    },
     signer_submit(value,type){
       console.log(value,type)
       this.validator.validate((error,fields)=>{
@@ -246,9 +306,53 @@ export default {
       }, data);
     },
     submit() {
-      this.validate((errors, fields) => {
-        console.log(errors, fields)
-      })
+
+      if(this.form.userIdentityType==1){
+        if(!this.form.userCountry && this.form.userCountry!==0){
+          this.$toast('请选择国籍')
+          return
+        }
+        else if(this.form.userName==''){
+          this.$toast('请输入个人姓名')
+          return
+        }else if(this.form.userIdentity==''){
+          this.$toast('请输入证件号码')
+          return
+        }else if(this.form.identityPicOne==''){
+          this.$toast('请上传证件正面')
+          return
+        }else if(this.form.userCountry==2 && this.form.identityPicTwo==''){
+          this.$toast('请上传证件背面')
+        }
+      }else if(this.form.userIdentityType==2){
+        if(!this.form.userCountry && this.form.userCountry!==0){
+          this.$toast('请选择国籍')
+          return
+        }
+        else if(this.form.userCompanyCh==''){
+          this.$toast('请输入公司中文名称')
+          return
+        }else if(this.form.userCompanyEn==''){
+          this.$toast('Please input the company name')
+          return
+        } else if(this.form.userAddressCh==''){
+          this.$toast('请输入公司中文地址')
+          return
+        }else if(this.form.userAddressEn==''){
+          this.$toast('Please input the company address')
+          return
+        }
+        else if(this.form.userCompanyPic==''){
+          this.$toast('请上传公司证书')
+          return
+        }
+      }
+      this.commit();
+
+      // this.validate((errors, fields) => {
+      //   console.log(errors, fields)
+      // })
+
     },
     nation(value) {
       console.log(value);
@@ -279,8 +383,7 @@ export default {
         }
       }).then(res => {
         var imgurl = res.data.data.url;
-        console.log(imgurl);
-
+        // console.log(imgurl);
         if (index == 1) {
           this.form.identityPicOne = imgurl;
         } else if (index == 2) {
@@ -294,41 +397,39 @@ export default {
       return true;
     },
     commit() {
-      console.log(this.form);
-
-      // this.$loading();
-      // this.$axios({
-      //   method: "post",
-      //   url: `${this.$baseurl}/bsl_web/user/submitAuth`,
-      //   data: this.$qs.stringify(this.form),
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded"
-      //   }
-      // })
-      //   .then(res => {
-      //     this.$toast.clear();
-      //     if (res.data.resultCode == 10000) {
-      //       this.$dialog
-      //         .alert({
-      //           title: res.data.resultDesc,
-      //           message: "确定返回登录页"
-      //         })
-      //         .then(() => {
-      //           this.$goto("login");
-      //         });
-      //       // this.success = !this.success;
-      //       // this.$toast.clear();
-      //     } else {
-      //       this.$dialog
-      //         .alert({
-      //           title: res.data.resultDesc
-      //         })
-      //         .then(() => {});
-      //     }
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
+      this.$loading();
+      this.$axios({
+        method: "post",
+        url: `${this.$baseurl}/bsl_web/user/submitAuth`,
+        data: this.$qs.stringify(this.form),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      })
+        .then(res => {
+          this.$toast.clear();
+          if (res.data.resultCode == 10000) {
+            this.$dialog
+              .alert({
+                title: res.data.resultDesc,
+                message: "确定返回登录页"
+              })
+              .then(() => {
+                this.$goto("login");
+              });
+            // this.success = !this.success;
+            // this.$toast.clear();
+          } else {
+            this.$dialog
+              .alert({
+                title: res.data.resultDesc
+              })
+              .then(() => {});
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
@@ -420,18 +521,20 @@ export default {
   }
   .van-uploader {
     width: 100%;
+    box-sizing: border-box;
     height: 5rem;
     margin-bottom: 0;
   }
   .van-uploader__upload {
     width: 100%;
+  box-sizing: border-box;
     background: #f6f6f6;
     border: 0;
     height: 5rem;
     margin: 0;
     border: 1px solid #ababab;
     border-radius: 0.05rem;
-    box-sizing: border-box;
+
     .van-uploader__upload-icon {
       font-size: 0.5rem;
     }
@@ -511,12 +614,19 @@ export default {
     }
     div.gongsi {
       > div {
-        margin-bottom: 0.6rem;
+        /*margin-bottom: 0.6rem;*/
         > p {
           margin-bottom: 0.1rem;
           font-size: 0.38rem;
         }
       }
+    }
+    .id_front,id_back{
+      footer{
+        height: 0.8rem;
+        color: #ee0a24;
+      }
+      /*margin-bottom: 0.8rem;*/
     }
     header {
       text-align: center;

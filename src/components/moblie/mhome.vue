@@ -221,16 +221,16 @@ export default {
           });
         }
       } else if (this.$store.state.currentUsertype == 3) {
-        // this.$routerto("a_project_intro", { projectId: projectId });
-      } else if (this.$store.state.currentUsertype == 4) {
-        console.log(item)
+        this.$routerto("a_project_intro", { projectId: projectId });
+      } else if (this.$store.state.currentUsertype == 4)
+      {
         if(item.isSign==1){
           this.$routerto("a_project_intro", {
             projectId: item.projectId,
             signStatus: item.signUserResp[0].signStatus,
             signId: item.signUserResp[0].signId
           });
-        }else if(item.isSign==-1){
+        }else if(item.isSign==0){
           this.$routerto("a_project_intro", {
             projectId: item.projectId,
             signStatus: 0,

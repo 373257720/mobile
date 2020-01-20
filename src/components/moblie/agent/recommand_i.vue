@@ -174,18 +174,14 @@ export default {
   .van-dropdown-menu__title {
     font-size: 0.38rem;
     width: 100%;
-
     padding: 0 0.5rem;
     box-sizing: border-box;
-    // text-align: left;
   }
   .van-field__control{
     height: 100%;
   }
   .van-dropdown-menu__item {
-    // display:inline;
     justify-content: left;
-    /*height: 100%;*/
     width: 100%;
     flex: none;
   }

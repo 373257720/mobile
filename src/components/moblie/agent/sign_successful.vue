@@ -27,99 +27,6 @@ export default {
   name: "goods_details",
   data() {
     return {
-<<<<<<< HEAD
-      title:'',
-      details:{},
-      dad_text:'待投资者确认项目',
-    nav_lists: [
-        // {
-        //   keyword: "financingStage",
-        //   name: "融资阶段",
-        //   response: ""
-        // },
-        // {
-        //   keyword: "interestProjectCount",
-        //   name: "项目方<br>有兴趣数量",
-        //   response: ""
-        // },
-        // {
-        //   keyword: "committedCount",
-        //   name: "已提交</br>投资者数量",
-        //   response: ""
-        // }
-      ],
-    investor_infor: [
-        // {
-        //   keyword:'investorsType',
-        //   name: "投资者类型:",
-        //   response: ""
-        // },
-        // {
-        //   keyword:'investorsCompany',
-        //   name: "投资者公司:",
-        //   response: ""
-        // },
-        // {
-        //   keyword:'investorsName',
-        //   name: "投资者姓名:",
-        //   response: ""
-        // },
-        // {
-        //   keyword:'investorsArea',
-        //   name: "投资者地区:",
-        //   response: ""
-        // },
-        //     {
-        //   keyword:'projectMobile',
-        //   name: "投资者电话:",
-        //   response: ""
-        // },
-        // {
-        //   keyword:'projectEmail',
-        //   name: "投资者邮箱:",
-        //   response: ""
-        // },
-        // {
-        //   keyword:'investorsName',
-        //   name: "投资者姓名:",
-        //   response: ""
-        // },
-        // {
-        //   keyword:'investorsArea',
-        //   name: "投资者地区:",
-        //   response: ""
-        // }
-        
-      ],
-       details_lists: [
-      // {
-      //     keyword: "projectIndustry",
-      //     name: "行业:",
-      //     response: ""
-      //   },
-      //   {
-      //     keyword: "projectArea",
-      //     name: "地区:",
-      //     response: ""
-      //   },
-      //   // {
-      //   //   keyword: "signStatus",
-      //   //   name: "项目状态:",
-      //   //   response: ""
-      //   // },
-      //      {
-      //     keyword: "signStatu",
-      //     name: "项目状态:",
-      //     response: "暂无"
-      //   },
-      //   { keyword: "projectCompany", name: "公司名称:", response: "" },
-      //   { keyword: "publicCompany", name: "是否上市公司:", response: "" },
-      //   { keyword: "collectMoney", name: "集资额:", response: "" },
-      //   { keyword: "projectMobile", name: "联系电话:", response: "" },
-      //   { keyword: "projectEmail", name: "电邮:", response: "" },
-      //   { keyword: "projectDescribe", name: "项目详情:", response: "" }
-      ]
-=======
       title: "",
       dad_text: "成功签约项目",
       investor_infor: {
@@ -153,14 +60,15 @@ export default {
           name: "融资阶段",
           response: ""
         },
+        committedCount: {
+          name: "已提交</br>投资者数量",
+          response: ""
+        },
         interestProjectCount: {
           name: "项目方<br>有兴趣数量",
           response: ""
         },
-        committedCount: {
-          name: "已提交</br>投资者数量",
-          response: ""
-        }
+
       },
       details_lists: {
         projectIndustry: {
@@ -171,16 +79,16 @@ export default {
           name: "地区:",
           response: ""
         },
-        signStatu: {
-          name: "项目状态:",
-          response: "暂无"
-        },
+        // signStatu: {
+        //   name: "项目状态:",
+        //   response: "暂无"
+        // },
         projectCompany: {
           name: "公司名称:",
           response: ""
         },
-        publicCompany: {
-          name: "是否上市公司:",
+        currencyType: {
+          name: "币种:",
           response: ""
         },
         collectMoney: {
@@ -200,7 +108,6 @@ export default {
           response: ""
         }
       }
->>>>>>> bed9e3e090e53b3e4c9acd60a379292d204dd6e2
     };
   },
   created() {

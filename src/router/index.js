@@ -29,8 +29,9 @@ import p_user_contact from '@/components/moblie/project_owner/user_contact'
 import p_user_contact2 from '@/components/moblie/project_owner/user_contact2'
 import p_sign_successful from '@/components/moblie/project_owner/sign_successful'
 import p_inverstor_details from'@/components/moblie/project_owner/inverstor_details'
-import p_check_done_contract from'@/components/moblie/project_owner/check_done_contract'
+// import p_check_done_contract from'@/components/moblie/project_owner/check_done_contract'
 import connected_projects from "../components/moblie/project_owner/connected_projects";
+
 
 import p_submit_contract from '@/components/moblie/project_owner/owner_set_contract/submit_contract'
 import p_set_contract from '@/components/moblie/project_owner/owner_set_contract/set_contract'
@@ -44,13 +45,14 @@ import a_wait_review from '@/components/moblie/agent/wait_review'
 import a_recommand_i from '@/components/moblie/agent/recommand_i'
 import a_wait_investor_comfirm from '@/components/moblie/agent/wait_investor_comfirm'
 import a_wait_signed from '@/components/moblie/agent/wait_signed'
-// import a_input_investor_infor from '@/components/moblie/agent/input_investor_infor'
 import a_sign_failed from '@/components/moblie/agent/sign_failed'
 import a_sign_successful from '@/components/moblie/agent/sign_successful'
-import a_sign_contract from '@/components/moblie/agent/sign_contract'
-import a_submit_contract from '@/components/moblie/agent/submit_contract'
-import a_check_contract from '@/components/moblie/agent/check_contract'
 import a_wait_sendemail from '@/components/moblie/agent/wait_sendemail'
+// agent_set_contract
+import a_sign_contract from '@/components/moblie/agent/contract/sign_contract'
+import a_submit_contract from '@/components/moblie/agent/contract/submit_contract'
+import a_check_contract from '@/components/moblie/agent/contract/check_contract'
+import agent_set_contract from "../components/moblie/agent/contract/agent_set_contract";
 
 
 // investor/
@@ -120,15 +122,12 @@ const routes = [
     name: 'connected_projects',
     component: connected_projects,
   },
+
   {
     path: '/owner_set_contract',
     name: 'owner_set_contract',
     component: owner_set_contract,
     redirect: '/owner_set_contract/p_set_contract',
-    meta: {
-      // pageTitle: '主页',
-      keepAlive: true  // 需要被缓存的页面
-    },
     children:[
       {
         path: 'p_set_contract',
@@ -157,22 +156,36 @@ const routes = [
     name: 'p_inverstor_details',
     component:p_inverstor_details,
   },
-  {
-    path: '/p_check_done_contract',
-    name: 'p_check_done_contract',
-    component:p_check_done_contract,
-  },
+
   // agent
   {
     path: '/a_sign_successful',
     name: 'a_sign_successful',
     component: a_sign_successful,
   },
-  // {
-  //   path: '/a_input_investor_infor',
-  //   name: 'a_input_investor_infor',
-  //   component: a_input_investor_infor,
-  // },
+  {
+    path: '/agent_set_contract',
+    name: 'agent_set_contract',
+    component: agent_set_contract,
+    redirect: '/agent_set_contract/a_check_contract',
+    children:[
+      {
+        path: 'a_check_contract',
+        name: 'a_check_contract',
+        component: a_check_contract,
+      },
+      {
+        path: 'a_sign_contract',
+        name: 'a_sign_contract',
+        component: a_sign_contract,
+      },
+      {
+        path: 'a_submit_contract',
+        name: 'a_submit_contract',
+        component: a_submit_contract,
+      },
+    ],
+  },
   {
     path: '/a_project_intro',
     name: 'a_project_intro',
@@ -202,21 +215,9 @@ const routes = [
     component:a_recommand_i,
   },
 
-  {
-    path: '/a_sign_contract',
-    name: 'a_sign_contract',
-    component: a_sign_contract,
-  },
-  {
-    path: '/a_submit_contract',
-    name: 'a_submit_contract',
-    component: a_submit_contract,
-  },
-  {
-    path: '/a_check_contract',
-    name: 'a_check_contract',
-    component: a_check_contract,
-  },
+
+
+
   {
     path: '/a_wait_sendemail',
     name: 'a_wait_sendemail',

@@ -1,60 +1,62 @@
 <template>
   <div id="contract_component">
-        <div class="contract_component">
-          <van-field
-            class="middle"
-            v-model="contract.article"
-            autosize
-            disabled
-            type="textarea"
-          />
-          <div class="button">
-            <ul>
-              <li>
-                <nav>For and on behalf of:</nav>
-                <h3>{{contract.owner_behalf}}</h3>
-              </li>
-              <li>
-                <p><img v-if="contract.owner_sign" :src="contract.owner_sign"alt=""></p>
-                <p>Signature</p>
-              </li>
-              <li>
-                <p>{{contract.owner_name}}</p>
-                <p>Name</p>
-              </li>
-              <li>
-                <p>{{contract.owner_title}}</p>
-                <p>Title</p>
-              </li>
-              <li>
-                <p>{{owner_signdate}}</p>
-                <p>Date</p>
-              </li>
-            </ul>
-            <ul>
-              <li>
-                <nav>For and on behalf of:</nav>
-                <h3>{{contract.agent_behalf}}</h3>
-              </li>
-              <li>
-                <p><img v-if="contract.agent_sign"  :src="contract.agent_sign"alt=""></p>
-                <p>Signature</p>
-              </li>
-              <li>
-                <p>{{contract.agent_name}}</p>
-                <p>Name</p>
-              </li>
-              <li>
-                <p>{{contract.agent_title}}</p>
-                <p>Title</p>
-              </li>
-              <li>
-                <p>{{contract.agent_signdate}}</p>
-                <p>Date</p>
-              </li>
-            </ul>
-          </div>
-        </div>
+    <div class="contract_component">
+      <van-field
+        class="middle"
+        v-model="contract.article"
+        autosize
+        disabled
+        type="textarea"
+      />
+      <div class="button">
+        <ul>
+          <li>
+            <nav>For and on behalf of:</nav>
+            <h3>{{contract.owner_behalf}}</h3>
+          </li>
+          <li>
+            <p><span>
+              <img v-if="contract.owner_sign" :src="contract.owner_sign"alt="">
+            </span></p>
+            <p>Signature</p>
+          </li>
+          <li>
+            <p><span>{{contract.owner_name}}</span></p>
+            <p>Name</p>
+          </li>
+          <li>
+            <p><span>{{contract.owner_title}}</span></p>
+            <p>Title</p>
+          </li>
+          <li>
+            <p><span>{{owner_signdate}}</span></p>
+            <p>Date</p>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <nav>For and on behalf of:</nav>
+            <h3>{{contract.agent_behalf}}</h3>
+          </li>
+          <li>
+            <p><span><img v-if="contract.agent_sign"  :src="contract.agent_sign"alt=""></span></p>
+            <p>Signature</p>
+          </li>
+          <li>
+            <p><span>{{contract.agent_name}}</span></p>
+            <p>Name</p>
+          </li>
+          <li>
+            <p><span>{{contract.agent_title}}</span></p>
+            <p>Title</p>
+          </li>
+          <li>
+            <p><span>{{agent_signdate}}</span></p>
+            <p>Date</p>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -68,7 +70,8 @@
         //   owner_sign:'',
         //   owner_name:'',
         //   owner_title:'',
-          owner_signdate:null,
+        owner_signdate:'',
+        agent_signdate:'',
         //   agent_name:'',
         //   agent_title:'',
         //   agent_signdate:null,
@@ -76,26 +79,8 @@
       };
     },
     created() {
-
-      // console.log(this.$store.state.contract)
-      // if(this.$store.state.contract){
-      //   for(let i in this.contract){
-      //     if(this.$store.state.contract.hasOwnProperty(i)){
-      //       if(i=='owner_signdate' || i==' agent_signdate'){
-           this.owner_signdate= this.$global.stamptodate(this.contract.owner_signdate)
-      //       }else{
-      //         this.contract[i]=this.$store.state.contract[i]
-      //       }
-      //     }
-      //
-      //   }
-      // }
-
-      // this.content = this.$store.state.contract.article;
-      // this.signature = this.$store.state.contract.owner;
-
-      // this.str = JSON.stringify(this.$store.state.contract);
-      // console.log(this.content);
+      this.owner_signdate= this.contract.owner_signdate?this.$global.stamptodate(this.contract.owner_signdate):'';
+      this.agent_signdate=this.contract.owner_signdate?this.$global.stamptodate(this.contract.agent_signdate):'';
     },
     computed: {
     },
@@ -155,60 +140,64 @@
 </script>
 <style lang="scss">
   #contract_component{
-      .contract_component {
-        border: 1px solid #b5b5b5;
-        box-sizing: border-box;
-        font-size: 0.4rem;
-        line-height: 0.6rem;
-        padding: 0.4rem 0.4rem;
-        width: 100%;
-        height: 13rem;
-        overflow-y: auto;
-        word-wrap: break-word;
-        div.button {
-          margin-top: 1rem;
-          display: flex;
-          justify-content: space-between;
-          ul{
-            width: 3rem;
-            li{
-              p{
+    .contract_component {
+      border: 1px solid #b5b5b5;
+      box-sizing: border-box;
+      font-size: 0.4rem;
+      line-height: 0.6rem;
+      padding: 0.4rem 0.4rem;
+      width: 100%;
+      height: 13rem;
+      overflow-y: auto;
+      word-wrap: break-word;
+      div.button {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+        ul{
+          width: 3rem;
+          li{
+            p{
+              height: 1rem;
+              img {
+                width: 3rem;
                 height: 1rem;
-                img {
-                  width: 3rem;
-                  height: 1rem;
-                }
-              }
-              p:nth-child(1){
-                line-height:1rem;
-                border-bottom: 1px solid;
               }
             }
-            li:nth-of-type(1){
-              margin-bottom: 1rem;
-              nav{
-                line-height: initial;
-                h3{
-                  width: 3rem;
-                  height: 1rem;
-                }
+            p:nth-child(1){
+              position: relative;
+              span{
+                position: absolute;
+                word-break: break-all;
+                bottom: 0;
               }
+              /*line-height:1rem;*/
+              line-height: initial;
+              border-bottom: 1px solid;
+            }
+          }
+          li:nth-of-type(1){
+            margin-bottom: 1rem;
+
+              h3{
+                width: 3rem;
+                height: 1rem;
+                line-height: initial;
             }
           }
         }
       }
-      footer {
+    }
+    footer {
+      width: 100%;
+      font-size: 0.38rem;
+      button {
         width: 100%;
-        font-size: 0.38rem;
-        button {
-          width: 100%;
-          margin-top: 1rem;
-          background: #00adef;
-          color: white;
-          height: 1rem;
-        }
+        margin-top: 1rem;
+        background: #00adef;
+        color: white;
+        height: 1rem;
       }
-
+    }
   }
-
 </style>

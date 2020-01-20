@@ -5,30 +5,7 @@
     </nav>
     <main>
       <article>
-        <div class="contract">
-          <div class="top"></div>
-          <div class="middle" v-html="content"></div>
-          <div class="button">
-            <p>
-              <i>
-                <img  v-if="owner" :src="owner" alt />
-              </i>
-
-              <span>投行</span>
-              <span>{{owner_signdate}}</span>
-            </p>
-            <p>
-              <i>
-                <img  v-if="agent" :src="agent" alt />
-              </i>
-              <span>中间人</span>
-              <span>{{agent_signdate}}</span>
-            </p>
-          </div>
-        </div>
-        <!-- <footer>
-          <button @click="$routerto('a_sign_contract',$route.query)">签署</button>
-        </footer>-->
+        <contract_component :contract="contract"></contract_component>
       </article>
     </main>
 
@@ -40,38 +17,47 @@ export default {
   name: "goods_details",
   data() {
     return {
-      owner: "",
-      content: "",
-      agent:'',
-      isshow: null,
-      owner_signdate: "",
-      agent_signdate: "",
-      details_lists: ["申请时间:", "申请中间人:", "申请项目:"]
+      contract: {
+        article:'',
+        owner_sign:'',
+        owner_behalf:'',
+        owner_name:'',
+        owner_title:'',
+        owner_signdate:null,
+        agent_behalf:'',
+        agent_sign:'',
+        agent_name:'',
+        agent_title:'',
+        agent_signdate:null,
+      },
     };
   },
   created() {
-    this.$loading();
-    this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
-    }).then(res => {
-      let str = JSON.parse(res.data.data.signAgreement);
-      this.owner = str.owner;
-      this.content = str.article;
-      this.agent=str.agent;
-      this.agent_signdate =str.agent_signdate>0? this.$global.stamptodate(str.agent_signdate):'';
-      this.owner_signdate = str.owner_signdate>0?this.$global.stamptodate(str.owner_signdate):'';
-      this.$toast.clear();
-    });
+    this.get_contract();
   },
 
   mounted() {
     // this.content = "";
   },
   methods: {
-    signname() {
-      console.log(this.content);
-    }
+
+  get_contract(){
+    this.$loading();
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
+    }).then(res => {
+      this.$toast.clear();
+      if(res.data.resultCode==10000){
+        let str = JSON.parse(res.data.data.signAgreement);
+          for(let i in this.contract){
+            if(str.hasOwnProperty(i)){
+              this.contract[i]=str[i];
+            }
+          }
+      }
+    });
+  }
   }
 };
 </script>
@@ -89,9 +75,9 @@ export default {
   .van-hairline--top-bottom::after {
     border: 0.02rem solid #8e8e8e;
   }
-  .van-field {
-    background: #f2f2f2;
-  }
+  /*.van-field {*/
+  /*  background: #f2f2f2;*/
+  /*}*/
 }
 </style>
 <style lang="scss" scoped>
