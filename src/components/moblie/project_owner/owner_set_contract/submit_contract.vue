@@ -45,7 +45,7 @@ export default {
   methods: {
     contract_submit() {
       for(let i in this.contract){
-        if(!this.contract[i]==''){
+        if(this.contract[i]==''){
           this.$dialog
             .confirm({
               title: "请返回完成信息填写"

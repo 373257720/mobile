@@ -167,7 +167,7 @@ export default {
             url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.investorsEmailSend}`
           }).then(res => {
             console.log(res.data);
-            if ((res.data.resultCode = 10000)) {
+            if ((res.data.resultCode == 10000)) {
               this.$dialog
                 .alert({
                   title: "拒绝成功"

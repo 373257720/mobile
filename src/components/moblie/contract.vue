@@ -79,8 +79,8 @@
       };
     },
     created() {
-      this.owner_signdate= this.$global.stamptodate(this.contract.owner_signdate);
-      this.agent_signdate=this.$global.stamptodate(this.contract.agent_signdate);
+      this.owner_signdate=this.contract.owner_signdate? this.$global.stamptodate(this.contract.owner_signdate):"";
+      this.agent_signdate=this.contract.agent_signdate?this.$global.stamptodate(this.contract.agent_signdate):'';
     },
 
     computed: {
@@ -156,12 +156,12 @@
         display: flex;
         justify-content: space-between;
         ul{
-          width: 3rem;
+          width: 4rem;
           li{
             p{
               height: 1rem;
               img {
-                width: 3rem;
+                width: 4rem;
                 height: 1rem;
               }
             }
@@ -181,8 +181,7 @@
             margin-bottom: 1rem;
 
               h3{
-                width: 3rem;
-                height: 1rem;
+                height: 3rem;
                 line-height: initial;
             }
           }

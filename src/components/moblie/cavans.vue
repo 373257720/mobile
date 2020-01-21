@@ -140,16 +140,21 @@ export default {
         this.draw.commit();
         if (this.$route.name == "a_sign_contract") {
           this.$emit("aimgurl", this.imgurl);
-        } else if (this.$route.name == "p_sign_contract")
+        } else if (this.$route.name == "p_sign_contract"){
           this.$emit("imgurl", this.imgurl);
+        }
+
       }
 
 
     },
 
     clear() {
-      this.contract.owner_sign='';
-      this.contract.agent_sign='';
+      if (this.$route.name == "a_sign_contract") {
+        this.contract.agent_sign='';
+      } else if (this.$route.name == "p_sign_contract"){
+        this.contract.owner_sign='';
+      }
       this.draw.clear();
     }
     // download() {

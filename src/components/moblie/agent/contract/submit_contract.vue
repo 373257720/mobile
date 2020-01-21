@@ -106,6 +106,7 @@ export default {
     },
     // 签约
     signproject4() {
+
       this.signId = this.$route.query.signId;
       this.$loading();
       this.$axios({
@@ -119,7 +120,6 @@ export default {
       }).then(res => {
         this.$toast.clear();
         if (res.data.resultCode == 10000) {
-          // this.$emit('todad');
           this.iswatch = 4;
           this.signId = res.data.data.signId;
           this.token = res.data.data.visitToken;
@@ -129,18 +129,15 @@ export default {
               message: "下一步确认及上载到区块链"
             })
             .then(() => {
-              // this.$routerto("a_wait_sendemail", {
-              //   signId: this.signId,
-              //   projectId: this.projectId,
-              //   signStatus: 4
-              // });
             });
         } else {
           this.$dialog
             .alert({
               title: res.data.resultDesc,
             })
-            .then(() => {});
+            .then(() => {
+              this.$routerto('mysign');
+            });
         }
       });
     }

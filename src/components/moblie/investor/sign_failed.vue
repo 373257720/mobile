@@ -98,7 +98,11 @@ export default {
         projectDescribe: {
           name: "项目简介:",
           response: ""
-        },signStatus: {
+        },  projectDetail:{
+          name: "项目详情:",
+          response: ""
+        },
+        signStatus: {
           name: "签约状态:",
           response: ""
         }
@@ -135,7 +139,6 @@ export default {
     agree() {
       let isyes = this.$store.state.currentUser;
       console.log(isyes);
-
       if (isyes) {
         this.$routerto("i_perfect_infor", this.$route.query);
       } else {

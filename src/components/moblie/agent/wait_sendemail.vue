@@ -212,7 +212,7 @@ export default {
                   <tobody>
                       <tr class="column" style="">
                           <td style="text-align:center;vertical-align:top;">【投资银行】</td>
-                          <td style="padding:0;width: 430px;text-align:left;vertical-align:top;">尊敬的投资人，您有一个投资项目，由中间人A把投行B推荐给您，同意与其签约？
+                          <td style="padding:0;width: 430px;text-align:left;vertical-align:top;">尊敬的投资人，您有一个投资项目，由中间人把项目方推荐给您，同意与其签约？
                           </td>
                       </tr>
                       <tr class="column" style="">
@@ -227,7 +227,7 @@ export default {
                               ${this.custmoers_obj.bslName4}</td>
                       </tr>
                       <tr class="column" style="margin-bottom: 15px;">
-                          <td style="width: 120px;text-align:center;vertical-align:top;">【投行B】</td>
+                          <td style="width: 120px;text-align:center;vertical-align:top;">【项目方】</td>
                           <td style="width: 400px;text-align:left;vertical-align:top;">
                               ${this.custmoers_obj.bslName1}
                           </td>

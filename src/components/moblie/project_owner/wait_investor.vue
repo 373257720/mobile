@@ -80,7 +80,11 @@ export default {
         projectDescribe: {
           name: "项目简介:",
           response: ""
-        }
+        },
+        projectDetail:{
+          name: "项目详情:",
+          response: ""
+        },
       }
     };
   },

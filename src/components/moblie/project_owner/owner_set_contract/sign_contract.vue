@@ -20,8 +20,6 @@ export default {
       let timestamp = new Date().getTime();
       this.contract.owner_sign=data;
       this.contract.owner_signdate=timestamp;
-      // this.$store.commit('agent_signdate',timestamp);
-      // this.$store.commit('contract_owner',data);
       this.$routerto('p_submit_contract',this.$route.query)
     },
     gg() {
