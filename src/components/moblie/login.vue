@@ -41,9 +41,6 @@ export default {
   methods: {
     login() {
       this.remind = "";
-      // this.$global.loading();
-
-      // console.log(   this.$global.loading);
       if (this.username && this.password) {
         this.$loading();
         this.$axios({
@@ -70,7 +67,6 @@ export default {
               this.$goto("usercheck");
             }
           }
-
           this.remind=res.data.resultDesc;
         })
         .catch(err => {
@@ -83,6 +79,7 @@ export default {
         this.remind = "账号和密码不能为空，请输入 ";
       }
     }
+
   }
 };
 // 10011	登录账号不能为空

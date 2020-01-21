@@ -19,8 +19,18 @@ Vue.use(Vuex);
 // new Vconsole();
 import Promise from 'es6-promise';
 Promise.polyfill();
+
+// 复制插件
+// import VueClipboards from 'vue-clipboard2'
+// Vue.use(VueClipboards);
+// import Vconsole from 'vconsole'
+// let vConsole = new Vconsole()
+// Vue.use(vConsole);
+// import Promise from 'es6-promise';
+// Promise.polyfill()
+Vue.use(Vuex);
 import Vant from 'vant';
-Vue.use(Vant);
+Vue.use(Vant)
 Vue.prototype.$axios = axios;
 const restore_obj=deepCopy(store._modules.root.state);
 Vue.prototype.$restore_obj=restore_obj;
@@ -46,19 +56,18 @@ Vue.use(Dialog);
 // 引入公共组件
 axios.defaults.withCredentials = true;
 axios.interceptors.response.use(res => {
-    if (res.data && res.data.resultCode) {
-      let code = res.data.resultCode
-      if (code == 10090) { // 如果是未登录直接踢出去
-        Dialog.alert({
-          message: res.data.resultDesc,
-        }).then(() => {
-          location.href = '/'
-        });
-      }
+  if (res.data && res.data.resultCode) {
+    let code = res.data.resultCode
+    if (code == 10090) { // 如果是未登录直接踢出去
+      Dialog.alert({
+        message: res.data.resultDesc,
+      }).then(() => {
+        location.href = '/'
+      });
     }
     return res
-  },
-  error => {
+  }
+} ,error => {
     Dialog.alert({
       message: '请求超时，请稍后重试！',
     }).then(() => {
@@ -78,6 +87,7 @@ Vue.prototype.$goto = function goto(name, id) {
       idx: id
     };
   }
+  // console.log(this.$router);
   this.$router.push(obj);
 }
 
@@ -88,17 +98,19 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
   })
 }
 Vue.prototype.$loading = function loading() {
+  // console.log(this);
+
   this.$toast.loading({
     loadingType: 'spinner',
-    // message: 'loading...',
+    message: 'loading...',
     // forbidClick:true,
     duration: 0,
   });
 };
-Vue.prototype.$loadingfail = function loadingfail(reminder) {
+Vue.prototype.$loadingfail = function loadingfail() {
   this.$toast.fail({
     // loadingType: 'spinner',
-    message: reminder,
+    message: 'failed',
   });
 };
 var baseurl = {
@@ -111,6 +123,8 @@ Vue.prototype.$baseurl = baseurl.api;
 Vue.prototype.$global = global;
 
 import Router from 'vue-router'
+// console.log(Router.prototype);
+
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err);
