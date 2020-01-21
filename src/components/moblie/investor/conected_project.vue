@@ -50,10 +50,10 @@ export default {
           name: "地区:",
           response: ""
         },
-        signStatu: {
-          name: "项目状态:",
-          response: "暂无"
-        },
+        // signStatu: {
+        //   name: "项目状态:",
+        //   response: "暂无"
+        // },
         projectCompany: {
           name: "公司名称:",
           response: ""
@@ -64,7 +64,8 @@ export default {
         },
         collectMoney: {
           name: "集资额:",
-          response: ""
+          collectMoneyMin:'',
+          collectMoneyMax: "",
         },
         projectMobile: {
           name: "联系电话:",

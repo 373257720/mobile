@@ -18,8 +18,8 @@
       </van-search>
       <van-dropdown-menu>
         <van-dropdown-item
-          :title="activeIds==0?'行业':items[0].children[activeIds-1].text"
-          v-model="value1"
+          :title="industry_title"
+          v-model="industry_value"
           ref="item"
         >
           <van-tree-select
@@ -110,8 +110,10 @@ export default {
           children: []
         }
       ],
+      industry_title:'行业',
       usertype: "",
-      activeIds: 0,
+      activenum:0,//行业下标
+      activeIds: '',//行业id
       tags: {
         signUserList1: {
           text: "待审核",
@@ -144,7 +146,7 @@ export default {
       pageNum: 1,
       loadNumUp: 20,
       upGoodsInfo: [],
-      value1: "", //行业value
+      industry_value: "", //行业value
       region_name: "",
       region_nametitle: "",
       option: [
@@ -169,7 +171,8 @@ export default {
           for (let i = 0; i < res1.data.data.length; i++) {
             this.items[0].children.push({
               text: res1.data.data[i].industryNameCh,
-              id: res1.data.data[i].industryId
+              id: res1.data.data[i].industryId,
+              num:i+1,
             });
           }
         }
@@ -194,7 +197,6 @@ export default {
       }
     },
     routerto(item) {
-
       this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
         // console.log(item.signUserResp);
@@ -261,12 +263,16 @@ export default {
       this.mainActiveIndex = index;
     },
     onClickItem(data) {
-      // console.log(data);
-      if (this.activeIds == data.id) {
-        this.activeIds = 0;
+      if (this.activenum== data.num) {
+        this.activenum=0;
+        this.activeIds = '';
+        this.industry_title='行业';
       } else {
+        this.activenum=data.num
         this.activeIds = data.id;
+        this.industry_title=this.items[0].children[this.activenum-1].text;
       }
+
       this.pageNum = 1;
       this.upGoodsInfo = [];
       this.loading = true; //下拉加载中
@@ -275,9 +281,6 @@ export default {
     },
     onLoad() {
       // this.loading = true;
-      if (this.activeIds == 0) {
-        this.activeIds = "";
-      }
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getAllProject?`,

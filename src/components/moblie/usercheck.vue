@@ -247,25 +247,29 @@ export default {
             this.form_err.userIdentity="你输入证件号码格式不正确";
           }
         }
-      }else if(b=='userCompanyCh'){
-        if(!this.form.userCompanyCh){
-          this.form_err.userCompanyCh='请输入公司中文名称';
-        }else{
-          this.form_err.userCompanyCh=''
-        }
-      }else if(b=='userCompanyEn'){
+      }
+      // else if(b=='userCompanyCh'){
+      //   if(!this.form.userCompanyCh){
+      //     this.form_err.userCompanyCh='请输入公司中文名称';
+      //   }else{
+      //     this.form_err.userCompanyCh=''
+      //   }
+      // }
+      else if(b=='userCompanyEn'){
         if(!this.form.userCompanyEn){
           this.form_err.userCompanyEn='Please input the company name';
         }else{
           this.form_err.userCompanyEn=''
         }
-      }else if(b=='userAddressCh'){
-        if(!this.form.userAddressCh){
-          this.form_err.userAddressCh='请输入公司中文地址';
-        }else{
-          this.form_err.userAddressCh=''
-        }
-      }else if(b=='userAddressEn'){
+      }
+      // else if(b=='userAddressCh'){
+      //   if(!this.form.userAddressCh){
+      //     this.form_err.userAddressCh='请输入公司中文地址';
+      //   }else{
+      //     this.form_err.userAddressCh=''
+      //   }
+      // }
+      else if(b=='userAddressEn'){
         if(!this.form.userAddressEn){
           this.form_err.userAddressEn='Please input the company address';
         }else{
@@ -306,7 +310,6 @@ export default {
       }, data);
     },
     submit() {
-
       if(this.form.userIdentityType==1){
         if(!this.form.userCountry && this.form.userCountry!==0){
           this.$toast('请选择国籍')
@@ -329,16 +332,19 @@ export default {
           this.$toast('请选择国籍')
           return
         }
-        else if(this.form.userCompanyCh==''){
-          this.$toast('请输入公司中文名称')
-          return
-        }else if(this.form.userCompanyEn==''){
+        // else if(this.form.userCompanyCh==''){
+        //   this.$toast('请输入公司中文名称')
+        //   return
+        // }
+        else if(this.form.userCompanyEn==''){
           this.$toast('Please input the company name')
           return
-        } else if(this.form.userAddressCh==''){
-          this.$toast('请输入公司中文地址')
-          return
-        }else if(this.form.userAddressEn==''){
+        }
+        // else if(this.form.userAddressCh==''){
+        //   this.$toast('请输入公司中文地址')
+        //   return
+        // }
+        else if(this.form.userAddressEn==''){
           this.$toast('Please input the company address')
           return
         }

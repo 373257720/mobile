@@ -5,10 +5,9 @@
     </nav>
     <main>
       <article>
-        <contract_component :contract="contract"></contract_component>
+        <contract_component v-if="watch" :contract="contract"></contract_component>
       </article>
     </main>
-
     <mbottom></mbottom>
   </div>
 </template>
@@ -17,30 +16,29 @@ export default {
   name: "goods_details",
   data() {
     return {
+      watch:false,
       contract: {
         article:'',
         owner_sign:'',
         owner_behalf:'',
         owner_name:'',
         owner_title:'',
-        owner_signdate:null,
+        owner_signdate:'',
         agent_behalf:'',
         agent_sign:'',
         agent_name:'',
         agent_title:'',
-        agent_signdate:null,
+        agent_signdate:'',
       },
     };
   },
   created() {
     this.get_contract();
   },
-
   mounted() {
     // this.content = "";
   },
   methods: {
-
   get_contract(){
     this.$loading();
     this.$axios({
@@ -49,12 +47,14 @@ export default {
     }).then(res => {
       this.$toast.clear();
       if(res.data.resultCode==10000){
+
         let str = JSON.parse(res.data.data.signAgreement);
           for(let i in this.contract){
             if(str.hasOwnProperty(i)){
               this.contract[i]=str[i];
             }
           }
+        this.watch=true;
       }
     });
   }

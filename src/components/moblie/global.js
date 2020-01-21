@@ -5,6 +5,9 @@ import qs from 'qs'
 
 const global = {
   stamptodate: function (stamp) {
+    if(stamp==''){
+      return '';
+    }
     var date = new Date(stamp);
     var Y = date.getFullYear() + "-";
     var M =
@@ -97,7 +100,6 @@ const global = {
           params: datas
         })
         .then((res) => {
-          console.log(res)
           let projectLifeCycle=res.data.data.projectLifeCycle;
           let signAgreement = res.data.data.signAgreement;
           let investorsEmailSend=res.data.data.investorsEmailSend;
@@ -105,6 +107,13 @@ const global = {
           let projectName = res.data.data.projectName;
           let signAgreementKey = res.data.data.signAgreementKey;
           for (let i in res.data.data) {
+            if(details_lists.collectMoney.hasOwnProperty(i)){
+              if (i == "collectMoneyMax"){
+                details_lists.collectMoney[i]=res.data.data[i].toLocaleString();
+              }else if (i == "collectMoneyMin"){
+                details_lists.collectMoney[i]=res.data.data[i].toLocaleString();
+              }
+            }
             if (details_lists[i]) {
               if (i == "signStatus") {
                 details_lists[i].response = this.pic_obj[

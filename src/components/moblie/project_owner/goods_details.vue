@@ -45,10 +45,10 @@ export default {
           name: "地区:",
           response: ""
         },
-        projectStatus: {
-          name: "项目状态:",
-          response: ""
-        },
+        // projectStatus: {
+        //   name: "项目状态:",
+        //   response: ""
+        // },
         projectCompany: {
           name: "公司名称:",
           response: ""

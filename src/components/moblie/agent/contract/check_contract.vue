@@ -61,13 +61,13 @@ export default {
   methods: {
       confirm(){
           if(this.contract.agent_behalf==''){
-            this.$toast('请输入公司中文名称')
+            this.$toast('请输入代表权益')
             return
           }else if(this.contract.agent_name==''){
-            this.$toast('请输入公司中文名称')
+            this.$toast('请输入名称')
             return;
           }else if(this.contract.agent_title==''){
-            this.$toast('请输入公司中文名称')
+            this.$toast('请输入职称')
             return;
           }
           this.$routerto('a_sign_contract',this.$route.query)

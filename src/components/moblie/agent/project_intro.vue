@@ -64,7 +64,8 @@ export default {
         },
         collectMoney: {
           name: "集资额:",
-          response: ""
+          collectMoneyMin:'',
+          collectMoneyMax: "",
         },
         projectMobile: {
           name: "联系电话:",

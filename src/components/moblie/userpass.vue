@@ -179,7 +179,7 @@ export default {
             } else if (this.form[key] == 3) {
               this.form[key] = "投资者";
             } else if (this.form[key] == 4) {
-              this.form[key] = "投资中间人";
+              this.form[key] = "中间人";
             }
           }
           if (key == "userCountryEn") {

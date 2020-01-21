@@ -24,7 +24,7 @@
          </div>
        </div>
       <div class="sub_title">
-        <header>签署合约:</header>
+        <header>Contract:</header>
         <div>
           <textarea v-model="contract.article"  placeholder="请输入"></textarea>
         </div>
@@ -98,21 +98,20 @@ export default {
   computed: {},
   methods: {
     signature() {
-      if (this.contract.article && this.contract.owner_name && this.contract.owner_title && this.contract.owner_behalf) {
-        // this.$store.commit("contract_sign", this.contract);
-        // this.$emit('todad',this.contract)
-        this.$routerto("p_sign_contract", this.$route.query);
-      } else {
-        this.$dialog
-          .confirm({
-            title: "请检查,输入完整信息"
-            // message: "弹窗内容"
-          })
-          .then(() => {
-            // on confirm
-          });
+      if(this.contract.owner_behalf==''){
+        this.$toast('请输入代表权益')
+        return
+      }else if(this.contract.owner_name==''){
+        this.$toast('请输入名称')
+        return;
+      }else if(this.contract.owner_title==''){
+        this.$toast('请输入职称')
+        return;
+      }else if(this.contract.article==''){
+        this.$toast('请输入合同内容')
+        return;
       }
-      // console.log(this.content);
+        this.$routerto("p_sign_contract", this.$route.query);
     }
     // ready(editorInstance) {
     //   //编辑器实例化

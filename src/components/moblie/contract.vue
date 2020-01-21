@@ -79,9 +79,10 @@
       };
     },
     created() {
-      this.owner_signdate= this.contract.owner_signdate?this.$global.stamptodate(this.contract.owner_signdate):'';
-      this.agent_signdate=this.contract.owner_signdate?this.$global.stamptodate(this.contract.agent_signdate):'';
+      this.owner_signdate= this.$global.stamptodate(this.contract.owner_signdate);
+      this.agent_signdate=this.$global.stamptodate(this.contract.agent_signdate);
     },
+
     computed: {
     },
     mounted() {

@@ -25,9 +25,13 @@
           <li>
             <p class="row1">投资者地区：</p>
             <p class="row2">
-              <van-field v-model="form.investorsArea" placeholder="-" clearable />
+              <van-dropdown-menu>
+                <van-dropdown-item @close="choose_nation" placeholder="-" v-model="form.investorsArea"  :options="countrylist" />
+              </van-dropdown-menu>
+<!--              <van-field v-model="form.investorsArea" placeholder="-" clearable />-->
             </p>
           </li>
+
           <li>
             <p class="row1">投资者姓名：</p>
             <p class="row2">
@@ -46,8 +50,8 @@
               <van-field v-model="form.investorsEmail" placeholder="请输入" clearable />
             </p>
           </li>
-          <li v-show="form.investorsType==2">
-            <p class="row1">公司地址：</p>
+          <li >
+            <p class="row1">投资者地址：</p>
             <p class="row2">
               <van-field v-model="form.investorsCompanyAddress" placeholder="请输入" clearable />
             </p>
@@ -57,7 +61,7 @@
             <p class="row2">
               <van-checkbox-group v-model="form.interestedIndustries">
                 <van-checkbox
-                  v-for="(item) in countrylist"
+                  v-for="(item) in industrylist"
                   :key="item.industryId"
                   :name="item.industryNameCh"
                 >{{item.industryNameCh}}</van-checkbox>
@@ -95,7 +99,8 @@ export default {
         investorsCompanyAddress: "",
         investorsName: ""
       },
-      countrylist: [],
+      industrylist: [],
+      countrylist:[],
       option1: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }]
     };
   },
@@ -109,12 +114,26 @@ export default {
   //   })
   // },
   created() {
-    // let a = JSON.parse(this.$route.query.investor_infor);
-    // console.log(a)
-    // this.form.investorsType =a.investorsType.response;
-    // this.form.investorsName =a.investorsName.response;
-    // this.form.investorsCompany =a.investorsCompany.response;
-    // this.form.investorsArea =a.investorsArea.response;
+    this.$axios({
+      method: "get",
+      url: `${this.$baseurl}/bsl_web/base/countryList.do?searchKey=`
+    })
+      .then(res => {
+        console.log(res)
+        if(res.data.resultCode==10000){
+          // this.title = res.data.data.projectName;
+          // this.countrylist = res.data.data;
+          this.countrylist = res.data.data;
+          for (let i = 0; i < this.countrylist.length; i++) {
+            this.countrylist[i].value = this.countrylist[i].countryTcname;
+            this.countrylist[i].text = this.countrylist[i].countryTcname;
+          }
+        }
+
+      })
+      .catch(err => {
+        console.log(err);
+      });
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
@@ -122,7 +141,7 @@ export default {
       .then(res => {
         if(res.data.resultCode==10000){
           this.title = res.data.data.projectName;
-          this.countrylist = res.data.data;
+          this.industrylist = res.data.data;
         }
 
       })
@@ -131,6 +150,13 @@ export default {
       });
   },
   methods: {
+    choose_nation(){
+      // if(!this.form.investorsArea && this.form.investorsArea!==0){
+      //   this.form_err.investorsArea="请选择"
+      // }else{
+      //   this.form_err.investorsArea=''
+      // }
+    },
     submit() {
       let formtable = JSON.parse(JSON.stringify(this.form));
       let interestedIndustries = this.form.interestedIndustries.join("/");
@@ -195,7 +221,9 @@ export default {
           if (num == 10000) {
             this.$routerto("mhome");
           }
-        });
+        }).catch(err=>{
+
+      })
     }
   }
 };

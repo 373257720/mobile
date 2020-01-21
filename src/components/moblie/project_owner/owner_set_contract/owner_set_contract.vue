@@ -22,7 +22,7 @@
             owner_behalf:'',
             owner_name:'',
             owner_title:'',
-            owner_signdate:null,
+            owner_signdate:'',
             // agent_name:'',
             // agent_title:'',
             // agent_signdate:null,
