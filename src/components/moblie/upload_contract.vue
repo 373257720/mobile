@@ -4,20 +4,52 @@
       <div class="top"></div>
       <div class="middle" v-html="article"></div>
       <div class="button">
-        <p v-if="owner">
-          <i>
-            <img :src="owner" alt />
-          </i>
-          <span>投行</span>
-          <span>{{owner_signdate?owner_signdate:''}}</span>
-        </p>
-        <p v-if="agent">
-          <i>
-            <img :src="agent" alt />
-          </i>
-          <span>投资中间人</span>
-          <span>{{agent_signdate?agent_signdate:''}}</span>
-        </p>
+        <ul>
+          <li>
+            <nav>For and on behalf of:</nav>
+            <h3>{{contract.owner_behalf}}</h3>
+          </li>
+          <li>
+            <p><span>
+              <img v-if="contract.owner_sign" :src="contract.owner_sign"alt="">
+            </span></p>
+            <p>Signature</p>
+          </li>
+          <li>
+            <p><span>{{contract.owner_name}}</span></p>
+            <p>Name</p>
+          </li>
+          <li>
+            <p><span>{{contract.owner_title}}</span></p>
+            <p>Title</p>
+          </li>
+          <li>
+            <p><span>{{contract.owner_signdate}}</span></p>
+            <p>Date</p>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <nav>For and on behalf of:</nav>
+            <h3>{{contract.agent_behalf}}</h3>
+          </li>
+          <li>
+            <p><span><img v-if="contract.agent_sign"  :src="contract.agent_sign"alt=""></span></p>
+            <p>Signature</p>
+          </li>
+          <li>
+            <p><span>{{contract.agent_name}}</span></p>
+            <p>Name</p>
+          </li>
+          <li>
+            <p><span>{{contract.agent_title}}</span></p>
+            <p>Title</p>
+          </li>
+          <li>
+            <p><span>{{contract.agent_signdate}}</span></p>
+            <p>Date</p>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -27,35 +59,43 @@ export default {
   name: "upload",
   data() {
     return {
-      //   iframeData:{}
-      owner: "",
-      agent: "",
-      article: "",
-      owner_signdate: "",
-      agent_signdate: "",
-      // signid: "",
-      // projectId: ""
+      contract: {
+        article:'',
+        owner_sign:'',
+        owner_behalf:'',
+        owner_name:'',
+        owner_title:'',
+        owner_signdate:'',
+        agent_sign:'',
+        agent_behalf:'',
+        agent_name:'',
+        agent_title:'',
+        agent_signdate:'',
+      },
     };
   },
 
   created() {
-    console.log();
+    // console.log();
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement.do?visitToken=${this.$route.query.visitToken}`
     }).then(res => {
-      console.log(res.data);
-      let obj = JSON.parse(res.data.data.signAgreement);
-      this.owner = obj.owner;
-      this.agent = obj.agent;
-      this.article = obj.article;
-      this.owner_signdate = this.stamptodate(obj.owner_signdate);
-      this.agent_signdate = this.stamptodate(obj.agent_signdate);
-      this.$toast.clear();
-
+      if(res.data.resultCode==10000){
+        let str = JSON.parse(res.data.data.signAgreement);
+        for(let i in this.contract){
+          if(str.hasOwnProperty(i)){
+            this.contract[i]=str[i];
+            if(i=='owner_signdate'){
+              this.contract.owner_signdate=str.owner_signdate?this.$global.stamptodate(str.owner_signdate):"";}
+              else if(i=='owner_signdate'){
+              this.contract.agent_signdate=str.agent_signdate?this.$global.stamptodate(str.agent_signdate):'';
+            }
+          }
+        }
+      }
       // if (res.data.resultCode == 10000) {
       //   // this.signproject4();
-
       // } else {
       //   this.$dialog
       //     .alert({
@@ -65,7 +105,7 @@ export default {
       //     .then(() => {});
       // }
     });
-    
+
   },
   computed: {
     // contract_content: function(){
@@ -134,15 +174,11 @@ export default {
   height: 100%;
   .upload_contract {
     height: 100%;
-    // background: #f2f2f2;
-    // border: 1px solid #b5b5b5;
     box-sizing: border-box;
     font-size: 0.4rem;
     line-height: 0.6rem;
-    // padding: 0.4rem 0.5rem;
     padding: 1rem 1rem 0;
     width: 100%;
-    // height: 13rem;
     overflow-y: auto;
     word-wrap: break-word;
     color: rgb(169, 169, 169);
@@ -150,26 +186,38 @@ export default {
       padding: 0.3rem 0.3rem 0;
     }
     div.button {
-      margin-top: 1.2rem;
+      margin-top: 1rem;
       display: flex;
       justify-content: space-between;
-      p {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        i {
-          width: 3rem;
-          height: 1rem;
-          border-bottom: 1px solid rgb(169, 169, 169);
-          margin-bottom: 0.2rem;
-
-          img {
-            width: 3rem;
+      ul{
+        width: 4rem;
+        li{
+          p{
             height: 1rem;
+            img {
+              width: 4rem;
+              height: 1rem;
+            }
+          }
+          p:nth-child(1){
+            position: relative;
+            span{
+              position: absolute;
+              word-break: break-all;
+              bottom: 0;
+            }
+            /*line-height:1rem;*/
+            line-height: initial;
+            border-bottom: 1px solid;
           }
         }
-        span {
-          margin-bottom: 0.2rem;
+        li:nth-of-type(1){
+          margin-bottom: 1rem;
+
+          h3{
+            height: 3rem;
+            line-height: initial;
+          }
         }
       }
     }

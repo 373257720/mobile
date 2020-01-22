@@ -12,7 +12,6 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
-
 // 复制插件
 Vue.use(Vuex);
 // import Vconsole from 'vconsole';
@@ -115,13 +114,19 @@ Vue.prototype.$loadingfail = function loadingfail() {
 };
 var baseurl = {
   // api: "http://192.168.1.37:8085",
-  api3: 'http://47.90.62.114:8083',
-  api: "http://47.90.62.114:8082",
+  api3: 'http://47.90.62.114:8083',//(前段服务器端口)
+  api: "http://47.90.62.114:8086",//(后台正式服务器端口)
 }
 Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl = baseurl.api;
 Vue.prototype.$global = global;
-
+// import 'muse-ui/lib/styles/base.less';
+// import 'muse-ui/lib/styles/theme.less';
+// import { Button, Select } from 'muse-ui';
+// Vue.use(Button);
+// Vue.use(Select);
+// import MuseUI from 'muse-ui';
+// import 'muse-ui/dist/muse-ui.css';
 import Router from 'vue-router'
 // console.log(Router.prototype);
 

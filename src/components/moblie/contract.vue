@@ -94,7 +94,7 @@
         // if (this.content && this.signature) {
         this.$axios({
           method: "post",
-          url: `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
+          url: `${this.$baseurl3}/bsl_web/projectSign/sendInvestorsData`,
           data: this.$qs.stringify({
             projectId: this.$route.query.projectId,
             signId: this.$route.query.signId,

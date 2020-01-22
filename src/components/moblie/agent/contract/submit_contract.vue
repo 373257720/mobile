@@ -2,7 +2,7 @@
   <div id="a_submit_contract">
     <div class="a_submit_contract">
       <nav class="a_submit_contract">
-        <van-icon name="arrow-left" @click="$global.previous()" />签署合约
+        <van-icon name="arrow-left" @click="goback" />签署合约
       </nav>
       <main>
         <article>
@@ -19,8 +19,7 @@
     </div>
   </div>
 </template>
-<script>
-</script>
+
 <script>
 export default {
   name: "goods_details",
@@ -53,60 +52,28 @@ export default {
 
   },
   methods: {
-    // 上链
-    contract_submit() {
-      this.projectId = this.$route.query.projectId;
-      let urlpath = `${this.$baseurl}/#/upload_contract?visitToken=${this.token}`;
-      this.$toast.loading({
-        loadingType: "spinner",
-        message: "上传大概需要1分钟,请耐心等候",
-        duration: 0
-      });
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_web/ipfs/update?`,
-        params: {
-          signId: `${this.signId}`,
-          urlPath: `${urlpath}`
-        }
-      })
-        .then(res => {
-          this.$toast.clear();
-          if (res.data.resultCode == 10000) {
-            this.$dialog
-              .alert({
-                title: res.data.resultDesc,
-                message: "下一步发送邮件到投资者"
-              })
-              .then(() => {
-                this.$routerto("a_wait_sendemail",  {
-                  signId: this.signId,
-                  projectId: this.projectId,
-                  signStatus: 5
-                });
-              });
-          } else {
-            this.$dialog
-              .alert({
-                title: res.data.resultDesc,
-                message: "返回"
-              })
-              .then(() => {});
-          }
-        })
-        .catch(err => {
-          this.$toast.clear();
-          this.$dialog
-            .alert({
-              title: "上传失败",
-              message: "返回"
-            })
-            .then(() => {});
-        });
+    goback(){
+      if(this.iswatch==4){
+        this.$routerto('mysign');
+      }else if(this.iswatch==2){
+          this.$global.previous();
+      }
     },
     // 签约
     signproject4() {
-
+      // for(let i in this.contract){
+      //   if(this.contract[i]==''){
+      //     this.$dialog
+      //       .confirm({
+      //         title: "请返回完成信息填写"
+      //         // message: "弹窗内容"
+      //       })
+      //       .then(() => {
+      //         this.$routerto('p_set_contract',this.$route.query)
+      //       });
+      //     return;
+      //   }
+      // }
       this.signId = this.$route.query.signId;
       this.$loading();
       this.$axios({
@@ -120,6 +87,7 @@ export default {
       }).then(res => {
         this.$toast.clear();
         if (res.data.resultCode == 10000) {
+          this.$emit('todad')
           this.iswatch = 4;
           this.signId = res.data.data.signId;
           this.token = res.data.data.visitToken;
@@ -140,7 +108,63 @@ export default {
             });
         }
       });
-    }
+    },
+    // 上链
+    contract_submit() {
+      this.projectId = this.$route.query.projectId;
+      let urlpath = `${this.$baseurl3}/#/upload_contract?visitToken=${this.token}`;
+      this.$toast.loading({
+        loadingType: "spinner",
+        message: "正在上传,大概需要1分钟,请耐心等候",
+        duration: 0
+      });
+      this.$axios({
+        method: "get",
+        url: `${this.$baseurl}/bsl_web/ipfs/update?`,
+        params: {
+          signId: `${this.signId}`,
+          urlPath: `${urlpath}`
+        }
+      })
+        .then(res => {
+          this.$toast.clear();
+          if (res.data.resultCode == 10000 ||res.data.resultCode == 10050) {
+            this.$dialog
+              .alert({
+                title: res.data.resultDesc,
+                message: "下一步发送邮件到投资者"
+              })
+              .then(() => {
+                this.$routerto("a_wait_sendemail",  {
+                  signId: this.signId,
+                  projectId: this.projectId,
+                  signStatus: 5
+                });
+              });
+          }else {
+            this.$dialog
+              .alert({
+                title: res.data.resultDesc,
+                message: "返回列表页"
+              })
+              .then(() => {
+                this.$routerto('mysign');
+              });
+          }
+        })
+        .catch(err => {
+          this.$toast.clear();
+          this.$dialog
+            .alert({
+              title: "上传失败",
+              message: "返回"
+            })
+            .then(() => {
+              this.$routerto('mysign');
+            });
+        });
+    },
+
     // iframe传值
     // handleMessage(event) {
     //   var data = event.data;

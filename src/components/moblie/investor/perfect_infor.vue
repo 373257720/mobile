@@ -23,6 +23,7 @@
             </p>
           </li>
           <li>
+
             <p class="row1">投资者地区：</p>
             <p class="row2">
               <van-dropdown-menu>

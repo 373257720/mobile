@@ -14,7 +14,6 @@
         <header>项目详情</header>
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
-
         <footer>
           <aside>
             <p>(合约同步到IPFS需要时间，如不能打开请稍后再试)</p>

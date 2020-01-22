@@ -34,6 +34,25 @@
           <li class="investorsArea">
             <p class="row1">地区</p>
             <p class="row2">
+<!--              <el-select-->
+<!--                @change="selectregion(regionlist[form.bslAreaCode])"-->
+<!--                v-model="form.investorsArea"-->
+<!--                placeholder="请选择"-->
+<!--                remote-->
+<!--                :remote-method="region_remoteMethod"-->
+<!--                filterable-->
+<!--              >-->
+<!--                <el-option-->
+<!--                  v-for="(item,index) in region" :key="item.countryCode"  :label="item.text" :value="item.countryCode"-->
+<!--                >-->
+<!--&lt;!&ndash;                  <span style="float: left; ">{{ item.countryZhname }}</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span style="float: right; color: #8492a6; font-size: 13px">{{item.countryEnname}}</span>&ndash;&gt;-->
+<!--                </el-option>-->
+<!--              </el-select>-->
+<!--              <mu-select  @change="searchregion" solo filterable v-model="form.investorsArea" full-width>-->
+<!--                <mu-option  v-for="(item,index) in region" :key="item.countryCode"  :label="item.text" :value="item.countryCode"></mu-option>-->
+<!--              </mu-select>-->
+
               <van-cell-group>
                 <van-dropdown-menu>
                   <van-dropdown-item
@@ -87,14 +106,12 @@ export default {
       }
     };
   },
+
   created() {
     this.form.projectId = this.$route.query.projectId;
     this.$global
-      .changepage(`${this.$baseurl}/bsl_web/base/countryList.do`, "get")
+      .changepage(`${this.$baseurl}/bsl_web/base/countryList.do?searchKey=`, "get")
       .then(res => {
-        // console.log(res);
-        // this.region = [...res.data.data];
-        // console.log(this.region);
         for (let i = 0; i < res.data.data.length; i++) {
           this.region.push({
             text: res.data.data[i].countryZhname,
@@ -103,6 +120,7 @@ export default {
           });
         }
       });
+    console.log(this.region)
   },
   computed: {
     // typeofidentity(){
@@ -110,6 +128,28 @@ export default {
     // }
   },
   methods: {
+    // region_remoteMethod(query) {
+    //   this.region=[];
+    //   console.log(query)
+    //   this.$axios({
+    //     method: "get",
+    //     url: `${this.$baseurl}/bsl_admin_web/base/countryList?searchKey=${query}`,
+    //   }).then(res=>{
+    //     for (let i = 0; i < res.data.data.length; i++) {
+    //       this.region.push({
+    //         text: res.data.data[i].countryZhname,
+    //         value: i,
+    //         remark: res.data.data[i].countryCode
+    //       });
+    //     }
+    //   })
+    // },
+    selectregion(val) {
+      console.log(val);
+      // this.form.bslAreaCode = val.countryCode;
+      // this.form.projectArea = val.countryZhname;
+      // this.form.projectAreaEn = val.countryEnname;
+    },
     remind(meg) {
       this.$dialog
         .alert({
@@ -163,6 +203,29 @@ export default {
 </script>
 <style lang="scss">
 #a_recommand_i {
+  .el-select{
+    height: 100%;
+    width: 100%;
+    background: #f6f6f6;
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+
+  }
+  .el-input{
+    height: 100%;
+
+  }
+  .el-input--suffix .el-input__inner{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+  .el-input__inner{
+    border: none;
+    font-size: 0.38rem;
+    color: #323233;
+    background: #f6f6f6;
+  }
   .van-cell {
     font-size: 0.38rem;
     padding: 0 1rem;

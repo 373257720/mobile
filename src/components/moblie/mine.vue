@@ -6,7 +6,6 @@
         <p>{{user_infor.name}}</p>
         <p>{{user_infor.account}}</p>
       </div>
-
     </header>
     <nav></nav>
     <main>
@@ -335,7 +334,6 @@ export default {
         }
       }
       .correct_password{
-
         h4{
           text-align: center;
           font-size: 16px;
@@ -372,24 +370,8 @@ export default {
         .van-field__label{
           width: 2rem;
         }
-        /*.password_bottom{*/
-        /*  height: 1rem;*/
-        /*  line-height: 1rem;*/
-        /*  display: flex;*/
-        /*  justify-content: space-between;*/
-        /*  color: white;*/
-        /*  button:nth-of-type(1){*/
-        /*    background: #00adef;*/
-        /*    width: 40%;*/
-        /*  }*/
-        /*  button:nth-of-type(2){*/
-        /*    width: 40%;*/
-        /*    background: #ff7c2c;*/
-        /*  }*/
-
-        /*}*/
         aside {
-          height: 2.5rem;
+          height: 2.6rem;
           display: flex;
           font-size: 0.38rem;
           flex-direction: column;
@@ -401,7 +383,6 @@ export default {
           }
           button:nth-of-type(1) {
             background: #00adef;
-            // margin-bottom: 0.5rem;
           }
           button:nth-of-type(2) {
             background: #ff7c2c;

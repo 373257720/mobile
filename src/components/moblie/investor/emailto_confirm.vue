@@ -1,8 +1,6 @@
 <template>
   <div id="i_emailto_confirm">
-    <nav>
-      <van-icon @click="$global.previous()" />待确认项目
-    </nav>
+    <nav>待确认项目</nav>
     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <div class="investors_infor">
@@ -166,11 +164,18 @@ export default {
             method: "get",
             url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.investorsEmailSend}`
           }).then(res => {
-            console.log(res.data);
-            if ((res.data.resultCode == 10000)) {
+            if (res.data.resultCode == 10000) {
               this.$dialog
                 .alert({
                   title: "拒绝成功"
+                })
+                .then(() => {
+                  this.$routerto("login");
+                });
+            }else{
+              this.$dialog
+                .alert({
+                  title: res.data.resultDesc
                 })
                 .then(() => {
                   this.$routerto("login");
