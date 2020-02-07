@@ -330,7 +330,7 @@ const routes = [
 
   {
     path: '*',
-    name: 'login',
+    // name: 'login',
     component: login
   },
   {

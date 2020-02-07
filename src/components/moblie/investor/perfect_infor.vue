@@ -19,17 +19,32 @@
           <li v-show="form.investorsType==2">
             <p class="row1">投资者公司：</p>
             <p class="row2">
-              <van-field  v-model="form.investorsCompany" placeholder="-" clearable />
+              <van-field  v-model="form.investorsCompany" placeholder="请输入" clearable />
             </p>
           </li>
           <li>
 
             <p class="row1">投资者地区：</p>
             <p class="row2">
-              <van-dropdown-menu>
+              <!-- <van-dropdown-menu>
                 <van-dropdown-item @close="choose_nation" placeholder="-" v-model="form.investorsArea"  :options="countrylist" />
-              </van-dropdown-menu>
-<!--              <van-field v-model="form.investorsArea" placeholder="-" clearable />-->
+              </van-dropdown-menu> -->
+                <a-select
+              showSearch
+              placeholder="请输入"
+              labelInValue
+            :getPopupContainer="triggerNode => {return triggerNode.parentNode}"
+              :showArrow="false"
+              :filterOption="false"
+              @change="handleChange"
+              @search='search'
+              :notFoundContent="countrylist_fetching ? undefined : '没有数据'"
+            
+            >
+              <!-- :filterOption="filterOption" -->
+            <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
+                 <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}</a-select-option>
+          </a-select> 
             </p>
           </li>
 
@@ -81,16 +96,18 @@
   </div>
 </template>
 <script>
+let timeout;
 export default {
   name: "i_perfect_infor",
   data() {
     return {
       title: "",
+      countrylist_fetching:false,
       form: {
         signId: this.$route.query.signId,
         signStatus: 8,
         investorsId: this.$route.query.investorsId,
-        investorsType: null,
+        investorsType:1,
         investorsCompany: "",
         investorsName: "",
         investorsArea: "",
@@ -101,7 +118,7 @@ export default {
         investorsName: ""
       },
       industrylist: [],
-      countrylist:[],
+      region:[],
       option1: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }]
     };
   },
@@ -115,26 +132,8 @@ export default {
   //   })
   // },
   created() {
-    this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/base/countryList.do?searchKey=`
-    })
-      .then(res => {
-        console.log(res)
-        if(res.data.resultCode==10000){
-          // this.title = res.data.data.projectName;
-          // this.countrylist = res.data.data;
-          this.countrylist = res.data.data;
-          for (let i = 0; i < this.countrylist.length; i++) {
-            this.countrylist[i].value = this.countrylist[i].countryTcname;
-            this.countrylist[i].text = this.countrylist[i].countryTcname;
-          }
-        }
-
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.ulHtml('');
+     this.$loading();
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
@@ -144,13 +143,78 @@ export default {
           this.title = res.data.data.projectName;
           this.industrylist = res.data.data;
         }
-
+        this.$toast.clear();
       })
       .catch(err => {
         console.log(err);
       });
   },
   methods: {
+     search(val){
+    if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+    timeout = setTimeout(this.ulHtml(val), 300);
+      ;
+    },
+   handleChange (value) {
+      this.form.investorsArea=this.region[value.key-1].chinese;
+      this.countrylist_fetching = false;
+      // console.log(this.form)
+    },
+    ulHtml(val){
+      this.region=[];
+      let arr=[];
+      this.countrylist_fetching=true;
+      this.$global.changepage(`${this.$baseurl}/bsl_web/base/countryList.do?searchKey=${val}`, "get")
+      .then(res => {
+         if(res.data.data.length>0){
+            for (let i = 0; i < res.data.data.length; i++) {
+                   arr.push({
+                    chinese: res.data.data[i].countryZhname,
+                    eng:res.data.data[i].countryEnname,
+                    value: i,
+                    remark: res.data.data[i].countryCode
+                  });
+             }
+             this.region=arr;
+         }
+         this.countrylist_fetching = false
+      });
+      // console.log(this.region)
+    },
+     submit() {
+        var regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+       if(this.form.investorsType==2 && this.form.investorsCompany=='')   { this.$toast({ message:'请输入投资者公司名称'});
+            return  
+        }
+        if(this.form.investorsArea==''){
+            this.$toast('请输入投资者地区');
+            return
+        }else  if(this.form.investorsName==''){
+            this.$toast('请输入投资者姓名');
+            return
+        }else  if(this.form.investorsMobile==''){
+            this.$toast('请输入投资者电话');
+            return
+        }else  if(this.form.investorsEmail==''){
+            this.$toast('请输入投资者邮箱');
+            return
+        }else  if(!regemail.test(this.form.investorsEmail)){
+          this.$toast('邮箱格式不正确');
+            return
+        }
+        else  if(this.form.investorsCompanyAddress==''){
+            this.$toast('请输入投资者地址');
+            return
+        }else  if(this.form.interestedIndustries.length<=0){
+            this.$toast('请选择感兴趣行业');
+            return
+        }
+        
+      this.commit();
+    },
     choose_nation(){
       // if(!this.form.investorsArea && this.form.investorsArea!==0){
       //   this.form_err.investorsArea="请选择"
@@ -158,7 +222,7 @@ export default {
       //   this.form_err.investorsArea=''
       // }
     },
-    submit() {
+    commit() {
       let formtable = JSON.parse(JSON.stringify(this.form));
       let interestedIndustries = this.form.interestedIndustries.join("/");
       formtable.interestedIndustries = interestedIndustries;
@@ -176,13 +240,13 @@ export default {
       //   investorsCompanyAddress: "2",
       //   investorsName: "33"
       // };
-      if (formtable.investorsType == "个人") {
-        formtable.investorsType = 1;
-      } else if (formtable.investorsType == "公司") {
-        formtable.investorsType = 2;
-      }
-
+      // if (formtable.investorsType == "个人") {
+      //   formtable.investorsType = 1;
+      // } else if (formtable.investorsType == "公司") {
+      //   formtable.investorsType = 2;
+      // }s
       console.log(formtable);
+      this.$loading();
       this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/signProject3`,
@@ -190,11 +254,12 @@ export default {
       })
         .then(res => {
           console.log(res);
+          this.dialog(res.data.resultDesc, res.data.resultCode);
+           this.$toast.clear();
           // if (res.data.resultCode == 10000) {
           //   this.dialog("提交成功", res.data.resultCode);
           //   // this.$routerto("mhome");
           // }
-          this.dialog(res.data.resultDesc, res.data.resultCode);
           // else if (res.data.resultDesc == 10017) {
           //   this.dialog("签约流程错误");
           // } else if (res.data.resultCode == 10010) {
@@ -231,6 +296,35 @@ export default {
 </script>
 <style lang="scss">
 #i_perfect_infor {
+
+//  .van-button__text{
+//      font-size: 0.48rem !important;
+//     }
+  .ant-select{
+    width: 100%;
+    font-size: 0.38rem;
+    color: #323233;
+    .ant-select-selection__placeholder, .ant-select-search__field__placeholder{
+      color:#969799;
+    }
+    .ant-select-selection{
+       padding: 0 0.2rem;
+      background: #f6f6f6;
+      box-shadow:none;
+    }
+ .ant-select-selection--single{
+   height:100%;
+      
+ }
+ .ant-select-selection__rendered{
+ 
+   margin:0;
+ }
+    .ant-select-selection{
+      border-radius: 0.05rem;
+              border: 1px solid #ababab;
+    }
+  }
   .van-cell {
     font-size: 0.38rem;
     padding: 0 1rem;
@@ -318,7 +412,7 @@ export default {
     width: 100%;
     text-align: center;
     line-height: 1.5rem;
-    z-index: 5;
+    z-index: 2017;
     height: 1.5rem;
     position: fixed;
     top: 0;
@@ -354,12 +448,19 @@ export default {
           /*line-height: 0.48rem;*/
           align-items: center;
           font-size: 0.3rem;
+          font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
             width: 3rem;
           }
+            .row1::before {
+                content: "*";
+                color: #f56c6c;
+                margin-right: 0.1rem;
+            }  
           .row2 {
+            position: relative;
             width: 7rem;
             word-break: break-all;
             color: #787878;

@@ -30,15 +30,27 @@
             @click-item="onClickItem"
           />
         </van-dropdown-item>
-        <van-dropdown-item
+        <van-dropdown-item class='region_class' :title="region_title" ref="region" >
+          <!-- <van-field placeholder="请输入地区" v-model="text" @input='search_region'/>  -->
+          <van-search v-model="text" @input='search_region' placeholder="请输入搜索关键词" />
+          <a-spin v-if="countrylist_fetching" size="small"/>
+            <ul style="max-height:200px" v-if='countrylist_fetching==false && countrylist.length>0'>
+              <li v-for="d in countrylist" :class="d.classname" :key="d.remark" :value='d.value' @click="select_country(d.remark,d.chinese,d.value)">{{d.chinese}}</li>
+            </ul>
+            <ul  style="max-height:200px" v-else-if="countrylist_fetching==false &&  countrylist.length<=0">
+              <li >没有数据</li>
+            </ul>
+        </van-dropdown-item>
+        <!-- <van-dropdown-item
           v-model="region_name"
           @change="function(value){
           return region(value,option[value])
         }"
           :title="region_nametitle?region_nametitle:'地区'"
-          :options="option"
-        />
-      </van-dropdown-menu>
+          :options="option" 
+        >
+       </van-dropdown-item> -->
+     </van-dropdown-menu>
     </header>
     <div id="main">
       <div class="main">
@@ -51,7 +63,7 @@
            error-text="请求失败，点击重新加载"
           :offset="300"
         >
-          <div v-for="(goods,item) in  upGoodsInfo" :key="item" class="goodlists">
+          <div v-for="(goods,idx) in  upGoodsInfo" :key="idx" class="goodlists">
             <article @click="routerto(goods)">
               <nav>{{goods.projectName}}</nav>
               <section>
@@ -99,11 +111,14 @@
   </div>
 </template>
 <script>
+let  timeout;
 import { log } from "util";
 export default {
   name: "mhome",
   data() {
     return {
+      text:'',
+      countrylist_fetching:false,
       items: [
         {
           text: "行业",
@@ -149,18 +164,20 @@ export default {
       industry_value: "", //行业value
       region_name: "",
       region_nametitle: "",
-      option: [
-        {
-          text: "地区",
-          value: 0,
-          remark: ""
-        }
+      region_title:'全部地区',
+      countrylist: [
+          {
+            chinese: "全部地区",
+            eng:'',
+            value: 0,
+            remark: "",
+            classname:''
+          }
       ]
     };
   },
   created() {
     this.usertype = this.$store.state.currentUsertype;
-    // console.log();
     let axiosList = [
       this.$axios.get(`${this.$baseurl}/bsl_web/base/getAllIndustry`),
       this.$axios.get(`${this.$baseurl}/bsl_web/base/countryList.do`)
@@ -178,10 +195,12 @@ export default {
         }
         if (res2) {
           for (let i = 0; i < res2.data.data.length; i++) {
-            this.option.push({
-              text: res2.data.data[i].countryZhname,
-              value: i + 1,
-              remark: res2.data.data[i].countryCode
+            this.countrylist.push({
+                 chinese: res2.data.data[i].countryZhname,
+                    eng:res2.data.data[i].countryEnname,
+                    value: i+1,
+                    remark: res2.data.data[i].countryCode,
+                    classname:''
             });
           }
         }
@@ -190,16 +209,86 @@ export default {
     // this.loading = true
     // this.onLoad();
   },
+ 
   methods: {
+    // region(value, region) {
+    //   this.region_name = region.remark;
+    //   this.region_nametitle = region.text;
+    //   // console.log(value, region, this.region_name);
+    //   this.pageNum = 1;
+    //   this.upGoodsInfo = [];
+    //   this.loading = true; //下拉加载中
+    //   this.finished = false; //下拉结
+    //   this.onLoad();
+    // },
+    select_country(remark,chinese,idx) {
+      console.log(remark,chinese)
+      this.region_title=chinese;
+      this.region_name=remark;
+      this.countrylist_fetching = false;
+      this.pageNum = 1;
+      this.upGoodsInfo = [];
+      this.loading = true; //下拉加载中
+      this.finished = false; //下拉结
+      this.onLoad();
+      this.countrylist.forEach(item=>{
+        item.classname='';
+      })
+      this.countrylist[idx].classname='country_isactive',
+       this.$refs.region.toggle()
+    },
+    search_region(val){
+    if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+    timeout = setTimeout(this.ulHtml(val), 300);
+      ;
+    },
+   handleChange (value) {
+      this.form.investorsArea=this.region[value.key].chinese;
+      this.countrylist_fetching = false;
+      // console.log(this.form)
+    },
+    ulHtml(val){
+      this.countrylist=[];
+      let arr=[];
+      arr.push({
+            chinese: "全部地区",
+            eng:'',
+            value: 0,
+            remark: "",
+            classname:''
+          })
+      this.countrylist_fetching=true;
+      this.$global.changepage(`${this.$baseurl}/bsl_web/base/countryList.do?searchKey=${val}`, "get")
+      .then(res => {
+         if(res.data.data.length>0){
+            for (let i = 0; i < res.data.data.length; i++) {
+                   arr.push({
+                    chinese: res.data.data[i].countryZhname,
+                    eng:res.data.data[i].countryEnname,
+                    value: i+1,
+                    remark: res.data.data[i].countryCode,
+                    classname:''
+                  });
+             }
+             this.countrylist=arr;
+         }
+         this.countrylist_fetching = false
+          
+      });
+
+    },
     router(name, obj) {
       if (obj.arr && obj.arr.length > 0) {
         this.$routerto(name, obj);
       }
     },
     routerto(item) {
-      this.$store.state.currentUsertype;
+      console.log(item)
+      // this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
-        // console.log(item.signUserResp);
         let hash = [];
         for (var i = 0; i < item.signUserResp.length; i++) {
           if (hash.indexOf(item.signUserResp[i].signStatus) == -1) {
@@ -223,7 +312,8 @@ export default {
           });
         }
       } else if (this.$store.state.currentUsertype == 3) {
-        this.$routerto("a_project_intro", { projectId: projectId });
+       this.$routerto('i_conected_project',{projectId:item.projectId,signStatus:item.signUserResp[0].signStatus,signId:item.signUserResp[0].signId})
+        // this.$routerto("a_project_intro", { projectId: item.projectId });
       } else if (this.$store.state.currentUsertype == 4)
       {
         if(item.isSign==1){
@@ -238,19 +328,9 @@ export default {
             signStatus: 0,
           });
         }
-
       }
     },
-    region(value, region) {
-      this.region_name = region.remark;
-      this.region_nametitle = region.text;
-      // console.log(value, region, this.region_name);
-      this.pageNum = 1;
-      this.upGoodsInfo = [];
-      this.loading = true; //下拉加载中
-      this.finished = false; //下拉结
-      this.onLoad();
-    },
+    
     onSearch() {
       // console.log(this.searchkey);
       this.pageNum = 1;
@@ -263,6 +343,7 @@ export default {
       this.mainActiveIndex = index;
     },
     onClickItem(data) {
+      // console.log(data)
       if (this.activenum== data.num) {
         this.activenum=0;
         this.activeIds = '';
@@ -313,17 +394,11 @@ export default {
               // ).style.display = "none";
               this.finished = true;
             }
-
             this.pageNum++;
           } else {
             this.loading = false;
             this.finished = true;
           }
-          // console.log(this.loading);
-          // let arr=[];
-          // for(let i=0;i<this.upGoodsInfo.length;i++){
-
-          // }
         })
         .catch(err => {
           // this.loadText = "加载失败";
@@ -341,6 +416,30 @@ export default {
 
 <style lang="scss">
 #mhome {
+   .ant-select{
+    width: 100%;
+    font-size: 0.38rem;
+    color: #323233;
+    .ant-select-selection__placeholder, .ant-select-search__field__placeholder{
+      color:#969799;
+    }
+    .ant-select-selection{
+       padding: 0 0.5rem;
+      background: #f6f6f6;
+      box-shadow:none;
+    }
+ .ant-select-selection--single{
+   height:100%;
+      
+ }
+ .ant-select-selection__rendered{
+ 
+   margin:0;
+ }
+    .ant-select-selection{
+          border: 0;
+    }
+  }
   .van-list {
     // padding-bottom: 1.3rem;
   }
@@ -373,9 +472,43 @@ export default {
         }
       }
     }
+    .region_class{
+      .van-icon-clear{
+          padding-right: 0.5rem;
+      }
+      .van-popup{
+        overflow-y: visible;
+      }
+      .country_isactive{
+        color: #1989fa;
+      }
+    .ant-spin-spinning{
+      padding: 0 0.5rem;
+    }
+      .van-popup {
+    
+      max-height: 62%;
+    }
+    
+    .van-cell {
+      padding: 0;
+      line-height: 1rem;
+    }
+     ul{
+        overflow-y: auto;
+         padding: 0 0.5rem;
+        li{
+        line-height: 1rem;
+        font-weight: 400; 
+        cursor: pointer;
+        font-size: 0.38rem;
+        }
+      }
+    }
 
     .van-popup {
       max-height: 62%;
+    
     }
     .van-cell {
       font-size: 0.32rem;

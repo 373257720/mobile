@@ -50,7 +50,7 @@ export default {
         this.username &&
         this.password &&
         this.password2 &&
-        this.password == this.password2
+        this.password === this.password2
       ) {
         this.$loading();
         this.$axios({

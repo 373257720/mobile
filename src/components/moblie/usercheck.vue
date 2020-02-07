@@ -6,33 +6,53 @@
           <div class="usertype">
             <p>类型</p>
             <van-dropdown-menu >
-              <van-dropdown-item  @change="function(params){return signer_submit(params,'userType')}" v-model="form.userType" :options="option1" />
+              <van-dropdown-item @change="function(params){return signer_submit(params,'userType')}" v-model="form.userType" :options="option1" >
+              </van-dropdown-item>
             </van-dropdown-menu>
             <footer>{{form_err.userType}}</footer>
           </div>
           <div class="identity">
             <p>身份</p>
             <van-dropdown-menu>
-              <van-dropdown-item v-model="form.userIdentityType" :options="option2" />
+              <van-dropdown-item v-if='form.userType==1' disabled v-model="form.userIdentityType" :options="option2" />
+            <van-dropdown-item v-else   v-model="form.userIdentityType" :options="option2" />
             </van-dropdown-menu>
             <footer>{{form_err.userIdentityType}}</footer>
           </div>
           <div class="nationality">
             <p>国籍</p>
-            <van-dropdown-menu>
-              <van-dropdown-item @close="choose_nation" v-model="form.userCountry" @change="nation" :options="countrylist" />
-            </van-dropdown-menu>
+                <a-select
+              showSearch
+              labelInValue
+              placeholder="请输入"
+              :showArrow="false"
+              :filterOption="false"
+             :getPopupContainer="
+              triggerNode => {return triggerNode.parentNode}"
+              @change="handleChange"
+              @search='search'
+              :notFoundContent="coutry_fetching ? undefined : '没有数据'"
+            
+            >
+              <!-- :filterOption="filterOption" -->
+            <a-spin v-if="coutry_fetching" slot="notFoundContent" size="small"/>
+            <a-select-option v-for="d in countrylist" :key="d.remark" :value='d.value+1' >{{d.chinese}}</a-select-option>
+            </a-select>
+            <!-- <van-dropdown-menu>
+              <van-dropdown-item v-model="form.userCountry" @change="nation" :options="countrylist" />
+            </van-dropdown-menu> -->
             <footer>{{form_err.userCountry}}</footer>
           </div>
           <div class="identy_check" v-show="form.userIdentityType==2?false:true">
             <div class="idcard_num">
               <p>个人姓名</p>
-              <van-field  @blur="(e)=>{vertify(e,'userName')}" v-model="form.userName" clearable placeholder="请输入"/>
+              <van-field   v-model="form.userName" placeholder="请输入" clearable />
               <footer>{{form_err.userName}}</footer>
             </div>
+                  <!-- this.form.userCountry=this.countrylist[value].remark; -->
             <div class="idcard_num">
-              <p>{{form.userCountry==2?'身份证号码':'Passport'}}</p>
-              <van-field  @blur="(e)=>{vertify(e,'userIdentity')}" v-model="form.userIdentity" placeholder="请输入" clearable />
+              <p>{{form.userCountry==='CHN'?'身份证号码':'Passport'}}</p>
+              <van-field v-model="form.userIdentity" placeholder="请输入" clearable />
               <footer>{{form_err.userIdentity}}</footer>
             </div>
             <div class="id_front">
@@ -43,7 +63,7 @@
                 multiple
                 :max-count="1"
               />
-              <footer>{{form_err.identityPicOne}}</footer>
+             <footer>{{form_err.userIdentity}}</footer>
             </div>
             <div class="id_back" v-show="switchon">
               <p>身份证背面</p>
@@ -53,41 +73,34 @@
                 multiple
                 :max-count="1"
               />
-              <footer>{{form_err.identityPicTwo}}</footer>
             </div>
           </div>
           <div  class="gongsi" v-show="form.userIdentityType==2?true:false">
             <div class="companyname2" >
               <p>公司名字</p>
-              <van-field  @blur="(e)=>{vertify(e,'userCompanyCh')}" v-model="form.userCompanyCh" placeholder="请输入公司名称" clearable />
-              <footer>{{form_err.userCompanyCh}}</footer>
+              <van-field v-model="form.userCompanyCh" placeholder="请输入公司名称" clearable />
             </div>
             <div class="companyname" >
-              <p>Company Name</p>
+              <p>Company name</p>
               <van-field
                 required
-                @blur="(e)=>{vertify(e,'userCompanyEn')}"
                 v-model="form.userCompanyEn"
                 placeholder="Please enter the company name"
                 clearable
               />
-              <footer>{{form_err.userCompanyEn}}</footer>
             </div>
             <div class="company_address" >
               <p>公司地址</p>
-              <van-field   @blur="(e)=>{vertify(e,'userAddressCh')}" v-model="form.userAddressCh" placeholder="请输入公司地址" clearable />
-              <footer>{{form_err.userAddressCh}}</footer>
+              <van-field  v-model="form.userAddressCh" placeholder="请输入公司地址" clearable />
             </div>
             <div class="company_address_eng">
-              <p>Company Address</p>
+              <p>Company address</p>
               <van-field
                 v-model="form.userAddressEn"
                 required
-                @blur="(e)=>{vertify(e,'userAddressEn')}"
                 placeholder="Please enter the company address"
                 clearable
               />
-              <footer>{{form_err.userAddressEn}}</footer>
             </div>
             <div class="companycheck">
               <p>公司证书</p>
@@ -117,7 +130,8 @@
   </div>
 </template>
 <script>
-  import validator from './validator.js'
+let timeout;
+  // import validator from './validator.js'
 export default {
   name: "usercheck",
   components: {
@@ -125,7 +139,7 @@ export default {
   },
   data() {
     return {
-      // success: true,
+      coutry_fetching: false,
       switchon: false,
       countrylist: [],
       option1: [
@@ -169,209 +183,213 @@ export default {
         userAddressCh: "",
         userAddressEn: "",
         userCompanyPic: "",
-        userType: 1,
+        userType: null,
         // identity: ""
       },
-      rules: {
-        userType: [
-          {required: true, message: '请选择' ,trigger: "change" }
-        ],
-        userName :[
-          {required: true, message: '请选择',trigger: "blur"  }
-        ],
-        mobile: [
-          {
-            validator: (rule, value, callback) => {
-              if (!value) {
-                callback('请输入手机号码');
-              } else if (/^[1][0-9]{10}$/.test(value)) {
-                callback();
-              } else {
-                callback('请输入正确的手机号码');
-              }
-            }
-          }
-        ],
-        code: [
-          {required: true, message: '请输入验证码'}
-        ]
-      },
+      // rules: {
+      //   userType: [
+      //     {required: true, message: '请选择' ,trigger: "change" }
+      //   ],
+      //   userName :[
+      //     {required: true, message: '请选择',trigger: "blur"  }
+      //   ],
+      //   mobile: [
+      //     {
+      //       validator: (rule, value, callback) => {
+      //         if (!value) {
+      //           callback('请输入手机号码');
+      //         } else if (/^[1][0-9]{10}$/.test(value)) {
+      //           callback();
+      //         } else {
+      //           callback('请输入正确的手机号码');
+      //         }
+      //       }
+      //     }
+      //   ],
+      //   code: [
+      //     {required: true, message: '请输入验证码'}
+      //   ]
+      // },
 
     };
   },
-  watch:{
-
-  },
   created() {
+      this.form.userType=1;
+       this.ulHtml('');
     // this.validator = validator(this.rules, this.form);
-    this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/base/countryList.do`
-    })
-      .then(res => {
-        this.countrylist = res.data.data;
-        for (let i = 0; i < this.countrylist.length; i++) {
-          this.countrylist[i].value = i;
-          this.countrylist[i].text = this.countrylist[i].countryTcname;
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // this.$axios({
+    //   method: "get",
+    //   url: `${this.$baseurl}/bsl_web/base/countryList.do`
+    // })
+    //   .then(res => {
+    //     this.countrylist = res.data.data;
+    //     for (let i = 0; i < this.countrylist.length; i++) {
+    //       this.countrylist[i].value = i;
+    //       this.countrylist[i].text = this.countrylist[i].countryTcname;
+    //     }
+    //     // console.log(this.countrylist);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   },
-  computed: {
-    // success: function() {
-    //   if (this.value != 0 && this.value != 1) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
+  watch:{
+    'form.userType':{
+            handler: function(val,oldVal){
+              if(val==1){
+                // console.log(this)
+                this.form.userIdentityType=2
+              }
+            
+            },
+            // 深度观察
+            deep:true
+        }
   },
   methods: {
-    vertify(e,b){
-      var reg = /^[0-9a-zA-Z]+$/;
-      if(b=='userName'){
-        if(!this.form.userName){
-          this.form_err.userName='请输入个人姓名';
-        }else{
-          this.form_err.userName='';
-
+    search(val){
+         if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
         }
-      }else if(b=='userIdentity'){
-        if(!this.form.userIdentity){
-          this.form_err.userIdentity='请输入证件号码';
-        }else{
-          this.form_err.userIdentity='';
-          if(!reg.test(this.form.userIdentity)){
-            this.form_err.userIdentity="你输入证件号码格式不正确";
-          }
-        }
-      }
-      // else if(b=='userCompanyCh'){
-      //   if(!this.form.userCompanyCh){
-      //     this.form_err.userCompanyCh='请输入公司中文名称';
-      //   }else{
-      //     this.form_err.userCompanyCh=''
-      //   }
-      // }
-      else if(b=='userCompanyEn'){
-        if(!this.form.userCompanyEn){
-          this.form_err.userCompanyEn='Please input the company name';
-        }else{
-          this.form_err.userCompanyEn=''
-        }
-      }
-      // else if(b=='userAddressCh'){
-      //   if(!this.form.userAddressCh){
-      //     this.form_err.userAddressCh='请输入公司中文地址';
-      //   }else{
-      //     this.form_err.userAddressCh=''
-      //   }
-      // }
-      else if(b=='userAddressEn'){
-        if(!this.form.userAddressEn){
-          this.form_err.userAddressEn='Please input the company address';
-        }else{
-          this.form_err.userAddressEn=''
-        }
-      }
+       timeout = setTimeout(this.ulHtml(val), 300);
+      ;
     },
-    choose_nation(){
-      if(!this.form.userCountry && this.form.userCountry!==0){
-        this.form_err.userCountry="请选择"
-      }else{
-        this.form_err.userCountry=''
-      }
-    },
-    signer_submit(value,type){
-      console.log(value,type)
-      this.validator.validate((error,fields)=>{
-        console.log(error,fields)
-      })
-    },
-    resetField(attrs) {
-      attrs = !attrs ? Object.keys(this.form_err) : ( Array.isArray(attrs) ? attrs : [attrs]);
-      attrs.forEach(attr => {
-        this.form_err[attr] = ''
-      })
-    },
-    validate(callback, data) {
-      this.validator.validate((errors, fields) => {
-        this.resetField();
-        if (errors) {
-          console.log(fields)
-          fields.forEach(item => {
-            // console.log(item)
-            this.form_err[item.field] = item.message
-          })
-        }
-        callback && callback(errors, fields)
-      }, data);
-    },
-    submit() {
-      if(this.form.userIdentityType==1){
-        if(!this.form.userCountry && this.form.userCountry!==0){
-          this.$toast('请选择国籍')
-          return
-        }
-        else if(this.form.userName==''){
-          this.$toast('请输入个人姓名')
-          return
-        }else if(this.form.userIdentity==''){
-          this.$toast('请输入证件号码')
-          return
-        }else if(this.form.identityPicOne==''){
-          this.$toast('请上传证件正面')
-          return
-        }else if(this.form.userCountry==2 && this.form.identityPicTwo==''){
-          this.$toast('请上传证件背面')
-        }
-      }else if(this.form.userIdentityType==2){
-        if(!this.form.userCountry && this.form.userCountry!==0){
-          this.$toast('请选择国籍')
-          return
-        }
-        // else if(this.form.userCompanyCh==''){
-        //   this.$toast('请输入公司中文名称')
-        //   return
-        // }
-        else if(this.form.userCompanyEn==''){
-          this.$toast('Please input the company name')
-          return
-        }
-        // else if(this.form.userAddressCh==''){
-        //   this.$toast('请输入公司中文地址')
-        //   return
-        // }
-        else if(this.form.userAddressEn==''){
-          this.$toast('Please input the company address')
-          return
-        }
-        else if(this.form.userCompanyPic==''){
-          this.$toast('请上传公司证书')
-          return
-        }
-      }
-      this.commit();
-
-      // this.validate((errors, fields) => {
-      //   console.log(errors, fields)
-      // })
-
-    },
-    nation(value) {
-      console.log(value);
-      if (value == 2) {
+   handleChange (value) {
+      // console.log(value);
+        if (this.countrylist[value.key-1].remark === 'CHN') {
         this.switchon = true;
         this.form.identityType = 1; //身份证
       } else {
         this.switchon = false;
         this.form.identityType = 2; //护照
       }
-      this.form.userCountryEn = this.countrylist[value].countryEnname;
-      this.form.userCountryCh = this.countrylist[value].countryZhname;
+      this.form.userCountry=this.countrylist[value.key-1].remark;
+      this.form.userCountryEn = this.countrylist[value.key-1].eng;
+      this.form.userCountryCh = this.countrylist[value.key-1].chinese;
+      this.coutry_fetching = false;
+      // console.log(this.form)
     },
+    handleBlur() {
+      // console.log('blur');
+    },
+    handleFocus() {
+      // console.log('focus');
+    },
+    // filterOption(input, option) {
+    //   if(this.countrylist.length>0){
+    //     return true
+    //   }else{
+    //     return false
+    //   }
+    //   // return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+    // },
+    ulHtml(val){
+      this.countrylist=[];
+      let arr=[];
+      this.coutry_fetching = true
+      this.$global.changepage(`${this.$baseurl}/bsl_web/base/countryList.do?searchKey=${val}`, "get")
+      .then(res => {
+         if(res.data.data.length>0){
+            for (let i = 0; i < res.data.data.length; i++) {
+                  arr.push({
+                    chinese: res.data.data[i].countryZhname,
+                    eng:res.data.data[i].countryEnname,
+                    value: i,
+                    remark: res.data.data[i].countryCode
+                  });
+             }
+             this.countrylist=arr;
+         }
+           this.coutry_fetching = false
+      });
+      // console.log(this.countrylist)
+    },
+    signer_submit(value,type){
+      // console.log(value,type)
+      // this.validator.validate((error,fields)=>{
+      //   console.log(error,fields)
+      // })
+    },
+    // resetField(attrs) {
+    //   attrs = !attrs ? Object.keys(this.form_err) : ( Array.isArray(attrs) ? attrs : [attrs]);
+    //   attrs.forEach(attr => {
+    //     this.form_err[attr] = ''
+    //   })
+    // },
+    // validate(callback, data) {
+    //   this.validator.validate((errors, fields) => {
+    //     this.resetField();
+    //     if (errors) {
+    //       console.log(fields)
+    //       fields.forEach(item => {
+    //         // console.log(item)
+    //         this.form_err[item.field] = item.message
+    //       })
+    //     }
+    //     callback && callback(errors, fields)
+    //   }, data);
+    // },
+    submit() {
+      if(this.form.userIdentityType==1){
+        if(this.form.userCountry==''){
+            this.$toast('请输入国籍');
+            return
+        }
+        else if(this.form.userName==''){
+            this.$toast('请输入个人姓名');
+            return
+        }else if(this.form.userIdentity==''){
+            this.$toast('请输入证件号码');
+            return
+        }else if(this.form.userCountry == 'CHN'){
+           if(this.fileList_front.length==0){
+                this.$toast('请上传身份证正面');
+            return
+           }else if(this.fileList_back.length==0){
+                  this.$toast('请上传身份证反面');
+            return
+           }
+        }
+        else if(this.form.userCountry != 'CHN'){
+            if(this.fileList_front.length==0){
+                this.$toast('请上传护照');
+            return
+           } 
+        }
+      }else if(this.form.userIdentityType==2){
+           if(this.form.userCountry==''){
+            this.$toast('请输入国籍');
+            return
+        }
+        else if(this.form.userCompanyEn==''){
+            this.$toast('Please input company name');
+            return
+        }else if(this.form.userAddressEn==''){
+            this.$toast('Please input company address');
+            return
+        }else if(this.fileList_company.length==0){
+            this.$toast('请上传公司证书');
+            return
+        } 
+      }
+      this.commit();
+      // this.validate((errors, fields) => {
+      //   console.log(errors, fields)
+      // })
+    },
+    // nation(value) {
+    //   console.log(value);
+    //   if (value == 2) {
+    //     this.switchon = true;
+    //     this.form.identityType = 1; //身份证
+    //   } else {
+    //     this.switchon = false;
+    //     this.form.identityType = 2; //护照
+    //   }
+    //   this.form.userCountryEn = this.countrylist[value].countryEnname;
+    //   this.form.userCountryCh = this.countrylist[value].countryZhname;
+    // },
     // 返回 Promise
     asyncBeforeRead(file, index) {
       if (file.type !== "image/jpeg") {
@@ -389,7 +407,7 @@ export default {
         }
       }).then(res => {
         var imgurl = res.data.data.url;
-        // console.log(imgurl);
+        console.log(imgurl);
         if (index == 1) {
           this.form.identityPicOne = imgurl;
         } else if (index == 2) {
@@ -399,10 +417,10 @@ export default {
         }
         // console.log(this.form.userCompanyPic);
       });
-      console.log(this.fileList_front)
       return true;
     },
     commit() {
+      console.log(this.form);
       this.$loading();
       this.$axios({
         method: "post",
@@ -418,13 +436,12 @@ export default {
             this.$dialog
               .alert({
                 title: res.data.resultDesc,
-                message: "确定返回登录页"
+                message: "点击返回登录页"
               })
               .then(() => {
                 this.$goto("login");
               });
             // this.success = !this.success;
-            // this.$toast.clear();
           } else {
             this.$dialog
               .alert({
@@ -434,7 +451,15 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
+           this.$toast.clear();
+            this.$dialog
+              .alert({
+                title: '网络异常',
+                message: "点击返回登录页"
+              })
+              .then(() => {
+                this.$goto("login");
+              });
         });
     }
   }
@@ -442,6 +467,32 @@ export default {
 </script>
 <style lang="scss">
 #usercheck {
+   .ant-select{
+    width: 100%;
+    border: 1px solid #ababab;
+    font-size: 0.38rem;
+    color: #323233;
+    .ant-select-selection__placeholder, .ant-select-search__field__placeholder{
+      color:#969799;
+    }
+    .ant-select-selection{
+       padding: 0 0.2rem;
+        //  border: 1px solid #ababab;
+      background: #f6f6f6;
+      box-shadow:none;
+    }
+ .ant-select-selection--single{
+   height:100%;
+      
+ }
+ .ant-select-selection__rendered{
+ 
+   margin:0;
+ }
+    .ant-select-selection{
+          border: 0;
+    }
+  }
   // background: white;
   .van-cell {
     font-size: 0.38rem;
@@ -511,7 +562,7 @@ export default {
 
   .van-uploader__preview {
     margin: 0;
-
+ 
     // overflow: hidden;
   }
   .van-uploader__preview-image {
@@ -527,20 +578,25 @@ export default {
   }
   .van-uploader {
     width: 100%;
-    box-sizing: border-box;
     height: 5rem;
+    
+   display: block;
     margin-bottom: 0;
   }
+  // .van-uploader__wrapper{
+  //   width: 100%;
+  //   height: 100%;
+  // }
   .van-uploader__upload {
     width: 100%;
-  box-sizing: border-box;
     background: #f6f6f6;
     border: 0;
     height: 5rem;
+    border: 1px solid #ababab; 
     margin: 0;
-    border: 1px solid #ababab;
+  
     border-radius: 0.05rem;
-
+    // box-sizing: border-box;
     .van-uploader__upload-icon {
       font-size: 0.5rem;
     }
@@ -601,9 +657,15 @@ export default {
         > p {
           margin-bottom: 0.1rem;
           font-size: 0.38rem;
+        
         }
+          >p::before {
+              content: "*";
+              color: #f56c6c;
+              margin-right: 0.1rem;
+          }  
         footer{
-          height: 0.8rem;
+          height: 0.4rem;
           color: #ee0a24;
         }
     }
@@ -616,23 +678,29 @@ export default {
           margin-bottom: 0.1rem;
           font-size: 0.38rem;
         }
+           >p::before {
+              content: "*";
+              color: #f56c6c;
+              margin-right: 0.1rem;
+          }  
       }
     }
     div.gongsi {
       > div {
-        /*margin-bottom: 0.6rem;*/
+        margin-bottom: 0.4rem;
         > p {
           margin-bottom: 0.1rem;
           font-size: 0.38rem;
         }
+      
       }
-    }
-    .id_front,id_back{
-      footer{
-        height: 0.8rem;
-        color: #ee0a24;
+      .companyname,.company_address_eng,.companycheck{
+           >p::before {
+              content: "*";
+              color: #f56c6c;
+              margin-right: 0.1rem;
+          }  
       }
-      /*margin-bottom: 0.8rem;*/
     }
     header {
       text-align: center;

@@ -62,7 +62,6 @@
             <img :src="item.pic" alt />
             <span>{{item.signStatustext}}</span>
           </aside>
-
         </li>
       </ul>
     </van-list>
@@ -70,6 +69,7 @@
   </div>
 </template>
 <script>
+// console.log(timeout)
 export default {
   name: "mysign",
   data() {
@@ -448,7 +448,7 @@ export default {
       font-size: 0.3rem;
     }
     .van-cell--clickable {
-      font-size: 0.3rem;
+      font-size: 0.4rem;
     }
   }
 }
@@ -474,7 +474,7 @@ export default {
       height: 1rem;
       border-bottom: 1px solid #7c7c7c;
       line-height: 1rem;
-      font-size: 0.38rem;
+      font-size: 0.4rem;
       color: #00adef;
       // i{
       //    border: 0.05rem solid black;

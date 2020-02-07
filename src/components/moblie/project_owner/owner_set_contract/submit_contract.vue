@@ -120,13 +120,13 @@ export default {
   }
 }
 .van-dialog {
-  font-size: 0.3rem;
+  font-size: 0.48rem;
 }
 .van-dialog__message {
-  font-size: 0.3rem;
+  font-size: 0.4rem;
 }
 .van-button {
-  font-size: 0.3rem;
+  font-size: 0.48rem;
 }
 </style>
 <style lang="scss" scoped>

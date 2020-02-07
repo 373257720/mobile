@@ -101,7 +101,7 @@ export default {
   created() {
     let details = this.$route.query;
     // projectId=1576493020&signStatus=0&signId=0
-    // this.$loading();
+    this.$loading();
     if(details.signStatus && details.signId){
       this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId
       }&signStatus=${details.signStatus}&signId=${
@@ -149,6 +149,7 @@ export default {
               }
             }
           }
+            this.$toast.clear();
         }
       )
     }

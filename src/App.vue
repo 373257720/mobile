@@ -4,6 +4,8 @@
   </div>
 </template>
 <script>
+
+    // import {mapState} from 'vuex'
 export default {
   name: "App",
   watch: {
@@ -13,6 +15,7 @@ export default {
     }
   },
   created() {
+    // console.log(...mapState)
     //在页面加载时读取sessionStorage里的状态信息
     // console.log(sessionStorage.getItem("test"))
     if (sessionStorage.getItem("store")) {
@@ -82,8 +85,30 @@ export default {
   color: #2c3e50;
   margin-top: 60px; */
 }
-.van-toast{
-  /*background: none;*/
-  /*color:blue;*/
+.loading{
+  background: none;
+
+}
+.van-dialog{
+
+  /* border: 1px solid; */
+}
+
+.van-dialog__message {
+  font-size: 0.48rem;
+}
+.van-button {
+  font-size: 0.48rem;
+}
+  .van-dialog{
+    font-size: 0.48rem;
+     
+  }
+/* .van-overlay{
+  background-color:white;
+  opacity: 0.5;
+} */
+.van-toast__loading{
+  color:#1989fa; 
 }
 </style>

@@ -197,15 +197,7 @@ export default {
     }
   }
 }
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
-}
+
 </style>
 <style lang="scss" scoped>
 #p_sign_request {

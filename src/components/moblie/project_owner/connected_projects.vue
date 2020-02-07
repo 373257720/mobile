@@ -4,9 +4,9 @@
       <van-icon name="arrow-left" @click="$global.previous()" />已连接项目
     </nav>
     <main>
-      <div style="text-align: center;margin-top: 2rem;color: #969799">{{reminder}}</div>
+      <div class='remind' v-if='remind_show'>{{reminder}}</div>
       <van-collapse v-model="activeName" accordion>
-        <van-collapse-item v-for="(l,i) in lists" :key="l.projectUserId"  :name="i">
+        <van-collapse-item v-for="(l,i) in lists" :key="l.projectId"  :name="i">
           <div slot="title" class="title">
               <header>{{l.projectName}}</header>
           </div>
@@ -15,7 +15,7 @@
                <li v-for="(item,index) in l.investorsResp" :key="index" class="item_li">
                  <p><span>{{index+1}}</span></p>
                  <ul >
-                   <li  v-for="(value,key,index) in item">
+                   <li v-for="(value,key,index) in item">
                      {{value}}
                    </li>
                  </ul>
@@ -38,6 +38,7 @@
       return {
         activeName:'',
         reminder:'',
+        remind_show:false,
         lists:[],
       };
     },
@@ -57,6 +58,7 @@
             this.lists=[...res.data.data];
             if(this.lists.length<=0){
               this.reminder='没有更多了';
+              this.remind_show=true;
               return
             }
             this.reminder='';
@@ -89,7 +91,7 @@
       }
     }
    .van-collapse-item .van-cell{
-      margin:0 0.3rem;
+      // padding:0 0.3rem;
     }
     .van-collapse-item{
       .van-cell{
@@ -97,7 +99,7 @@
         min-height: 2rem;
 
         font-size: 0.46rem;
-        padding:  0.5rem 0;
+        padding:  0.5rem 0.3rem;
         width: initial;
         box-sizing: border-box;
         word-break: break-all;
@@ -209,7 +211,10 @@
   #p_connected_projects {
     width: 100%;
    height:100%;
-    margin: 1.6rem 0 1.6rem 0;
+    margin: 0 0 1.6rem 0;
+    .remind{
+     text-align: center;padding-top: 1rem;color: #969799;
+    }
     nav {
       width: 100%;
       text-align: center;

@@ -9,8 +9,8 @@
             <p class="row1">投资者类型:</p>
             <p class="row2">
               <van-cell-group>
-                <van-dropdown-menu>
-                  <van-dropdown-item v-model="form.investorsType" :options="investors_type" />
+                <van-dropdown-menu >
+                  <van-dropdown-item  v-model="form.investorsType" :options="investors_type" />
                 </van-dropdown-menu>
               </van-cell-group>
             </p>
@@ -52,7 +52,7 @@
 <!--              <mu-select  @change="searchregion" solo filterable v-model="form.investorsArea" full-width>-->
 <!--                <mu-option  v-for="(item,index) in region" :key="item.countryCode"  :label="item.text" :value="item.countryCode"></mu-option>-->
 <!--              </mu-select>-->
-
+<!-- 
               <van-cell-group>
                 <van-dropdown-menu>
                   <van-dropdown-item
@@ -63,9 +63,38 @@
           return regionchoose(value,region[value])
         }"
                   />
-                </van-dropdown-menu>
-                <!-- <van-field v-model="form.investorsArea" placeholder="请输入" /> -->
-              </van-cell-group>
+                </van-dropdown-menu> -->
+             <!-- <input type="text" class="layui-input blockInput" id="taskExpression" name="taskExpression" :v-model="region_nametitle" lay-verify="required"  oninput="ulHtml()"/> -->
+            <!-- <div id="expressionDiv" class="expression" style="width: 535px;height:200px;display:none;border: 1px rgb(210, 210, 210) solid;"> -->
+             
+            <!-- </div> -->
+                <!-- <van-field v-model="region_nametitle" placeholder="请输入" @focus='getlist' @input='ulHtml' @blur='judge'/>
+                <ul id="expression" v-show="isshow">
+                  <li v-for='(item,idx) in region' :key='idx' @click='selectregion(item)'>{{item.text}}</li>
+                </ul> -->
+                <!-- <a-select
+            showSearch
+            placeholder="请输入报告模板类型"
+            v-decorator="['reportTemplate', validatorRules.reportTemplate]"
+          >
+          <a-select-option v-for="d in templateDatas" :key="d.value" :value="d.value">{{d.text}}</a-select-option>
+          </a-select> -->
+              <!-- </van-cell-group> -->
+            <a-select
+              showSearch
+              placeholder="请输入"
+              labelInValue
+              :showArrow="false"
+               :getPopupContainer="
+              triggerNode => {return triggerNode.parentNode}"
+              :filterOption="false"
+              @change="handleChange"
+              @search='search'
+              :notFoundContent="countrylist_fetching ? undefined : '没有数据'"
+            >
+             <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
+              <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}</a-select-option>
+         </a-select> 
             </p>
           </li>
         </ul>
@@ -80,10 +109,16 @@
   </div>
 </template>
 <script>
+let timeout;
+// let currentValue;
+
+// import jsonp from 'fetch-jsonp';
+// import querystring from 'querystring';
 export default {
   name: "a_recommand_i",
   data() {
     return {
+      countrylist_fetching:false,
       investors_type: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }],
       dad_text: "推荐投资人",
       title: "",
@@ -94,9 +129,8 @@ export default {
         //   remark: ""
         // }
       ],
-      region_nametitle: "",
       form: {
-        investorsType: "",
+        investorsType: 1,
         investorsCompany: "",
         investorsName: "",
         investorsArea: "",
@@ -109,47 +143,73 @@ export default {
 
   created() {
     this.form.projectId = this.$route.query.projectId;
-    this.$global
-      .changepage(`${this.$baseurl}/bsl_web/base/countryList.do?searchKey=`, "get")
-      .then(res => {
-        for (let i = 0; i < res.data.data.length; i++) {
-          this.region.push({
-            text: res.data.data[i].countryZhname,
-            value: i,
-            remark: res.data.data[i].countryCode
-          });
-        }
-      });
-    console.log(this.region)
+    this.ulHtml('');
+    // console.log(this.region)
   },
   computed: {
-    // typeofidentity(){
-    //     this.form.investorsType
-    // }
+
   },
   methods: {
-    // region_remoteMethod(query) {
-    //   this.region=[];
-    //   console.log(query)
-    //   this.$axios({
-    //     method: "get",
-    //     url: `${this.$baseurl}/bsl_admin_web/base/countryList?searchKey=${query}`,
-    //   }).then(res=>{
-    //     for (let i = 0; i < res.data.data.length; i++) {
-    //       this.region.push({
-    //         text: res.data.data[i].countryZhname,
-    //         value: i,
-    //         remark: res.data.data[i].countryCode
-    //       });
-    //     }
-    //   })
-    // },
-    selectregion(val) {
-      console.log(val);
-      // this.form.bslAreaCode = val.countryCode;
-      // this.form.projectArea = val.countryZhname;
-      // this.form.projectAreaEn = val.countryEnname;
+   search(val){
+    if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+    timeout = setTimeout(this.ulHtml(val), 300);
+      ;
     },
+   handleChange (value) {
+    //  console.log(value)
+      this.form.investorsArea=this.region[value.key-1].chinese;
+      this.countrylist_fetching = false;
+      // console.log(this.form)
+    },
+    // handleBlur() {
+    //   // console.log('blur');
+    // },
+    // handleFocus() {
+    //   // console.log('focus');
+    // },
+    // filterOption(input, option) {
+    //   if(this.region.length>0){
+    //     return true
+    //   }else{
+    //     return false
+    //   }
+    //   // return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+    // },
+    ulHtml(val){
+      this.region=[];
+      let arr=[];
+      this.countrylist_fetching=true;
+      this.$global.changepage(`${this.$baseurl}/bsl_web/base/countryList.do?searchKey=${val}`, "get")
+      .then(res => {
+         if(res.data.data.length>0){
+            for (let i = 0; i < res.data.data.length; i++) {
+                   arr.push({
+                    chinese: res.data.data[i].countryZhname,
+                    eng:res.data.data[i].countryEnname,
+                    value: i,
+                    remark: res.data.data[i].countryCode
+                  });
+             }
+             this.region=arr;
+         }
+          // console.log(this.region)
+         this.countrylist_fetching = false
+      });
+  
+    },
+    // selectregion(val) {
+    //   console.log(val);
+    //   this.region_nametitle=val.text;
+    //   this.form.investorsArea=val.remark;
+    //    this.isshow=false;
+    //    this.iswatch=true;
+    //   // this.form.bslAreaCode = val.countryCode;
+    //   // this.form.projectArea = val.countryZhname;
+    //   // this.form.projectAreaEn = val.countryEnname;
+    // },
     remind(meg) {
       this.$dialog
         .alert({
@@ -167,14 +227,26 @@ export default {
       //  console.log(this.form.investorsArea,region.remark)
     },
     submit() {
-      console.log(this.form);
+       if(this.form.investorsType==2 && this.form.investorsCompany==''){
+              this.$toast({ message:'请输入公司名称'});
+            return  
+        }
+        if(this.form.investorsName==''){
+            this.$toast('请输入投资者姓名');
+            return
+        }else if(this.form.investorsArea==''){
+            this.$toast('请输入地区');
+            return
+        }
+      this.commit();
+    },
+    commit() {
       this.$dialog
         .confirm({
           title: "确认提交"
           // message: "确认提交"
         })
         .then(() => {
-          // on confirm
           this.$axios({
             method: "post",
             url: `${this.$baseurl}/bsl_web/projectSign/submitInvestors`,
@@ -183,7 +255,7 @@ export default {
             if (res.data.resultCode == 10000) {
               this.$dialog
                 .alert({
-                  title: "提交成功"
+                  title: res.data.resultDesc
                   // message: "弹窗内容"
                 })
                 .then(() => {
@@ -203,6 +275,30 @@ export default {
 </script>
 <style lang="scss">
 #a_recommand_i {
+  .ant-select{
+    width: 100%;
+    font-size: 0.38rem;
+    color: #323233;
+    .ant-select-selection__placeholder, .ant-select-search__field__placeholder{
+      color:#969799;
+    }
+    .ant-select-selection{
+       padding: 0 0.5rem;
+      background: #f6f6f6;
+      box-shadow:none;
+    }
+ .ant-select-selection--single{
+   height:100%;
+      
+ }
+ .ant-select-selection__rendered{
+ 
+   margin:0;
+ }
+    .ant-select-selection{
+          border: 0;
+    }
+  }
   .el-select{
     height: 100%;
     width: 100%;
@@ -237,6 +333,7 @@ export default {
   .van-dropdown-menu__title {
     font-size: 0.38rem;
     width: 100%;
+    // height: 100%  ;
     padding: 0 0.5rem;
     box-sizing: border-box;
   }
@@ -379,16 +476,21 @@ export default {
         li {
           margin-bottom: 0.4rem;
           display: flex;
-          height: 1.2rem;
+          height: 1rem;
           /*align-items: baseline;*/
           font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
             width: 3rem;
-            line-height: 1.2rem;
+            line-height: 1rem;
             /*margin-bottom: 0.2rem;*/
           }
+            .row1::before {
+                content: "*";
+                color: #f56c6c;
+                margin-right: 0.1rem;
+            }  
           .row2 {
             width: 7rem;
             height: 100%;

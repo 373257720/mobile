@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import "./css/base.css";
 import 'vant/lib/index.css';
 import axios from '../node_modules/axios'
 import qs from 'qs'
@@ -19,6 +18,13 @@ Vue.use(Vuex);
 import Promise from 'es6-promise';
 Promise.polyfill();
 
+// import ant from 'ant-design-vue'
+// import 'ant-design-vue/dist/antd.less'
+// Vue.use(ant)
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
+  Vue.use(Antd)
+  import "./css/base.css"
 // 复制插件
 // import VueClipboards from 'vue-clipboard2'
 // Vue.use(VueClipboards);
@@ -98,10 +104,11 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
 }
 Vue.prototype.$loading = function loading() {
   // console.log(this);
-
   this.$toast.loading({
-    loadingType: 'spinner',
-    message: 'loading...',
+    loadingType: 'circular',
+    overlay:true,
+    className:'loading',
+    // message: 'loading...',
     // forbidClick:true,
     duration: 0,
   });

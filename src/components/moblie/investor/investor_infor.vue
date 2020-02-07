@@ -74,6 +74,7 @@ export default {
     };
   },
   created() {
+    this.$loading();
     this.$axios({
       method: "post",
       url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail?investorsId=${this.$route.query.investorsId}`
@@ -85,8 +86,9 @@ export default {
           }
         }
       }
-      // console.log(res);
+       this.$toast.clear();
     });
+
   }
 };
 </script>
@@ -129,26 +131,23 @@ export default {
     }
     article {
       margin: 0 0 1.3rem 0;
-
       ul {
         padding: 0.5rem 0.5rem 0 0.5rem;
         li {
           > div {
-            margin-bottom: 0.5rem;
-            /*display: flex;*/
+            margin-bottom: 0.5rem;  
             align-items: baseline;
-            font-size: 0.38rem;
+           font-size: 0.44rem;
             line-height: 0.56rem;
           }
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
-            /*width: 3.2rem;*/
+            margin-bottom: 0.3rem;
           }
           .row2 {
-            /*width: 7rem;*/
             word-break: break-all;
-            line-height: 0.48rem;
+            line-height: 0.6rem;
             color: #787878;
           }
         }

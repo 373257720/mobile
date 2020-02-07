@@ -134,8 +134,7 @@ export default {
       transform: (translate(0, -50%));
     }
   }
-}
-.van-dialog {
+  .van-dialog {
   font-size: 0.3rem;
 }
 .van-dialog__message {
@@ -144,6 +143,8 @@ export default {
 .van-button {
   font-size: 0.3rem;
 }
+}
+
 </style>
 <style lang="scss" scoped>
 #a_project_intro {
