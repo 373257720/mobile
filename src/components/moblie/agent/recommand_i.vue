@@ -83,17 +83,16 @@
             <a-select
               showSearch
               placeholder="请输入"
-              labelInValue
+              :value="form.investorsArea"
               :showArrow="false"
-               :getPopupContainer="
-              triggerNode => {return triggerNode.parentNode}"
+               :getPopupContainer="triggerNode => triggerNode.parentNode"
               :filterOption="false"
               @change="handleChange"
               @search='search'
-              :notFoundContent="countrylist_fetching ? undefined : '没有数据'"
+              :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
             >
              <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
-              <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}</a-select-option>
+              <a-select-option :title='d.chinese' v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
          </a-select> 
             </p>
           </li>
@@ -160,7 +159,7 @@ export default {
     },
    handleChange (value) {
     //  console.log(value)
-      this.form.investorsArea=this.region[value.key-1].chinese;
+      this.form.investorsArea=this.region[value-1].chinese;
       this.countrylist_fetching = false;
       // console.log(this.form)
     },
@@ -492,6 +491,7 @@ export default {
                 margin-right: 0.1rem;
             }  
           .row2 {
+              position: relative;
             width: 7rem;
             height: 100%;
             word-break: break-all;
@@ -500,28 +500,6 @@ export default {
             box-sizing: border-box;
              border: 1px solid #b3b3b3;
 
-          }
-        }
-        .contract {
-          display: block;
-
-          .row1 {
-            margin-bottom: 0.1rem;
-          }
-          .row2 {
-            width: 6.5rem;
-            height: 6rem;
-            // border: 1px solid #b3b3b3;
-            // box-sizing: border-box;
-            padding: 0;
-            background: #f2f2f2;
-            .draft1_middle {
-              padding: 0.3rem;
-              box-sizing: border-box;
-              width: 100%;
-              height: 100%;
-              overflow-y: auto;
-            }
           }
         }
       }

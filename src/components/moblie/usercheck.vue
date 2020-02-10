@@ -21,23 +21,25 @@
           </div>
           <div class="nationality">
             <p>国籍</p>
-                <a-select
+            <div class="nationality_position">
+           <a-select
               showSearch
-              labelInValue
+              :value="form.userCountryCh"
               placeholder="请输入"
               :showArrow="false"
               :filterOption="false"
-             :getPopupContainer="
-              triggerNode => {return triggerNode.parentNode}"
+             :getPopupContainer="triggerNode => triggerNode.parentNode"
               @change="handleChange"
               @search='search'
-              :notFoundContent="coutry_fetching ? undefined : '没有数据'"
+              :notFoundContent="coutry_fetching ? undefined : 'Not Found'"
             
             >
               <!-- :filterOption="filterOption" -->
             <a-spin v-if="coutry_fetching" slot="notFoundContent" size="small"/>
-            <a-select-option v-for="d in countrylist" :key="d.remark" :value='d.value+1' >{{d.chinese}}</a-select-option>
+            <a-select-option v-for="d in countrylist" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
             </a-select>
+            </div>
+             
             <!-- <van-dropdown-menu>
               <van-dropdown-item v-model="form.userCountry" @change="nation" :options="countrylist" />
             </van-dropdown-menu> -->
@@ -257,16 +259,16 @@ export default {
     },
    handleChange (value) {
       // console.log(value);
-        if (this.countrylist[value.key-1].remark === 'CHN') {
+        if (this.countrylist[value-1].remark === 'CHN') {
         this.switchon = true;
         this.form.identityType = 1; //身份证
       } else {
         this.switchon = false;
         this.form.identityType = 2; //护照
       }
-      this.form.userCountry=this.countrylist[value.key-1].remark;
-      this.form.userCountryEn = this.countrylist[value.key-1].eng;
-      this.form.userCountryCh = this.countrylist[value.key-1].chinese;
+      this.form.userCountry=this.countrylist[value-1].remark;
+      this.form.userCountryEn = this.countrylist[value-1].eng;
+      this.form.userCountryCh = this.countrylist[value-1].chinese;
       this.coutry_fetching = false;
       // console.log(this.form)
     },
@@ -622,35 +624,13 @@ export default {
   height: 100%;
   // width: 80%;
   margin: 0 auto;
-  .usercheck2 {
-    padding: 3.24rem 0 3.04rem 0;
-    text-align: center;
-    img {
-      // width: 4.28rem;
-      height: 1.54rem;
-    }
-    section {
-      text-align: center;
-      font-size: 0.64rem;
-      font-weight: 600;
-      margin: 3.3rem 0 1.1rem 0;
-    }
-    .backbtn {
-      text-align: center;
-      // width: 100px;
-      button {
-        background: #00adef;
-        width: 8rem;
-        height: 1rem;
-        line-height: 1rem;
-        font-size: 0.4rem;
-        color: white;
-      }
-    }
-  }
+
   .usercheck {
     font-size: 0.38rem;
     .vanForm{
+      div.nationality_position{
+            position: relative;
+      }
       >div {
         /*margin-bottom: 0.6rem;*/
         padding: 0 0.8rem;

@@ -6,13 +6,12 @@ export default new Vuex.Store({
     currentUser: '',
     currentUsertype: null,
     contract: {
-      signId:'',
       article:'',
       owner_sign:'',
       owner_name:'',
       owner_title:'',
       owner_signdate:null,
-
+      agent_sign:"",
       agent_name:'',
       agent_title:'',
       agent_signdate:null,

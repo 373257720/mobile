@@ -53,6 +53,7 @@ import a_sign_contract from '@/components/moblie/agent/contract/sign_contract'
 import a_submit_contract from '@/components/moblie/agent/contract/submit_contract'
 import a_check_contract from '@/components/moblie/agent/contract/check_contract'
 import agent_set_contract from "../components/moblie/agent/contract/agent_set_contract";
+import uploadtoblock from  "../components/moblie/agent/contract/uploadtoblock";
 
 
 // investor/
@@ -185,6 +186,11 @@ const routes = [
         component: a_submit_contract,
       },
     ],
+  },
+  { 
+    path: '/uploadtoblock',
+    name: 'uploadtoblock',
+    component:uploadtoblock,
   },
   {
     path: '/a_project_intro',
@@ -345,4 +351,32 @@ let router = new Router({
   // mode:'history',
   routes
 });
+// 全局路由守卫
+//在进入某个路由前执行的代码
+// router.beforeEach((to, from, next) => {
+//   let token = sessionStorage.getItem('token');
+//   if (to.meta.requireAuth) {
+//     // 判断是否登录
+//     if (token) {
+//       next();
+//     } else {
+//       next({
+//         path: '/login'
+//       })
+//     }
+//   } else {
+//     if (to.path === '/login' && token) {
+//       next({
+//         path: '/home'
+//       });
+//     } else {
+//       next();
+//     }
+//     // 要进入to路由，必须调用next()方法
+
+//   }
+// });
+// router.afterEach((to, from) => {
+// // console.log('after')
+// })
 export default router;

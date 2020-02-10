@@ -26,10 +26,27 @@ export default {
   props:['contract','signStatu'],
   data() {
     return {
-      iswatch:'',
+      iswatch:'',//2summit 4upload
       token:'',
     };
   },
+// beforeRouteEnter(to,from,next){
+//       next((vm)=>{ //参数vm就是当前组件的实例。
+//         console.log(to,from,vm.$route.query)
+//         if(from.name!="a_sign_contract" && vm.iswatch==2){
+//           next({name: 'agent_set_contract',query:vm.$route.query}); 
+//         }
+//       })
+//   },
+  // beforeRouteLeave(to,from,next){
+  //     console.log(to,from,this.iswatch)
+  //       if(to.name=='a_sign_contract' && this.iswatch==4){
+  //         console.log(123)
+  //          next({path: '/mysign'});
+  //       }else{
+  //         // next()
+  //       }
+  // },
   created() {
     console.log(this.signStatu)
    this.iswatch=this.signStatu;
@@ -53,27 +70,27 @@ export default {
   },
   methods: {
     goback(){
-      if(this.iswatch==4){
-        this.$routerto('mysign');
-      }else if(this.iswatch==2){
+      // if(this.iswatch==4){
+      //   this.$routerto('mysign');
+      // }else if(this.iswatch==2){
           this.$global.previous();
-      }
+      // }
     },
     // 签约
     signproject4() {
-      // for(let i in this.contract){
-      //   if(this.contract[i]==''){
-      //     this.$dialog
-      //       .confirm({
-      //         title: "请返回完成信息填写"
-      //         // message: "弹窗内容"
-      //       })
-      //       .then(() => {
-      //         this.$routerto('p_set_contract',this.$route.query)
-      //       });
-      //     return;
-      //   }
-      // }
+      for(let i in this.contract){
+        if(this.contract[i]==''){
+          this.$dialog
+            .confirm({
+              title: "请返回完成信息填写"
+              // message: "弹窗内容"
+            })
+            .then(() => {
+              this.$routerto('agent_set_contract',this.$route.query)
+            });
+          return;
+        }
+      }
       this.signId = this.$route.query.signId;
       this.$loading();
       this.$axios({
@@ -112,7 +129,7 @@ export default {
     // 上链
     contract_submit() {
       this.projectId = this.$route.query.projectId;
-      let urlpath = `${this.$baseurl3}/#/upload_contract?visitToken=${this.token}`;
+      let urlpath = `${this.$baseurl}/#/upload_contract?visitToken=${this.token}`;
       this.$toast.loading({
         loadingType: "spinner",
         message: "正在上传,大概需要1分钟,请耐心等候",
@@ -211,7 +228,8 @@ export default {
       transform: (translate(0, -50%));
     }
   }
-
+.van-cell{
+  padding: 0;
 }
 .van-dialog {
   font-size: 0.3rem;
@@ -222,6 +240,8 @@ export default {
 .van-button {
   font-size: 0.3rem;
 }
+}
+
 </style>
 <style lang="scss" scoped>
 #a_submit_contract {

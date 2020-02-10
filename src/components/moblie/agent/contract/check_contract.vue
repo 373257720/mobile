@@ -86,6 +86,9 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+  .van-cell{
+    padding: 0;
+  }
   .van-hairline--top-bottom::after {
     border: 0.02rem solid #8e8e8e;
   }

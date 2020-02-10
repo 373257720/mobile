@@ -85,7 +85,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px; */
 }
-.loading{
+div.loading{
   background: none;
 
 }
@@ -100,7 +100,7 @@ export default {
 .van-button {
   font-size: 0.48rem;
 }
-  .van-dialog{
+.van-dialog{
     font-size: 0.48rem;
      
   }
@@ -108,7 +108,7 @@ export default {
   background-color:white;
   opacity: 0.5;
 } */
-.van-toast__loading{
+/* .van-toast__loading{
   color:#1989fa; 
-}
+} */
 </style>

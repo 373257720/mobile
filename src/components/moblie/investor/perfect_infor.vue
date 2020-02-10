@@ -32,18 +32,17 @@
                 <a-select
               showSearch
               placeholder="请输入"
-              labelInValue
-            :getPopupContainer="triggerNode => {return triggerNode.parentNode}"
+              :value='form.investorsArea'
+             :getPopupContainer="triggerNode => triggerNode.parentNode"
               :showArrow="false"
               :filterOption="false"
               @change="handleChange"
               @search='search'
-              :notFoundContent="countrylist_fetching ? undefined : '没有数据'"
-            
+              :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
             >
               <!-- :filterOption="filterOption" -->
             <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
-                 <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}</a-select-option>
+                 <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
           </a-select> 
             </p>
           </li>
@@ -159,7 +158,7 @@ export default {
       ;
     },
    handleChange (value) {
-      this.form.investorsArea=this.region[value.key-1].chinese;
+      this.form.investorsArea=this.region[value-1].chinese;
       this.countrylist_fetching = false;
       // console.log(this.form)
     },

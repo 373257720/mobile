@@ -35,7 +35,7 @@
           <van-search v-model="text" @input='search_region' placeholder="请输入搜索关键词" />
           <a-spin v-if="countrylist_fetching" size="small"/>
             <ul style="max-height:200px" v-if='countrylist_fetching==false && countrylist.length>0'>
-              <li v-for="d in countrylist" :class="d.classname" :key="d.remark" :value='d.value' @click="select_country(d.remark,d.chinese,d.value)">{{d.chinese}}</li>
+              <li v-for="d in countrylist" :class="d.classname" :key="d.remark" :value='d.value' @click="select_country(d.remark,d.chinese,d.value)">{{d.chinese}}{{d.eng}}</li>
             </ul>
             <ul  style="max-height:200px" v-else-if="countrylist_fetching==false &&  countrylist.length<=0">
               <li >没有数据</li>
