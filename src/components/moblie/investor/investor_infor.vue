@@ -116,8 +116,9 @@ export default {
     height: 1.5rem;
     position: fixed;
     top: 0;
+    color:#333;
     font-size: 0.46rem;
-    background: white;
+    // background: white;
     border-bottom: 0.1rem solid #b5b5b5;
   }
   main {
@@ -143,9 +144,10 @@ export default {
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
           }
           .row2 {
+            height: 0.6rem;
             word-break: break-all;
             line-height: 0.6rem;
             color: #787878;

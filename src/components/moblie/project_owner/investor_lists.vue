@@ -88,23 +88,26 @@ export default {
     }
   },
   created() {
+    this.$loading();
     let arr = [];
-    console.log(this.$route.query);
+    // console.log(this.$route.query);
     arr = JSON.parse(this.$route.query.arr);
+    console.log(arr);
     this.form.investorsIdList = arr;
     this.$axios({
       method: "post",
       url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
       data: this.$qs.stringify(this.form, { arrayFormat: "brackets" })
     }).then(res => {
+       this.$toast.clear();
+      if(res.data.resultCode==10000){
       this.totallists = res.data.data;
-      for (let i = 0; i < this.totallists.length; i++) {
-        this.totallists[i].signTime3 = this.$global.timestampToTime(
-          this.totallists[i].signTime3
-        );
+          for (let i = 0; i < this.totallists.length; i++) {
+            this.totallists[i].signTime3 = this.totallists[i].signTime3==0?"":this.$global.timestampToTime(
+              this.totallists[i].signTime3
+            )
+          }
       }
-
-      console.log(this.totallists);
     });
   }
 };
@@ -121,15 +124,15 @@ export default {
     }
   }
 }
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
-}
+// .van-dialog {
+//   font-size: 0.3rem;
+// }
+// .van-dialog__message {
+//   font-size: 0.3rem;
+// }
+// .van-button {
+//   font-size: 0.3rem;
+// }
 </style>
 <style lang="scss" scoped>
 #p_investor_lists {
@@ -147,13 +150,13 @@ export default {
     border-bottom: 0.16rem solid #b5b5b5;
   }
   main {
-    margin-top: 1.7rem;
+    margin-top: 1.5rem;
     background: #ffffff;
     ul {
       padding: 0 0.42rem 1.2rem 0.42rem;
       li {
         padding: 0.5rem 0 0.2rem 0;
-        font-size: 0.3rem;
+        font-size: 0.38rem;
         display: flex;
         // justify-content: space-between;
         align-items: center;
@@ -171,7 +174,7 @@ export default {
         .main_right {
           margin: 0 0.5rem;
           width: 7.16rem;
-          font-size: 0.36rem;
+          // font-size: 0.36rem;
           section {
             display: flex;
             margin-bottom: 0.3rem;

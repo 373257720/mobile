@@ -13,13 +13,16 @@
         <!-- </p> -->
       </li>
       <li>
-        <section>
-          <p v-for="(item) in details_lists" :key="item.name">
-            <span>{{item.name}}</span>
-            <span>{{item.response}}</span>
-            <!-- <van-icon name="arrow" /> -->
-          </p>
-        </section>
+        <main>
+           <div v-for="(item) in details_lists" :key="item.name">
+            <div
+              v-if="item.keyword!='investorsCompany' || (item.keyword=='investorsCompany' && item.response!='')"
+            >
+              <p class="row1">{{item.name}}</p>
+              <p class="row2">{{item.response}}</p>
+            </div>
+          </div>
+        </main>
       </li>
     </ul>
     <mbottom></mbottom>
@@ -65,7 +68,7 @@ export default {
         },
         {
           keyword: "investorsCompanyAddress",
-          name: "公司地址:",
+          name: "投资者地址:",
           response: ""
         },
         {
@@ -82,13 +85,16 @@ export default {
     }
   },
   created() {
+      this.$loading();
     this.$global
       .changepage(
         `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail?investorsId=${this.$route.query.investorsId}`,
         "get"
       )
       .then(res => {
-        for (let i in res.data.data) {
+        this.$toast.clear();
+        if(res.data.resultCode==10000){
+           for (let i in res.data.data) {
           for (let j = 0; j < this.details_lists.length; j++) {
             if (this.details_lists[j].keyword == i) {
               if (this.details_lists[j].keyword == "signStatus") {
@@ -109,6 +115,8 @@ export default {
             }
           }
         }
+        }
+       
       });
 
     // if(a.er
@@ -182,7 +190,7 @@ export default {
     li:nth-child(1) {
       margin-bottom: 0.5rem;
       height: 2.23rem;
-      display: flex;
+      // display: flex;
       align-items: center;
       border-bottom: 0.02rem dashed #f2f2f2;
       img {
@@ -209,33 +217,28 @@ export default {
       word-break: break-all;
       margin: 0 0.7rem 0;
       display: flex;
-      font-size: 0.3rem;
+      font-size: 0.38rem;
+    div{
+          > div {
+            margin-bottom: 0.5rem;  
+            align-items: baseline;
+           font-size: 0.44rem;
+            line-height: 0.56rem;
+          }
+          .row1 {
+            color: #4c4c4c;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+          }
+          .row2 {
+            height: 0.6rem;
+            word-break: break-all;
+            line-height: 0.6rem;
+            color: #787878;
+          }
+        }
 
-      p {
-        display: flex;
-        // flex-direction: column;
-        // margin-left: 0.4rem;
-        margin-bottom: 0.4rem;
-        font-size: 0.38rem;
-        line-height: 0.5rem;
-        // align-items: baseline;
-        span:nth-child(1) {
-          font-weight: 550;
-          width: 2.3rem;
-          color: #4c4c4c;
-          display: inline-block;
-          //   width: 2rem;
-        }
-        span:nth-child(2) {
-          flex: 1;
-          font-weight: 500;
-          color: #787878;
-          // font-size: 0.2rem;
-          // line-height: 0.5rem;
-          display: inline-block;
-          //   width: 3rem;
-        }
-      }
+
     }
   }
 }

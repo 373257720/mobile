@@ -101,7 +101,9 @@ export default {
     };
   },
   created() {
+    this.$loading();
     this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getUserDetail`).then(res=>{
+      this.$toast.clear();
       if(res.data.resultCode==10000){
             this.user_infor=res.data.data;
               this.user_infor={};
@@ -176,8 +178,6 @@ export default {
                           this.reminder='';
                            done();
                          }, 1000);
-       
-                        
                     }else{
                       done(false);
                     }
@@ -192,6 +192,9 @@ export default {
                 done(false);
             }
       } else if (action === "cancel") {
+        this.password1='';
+        this.password2='';
+        this.reminder='';
         done(); //关闭
       }
     },
@@ -277,12 +280,12 @@ export default {
   }
 }
 
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.48rem;
-}
+// .van-dialog__message {
+//   font-size: 0.3rem;
+// }
+// .van-button {
+//   font-size: 0.48rem;
+// }
 </style>
 <style lang="scss" scoped>
 #mine {

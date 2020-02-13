@@ -8,19 +8,19 @@
         <div class="sub_title">
           <header>For and on behalf of:</header>
           <div >
-            <input maxlength="50" v-model="contract.owner_behalf"  placeholder="请输入"></input>
+            <input maxlength="60" v-model="contract.owner_behalf"  placeholder="请输入">
           </div>
         </div>
         <div class="sub_title">
           <header>Name:</header>
           <div >
-            <input maxlength="30" v-model="contract.owner_name"  placeholder="请输入"></input>
+            <input maxlength="30" v-model="contract.owner_name"  placeholder="请输入">
           </div>
         </div>
        <div class="sub_title">
          <header>Title:</header>
          <div>
-           <input maxlength="30" v-model="contract.owner_title"  placeholder="请输入"></input>
+           <input maxlength="30" v-model="contract.owner_title"  placeholder="请输入">
          </div>
        </div>
       <div class="sub_title">
@@ -193,7 +193,7 @@ export default {
     textarea {
       // background: #f2f2f2;
       box-sizing: border-box;
-      font-size: 0.36rem;
+      font-size: 0.38rem;
       line-height: 0.56rem;
       padding: 0.3rem 0.4rem;
       /*color: rgb(169, 169, 169);*/
@@ -204,7 +204,7 @@ export default {
       width: 100%;
       button {
         width: 100%;
-        font-size: 0.38rem;
+        font-size: 0.42rem;
         margin-bottom: 1rem;
         background: #00adef;
         color: white;

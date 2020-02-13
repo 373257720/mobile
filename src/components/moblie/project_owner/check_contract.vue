@@ -5,7 +5,7 @@
     </nav>
     <main>
       <article>
-        <contract_component v-if="watch" :contract="contract"></contract_component>
+        <contractcomponent v-if="watch" :contract="contract"></contractcomponent>
       </article>
     </main>
     <mbottom></mbottom>
@@ -83,6 +83,9 @@ export default {
 <style lang="scss" scoped>
 #p_check_contract {
   width: 100%;
+    //  height:100%;
+  //  height:100%;
+  //    margin: 1.5rem 0 1.3rem 0;
   nav {
     width: 100%;
     text-align: center;
@@ -96,7 +99,9 @@ export default {
     border-bottom: 0.1rem solid #b5b5b5;
   }
   main {
-    margin-top: 1.5rem;
+  //     width: 100%;
+  //  height:100%;
+     margin: 1.5rem 0 1.3rem 0;
     padding: 0.5rem;
     // height:100%;
     background: #ffffff;

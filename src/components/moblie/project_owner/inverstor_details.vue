@@ -10,10 +10,18 @@
       <article>
         <!-- <header>放水电费鼎飞丹砂</header> -->
         <ul>
-          <li v-for="(item) in details_lists" :key="item.name">
+          <!-- <li v-for="(item) in details_lists" :key="item.name">
             <p class="row1">{{item.name}}</p>
             <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
             <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
+          </li> -->
+          <li i v-for="(item) in details_lists" :key="item.name">
+            <div
+              v-if="item.keyword!='investorsCompany' || (item.keyword=='investorsCompany' && item.response!='')"
+            >
+              <p class="row1">{{item.name}}</p>
+              <p class="row2">{{item.response}}</p>
+            </div>
           </li>
         </ul>
         
@@ -64,7 +72,7 @@ export default {
         },
         {
           keyword: "investorsCompanyAddress",
-          name: "公司地址:",
+          name: "投资者公司地址:",
           response: ""
         },
         {
@@ -73,8 +81,26 @@ export default {
           response: ""
         }
       ]
+      
     };
   },
+  //  created() {
+  //   this.$loading();
+  //   this.$axios({
+  //     method: "post",
+  //     url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail?investorsId=${this.$route.query.investorsId}`
+  //   }).then(res => {
+  //     for (var i in res.data.data) {
+  //       for (var j = 0; j < this.details_lists.length; j++) {
+  //         if (this.details_lists[j].keyword == i) {
+  //           this.details_lists[j].response = res.data.data[i];
+  //         }
+  //       }
+  //     }
+  //      this.$toast.clear();
+  //   });
+
+  // },
   created() {
     this.$loading();
     console.log(this.$route.query);
@@ -98,7 +124,7 @@ export default {
               this.details_lists[j].response = res.data.data[i];
             }
             if (this.details_lists[j].keyword == "signTime3") {
-              this.details_lists[j].response = this.$global.timestampToTime(
+              this.details_lists[j].response =  res.data.data[i]==0?"":this.$global.timestampToTime(
                 res.data.data[i]
               );
             }
@@ -144,6 +170,7 @@ export default {
 <style lang="scss" scoped>
 #p_inverstor_details {
   width: 100%;
+ 
   nav {
     width: 100%;
     text-align: center;
@@ -176,47 +203,28 @@ export default {
         border-bottom: 0.01rem dashed #b5b5b5;
       }
       ul {
-        padding: 1.2rem 1.5rem 0 1.5rem;
+         padding: 0.5rem 0.5rem 0 0.5rem;
         li {
-          margin-bottom: 0.4rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.3rem;
+          > div {
+            margin-bottom: 0.5rem;  
+            align-items: baseline;
+           font-size: 0.44rem;
+            line-height: 0.56rem;
+          }
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
-            width: 3rem;
+            margin-bottom: 0.2rem;
           }
           .row2 {
-            width: 7rem;
+            height: 0.6rem;
             word-break: break-all;
-            line-height: 0.48rem;
+            line-height: 0.6rem;
             color: #787878;
           }
         }
       }
-      footer {
-        padding: 0 0.5rem 0.5rem 0.5rem;
-        font-size: 0.4rem;
-        button {
-          width: 9.9rem;
-          height: 1rem;
-          background: #00adef;
-          color: white;
-        }
-        button {
-          margin-bottom: 0.4rem;
-        }
-        aside {
-          height: 1.5rem;
-          // width: 6.5rem;
-          display: flex;
-          justify-content: space-between;
-          button {
-            width: 3rem;
-          }
-        }
-      }
+ 
     }
   }
 }

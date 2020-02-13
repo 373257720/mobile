@@ -4,11 +4,11 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-        <header>投资者资料</header>
+        <!-- <header>投资者资料</header> -->
         <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <header>项目详情</header>
+        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
@@ -165,15 +165,15 @@ export default {
     }
   }
 }
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
-}
+// .van-dialog {
+//   font-size: 0.3rem;
+// }
+// .van-dialog__message {
+//   font-size: 0.3rem;
+// }
+// .van-button {
+//   font-size: 0.3rem;
+// }
 </style>
 <style lang="scss" scoped>
 #a_wait_signed {
@@ -217,7 +217,7 @@ export default {
       }
       header {
         height: 0.8rem;
-        font-size: 0.38rem;
+        font-size: 0.42rem;
         text-align: center;
         background: #f2f2f2;
         line-height: 0.8rem;
@@ -229,7 +229,7 @@ export default {
       margin: 0 0 1.3rem 0;
       header {
         height: 0.8rem;
-        font-size: 0.38rem;
+        font-size: 0.42rem;
         text-align: center;
         // font-weight: 600;
         background: #f2f2f2;
@@ -238,37 +238,10 @@ export default {
         // border-bottom: 0.01rem dashed #b5b5b5;
       }
       div.nav_lists {
-        display: flex;
+        // display: flex;
         border-top: 0;
         border-bottom: 0.2rem solid #f2f2f2;
-        > p {
-          flex: 1;
-          height: 2.5rem;
-          font-size: 0.3rem;
-          display: flex;
-          align-items: center;
-
-          section.box {
-            box-sizing: border-box;
-            width: 100%;
-            display: flex;
-            text-align: center;
-            height: 2rem;
-            //  padding: 0.1rem;
-            border-right: 0.08rem solid #f2f2f2;
-            flex-direction: column;
-            justify-content: space-between;
-            span.rowb {
-              font-size: 0.6rem;
-              color: #0f6ebe;
-            }
-          }
-        }
-        p:nth-last-child(1) {
-          section.box {
-            border-right: 0;
-          }
-        }
+  
       }
       ul {
         padding: 0.5rem;
@@ -282,42 +255,20 @@ export default {
             font-weight: 600;
             width: 4rem;
           }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
+        
           .row2 {
             width: 7rem;
             word-break: break-all;
             line-height: 0.48rem;
             color: #787878;
           }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
+      
         }
-        .contract {
-          display: block;
-          .row2 {
-            width: 8rem;
-            height: 6rem;
-            border: 0.01rem solid #b3b3b3;
-            // box-sizing: border-box;
-            padding: 0;
-            background: #f2f2f2;
-            .draft1_middle {
-              padding: 0.3rem;
-              box-sizing: border-box;
-              width: 100%;
-              height: 100%;
-              overflow-y: auto;
-            }
-          }
-        }
+     
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
-        font-size: 0.38rem;
+        font-size: 0.42rem;
         aside {
           height: 2rem;
           display: flex;

@@ -141,15 +141,15 @@ export default {
     }
   }
 }
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
-}
+// .van-dialog {
+//   font-size: 0.3rem;
+// }
+// .van-dialog__message {
+//   font-size: 0.3rem;
+// }
+// .van-button {
+//   font-size: 0.3rem;
+// }
 </style>
 <style lang="scss" scoped>
 #i_conected_project {
@@ -160,6 +160,7 @@ export default {
     line-height: 1.5rem;
     height: 1.5rem;
     position: fixed;
+     color:#333;
     top: 0;
     font-size: 0.46rem;
     background: white;
@@ -170,7 +171,7 @@ export default {
     background: #ffffff;
 
     article {
-      margin: 0 0 1rem 0;
+      margin: 0 0 1.3rem 0;
       header {
         min-height: 2rem;
         font-size: 0.46rem;
@@ -226,7 +227,7 @@ export default {
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
-        font-size: 0.38rem;
+        font-size: 0.42rem;
         button {
           width: 9.9rem;
           height: 1rem;

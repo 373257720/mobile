@@ -187,7 +187,8 @@ const routes = [
       },
     ],
   },
-  { 
+  {
+ 
     path: '/uploadtoblock',
     name: 'uploadtoblock',
     component:uploadtoblock,

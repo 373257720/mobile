@@ -6,7 +6,7 @@
       </nav>
       <main>
         <article>
-          <contract_component :contract="contract"></contract_component>
+          <contractcomponent :contract="contract"></contractcomponent>
           <footer>
             <button @click="contract_submit">提交</button>
           </footer>
@@ -149,46 +149,9 @@ export default {
     margin-bottom: 1.5rem;
     padding: 0.5rem;
     background: #ffffff;
-    /*.contract {*/
-    /*  border: 1px solid #b5b5b5;*/
-    /*  // background: #f2f2f2;*/
-    /*  box-sizing: border-box;*/
-    /*  font-size: 0.38rem;*/
-    /*  line-height: 0.6rem;*/
-    /*  padding: 0.4rem 0.4rem;*/
-    /*  width: 100%;*/
-    /*  height: 13rem;*/
-    /*  overflow-y: auto;*/
-    /*  word-wrap: break-word;*/
-    /*  div.button {*/
-    /*    margin-top: 1rem;*/
-    /*    display: flex;*/
-    /*    justify-content: space-between;*/
-    /*    ul{*/
-    /*      width: 3rem;*/
-    /*      li{*/
-    /*        height: 2rem;*/
-    /*        p{*/
-    /*          height: 1rem;*/
-    /*              img {*/
-    /*                width: 3rem;*/
-    /*                height: 1rem;*/
-    /*              }*/
-    /*        }*/
-    /*        p:nth-child(1){*/
-    /*          line-height:1rem;*/
-    /*          border-bottom: 1px solid;*/
-    /*        }*/
-    /*      }*/
-    /*      !*li:nth-of-type(1){*!*/
-    /*      !*  height: 2rem;*!*/
-    /*      !*}*!*/
-    /*    }*/
-    /*  }*/
-    /*}*/
     footer {
       width: 100%;
-      font-size: 0.38rem;
+      font-size: 0.42rem;
       button {
         width: 100%;
         margin-top: 1rem;

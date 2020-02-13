@@ -7,11 +7,10 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-        <header>投资者资料</header>
          <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <header>项目详情</header>
+        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
@@ -204,15 +203,15 @@ export default {
     }
   }
 }
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
-}
+// .van-dialog {
+//   font-size: 0.3rem;
+// }
+// .van-dialog__message {
+//   font-size: 0.3rem;
+// }
+// .van-button {
+//   font-size: 0.3rem;
+// }
 </style>
 <style lang="scss" scoped>
 #i_wait_confirm {
@@ -223,8 +222,10 @@ export default {
     line-height: 1.5rem;
     height: 1.5rem;
     position: fixed;
+    z-index: 999;
     top: 0;
     font-size: 0.46rem;
+    color:#333333;
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
   }
@@ -255,7 +256,7 @@ export default {
       }
       header {
         height: 0.8rem;
-        font-size: 0.38rem;
+       font-size: 0.42rem;
         text-align: center;
         background: #f2f2f2;
         line-height: 0.8rem;
@@ -296,7 +297,7 @@ export default {
       margin: 0 0 1.3rem 0;
       header {
         height: 0.8rem;
-        font-size: 0.38rem;
+        font-size: 0.42rem;
         text-align: center;
         // font-weight: 600;
         background: #f2f2f2;
@@ -384,7 +385,7 @@ export default {
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
-        font-size: 0.38rem;
+       font-size: 0.42rem;
         aside {
           height: 2.5rem;
           display: flex;

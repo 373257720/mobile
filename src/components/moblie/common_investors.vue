@@ -1,5 +1,6 @@
 <template>
   <div id="common_investors">
+    <van-divider>投资者资料</van-divider>
     <ul>
       <li i v-for="(item,key) in investor_infor" :key="item.name">
         <div v-if="key!='investorsCompany' || (key='investorsCompany' && item.response!='')">
@@ -25,6 +26,16 @@ export default {
 };
 </script>
 <style lang="scss">
+#common_investors{
+  .van-divider{
+    background:#F2F2F2;
+    border-color: #D2D2D2;
+    padding: 0 2rem;
+    margin:0;
+    color: #858585;
+    font-size: 0.42rem;
+  }
+}
 </style>
 <style lang="scss" scoped>
 #common_investors {
@@ -35,7 +46,7 @@ export default {
         margin-bottom: 0.1rem;
         display: flex;
         align-items: baseline;
-        font-size: 0.38rem;
+           font-size: 0.42rem;
       }
       .row1 {
         color: #4c4c4c;

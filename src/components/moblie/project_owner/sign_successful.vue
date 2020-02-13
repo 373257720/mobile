@@ -4,11 +4,11 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-        <header>投资者资料</header>
+        <!-- <header>投资者资料</header> -->
           <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <header>项目详情</header>
+        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
@@ -87,10 +87,10 @@ export default {
           name: "公司名称:",
           response: ""
         },
-        publicCompany: {
-          name: "是否上市公司:",
-          response: ""
-        },
+        // publicCompany: {
+        //   name: "是否上市公司:",
+        //   response: ""
+        // },
         currencyType: {
           name: "币种:",
           response: ""
@@ -258,7 +258,7 @@ export default {
       }
       header {
         height: 0.8rem;
-        font-size: 0.32rem;
+           font-size: 0.42rem;
         text-align: center;
         background: #f2f2f2;
         line-height: 0.8rem;
@@ -299,7 +299,7 @@ export default {
       margin: 0 0 1.3rem 0;
       header {
         height: 0.8rem;
-        font-size: 0.32rem;
+           font-size: 0.42rem;
         text-align: center;
         // font-weight: 600;
         background: #f2f2f2;

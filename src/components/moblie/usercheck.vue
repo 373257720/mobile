@@ -469,6 +469,9 @@ export default {
 </script>
 <style lang="scss">
 #usercheck {
+  .ant-select-dropdown-menu{
+      max-height: 4rem;
+    }
    .ant-select{
     width: 100%;
     border: 1px solid #ababab;
@@ -477,6 +480,7 @@ export default {
     .ant-select-selection__placeholder, .ant-select-search__field__placeholder{
       color:#969799;
     }
+    
     .ant-select-selection{
        padding: 0 0.2rem;
         //  border: 1px solid #ababab;

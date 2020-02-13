@@ -4,11 +4,11 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-        <header>投资者资料</header>
+        <!-- <header>投资者资料</header> -->
            <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <header>项目详情</header>
+        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
       </article>
@@ -192,17 +192,17 @@ export default {
     }
   }
 
-  .van-dialog {
-    font-size: 0.3rem;
-  }
-  .van-cell {
-    font-size: 0.3rem;
-    background: #f2f2f2;
-    // padding: 0;
-    padding: 0.2rem 0.3rem;
-    margin: 0 0 0.5rem;
-    border: 1px solid #b5b5b5;
-  }
+  // .van-dialog {
+  //   font-size: 0.3rem;
+  // }
+  // .van-cell {
+  //   font-size: 0.3rem;
+  //   background: #f2f2f2;
+  //   // padding: 0;
+  //   padding: 0.2rem 0.3rem;
+  //   margin: 0 0 0.5rem;
+  //   border: 1px solid #b5b5b5;
+  // }
 }
 </style>
 <style lang="scss" scoped>
@@ -236,7 +236,7 @@ export default {
       }
       header {
         height: 0.8rem;
-        font-size: 0.32rem;
+         font-size: 0.42rem;
         text-align: center;
         background: #f2f2f2;
         line-height: 0.8rem;
@@ -277,7 +277,7 @@ export default {
       margin: 0 0 1.3rem 0;
       header {
         height: 0.8rem;
-        font-size: 0.32rem;
+        font-size: 0.42rem;
         text-align: center;
         // font-weight: 600;
         background: #f2f2f2;

@@ -8,22 +8,22 @@
         <div class="sub_title">
           <header>For and on behalf of:</header>
           <div >
-            <input maxlength="50" v-model="contract.agent_behalf"  placeholder="请输入"></input>
+            <input maxlength="50" v-model="contract.agent_behalf"  placeholder="请输入"/>
           </div>
         </div>
         <div class="sub_title">
           <header>Name:</header>
           <div >
-            <input maxlength="30" v-model="contract.agent_name"  placeholder="请输入"></input>
+            <input maxlength="30" v-model="contract.agent_name"  placeholder="请输入"/>
           </div>
         </div>
         <div class="sub_title">
           <header>Title:</header>
           <div>
-            <input maxlength="30" v-model="contract.agent_title"  placeholder="请输入"></input>
+            <input maxlength="30" v-model="contract.agent_title"  placeholder="请输入"/>
           </div>
         </div>
-        <contract_component :contract="contract"></contract_component>
+        <contractcomponent :contract="contract"></contractcomponent>
         <footer>
           <button @click="confirm()">签署</button>
 
@@ -136,7 +136,7 @@ export default {
     }
     footer {
       width: 100%;
-      font-size: 0.38rem;
+      font-size: 0.42rem;
       button {
         width: 100%;
         margin-top: 1rem;

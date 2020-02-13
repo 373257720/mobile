@@ -11,28 +11,28 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 import Vuex from 'vuex';
-// 复制插件
+
 Vue.use(Vuex);
-// import Vconsole from 'vconsole';
-// new Vconsole();
+
 import Promise from 'es6-promise';
 Promise.polyfill();
 
 // import ant from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.less'
 // Vue.use(ant)
-import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css'
-  Vue.use(Antd)
-  import "./css/base.css"
-// 复制插件
-// import VueClipboards from 'vue-clipboard2'
-// Vue.use(VueClipboards);
+// import Antd from 'ant-design-vue'
+// import 'ant-design-vue/dist/antd.css'
+import Select from 'ant-design-vue/lib/select';
+import 'ant-design-vue/lib/select/style/css';  
+Vue.use(Select);
+import Spin from 'ant-design-vue/lib/spin';
+import 'ant-design-vue/lib/spin/style/css';  
+Vue.use(Spin);
+import "./css/base.css"
+
 // import Vconsole from 'vconsole'
 // let vConsole = new Vconsole()
 // Vue.use(vConsole);
-// import Promise from 'es6-promise';
-// Promise.polyfill()
 Vue.use(Vuex);
 import Vant from 'vant';
 Vue.use(Vant)
@@ -54,13 +54,55 @@ function deepCopy(obj) {
 };
 import {Dialog} from 'vant';
 Vue.use(Dialog);
+// import {Toast} from 'vant';
+// Vue.use(Toast);
 // Toast
-// console.log(Toast)
-// import moment from 'moment'
-// Vue.prototype.$moment = moment
+// console.log(Vant.Toast)
+import moment from 'moment'
+Vue.prototype.$moment = moment
 // 引入公共组件
+// let loadingCount=0;
+// let isShowLoading =false;
+// function addLoading() {
+//   isShowLoading = true;
+//   loadingCount++;
+//   if(loadingCount==1){
+//     Vue.prototype.$toast.loading({
+//       loadingType: 'circular',
+//       overlay:true,
+//       className:'loading',
+//       duration: 0,
+//     });
+//   }
+// };
+
+// function isCloseLoading() {
+//   loadingCount--
+//   if (loadingCount == 0) {
+//      isShowLoading = false
+//      Vue.prototype.$toast.clear();
+//   }
+// };
 axios.defaults.withCredentials = true;
+// axios.interceptors.request.use(function (config) {
+//   　　// 在发送请求之前做些什么
+//   console.log(config)
+//         // addLoading();
+//   　　return config
+//   }, function (error) {
+//   　　// 对请求错误做些什么
+//  isShowLoading = false
+//  loadingCount = 0
+//   Dialog.alert({
+//     message: '网络异常，请稍后再试',
+//   }).then(() => {
+//     location.href = '/'
+//   });
+//   return Promise.reject(error)
+//   });
+
 axios.interceptors.response.use(res => {
+  // isCloseLoading();
   if (res.data && res.data.resultCode) {
     let code = res.data.resultCode
     if (code == 10090) { // 如果是未登录直接踢出去
@@ -73,8 +115,11 @@ axios.interceptors.response.use(res => {
     return res
   }
 } ,error => {
+    // Toast.clear();
+    isShowLoading = false
+    loadingCount = 0
     Dialog.alert({
-      message: '请求超时，请稍后重试！',
+      message: '请求超时,请稍后重试！',
     }).then(() => {
       location.href = '/'
     });
@@ -127,13 +172,6 @@ var baseurl = {
 Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl = baseurl.api;
 Vue.prototype.$global = global;
-// import 'muse-ui/lib/styles/base.less';
-// import 'muse-ui/lib/styles/theme.less';
-// import { Button, Select } from 'muse-ui';
-// Vue.use(Button);
-// Vue.use(Select);
-// import MuseUI from 'muse-ui';
-// import 'muse-ui/dist/muse-ui.css';
 import Router from 'vue-router'
 // console.log(Router.prototype);
 
@@ -155,7 +193,7 @@ Vue.component('commondetails', commondetails)
 import commoninvestors from './components/moblie/common_investors'
 Vue.component('commoninvestors', commoninvestors)
 import contract from './components/moblie/contract'
-Vue.component('contract_component', contract)
+Vue.component('contractcomponent', contract)
 // Vue.component('Vue-ueditor-wrap ',VueUeditorWrap )
 // Vue.prototype.$axios = axios;
 /* eslint-disable no-new */

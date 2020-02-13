@@ -18,7 +18,7 @@
         <button @click="login">登 录</button>
       </div>
       <div class="registerbtn">
-        <button @click="$routerto('register',{email:username})">注册新账号</button>
+        <button @click="$routerto('register')">注册新账号</button>
       </div>
     </div>
   </div>
@@ -35,7 +35,10 @@ export default {
   },
   created() {
     console.log(this.$restore_obj);
-    this.username = this.$route.query.email;
+    if(this.$route.query.email){
+      this.username = this.$route.query.email;
+    }
+    
     // console.log(this.$route.query.email);
   },
   methods: {
@@ -71,8 +74,8 @@ export default {
         })
         .catch(err => {
         if (err) {
-          this.$toast.clear();
-          this.$loadingfail('网络故障');
+          // this.$toast.clear();
+          // this.$loadingfail('网络故障');
         }
         });
       } else {

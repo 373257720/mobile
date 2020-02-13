@@ -15,7 +15,7 @@ export default {
     }
   },
   created() {
-    // console.log(...mapState)
+    // console.log(this.$loadingCount)
     //在页面加载时读取sessionStorage里的状态信息
     // console.log(sessionStorage.getItem("test"))
     if (sessionStorage.getItem("store")) {
@@ -74,7 +74,7 @@ export default {
 
 <style>
 #app {
-  /* height: 100%; */
+  /* height: 100%;   */
   width: 100%;
   /* background: #EEEEEE;  */
   font-family: "Avenir", Helvetica, Arial, sans-serif;

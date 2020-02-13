@@ -1,13 +1,14 @@
 <template>
   <div id="contract_component">
     <div class="contract_component">
-      <van-field
+      <!-- <van-field
         class="middle"
         v-model="contract.article"
         autosize
-        disabled
+        readonly
         type="textarea"
-      />
+      /> -->
+       <div class="middle">{{contract.article}}</div>
       <div class="button">
         <ul>
           <li>
@@ -16,7 +17,7 @@
           </li>
           <li>
             <p><span>
-              <img v-if="contract.owner_sign" :src="contract.owner_sign"alt="">
+              <img v-if="contract.owner_sign" :src="contract.owner_sign" alt="">
             </span></p>
             <p>Signature</p>
           </li>
@@ -39,7 +40,7 @@
             <h3>{{contract.agent_behalf}}</h3>
           </li>
           <li>
-            <p><span><img v-if="contract.agent_sign"  :src="contract.agent_sign"alt=""></span></p>
+            <p><span><img v-if="contract.agent_sign"  :src="contract.agent_sign" alt=""></span></p>
             <p>Signature</p>
           </li>
           <li>
@@ -148,9 +149,19 @@
       line-height: 0.6rem;
       padding: 0.4rem 0.4rem;
       width: 100%;
-      height: 13rem;
+      height:14rem;
       overflow-y: auto;
+      color: black;
       word-wrap: break-word;
+      .middle{
+        // background: none;
+        // border: 0;
+        // width: 100%;
+           white-space: pre-wrap;       /* css-3 */
+              white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+              white-space: -pre-wrap;      /* Opera 4-6 */
+              white-space: -o-pre-wrap; 
+      }
       div.button {
         margin-top: 1rem;
         display: flex;
@@ -169,6 +180,7 @@
               position: relative;
               span{
                 position: absolute;
+                line-height: 0.44rem;
                 word-break: break-all;
                 bottom: 0;
               }
@@ -178,7 +190,7 @@
             }
           }
           li:nth-of-type(1){
-            margin-bottom: 1rem;
+            margin-bottom: 0.6rem;
 
               h3{
                 height: 3rem;
@@ -188,16 +200,16 @@
         }
       }
     }
-    footer {
-      width: 100%;
-      font-size: 0.38rem;
-      button {
-        width: 100%;
-        margin-top: 1rem;
-        background: #00adef;
-        color: white;
-        height: 1rem;
-      }
-    }
+    // footer {
+    //   width: 100%;
+    //   font-size: 0.38rem;
+    //   button {
+    //     width: 100%;
+    //     margin-top: 1rem;
+    //     background: #00adef;
+    //     color: white;
+    //     height: 1rem;
+    //   }
+    // }
   }
 </style>

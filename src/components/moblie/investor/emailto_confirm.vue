@@ -5,11 +5,11 @@
     <main>
       <div class="investors_infor">
         <h2>{{projectName}}</h2>
-        <header>投资者资料</header>
+        <!-- <header>投资者资料</header> -->
           <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <header>项目详情</header>
+        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
@@ -132,12 +132,12 @@ export default {
   mounted() {},
   methods: {
     agree() {
-      let isyes = this.$store.state.currentUser;
-      console.log(isyes);
+      // let isyes = this.$store.state.currentUser;
+      // console.log(isyes);
 
-      if (isyes) {
-        this.$routerto("i_perfect_infor", this.$route.query);
-      } else {
+      // if (isyes) {
+      //   this.$routerto("i_perfect_infor", this.$route.query);
+      // } else {
         this.$dialog
           .confirm({
             title: "请登录后操作"
@@ -150,7 +150,7 @@ export default {
         // .catch(() => {
         //   // on cancel
         // });
-      }
+      // }
     },
 
     refuse() {

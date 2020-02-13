@@ -17,11 +17,13 @@ name:'common_nav',
 .common_nav {
   nav {
  width: 100%;
+ z-index: 999;
     text-align: center;
     line-height: 1.6rem;
     height: 1.6rem;
     position: fixed;
     top: 0;
+    color:#333;
     font-weight: 500;
     font-size: 0.5rem;
     background: white;

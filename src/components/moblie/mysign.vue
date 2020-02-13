@@ -2,13 +2,14 @@
   <div id="mysign">
     <nav>
       <header>
-        <van-icon name="arrow-left" @click="$global.previous()" />我的項目
+        <van-icon name="arrow-left" @click="$global.previous()" />我的项目
       </header>
-      <main>
-        <div class="sort_box" @click="gg">项目筛选<van-icon name="arrow-down" />
-        </div>
-        <transition name="fade">
-          <van-checkbox-group v-show="visible" v-model="result">
+            <!-- <van-overlay z-index='-666' :show="visible" @click="visible= false"/> -->
+      <main>   
+  
+        <div class="sort_box" @click="fliter">项目筛选<van-icon name="arrow-down" />
+      </div>  
+        <van-checkbox-group ref="check" v-show="visible"  v-model="result">
             <van-cell-group>
               <van-cell
                 v-for="(item, index) in list"
@@ -22,10 +23,15 @@
               <div class="confirm" @click="confirm_lists">确定</div>
             </van-cell-group>
           </van-checkbox-group>
-        </transition>
+
+            
+
+        <!-- <transition name="fade">
+      
+        </transition> -->
       </main>
     </nav>
-    <van-list
+      <van-list
       v-model="loading"
       :finished="finished"
       @load="onLoad()"
@@ -257,7 +263,7 @@ export default {
         } else if (signStatus == 2) {
           this.$routerto("a_wait_signed", obj);
         } else if (signStatus == 4) {
-          this.$routerto("a_submit_contract", obj);
+          this.$routerto("uploadtoblock", obj);
         } else if (signStatus == 5) {
           this.$routerto("a_wait_sendemail", obj);
         }  else if (signStatus == 6) {
@@ -302,9 +308,19 @@ export default {
       this.pageNum = 1;
       this.onLoad();
       this.visible = false;
+      console.log(this.$refs.check.$el.clientHeight);
+      let aaa=this.$refs.check.$el;
+      aaa.style.top=-aaa.clientHeight;
+
+      
     },
-    gg() {
+    fliter() {
       this.visible = !this.visible;
+      // let aaa=this.$refs.check.$el.children[0].clientHeight;
+      // console.log(aaa);
+      //   this.$refs.check.$el.style.height=aaa+'px';
+            // console.log(this.$refs.check.$el.style)
+      // aaa.style.height=-aaa.clientHeight;
       // if (this.visible != true) {
       // console.log(document.querySelector(".van-checkbox-group").style.height);
       // }
@@ -399,6 +415,20 @@ export default {
 
 <style lang="scss">
 #mysign {
+    // .van-checkbox-group{
+    //  position: relative;
+    //   width: 100%;
+    //   height: 0;
+    //   overflow: hidden;
+    // //   -webkit-transition: height 0.3s;
+    // // -moz-transition: height 0.3s;
+    // // -o-transition: height 0.3s;
+    // transition: height 0.6s;
+    // .van-hairline--top-bottom{
+    // position: absolute;
+    //   bottom:0;
+    // }
+    // }
   header {
     position: relative;
     .van-icon-arrow-left {
@@ -450,6 +480,7 @@ export default {
     .van-cell--clickable {
       font-size: 0.4rem;
     }
+  
   }
 }
 </style>
@@ -460,6 +491,7 @@ export default {
     width: 100%;
     position: fixed;
     z-index: 5;
+    color:#333;
     text-align: center;
     top: 0;
     background: white;
@@ -468,12 +500,15 @@ export default {
       font-size: 0.46rem;
       height: 1.6rem;
       // font-size: 0.4rem;
-      border-bottom: 0.16rem solid #d2d2d2;
+      border-bottom: 0.1rem solid #d2d2d2;
+    }
+    main{
+      position: relative;
     }
     .sort_box {
-      height: 1rem;
-      border-bottom: 1px solid #7c7c7c;
-      line-height: 1rem;
+      height: 1.2rem;
+      border-bottom: 1px solid #d2d2d2;;
+      line-height: 1.2rem;
       font-size: 0.4rem;
       color: #00adef;
       // i{
@@ -484,11 +519,12 @@ export default {
     // }
     .confirm {
       text-align: center;
-      padding: 0.2rem 0.3rem;
-      font-size: 0.35rem;
+      // padding: 0.2rem 0.3rem;
+      font-size: 0.4rem;
+      height: 1rem;
       background: #00aef1;
       color: white;
-      // line-height: 0.75rem;
+      line-height: 1rem;
     }
     .fade-enter-active,
     .fade-leave-active {

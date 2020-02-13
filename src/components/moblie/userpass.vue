@@ -1,18 +1,18 @@
 <template>
   <div id="userpass">
-    <!-- <div class="userpass2" v-if="!success"> -->
     <header>
       <van-icon name="arrow-left" @click="$global.previous()" />
       <commonnav :msg="dad_text"></commonnav>
     </header>
-    <main class="userpass2" v-if="optStatus==0">
+    <main class="userpass2" v-if="optStatus===0">
       <h2>
         <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
       </h2>
       <section>你的资料已提交,请等待审核</section>
       <nav class="backbtn"></nav>
     </main>
-    <main v-if="optStatus==1">
+    <main v-if="optStatus==1 || optStatus==2">
+    <h2 v-if="optStatus==2">很抱歉,您的审核没通过</h2>
       <ul>
         <li>
           <p>类型:</p>
@@ -62,64 +62,10 @@
           </div>
         </li>
       </ul>
-    </main>
-    <main v-if="optStatus==2">
-     <h2>很抱歉,您的审核没通过</h2>
-<!--      <h2>{{flut}}}</h2>-->
-      <ul>
-        <li>
-          <p>类型:</p>
-          <div>{{form.userType}}</div>
-        </li>
-        <li>
-          <p>身份:</p>
-          <div>{{form.userIdentityType==1?'个人':'公司'}}</div>
-        </li>
-        <li>
-          <p>国籍:</p>
-          <div>{{form.userCountryCh}}</div>
-        </li>
-        <li v-if="form.userIdentityType==1">
-          <p>姓名:</p>
-          <div>{{form.userName}}</div>
-        </li>
-        <li v-if="form.userIdentityType==1">
-          <p v-if="switchon">身份证号:</p>
-          <p v-if="!switchon">护照:</p>
-          <div>{{form.userIdentity}}</div>
-        </li>
-        <li v-if="form.userIdentityType==2">
-          <p>公司名称:</p>
-          <div>{{form.userCompanyCh}}</div>
-        </li>
-        <li v-if="form.userIdentityType==2">
-          <p>公司地址:</p>
-          <div>{{form.userAddressCh}}</div>
-        </li>
-        <li class="idcard_left" v-if="form.userIdentityType==1">
-          <p>{{switchon==true?'身份证正面':'护照'}}</p>
-          <div class="pic">
-            <img :src="$baseurl+form.identityPicOne" alt="">
-          </div>
-        </li>
-        <li class="idcard_right" v-if="switchon && form.userIdentityType==1">
-          <p>身份证反面</p>
-          <div class="pic">
-            <img :src="$baseurl+form.identityPicTwo" alt />
-          </div>
-        </li>
-        <li v-if="form.userIdentityType==2" class="idcard_right">
-          <p>公司营业执照</p>
-          <div class="pic">
-            <img :src="$baseurl+form.userCompanyPic" alt />
-          </div>
-        </li>
-      </ul>
-       <div class="failure">
+      <div v-if="optStatus==2" class="failure">
         <button @click="$goto('usercheck')">再次申请</button>
       </div>
     </main>
-
     <mbottom></mbottom>
   </div>
 </template>
@@ -159,18 +105,17 @@ export default {
       .then(res => {
         this.$toast.clear();
         console.log(res.data.data);
-        if (res.data.data.optStatus == 0) {
+        if (res.data.data.optStatus === 0) {
           // 0审核中
           this.optStatus = 0;
-        } else if (res.data.data.optStatus == 1) {
+        } else if (res.data.data.optStatus === 1) {
           // 1通过
           this.optStatus = 1;
-        } else if (res.data.data.optStatus == 2) {
+        } else if (res.data.data.optStatus === 2) {
           // 2不通过
           this.optStatus = 2;
         }
         console.log(this.optStatus);
-
         for (let key in res.data.data) {
           this.form[key] = res.data.data[key];
           if (key == "userType") {
@@ -183,7 +128,6 @@ export default {
             }
           }
           if (key == "userCountryEn") {
-            // console.log(111);
             if (
               this.form[key] == "China"
             ) {

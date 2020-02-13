@@ -131,7 +131,8 @@
         padding: 0;
         >div:nth-of-type(1){
           padding:0 0.5rem;
-          background: #f2f2f2;
+          color: #575757;
+          background: #E8E8E8;
           display: flex;
           height: 0.8rem;
           line-height: 0.8rem;
@@ -171,6 +172,7 @@
             ul{
               flex:3;
               li{
+                color: #575757;
                 margin-bottom: 0.2rem;
               }
               li:last-child{

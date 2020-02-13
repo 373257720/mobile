@@ -206,15 +206,15 @@ export default {
   }
 }
 
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
-}
+// .van-dialog {
+//   font-size: 0.3rem;
+// }
+// .van-dialog__message {
+//   font-size: 0.3rem;
+// }
+// .van-button {
+//   font-size: 0.3rem;
+// }
 </style>
 <style lang="scss" scoped>
 #p_wait_investor {
@@ -235,7 +235,7 @@ export default {
     background: #ffffff;
 
     article {
-      margin: 0 0 1rem 0;
+      margin: 0 0 1.3rem 0;
       header {
         min-height: 2rem;
         font-size: 0.46rem;

@@ -1,8 +1,15 @@
 <template>
   <div id="upload_contract">
     <div class="upload_contract">
-      <div class="top"></div>
-      <div class="middle" v-html="article"></div>
+      <!-- <div class="top">合同</div> -->
+        <!-- <van-field
+        class="middle"
+        v-model="contract.article"
+        autosize
+        disabled
+        type="textarea"
+      /> -->
+      <div class="middle">{{contract.article}}</div>
       <div class="button">
         <ul>
           <li>
@@ -11,7 +18,7 @@
           </li>
           <li>
             <p><span>
-              <img v-if="contract.owner_sign" :src="contract.owner_sign"alt="">
+              <img v-if="contract.owner_sign" :src="contract.owner_sign" alt="">
             </span></p>
             <p>Signature</p>
           </li>
@@ -34,7 +41,7 @@
             <h3>{{contract.agent_behalf}}</h3>
           </li>
           <li>
-            <p><span><img v-if="contract.agent_sign"  :src="contract.agent_sign"alt=""></span></p>
+            <p><span><img v-if="contract.agent_sign"  :src="contract.agent_sign" alt=""></span></p>
             <p>Signature</p>
           </li>
           <li>
@@ -77,10 +84,11 @@ export default {
 
   created() {
     // console.log();
+    this.$loading();
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement.do?visitToken=${this.$route.query.visitToken}`
-    }).then(res => {
+    }).then(res => {  
       if(res.data.resultCode==10000){
         let str = JSON.parse(res.data.data.signAgreement);
         for(let i in this.contract){
@@ -88,11 +96,12 @@ export default {
             this.contract[i]=str[i];
             if(i=='owner_signdate'){
               this.contract.owner_signdate=str.owner_signdate?this.$global.stamptodate(str.owner_signdate):"";}
-              else if(i=='owner_signdate'){
+              else if(i=='agent_signdate'){
               this.contract.agent_signdate=str.agent_signdate?this.$global.stamptodate(str.agent_signdate):'';
             }
           }
         }
+         this.$toast.clear();
       }
       // if (res.data.resultCode == 10000) {
       //   // this.signproject4();
@@ -179,12 +188,20 @@ export default {
     line-height: 0.6rem;
     padding: 1rem 1rem 0;
     width: 100%;
+        color: black;
     overflow-y: auto;
     word-wrap: break-word;
-    color: rgb(169, 169, 169);
-    .middle {
-      padding: 0.3rem 0.3rem 0;
-    }
+    // color: rgb(169, 169, 169);
+    
+  .middle{
+        // background: none;
+        // border: 0;
+        // width: 100%;
+           white-space: pre-wrap;       /* css-3 */
+              white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+              white-space: -pre-wrap;      /* Opera 4-6 */
+              white-space: -o-pre-wrap; 
+      }
     div.button {
       margin-top: 1rem;
       display: flex;
@@ -215,6 +232,7 @@ export default {
           margin-bottom: 1rem;
 
           h3{
+            //  color: rgb(169, 169, 169);
             height: 3rem;
             line-height: initial;
           }

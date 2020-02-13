@@ -274,6 +274,9 @@ export default {
 </script>
 <style lang="scss">
 #a_recommand_i {
+   .ant-select-dropdown-menu{
+      max-height: 4rem;
+    }
   .ant-select{
     width: 100%;
     font-size: 0.38rem;

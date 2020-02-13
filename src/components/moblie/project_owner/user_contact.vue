@@ -65,6 +65,7 @@ export default {
       console.log(this.searchkey);
     },
     onLoad() {
+       this.$loading();
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/user/getRelationUser?searchKey=${this.searchkey}`
@@ -73,6 +74,7 @@ export default {
           if (res.status === 200) {
             this.arr = [...res.data.data]
           }
+           this.$toast.clear();
         })
         .catch(err => {
           // this.loadText = "加载失败";

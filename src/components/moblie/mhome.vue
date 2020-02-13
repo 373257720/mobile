@@ -34,7 +34,7 @@
           <!-- <van-field placeholder="请输入地区" v-model="text" @input='search_region'/>  -->
           <van-search v-model="text" @input='search_region' placeholder="请输入搜索关键词" />
           <a-spin v-if="countrylist_fetching" size="small"/>
-            <ul style="max-height:200px" v-if='countrylist_fetching==false && countrylist.length>0'>
+            <ul  v-if='countrylist_fetching==false && countrylist.length>0'>
               <li v-for="d in countrylist" :class="d.classname" :key="d.remark" :value='d.value' @click="select_country(d.remark,d.chinese,d.value)">{{d.chinese}}{{d.eng}}</li>
             </ul>
             <ul  style="max-height:200px" v-else-if="countrylist_fetching==false &&  countrylist.length<=0">
@@ -473,11 +473,16 @@ export default {
       }
     }
     .region_class{
+      .van-search{
+        padding-top: 0.1rem;
+        padding-bottom: 0.1rem;
+      }
       .van-icon-clear{
           padding-right: 0.5rem;
       }
       .van-popup{
-        overflow-y: visible;
+        // overflow-y: visible; 
+        overflow: hidden;
       }
       .country_isactive{
         color: #1989fa;
@@ -486,8 +491,12 @@ export default {
       padding: 0 0.5rem;
     }
       .van-popup {
-    
-      max-height: 62%;
+        
+    //  height: 6.2rem;
+      ul{
+          max-height: 6rem;
+          // overflow: hidden;
+      }
     }
     
     .van-cell {

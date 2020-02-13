@@ -11,7 +11,7 @@
         <footer>
           <aside>
             <button @click="$routerto('a_recommand_i',$route.query)">推荐投资人</button>
-            <button @click="$global.previous()">再考虑一下</button>
+            <!-- <button @click="$global.previous()">再考虑一下</button> -->
           </aside>
         </footer>
       </article>
@@ -134,15 +134,15 @@ export default {
       transform: (translate(0, -50%));
     }
   }
-  .van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
-}
+//   .van-dialog {
+//   font-size: 0.3rem;
+// }
+// .van-dialog__message {
+//   font-size: 0.3rem;
+// }
+// .van-button {
+//   font-size: 0.3rem;
+// }
 }
 
 </style>
@@ -318,7 +318,7 @@ export default {
         aside {
           height: 2.5rem;
           display: flex;
-          font-size: 0.38rem;
+          font-size: 0.42rem;
           flex-direction: column;
           justify-content: space-between;
           button {

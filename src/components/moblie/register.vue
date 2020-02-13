@@ -40,7 +40,7 @@ export default {
     };
   },
   created() {
-    this.username = this.$route.query.email;
+    // this.username = this.$route.query.email;
     // console.log(this.$route.query.email);
   },
   methods: {

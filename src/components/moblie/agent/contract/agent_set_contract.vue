@@ -29,7 +29,7 @@
     },
     methods:{
       fromkids(){
-        this.get_contract()
+        // this.get_contract()
       },
       get_contract(){
         this.$loading();

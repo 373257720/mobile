@@ -7,11 +7,11 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-        <header>投资者资料</header>
+        <!-- <header>投资者资料</header> -->
           <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <header>项目详情</header>
+        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
       </article>
@@ -218,6 +218,7 @@ export default {
     line-height: 1.5rem;
     height: 1.5rem;
     position: fixed;
+    color:#333;
     top: 0;
     font-size: 0.46rem;
     background: white;

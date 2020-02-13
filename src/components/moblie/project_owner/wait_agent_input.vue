@@ -4,11 +4,11 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-        <header>投资者资料</header>
+        <!-- <header>投资者资料</header> -->
         <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <header>项目详情</header>
+        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
@@ -254,7 +254,7 @@
         }
         header {
           height: 0.8rem;
-          font-size: 0.32rem;
+            font-size: 0.42rem;
           text-align: center;
           background: #f2f2f2;
           line-height: 0.8rem;
@@ -295,7 +295,7 @@
         margin: 0 0 1.3rem 0;
         header {
           height: 0.8rem;
-          font-size: 0.32rem;
+          font-size: 0.42rem;
           text-align: center;
           // font-weight: 600;
           background: #f2f2f2;
@@ -372,7 +372,7 @@
         }
         footer {
           padding: 0 0.5rem 0.5rem 0.5rem;
-          font-size: 0.38rem;
+           font-size: 0.42rem;
           text-align: center;
           aside {
             height: 1.8rem;

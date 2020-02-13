@@ -16,12 +16,7 @@
 <!--              <van-field  v-model="form.investorsType" placeholder="-" />-->
             </p>
           </li>
-          <li v-show="form.investorsType==2">
-            <p class="row1">投资者公司：</p>
-            <p class="row2">
-              <van-field  v-model="form.investorsCompany" placeholder="请输入" clearable />
-            </p>
-          </li>
+         
           <li>
 
             <p class="row1">投资者地区：</p>
@@ -46,7 +41,12 @@
           </a-select> 
             </p>
           </li>
-
+           <li v-show="form.investorsType==2">
+            <p class="row1">投资者公司：</p>
+            <p class="row2">
+              <van-field  v-model="form.investorsCompany" placeholder="请输入" clearable />
+            </p>
+          </li>
           <li>
             <p class="row1">投资者姓名：</p>
             <p class="row2">
@@ -299,6 +299,9 @@ export default {
 //  .van-button__text{
 //      font-size: 0.48rem !important;
 //     }
+ .ant-select-dropdown-menu{
+      max-height: 4rem;
+    }
   .ant-select{
     width: 100%;
     font-size: 0.38rem;
