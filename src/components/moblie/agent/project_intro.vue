@@ -10,8 +10,8 @@
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>   
-            <button  @click="$routerto('a_recommand_i',$route.query)">推荐投资者</button>
-            <button  @click="confirm_alert">感兴趣</button>
+            <button v-if="$route.query.signStatus>=5"  @click="$routerto('a_recommand_i',$route.query)">推荐投资者</button>
+            <button v-if="$route.query.signStatus==='0'" @click="confirm_alert">感兴趣</button>
             <!-- <button @click="$global.previous()">再考虑一下</button> -->
           </aside>
         </footer>

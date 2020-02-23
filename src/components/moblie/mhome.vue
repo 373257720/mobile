@@ -305,6 +305,7 @@ export default {
     },
     routerto(item) {
       console.log(item)
+   
       // this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
         let hash = [];
@@ -323,26 +324,45 @@ export default {
             }
           );
         } else if (item.signUserResp.length <= 1) {
-          this.$routerto("p_goods_details", {
-            projectId: item.projectId,
-            signStatus: item.signUserResp[0].signStatus,
-            signId: item.signUserResp[0].signId
-          });
+          let obj={
+              projectId: item.projectId,
+              signStatus: item.signUserResp[0].signStatus,
+              signId: item.signUserResp[0].signId
+          };
+          this.$routerto("p_goods_details", obj);
         }
       } else if (this.$store.state.currentUsertype == 3) {
-       this.$routerto('i_conected_project',{projectId:item.projectId,signStatus:item.signUserResp[0].signStatus,signId:item.signUserResp[0].signId})
+      let obj={
+              projectId: item.projectId,
+              signStatus: item.signUserResp[0].signStatus,
+              signId: item.signUserResp[0].signId
+        }
+       this.$routerto('i_conected_project',obj)
         // this.$routerto("a_project_intro", { projectId: item.projectId });
       } else if (this.$store.state.currentUsertype == 4)
       {
         if(item.isSign==1){
-          // if(item.signUserResp[0].signStatus==)
-          this.$routerto("a_project_intro", {
-            projectId: item.projectId,
-            signStatus: item.signUserResp[0].signStatus,
-            signId: item.signUserResp[0].signId,
-            isSign:'1',
-          });
+             let obj={
+                  projectId: item.projectId,
+                  signStatus: item.signUserResp[0].signStatus,
+                  signId: item.signUserResp[0].signId
+            }
+          if(item.signUserResp[0].signStatus<5){
+            if(item.signUserResp[0].signStatus==1){
+                this.$routerto("a_wait_review", obj);
+            }else if(item.signUserResp[0].signStatus==2){
+                this.$routerto("a_wait_signed", obj);
+            }else if(item.signUserResp[0].signStatus==3){
+                  this.$routerto("a_sign_failed", obj);
+            }else if(item.signUserResp[0].signStatus==4){
+                  this.$routerto("uploadtoblock", obj);
+            }  
+          }
+          else if(item.signUserResp[0].signStatus>=5){
+              this.$routerto("a_project_intro", obj);
+          }
         }else if(item.isSign==0){
+     
           this.$routerto("a_project_intro", {
             projectId: item.projectId,
             isSign:"0",
