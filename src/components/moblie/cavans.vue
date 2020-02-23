@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div id="canvasBox" :style="getHorizontalStyle" v-show="!showBox">
+    <div id="canvasBox" :style="getHorizontalStyle">
       <div class="greet">
         <nav class="visaDetailTop">
           <van-icon name="arrow-left" @click="$global.previous()" />电子签名

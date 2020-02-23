@@ -1,12 +1,14 @@
 <template>
   <div id="a_uploadtoblock">
-    <div class="a_uploadtoblock">
+    <!-- <div class="a_uploadtoblock"> -->
       <nav class="a_uploadtoblock">
         <van-icon name="arrow-left" @click="$global.previous()" />确认及上载到区块链
       </nav>
       <main>
         <article v-if="watch">
-          <contractcomponent  :contract="contract"></contractcomponent>
+          <div>
+              <contractcomponent  :contract="contract"></contractcomponent>
+          </div>
           <footer>
             <button class="blockchain" @click="contract_submit">确认及上载到区块链</button>
           </footer>
@@ -14,7 +16,7 @@
         </article>
       </main>
       <mbottom></mbottom>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 <script>
@@ -26,11 +28,12 @@
     data() {
       return {
           watch:false,
-        token:'',
-        signStatu:'',
-        signId:'',
-        projectId:'',
-        contract: {
+          token:'',
+          signStatu:'',
+          signId:'',
+          signUserId1:'',//项目方id
+          projectId:'',
+          contract: {
           article:'',
           owner_sign:'',
           owner_behalf:'',
@@ -45,29 +48,37 @@
         },
       };
     },
-      beforeRouteLeave(to,from,next){
+  beforeRouteLeave(to,from,next){
       console.log(to,from)
         if(to.name=='a_submit_contract'){
-          // console.log(123)
            next({path: '/mysign'});
         }else{
           next()
         }
   },
     created() {
+      this.projectId = this.$route.query.projectId;
       this.signStatu=this.$route.query.signStatus;
-      this.signId=this.$route.query.signId;
+      this.signId=this.$route.query.signId?this.$route.query.signId:-1;
         this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getVisitToken?signId=${this.signId}&signStatus=${this.signStatu}`).then(res=>{
           if(res.data.resultCode==10000){
             this.token=res.data.data.visitToken;
           }
         })
        this.get_contract();
+       this.get_datails();
       // console.log(this.signStatu)
-      
-
     },
-    methods: {
+    methods: {  
+      get_datails(){
+          this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/project/getProjectDetails`,{projectLan:"zh_CN",projectId:this.projectId,signStatus:this.signStatu,signId:this.signId}).then(res=>{
+                if(res.data.resultCode==10000){
+                  console.log(res.data.data);
+                      this.projectId=res.data.data.projectId;
+                      this.signUserId1=res.data.data.signUserId1;
+                }
+          })
+      },
     get_contract(){
         this.$loading();
         this.$axios({
@@ -88,8 +99,7 @@
         });
       },
       // 上链
-      contract_submit() {
-        this.projectId = this.$route.query.projectId;
+      contract_submit() { 
         let code=encodeURIComponent('#')
         let urlpath = `${this.$baseurl3}/${code}/upload_contract?visitToken=${this.token}`;
         this.$toast.loading({
@@ -102,19 +112,23 @@
           url: `${this.$baseurl}/bsl_web/ipfs/update?`,
           params: {
             signId: `${this.signId}`,
-            urlPath: `${urlpath}`
+            urlPath: `${urlpath}`,
+            projectId:this.projectId,
+            signUserId1:this.signUserId1
           }
         })
           .then(res => {
             this.$toast.clear();
-            if (res.data.resultCode == 10000 ||res.data.resultCode == 10050) {
-              this.$dialog
+            if (res.data.resultCode == 10000) {
+            let query = Object.assign({},this.$route.query,{signStatus: 5})
+            this.$router.push({query})
+            this.$dialog
                 .alert({
                   title: res.data.resultDesc,
-                  message: "下一步发送邮件到投资者"
+                  message: "下一步推荐投资者"
                 })
                 .then(() => {
-                  this.$routerto("a_wait_sendemail",  {
+                  this.$routerto("a_project_intro",  {
                     signId: this.signId,
                     projectId: this.projectId,
                     signStatus: 5
@@ -149,6 +163,8 @@
 </script>
 <style lang="scss">
   #a_uploadtoblock {
+    height: 100%;
+    width: 100%;
     nav {
       position: relative;
       .van-icon-arrow-left {
@@ -173,8 +189,12 @@
 <style lang="scss" scoped>
   #a_uploadtoblock {
     width: 100%;
+      height: 100%;
+    padding: 1.5rem 0 1.3rem 0;
+
     nav.a_uploadtoblock {
       width: 100%;
+      height: 100%;
       text-align: center;
       line-height: 1.5rem;
       height: 1.5rem;
@@ -190,10 +210,37 @@
       box-sizing: border-box;
     }
     main {
-      margin-top: 1.5rem;
-      margin-bottom: 1.5rem;
+      // margin-top: 1.5rem;
+      // margin-bottom: 1.5rem;
       padding: 0.5rem;
+      height: 100%;
+      width: 100%;
       background: #ffffff;
+      article{
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    justify-content: space-between;
+      width: 100%;
+        >div{
+           height: 85%;
+        }
+      footer {
+        width: 100%;
+        font-size: 0.42rem;
+        button {
+          width: 100%;
+          background: #00adef;
+          line-height: 1rem;
+          color: white;
+          height: 1rem;
+        }
+        .blockchain {
+          background: orange;
+        }
+      }
+
+      }
       // .contract {
       //   border: 1px solid #b5b5b5;
       //   // background: #f2f2f2;
@@ -226,20 +273,7 @@
       //     }
       //   }
       // }
-      footer {
-        width: 100%;
-        font-size: 0.42rem;
-        button {
-          width: 100%;
-          margin-top: 1rem;
-          background: #00adef;
-          color: white;
-          height: 1rem;
-        }
-        .blockchain {
-          background: orange;
-        }
-      }
+     
     }
   }
 </style>

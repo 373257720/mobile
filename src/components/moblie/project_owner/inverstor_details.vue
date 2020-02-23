@@ -4,17 +4,9 @@
       <van-icon name="arrow-left" @click="$global.previous()" />签约投资者资料
     </nav>
     <main>
-      <!-- <aside>
-        <img src="../../assets/26566ffb301dac8c24d21969b538612.png" alt />
-      </aside>-->
       <article>
-        <!-- <header>放水电费鼎飞丹砂</header> -->
         <ul>
-          <!-- <li v-for="(item) in details_lists" :key="item.name">
-            <p class="row1">{{item.name}}</p>
-            <p class="row2" v-if="item.keyword=='projectDescribe'" v-html="item.response"></p>
-            <p class="row2" v-if="item.keyword!='projectDescribe'">{{item.response}}</p>
-          </li> -->
+  
           <li i v-for="(item) in details_lists" :key="item.name">
             <div
               v-if="item.keyword!='investorsCompany' || (item.keyword=='investorsCompany' && item.response!='')"
@@ -178,10 +170,11 @@ export default {
     height: 1.5rem;
     position: fixed;
     top: 0;
-    font-weight: 550;
+    // font-weight: 550;
     font-size: 0.46rem;
     background: white;
-    border-bottom: 0.16rem solid #b5b5b5;
+
+        border-bottom: 0.1rem solid #b5b5b5;
   }
   main {
     margin-top: 1.5rem;
@@ -214,6 +207,7 @@ export default {
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
+               font-size: 0.46rem;
             margin-bottom: 0.2rem;
           }
           .row2 {

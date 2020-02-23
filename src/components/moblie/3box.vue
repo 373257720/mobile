@@ -70,7 +70,7 @@ export default {
             justify-content:space-between;
            span.rowa{
              line-height: 0.56rem;
-             color: #4D4D4D;
+             color: #4D4D4D; 
            }
             span.rowb{
                  font-size: 0.5rem;

@@ -193,69 +193,28 @@ export default {
 <style lang="scss" scoped>
 #p_goods_details {
   width: 100%;
-
+  height: 100%;
   main {
-    // margin-top: 1.5rem;
+    padding: 1.6rem 0 1.3rem 0;
     background: #ffffff;
-    aside {
-      display: flex;
-      width: 100%;
-      height: 3rem;
-      justify-content: center;
-    }
     article {
-      margin: 1.6rem 0 1.3rem 0;
       header {
-        min-height: 2rem;
-        font-size: 0.46rem;
+         min-height: 2rem;
+        font-size: 0.48rem;
         padding: 0.4rem;
         box-sizing: border-box;
         word-break: break-all;
         display: -webkit-flex;
         display: flex;
         justify-content: center;
-        align-content: center;
+        align-items: center;
         flex-wrap: wrap;
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
       }
-      ul {
-        padding: 0.5rem 0.54rem 0 0.54rem;
-        li {
-          margin-bottom: 0.4rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.34rem;
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 3rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-        }
-        li.uploadblock {
-          img {
-            width: 0.6rem;
-            vertical-align: middle;
-            height: 0.6rem;
-          }
-        }
-      }
-      footer {
-        padding: 0 0.5rem 0.5rem 0.5rem;
-        button {
-          width: 9.88rem;
-          height: 1rem;
-          background: #00adef;
-          color: white;
-        }
-      }
+
+
     }
   }
 }

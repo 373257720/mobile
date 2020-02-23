@@ -21,6 +21,7 @@ export default {
       let timestamp = new Date().getTime();
       this.contract.agent_sign=data;
       this.contract.agent_signdate=timestamp;
+      //  this.$emit("update:contract") 
       this.$routerto('a_submit_contract',this.$route.query)
     },
     gg() {

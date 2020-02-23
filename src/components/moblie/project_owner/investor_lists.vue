@@ -60,11 +60,11 @@ export default {
           name: "投资者电话",
           response: ""
         },
-        {
-          keyword: "interestedIndustries",
-          name: "投资者兴趣:",
-          response: ""
-        }
+        // {
+        //   keyword: "interestedIndustries",
+        //   name: "投资者兴趣:",
+        //   response: ""
+        // }
       ],
       totallists: []
     };
@@ -137,25 +137,27 @@ export default {
 <style lang="scss" scoped>
 #p_investor_lists {
   width: 100%;
+  height:100%; 
   nav {
     width: 100%;
     text-align: center;
     line-height: 1.5rem;
     height: 1.5rem;
     position: fixed;
-    font-weight: 550;
+
     top: 0;
     font-size: 0.46rem;
     background: white;
-    border-bottom: 0.16rem solid #b5b5b5;
+    border-bottom: 0.1rem solid #b5b5b5;
+
   }
   main {
-    margin-top: 1.5rem;
+    padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;
     ul {
-      padding: 0 0.42rem 1.2rem 0.42rem;
+      padding: 0 0.42rem;
       li {
-        padding: 0.5rem 0 0.2rem 0;
+        padding: 0.2rem 0;
         font-size: 0.38rem;
         display: flex;
         // justify-content: space-between;
@@ -167,8 +169,8 @@ export default {
           border-radius: 50%;
           color: #02a7e7;
           text-align: center;
-          line-height: 0.6rem;
-          font-size: 0.16rem;
+          line-height: 0.62rem;
+          font-size: 0.42rem;
           border: 0.03rem solid #02a7e7;
         }
         .main_right {
@@ -178,11 +180,12 @@ export default {
           section {
             display: flex;
             margin-bottom: 0.3rem;
-            line-height: 0.5rem;
+            line-height: 0.6rem;
             .row1 {
               color: #4c4c4c;
               display: inline-block;
               font-weight: 600;
+
               width: 2.86rem;
             }
             .row2 {
@@ -196,8 +199,8 @@ export default {
         }
         .checkall {
           img {
-            width: 0.5rem;
-            height: 0.5rem;
+            width: 0.6rem;
+            height: 0.6rem;
           }
         }
       }

@@ -7,6 +7,7 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
+       
         <!-- <header>投资者资料</header> -->
         <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
@@ -14,6 +15,10 @@
         <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
+        <div class="owner_confirmed">
+          <van-divider>投行已确认</van-divider>
+          <p>投行已经确认你所推荐的投资者，请尽快发送邮件给投资者</p>
+        </div>
         <footer>
           <aside>
             <button @click="summit">发送邮件到投资者</button>
@@ -180,11 +185,11 @@ export default {
       });
     },
     submit_email() {
-       this.show='';
+    this.show='';
     var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
       if(reg.test(this.emailadress)) {
-            this.$loading();
-             this.$axios({
+        this.$loading();
+        this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/sendProject4`,
         data: this.$qs.stringify({
@@ -221,27 +226,31 @@ export default {
                   <tobody>
                       <tr class="column" style="">
                           <td style="text-align:center;vertical-align:top;">【投资银行】</td>
-                          <td style="padding:0;width: 430px;text-align:left;vertical-align:top;">尊敬的投资人，您有一个投资项目，由中间人把项目方推荐给您，同意与其签约？
+                          <td style="padding:0 20px 0 0;width: 430px;text-align:left;vertical-align:top;">尊敬的投资人，您有一个投资项目，由中间人把项目方推荐给您，同意与其签约？
                           </td>
                       </tr>
                       <tr class="column" style="">
-
                           <td style="text-align:center;vertical-align:top;">【投资项目】</td>
-                          <td style="text-align:left;vertical-align:top;">
+                          <td style="padding:0 20px 0 0;text-align:left;vertical-align:top;">
                             ${this.custmoers_obj.projectName}</td>
                       </tr>
                       <tr class="column" style="margin-bottom: 15px;">
                           <td style="width: 120px;text-align:center;vertical-align:top;">【中间人】</td>
-                          <td style="width: 430px;text-align:left;vertical-align:top;">
+                          <td style="padding:0 20px 0 0;width: 430px;text-align:left;vertical-align:top;">
                               ${this.custmoers_obj.bslName4}</td>
                       </tr>
                       <tr class="column" style="margin-bottom: 15px;">
                           <td style="width: 120px;text-align:center;vertical-align:top;">【项目方】</td>
-                          <td style="width: 400px;text-align:left;vertical-align:top;">
+                          <td style="padding:0 20px 0 0;width: 400px;text-align:left;vertical-align:top;">
                               ${this.custmoers_obj.bslName1}
                           </td>
                       </tr>
-
+                    <tr class="column" style="margin-bottom: 15px;color: lightcoral">
+                        <td style="width: 120px;text-align:center;vertical-align:top;">提示：</td>
+                        <td style="padding:0 20px 0 0;width: 400px;text-align:left;vertical-align:top;">
+                          投资者注册账号后，并提交资料认证。待银行认证后，方可查阅详细资料。如果您已有账号，可以直接登录进行操作。
+                        </td>
+                    </tr>
                       <tr class="column" style="">
                           <td colspan="2" style="text-align:center;vertical-align:center;">
                               <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}" class="button" style="text-decoration:none;">
@@ -264,30 +273,22 @@ export default {
       }).then(res => {
         this.$toast.clear();
         console.log(res);
+         this.show2 = false;
         if (res.data.resultCode == 10000) {
-          this.show2 = false;
+          let query = Object.assign({},this.$route.query,{signStatus: 9})
+          this.$router.push({query})
           this.$dialog
             .alert({
-              title: "发送成功"
-              // message: "弹窗内容"
+              title: "发送成功",
+              message: "等待投资者确认并完善资料"
             })
             .then(() => {
-              this.$routerto("a_wait_investor_comfirm", {
-                signId: this.$route.query.signId,
-                projectId: this.$route.query.projectId,
-                signStatus: 6
-              });
+              this.$routerto("mysign");
             });
-        } else if (res.data.resultCode == 10010) {
+        } else  {
           this.$dialog
             .alert({
-              title: "邮箱地址未填写"
-            })
-            .then(() => {});
-        } else if (res.data.resultCode == 10002) {
-          this.$dialog
-            .alert({
-              title: "邮箱内容缺失"
+              title: res.data.resultDesc
             })
             .then(() => {});
         }
@@ -312,6 +313,25 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+  .owner_confirmed{
+    margin-bottom: 0.5rem;
+     .van-divider{
+    background:#F2F2F2;
+    border-color: #D2D2D2;
+    padding: 0 2rem;
+    margin:0;
+    color: #858585;
+    font-size: 0.42rem;
+    }
+    P{
+      padding: 0.2rem 0.5rem;
+      color:#f36c69;
+      line-height: 0.6rem;
+      font-size: 0.42rem;
+
+    }
+  }
+ 
   .van-field__control{
     font-size: 0.4rem;
   }
@@ -331,16 +351,11 @@ export default {
 <style lang="scss" scoped>
 #a_wait_sendemail {
   width: 100%;
-
+  height: 100%;
   main {
-    margin-top: 1.6rem;
+    padding: 1.6rem 0 1.3rem 0;
     background: #ffffff;
-    aside {
-      display: flex;
-      width: 100%;
-      height: 3rem;
-      justify-content: center;
-    }
+
     div.investors_infor {
       h2 {
         min-height: 2rem;
@@ -351,123 +366,16 @@ export default {
         display: -webkit-flex;
         display: flex;
         justify-content: center;
-        align-content: center;
-        flex-wrap: wrap;
+        align-items: center;
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
       }
-      header {
-        height: 0.8rem;
-        font-size: 0.42rem;
-        text-align: center;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
-      }
-      ul {
-        padding: 0.1rem 0.5rem;
-        li {
-          > div {
-            margin-bottom: 0.1rem;
-            display: flex;
-            align-items: baseline;
-            font-size: 0.38rem;
-          }
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 3rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
-        }
-      }
+
+  
     }
     article {
-      margin: 0 0 1.3rem 0;
-      header {
-        height: 0.8rem;
-         font-size: 0.42rem;
-        text-align: center;
-        // font-weight: 600;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
-      }
-      div.nav_lists {
-        display: flex;
-        border-top: 0;
-        border-bottom: 0.2rem solid #f2f2f2;
-        > p {
-          flex: 1;
-          height: 2.5rem;
-          font-size: 0.38rem;
-          display: flex;
-          align-items: center;
-
-          section.box {
-            box-sizing: border-box;
-            width: 100%;
-            display: flex;
-            text-align: center;
-            height: 2rem;
-            //  padding: 0.1rem;
-            border-right: 0.08rem solid #f2f2f2;
-            flex-direction: column;
-            justify-content: space-between;
-            span.rowb {
-              font-size: 0.6rem;
-              color: #0f6ebe;
-            }
-          }
-        }
-        p:nth-last-child(1) {
-          section.box {
-            border-right: 0;
-          }
-        }
-      }
-      ul {
-        padding: 0.5rem;
-        li {
-          margin-bottom: 0.1rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.38rem;
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 4rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
-        }
-      }
+ 
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         font-size: 0.42rem;

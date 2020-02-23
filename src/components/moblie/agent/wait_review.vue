@@ -4,11 +4,9 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-        <!-- <header>投资者资料</header> -->
-           <commoninvestors :investor_infor="investor_infor"></commoninvestors>
+      <commoninvestors v-if="$route.query.signStatus==6" :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
       </article>
@@ -22,7 +20,7 @@ export default {
   data() {
     return {
       title: "",
-      dad_text: "等待投行审核",
+      dad_text: "",
       investor_infor: {
         investorsType: {
           name: "投资者类型:",
@@ -97,8 +95,21 @@ export default {
       }
     };
   },
+  beforeRouteLeave(to,from,next){
+    console.log(to,from)
+      if(to.name=='a_project_intro' || to.name=="a_recommand_i"){
+          next({path: '/mysign'});
+      }else{
+        next()
+      }
+  },
   created() {
     let details = this.$route.query;
+    if(this.$route.query.signStatus==6){
+      this.dad_text="待投行审核项目"
+    }else{
+      this.dad_text="待处理项目"
+    }
     this.$loading();
     this.$global
       .goods_deatails(
@@ -122,43 +133,7 @@ export default {
       });
   },
   methods: {
-    //   cancel() {
-    //   this.show2 = false;
-    // },
-    daship() {
-      var newWindow = window.open();
-      newWindow.location.href = "http://www.wearetechman.com:5001/webui";
-      // tempwindow.location=hash_id;
-    },
-    // 点击事件
-    share(val) {
-      console.log(val);
-      this.message = val;
-      this.$copyText(this.message).then(
-        e => {
-          this.show = true;
-        },
-        function(e) {
-          // alert("Can not copy");
-          console.log(e);
-        }
-      );
-    },
-    check_contract() {
-      this.$loading();
-      var newWindow = window.open();
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
-      }).then(res => {
-        this.$toast.clear();
-        console.log(res);
-        if (res.data.resultCode == 10000) {
-          // window.open();
-          newWindow.location.href = res.data.data.pdfPath;
-        }
-      });
-    }
+    
   }
 };
 </script>
@@ -191,33 +166,15 @@ export default {
       color: #0f6ebe;
     }
   }
-
-  // .van-dialog {
-  //   font-size: 0.3rem;
-  // }
-  // .van-cell {
-  //   font-size: 0.3rem;
-  //   background: #f2f2f2;
-  //   // padding: 0;
-  //   padding: 0.2rem 0.3rem;
-  //   margin: 0 0 0.5rem;
-  //   border: 1px solid #b5b5b5;
-  // }
 }
 </style>
 <style lang="scss" scoped>
 #a_wait_review {
   width: 100%;
-
+  height: 100%;
   main {
-    margin-top: 1.6rem;
+    padding: 1.6rem 0 1.3rem 0;
     background: #ffffff;
-    aside {
-      display: flex;
-      width: 100%;
-      height: 3rem;
-      justify-content: center;
-    }
     div.investors_infor {
       h2 {
         min-height: 2rem;
@@ -228,131 +185,14 @@ export default {
         display: -webkit-flex;
         display: flex;
         justify-content: center;
-        align-content: center;
-        flex-wrap: wrap;
+        align-items: center;
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
       }
-      header {
-        height: 0.8rem;
-         font-size: 0.42rem;
-        text-align: center;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
-      }
-      ul {
-        padding: 0.1rem 0.5rem;
-        li {
-          > div {
-            margin-bottom: 0.1rem;
-            display: flex;
-            align-items: baseline;
-            font-size: 0.38rem;
-          }
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 3rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
-        }
-      }
-    }
-    article {
-      margin: 0 0 1.3rem 0;
-      header {
-        height: 0.8rem;
-        font-size: 0.42rem;
-        text-align: center;
-        // font-weight: 600;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        // border-bottom: 0.01rem dashed #b5b5b5;
-      }
-      div.nav_lists {
-        display: flex;
-        border-top: 0;
-        border-bottom: 0.2rem solid #f2f2f2;
-        > p {
-          flex: 1;
-          height: 2.5rem;
-          font-size: 0.38rem;
-          display: flex;
-          align-items: center;
 
-          section.box {
-            box-sizing: border-box;
-            width: 100%;
-            display: flex;
-            text-align: center;
-            height: 2rem;
-            //  padding: 0.1rem;
-            border-right: 0.08rem solid #f2f2f2;
-            flex-direction: column;
-            justify-content: space-between;
-            span.rowb {
-              font-size: 0.6rem;
-              color: #0f6ebe;
-            }
-          }
-        }
-        p:nth-last-child(1) {
-          section.box {
-            border-right: 0;
-          }
-        }
-      }
-      ul {
-        padding: 0.5rem;
-        li {
-          margin-bottom: 0.1rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.38rem;
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 4rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
-        }
-        li.uploadblock {
-          img {
-            width: 0.6rem;
-            vertical-align: middle;
-            height: 0.6rem;
-          }
-        }
-      }
     }
+
   }
 }
 </style>

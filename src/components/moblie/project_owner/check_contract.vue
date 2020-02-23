@@ -83,9 +83,8 @@ export default {
 <style lang="scss" scoped>
 #p_check_contract {
   width: 100%;
-    //  height:100%;
-  //  height:100%;
-  //    margin: 1.5rem 0 1.3rem 0;
+  height:100%;
+  padding: 1.5rem 0 1.3rem 0;
   nav {
     width: 100%;
     text-align: center;
@@ -99,55 +98,20 @@ export default {
     border-bottom: 0.1rem solid #b5b5b5;
   }
   main {
-  //     width: 100%;
-  //  height:100%;
-     margin: 1.5rem 0 1.3rem 0;
-    padding: 0.5rem;
-    // height:100%;
+    padding: 0.6rem 0.5rem;
+    height: 100%;
+    width: 100%;
     background: #ffffff;
-    .contract {
-      // background: #f2f2f2;
-      box-sizing: border-box;
-      font-size: 0.4rem;
-      line-height: 0.6rem;
-      border: 1px solid rgb(169, 169, 169);
-      padding: 0.4rem 0.4rem;
+    article{
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    justify-content: space-between;
       width: 100%;
-      height: 15rem;
-      overflow-y: auto;
-      word-wrap: break-word;
-      color: rgb(169, 169, 169);
-      div.button {
-        margin-top: 2rem;
-        display: flex;
-        justify-content: space-between;
-        p {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          i {
-            width: 3rem;
-            height: 1rem;
-            border-bottom: 1px solid rgb(169, 169, 169);
-            img {
-              width: 3rem;
-              height: 1rem;
-              // border-bottom: 1px solid rgb(169, 169, 169);
-            }
-          }
+        >div{
+          //  height: 85%;
         }
       }
-    }
-    footer {
-      width: 100%;
-      button {
-        width: 100%;
-        margin-top: 1rem;
-        background: #00adef;
-        color: white;
-        height: 0.8rem;
-      }
-    }
   }
 }
 </style>

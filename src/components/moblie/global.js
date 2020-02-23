@@ -45,13 +45,17 @@ const global = {
     })
   },
   pic_obj: {
-    '1': "待审核",
+    '1': "待处理",
     '2': "待签约",
-    '5': "待确认",
-    '6': "成功签约",
     '3': "投行已拒绝",
-    '4': "已签约待发送邮件",
-    '7': "投资者已拒绝"
+    '4':'已签约待上链',
+    '5': "已上链待推荐",
+    '6': "待审核",
+    '7': "投行已拒绝",
+    '8':"已审核待发送",
+    '9':'待投资者确认',
+    '10':'签约成功',
+    '11': "投资者已拒绝"
 
   },
   financingStage: {
@@ -105,6 +109,7 @@ const global = {
           let investorsEmailSend=res.data.data.investorsEmailSend;
           let investorsId = res.data.data.investorsId;
           let projectName = res.data.data.projectName;
+          let signUserId3=res.data.data.signUserId3;
           let signAgreementKey = res.data.data.signAgreementKey;
           for (let i in res.data.data) {
             if(details_lists.collectMoney.hasOwnProperty(i)){
@@ -146,6 +151,7 @@ const global = {
             // investor_infor: investor_infor,
             // details_lists: details_lists,
             // nav_lists: nav_lists,
+            signUserId3:signUserId3,
             projectLifeCycle:projectLifeCycle,
             investorsEmailSend:investorsEmailSend,
             signAgreement: signAgreement,

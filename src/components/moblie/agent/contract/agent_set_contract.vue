@@ -1,14 +1,11 @@
 <template>
-  <div>
-    <router-view v-if="watch" :signStatu="signStatu" :contract='contract' v-on:todad="fromkids" ></router-view>
-  </div>
+      <router-view :contract.sync='contract' v-on:todad="fromkids" ></router-view>
 </template>
 <script>
   export default {
     data(){
       return{
         watch:false,
-        signStatu:'',
         contract: {
           article:'',
           owner_sign:'',
@@ -39,7 +36,6 @@
         }).then(res => {
           this.$toast.clear();
           if(res.data.resultCode==10000){
-            this.signStatu=res.data.data.signStatus;
             let str = JSON.parse(res.data.data.signAgreement);
             for(let i in this.contract){
               if(str.hasOwnProperty(i)){

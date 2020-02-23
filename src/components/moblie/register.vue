@@ -106,11 +106,11 @@ export default {
     border: 0.02rem solid #dddddd;
     border-radius: 0.05rem;
     background: #f6f6f6;
-    padding: 0.34rem;
+        padding:0.1rem 0.3rem;
     box-sizing: border-box;
   }
   .van-field__control {
-    font-size: 0.38rem;
+    font-size: 0.42rem;
     // line-height: 0.7rem;
   }
   .van-field__clear {
@@ -178,16 +178,13 @@ export default {
       // font-size: 0.1rem;
       border-radius: 0.05rem;
       width: 9.8rem;
+      line-height: 1rem;
       height: 1rem;
-    }
-    .registerbtn button {
-      background: #00adef;
-      font-size: 0.3rem;
     }
     .registerbtn button {
       background: #ff7c2c;
       // font-size: 0.1rem;
-      font-size: 0.3rem;
+      font-size: 0.42rem;
     }
   }
 }

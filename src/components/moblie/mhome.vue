@@ -54,6 +54,7 @@
     </header>
     <div id="main">
       <div class="main">
+         <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
           v-model="loading"
           :finished="finished"
@@ -95,7 +96,7 @@
               <button
                 v-if="usertype==1"
                 @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList6'][0].investorsIdList) })"
-              >签约投资者资料 ( {{goods.signUserList['signUserList6'][0].signCount?goods.signUserList['signUserList6'][0].signCount:0}} )</button>
+              >签约投资者资料 ( {{goods.signUserList['signUserList10'][0].signCount?goods.signUserList['signUserList10'][0].signCount:0}} )</button>
               <button
                 v-else-if="usertype==3"
                 @click="$routerto('i_conected_project',{projectId:goods.projectId,signStatus:goods.signUserResp[0].signStatus,signId:goods.signUserResp[0].signId})"
@@ -104,6 +105,7 @@
             </footer>
           </div>
         </van-list>
+         </van-pull-refresh>
       </div>
     </div>
 
@@ -118,6 +120,7 @@ export default {
   data() {
     return {
       text:'',
+      refreshing: false,
       countrylist_fetching:false,
       items: [
         {
@@ -131,22 +134,38 @@ export default {
       activeIds: '',//行业id
       tags: {
         signUserList1: {
-          text: "待审核",
+          text: "待处理",
           number: 0
         },
         signUserList2: {
           text: "待签约",
           number: 0
         },
-        signUserList4: {
-          text: "待确认",
-          number: 0
-        },
-        signUserList6: {
+         signUserList4: {
           text: "已签约",
           number: 0
         },
-        signUserList37: {
+        signUserList5: {
+          text: "已上链",
+          number: 0
+        },   
+        signUserList6: {
+          text: "待审核",
+          number: 0
+        },
+        signUserList8: {
+          text: "已审核",
+          number: 0
+        },
+        signUserList9: {
+          text: "待确认",
+          number: 0
+        },
+        signUserList10: {
+          text: "签约成功",
+          number: 0
+        },
+        signUserList3711: {
           text: "已拒绝",
           number: 0
         }},
@@ -211,16 +230,15 @@ export default {
   },
  
   methods: {
-    // region(value, region) {
-    //   this.region_name = region.remark;
-    //   this.region_nametitle = region.text;
-    //   // console.log(value, region, this.region_name);
-    //   this.pageNum = 1;
-    //   this.upGoodsInfo = [];
-    //   this.loading = true; //下拉加载中
-    //   this.finished = false; //下拉结
-    //   this.onLoad();
-    // },
+    onRefresh() {
+      this.finished = false;
+      // 重新加载数据
+      // 将 loading 设置为 true，表示处于加载状态
+      this.loading = true;
+      this.upGoodsInfo = [];
+      this.pageNum = 1;
+      this.onLoad();
+    },
     select_country(remark,chinese,idx) {
       console.log(remark,chinese)
       this.region_title=chinese;
@@ -291,7 +309,7 @@ export default {
       if (this.$store.state.currentUsertype == 1) {
         let hash = [];
         for (var i = 0; i < item.signUserResp.length; i++) {
-          if (hash.indexOf(item.signUserResp[i].signStatus) == -1) {
+          if (hash.indexOf(item.signUserResp[i].signStatus) <0) {
             hash.push(item.signUserResp[i].signStatus);
           }
         }
@@ -317,15 +335,19 @@ export default {
       } else if (this.$store.state.currentUsertype == 4)
       {
         if(item.isSign==1){
+          // if(item.signUserResp[0].signStatus==)
           this.$routerto("a_project_intro", {
             projectId: item.projectId,
             signStatus: item.signUserResp[0].signStatus,
-            signId: item.signUserResp[0].signId
+            signId: item.signUserResp[0].signId,
+            isSign:'1',
           });
         }else if(item.isSign==0){
           this.$routerto("a_project_intro", {
             projectId: item.projectId,
-            signStatus: 0,
+            isSign:"0",
+            // signId: item.signUserResp[0].signId,
+            signStatus: '0',
           });
         }
       }
@@ -353,7 +375,6 @@ export default {
         this.activeIds = data.id;
         this.industry_title=this.items[0].children[this.activenum-1].text;
       }
-
       this.pageNum = 1;
       this.upGoodsInfo = [];
       this.loading = true; //下拉加载中
@@ -362,6 +383,10 @@ export default {
     },
     onLoad() {
       // this.loading = true;
+       if (this.refreshing) {
+          this.upGoodsInfo= [];
+          this.refreshing = false;
+      }
       this.$axios({
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getAllProject?`,
@@ -382,16 +407,11 @@ export default {
             if (re.length > 0) {
               this.upGoodsInfo = this.upGoodsInfo.concat(re);
               this.loading = false;
-              this.finished = true;
             }
             if (
               this.upGoodsInfo.length >= res.data.data.pageTotal ||
               this.upGoodsInfo.length == 0
             ) {
-               this.loading = false;
-              // document.querySelector(
-              //   "#mhome .van-loading__circular"
-              // ).style.display = "none";
               this.finished = true;
             }
             this.pageNum++;
@@ -399,6 +419,8 @@ export default {
             this.loading = false;
             this.finished = true;
           }
+          console.log(this.upGoodsInfo);
+          
         })
         .catch(err => {
           // this.loadText = "加载失败";
@@ -416,6 +438,9 @@ export default {
 
 <style lang="scss">
 #mhome {
+    .van-pull-refresh{
+      // padding: 2.8rem 0 2rem 0;
+    }
    .ant-select{
     width: 100%;
     font-size: 0.38rem;
@@ -432,6 +457,7 @@ export default {
    height:100%;
       
  }
+  
  .ant-select-selection__rendered{
  
    margin:0;
@@ -440,14 +466,7 @@ export default {
           border: 0;
     }
   }
-  .van-list {
-    // padding-bottom: 1.3rem;
-  }
   header {
-    .van-search {
-      // padding: 0.3rem 0.4rem 0 0.4rem;
-     /*background: #2E3063 !important;*/
-    }
     .van-hairline--top-bottom::after {
       border: 0;
     }
@@ -580,7 +599,7 @@ export default {
 <style lang="scss" scoped>
 #mhome {
   display: flex;
-  height: 100vh;
+  height: 100%;
   flex-direction: column;
 
   > header {
@@ -619,7 +638,7 @@ export default {
     background: #eeeeee;
     box-sizing: border-box;
     .goodlists {
-      margin: 0.2rem 0.1rem;
+      margin:0 0.1rem 0.2rem 0.1rem;
       background: white;
       display: flex;
       flex-direction: column;
@@ -688,7 +707,7 @@ export default {
         }
         div.tag{
           min-height: 0rem;
-          max-height: 1.2rem;
+          // max-height: 1.2rem;
         }
       }
       footer {

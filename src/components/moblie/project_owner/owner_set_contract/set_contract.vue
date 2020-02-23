@@ -8,30 +8,50 @@
         <div class="sub_title">
           <header>For and on behalf of:</header>
           <div >
-            <input maxlength="60" v-model="contract.owner_behalf"  placeholder="请输入">
+             <van-field
+              v-model="contract.owner_behalf"
+              autosize
+              maxlength="60"
+              placeholder="请输入"
+              show-word-limit
+            />
+            <!-- <input maxlength="60" v-model="contract.owner_behalf"  placeholder="请输入"> -->
           </div>
         </div>
         <div class="sub_title">
           <header>Name:</header>
           <div >
-            <input maxlength="30" v-model="contract.owner_name"  placeholder="请输入">
+            <!-- <input maxlength="30" v-model="contract.owner_name"  placeholder="请输入"> -->
+              <van-field
+              v-model="contract.owner_name"
+              autosize
+              maxlength="30"
+              placeholder="请输入"
+              show-word-limit
+            />
           </div>
         </div>
        <div class="sub_title">
          <header>Title:</header>
          <div>
-           <input maxlength="30" v-model="contract.owner_title"  placeholder="请输入">
+           <!-- <input maxlength="30" v-model="contract.owner_title"  placeholder="请输入"> -->
+             <van-field
+              v-model="contract.owner_title"
+              autosize
+              maxlength="30"
+              placeholder="请输入"
+              show-word-limit
+            />
          </div>
        </div>
       <div class="sub_title">
         <header>Contract:</header>
         <div>
-          <textarea v-model="contract.article"  placeholder="请输入"></textarea>
+           <vue-html5-editor :content="contract.article" :height="400"  
+            @change="updateData"></vue-html5-editor> 
+          <!-- <textarea v-model="contract.article"  placeholder="请输入"></textarea> -->
         </div>
       </div>
-<!--        <div>-->
-<!--          <textarea v-model="content"  placeholder="请输入"></textarea>-->
-<!--        </div>-->
         <footer>
           <button @click="signature">签署</button>
         </footer>
@@ -47,6 +67,7 @@ export default {
   props:['contract'],
   data() {
     return {
+      // content: '请输入文章内容',
       // contract:{
       //   article:'',
       //   owner_sign:'',
@@ -97,6 +118,11 @@ export default {
   },
   computed: {},
   methods: {
+     updateData(e = ''){  
+        // console.log(e);
+            this.contract.article = e;  
+            // console.info(e);  
+      } ,
     signature() {
       if(this.contract.owner_behalf==''){
         this.$toast('请输入代表权益')
@@ -122,6 +148,31 @@ export default {
 </script>
 <style lang="scss">
 #p_set_contract {
+    .van-field__control{
+    box-sizing: border-box;
+    font-size: 0.38rem;
+    line-height: 1rem;
+        background: #f6f6f6;
+        // color: rgba(0, 0, 0, 0.65);
+    padding:0.1rem 0.2rem;
+    height: 1rem;
+    width: 100%;
+    border: 1px solid #a9a9a9;
+  }
+   .van-cell{
+    padding: 0;
+  }
+  div.toolbar{
+    z-index: 0 !important;
+  }
+  .vue-html5-editor>.content{
+       background: #f6f6f6;
+    max-height:4rem;
+  }
+  .vue-html5-editor {
+    border: 1px solid #a9a9a9;
+    
+}
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -135,7 +186,7 @@ export default {
     border: 0.02rem solid #8e8e8e;
   }
   .van-field {
-    background: #f2f2f2;
+    // background: #f2f2f2;
   }
 }
 // .van-dialog {
@@ -169,18 +220,19 @@ export default {
   }
   main {
     margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.3rem;
     padding: 0.5rem;
     background: #ffffff;
     .sub_title{
-      margin-bottom:0.5rem;
+      // margin-bottom:0.5rem;
       header{
         /*margin-bottom: 0.2rem;*/
-        font-size: 0.38rem;
+        font-size: 0.42rem;
+         font-weight: 600;
       }
       input{
         box-sizing: border-box;
-        font-size: 0.38rem;
+        font-size: 0.42rem;
         line-height: 1rem;
         padding: 0.2rem;
         /*box-sizing: border-box !important;*/
@@ -205,7 +257,8 @@ export default {
       button {
         width: 100%;
         font-size: 0.42rem;
-        margin-bottom: 1rem;
+        margin: 1rem 0;
+        line-height: 1rem;
         background: #00adef;
         color: white;
         height: 1rem;

@@ -134,6 +134,7 @@ export default {
         investorsName: "",
         investorsArea: "",
         projectId: "",
+        signId:'',
         // areaCode: ""
         // identity: ""
       }
@@ -141,7 +142,8 @@ export default {
   },
 
   created() {
-    this.form.projectId = this.$route.query.projectId;
+    this.form.projectId = this.$route.query.projectId?this.$route.query.projectId:"";
+    this.form.signId= this.$route.query.projectId?this.$route.query.signId:-1;
     this.ulHtml('');
     // console.log(this.region)
   },
@@ -199,16 +201,6 @@ export default {
       });
   
     },
-    // selectregion(val) {
-    //   console.log(val);
-    //   this.region_nametitle=val.text;
-    //   this.form.investorsArea=val.remark;
-    //    this.isshow=false;
-    //    this.iswatch=true;
-    //   // this.form.bslAreaCode = val.countryCode;
-    //   // this.form.projectArea = val.countryZhname;
-    //   // this.form.projectAreaEn = val.countryEnname;
-    // },
     remind(meg) {
       this.$dialog
         .alert({
@@ -257,8 +249,9 @@ export default {
                   title: res.data.resultDesc
                   // message: "弹窗内容"
                 })
-                .then(() => {
-                  this.$goto("mhome");
+                .then(() => {  
+                  // let query1=Object.assign(this.$route.query,{signStatus:6}) 
+                  this.$routerto("mysign")
                 });
             } else {
               this.remind(res.data.resultDesc);

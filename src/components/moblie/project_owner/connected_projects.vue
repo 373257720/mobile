@@ -5,20 +5,24 @@
     </nav>
     <main>
       <div class='remind' v-if='remind_show'>{{reminder}}</div>
-      <van-collapse v-model="activeName" accordion>
+      <van-collapse v-if='!remind_show' v-model="activeName" accordion>
         <van-collapse-item v-for="(l,i) in lists" :key="l.projectId"  :name="i">
           <div slot="title" class="title">
               <header>{{l.projectName}}</header>
           </div>
-              <div><span>序号</span><span>投资者资料</span></div>
+              <div><span>序号</span><span>推荐人</span><span>投资者资料</span><span></span></div>
              <ul class="item">
                <li v-for="(item,index) in l.investorsResp" :key="index" class="item_li">
                  <p><span>{{index+1}}</span></p>
+                 <p><span>{{item.investorsName}}</span></p>
                  <ul >
-                   <li v-for="(value,key,index) in item">
+                   <li v-for="(value,key) in item">
                      {{value}}
                    </li>
                  </ul>
+                 <p>
+                   <img  :src="stauts_pic[item.signStatus==10?item.signStatus:11]" alt="">
+                  </p>    
                </li>
                <footer>
                  <button @click="$routerto('p_goods_details',{projectId:l.projectId})">查看项目详情</button>
@@ -40,6 +44,10 @@
         reminder:'',
         remind_show:false,
         lists:[],
+        stauts_pic:{
+          '10':"../../../static/pic/success.png",
+          '11':"../../../static/pic/failed.png",
+        }
       };
     },
     created() {
@@ -64,13 +72,15 @@
             this.reminder='';
             this.lists.forEach((item=>{
               item.investorsResp =  item.investorsResp.map(x=>{
-             return  {
+                  return  {
                         investorsEmail: x.investorsEmail,
-                          investorsName: x.investorsName,
-                        investorsCompanyAddress: x.investorsCompanyAddress
+                        investorsName: x.investorsName,
+                        investorsCompanyAddress: x.investorsCompanyAddress,
+                        signStatus:x.signStatus
                       }
               })
             }))
+
             console.log(this.lists)
 
           }
@@ -97,7 +107,7 @@
       .van-cell{
         /*min-height: 2rem;*/
         min-height: 2rem;
-
+        // line-height: 2rem;
         font-size: 0.46rem;
         padding:  0.5rem 0.3rem;
         width: initial;
@@ -130,7 +140,7 @@
         /*padding: 0rem;*/
         padding: 0;
         >div:nth-of-type(1){
-          padding:0 0.5rem;
+          // padding:0 0.5rem;
           color: #575757;
           background: #E8E8E8;
           display: flex;
@@ -141,22 +151,26 @@
               flex:1;
           }
           span:nth-of-type(2){
-            flex:3;
+           width: 30%;
+          }
+          span:nth-of-type(3){
+           width: 40%;
+          }
+          span:nth-of-type(4){
+            flex:1;
           }
         }
         .item{
-         margin:0 0.5rem;
-
+        //  margin:0 0.5rem;
           .item_li{
             display: flex;
             padding: 0.3rem 0;
-            border-bottom: 1px dashed;
+            // border-bottom: 1px dashed;
             p:nth-of-type(1){
-              flex:1;
+                flex-grow: 1; 
               display: flex;
               justify-content: center;
               align-items: center;
-
               span{
                 width: 0.62rem;
                 height: 0.62rem;
@@ -165,28 +179,45 @@
                 color: #02a7e7;
                 text-align: center;
                 line-height: 0.62rem;
-                font-size: 0.16rem;
+                font-size: 0.38rem;
                 border: 0.03rem solid #02a7e7;
               }
             }
-            ul{
-              flex:3;
-              li{
-                color: #575757;
-                margin-bottom: 0.2rem;
-              }
-              li:last-child{
-                margin-bottom: 0;
+            p:nth-of-type(2){
+            //  flex-grow: 2; 
+            width: 30%;
+            padding: 0 0.2rem;
+            display: flex;
+            justify-content:center;
+            align-items: center;
+            span{
+                word-wrap:break-word;
+                width: 100%;
+                // text-align: center;
               }
             }
-            /*p:nth-of-type(2){*/
-            /*  flex:3;*/
-            /*}*/
+            p:nth-of-type(3){
+               flex-grow: 1; 
+              display: flex;
+              img{
+                height: 0.62rem;
+                width: 0.62rem;
+              }
+              justify-content: center;
+              align-items: center;
+          
+            }
+            ul{
+              width:40%; 
+               padding: 0 0.2rem;
+              // color: #575757;
+              word-wrap:break-word;
+        
+            }
           }
           footer{
             text-align: center;
             padding: 0.2rem 0;
-            /*border-bottom: 1px dashed;*/
             button{
               height: 1rem;
               width: 8rem;
@@ -197,9 +228,7 @@
           /*padding: 0 0.5rem;*/
         }
       }
-      /*.van-cell__right-icon{*/
-      /*  height: 100%;*/
-      /*}*/
+
     }
     .van-hairline--top-bottom::after {
       /*border: 0.02rem solid #8e8e8e;*/
@@ -213,7 +242,7 @@
   #p_connected_projects {
     width: 100%;
    height:100%;
-    margin: 0 0 1.6rem 0;
+    // margin: 0 0 1.6rem 0;
     .remind{
      text-align: center;padding-top: 1rem;color: #969799;
     }
@@ -230,33 +259,12 @@
       border-bottom: 0.1rem solid #b5b5b5;
     }
     main {
-      margin-top: 1.5rem;
-      border: 0;
+      padding: 1.5rem 0 1.3rem 0;
+      // margin
+      // border: 0;
       /*padding: 0 0.5rem;*/
       /*background: #ffffff;*/
-    div.list{
-        h2{
-          min-height: 2rem;
-          font-size: 0.46rem;
-          z-index: 9999999;
-          box-sizing: border-box;
-          word-break: break-all;
-          display: -webkit-flex;
-          display: -webkit-box;
-          display: flex;
-          -webkit-box-pack: center;
-          -webkit-justify-content: center;
-          justify-content: center;
-          -webkit-align-content: center;
-          align-content: center;
-          -webkit-flex-wrap: wrap;
-          border-bottom: 1px dashed #b5b5b5;
-          flex-wrap: wrap;
-          color: #0f6ebe;
-          font-weight: 600;
-          line-height: 0.68rem;
-        }
-    }
+ 
 
 
     }

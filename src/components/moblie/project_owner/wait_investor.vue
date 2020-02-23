@@ -5,8 +5,12 @@
       {{dad_text}}
     </nav>
     <main>
-      <article>
-        <header>{{title}}</header>
+         <div class="investors_infor">
+        <h2>{{title}}</h2>
+        <!-- <commoninvestors :investor_infor="investor_infor"></commoninvestors> -->
+      </div>
+      <article> 
+          <commoninvestors v-if="$route.query.signStatus==8 || $route.query.signStatus==9" :investor_infor="investor_infor"></commoninvestors>
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
@@ -28,6 +32,25 @@ export default {
       hash_id: "",
       dad_text:'',
       title: "",
+        investor_infor: {
+          investorsType: {
+            name: "投资者类型:",
+            response: ""
+          },
+          investorsCompany: {
+            name: "投资者公司:",
+            response: ""
+          },
+          investorsName: {
+            name: "投资者姓名:",
+            response: ""
+          },
+          investorsArea: {
+            name: "投资者地区:",
+            response: ""
+          },
+ 
+        },
       nav_lists: {
         financingStage: {
           name: "融资阶段",
@@ -91,8 +114,10 @@ export default {
   created() {
     let details = this.$route.query;
     if(this.$route.query.signStatus==5){
-      this.dad_text='已上链待发送'
-    }else if(this.$route.query.signStatus==6){
+      this.dad_text='已上链待推荐'
+    }else if(this.$route.query.signStatus==8){
+      this.dad_text='已审核待发送';
+    }else if(this.$route.query.signStatus==9){
       this.dad_text='待投资者确认';
     }
 
@@ -110,7 +135,7 @@ export default {
         {},
         this.details_lists,
         this.nav_lists,
-        []
+        this.investor_infor
       )
       .then(res => {
         console.log(res);
@@ -219,6 +244,7 @@ export default {
 <style lang="scss" scoped>
 #p_wait_investor {
   width: 100%;
+  height: 100%;
   nav {
     width: 100%;
     text-align: center;
@@ -231,58 +257,29 @@ export default {
     border-bottom: 0.1rem solid #b5b5b5;
   }
   main {
-    margin-top: 1.5rem;
+    padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;
-
-    article {
-      margin: 0 0 1.3rem 0;
-      header {
-        min-height: 2rem;
-        font-size: 0.46rem;
-        padding: 0.4rem;
-        box-sizing: border-box;
-        word-break: break-all;
-        display: -webkit-flex;
-        display: flex;
-        justify-content: center;
-        align-content: center;
-        flex-wrap: wrap;
-        color: #0f6ebe;
-        font-weight: 600;
-        line-height: 0.68rem;
-      }
-      ul {
-        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-        li {
-          margin-bottom: 0.1rem;
+        div.investors_infor {
+        h2 {
+           min-height: 2rem;
+        font-size: 0.48rem;
+          padding: 0.4rem;
+          box-sizing: border-box;
+          word-break: break-all;
+          display: -webkit-flex;
           display: flex;
-          align-items: baseline;
-          font-size: 0.38rem;
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 4rem;
-            // margin-bottom: 0.2rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-        }
-
-        li.uploadblock {
-          img {
-            width: 0.6rem;
-            vertical-align: middle;
-            height: 0.6rem;
-          }
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          color: #0f6ebe;
+          font-weight: 600;
+          line-height: 0.68rem;
         }
       }
+    article {
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
-        font-size: 0.38rem;
+        font-size: 0.42rem;
         text-align: center;
         aside {
           height: 1.8rem;
@@ -293,6 +290,7 @@ export default {
           }
           button {
             height: 1rem;
+            line-height: 1rem;
             color: #ffffff;
           }
           button:nth-of-type(1) {

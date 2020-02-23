@@ -44,31 +44,31 @@
            <li v-show="form.investorsType==2">
             <p class="row1">投资者公司：</p>
             <p class="row2">
-              <van-field  v-model="form.investorsCompany" placeholder="请输入" clearable />
+              <van-field  v-model="form.investorsCompany" placeholder="请输入" />
             </p>
           </li>
           <li>
             <p class="row1">投资者姓名：</p>
             <p class="row2">
-              <van-field  v-model="form.investorsName" placeholder="请输入" clearable />
+              <van-field  v-model="form.investorsName" placeholder="请输入" />
             </p>
           </li>
           <li>
             <p class="row1">投资者电话：</p>
             <p class="row2">
-              <van-field v-model="form.investorsMobile" placeholder="请输入" clearable />
+              <van-field v-model="form.investorsMobile" placeholder="请输入" />
             </p>
           </li>
           <li>
             <p class="row1">投资者邮箱：</p>
             <p class="row2">
-              <van-field v-model="form.investorsEmail" placeholder="请输入" clearable />
+              <van-field v-model="form.investorsEmail" placeholder="请输入" />
             </p>
           </li>
           <li >
             <p class="row1">投资者地址：</p>
             <p class="row2">
-              <van-field v-model="form.investorsCompanyAddress" placeholder="请输入" clearable />
+              <van-field v-model="form.investorsCompanyAddress" placeholder="请输入"  />
             </p>
           </li>
           <li>
@@ -104,7 +104,8 @@ export default {
       countrylist_fetching:false,
       form: {
         signId: this.$route.query.signId,
-        signStatus: 8,
+        signStatus: 10,
+        signUserId3:this.$route.query.signUserId3,
         investorsId: this.$route.query.investorsId,
         investorsType:1,
         investorsCompany: "",
@@ -253,25 +254,12 @@ export default {
       })
         .then(res => {
           console.log(res);
-          this.dialog(res.data.resultDesc, res.data.resultCode);
            this.$toast.clear();
-          // if (res.data.resultCode == 10000) {
-          //   this.dialog("提交成功", res.data.resultCode);
-          //   // this.$routerto("mhome");
-          // }
-          // else if (res.data.resultDesc == 10017) {
-          //   this.dialog("签约流程错误");
-          // } else if (res.data.resultCode == 10010) {
-          //   this.dialog("请填写投资者电话");
-          // } else if (res.data.resultCode == 10011) {
-          //   this.dialog("请填写投资者邮箱");
-          // } else if (res.data.resultCode == 10012) {
-          //   this.dialog("请填写感兴趣行业");
-          // } else if (res.data.resultCode == 10013) {
-          //   this.dialog("请填写公司的地址");
-          // }else if (res.data.resultCode == 10051) {
-          //   this.dialog("用户资料尚未审核，请耐心等待");
-          // }
+          if (res.data.resultCode == 10000) {
+             this.dialog(res.data.resultDesc, res.data.resultCode);
+          }else{
+            this.$toast(res.data.resultDesc); 
+          }
         })
         .catch(err => {
           console.log(err);
@@ -279,16 +267,14 @@ export default {
     },
     dialog(str, num) {
       this.$dialog
-        .confirm({
+        .alert({
           title: str
         })
         .then(() => {
           if (num == 10000) {
-            this.$routerto("mhome");
+            this.$routerto("mysign");
           }
-        }).catch(err=>{
-
-      })
+        })
     }
   }
 };
@@ -449,8 +435,7 @@ export default {
           display: flex;
           /*line-height: 0.48rem;*/
           align-items: center;
-          font-size: 0.3rem;
-          font-size: 0.38rem;
+          font-size: 0.42rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
@@ -464,6 +449,7 @@ export default {
           .row2 {
             position: relative;
             width: 7rem;
+            font-size: 0.42rem;
             word-break: break-all;
             color: #787878;
           }

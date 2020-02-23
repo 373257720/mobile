@@ -14,15 +14,6 @@
       </main>
       <mbottom></mbottom>
     </div>
-    <!-- <div class="usercheck2" v-if="!success">
-      <h2>
-        <img src="../../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
-      </h2>
-      <section>成功发送给中间人</section>
-      <nav class="backbtn">
-        <button @click="$goto('mhome')">进入首页</button>
-      </nav>
-    </div>-->
   </div>
 </template>
 <script>
@@ -33,7 +24,16 @@ export default {
     return {
     };
   },
-
+  // beforeRouteEnter:(to,from,next)=>{
+  //     if(from.name=="p_sign_contract" ||from.name=="p_submit_contract"){
+  //       next()
+  //     }else{
+  //       next(false);
+  //     }
+  //     // next(vm=>{
+  //     //     alert(vm.num)
+  //     // })
+  // },
   created() {
     console.log(this.contract)
   },
@@ -60,7 +60,7 @@ export default {
         this.$loading();
         this.$axios({
           method: "post",
-          url: `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
+          url: `${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,
           data: this.$qs.stringify({
             projectId: this.$route.query.projectId,
             signId: this.$route.query.signId,
@@ -69,7 +69,8 @@ export default {
           })
         }).then(res => {
           this.$toast.clear();
-          if (res.data.resultCode == 10000) {
+          if (res.data.resultCode == 10000) { 
+            // this.$router.push({query:{signStatus: 2}})
             this.$dialog
               .alert({
                 title: res.data.resultDesc,
@@ -85,15 +86,16 @@ export default {
                 message: "您的注册审核不通过，请前往我的-个人审核里修改"
               })
               .then(() => {
+                 this.$routerto("mysign");
               });
           }else{
             this.$dialog
               .alert({
-                title: "提醒",
-                message: res.data.resultDesc,
+                title: res.data.resultDesc,
+                message: "返回我的项目",
               })
               .then(() => {
-
+                  this.$routerto("mysign");
               });
           }
         });
@@ -118,8 +120,7 @@ export default {
   .van-cell{
     padding: 0;
   }
-}
-.van-dialog {
+  .van-dialog {
   font-size: 0.48rem;
 }
 .van-dialog__message {
@@ -128,6 +129,8 @@ export default {
 .van-button {
   font-size: 0.48rem;
 }
+}
+
 </style>
 <style lang="scss" scoped>
 #p_submit_contract {

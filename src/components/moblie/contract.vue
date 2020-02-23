@@ -8,7 +8,7 @@
         readonly
         type="textarea"
       /> -->
-       <div class="middle">{{contract.article}}</div>
+      <div class="middle" v-html="contract.article"></div>
       <div class="button">
         <ul>
           <li>
@@ -61,6 +61,7 @@
   </div>
 </template>
 <script>
+import loginVue from './login.vue';
   export default {
     name: "contract_component",
     props:['contract'],
@@ -71,8 +72,8 @@
         //   owner_sign:'',
         //   owner_name:'',
         //   owner_title:'',
-        owner_signdate:'',
-        agent_signdate:'',
+        // owner_signdate:'',
+        // agent_signdate:'',
         //   agent_name:'',
         //   agent_title:'',
         //   agent_signdate:null,
@@ -80,11 +81,16 @@
       };
     },
     created() {
-      this.owner_signdate=this.contract.owner_signdate? this.$global.stamptodate(this.contract.owner_signdate):"";
-      this.agent_signdate=this.contract.agent_signdate?this.$global.stamptodate(this.contract.agent_signdate):'';
+      // this.owner_signdate=this.contract.owner_signdate? this.$global.stamptodate(this.contract.owner_signdate):"";
+      // this.agent_signdate=this.contract.agent_signdate?this.$global.stamptodate(this.contract.agent_signdate):'';
     },
-
     computed: {
+      owner_signdate:function(){
+        return   this.contract.owner_signdate? this.$global.stamptodate(this.contract.owner_signdate):"";
+      },
+      agent_signdate:function(){
+           return this.contract.agent_signdate?this.$global.stamptodate(this.contract.agent_signdate):'';
+      }
     },
     mounted() {
       // this.content = "";
@@ -142,14 +148,18 @@
 </script>
 <style lang="scss">
   #contract_component{
+    width: 100%;
+    
+      height: 100%;
     .contract_component {
       border: 1px solid #b5b5b5;
       box-sizing: border-box;
       font-size: 0.4rem;
       line-height: 0.6rem;
+      background: #f6f6f6;
       padding: 0.4rem 0.4rem;
       width: 100%;
-      height:14rem;
+         height: 100%;
       overflow-y: auto;
       color: black;
       word-wrap: break-word;
@@ -157,10 +167,10 @@
         // background: none;
         // border: 0;
         // width: 100%;
-           white-space: pre-wrap;       /* css-3 */
-              white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-              white-space: -pre-wrap;      /* Opera 4-6 */
-              white-space: -o-pre-wrap; 
+          //  white-space: pre-wrap;       /* css-3 */
+          //     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+          //     white-space: -pre-wrap;      /* Opera 4-6 */
+          //     white-space: -o-pre-wrap; 
       }
       div.button {
         margin-top: 1rem;
@@ -171,6 +181,7 @@
           li{
             p{
               height: 1rem;
+                
               img {
                 width: 4rem;
                 height: 1rem;
@@ -186,12 +197,17 @@
               }
               /*line-height:1rem;*/
               line-height: initial;
-              border-bottom: 1px solid;
+              border-bottom: 1px solid black;
+            }
+             p:nth-child(2){
+              font-weight: 600;
             }
           }
           li:nth-of-type(1){
             margin-bottom: 0.6rem;
-
+              nav{
+                font-weight: 600;
+              }
               h3{
                 height: 3rem;
                 line-height: initial;

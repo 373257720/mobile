@@ -6,12 +6,12 @@
     <main>
       <article>
         <header>{{title}}</header>
+        <!-- <commoninvestors :investor_infor="investor_infor"></commoninvestors> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
             <button @click="$routerto('i_inverstor_infor',{investorsId:investorsId})">我的资料</button>
-            <!-- <button @click="gg">合约</button> -->
           </aside>
         </footer>
       </article>
@@ -26,6 +26,32 @@ export default {
     return {
       investorsId: "",
       title: "",
+      // investor_infor: {
+      //   investorsType: {
+      //     name: "投资者类型:",
+      //     response: ""
+      //   },
+      //   investorsCompany: {
+      //     name: "投资者公司:",
+      //     response: ""
+      //   },
+      //   investorsName: {
+      //     name: "投资者姓名:",
+      //     response: ""
+      //   },
+      //   investorsArea: {
+      //     name: "投资者地区:",
+      //     response: ""
+      //   },
+      //   investorsMobile: {
+      //     name: "投资者电话:",
+      //     response: ""
+      //   },
+      //   investorsEmailSend: {
+      //     name: "投资者邮箱:",
+      //     response: ""
+      //   }
+      // },
       nav_lists: {
         financingStage: {
           name: "融资阶段",
@@ -154,6 +180,7 @@ export default {
 <style lang="scss" scoped>
 #i_conected_project {
   width: 100%;
+  height: 100%;
   nav {
     width: 100%;
     text-align: center;
@@ -166,12 +193,10 @@ export default {
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
   }
-  main {
-    margin-top: 1.5rem;
+  main { 
+    padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;
-
     article {
-      margin: 0 0 1.3rem 0;
       header {
         min-height: 2rem;
         font-size: 0.46rem;
@@ -181,49 +206,11 @@ export default {
         display: -webkit-flex;
         display: flex;
         justify-content: center;
-        align-content: center;
+        align-items: center;
         flex-wrap: wrap;
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
-      }
-      ul {
-        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-        li {
-          margin-bottom: 0.1rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.38rem;
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 4rem;
-            margin-bottom: 0.2rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-        }
-        .contract {
-          display: block;
-          section {
-            width: 6.5rem;
-            height: 8rem;
-            border: 0.01rem solid #b3b3b3;
-            padding: 0;
-            background: #f2f2f2;
-            .draft1_middle {
-              padding: 0.3rem;
-              box-sizing: border-box;
-              width: 100%;
-              height: 100%;
-              overflow-y: auto;
-            }
-          }
-        }
       }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;

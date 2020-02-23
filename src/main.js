@@ -10,8 +10,12 @@ import global from '@/components/moblie/global.js'
 import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
+// 富文本
+import  "font-awesome/css/font-awesome.css";
+import initRichText from './editor';  
+initRichText();
+// vuex
 import Vuex from 'vuex';
-
 Vue.use(Vuex);
 
 import Promise from 'es6-promise';
@@ -29,13 +33,14 @@ import Spin from 'ant-design-vue/lib/spin';
 import 'ant-design-vue/lib/spin/style/css';  
 Vue.use(Spin);
 import "./css/base.css"
+// import merge from 'webpack-merge';
+
 
 // import Vconsole from 'vconsole'
 // let vConsole = new Vconsole()
 // Vue.use(vConsole);
-Vue.use(Vuex);
 import Vant from 'vant';
-Vue.use(Vant)
+Vue.use(Vant);
 Vue.prototype.$axios = axios;
 const restore_obj=deepCopy(store._modules.root.state);
 Vue.prototype.$restore_obj=restore_obj;
@@ -58,8 +63,8 @@ Vue.use(Dialog);
 // Vue.use(Toast);
 // Toast
 // console.log(Vant.Toast)
-import moment from 'moment'
-Vue.prototype.$moment = moment
+// import moment from 'moment'
+// Vue.prototype.$moment = moment
 // 引入公共组件
 // let loadingCount=0;
 // let isShowLoading =false;
@@ -116,10 +121,10 @@ axios.interceptors.response.use(res => {
   }
 } ,error => {
     // Toast.clear();
-    isShowLoading = false
-    loadingCount = 0
+    // isShowLoading = false
+    // loadingCount = 0
     Dialog.alert({
-      message: '请求超时,请稍后重试！',
+      message: '网络异常，请稍后再试！',
     }).then(() => {
       location.href = '/'
     });
@@ -165,9 +170,9 @@ Vue.prototype.$loadingfail = function loadingfail() {
   });
 };
 var baseurl = {
-  // api: "http://192.168.1.37:8085",
+  // api: "http://czw.mynatapp.cc",//ceshi
   api3: 'http://47.90.62.114:8083',//(前段服务器端口)
-  api: "http://47.90.62.114:8086",//(后台正式服务器端口)
+  api: "http://47.90.62.114:8086",//(后台正式服务器端口)3
 }
 Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl = baseurl.api;

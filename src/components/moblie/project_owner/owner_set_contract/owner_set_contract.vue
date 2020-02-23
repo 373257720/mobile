@@ -1,7 +1,6 @@
 <template>
   <div>
     <router-view :contract='contract' v-on:todad="fromkids" ></router-view>
-
   </div>
 </template>
 
@@ -33,9 +32,12 @@
 
  },
     methods:{
-      fromkids(a){
-        // this.contract=object.assign(this.contract,a)
-        console.log(this.contract)
+      fromkids(){
+        // this.cont1ract=object.assign(this.contract,a)
+      //   console.log(123)
+      // this.$router.replace({
+      //       name: "mysign",
+      //     })
         // this.contract.content=a;
         // console.log(this.contract.content)
         // if(a){

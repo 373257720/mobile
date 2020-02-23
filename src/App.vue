@@ -15,7 +15,6 @@ export default {
     }
   },
   created() {
-    // console.log(this.$loadingCount)
     //在页面加载时读取sessionStorage里的状态信息
     // console.log(sessionStorage.getItem("test"))
     if (sessionStorage.getItem("store")) {
@@ -74,8 +73,9 @@ export default {
 
 <style>
 #app {
-  /* height: 100%;   */
+  height: 100%;  
   width: 100%;
+  /* overflow: hidden; */
   /* background: #EEEEEE;  */
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -85,6 +85,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px; */
 }
+
 div.loading{
   background: none;
 

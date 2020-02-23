@@ -9,8 +9,9 @@
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
-          <aside>
-            <button @click="$routerto('a_recommand_i',$route.query)">推荐投资人</button>
+          <aside>   
+            <button  @click="$routerto('a_recommand_i',$route.query)">推荐投资者</button>
+            <button  @click="confirm_alert">感兴趣</button>
             <!-- <button @click="$global.previous()">再考虑一下</button> -->
           </aside>
         </footer>
@@ -79,20 +80,27 @@ export default {
           name: "项目简介:",
           response: ""
         }
-      }
+      },
+      details:{},
     };
   },
+  beforeRouteLeave(to,from,next){
+      console.log(to,from)
+        if(to.name=='uploadtoblock'){
+           next({path: '/mysign'});
+        }else{
+          next()
+        }
+  },
   created() {
-    let details = this.$route.query;
+    this.details = this.$route.query;
     this.$loading();
     this.$global
       .goods_deatails(
-        `${
-          this.$baseurl
-        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          details.projectId
-        }&signStatus=${details.signStatus}&signId=${
-          details.signId ? details.signId : -1
+        `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
+          this.details.projectId
+        }&signStatus=${this.details.signStatus}&signId=${
+          this.details.signId ? this.details.signId : -1
         }`,
         "get",
         {},
@@ -101,24 +109,40 @@ export default {
         []
       )
       .then(res => {
-        console.log(res);
-        this.title = res.title;
         this.$toast.clear();
+        this.title = res.title;
+       
       });
   },
   methods: {
-    gg() {
-      this.$dialog
-        .confirm({
-          title: "标题",
-          message: "弹窗内容"
-        })
-        .then(() => {
-          // on confirm
-        })
-        .catch(() => {
-          // on cancel
-        });
+    confirm_alert() {
+      let that=this;
+       this.$loading();
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/interested`,{projectId:this.$route.query.projectId}).then(res=>{
+         this.$toast.clear();
+        if(res.data.resultCode==10000){
+            this.$dialog
+              .alert({
+                title: res.data.resultDesc,
+                message: "您已提交签约申请，申请获处理后，请于待签约项目中签署确认条款。"
+              })
+              .then(() => {
+                  // let query1=Object.assign({},that.details,{signStatus:1}) 
+                  this.$routerto("mysign")
+              })
+        }else{
+           this.$dialog
+              .alert({
+                title: res.data.resultDesc,
+                // message: "弹窗内容"
+              })
+              .then(() => {
+              })
+        }
+        
+      })
+   
+    
     }
   }
 };
@@ -149,29 +173,12 @@ export default {
 <style lang="scss" scoped>
 #a_project_intro {
   width: 100%;
-  // nav {
-  //   width: 100%;
-  //   text-align: center;
-  //   line-height: 1.5rem;
-  //   height: 1.5rem;
-
-  //   position: fixed;
-  //   top: 0;
-  //   font-size: 0.38rem;
-  //   background: white;
-  //   border-bottom: 0.02rem dashed #b5b5b5;
-  // }
+  height: 100%;
   main {
-    margin-top: 1.6rem;
+    padding: 1.6rem 0 1.3rem 0;
     background: #ffffff;
-    aside {
-      display: flex;
-      width: 100%;
-      height: 3rem;
-      justify-content: center;
-    }
     div.investors_infor {
-      h2 {
+       h2 {
         min-height: 2rem;
         font-size: 0.46rem;
         padding: 0.4rem;
@@ -180,141 +187,16 @@ export default {
         display: -webkit-flex;
         display: flex;
         justify-content: center;
-        align-content: center;
-        flex-wrap: wrap;
+        align-items: center;
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
       }
-      header {
-        height: 0.8rem;
-        font-size: 0.32rem;
-        text-align: center;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
-      }
-      ul {
-        padding: 0.1rem 0.5rem;
-        li {
-          margin-bottom: 0.1rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.28rem;
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 3rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
-        }
-      }
+ 
     }
     article {
-      margin: 0 0 1.3rem 0;
-      header {
-        height: 0.8rem;
-        font-size: 0.32rem;
-        text-align: center;
-        // font-weight: 600;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        border-bottom: 0.01rem dashed #b5b5b5;
-      }
-      div.nav_lists {
-        display: flex;
-        border-top: 0.2rem solid #f2f2f2;
-        border-bottom: 0.2rem solid #f2f2f2;
-        > p {
-          flex: 1;
-          height: 2.5rem;
-          font-size: 0.38rem;
-          display: flex;
-          align-items: center;
-
-          section.box {
-            box-sizing: border-box;
-            width: 100%;
-            display: flex;
-            text-align: center;
-            height: 2rem;
-            //  padding: 0.1rem;
-            border-right: 0.08rem solid #f2f2f2;
-            flex-direction: column;
-            justify-content: space-between;
-            span.rowb {
-              font-size: 0.6rem;
-              color: #0f6ebe;
-            }
-          }
-        }
-        p:nth-last-child(1) {
-          section.box {
-            border-right: 0;
-          }
-        }
-      }
-      ul {
-        padding: 0.5rem;
-        li {
-          margin-bottom: 0.1rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.38rem;
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 4rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
-        }
-        .contract {
-          display: block;
-          .row2 {
-            width: 8rem;
-            height: 6rem;
-            border: 0.01rem solid #b3b3b3;
-            // box-sizing: border-box;
-            padding: 0;
-            background: #f2f2f2;
-            .draft1_middle {
-              padding: 0.3rem;
-              box-sizing: border-box;
-              width: 100%;
-              height: 100%;
-              overflow-y: auto;
-            }
-          }
-        }
-      }
       footer {
-        padding: 0 0.5rem 0.5rem 0.5rem;
+        padding: 0 0.5rem 0 0.5rem;
         aside {
           height: 2.5rem;
           display: flex;

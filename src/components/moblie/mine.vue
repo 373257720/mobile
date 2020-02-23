@@ -40,7 +40,7 @@
         </section>
         <li @click="correct_password_function">
           <p>
-            <img src="../../assets/4d28cc99e537444f8869e17c77906f4.png" alt />
+            <img src="../../assets/change_password.png" alt />
             <span>修改密码</span>
           </p>
           <van-icon name="arrow" />

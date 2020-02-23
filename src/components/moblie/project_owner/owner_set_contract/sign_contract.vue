@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: "goods_details",
+  name: "p_sign_contract",
   props:['contract'],
   data() {
     return {
@@ -15,6 +15,14 @@ export default {
   created() {
     // console.log(this.$route.query);
   },
+  // beforeRouteEnter:(to,from,next)=>{
+  //     if(from.name=="p_submit_contract" || from.name=="p_sign_contract" || from.name=="p_set_contract" ){
+  //       next()
+  //     }else{
+  //       next(false);
+  //     }
+   
+  // },
   methods: {
     commit(data) {
       let timestamp = new Date().getTime();
@@ -51,15 +59,15 @@ export default {
     }
   }
 }
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
-}
+// .van-dialog {
+//   font-size: 0.3rem;
+// }
+// .van-dialog__message {
+//   font-size: 0.3rem;
+// }
+// .van-button {
+//   font-size: 0.3rem;
+// }
 </style>
 <style lang="scss" scoped>
 #p_sign_contract {

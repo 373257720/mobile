@@ -122,7 +122,7 @@ export default {
     border-bottom: 0.1rem solid #b5b5b5;
   }
   main {
-    margin-top: 1.5rem;
+    padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;
     aside {
       display: flex;
@@ -138,12 +138,13 @@ export default {
           > div {
             margin-bottom: 0.5rem;  
             align-items: baseline;
-           font-size: 0.44rem;
+            font-size: 0.44rem;
             line-height: 0.56rem;
           }
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
+            font-size: 0.46rem;
             margin-bottom: 0.2rem;
           }
           .row2 {

@@ -4,17 +4,13 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-        <!-- <header>投资者资料</header> -->
-        <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button @click="$routerto('agent_set_contract',$route.query)">查看合约</button>
-            <!-- <button @click="gg">拒绝签约</button> -->
+            <button @click="$routerto('agent_set_contract',$route.query)">签约</button>
           </aside>
         </footer>
       </article>
@@ -28,7 +24,6 @@ export default {
   data() {
     return {
       title: "",
-      show: false,
       details: {},
       dad_text: "待签约项目",
       investor_infor: {
@@ -135,9 +130,7 @@ export default {
       });
   },
   methods: {
-    gg() {
-      // console.log(this.$dialog);
-
+    reminder() {
       this.$dialog
         .confirm({
           title: "标题",
@@ -178,27 +171,10 @@ export default {
 <style lang="scss" scoped>
 #a_wait_signed {
   width: 100%;
-  // nav {
-  //   width: 100%;
-  //   text-align: center;
-  //   line-height: 1.5rem;
-  //   height: 1.5rem;
-
-  //   position: fixed;
-  //   top: 0;
-  //   font-size: 0.38rem;
-  //   background: white;
-  //   border-bottom: 0.02rem dashed #b5b5b5;
-  // }
+  height: 100%;
   main {
-    margin-top: 1.6rem;
+    padding: 1.6rem 0 1.3rem 0;
     background: #ffffff;
-    aside {
-      display: flex;
-      width: 100%;
-      height: 3rem;
-      justify-content: center;
-    }
     div.investors_infor {
       h2 {
         min-height: 2rem;
@@ -209,63 +185,14 @@ export default {
         display: -webkit-flex;
         display: flex;
         justify-content: center;
-        align-content: center;
-        flex-wrap: wrap;
+        align-items: center;
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
       }
-      header {
-        height: 0.8rem;
-        font-size: 0.42rem;
-        text-align: center;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        // border-bottom: 0.01rem dashed #b5b5b5;
-      }
+
     }
     article {
-      margin: 0 0 1.3rem 0;
-      header {
-        height: 0.8rem;
-        font-size: 0.42rem;
-        text-align: center;
-        // font-weight: 600;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        // border-bottom: 0.01rem dashed #b5b5b5;
-      }
-      div.nav_lists {
-        // display: flex;
-        border-top: 0;
-        border-bottom: 0.2rem solid #f2f2f2;
-  
-      }
-      ul {
-        padding: 0.5rem;
-        li {
-          margin-bottom: 0.1rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.38rem;
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 4rem;
-          }
-        
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-      
-        }
-     
-      }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         font-size: 0.42rem;

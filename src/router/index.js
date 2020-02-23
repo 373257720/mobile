@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// import merge from 'webpack-merge';
 // import home from '@/components/moblie/home'
 import register from '@/components/moblie/register'
 import login from '@/components/moblie/login'

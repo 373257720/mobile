@@ -3,18 +3,23 @@
     <commonnav :msg="dad_text"></commonnav>
     <main>
       <div class="investors_infor">
-        <h2>{{title}}</h2>
-        <!-- <header>投资者资料</header> -->
-           <commoninvestors :investor_infor="investor_infor"></commoninvestors>
+      <h2>{{title}}</h2>
+      <div class="middlerean_info">
+          <van-divider>中间人资料</van-divider>   
+      </div>
+      <commoninvestors v-if="$route.query.signStatus==6" :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
-          <aside>
-            <button @click="routerto">感兴趣</button>
-            <button @click="agreement(3)">拒绝签约</button>
+           <aside v-if="$route.query.signStatus==6">
+            <button @click="review(8)">确认投资人</button>
+            <button @click="review(7)">拒绝</button>
+          </aside>
+          <aside v-else-if="$route.query.signStatus==1">
+            <button @click="$routerto('owner_set_contract',$route.query)">感兴趣</button>
+            <button @click="agreement(3)">拒绝</button>
           </aside>
         </footer>
       </article>
@@ -28,10 +33,11 @@ export default {
   data() {
     return {
       show: false,
-      projectId: null,
-      signId: null,
+      projectId:'',
+      signId:'',
+      signStatus:"",
       title: "",
-      dad_text: "待审核项目",
+      dad_text: "",
      investor_infor: {
         investorsType: {
           name: "投资者类型:",
@@ -110,13 +116,28 @@ export default {
       }
     };
   },
+  beforeRouteLeave(to,from,next){
+      console.log(to,from)
+        if(to.name=='a_submit_contract'){
+          // console.log(123)
+           next({path: '/mysign'});
+        }else{
+          next()
+        }
+  },
   created() {
-    this.projectId=this.$route.query.projectId;
-    this.signId=this.$route.query.signId;
-    let details = this.$route.query;
+    this.projectId=this.$route.query.projectId?
+    this.$route.query.projectId:'';
+    this.signId=this.$route.query.signId?this.$route.query.signId:-1;
+    this.signStatus=this.$route.query.signStatus?this.$route.query.signStatus:'';
+    //  console.log (this.signId);
+    if(this.signStatus==6){
+      this.dad_text="待审核项目"
+    }else if(this.signStatus==1){
+      this.dad_text="待处理项目"
+    }
     this.$loading();
-    this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId}&signStatus=${details.signStatus}&signId=${details.signId?details.signId:-1}`,'get',{},this.details_lists,this.nav_lists,this.investor_infor).then(res=>{
-    // console.log(res);
+    this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.projectId}&signStatus=${this.signStatus}&signId=${this.signId}`,'get',{},this.details_lists,this.nav_lists,this.investor_infor).then(res=>{
     this.title=res.title;
     this.$toast.clear();
     if(res.projectLifeCycle==-1){
@@ -131,46 +152,60 @@ export default {
   })
   },
   methods: {
-    routerto(){
-      // this.$store.commit('contract_sign', {
-      //   owner: '',
-      //   article: '',
-      //   agent: '',
-      //   owner_signdate: null,
-      //   agent_signdate: null,
-      // })
-      this.$routerto('owner_set_contract',this.$route.query)
+    review(num){
+      this.$loading();
+       this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInvestorsData`,{signId:this.signId,signStatus:num}).then(res=>{
+          this.$toast.clear();
+          if (res.data.resultCode == 10000) {
+            let query1=Object.assign({},this.$route.query,{signStatus:num}) 
+            console.log(query1);
+            this.$router.push({query1})
+                this.$dialog
+                  .alert({
+                    title: res.data.resultDesc,
+                    message:"已发送合作意向，等待中间人发送邀请链接给投资者",
+                  })
+                  .then(() => {
+                    this.$routerto("mysign");
+                  });
+              }else{
+                  this.$dialog
+                  .alert({
+                    title: res.data.resultDesc
+                  })
+                  .then(() => {
+                  });
+              }
+       })
+// a
     },
+
     agreement(num) {
       this.$dialog
         .confirm({
           title: "拒绝签约"
         })
         .then(() => {
-          this.$global
-            .changepage(
-              `${this.$baseurl}/bsl_web/projectSign/sendInvestorsData`,
-              "post",
-              this.$qs.stringify({
+          this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,{
                 projectId: this.projectId,
                 signId: this.signId,
-                signStatus: 3
+                signStatus: num
               })
-            )
             .then(res => {
-              // console.log(res);
               if (res.data.resultCode == 10000) {
+                let query1=Object.assign({},this.$route.query,{signStatus:3}) 
+                this.$router.push({query1})
                 this.$dialog
                   .alert({
-                    title: "拒绝成功"
+                    title:res.data.resultDesc
                   })
                   .then(() => {
                     this.$routerto("mysign");
                   });
-              } else if (res.data.resultCode == 10012) {
+              } else {
                 this.$dialog
                   .alert({
-                    title: "你已拒绝"
+                    title: res.data.resultDesc
                   })
                   .then(() => {});
               }
@@ -194,173 +229,45 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+  .middlerean_info{
+     .van-divider{
+    background:#F2F2F2;
+    border-color: #D2D2D2;
+    padding: 0 2rem;
+    margin:0;
+    color: #858585;
+    font-size: 0.42rem;
+  }
+  }
+   
 }
 
 </style>
 <style lang="scss" scoped>
 #p_sign_request {
   width: 100%;
+  height: 100%;
   main {
-    margin-top: 1.6rem;
+    padding: 1.6rem 0 1.3rem 0;
     background: #ffffff;
-    aside {
-      display: flex;
-      width: 100%;
-      height: 3rem;
-      justify-content: center;
-    }
     div.investors_infor {
       h2 {
-      min-height: 2rem;
-        font-size: 0.46rem;
+       min-height: 2rem;
+        font-size: 0.48rem;
         padding: 0.4rem;
         box-sizing: border-box;
         word-break: break-all;
         display: -webkit-flex;
         display: flex;
         justify-content: center;
-        align-content: center;
+        align-items: center;
         flex-wrap:  wrap;
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
       }
-
-      header {
-        height: 0.8rem;
-        font-size: 0.42rem;
-        text-align: center;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        // border-bottom: 0.01rem dashed #b5b5b5;
-      }
-
-      ul {
-        padding: 0.1rem 0.5rem;
-        display: flex;
-        flex-direction: column;
-        li {
-          >div{
-          display: flex;
-          align-items: baseline;
-          font-size: 0.38rem;
-          line-height: 0.56rem;
-          }
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 3rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
-        }
-      }
     }
     article {
-      margin: 0 0 1.3rem 0;
-      header {
-        height: 0.8rem;
-         font-size: 0.42rem;
-        text-align: center;
-        // font-weight: 600;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        // border-bottom: 0.01rem dashed #b5b5b5;
-      }
-      .nav_lists {
-        border-top: 0;
-      }
-      div.nav_lists {
-        display: flex;
-        // border-top: 0.2rem solid #f2f2f2;
-        border-bottom: 0.2rem solid #f2f2f2;
-        > p {
-          flex: 1;
-          height: 2.5rem;
-          font-size: 0.3rem;
-          display: flex;
-          align-items: center;
-
-          section.box {
-            box-sizing: border-box;
-            width: 100%;
-            display: flex;
-            text-align: center;
-            height: 2rem;
-            //  padding: 0.1rem;
-            border-right: 0.08rem solid #f2f2f2;
-            flex-direction: column;
-            justify-content: space-between;
-            span.rowb {
-              font-size: 0.6rem;
-              color: #0f6ebe;
-            }
-          }
-        }
-        p:nth-last-child(1) {
-          section.box {
-            border-right: 0;
-          }
-        }
-      }
-      ul {
-        padding: 0.5rem;
-        li {
-          margin-bottom: 0.1rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.38rem;
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 4rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
-        }
-        .contract {
-          display: block;
-          .row2 {
-            width: 8rem;
-            height: 6rem;
-            border: 0.01rem solid #b3b3b3;
-            // box-sizing: border-box;
-            padding: 0;
-            background: #f2f2f2;
-            .draft1_middle {
-              padding: 0.3rem;
-              box-sizing: border-box;
-              width: 100%;
-              height: 100%;
-              overflow-y: auto;
-            }
-          }
-        }
-      }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
            font-size: 0.42rem;

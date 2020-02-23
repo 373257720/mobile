@@ -14,8 +14,6 @@
                     type="textarea"
                   /> -->
                   <p class="row2">{{item.response}}</p>
-                  <!-- <textarea v-model="item.response"  name='describes'  rows="5" cols="5" class='row2'  readonly></textarea> -->
-        
             </div>
             <div class="normal" v-else-if="key=='collectMoney'">
               <p class="row1">{{item.name}}</p>
@@ -25,28 +23,6 @@
               <p class="row1">{{item.name}}</p>
               <p class="row2" >{{item.response}}</p>
             </div>
-            
-            <!-- <p class="row2" v-if="key=='projectDescribe'" v-html="item.response"></p> -->
-          <!-- <van-field
-          v-if="key=='projectDescribe'"
-            class="row2 projectDescribe"
-            v-model="item.response"
-            autosize
-            disabled
-            type="textarea"
-          />
-            <van-field
-          v-else-if="key=='projectDetail'"
-            class="row2 projectDetail"
-            v-model="item.response"
-            autosize
-            disabled
-            type="textarea"
-          />
-            <!-- <p class="row2" v-else-if="key=='projectDetail'" v-html="item.response"></p> -->
-            <!-- <p class="row2 money" v-else-if="key=='collectMoney'">
-              <span>{{item.collectMoneyMin}}</span><span>-</span><span>{{item.collectMoneyMax}}</span>
-            </p> --> 
           
           </li>
         </ul>
@@ -77,30 +53,7 @@ export default {
 <style lang="scss">
 #common_details {
   .common_details{
-  // .van-cell {
-  //      color: #787878;
-  //    padding: 0;
-  //     font-size: 0.42rem;
-  //   background: none;
-  //   padding: 0;
-  //   margin: 0;
-  //   border: 0;
-  //   .van-field__control{
-  //        color: #787878;
-  //   // padding: 0;
-  //   font-weight: 500;
-  //   opacity: 2;
-  //   // z-index: 0;
-  //   // line-height: 0.56rem;
-  //   // font-size: 0.42rem;
-  //   // // text-shadow: none;
-  //   background:white;
-  //   // margin: 0;
-  //   // border: 0;
 
-  //   }
-     
-  // }
   }
  
 }
@@ -111,19 +64,19 @@ export default {
   main {
     background: #ffffff;
     article {
-      // margin: 0 0 1.3rem 0;
       ul {
         padding: 0.5rem;
         li {
           margin-bottom: 0.2rem;
           align-items: baseline;
-             line-height: 0.6rem;
+          line-height: 0.6rem;
           font-size: 0.42rem;
           div.normal{
             display: flex;
-             .row1 {
+            .row1 {
             color: #4c4c4c;
             font-weight: 600;
+            font-size: 0.46rem;
             width: 2.5rem;
             }
               .row2 {
@@ -134,9 +87,10 @@ export default {
           }
           }
          div.content{
-                .row1 {
+            .row1 {
             color: #4c4c4c;
             font-weight: 600;
+            font-size: 0.46rem;
             width: 2.5rem;
             }
             .row2{
@@ -146,29 +100,9 @@ export default {
               white-space: -pre-wrap;      /* Opera 4-6 */
               white-space: -o-pre-wrap; 
             }
-            pre {
-            //       font-family: "Avenir", Helvetica, Arial, sans-serif;
-            // margin: 0;
-            //  color: #787878;
-            // /* Opera 7 */
-            // word-wrap: break-word;       /* Internet Explorer 5.5+ */
-            // word-break:break-all;
-            // overflow:hidden;
-            // word-break: break-all;
-            // width:100%;
-            // background:white;
-            // border: 0px;
-            // color: #787878;
-          }
+  
          }
-
-        
-          .money{
-            display: flex;
-            span:nth-child(2){
-              margin: 0 0.3rem;
-            }
-          }
+      
 
         }
       }

@@ -132,25 +132,19 @@ export default {
   mounted() {},
   methods: {
     agree() {
-      // let isyes = this.$store.state.currentUser;
-      // console.log(isyes);
-
-      // if (isyes) {
-      //   this.$routerto("i_perfect_infor", this.$route.query);
-      // } else {
         this.$dialog
           .confirm({
-            title: "请登录后操作"
-            // message: "弹窗内容"
+            title: "下一步注册新账号",
+            message: "如已有账号，请直接登陆"
           })
           .then(() => {
             // on confirm
             this.$routerto("login", { email: this.investorsEmailSend });
+          })
+          .catch(() => {
+            // on cancel
           });
-        // .catch(() => {
-        //   // on cancel
-        // });
-      // }
+
     },
 
     refuse() {
@@ -193,7 +187,7 @@ export default {
 <style lang="scss">
 #i_emailto_confirm {
   nav {
-    // position: relative;
+    position: relative;
     .van-icon-arrow-left {
       position: absolute;
       left: 0.6rem;
@@ -202,39 +196,26 @@ export default {
     }
   }
 }
-.van-dialog {
-  font-size: 0.3rem;
-}
-.van-dialog__message {
-  font-size: 0.3rem;
-}
-.van-button {
-  font-size: 0.3rem;
-}
+
 </style>
 <style lang="scss" scoped>
 #i_emailto_confirm {
   width: 100%;
+  height: 100%;
   nav {
     width: 100%;
     text-align: center;
     line-height: 1.5rem;
     height: 1.5rem;
-    position: fixed;
+    // position: fixed;
     top: 0;
     font-size: 0.46rem;
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
   }
   main {
-    margin-top: 1.5rem;
+    // padding: 1.5rem 0 0 0;
     background: #ffffff;
-    aside {
-      display: flex;
-      width: 100%;
-      height: 3rem;
-      justify-content: center;
-    }
     div.investors_infor {
       h2 {
         min-height: 2rem;
@@ -245,151 +226,25 @@ export default {
         display: -webkit-flex;
         display: flex;
         justify-content: center;
-        align-content: center;
-        flex-wrap: wrap;
+        align-items: center;
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
       }
-      header {
-        height: 0.8rem;
-        font-size: 0.32rem;
-        text-align: center;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        // border-bottom: 0.01rem dashed #b5b5b5;
-      }
-      ul {
-        padding: 0.1rem 0.5rem;
-        li {
-          > div {
-            margin-bottom: 0.1rem;
-            display: flex;
-            align-items: baseline;
-            font-size: 0.38rem;
-          }
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 3rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
-        }
-      }
+ 
     }
     article {
-      margin: 0 0 1.3rem 0;
-      header {
-        height: 0.8rem;
-        font-size: 0.32rem;
-        text-align: center;
-        // font-weight: 600;
-        background: #f2f2f2;
-        line-height: 0.8rem;
-        color: #868686;
-        // border-bottom: 0.01rem dashed #b5b5b5;
-      }
-      div.nav_lists {
-        display: flex;
-        border-top: 0;
-        border-bottom: 0.2rem solid #f2f2f2;
-        > p {
-          flex: 1;
-          height: 2.5rem;
-          font-size: 0.38rem;
-          display: flex;
-          align-items: center;
-
-          section.box {
-            box-sizing: border-box;
-            width: 100%;
-            display: flex;
-            text-align: center;
-            height: 2rem;
-            //  padding: 0.1rem;
-            border-right: 0.08rem solid #f2f2f2;
-            flex-direction: column;
-            justify-content: space-between;
-            span.rowb {
-              font-size: 0.6rem;
-              color: #0f6ebe;
-            }
-          }
-        }
-        p:nth-last-child(1) {
-          section.box {
-            border-right: 0;
-          }
-        }
-      }
-      ul {
-        padding: 0.5rem;
-        li {
-          margin-bottom: 0.1rem;
-          display: flex;
-          align-items: baseline;
-          font-size: 0.38rem;
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            width: 4rem;
-          }
-          .draft {
-            margin-bottom: 0.25rem;
-          }
-          .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
-            color: #787878;
-          }
-          .draft1 {
-            padding: 0.2rem 0.4rem;
-            box-sizing: border-box;
-          }
-        }
-        .contract {
-          display: block;
-          .row2 {
-            width: 8rem;
-            height: 6rem;
-            border: 0.01rem solid #b3b3b3;
-            // box-sizing: border-box;
-            padding: 0;
-            background: #f2f2f2;
-            .draft1_middle {
-              padding: 0.3rem;
-              box-sizing: border-box;
-              width: 100%;
-              height: 100%;
-              overflow-y: auto;
-            }
-          }
-        }
-      }
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         aside {
           height: 2.5rem;
-          font-size: 0.38rem;
+          font-size: 0.42rem;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           button {
             height: 1rem;
+            line-height: 1rem;
             color: #ffffff;
           }
           button:nth-of-type(1) {

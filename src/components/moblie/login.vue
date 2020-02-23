@@ -5,18 +5,21 @@
     </h2>
     <div class="main">
       <p>{{remind}}</p>
-      <div class="username" v-if="$route.query.email">
+      <!-- <van-form> -->
+      <div class="username common" v-if="$route.query.email">
         <van-field v-model.trim="username" placeholder="电子邮箱" disabled />
       </div>
-      <div class="username" v-if="!$route.query.email">
+      <div class="username common" v-if="!$route.query.email">
         <van-field v-model.trim="username" placeholder="电子邮箱" clearable />
       </div>
-      <div class="password">
+      <div class="password common">
         <van-field v-model.trim="password" type="password" placeholder="请输入密码" clearable />
       </div>
-      <div class="loginbtn">
+       <div class="loginbtn common">
         <button @click="login">登 录</button>
       </div>
+      <!-- </van-form> -->
+     
       <div class="registerbtn">
         <button @click="$routerto('register')">注册新账号</button>
       </div>
@@ -40,6 +43,14 @@ export default {
     }
     
     // console.log(this.$route.query.email);
+  },
+    beforeRouteLeave(to,from,next){
+      console.log(to,from)
+        if(to.name=='i_emailto_confirm'){
+           next(false);
+        }else{
+          next()
+        }
   },
   methods: {
     login() {
@@ -99,11 +110,11 @@ export default {
     border: 0.02rem solid #dddddd;
     border-radius: 0.05rem;
     background: #f6f6f6;
-    padding: 0.34rem;
+    padding:0.1rem 0.3rem;
     box-sizing: border-box;
   }
   .van-field__control {
-    font-size: 0.38rem;
+    font-size: 0.42rem;
     // line-height: 0.7rem;
   }
   .van-field__clear {
@@ -122,16 +133,19 @@ export default {
 <style lang='scss' scoped>
 #login {
   height: 100%;
-  // width: 80%;
-  // width: 9.90rem;
-  // margin: 0 auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  // align-items: center;
+  // align-items: center;
   // justify-content: center;
 
   h2 {
-    padding: 3.24rem 0 3.04rem 0;
-    text-align: center;
+    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     img {
       // width: 4.28rem;
       height: 1.54rem;
@@ -149,25 +163,23 @@ export default {
       line-height: 0.84rem;
       color: #f36c69;
     }
-    > div {
+    div.common {
       margin-bottom: 0.5rem;
     }
     button {
       color: white;
-      // width: 100%;
-      // font-size: 0.1rem;
       border-radius: 0.05rem;
       width: 9.8rem;
+      line-height: 1rem;
       height: 1rem;
+      font-size: 0.42rem;
     }
     .loginbtn button {
       background: #00adef;
-      font-size: 0.38rem;
+   
     }
     .registerbtn button {
       background: #ff7c2c;
-      // font-size: 0.1rem;
-      font-size: 0.38rem;
     }
   }
 }
