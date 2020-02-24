@@ -12,7 +12,7 @@
           <footer>
             <button class="blockchain" @click="contract_submit">确认及上载到区块链</button>
           </footer>
-           
+
         </article>
       </main>
       <mbottom></mbottom>
@@ -69,7 +69,7 @@
        this.get_datails();
       // console.log(this.signStatu)
     },
-    methods: {  
+    methods: {
       get_datails(){
           this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/project/getProjectDetails`,{projectLan:"zh_CN",projectId:this.projectId,signStatus:this.signStatu,signId:this.signId}).then(res=>{
                 if(res.data.resultCode==10000){
@@ -99,7 +99,7 @@
         });
       },
       // 上链
-      contract_submit() { 
+      contract_submit() {
         let code=encodeURIComponent('#')
         let urlpath = `${this.$baseurl3}/${code}/upload_contract?visitToken=${this.token}`;
         this.$toast.loading({
@@ -109,7 +109,7 @@
         });
         this.$axios({
           method: "get",
-          url: `${this.$baseurl}/bsl_web/ipfs/update?`,
+          url: `${this.$baseurl}/bsl_web/ipfs/update`,
           params: {
             signId: `${this.signId}`,
             urlPath: `${urlpath}`,
@@ -120,8 +120,8 @@
           .then(res => {
             this.$toast.clear();
             if (res.data.resultCode == 10000) {
-            let query = Object.assign({},this.$route.query,{signStatus: 5})
-            this.$router.push({query})
+            let query1 = Object.assign({},this.$route.query,{signStatus: 5})
+            this.$router.push({qeury:query1})
             this.$dialog
                 .alert({
                   title: res.data.resultDesc,
@@ -157,7 +157,7 @@
               });
           });
       },
-   
+
     }
   };
 </script>
@@ -184,7 +184,7 @@
 //     font-size: 0.3rem;
 //   }
   }
- 
+
 </style>
 <style lang="scss" scoped>
   #a_uploadtoblock {
@@ -273,7 +273,7 @@
       //     }
       //   }
       // }
-     
+
     }
   }
 </style>

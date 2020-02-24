@@ -1,7 +1,7 @@
 <template>
   <div id="a_submit_contract">
       <nav class="a_submit_contract">
-        <van-icon name="arrow-left" @click="$global.previous()"  />签署合约
+        <van-icon name="arrow-left" @click="$router.go(-2)" />签署合约
       </nav>
       <main>
         <article>
@@ -29,10 +29,10 @@ export default {
 // beforeRouteEnter(to,from,next){
 //       next((vm)=>{ //参数vm就是当前组件的实例。
 //       console.log(from);
-      
+
 //         // console.log(to,from,vm.$route.query)
 //         // if(from.name!="a_sign_contract" && vm.iswatch==2){
-//         //   next({name: 'agent_set_contract',query:vm.$route.query}); 
+//         //   next({name: 'agent_set_contract',query:vm.$route.query});
 //         // }
 //       })
 //   },
@@ -58,11 +58,12 @@ export default {
               // message: "弹窗内容"
             })
             .then(() => {
-              this.$routerto('agent_set_contract',this.$route.query)
+              // this.$routerto('agent_set_contract',this.$route.query)
+              this.$router.go(-2)
             });
           return;
         }
-      }
+      };
       this.signId = this.$route.query.signId;
       this.$loading();
       this.$axios({
@@ -140,7 +141,7 @@ export default {
 <style lang="scss">
 #a_submit_contract {
     height: 100%;
-    width: 100%;  
+    width: 100%;
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -210,7 +211,7 @@ export default {
       }
 
       }
-     
+
     }
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="p_connected_projects">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />已连接项目
+        已连接项目
     </nav>
     <main>
       <div class='remind' v-if='remind_show'>{{reminder}}</div>
@@ -22,7 +22,7 @@
                  </ul>
                  <p>
                    <img  :src="stauts_pic[item.signStatus==10?item.signStatus:11]" alt="">
-                  </p>    
+                  </p>
                </li>
                <footer>
                  <button @click="$routerto('p_goods_details',{projectId:l.projectId})">查看项目详情</button>
@@ -167,7 +167,7 @@
             padding: 0.3rem 0;
             // border-bottom: 1px dashed;
             p:nth-of-type(1){
-                flex-grow: 1; 
+                flex-grow: 1;
               display: flex;
               justify-content: center;
               align-items: center;
@@ -184,7 +184,7 @@
               }
             }
             p:nth-of-type(2){
-            //  flex-grow: 2; 
+            //  flex-grow: 2;
             width: 30%;
             padding: 0 0.2rem;
             display: flex;
@@ -193,11 +193,11 @@
             span{
                 word-wrap:break-word;
                 width: 100%;
-                // text-align: center;
+                text-align: center;
               }
             }
             p:nth-of-type(3){
-               flex-grow: 1; 
+               flex-grow: 1;
               display: flex;
               img{
                 height: 0.62rem;
@@ -205,14 +205,14 @@
               }
               justify-content: center;
               align-items: center;
-          
+
             }
             ul{
-              width:40%; 
+              width:40%;
                padding: 0 0.2rem;
               // color: #575757;
               word-wrap:break-word;
-        
+
             }
           }
           footer{
@@ -264,7 +264,7 @@
       // border: 0;
       /*padding: 0 0.5rem;*/
       /*background: #ffffff;*/
- 
+
 
 
     }

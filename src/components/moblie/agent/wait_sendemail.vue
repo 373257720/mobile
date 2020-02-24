@@ -7,7 +7,7 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-       
+
         <!-- <header>投资者资料</header> -->
         <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
@@ -275,8 +275,8 @@ export default {
         console.log(res);
          this.show2 = false;
         if (res.data.resultCode == 10000) {
-          let query = Object.assign({},this.$route.query,{signStatus: 9})
-          this.$router.push({query})
+          let query1 = Object.assign({},this.$route.query,{signStatus: 9})
+          this.$router.push({query:query1})
           this.$dialog
             .alert({
               title: "发送成功",
@@ -331,7 +331,7 @@ export default {
 
     }
   }
- 
+
   .van-field__control{
     font-size: 0.4rem;
   }
@@ -372,10 +372,10 @@ export default {
         line-height: 0.68rem;
       }
 
-  
+
     }
     article {
- 
+
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         font-size: 0.42rem;

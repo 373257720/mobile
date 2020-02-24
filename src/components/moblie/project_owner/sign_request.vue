@@ -5,7 +5,7 @@
       <div class="investors_infor">
       <h2>{{title}}</h2>
       <div class="middlerean_info">
-          <van-divider>中间人资料</van-divider>   
+          <van-divider>中间人资料</van-divider>
       </div>
       <commoninvestors v-if="$route.query.signStatus==6" :investor_infor="investor_infor"></commoninvestors>
       </div>
@@ -130,7 +130,6 @@ export default {
     this.$route.query.projectId:'';
     this.signId=this.$route.query.signId?this.$route.query.signId:-1;
     this.signStatus=this.$route.query.signStatus?this.$route.query.signStatus:'';
-    //  console.log (this.signId);
     if(this.signStatus==6){
       this.dad_text="待审核项目"
     }else if(this.signStatus==1){
@@ -157,17 +156,29 @@ export default {
        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInvestorsData`,{signId:this.signId,signStatus:num}).then(res=>{
           this.$toast.clear();
           if (res.data.resultCode == 10000) {
-            let query1=Object.assign({},this.$route.query,{signStatus:num}) 
-            console.log(query1);
-            this.$router.push({query1})
-                this.$dialog
-                  .alert({
-                    title: res.data.resultDesc,
-                    message:"已发送合作意向，等待中间人发送邀请链接给投资者",
-                  })
-                  .then(() => {
-                    this.$routerto("mysign");
-                  });
+            let query1=Object.assign({},this.$route.query,{signStatus:num})
+            this.$router.push({query:query1})
+                    if(num==8){
+                      this.$dialog
+                        .alert({
+                          title: res.data.resultDesc,
+                          message:"已发送合作意向，等待中间人发送邀请链接给投资者",
+                        })
+                        .then(() => {
+                          this.$routerto("mysign");
+                        });
+                    }
+                   else if(num==7){
+                        this.$dialog
+                          .alert({
+                            title: res.data.resultDesc,
+                            // message:"已发送合作意向，等待中间人发送邀请链接给投资者",
+                          })
+                          .then(() => {
+                            this.$routerto("mysign");
+                          });
+                      }
+
               }else{
                   this.$dialog
                   .alert({
@@ -193,7 +204,9 @@ export default {
               })
             .then(res => {
               if (res.data.resultCode == 10000) {
-                let query1=Object.assign({},this.$route.query,{signStatus:3}) 
+                let query1=Object.assign({},this.$route.query,{signStatus:3})
+                // let query1=object.assign()
+                console.log(query1)
                 this.$router.push({query1})
                 this.$dialog
                   .alert({
@@ -239,7 +252,7 @@ export default {
     font-size: 0.42rem;
   }
   }
-   
+
 }
 
 </style>

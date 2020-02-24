@@ -47,7 +47,7 @@
           return region(value,option[value])
         }"
           :title="region_nametitle?region_nametitle:'地区'"
-          :options="option" 
+          :options="option"
         >
        </van-dropdown-item> -->
      </van-dropdown-menu>
@@ -148,7 +148,7 @@ export default {
         signUserList5: {
           text: "已上链",
           number: 0
-        },   
+        },
         signUserList6: {
           text: "待审核",
           number: 0
@@ -228,7 +228,7 @@ export default {
     // this.loading = true
     // this.onLoad();
   },
- 
+
   methods: {
     onRefresh() {
       this.finished = false;
@@ -294,7 +294,7 @@ export default {
              this.countrylist=arr;
          }
          this.countrylist_fetching = false
-          
+
       });
 
     },
@@ -305,7 +305,7 @@ export default {
     },
     routerto(item) {
       console.log(item)
-   
+
       // this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
         let hash = [];
@@ -356,13 +356,13 @@ export default {
                   this.$routerto("a_sign_failed", obj);
             }else if(item.signUserResp[0].signStatus==4){
                   this.$routerto("uploadtoblock", obj);
-            }  
+            }
           }
           else if(item.signUserResp[0].signStatus>=5){
               this.$routerto("a_project_intro", obj);
           }
         }else if(item.isSign==0){
-     
+
           this.$routerto("a_project_intro", {
             projectId: item.projectId,
             isSign:"0",
@@ -372,7 +372,7 @@ export default {
         }
       }
     },
-    
+
     onSearch() {
       // console.log(this.searchkey);
       this.pageNum = 1;
@@ -440,7 +440,7 @@ export default {
             this.finished = true;
           }
           console.log(this.upGoodsInfo);
-          
+
         })
         .catch(err => {
           // this.loadText = "加载失败";
@@ -475,11 +475,11 @@ export default {
     }
  .ant-select-selection--single{
    height:100%;
-      
+
  }
-  
+
  .ant-select-selection__rendered{
- 
+
    margin:0;
  }
     .ant-select-selection{
@@ -520,7 +520,7 @@ export default {
           padding-right: 0.5rem;
       }
       .van-popup{
-        // overflow-y: visible; 
+        // overflow-y: visible;
         overflow: hidden;
       }
       .country_isactive{
@@ -530,14 +530,14 @@ export default {
       padding: 0 0.5rem;
     }
       .van-popup {
-        
+
     //  height: 6.2rem;
       ul{
           max-height: 6rem;
           // overflow: hidden;
       }
     }
-    
+
     .van-cell {
       padding: 0;
       line-height: 1rem;
@@ -547,7 +547,7 @@ export default {
          padding: 0 0.5rem;
         li{
         line-height: 1rem;
-        font-weight: 400; 
+        font-weight: 400;
         cursor: pointer;
         font-size: 0.38rem;
         }
@@ -556,7 +556,7 @@ export default {
 
     .van-popup {
       max-height: 62%;
-    
+
     }
     .van-cell {
       font-size: 0.32rem;
@@ -681,14 +681,14 @@ export default {
           display: flex;
           font-size: 0.34rem;
           flex-wrap: wrap;
-
+          /*justify-content: space-between;*/
           div {
             display: flex;
-            width: 2.7rem;
-            color: #fdfffe;
+            width: 3rem;
+            color: #fdfffe  ;
             text-indent: 0.6rem;
             line-height: 0.6rem;
-            margin-right: 0.44rem;
+            margin-right: 0.2rem;
             margin-bottom: 0.12rem;
             background: url(../../assets/c5652240e4485f406fbaf8cb89b0afb.png)
               no-repeat;

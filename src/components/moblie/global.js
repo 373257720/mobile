@@ -110,6 +110,7 @@ const global = {
           let investorsId = res.data.data.investorsId;
           let projectName = res.data.data.projectName;
           let signUserId3=res.data.data.signUserId3;
+          let signUserId1=res.data.data.signUserId1;
           let signAgreementKey = res.data.data.signAgreementKey;
           for (let i in res.data.data) {
             if(details_lists.collectMoney.hasOwnProperty(i)){
@@ -151,6 +152,7 @@ const global = {
             // investor_infor: investor_infor,
             // details_lists: details_lists,
             // nav_lists: nav_lists,
+            signUserId1:signUserId1,
             signUserId3:signUserId3,
             projectLifeCycle:projectLifeCycle,
             investorsEmailSend:investorsEmailSend,

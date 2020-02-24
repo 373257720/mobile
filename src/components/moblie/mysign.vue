@@ -158,9 +158,9 @@ export default {
       next(false);
     }else if (to.name =="a_recommand_i") {
       next(false);
-    }else if (to.name =="a_project_intro" &&      to.query.signStatus==="0") {
+    }else if (to.name =="a_project_intro" &&  to.query.signStatus==="0") {
       next(false);
-    }else if (to.name =="uploadtoblock" &&      to.query.signStatus==="5") {
+    }else if (to.name =="uploadtoblock" &&  to.query.signStatus==="5") {
       next(false);
     }else if (to.name =="a_wait_sendemail" &&  to.query.signStatus==="9") {
       next(false);
@@ -168,8 +168,7 @@ export default {
       next(false);
     }else if (to.name =="i_perfect_infor") {
       next(false);
-    }
-    else if(to.name=='p_sign_request'){ 
+    } else if(to.name=='p_sign_request'){
       if( to.query.signStatus==6 || to.query.signStatus==1){
         next()
       }else{
@@ -192,7 +191,9 @@ export default {
         this.result = [...this.$store.state.genre];
       } else {
         // 1投行（项目方），3投资者，4投资中间人
-        // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4    已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8   待确认项目->9  签约成功项目->10 拒绝签约项目->11
+        // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
+        // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
+        // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
         if (this.usertype == 1) {
           this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
         } else if (this.usertype == 4) {
@@ -370,6 +371,7 @@ export default {
       }
       this.$store.commit("genre_array", this.result);
       // this.visible = false;
+      console.log(this.$store.state)
       this.finished = false;
       this.loading = true;
       this.upGoodsInfo = [];

@@ -12,7 +12,7 @@ Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 // 富文本
 import  "font-awesome/css/font-awesome.css";
-import initRichText from './editor';  
+import initRichText from './editor';
 initRichText();
 // vuex
 import Vuex from 'vuex';
@@ -27,10 +27,10 @@ Promise.polyfill();
 // import Antd from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.css'
 import Select from 'ant-design-vue/lib/select';
-import 'ant-design-vue/lib/select/style/css';  
+import 'ant-design-vue/lib/select/style/css';
 Vue.use(Select);
 import Spin from 'ant-design-vue/lib/spin';
-import 'ant-design-vue/lib/spin/style/css';  
+import 'ant-design-vue/lib/spin/style/css';
 Vue.use(Spin);
 import "./css/base.css"
 // import merge from 'webpack-merge';
@@ -170,7 +170,7 @@ Vue.prototype.$loadingfail = function loadingfail() {
   });
 };
 var baseurl = {
-  // api: "http://czw.mynatapp.cc",//ceshi
+  // api: "http://192.168.1.37:8085",//ceshi
   api3: 'http://47.90.62.114:8083',//(前段服务器端口)
   api: "http://47.90.62.114:8086",//(后台正式服务器端口)3
 }

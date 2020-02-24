@@ -9,8 +9,8 @@
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
-          <aside>   
-            <button v-if="$route.query.signStatus>=5"  @click="$routerto('a_recommand_i',$route.query)">推荐投资者</button>
+          <aside>
+            <button v-if="$route.query.signStatus>=5"  @click="recommamd">推荐投资者</button>
             <button v-if="$route.query.signStatus==='0'" @click="confirm_alert">感兴趣</button>
             <!-- <button @click="$global.previous()">再考虑一下</button> -->
           </aside>
@@ -110,11 +110,16 @@ export default {
       )
       .then(res => {
         this.$toast.clear();
+        this.details.signUserId1=res.signUserId1;
         this.title = res.title;
-       
+
       });
   },
   methods: {
+    recommamd(){
+      console.log(this.details)
+      this.$routerto("a_recommand_i",this.details)
+    },
     confirm_alert() {
       let that=this;
        this.$loading();
@@ -127,7 +132,7 @@ export default {
                 message: "您已提交签约申请，申请获处理后，请于待签约项目中签署确认条款。"
               })
               .then(() => {
-                  // let query1=Object.assign({},that.details,{signStatus:1}) 
+                  // let query1=Object.assign({},that.details,{signStatus:1})
                   this.$routerto("mysign")
               })
         }else{
@@ -139,10 +144,10 @@ export default {
               .then(() => {
               })
         }
-        
+
       })
-   
-    
+
+
     }
   }
 };
@@ -192,7 +197,7 @@ export default {
         font-weight: 600;
         line-height: 0.68rem;
       }
- 
+
     }
     article {
       footer {

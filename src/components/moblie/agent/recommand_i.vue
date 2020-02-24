@@ -52,7 +52,7 @@
 <!--              <mu-select  @change="searchregion" solo filterable v-model="form.investorsArea" full-width>-->
 <!--                <mu-option  v-for="(item,index) in region" :key="item.countryCode"  :label="item.text" :value="item.countryCode"></mu-option>-->
 <!--              </mu-select>-->
-<!-- 
+<!--
               <van-cell-group>
                 <van-dropdown-menu>
                   <van-dropdown-item
@@ -66,7 +66,7 @@
                 </van-dropdown-menu> -->
              <!-- <input type="text" class="layui-input blockInput" id="taskExpression" name="taskExpression" :v-model="region_nametitle" lay-verify="required"  oninput="ulHtml()"/> -->
             <!-- <div id="expressionDiv" class="expression" style="width: 535px;height:200px;display:none;border: 1px rgb(210, 210, 210) solid;"> -->
-             
+
             <!-- </div> -->
                 <!-- <van-field v-model="region_nametitle" placeholder="请输入" @focus='getlist' @input='ulHtml' @blur='judge'/>
                 <ul id="expression" v-show="isshow">
@@ -93,7 +93,7 @@
             >
              <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
               <a-select-option :title='d.chinese' v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
-         </a-select> 
+         </a-select>
             </p>
           </li>
         </ul>
@@ -135,6 +135,8 @@ export default {
         investorsArea: "",
         projectId: "",
         signId:'',
+        signStatus:'',
+        signUserId1:'',
         // areaCode: ""
         // identity: ""
       }
@@ -144,8 +146,10 @@ export default {
   created() {
     this.form.projectId = this.$route.query.projectId?this.$route.query.projectId:"";
     this.form.signId= this.$route.query.projectId?this.$route.query.signId:-1;
+    this.form.signStatus=this.$route.query.signStatus>=5?5:this.$route.query.signStatus;
+    this.form.signUserId1=this.$route.query.signUserId1?this.$route.query.signUserId1:'';
+    // console.log(this.form.signUserId1?1:2)
     this.ulHtml('');
-    // console.log(this.region)
   },
   computed: {
 
@@ -199,7 +203,7 @@ export default {
           // console.log(this.region)
          this.countrylist_fetching = false
       });
-  
+
     },
     remind(meg) {
       this.$dialog
@@ -220,7 +224,7 @@ export default {
     submit() {
        if(this.form.investorsType==2 && this.form.investorsCompany==''){
               this.$toast({ message:'请输入公司名称'});
-            return  
+            return
         }
         if(this.form.investorsName==''){
             this.$toast('请输入投资者姓名');
@@ -232,6 +236,7 @@ export default {
       this.commit();
     },
     commit() {
+      console.log(this.form)
       this.$dialog
         .confirm({
           title: "确认提交"
@@ -246,11 +251,11 @@ export default {
             if (res.data.resultCode == 10000) {
               this.$dialog
                 .alert({
-                  title: res.data.resultDesc
-                  // message: "弹窗内容"
+                  title: res.data.resultDesc,
+                  // message: "返回我的xi"
                 })
-                .then(() => {  
-                  // let query1=Object.assign(this.$route.query,{signStatus:6}) 
+                .then(() => {
+                  // let query1=Object.assign(this.$route.query,{signStatus:6})
                   this.$routerto("mysign")
                 });
             } else {
@@ -284,10 +289,10 @@ export default {
     }
  .ant-select-selection--single{
    height:100%;
-      
+
  }
  .ant-select-selection__rendered{
- 
+
    margin:0;
  }
     .ant-select-selection{
@@ -442,9 +447,10 @@ export default {
 <style lang="scss" scoped>
 #a_recommand_i {
   width: 100%;
+  height: 100%;
   main {
     // z-index: -999;
-    margin-top: 1.6rem;
+    padding-top: 1.6rem;
     background: #ffffff;
     aside {
       display: flex;
@@ -485,7 +491,7 @@ export default {
                 content: "*";
                 color: #f56c6c;
                 margin-right: 0.1rem;
-            }  
+            }
           .row2 {
               position: relative;
             width: 7rem;

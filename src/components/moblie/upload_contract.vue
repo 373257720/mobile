@@ -83,12 +83,11 @@ export default {
   },
 
   created() {
-    // console.log();
     this.$loading();
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement.do?visitToken=${this.$route.query.visitToken}`
-    }).then(res => {  
+    }).then(res => {
       if(res.data.resultCode==10000){
         let str = JSON.parse(res.data.data.signAgreement);
         for(let i in this.contract){
@@ -192,7 +191,7 @@ export default {
     overflow-y: auto;
     word-wrap: break-word;
     // color: rgb(169, 169, 169);
-    
+
   .middle{
         // background: none;
         // border: 0;
@@ -200,7 +199,7 @@ export default {
            white-space: pre-wrap;       /* css-3 */
               white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
               white-space: -pre-wrap;      /* Opera 4-6 */
-              white-space: -o-pre-wrap; 
+              white-space: -o-pre-wrap;
       }
     div.button {
       margin-top: 1rem;

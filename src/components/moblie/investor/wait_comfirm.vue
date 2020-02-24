@@ -144,7 +144,7 @@ export default {
     agree() {
         let query=Object.assign({investorsId:this.investorsId,signUserId3:this.signUserId3},this.$route.query)
         this.$routerto("i_perfect_infor", query);
- 
+
     },
     refuse() {
       this.$dialog
@@ -158,8 +158,8 @@ export default {
             url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.investorsEmailSend}`
           }).then(res => {
             if (res.data.resultCode == 10000) {
-              let query = Object.assign({},this.$route.query,{signStatus: 11})
-            this.$router.push({query})
+              let query1 = Object.assign({},this.$route.query,{signStatus: 11})
+            this.$router.push({query:query1})
               this.$dialog
                 .confirm({
                   title: res.data.resultDesc

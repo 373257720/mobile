@@ -2,8 +2,12 @@
   <div id="p_user_contact">
     <nav>
       <header>
+        <nav>
+          联络人
+        </nav>
+
         <!-- <van-icon name="arrow-left" @click="$global.previous()" />联络人 -->
-        <commonnav :msg="dad_text"></commonnav>
+<!--        <commonnav :msg="dad_text"></commonnav>-->
       </header>
       <main>
         <van-search
@@ -180,19 +184,18 @@ export default {
 <style lang="scss" scoped>
 #p_user_contact {
   width: 100%;
+ 
   nav {
     width: 100%;
-    position: fixed;
-    z-index: 5;
     text-align: center;
+    line-height: 1.5rem;
+    height: 1.5rem;
+    position: fixed;
     top: 0;
+    z-index: 5;
+    font-size: 0.46rem;
     background: white;
-    header {
-      line-height: 1.6rem;
-      height: 1.6rem;
-      font-size: 0.4rem;
-      // border-bottom: 0.1rem solid #d2d2d2;
-    }
+    border-bottom: 0.1rem solid #b5b5b5;
   }
   ul {
     padding: 3rem 0 1.5rem 0;
