@@ -24,7 +24,7 @@
        <div class="tologin">
          <p class="tologin" @click="$goto('login')">已有账号,前往登录</p>
       </div>
-     
+
     </div>
   </div>
 </template>
@@ -75,7 +75,7 @@ export default {
                 message: "下一步填写个人信息"
               })
               .then(() => {
-                this.$goto("usercheck");
+                this.$goto("login");
               });
           } else {
             this.remind = res.data.resultDesc;
@@ -131,6 +131,7 @@ export default {
 #register {
   height: 100%;
   // width: 80%;
+  width: 100%;
   // width: 9.90rem;
   // margin: 0 auto;
   display: flex;
@@ -138,8 +139,11 @@ export default {
   // justify-content: center;
 
   h2 {
-    padding: 3.24rem 0 3.04rem 0;
-    text-align: center;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     img {
       // width: 4.28rem;
       height: 1.54rem;
@@ -161,7 +165,7 @@ export default {
     div.tologin{
        width: 9.8rem;
        display: flex;
-       justify-content:flex-end;  
+       justify-content:flex-end;
        p{
         //  align-self:  flex-end;
           color:#00adef;

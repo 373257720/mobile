@@ -5,7 +5,6 @@
     <main>
       <div class="investors_infor">
         <h2>{{projectName}}</h2>
-        <!-- <header>投资者资料</header> -->
           <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
@@ -120,7 +119,8 @@ export default {
         {},
         this.details_lists,
         this.nav_lists,
-        this.investor_infor
+        this.investor_infor,
+        {}
       )
       .then(res => {
         this.investorsEmailSend=res.investorsEmailSend;
@@ -231,7 +231,7 @@ export default {
         font-weight: 600;
         line-height: 0.68rem;
       }
- 
+
     }
     article {
       footer {

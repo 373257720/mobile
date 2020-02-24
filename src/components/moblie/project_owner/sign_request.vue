@@ -6,6 +6,22 @@
       <h2>{{title}}</h2>
       <div class="middlerean_info">
           <van-divider>中间人资料</van-divider>
+          <ul>
+            <li  v-for="(item,key) in middlemen">
+              <div v-if="key=='userName'">
+                <p class="row1">{{item.name}}</p>
+                <p class="row2">{{item.response}}</p>
+              </div>
+              <div v-if="key=='userIdentityType'">
+                <p class="row1">{{item.name}}</p>
+                <p class="row2">{{item.response==1?'个人':item.response==2?"公司":'-'}}</p>
+              </div>
+              <div v-else-if="( middlemen['userIdentityType'].response==2 && (key=='userCompanyCh' || key=='userCompanyEn'))">
+                <p class="row1">{{item.name}}</p>
+                <p class="row2">{{item.response}}</p>
+              </div>
+            </li>
+          </ul>
       </div>
       <commoninvestors v-if="$route.query.signStatus==6" :investor_infor="investor_infor"></commoninvestors>
       </div>
@@ -38,6 +54,25 @@ export default {
       signStatus:"",
       title: "",
       dad_text: "",
+      middlemen:{
+        userIdentityType: {
+          name: "中间人类型:",
+          response: ""
+        },
+        userName: {
+          name: "中间人名称:",
+          response: ""
+        },
+        userCompanyCh:{
+          name: "公司名称:",
+          response: ""
+        },
+        userCompanyEn: {
+          name: "Company Name:",
+          response: ""
+        }
+      },
+
      investor_infor: {
         investorsType: {
           name: "投资者类型:",
@@ -136,7 +171,7 @@ export default {
       this.dad_text="待处理项目"
     }
     this.$loading();
-    this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.projectId}&signStatus=${this.signStatus}&signId=${this.signId}`,'get',{},this.details_lists,this.nav_lists,this.investor_infor).then(res=>{
+    this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.projectId}&signStatus=${this.signStatus}&signId=${this.signId}`,'get',{},this.details_lists,this.nav_lists,this.investor_infor,this.middlemen).then(res=>{
     this.title=res.title;
     this.$toast.clear();
     if(res.projectLifeCycle==-1){
@@ -278,6 +313,35 @@ export default {
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
+      }
+      ul {
+        padding: 0.1rem 0.5rem;
+        li {
+          > div {
+            margin-bottom: 0.1rem;
+            display: flex;
+            align-items: baseline;
+            font-size: 0.42rem;
+          }
+          .row1 {
+            color: #4c4c4c;
+            font-weight: 600;
+            width: 3rem;
+          }
+          .draft {
+            margin-bottom: 0.25rem;
+          }
+          .row2 {
+            width: 7rem;
+            word-break: break-all;
+            line-height: 0.48rem;
+            color: #787878;
+          }
+          .draft1 {
+            padding: 0.2rem 0.4rem;
+            box-sizing: border-box;
+          }
+        }
       }
     }
     article {

@@ -102,7 +102,7 @@
             name: "项目详情:",
             response: ""
           },
-        
+
         }
       };
     },
@@ -123,6 +123,7 @@
           this.details_lists,
           this.nav_lists,
           this.investor_infor,
+          {}
         )
         .then(res => {
           console.log(res);
@@ -225,7 +226,7 @@
       div.investors_infor {
         h2 {
          min-height: 2rem;
-        font-size: 0.48rem; 
+        font-size: 0.48rem;
           padding: 0.4rem;
           box-sizing: border-box;
           word-break: break-all;
@@ -238,10 +239,10 @@
           font-weight: 600;
           line-height: 0.68rem;
         }
-     
+
       }
       article {
-    
+
       }
     }
   }

@@ -48,9 +48,9 @@ export default {
   data() {
     return {
       title: "",
-      dad_text: "待发送邮件到投资者",
+      dad_text: "待发送邀请给投资者",
       show2: false, //邮箱开关
-      show:'',//邮箱验证
+      show:'',//邮箱验证信息
       custmoers_obj: {},
       investorsId: "",
       emailadress: "",
@@ -139,8 +139,8 @@ export default {
   },
   created() {
     this.$loading();
-    this.agent_beforesend();
     let details = this.$route.query;
+    thisagent_beforesend();
     this.$global
       .goods_deatails(
         `${
@@ -154,11 +154,13 @@ export default {
         {},
         this.details_lists,
         this.nav_lists,
-        this.investor_infor
+        this.investor_infor,
+        {}
       )
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.title = res.title;
+        // this.investorsId = res.investorsId;
         this.$toast.clear();
       });
   },
@@ -177,17 +179,17 @@ export default {
         method: "get",
         url: `${this.$baseurl}/bsl_web/project/getDetails?signId=${this.$route.query.signId}`
       }).then(res => {
-        if (res.data.resultCode == 10000) {
-          this.investorsId = res.data.data.investorsId;
-          this.custmoers_obj = res.data.data;
-          console.log(this.custmoers_obj);
-        }
+          if (res.data.resultCode == 10000) {
+            this.investorsId = res.data.data.investorsId;
+            this.custmoers_obj = res.data.data;
+            console.log(this.custmoers_obj);
+          }
       });
     },
     submit_email() {
     this.show='';
     var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
-      if(reg.test(this.emailadress)) {
+    if(reg.test(this.emailadress)) {
         this.$loading();
         this.$axios({
         method: "post",
@@ -204,10 +206,6 @@ export default {
                     <meta http-equiv="X-UA-Compatible" content="ie=edge">
                     <title>mobile</title>
                   </head>
-
-
-
-
           <body>
               <table id="box" style="width: 580px;height:350px;
               margin: auto;
@@ -232,17 +230,17 @@ export default {
                       <tr class="column" style="">
                           <td style="text-align:center;vertical-align:top;">【投资项目】</td>
                           <td style="padding:0 20px 0 0;text-align:left;vertical-align:top;">
-                            ${this.custmoers_obj.projectName}</td>
+                            ${this.custmoers_obj.projectName?this.custmoers_obj.projectName:''}</td>
                       </tr>
                       <tr class="column" style="margin-bottom: 15px;">
                           <td style="width: 120px;text-align:center;vertical-align:top;">【中间人】</td>
                           <td style="padding:0 20px 0 0;width: 430px;text-align:left;vertical-align:top;">
-                              ${this.custmoers_obj.bslName4}</td>
+                              ${this.custmoers_obj.userName4?this.custmoers_obj.userName14:''}</td>
                       </tr>
                       <tr class="column" style="margin-bottom: 15px;">
                           <td style="width: 120px;text-align:center;vertical-align:top;">【项目方】</td>
                           <td style="padding:0 20px 0 0;width: 400px;text-align:left;vertical-align:top;">
-                              ${this.custmoers_obj.bslName1}
+                              ${this.custmoers_obj.userName1?this.custmoers_obj.userName1:''}
                           </td>
                       </tr>
                     <tr class="column" style="margin-bottom: 15px;color: lightcoral">
@@ -272,7 +270,6 @@ export default {
         })
       }).then(res => {
         this.$toast.clear();
-        console.log(res);
          this.show2 = false;
         if (res.data.resultCode == 10000) {
           let query1 = Object.assign({},this.$route.query,{signStatus: 9})
@@ -280,7 +277,7 @@ export default {
           this.$dialog
             .alert({
               title: "发送成功",
-              message: "等待投资者确认并完善资料"
+              message: "请等待投资者确认并完善资料"
             })
             .then(() => {
               this.$routerto("mysign");
@@ -291,7 +288,7 @@ export default {
               title: res.data.resultDesc
             })
             .then(() => {});
-        }
+          }
       });
       }else{
           this.show='邮箱格式不正确';

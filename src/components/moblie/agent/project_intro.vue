@@ -106,7 +106,8 @@ export default {
         {},
         this.details_lists,
         this.nav_lists,
-        []
+        {},
+        {}
       )
       .then(res => {
         this.$toast.clear();
@@ -128,8 +129,8 @@ export default {
         if(res.data.resultCode==10000){
             this.$dialog
               .alert({
-                title: res.data.resultDesc,
-                message: "您已提交签约申请，申请获处理后，请于待签约项目中签署确认条款。"
+                title: "您已提交签约申请",
+                message: "申请获处理后，请于待签约项目中签署确认条款。"
               })
               .then(() => {
                   // let query1=Object.assign({},that.details,{signStatus:1})

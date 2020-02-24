@@ -57,7 +57,7 @@
         }
   },
     created() {
-      this.projectId = this.$route.query.projectId;
+      // this.projectId = this.$route.query.projectId;
       this.signStatu=this.$route.query.signStatus;
       this.signId=this.$route.query.signId?this.$route.query.signId:-1;
         this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getVisitToken?signId=${this.signId}&signStatus=${this.signStatu}`).then(res=>{
@@ -100,23 +100,27 @@
       },
       // 上链
       contract_submit() {
-        let code=encodeURIComponent('#')
-        let urlpath = `${this.$baseurl3}/${code}/upload_contract?visitToken=${this.token}`;
+        let code=encodeURIComponent('#');
+        let upload_urlpath = `${this.$baseurl3}/${code}/upload_contract?visitToken=${this.token}`;
         this.$toast.loading({
           loadingType: "spinner",
           message: "上传大概需要1分钟,请耐心等候",
           duration: 0
         });
-        this.$axios({
-          method: "get",
-          url: `${this.$baseurl}/bsl_web/ipfs/update`,
-          params: {
-            signId: `${this.signId}`,
-            urlPath: `${urlpath}`,
+        // this.$axios({
+        //   method: "post",
+        //   url: `${this.$baseurl}/bsl_web/ipfs/update`,
+        //   data: {
+        //     signId: `${this.signId}`,
+        //     urlPath: `${urlpath}`,
+        //     projectId:this.projectId,
+        //     signUserId1:this.signUserId1
+        //   }
+        // })
+          this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/ipfs/update`,{signId: `${this.signId}`,
+            urlPath: `${upload_urlpath}`,
             projectId:this.projectId,
-            signUserId1:this.signUserId1
-          }
-        })
+            signUserId1:this.signUserId1})
           .then(res => {
             this.$toast.clear();
             if (res.data.resultCode == 10000) {

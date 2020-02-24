@@ -132,6 +132,7 @@ export default {
         this.details_lists,
         this.nav_lists,
         this.investor_infor,
+        {}
       )
       .then(res => {
         console.log(res);
@@ -225,7 +226,7 @@ export default {
         font-weight: 600;
         line-height: 0.68rem;
       }
- 
+
     }
     article {
       footer {

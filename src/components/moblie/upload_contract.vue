@@ -9,12 +9,12 @@
         disabled
         type="textarea"
       /> -->
-      <div class="middle">{{contract.article}}</div>
+      <div class="middle" v-html="contract.article"></div>
       <div class="button">
         <ul>
           <li>
-            <nav>For and on behalf of:</nav>
-            <h3>{{contract.owner_behalf}}</h3>
+            <div>For and on behalf of:</div>
+            <div>{{contract.owner_behalf}}</div>
           </li>
           <li>
             <p><span>
@@ -37,8 +37,8 @@
         </ul>
         <ul>
           <li>
-            <nav>For and on behalf of:</nav>
-            <h3>{{contract.agent_behalf}}</h3>
+            <div>For and on behalf of:</div>
+            <div>{{contract.agent_behalf}}</div>
           </li>
           <li>
             <p><span><img v-if="contract.agent_sign"  :src="contract.agent_sign" alt=""></span></p>
@@ -88,6 +88,7 @@ export default {
       method: "get",
       url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement.do?visitToken=${this.$route.query.visitToken}`
     }).then(res => {
+      this.$toast.clear();
       if(res.data.resultCode==10000){
         let str = JSON.parse(res.data.data.signAgreement);
         for(let i in this.contract){
@@ -100,18 +101,15 @@ export default {
             }
           }
         }
-         this.$toast.clear();
+      }else{
+        this.$dialog
+          .alert({
+            title: "res.data.resultDesc"
+            // message: "下一步发送邮件到投资者"
+          })
+          .then(() => {});
       }
-      // if (res.data.resultCode == 10000) {
-      //   // this.signproject4();
-      // } else {
-      //   this.$dialog
-      //     .alert({
-      //       title: "上传失败,请稍后再试"
-      //       // message: "下一步发送邮件到投资者"
-      //     })
-      //     .then(() => {});
-      // }
+
     });
 
   },
@@ -180,26 +178,28 @@ export default {
 <style lang="scss" scoped>
 #upload_contract {
   height: 100%;
+  width: 100%;
   .upload_contract {
     height: 100%;
     box-sizing: border-box;
     font-size: 0.4rem;
     line-height: 0.6rem;
-    padding: 1rem 1rem 0;
+    padding: 1rem ;
     width: 100%;
-        color: black;
+    color: black;
     overflow-y: auto;
     word-wrap: break-word;
     // color: rgb(169, 169, 169);
 
   .middle{
+    min-height: 20%;
         // background: none;
         // border: 0;
         // width: 100%;
-           white-space: pre-wrap;       /* css-3 */
-              white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-              white-space: -pre-wrap;      /* Opera 4-6 */
-              white-space: -o-pre-wrap;
+           /*white-space: pre-wrap;       !* css-3 *!*/
+           /*   white-space: -moz-pre-wrap;  !* Mozilla, since 1999 *!*/
+           /*   white-space: -pre-wrap;      !* Opera 4-6 *!*/
+           /*   white-space: -o-pre-wrap;*/
       }
     div.button {
       margin-top: 1rem;
@@ -219,6 +219,7 @@ export default {
             position: relative;
             span{
               position: absolute;
+              line-height: 0.44rem;
               word-break: break-all;
               bottom: 0;
             }
@@ -226,15 +227,20 @@ export default {
             line-height: initial;
             border-bottom: 1px solid;
           }
+          p:nth-child(2){
+            font-weight: 600;
+          }
         }
         li:nth-of-type(1){
-          margin-bottom: 1rem;
-
-          h3{
-            //  color: rgb(169, 169, 169);
+          margin-bottom: 0.6rem;
+          div:nth-of-type(1){
+            font-weight: 600;
+          }
+          div:nth-of-type(2){
             height: 3rem;
             line-height: initial;
           }
+
         }
       }
     }

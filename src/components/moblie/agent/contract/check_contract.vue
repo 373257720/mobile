@@ -46,11 +46,11 @@
         </div>
            <div class="sub_title">
           <header>Contract:</header>
-          <div>
+<!--          <div>-->
                   <contractcomponent :contract="contract"></contractcomponent>
-          </div>
+<!--          </div>-->
         </div>
-  
+
         <footer>
           <button @click="confirm">签署</button>
         </footer>
@@ -81,7 +81,7 @@ export default {
   },
   created() {
     console.log(this.contract);
-    
+
   },
   mounted() {
   },

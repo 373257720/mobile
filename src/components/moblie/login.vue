@@ -19,7 +19,7 @@
         <button @click="login">登 录</button>
       </div>
       <!-- </van-form> -->
-     
+
       <div class="registerbtn">
         <button @click="$routerto('register')">注册新账号</button>
       </div>
@@ -41,7 +41,7 @@ export default {
     if(this.$route.query.email){
       this.username = this.$route.query.email;
     }
-    
+
     // console.log(this.$route.query.email);
   },
     beforeRouteLeave(to,from,next){
@@ -141,7 +141,7 @@ export default {
   // justify-content: center;
 
   h2 {
-    flex:1;
+    height: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -176,7 +176,7 @@ export default {
     }
     .loginbtn button {
       background: #00adef;
-   
+
     }
     .registerbtn button {
       background: #ff7c2c;

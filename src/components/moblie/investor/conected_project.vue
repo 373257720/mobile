@@ -128,7 +128,8 @@ export default {
         {},
         this.details_lists,
         this.nav_lists,
-        []
+        {},
+        {}
       )
       .then(res => {
         this.investorsId = res.investorsId;
@@ -193,7 +194,7 @@ export default {
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
   }
-  main { 
+  main {
     padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;
     article {

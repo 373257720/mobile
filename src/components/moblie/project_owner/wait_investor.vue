@@ -9,7 +9,7 @@
         <h2>{{title}}</h2>
         <!-- <commoninvestors :investor_infor="investor_infor"></commoninvestors> -->
       </div>
-      <article> 
+      <article>
           <commoninvestors v-if="$route.query.signStatus==8 || $route.query.signStatus==9" :investor_infor="investor_infor"></commoninvestors>
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
@@ -49,7 +49,7 @@ export default {
             name: "投资者地区:",
             response: ""
           },
- 
+
         },
       nav_lists: {
         financingStage: {
@@ -135,7 +135,8 @@ export default {
         {},
         this.details_lists,
         this.nav_lists,
-        this.investor_infor
+        this.investor_infor,
+        {}
       )
       .then(res => {
         console.log(res);

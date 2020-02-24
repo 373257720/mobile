@@ -149,28 +149,30 @@ import loginVue from './login.vue';
 <style lang="scss">
   #contract_component{
     width: 100%;
-    
+
       height: 100%;
     .contract_component {
       border: 1px solid #b5b5b5;
       box-sizing: border-box;
       font-size: 0.4rem;
       line-height: 0.6rem;
-      background: #f6f6f6;
+      /*background: #f6f6f6;*/
       padding: 0.4rem 0.4rem;
       width: 100%;
-         height: 100%;
+      height: 12rem;
       overflow-y: auto;
       color: black;
       word-wrap: break-word;
       .middle{
+        /*min-height: 40%;*/
+        min-height: 5rem;
         // background: none;
         // border: 0;
         // width: 100%;
           //  white-space: pre-wrap;       /* css-3 */
           //     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
           //     white-space: -pre-wrap;      /* Opera 4-6 */
-          //     white-space: -o-pre-wrap; 
+          //     white-space: -o-pre-wrap;
       }
       div.button {
         margin-top: 1rem;
@@ -181,7 +183,7 @@ import loginVue from './login.vue';
           li{
             p{
               height: 1rem;
-                
+
               img {
                 width: 4rem;
                 height: 1rem;

@@ -32,14 +32,14 @@
               @change="handleChange"
               @search='search'
               :notFoundContent="coutry_fetching ? undefined : 'Not Found'"
-            
+
             >
               <!-- :filterOption="filterOption" -->
             <a-spin v-if="coutry_fetching" slot="notFoundContent" size="small"/>
             <a-select-option v-for="d in countrylist" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
             </a-select>
             </div>
-             
+
             <!-- <van-dropdown-menu>
               <van-dropdown-item v-model="form.userCountry" @change="nation" :options="countrylist" />
             </van-dropdown-menu> -->
@@ -171,6 +171,7 @@ export default {
         userType: ""
       },
       form: {
+        emailData:'',
         userCountry: "",
         userIdentityType: 1,
         userCountryEn: "",
@@ -217,23 +218,13 @@ export default {
   },
   created() {
       this.form.userType=1;
-       this.ulHtml('');
+      this.ulHtml('');
+       this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getAuthDetails`).then(res=>{
+         // console.log(res)
+
+       })
     // this.validator = validator(this.rules, this.form);
-    // this.$axios({
-    //   method: "get",
-    //   url: `${this.$baseurl}/bsl_web/base/countryList.do`
-    // })
-    //   .then(res => {
-    //     this.countrylist = res.data.data;
-    //     for (let i = 0; i < this.countrylist.length; i++) {
-    //       this.countrylist[i].value = i;
-    //       this.countrylist[i].text = this.countrylist[i].countryTcname;
-    //     }
-    //     // console.log(this.countrylist);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+
   },
   watch:{
     'form.userType':{
@@ -242,7 +233,7 @@ export default {
                 // console.log(this)
                 this.form.userIdentityType=2
               }
-            
+
             },
             // 深度观察
             deep:true
@@ -272,20 +263,6 @@ export default {
       this.coutry_fetching = false;
       // console.log(this.form)
     },
-    handleBlur() {
-      // console.log('blur');
-    },
-    handleFocus() {
-      // console.log('focus');
-    },
-    // filterOption(input, option) {
-    //   if(this.countrylist.length>0){
-    //     return true
-    //   }else{
-    //     return false
-    //   }
-    //   // return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
-    // },
     ulHtml(val){
       this.countrylist=[];
       let arr=[];
@@ -306,12 +283,6 @@ export default {
            this.coutry_fetching = false
       });
       // console.log(this.countrylist)
-    },
-    signer_submit(value,type){
-      // console.log(value,type)
-      // this.validator.validate((error,fields)=>{
-      //   console.log(error,fields)
-      // })
     },
     // resetField(attrs) {
     //   attrs = !attrs ? Object.keys(this.form_err) : ( Array.isArray(attrs) ? attrs : [attrs]);
@@ -357,7 +328,7 @@ export default {
             if(this.fileList_front.length==0){
                 this.$toast('请上传护照');
             return
-           } 
+           }
         }
       }else if(this.form.userIdentityType==2){
            if(this.form.userCountry==''){
@@ -373,7 +344,7 @@ export default {
         }else if(this.fileList_company.length==0){
             this.$toast('请上传公司证书');
             return
-        } 
+        }
       }
       this.commit();
       // this.validate((errors, fields) => {
@@ -393,6 +364,7 @@ export default {
     //   this.form.userCountryCh = this.countrylist[value].countryZhname;
     // },
     // 返回 Promise
+
     asyncBeforeRead(file, index) {
       if (file.type !== "image/jpeg") {
         this.$toast("请上传 jpg 格式图片");
@@ -423,6 +395,69 @@ export default {
     },
     commit() {
       console.log(this.form);
+      let userIdentityType;
+      if(this.form.userIdentityType==1){
+        userIdentityType="个人";
+      }else if(this.form.userIdentityType==2){
+         userIdentityType="公司";
+      }
+      this.form.emailData=`<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <table id="box" style="width: 580px;height:350px;
+     margin: auto;
+    border-collapse:collapse; border-spacing:0px 10px;
+    border:1px solid #cccccc;border-radius:5px;
+  ">
+        <thead>
+            <tr>
+                <th colspan="2" height="100">
+                      请审核
+<!--                    <img style="width: 100px;height: 50px;" src="../../assets/f2c54dee46c853237c6ac91840de782.png"-->
+<!--                        alt="">-->
+                </th>
+            </tr>
+        </thead>
+        <tobody>
+            <tr class="column" style="">
+                <td style="text-align:center;vertical-align:top;">【注册时间】</td>
+                <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+              </td>
+            </tr>
+            <tr class="column" style="margin-bottom: 15px;">
+                <td style="width: 120px;text-align:center;vertical-align:top;">【类型】</td>
+                <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+                    ${userIdentityType}</td>
+            </tr>
+            <tr class="column" style="margin-bottom: 15px;">
+                <td style="width: 120px;text-align:center;vertical-align:top;">【注册邮箱】</td>
+                <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+
+                </td>
+            </tr>
+            <tr class="column" style="">
+                <td colspan="2" style="text-align:center;vertical-align:center;">
+                    <a href="#" class="button" style="text-decoration:none;">
+                        <span
+                            style="display:inline-block;border-radius:5px;text-decoration:none;width:200px;height:40px;background: #00B1F5;color:white;line-height:40px;">
+                            了解详情
+                        </span>
+                    </a>
+                </td>
+            </tr>
+        </tobody>
+
+    </table>
+</body>
+
+</html>`
+
       this.$loading();
       this.$axios({
         method: "post",
@@ -480,7 +515,7 @@ export default {
     .ant-select-selection__placeholder, .ant-select-search__field__placeholder{
       color:#969799;
     }
-    
+
     .ant-select-selection{
        padding: 0 0.2rem;
         //  border: 1px solid #ababab;
@@ -489,10 +524,10 @@ export default {
     }
  .ant-select-selection--single{
    height:100%;
-      
+
  }
  .ant-select-selection__rendered{
- 
+
    margin:0;
  }
     .ant-select-selection{
@@ -568,7 +603,7 @@ export default {
 
   .van-uploader__preview {
     margin: 0;
- 
+
     // overflow: hidden;
   }
   .van-uploader__preview-image {
@@ -585,7 +620,7 @@ export default {
   .van-uploader {
     width: 100%;
     height: 5rem;
-    
+
    display: block;
     margin-bottom: 0;
   }
@@ -598,9 +633,9 @@ export default {
     background: #f6f6f6;
     border: 0;
     height: 5rem;
-    border: 1px solid #ababab; 
+    border: 1px solid #ababab;
     margin: 0;
-  
+
     border-radius: 0.05rem;
     // box-sizing: border-box;
     .van-uploader__upload-icon {
@@ -641,13 +676,13 @@ export default {
         > p {
           margin-bottom: 0.1rem;
           font-size: 0.38rem;
-        
+
         }
           >p::before {
               content: "*";
               color: #f56c6c;
               margin-right: 0.1rem;
-          }  
+          }
         footer{
           height: 0.4rem;
           color: #ee0a24;
@@ -666,7 +701,7 @@ export default {
               content: "*";
               color: #f56c6c;
               margin-right: 0.1rem;
-          }  
+          }
       }
     }
     div.gongsi {
@@ -676,14 +711,14 @@ export default {
           margin-bottom: 0.1rem;
           font-size: 0.38rem;
         }
-      
+
       }
       .companyname,.company_address_eng,.companycheck{
            >p::before {
               content: "*";
               color: #f56c6c;
               margin-right: 0.1rem;
-          }  
+          }
       }
     }
     header {

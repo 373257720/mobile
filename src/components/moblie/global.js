@@ -96,7 +96,7 @@ const global = {
     })
 
   },
-  goods_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor) {
+  goods_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor,middlemen) {
     return new Promise((resolve, reject) => {
       axios({
           url: url,
@@ -115,12 +115,12 @@ const global = {
           for (let i in res.data.data) {
             if(details_lists.collectMoney.hasOwnProperty(i)){
               if (i == "collectMoneyMax"){
-                details_lists.collectMoney[i]=res.data.data[i].toLocaleString();
+                details_lists.collectMoney[i]=res.data.data[i]*1>0?res.data.data[i].toLocaleString():'';
               }else if (i == "collectMoneyMin"){
-                details_lists.collectMoney[i]=res.data.data[i].toLocaleString();
+                details_lists.collectMoney[i]=res.data.data[i]*1>0?res.data.data[i].toLocaleString():'';
               }
             }
-            if (details_lists[i]) {
+            if (details_lists.hasOwnProperty(i)) {
               if (i == "signStatus") {
                 details_lists[i].response = this.pic_obj[
                   res.data.data[i]
@@ -131,7 +131,7 @@ const global = {
                 details_lists[i].response = res.data.data[i];
               }
             }
-            if (nav_lists[i]) {
+            if (nav_lists.hasOwnProperty(i)) {
               if (i == "financingStage") {
                 nav_lists[i].response = this.financingStage[
                   res.data.data[i]
@@ -140,7 +140,10 @@ const global = {
                 nav_lists[i].response = res.data.data[i];
               }
             }
-            if (investor_infor[i]) {
+            if (middlemen.hasOwnProperty(i)) {
+              middlemen[i].response = res.data.data[i];
+            }
+            if (investor_infor.hasOwnProperty(i)) {
               if (i == 'investorsType') {
                 investor_infor[i].response = this.investorsType[res.data.data[i]]
               } else {
@@ -149,9 +152,6 @@ const global = {
             }
           }
           let combin = {
-            // investor_infor: investor_infor,
-            // details_lists: details_lists,
-            // nav_lists: nav_lists,
             signUserId1:signUserId1,
             signUserId3:signUserId3,
             projectLifeCycle:projectLifeCycle,

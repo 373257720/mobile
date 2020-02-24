@@ -6,6 +6,8 @@ import router from './router'
 import 'vant/lib/index.css';
 import axios from '../node_modules/axios'
 import qs from 'qs'
+import Promise from 'es6-promise';
+Promise.polyfill();
 import global from '@/components/moblie/global.js'
 import store from './store/store'
 Vue.config.productionTip = false
@@ -18,8 +20,6 @@ initRichText();
 import Vuex from 'vuex';
 Vue.use(Vuex);
 
-import Promise from 'es6-promise';
-Promise.polyfill();
 
 // import ant from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.less'
@@ -170,9 +170,10 @@ Vue.prototype.$loadingfail = function loadingfail() {
   });
 };
 var baseurl = {
-  // api: "http://192.168.1.37:8085",//ceshi
-  api3: 'http://47.90.62.114:8083',//(前段服务器端口)
-  api: "http://47.90.62.114:8086",//(后台正式服务器端口)3
+  api: "http://192.168.1.37:8085",//ceshi
+  api3:'http://192.168.1.22',
+  // api3: 'http://47.90.62.114:8083',//(前段服务器端口)
+  // api: "http://47.90.62.114:8086",//(后台正式服务器端口)3
 }
 Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl = baseurl.api;

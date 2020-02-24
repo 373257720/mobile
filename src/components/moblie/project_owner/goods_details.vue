@@ -111,7 +111,8 @@ export default {
           {},
           this.details_lists,
           this.nav_lists,
-          []
+          {},
+          {}
         )
         .then(res => {
           console.log(res);
