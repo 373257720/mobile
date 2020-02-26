@@ -56,7 +56,6 @@ const global = {
     '9':'待投资者确认',
     '10':'签约成功',
     '11': "投资者已拒绝"
-
   },
   financingStage: {
     '0': '种子轮',
@@ -104,14 +103,15 @@ const global = {
           params: datas
         })
         .then((res) => {
-          let projectLifeCycle=res.data.data.projectLifeCycle;
-          let signAgreement = res.data.data.signAgreement;
-          let investorsEmailSend=res.data.data.investorsEmailSend;
-          let investorsId = res.data.data.investorsId;
-          let projectName = res.data.data.projectName;
-          let signUserId3=res.data.data.signUserId3;
-          let signUserId1=res.data.data.signUserId1;
-          let signAgreementKey = res.data.data.signAgreementKey;
+          let {projectLifeCycle,signAgreement,investorsEmailSend,investorsId,projectName,signUserId3,signUserId1,signAgreementKey}= res.data.data;
+          // let projectLifeCycle=res.data.data.projectLifeCycle;
+          // let signAgreement = res.data.data.signAgreement;
+          // let investorsEmailSend=res.data.data.investorsEmailSend;
+          // let investorsId = res.data.data.investorsId;
+          // let projectName = res.data.data.projectName;
+          // let signUserId3=res.data.data.signUserId3;
+          // let signUserId1=res.data.data.signUserId1;
+          // let signAgreementKey = res.data.data.signAgreementKey;
           for (let i in res.data.data) {
             if(details_lists.collectMoney.hasOwnProperty(i)){
               if (i == "collectMoneyMax"){

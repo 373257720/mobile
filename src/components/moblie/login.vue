@@ -6,10 +6,11 @@
     <div class="main">
       <p>{{remind}}</p>
       <!-- <van-form> -->
-      <div class="username common" v-if="$route.query.email">
-        <van-field v-model.trim="username" placeholder="电子邮箱" disabled />
-      </div>
-      <div class="username common" v-if="!$route.query.email">
+<!--      <div class="username common" v-if="$route.query.email">-->
+<!--        <van-field v-model.trim="username" placeholder="电子邮箱" disabled />-->
+<!--      </div>-->
+<!--      v-if="!$route.query.email"-->
+      <div class="username common" >
         <van-field v-model.trim="username" placeholder="电子邮箱" clearable />
       </div>
       <div class="password common">
@@ -21,7 +22,7 @@
       <!-- </van-form> -->
 
       <div class="registerbtn">
-        <button @click="$routerto('register')">注册新账号</button>
+        <button @click="$routerto('register',{email:username})">注册新账号</button>
       </div>
     </div>
   </div>
@@ -39,7 +40,7 @@ export default {
   created() {
     console.log(this.$restore_obj);
     if(this.$route.query.email){
-      this.username = this.$route.query.email;
+      this.username = this.$route.query.email?this.$route.query.email:'';
     }
 
     // console.log(this.$route.query.email);

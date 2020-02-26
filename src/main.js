@@ -33,8 +33,6 @@ import Spin from 'ant-design-vue/lib/spin';
 import 'ant-design-vue/lib/spin/style/css';
 Vue.use(Spin);
 import "./css/base.css"
-// import merge from 'webpack-merge';
-
 
 // import Vconsole from 'vconsole'
 // let vConsole = new Vconsole()
@@ -59,8 +57,8 @@ function deepCopy(obj) {
 };
 import {Dialog} from 'vant';
 Vue.use(Dialog);
-// import {Toast} from 'vant';
-// Vue.use(Toast);
+import {Toast} from 'vant';
+Vue.use(Toast);
 // Toast
 // console.log(Vant.Toast)
 // import moment from 'moment'
@@ -108,6 +106,7 @@ axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(res => {
   // isCloseLoading();
+
   if (res.data && res.data.resultCode) {
     let code = res.data.resultCode
     if (code == 10090) { // 如果是未登录直接踢出去
@@ -120,14 +119,15 @@ axios.interceptors.response.use(res => {
     return res
   }
 } ,error => {
-    // Toast.clear();
+  // console.log(Toast,Dialog)
+    Toast.clear();
     // isShowLoading = false
     // loadingCount = 0
-    Dialog.alert({
-      message: '网络异常，请稍后再试！',
-    }).then(() => {
-      location.href = '/'
-    });
+      Dialog.alert({
+        message: '网络异常，请稍后再试！',
+      }).then(() => {
+        location.href = '/'
+      });
     return Promise.reject(error)
   }
 )
@@ -153,7 +153,6 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
   })
 }
 Vue.prototype.$loading = function loading() {
-  // console.log(this);
   this.$toast.loading({
     loadingType: 'circular',
     overlay:true,
@@ -170,13 +169,16 @@ Vue.prototype.$loadingfail = function loadingfail() {
   });
 };
 var baseurl = {
-  api: "http://192.168.1.37:8085",//ceshi
-  api3:'http://192.168.1.22',
-  // api3: 'http://47.90.62.114:8083',//(前段服务器端口)
-  // api: "http://47.90.62.114:8086",//(后台正式服务器端口)3
+   // api: "http://192.168.1.37:8085",
+  // api3:'www.aaa.com',
+  api2:'http://47.90.62.114:8081',
+  api3: 'http://47.90.62.114:8083',//(前段服务器端口)
+  api: "http://47.90.62.114:8086",//(后台正式服务器端口)
 }
 Vue.prototype.$baseurl3 = baseurl.api3;
+Vue.prototype.$baseurl2 = baseurl.api2;
 Vue.prototype.$baseurl = baseurl.api;
+
 Vue.prototype.$global = global;
 import Router from 'vue-router'
 // console.log(Router.prototype);

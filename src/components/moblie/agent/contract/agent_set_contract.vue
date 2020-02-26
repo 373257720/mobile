@@ -1,5 +1,5 @@
 <template>
-      <router-view :contract.sync='contract' v-on:todad="fromkids" ></router-view>
+      <router-view :contract='contract' v-on:todad="fromkids" ></router-view>
 </template>
 <script>
   export default {
@@ -41,6 +41,7 @@
               if(str.hasOwnProperty(i)){
                 this.contract[i]=str[i];
               }
+
             }
             this.watch=true
           }

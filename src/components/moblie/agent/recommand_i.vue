@@ -252,10 +252,9 @@ export default {
               this.$dialog
                 .alert({
                   title: res.data.resultDesc,
-                  // message: "返回我的xi"
+                  message: "等待投行审核"
                 })
                 .then(() => {
-                  // let query1=Object.assign(this.$route.query,{signStatus:6})
                   this.$routerto("mysign")
                 });
             } else {

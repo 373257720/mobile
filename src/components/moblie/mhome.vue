@@ -95,7 +95,7 @@
             <footer>
               <button
                 v-if="usertype==1"
-                @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList6'][0].investorsIdList) })"
+                @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList10'][0].investorsIdList) })"
               >签约投资者资料 ( {{goods.signUserList['signUserList10'][0].signCount?goods.signUserList['signUserList10'][0].signCount:0}} )</button>
               <button
                 v-else-if="usertype==3"

@@ -2,14 +2,14 @@
   <div id="p_user_contact">
     <nav>
       <header>
-        <nav>
+
           联络人
-        </nav>
+
 
         <!-- <van-icon name="arrow-left" @click="$global.previous()" />联络人 -->
 <!--        <commonnav :msg="dad_text"></commonnav>-->
       </header>
-      <main>
+      <div>
         <van-search
           v-model="searchkey"
           placeholder="请输入搜索关键词"
@@ -22,7 +22,7 @@
             <van-icon name="search" />
           </div>
         </van-search>
-      </main>
+      </div>
     </nav>
       <ul>
         <li v-for="item in arr" :key="item.username" @click="$routerto('p_user_contact2',{investorsId:item.investorsId})">
@@ -184,7 +184,7 @@ export default {
 <style lang="scss" scoped>
 #p_user_contact {
   width: 100%;
- 
+  height: 100%;
   nav {
     width: 100%;
     text-align: center;

@@ -104,19 +104,10 @@
         let upload_urlpath = `${this.$baseurl3}/${code}/upload_contract?visitToken=${this.token}`;
         this.$toast.loading({
           loadingType: "spinner",
-          message: "上传大概需要1分钟,请耐心等候",
+          message: "上传大概需要1分钟，请耐心等候",
+          overlay:true,
           duration: 0
         });
-        // this.$axios({
-        //   method: "post",
-        //   url: `${this.$baseurl}/bsl_web/ipfs/update`,
-        //   data: {
-        //     signId: `${this.signId}`,
-        //     urlPath: `${urlpath}`,
-        //     projectId:this.projectId,
-        //     signUserId1:this.signUserId1
-        //   }
-        // })
           this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/ipfs/update`,{signId: `${this.signId}`,
             urlPath: `${upload_urlpath}`,
             projectId:this.projectId,
@@ -124,8 +115,8 @@
           .then(res => {
             this.$toast.clear();
             if (res.data.resultCode == 10000) {
-            let query1 = Object.assign({},this.$route.query,{signStatus: 5})
-            this.$router.push({qeury:query1})
+            // let query1 = Object.assign({},this.$route.query,{signStatus: 5})
+            this.$router.push({query:{signStatus:5}})
             this.$dialog
                 .alert({
                   title: res.data.resultDesc,
@@ -230,6 +221,8 @@
            height: 85%;
         }
       footer {
+
+        height: 10%;
         width: 100%;
         font-size: 0.42rem;
         button {

@@ -8,55 +8,61 @@
     <title>Document</title>
 </head>
 <body>
-    <table id="box" style="width: 580px;height:350px;
+<table id="box" style="width: 580px;height:450px;
      margin: auto;
     border-collapse:collapse; border-spacing:0px 10px;
     border:1px solid #cccccc;border-radius:5px;
   ">
-        <thead>
-            <tr>
-                <th colspan="2" height="100">
-                      请审核
-<!--                    <img style="width: 100px;height: 50px;" src="../../assets/f2c54dee46c853237c6ac91840de782.png"-->
-<!--                        alt="">-->
-                </th>
-            </tr>
-        </thead>
-        <tobody>
-<!--            <tr class="column" style="">-->
-<!--                <td style="text-align:center;vertical-align:top;">【投资银行】</td>-->
-<!--                <td style="padding:0;width: 430px;text-align:left;vertical-align:top;">你有一个投资项目，有中间人A把投行B推荐给你，同意吗-->
-<!--                </td>-->
-<!--            </tr>-->
-            <tr class="column" style="">
-                <td style="text-align:center;vertical-align:top;">【注册时间】</td>
-                <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
-                    你有一地方个大改动个投资项目，有中间人A把投行B推荐给你，同意吗</td>
-            </tr>
-            <tr class="column" style="margin-bottom: 15px;">
-                <td style="width: 120px;text-align:center;vertical-align:top;">【类型】</td>
-                <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
-                    你有一个投资项目，有中fdsfdfsdfsdfsdfsd间人A把投行B推荐给你，同意吗</td>
-            </tr>
-            <tr class="column" style="margin-bottom: 15px;">
-                <td style="width: 120px;text-align:center;vertical-align:top;">【注册邮箱】</td>
-                <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
-                    你有一个投资项目，有中间人A把投行B推荐给你，同意吗
-                </td>
-            </tr>
-            <tr class="column" style="">
-                <td colspan="2" style="text-align:center;vertical-align:center;">
-                    <a href="#" class="button" style="text-decoration:none;">
+  <thead>
+  <tr>
+    <th colspan="2" height="100">
+      <img style="width: 100px;height: 50px;" src="${this.email_pic}"
+           alt="">
+    </th>
+  </tr>
+  </thead>
+  <tobody>
+    <tr class="column" style="color: lightcoral">
+      <td style="text-align:center;vertical-align:top;">提示：</td>
+      <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+        您已收到新用户的个人信息提交，请尽快审核。
+      </td>
+    </tr>
+    <tr class="column" style="">
+      <td style="text-align:center;vertical-align:top;">【注册时间】</td>
+      <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+        ${signuptime}
+      </td>
+    </tr>
+    <tr class="column" style="margin-bottom: 15px;">
+      <td style="width: 120px;text-align:center;vertical-align:top;">【类型】</td>
+      <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+        ${userIdentityType}</td>
+    </tr>
+    <tr class="column" style="margin-bottom: 15px;">
+      <td style="width: 200px;text-align:center;vertical-align:top;">【个人/公司名字】</td>
+      <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+        ${userIdentityType_name}</td>
+    </tr>
+    <tr class="column" style="margin-bottom: 15px;">
+      <td style="width: 120px;text-align:center;vertical-align:top;">【注册邮箱】</td>
+      <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+        ${this.bslEmail}
+      </td>
+    </tr>
+    <tr class="column" style="">
+      <td colspan="2" style="text-align:center;vertical-align:center;">
+        <a href="${this.$baseurl2}/#/login" class="button" style="text-decoration:none;">
                         <span
-                            style="display:inline-block;border-radius:5px;text-decoration:none;width:200px;height:40px;background: #00B1F5;color:white;line-height:40px;">
-                            了解详情
+                          style="display:inline-block;border-radius:5px;text-decoration:none;width:250px;height:40px;background: #00B1F5;color:white;line-height:40px;">
+                            登录后管理系统台查看
                         </span>
-                    </a>
-                </td>
-            </tr>
-        </tobody>
+        </a>
+      </td>
+    </tr>
+  </tobody>
 
-    </table>
+</table>
 </body>
 
 </html>

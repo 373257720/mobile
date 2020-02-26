@@ -40,8 +40,16 @@
           <div>{{form.userCompanyCh}}</div>
         </li>
         <li v-if="form.userIdentityType==2">
+          <p>Company name:</p>
+          <div>{{form.userCompanyEn}}</div>
+        </li>
+        <li v-if="form.userIdentityType==2">
           <p>公司地址:</p>
           <div>{{form.userAddressCh}}</div>
+        </li>
+        <li v-if="form.userIdentityType==2">
+          <p>Company address:</p>
+          <div>{{form.userAddressEn}}</div>
         </li>
         <li class="idcard_left" v-if="form.userIdentityType==1">
           <p>{{switchon==true?'身份证正面':'护照'}}</p>

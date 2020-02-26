@@ -61,7 +61,7 @@
             </aside>
           </footer>
         </van-dialog>
-        
+
         <van-dialog v-model="correct_password" class="correct_password" show-cancel-button :beforeClose="correct_password_fun">
           <footer>
             <h4>修改密码</h4>
@@ -102,10 +102,10 @@ export default {
   },
   created() {
     this.$loading();
-    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getUserDetail`).then(res=>{
+    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getAuthDetails`).then(res=>{
       this.$toast.clear();
       if(res.data.resultCode==10000){
-            this.user_infor=res.data.data;
+            // this.user_infor=res.data.data;
               this.user_infor={};
             if(res.data.data.userType==1){
               this.user_infor.name=res.data.data.userName;
@@ -171,7 +171,7 @@ export default {
                 this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/updatePwd`,{newPwd:this.password1}).then(
                   res=> {
                     this.reminder=res.data.resultDesc;
-                    if(res.data.resultCode==10000){      
+                    if(res.data.resultCode==10000){
                          setTimeout(()=>{
                           this.password1='';
                           this.password2='';

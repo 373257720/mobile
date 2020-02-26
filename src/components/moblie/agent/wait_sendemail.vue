@@ -140,7 +140,7 @@ export default {
   created() {
     this.$loading();
     let details = this.$route.query;
-    thisagent_beforesend();
+    this.agent_beforesend();
     this.$global
       .goods_deatails(
         `${
@@ -207,7 +207,7 @@ export default {
                     <title>mobile</title>
                   </head>
           <body>
-              <table id="box" style="width: 580px;height:350px;
+              <table id="box" style="width: 580px;height:450px;
               margin: auto;
               border-collapse:collapse; border-spacing:0px 10px;
               border:1px solid #cccccc;border-radius:5px;
@@ -235,7 +235,7 @@ export default {
                       <tr class="column" style="margin-bottom: 15px;">
                           <td style="width: 120px;text-align:center;vertical-align:top;">【中间人】</td>
                           <td style="padding:0 20px 0 0;width: 430px;text-align:left;vertical-align:top;">
-                              ${this.custmoers_obj.userName4?this.custmoers_obj.userName14:''}</td>
+                              ${this.custmoers_obj.userName4?this.custmoers_obj.userName4:''}</td>
                       </tr>
                       <tr class="column" style="margin-bottom: 15px;">
                           <td style="width: 120px;text-align:center;vertical-align:top;">【项目方】</td>
@@ -253,7 +253,7 @@ export default {
                           <td colspan="2" style="text-align:center;vertical-align:center;">
                               <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}" class="button" style="text-decoration:none;">
                                   <span
-                                      style="display:inline-block;text-decoration:none;width:200px;height:40px;background: #00B1F5;color:white;line-height:40px;">
+                                      style="display:inline-block;border-radius:5px;text-decoration:none;width:200px;height:40px;background: #00B1F5;color:white;line-height:40px;">
                                       了解详情
                                   </span>
                               </a>

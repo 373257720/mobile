@@ -46,7 +46,7 @@
         lists:[],
         stauts_pic:{
           '10':"../../../static/pic/success.png",
-          '11':"../../../static/pic/failed.png",
+          '11':"../../../static/pic/false.png",
         }
       };
     },

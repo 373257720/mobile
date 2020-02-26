@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <!-- <div> -->
     <router-view :contract='contract' v-on:todad="fromkids" ></router-view>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>

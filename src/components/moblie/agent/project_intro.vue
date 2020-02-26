@@ -94,6 +94,11 @@ export default {
   },
   created() {
     this.details = this.$route.query;
+    if(this.$route.query.signStatus>=5){
+      this.dad_text="推荐投资者"
+    }else{
+      this.dad_text="项目简介"
+    }
     this.$loading();
     this.$global
       .goods_deatails(
@@ -133,7 +138,6 @@ export default {
                 message: "申请获处理后，请于待签约项目中签署确认条款。"
               })
               .then(() => {
-                  // let query1=Object.assign({},that.details,{signStatus:1})
                   this.$routerto("mysign")
               })
         }else{

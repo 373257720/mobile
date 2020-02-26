@@ -19,6 +19,9 @@
   </div>
 </template>
 <script>
+  import router from "../../../router";
+
+  console.log(this)
 export default {
   name: "goods_details",
   data() {
@@ -101,6 +104,7 @@ export default {
     };
   },
   created() {
+
     this.details = this.$route.query;
     this.$loading();
     this.$global
@@ -120,17 +124,30 @@ export default {
         {}
       )
       .then(res => {
-        console.log(res);
+        this.$toast.clear();
+        this.title = res.title;
+        if(res.projectLifeCycle==-1){
+          this.$dialog
+            .alert({
+              title: "项目已不存在,请确认是否刪除",
+              // message: "弹窗内容"
+            })
+            .then(() => {
+                this.$router.go(-1);
 
+            })
+          return
+        }
         this.$store.dispatch(
           "contract_agentsign",
           JSON.parse(res.signAgreement)
         );
-        this.title = res.title;
-        this.$toast.clear();
+
+
       });
   },
   methods: {
+
     reminder() {
       this.$dialog
         .confirm({

@@ -189,6 +189,9 @@ export default {
         userType: null,
         // identity: ""
       },
+      createTime:'',//注册时间
+      email_pic:'',
+      bslEmail:'',
       // rules: {
       //   userType: [
       //     {required: true, message: '请选择' ,trigger: "change" }
@@ -219,10 +222,16 @@ export default {
   created() {
       this.form.userType=1;
       this.ulHtml('');
-       this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getAuthDetails`).then(res=>{
-         // console.log(res)
-
+      this.$loading();
+       this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getUserDetail`).then(res=>{
+         this.$toast.clear();
+          if(res.data.resultCode==10000){
+            this.createTime=res.data.data.createTime;
+            this.email_pic=res.data.data.picUrl?res.data.data.picUrl:'';
+            this.bslEmail=res.data.data.bslEmail?res.data.data.bslEmail:'';
+          }
        })
+
     // this.validator = validator(this.rules, this.form);
 
   },
@@ -240,6 +249,9 @@ export default {
         }
   },
   methods: {
+    signer_submit(){
+
+    },
     search(val){
          if (timeout) {
           clearTimeout(timeout);
@@ -267,6 +279,7 @@ export default {
       this.countrylist=[];
       let arr=[];
       this.coutry_fetching = true
+
       this.$global.changepage(`${this.$baseurl}/bsl_web/base/countryList.do?searchKey=${val}`, "get")
       .then(res => {
          if(res.data.data.length>0){
@@ -396,11 +409,16 @@ export default {
     commit() {
       console.log(this.form);
       let userIdentityType;
+      let userIdentityType_name;
       if(this.form.userIdentityType==1){
         userIdentityType="个人";
+        userIdentityType_name=this.form.userName;
       }else if(this.form.userIdentityType==2){
          userIdentityType="公司";
+        userIdentityType_name=this.form.userCompanyEn;
       }
+      let signuptime=this.createTime?this.$global.timestampToTime(this.createTime):'';
+
       this.form.emailData=`<html lang="en">
 
 <head>
@@ -410,7 +428,7 @@ export default {
     <title>Document</title>
 </head>
 <body>
-    <table id="box" style="width: 580px;height:350px;
+    <table id="box" style="width: 580px;height:450px;
      margin: auto;
     border-collapse:collapse; border-spacing:0px 10px;
     border:1px solid #cccccc;border-radius:5px;
@@ -418,16 +436,22 @@ export default {
         <thead>
             <tr>
                 <th colspan="2" height="100">
-                      请审核
-<!--                    <img style="width: 100px;height: 50px;" src="../../assets/f2c54dee46c853237c6ac91840de782.png"-->
-<!--                        alt="">-->
+                    <img style="width: 100px;height: 50px;" src="${this.email_pic}"
+                        alt="">
                 </th>
             </tr>
         </thead>
         <tobody>
+             <tr class="column" style="color: lightcoral">
+                <td style="text-align:center;vertical-align:top;">提示：</td>
+                <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+                您已收到新用户的个人信息提交，请尽快审核。
+              </td>
+            </tr>
             <tr class="column" style="">
                 <td style="text-align:center;vertical-align:top;">【注册时间】</td>
                 <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+                ${signuptime}
               </td>
             </tr>
             <tr class="column" style="margin-bottom: 15px;">
@@ -435,18 +459,23 @@ export default {
                 <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
                     ${userIdentityType}</td>
             </tr>
+             <tr class="column" style="margin-bottom: 15px;">
+                <td style="width: 120px;text-align:center;vertical-align:top;">【个人/公司名字】</td>
+                <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+                    ${userIdentityType_name}</td>
+            </tr>
             <tr class="column" style="margin-bottom: 15px;">
                 <td style="width: 120px;text-align:center;vertical-align:top;">【注册邮箱】</td>
                 <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
-
+                        ${this.bslEmail}
                 </td>
             </tr>
             <tr class="column" style="">
                 <td colspan="2" style="text-align:center;vertical-align:center;">
-                    <a href="#" class="button" style="text-decoration:none;">
+                    <a href="${this.$baseurl2}/#/login" class="button" style="text-decoration:none;">
                         <span
-                            style="display:inline-block;border-radius:5px;text-decoration:none;width:200px;height:40px;background: #00B1F5;color:white;line-height:40px;">
-                            了解详情
+                            style="display:inline-block;border-radius:5px;text-decoration:none;width:250px;height:40px;background: #00B1F5;color:white;line-height:40px;">
+                            登录后管理系统台查看
                         </span>
                     </a>
                 </td>
@@ -476,7 +505,9 @@ export default {
                 message: "点击返回登录页"
               })
               .then(() => {
-                this.$goto("login");
+                this.$router.replace({  //核心语句
+                  path:'/mhome',   //跳转的路径
+                })
               });
             // this.success = !this.success;
           } else {
