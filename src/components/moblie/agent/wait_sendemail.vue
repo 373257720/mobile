@@ -158,7 +158,7 @@ export default {
         {}
       )
       .then(res => {
-        // console.log(res);
+        console.log(res);
         this.title = res.title;
         // this.investorsId = res.investorsId;
         this.$toast.clear();
@@ -167,7 +167,8 @@ export default {
   methods: {
     cancel() {
       this.show2 = false;
-           this.show='';
+       this.show='';
+       this.emailadress=''
     },
     // 提交
     summit() {
@@ -182,12 +183,25 @@ export default {
           if (res.data.resultCode == 10000) {
             this.investorsId = res.data.data.investorsId;
             this.custmoers_obj = res.data.data;
-            console.log(this.custmoers_obj);
+
           }
       });
     },
     submit_email() {
     this.show='';
+      console.log(this.custmoers_obj);
+      let companyname;
+      let agent_name;
+      if(this.custmoers_obj.userIdentityType1==2){
+        companyname=this.custmoers_obj.userCompanyEn1
+      }else if(this.custmoers_obj.userIdentityType1==1){
+        companyname=this.custmoers_obj.userName1
+      }
+      if(this.custmoers_obj.userIdentityType4==1){
+        agent_name=this.custmoers_obj.userName4;
+      }else if(this.custmoers_obj.userIdentityType4==2){
+        agent_name=this.custmoers_obj.userCompanyEn4;
+      }
     var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
     if(reg.test(this.emailadress)) {
         this.$loading();
@@ -198,16 +212,17 @@ export default {
           signId: this.$route.query.signId,
           memberEmail: this.emailadress,
           investorsId: this.investorsId,
-          emailData: `<html lang="en" style="width: 100%;margin: 0;padding: 0;
+          emailData:
+            `<html lang="en" style="width: 100%;margin: 0;padding: 0;
             height: 100%;">
-                    <head>
+               <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <meta http-equiv="X-UA-Compatible" content="ie=edge">
                     <title>mobile</title>
                   </head>
           <body>
-              <table id="box" style="width: 580px;height:350px;
+              <table id="box" style="width: 580px;height:450px;
               margin: auto;
               border-collapse:collapse; border-spacing:0px 10px;
               border:1px solid #cccccc;border-radius:5px;
@@ -235,12 +250,12 @@ export default {
                       <tr class="column" style="margin-bottom: 15px;">
                           <td style="width: 120px;text-align:center;vertical-align:top;">【中间人】</td>
                           <td style="padding:0 20px 0 0;width: 430px;text-align:left;vertical-align:top;">
-                              ${this.custmoers_obj.userName4?this.custmoers_obj.userName14:''}</td>
+                              ${agent_name}</td>
                       </tr>
                       <tr class="column" style="margin-bottom: 15px;">
                           <td style="width: 120px;text-align:center;vertical-align:top;">【项目方】</td>
                           <td style="padding:0 20px 0 0;width: 400px;text-align:left;vertical-align:top;">
-                              ${this.custmoers_obj.userName1?this.custmoers_obj.userName1:''}
+                              ${companyname}
                           </td>
                       </tr>
                     <tr class="column" style="margin-bottom: 15px;color: lightcoral">
@@ -253,7 +268,7 @@ export default {
                           <td colspan="2" style="text-align:center;vertical-align:center;">
                               <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}" class="button" style="text-decoration:none;">
                                   <span
-                                      style="display:inline-block;text-decoration:none;width:200px;height:40px;background: #00B1F5;color:white;line-height:40px;">
+                                      style="display:inline-block;border-radius:5px;text-decoration:none;width:200px;height:40px;background: #00B1F5;color:white;line-height:40px;">
                                       了解详情
                                   </span>
                               </a>
@@ -265,7 +280,6 @@ export default {
 
               </table>
           </body>
-
           </html>`
         })
       }).then(res => {

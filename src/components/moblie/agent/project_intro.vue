@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       title: "",
-      dad_text: "",
+      dad_text: "项目简介",
       nav_lists: {
         financingStage: {
           name: "融资阶段",
@@ -95,7 +95,7 @@ export default {
   created() {
     this.details = this.$route.query;
     if(this.$route.query.signStatus>=5){
-      this.dad_text="待发送邀请给投资者"
+      this.dad_text="推荐投资者"
     }else{
       this.dad_text="项目简介"
     }
@@ -138,7 +138,6 @@ export default {
                 message: "申请获处理后，请于待签约项目中签署确认条款。"
               })
               .then(() => {
-                  // let query1=Object.assign({},that.details,{signStatus:1})
                   this.$routerto("mysign")
               })
         }else{
@@ -195,10 +194,21 @@ export default {
         padding: 0.4rem;
         box-sizing: border-box;
         word-break: break-all;
+        display:-webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
         display: -webkit-flex;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        -webkit-justify-content:center;
+        justify-content:center;
+        -moz-box-pack:center;
+        -webkit--moz-box-pack:center;
+        box-pack:center;
+        align-items:center;
+-webkit-align-items:center;
+box-align:center;
+-moz-box-align:center;
+-webkit-box-align:center;
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
@@ -210,10 +220,23 @@ export default {
         padding: 0 0.5rem 0 0.5rem;
         aside {
           height: 2.5rem;
+          display:-webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
           display: flex;
           font-size: 0.42rem;
-          flex-direction: column;
-          justify-content: space-between;
+          -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -moz-box-orient:vertical;
+    -moz-box-direction:normal;
+    flex-direction:column;
+    -webkit-flex-direction:column;
+    -webkit-justify-content:space-between;
+justify-content:space-between;
+-moz-box-pack:space-between;
+-webkit--moz-box-pack:space-between;
+box-pack:space-between;
           button {
             height: 1rem;
             color: #ffffff;

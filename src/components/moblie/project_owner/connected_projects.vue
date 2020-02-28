@@ -14,10 +14,16 @@
              <ul class="item">
                <li v-for="(item,index) in l.investorsResp" :key="index" class="item_li">
                  <p><span>{{index+1}}</span></p>
-                 <p><span>{{item.investorsName}}</span></p>
+                 <p><span>{{item.userIdentityType==1?item.userName:item.userIdentityType==2?item.userCompany:''}}</span></p>
                  <ul >
-                   <li v-for="(value,key) in item">
-                     {{value}}
+                   <li>
+                     {{item.investorsEmail}}
+                   </li>
+                   <li>
+                     {{item.investorsType==1?item.investorsName:item.investorsType==2?item.investorsCompany:''}}
+                   </li>
+                   <li>
+                     {{item.investorsCompanyAddress}}
                    </li>
                  </ul>
                  <p>
@@ -46,7 +52,7 @@
         lists:[],
         stauts_pic:{
           '10':"../../../static/pic/success.png",
-          '11':"../../../static/pic/failed.png",
+          '11':"../../../static/pic/false.png",
         }
       };
     },
@@ -67,18 +73,41 @@
             if(this.lists.length<=0){
               this.reminder='没有更多了';
               this.remind_show=true;
-              return
+              return;
             }
             this.reminder='';
+
             this.lists.forEach((item=>{
-              item.investorsResp =  item.investorsResp.map(x=>{
+              if(item.projectLan== "zh_CN"){
+                item.investorsResp =  item.investorsResp.map(x=>{
                   return  {
-                        investorsEmail: x.investorsEmail,
-                        investorsName: x.investorsName,
-                        investorsCompanyAddress: x.investorsCompanyAddress,
-                        signStatus:x.signStatus
-                      }
-              })
+                    investorsEmail: x.investorsEmail,
+                    investorsName: x.investorsName,
+                    investorsType:x.investorsType,
+                    userIdentityType:x.userIdentityType,
+                    investorsCompanyAddress: x.investorsCompanyAddress,
+                    investorsCompany:x.investorsCompany,
+                    signStatus:x.signStatus,
+                    userCompany:x.userCompanyCh,
+                    userName:x.userName
+                  }
+                })
+              }else if(item.projectLan== "en_US"){
+                item.investorsResp =  item.investorsResp.map(x=>{
+                  return  {
+                    investorsEmail: x.investorsEmail,
+                    investorsName: x.investorsName,
+                    investorsType:x.investorsType,
+                    userIdentityType:x.userIdentityType,
+                    investorsCompanyAddress: x.investorsCompanyAddress,
+                    investorsCompany:x.investorsCompany,
+                    signStatus:x.signStatus,
+                    userCompany:x.userCompanyEn,
+                    userName:x.userName
+                  }
+                })
+              }
+
             }))
 
             console.log(this.lists)

@@ -1,4 +1,3 @@
-
 import Vue from 'vue'
 import VueHtml5Editor from 'vue-html5-editor'
 export default function () {
@@ -26,7 +25,7 @@ export default function () {
     },
     // 配置图片模块
     image: {
-      // 文件最大体积，单位字节  
+      // 文件最大体积，单位字节
       sizeLimit: 512 * 1024 * 10,
       // 上传参数,默认把图片转为base64而不上传
       // upload config,default null and convert image to base64
@@ -108,7 +107,7 @@ export default function () {
     visibleModules: [
     //   "text",
     //   "color",
-      "font",
+      // "font",
       "align",
     //   "list",
     //   "link",

@@ -1,7 +1,7 @@
 <template>
   <div id="p_set_contract">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签署合约
+      <van-icon name="arrow-left" @click="$router.go(-1)" />签署合约
     </nav>
     <main>
       <article>
@@ -47,9 +47,9 @@
       <div class="sub_title">
         <header>Contract:</header>
         <div>
-           <vue-html5-editor :content="contract.article" :height="400"  
-            @change="updateData"></vue-html5-editor> 
-          <!-- <textarea v-model="contract.article"  placeholder="请输入"></textarea> -->
+           <!-- <vue-html5-editor :content="contract.article" :height="400"
+            @change="updateData"></vue-html5-editor> -->
+          <textarea v-model="contract.article"  placeholder="请输入"></textarea>
         </div>
       </div>
         <footer>
@@ -118,10 +118,10 @@ export default {
   },
   computed: {},
   methods: {
-     updateData(e = ''){  
-        // console.log(e);
-            this.contract.article = e;  
-            // console.info(e);  
+     updateData(e){
+           // console.log(e);
+            this.contract.article = e;
+            console.log(this.contract.article);
       } ,
     signature() {
       if(this.contract.owner_behalf==''){
@@ -166,12 +166,12 @@ export default {
     z-index: 0 !important;
   }
   .vue-html5-editor>.content{
-       background: #f6f6f6;
+      //  background: #f6f6f6;
     max-height:4rem;
   }
   .vue-html5-editor {
     border: 1px solid #a9a9a9;
-    
+
 }
   nav {
     position: relative;
@@ -245,7 +245,9 @@ export default {
     textarea {
       // background: #f2f2f2;
       box-sizing: border-box;
-      font-size: 0.38rem;
+      font-size: 12px;
+      // background: #f6f6f6;
+      color:black;
       line-height: 0.56rem;
       padding: 0.3rem 0.4rem;
       /*color: rgb(169, 169, 169);*/

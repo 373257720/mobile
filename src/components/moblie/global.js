@@ -56,7 +56,6 @@ const global = {
     '9':'待投资者确认',
     '10':'签约成功',
     '11': "投资者已拒绝"
-
   },
   financingStage: {
     '0': '种子轮',
@@ -104,6 +103,7 @@ const global = {
           params: datas
         })
         .then((res) => {
+          // let {projectLifeCycle,signAgreement,investorsEmailSend,investorsId,projectName,signUserId3,signUserId1,signAgreementKey}= res.data.data;
           let projectLifeCycle=res.data.data.projectLifeCycle;
           let signAgreement = res.data.data.signAgreement;
           let investorsEmailSend=res.data.data.investorsEmailSend;
@@ -178,6 +178,7 @@ const global = {
   cleanall() {
     this.$goto("login");
     sessionStorage.clear();
+    // localStorage.clear()
 
   }
 

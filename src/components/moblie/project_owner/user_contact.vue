@@ -2,14 +2,14 @@
   <div id="p_user_contact">
     <nav>
       <header>
-        <nav>
+
           联络人
-        </nav>
+
 
         <!-- <van-icon name="arrow-left" @click="$global.previous()" />联络人 -->
 <!--        <commonnav :msg="dad_text"></commonnav>-->
       </header>
-      <main>
+      <div>
         <van-search
           v-model="searchkey"
           placeholder="请输入搜索关键词"
@@ -22,19 +22,20 @@
             <van-icon name="search" />
           </div>
         </van-search>
-      </main>
+      </div>
     </nav>
-      <ul>
+      <ul v-if="arr && arr.length>0">
         <li v-for="item in arr" :key="item.username" @click="$routerto('p_user_contact2',{investorsId:item.investorsId})">
           <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
           <!-- <h2></h2> -->
           <p>
-            <span>{{item.userName}}</span>
+            <span>{{item.userIdentityType==1? item.userName:item.userIdentityType==2?item.userCompany:''}}</span>
             <span>{{item.bslEmail}}</span>
             <!-- <van-icon name="arrow" /> -->
           </p>
         </li>
       </ul>
+    <div v-else-if="arr.length<1" class="nodata">没有更多信息</div>
     <mbottom></mbottom>
   </div>
 </template>
@@ -184,7 +185,7 @@ export default {
 <style lang="scss" scoped>
 #p_user_contact {
   width: 100%;
- 
+  height: 100%;
   nav {
     width: 100%;
     text-align: center;
@@ -196,6 +197,11 @@ export default {
     font-size: 0.46rem;
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
+  }
+  .nodata{
+    text-align: center;
+    padding-top: 5rem;
+    color: #646566;
   }
   ul {
     padding: 3rem 0 1.5rem 0;
@@ -210,6 +216,7 @@ export default {
       align-items: center;
       // border-bottom: 0.01rem solid #b5b5b5;
       font-size: 0.3rem;
+
       h2 {
         font-size: 0.32rem;
         font-weight: 600;

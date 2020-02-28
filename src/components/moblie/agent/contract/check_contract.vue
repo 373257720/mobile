@@ -46,9 +46,9 @@
         </div>
            <div class="sub_title">
           <header>Contract:</header>
-<!--          <div>-->
+          <div class="dad_contract">
                   <contractcomponent :contract="contract"></contractcomponent>
-<!--          </div>-->
+          </div>
         </div>
 
         <footer>
@@ -139,6 +139,7 @@ export default {
 <style lang="scss" scoped>
 #a_check_contract {
   width: 100%;
+  height: 100%;
   nav {
     width: 100%;
     text-align: center;
@@ -167,15 +168,18 @@ export default {
         font-size: 0.38rem;
         line-height: 1rem;
         padding: 0.2rem;
-        /*box-sizing: border-box !important;*/
         height: 1rem;
         width: 100%;
         /*height: 13rem;*/
         border: 1px solid rgb(169, 169, 169);
       }
     }
+    div.dad_contract{
+        height: 15rem;
+    }
     footer {
       width: 100%;
+      padding-bottom: 2rem;
       font-size: 0.42rem;
       button {
         width: 100%;

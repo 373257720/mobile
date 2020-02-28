@@ -15,7 +15,7 @@
             <img src="../../assets/6d991a52e05250a2570d768f8cc1e3e.png" alt />
             <span>个人审核</span>
           </p>
-          <van-icon name="arrow" />
+          <van-icon name="arrow"/>
         </li>
         <li @click="switch_language">
           <p>
@@ -224,7 +224,6 @@ export default {
           .then(res => {
             console.log(res);
             if (res.data.resultCode == 10000) {
-              // window.location.reload();
                this.$store.dispatch("reset_actions",this.$restore_obj)
               // window.addEventListener("onunload", () => {
               //   console.log("onunload！！！！！");

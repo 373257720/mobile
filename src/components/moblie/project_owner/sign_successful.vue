@@ -50,14 +50,11 @@ export default {
           name: "投资者电话:",
           response: ""
         },
-        investorsEmailSend: {
+        investorsEmail: {
           name: "投资者邮箱:",
           response: ""
         },
-         investorsEmailSend: {
-          name: "投资者邮箱:",
-          response: ""
-        }
+
       },
       nav_lists: {
         financingStage: {

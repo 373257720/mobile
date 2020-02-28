@@ -228,7 +228,7 @@ export default {
           padding: 0;
           // border-radius: 0.1rem;
           border: 1px solid #d9d9d9;
-          height: 3rem;
+          height: 5rem;
           overflow: hidden;
           img {
             width: 100%;

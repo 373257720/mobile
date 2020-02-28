@@ -1,19 +1,19 @@
+
 <template>
   <div id="p_submit_contract">
-    <div class="p_submit_contract">
       <nav class="p_submit_contract">
-        <van-icon name="arrow-left" @click="$global.previous()" />签署合约
+        <van-icon name="arrow-left" @click="$router.go(-1)" />签署合约
       </nav>
       <main>
         <article>
           <contractcomponent :contract="contract"></contractcomponent>
           <footer>
-            <button @click="contract_submit">提交</button>
+            <button @click="contract_submit">提 交</button>
           </footer>
         </article>
       </main>
       <mbottom></mbottom>
-    </div>
+
   </div>
 </template>
 <script>
@@ -22,21 +22,21 @@ export default {
   props:['contract'],
   data() {
     return {
+      projectId:'',
+      signId:'',
     };
   },
   // beforeRouteEnter:(to,from,next)=>{
   //     if(from.name=="p_sign_contract" ||from.name=="p_submit_contract"){
   //       next()
   //     }else{
-  //       next(false);
+  //       next();
   //     }
   //     // next(vm=>{
   //     //     alert(vm.num)
   //     // })
   // },
-  created() {
-    console.log(this.contract)
-  },
+
   computed: {
   },
   mounted() {
@@ -52,25 +52,30 @@ export default {
               // message: "弹窗内容"
             })
             .then(() => {
-                this.$routerto('p_set_contract',this.$route.query)
+                this.$router.go(-2);
             });
             return;
         }
-      }
-        this.$loading();
+      };
+      let projectId=this.$route.query.projectId?this.$route.query.projectId*1:-1;
+      let signId=this.$route.query.signId?this.$route.query.signId*1:-1;
+      console.log(projectId,signId)
+      console.log(this.contract);
+      this.$loading();
+      if(projectId){
         this.$axios({
           method: "post",
           url: `${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,
-          data: this.$qs.stringify({
-            projectId: this.$route.query.projectId,
-            signId: this.$route.query.signId,
+          data: {
+            projectId: projectId,
+            signId: signId,
             signStatus: 2,
             signAgreement: JSON.stringify(this.contract)
-          })
+          }
         }).then(res => {
+          console.log(res)
           this.$toast.clear();
-          if (res.data.resultCode == 10000) { 
-            // this.$router.push({query:{signStatus: 2}})
+          if (res.data.resultCode == 10000) {
             this.$dialog
               .alert({
                 title: res.data.resultDesc,
@@ -86,7 +91,7 @@ export default {
                 message: "您的注册审核不通过，请前往我的-个人审核里修改"
               })
               .then(() => {
-                 this.$routerto("mysign");
+                this.$routerto("mysign");
               });
           }else{
             this.$dialog
@@ -95,10 +100,14 @@ export default {
                 message: "返回我的项目",
               })
               .then(() => {
-                  this.$routerto("mysign");
+                this.$routerto("mysign");
               });
           }
         });
+      }else {
+        console.log('没有projectid')
+      }
+
     }
   }
 };
@@ -133,36 +142,61 @@ export default {
 
 </style>
 <style lang="scss" scoped>
-#p_submit_contract {
-  width: 100%;
-  nav.p_submit_contract {
+
+ #p_submit_contract {
     width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    z-index: 5;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
-  main {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-    padding: 0.5rem;
-    background: #ffffff;
-    footer {
+      height: 100%;
+    padding: 1.5rem 0 1.3rem 0;
+    nav.p_submit_contract{
       width: 100%;
-      font-size: 0.42rem;
-      button {
+      height: 100%;
+      text-align: center;
+      line-height: 1.5rem;
+      height: 1.5rem;
+      position: fixed;
+      top: 0;
+      z-index: 5;
+      font-size: 0.46rem;
+      background: white;
+      border-bottom: 0.1rem solid #b5b5b5;
+    }
+    div.middle {
+      /*margin: 0 0.5rem;*/
+      box-sizing: border-box;
+    }
+    main {
+      // margin-top: 1.5rem;
+      // margin-bottom: 1.5rem;
+      padding: 0.5rem;
+      height: 100%;
+      width: 100%;
+      background: #ffffff;
+      article{
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+        >div{
+           height: 85%;
+        }
+      footer {
         width: 100%;
-        margin-top: 1rem;
-        background: #00adef;
-        color: white;
-        height: 1rem;
+        font-size: 0.42rem;
+        button {
+          width: 100%;
+          background: #00adef;
+          line-height: 1rem;
+          color: white;
+          height: 1rem;
+        }
+        .blockchain {
+          background: orange;
+        }
       }
+
+      }
+
     }
   }
-}
 </style>

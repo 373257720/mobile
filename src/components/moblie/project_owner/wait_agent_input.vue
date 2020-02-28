@@ -135,9 +135,19 @@
           {}
         )
         .then(res => {
-          console.log(res);
-          this.title = res.title;
           this.$toast.clear();
+          this.title = res.title;
+          if(res.projectLifeCycle==-1){
+            this.$dialog
+              .alert({
+                title: "该项目已删除",
+              })
+              .then(() => {
+                // this.$routerto("mysign");
+                this.$router.go(-1)
+              });
+          }
+          console.log(res);
         });
     },
     methods: {

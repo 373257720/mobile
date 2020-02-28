@@ -10,7 +10,7 @@
                     class="row2"
                     v-model="item.response"
                     autosize
-                
+
                     type="textarea"
                   /> -->
                   <p class="row2">{{item.response}}</p>
@@ -23,7 +23,7 @@
               <p class="row1">{{item.name}}</p>
               <p class="row2" >{{item.response}}</p>
             </div>
-          
+
           </li>
         </ul>
       </article>
@@ -55,7 +55,7 @@ export default {
   .common_details{
 
   }
- 
+
 }
 </style>
 <style lang="scss" scoped>
@@ -91,18 +91,19 @@ export default {
             color: #4c4c4c;
             font-weight: 600;
             font-size: 0.46rem;
+              margin-bottom: 0.2rem;
             width: 2.5rem;
             }
             .row2{
               color: #787878;
              white-space: pre-wrap;       /* css-3 */
               white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-              white-space: -pre-wrap;      /* Opera 4-6 */
-              white-space: -o-pre-wrap; 
+              /*white-space: -pre-wrap;      !* Opera 4-6 *!*/
+              white-space: -o-pre-wrap;
             }
-  
+
          }
-      
+
 
         }
       }

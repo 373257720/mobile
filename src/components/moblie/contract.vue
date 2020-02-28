@@ -1,14 +1,14 @@
 <template>
   <div id="contract_component">
     <div class="contract_component">
-      <!-- <van-field
-        class="middle"
-        v-model="contract.article"
-        autosize
-        readonly
-        type="textarea"
-      /> -->
-      <div class="middle" v-html="contract.article"></div>
+<!--      <van-field-->
+<!--        class="middle"-->
+<!--        v-model="contract.article"-->
+<!--        autosize-->
+<!--        readonly-->
+<!--        type="textarea"-->
+<!--      />-->
+      <div class="middle">{{contract.article}}</div>
       <div class="button">
         <ul>
           <li>
@@ -153,7 +153,7 @@
     .contract_component {
       border: 1px solid #b5b5b5;
       box-sizing: border-box;
-      font-size: 0.4rem;
+      font-size: 12px;
       line-height: 0.6rem;
       /*background: #f6f6f6;*/
       padding: 0.4rem 0.4rem;
@@ -163,15 +163,14 @@
       color: black;
       word-wrap: break-word;
       .middle{
-        /*min-height: 40%;*/
         min-height: 5rem;
-        // background: none;
-        // border: 0;
-        // width: 100%;
-        //  white-space: pre-wrap;       /* css-3 */
-        //     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-        //     white-space: -pre-wrap;      /* Opera 4-6 */
-        //     white-space: -o-pre-wrap;
+         background: none;
+        border: 0;
+       width: 100%;
+          white-space: pre-wrap;      // !* css-3 *!*/
+           white-space: -moz-pre-wrap; // !* Mozilla, since 1999 *!*/
+           /*white-space: -pre-wrap;    //  !* Opera 4-6 *!*!*/
+        white-space: -o-pre-wrap;
       }
       div.button {
         margin-top: 1rem;

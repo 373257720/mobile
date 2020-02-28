@@ -382,40 +382,79 @@ export default {
       if (file.type !== "image/jpeg") {
         this.$toast("请上传 jpg 格式图片");
         return false;
-      }
+      };
       let formData = new FormData();
       formData.append("file", file);
-      this.$axios({
-        method: "post",
-        url: `${this.$baseurl}/bsl_web/upload/pic.do`,
-        data: formData,
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      }).then(res => {
-        var imgurl = res.data.data.url;
-        console.log(imgurl);
-        if (index == 1) {
-          this.form.identityPicOne = imgurl;
-        } else if (index == 2) {
-          this.form.identityPicTwo = imgurl;
-        } else if (index == 3) {
-          this.form.userCompanyPic = imgurl;
-        }
-        // console.log(this.form.userCompanyPic);
-      });
-      return true;
+      this.$loading();
+     return  new Promise((resolve, reject) => {
+        this.$axios({
+          method: "post",
+          url: `${this.$baseurl}/bsl_web/upload/pic.do`,
+          data: formData,
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }).then(res => {
+          this.$toast.clear();
+          if(res.data.resultCode==10000){
+            var imgurl = res.data.data.url;
+            console.log(imgurl);
+            if (index == 1) {
+              this.form.identityPicOne = imgurl;
+            } else if (index == 2) {
+              this.form.identityPicTwo = imgurl;
+            } else if (index == 3) {
+              this.form.userCompanyPic = imgurl;
+            }
+            resolve(true)
+          }else{
+            this.$toast(res.data.resultDesc);
+            reject(res.data.resultDesc)
+          }
+        }).catch(err => {
+          this.$toast('系统异常');
+          reject(err)
+        });
+      })
+    // return true;
+      // this.$axios({
+      //   method: "post",
+      //   url: `${this.$baseurl}/bsl_web/upload/pic.do`,
+      //   data: formData,
+      //   headers: {
+      //     "Content-Type": "multipart/form-data"
+      //   }
+      // }).then(res => {
+      //   if(res.data.resultCode==10000){
+      //     var imgurl = res.data.data.url;
+      //     console.log(imgurl);
+      //     if (index == 1) {
+      //       this.form.identityPicOne = imgurl;
+      //     } else if (index == 2) {
+      //       this.form.identityPicTwo = imgurl;
+      //     } else if (index == 3) {
+      //       this.form.userCompanyPic = imgurl;
+      //     }
+      //
+      //   }else{
+      //     this.$toast(res.data.resultDesc);
+      //   }
+      //   // console.log(this.form.userCompanyPic);
+      // });
+      // return true;
     },
     commit() {
       console.log(this.form);
       let userIdentityType;
+      let userIdentityType_name;
       if(this.form.userIdentityType==1){
         userIdentityType="个人";
+        userIdentityType_name=this.form.userName;
       }else if(this.form.userIdentityType==2){
-         userIdentityType="公司";''
+         userIdentityType="公司";
+        userIdentityType_name=this.form.userCompanyEn;
       }
       let signuptime=this.createTime?this.$global.timestampToTime(this.createTime):'';
-
       this.form.emailData=`<html lang="en">
 
 <head>
@@ -425,7 +464,7 @@ export default {
     <title>Document</title>
 </head>
 <body>
-    <table id="box" style="width: 580px;height:350px;
+    <table id="box" style="width: 580px;height:450px;
      margin: auto;
     border-collapse:collapse; border-spacing:0px 10px;
     border:1px solid #cccccc;border-radius:5px;
@@ -446,18 +485,23 @@ export default {
               </td>
             </tr>
             <tr class="column" style="">
-                <td style="text-align:center;vertical-align:top;">【注册时间】</td>
+                <td style="width: 180px;text-align:center;vertical-align:top;">【注册时间】</td>
                 <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
                 ${signuptime}
               </td>
             </tr>
             <tr class="column" style="margin-bottom: 15px;">
-                <td style="width: 120px;text-align:center;vertical-align:top;">【类型】</td>
+                <td style="width: 180px;text-align:center;vertical-align:top;">【类型】</td>
                 <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
                     ${userIdentityType}</td>
             </tr>
+             <tr class="column" style="margin-bottom: 15px;">
+                <td style="width: 180px;text-align:center;vertical-align:top;">【个人/公司名字】</td>
+                <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
+                    ${userIdentityType_name}</td>
+            </tr>
             <tr class="column" style="margin-bottom: 15px;">
-                <td style="width: 120px;text-align:center;vertical-align:top;">【注册邮箱】</td>
+                <td style="width: 180px;text-align:center;vertical-align:top;">【注册邮箱】</td>
                 <td style="padding-right:20px;width: 430px;text-align:left;vertical-align:top;">
                         ${this.bslEmail}
                 </td>
@@ -467,7 +511,7 @@ export default {
                     <a href="${this.$baseurl2}/#/login" class="button" style="text-decoration:none;">
                         <span
                             style="display:inline-block;border-radius:5px;text-decoration:none;width:250px;height:40px;background: #00B1F5;color:white;line-height:40px;">
-                            登录后管理系统台查看
+                            登录PC后台管理系统台查看
                         </span>
                     </a>
                 </td>
@@ -478,7 +522,6 @@ export default {
 </body>
 
 </html>`
-
       this.$loading();
       this.$axios({
         method: "post",
@@ -494,7 +537,7 @@ export default {
             this.$dialog
               .alert({
                 title: res.data.resultDesc,
-                message: "点击返回登录页"
+                // message: "点"
               })
               .then(() => {
                 this.$router.replace({  //核心语句
@@ -753,6 +796,7 @@ export default {
     }
     .commit{
       padding: 0 0.8rem;
+      margin-bottom: 2rem;
       button {
       width: 100%;
       color: white;

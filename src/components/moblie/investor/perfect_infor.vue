@@ -350,10 +350,10 @@ export default {
   }
 
   .van-icon-success {
-    height: 0.4rem;
-    width: 0.4rem;
-    line-height: 0.4rem;
-    font-size: 0.3rem;
+    height: 0.48rem;
+    width: 0.48rem;
+    line-height: 0.48rem;
+    font-size: 0.38rem;
   }
   .van-field__control {
     // padding: 0 0.2rem;

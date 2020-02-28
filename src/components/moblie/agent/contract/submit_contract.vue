@@ -45,7 +45,8 @@ export default {
   //       }
   // },
   created() {
-    this.projectId=this.$route.query.projectId;
+    this.projectId=this.$route.query.projectId?this.$route.query.projectId:'';
+    this.signId = this.$route.query.signId?this.$route.query.signId:-1;
   },
   methods: {
     // 签约
@@ -64,21 +65,21 @@ export default {
           return;
         }
       };
-      this.signId = this.$route.query.signId;
+
       this.$loading();
       this.$axios({
         method: "post",
         url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
         data: this.$qs.stringify({
           signId: this.signId,
-          projectId:this.$route.query.projectId,
+          projectId:this.projectId,
           signAgreement: JSON.stringify(this.contract),
         })
       }).then(res => {
         this.$toast.clear();
         if (res.data.resultCode == 10000) {
-          this.signId = res.data.data.signId;
-          this.token = res.data.data.visitToken;
+          // this.signId = res.data.data.signId;
+          // this.token = res.data.data.visitToken;
           this.$dialog
             .alert({
               title: res.data.resultDesc,
@@ -188,9 +189,15 @@ export default {
       background: #ffffff;
       article{
       height: 100%;
+      display:-webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
-      flex-direction: column;
-    justify-content: space-between;
+       flex-direction:column;
+      -webkit-flex-direction:column;
+      -webkit-justify-content:space-between;
+      justify-content:space-between;
       width: 100%;
         >div{
            height: 85%;

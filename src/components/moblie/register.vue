@@ -19,7 +19,7 @@
         <van-field type="password" v-model="password2" placeholder="请再输入密码" clearable />
       </div>
       <div class="registerbtn">
-        <button @click="register()">注册新账号</button>
+        <button @click="register()">注 册</button>
       </div>
        <div class="tologin">
          <p class="tologin" @click="$goto('login')">已有账号,前往登录</p>
@@ -40,7 +40,7 @@ export default {
     };
   },
   created() {
-    // this.username = this.$route.query.email;
+    this.username = this.$route.query.email?this.$route.query.email:'';
     // console.log(this.$route.query.email);
   },
   methods: {

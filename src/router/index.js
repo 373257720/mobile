@@ -12,7 +12,7 @@ import mine from '@/components/moblie/mine'
 import cavans from '@/components/moblie/cavans'
 import common_details from '@/components/moblie/common_details'
 import upload_contract from '@/components/moblie/upload_contract'
-import upload_contract1 from '@/components/moblie/upload_contract1'
+// import upload_contract1 from '@/components/moblie/upload_contract1'
 // import testcavans from '@/components/moblie/test_canvans'
 
 
@@ -267,11 +267,7 @@ const routes = [
   name: 'i_emailto_confirm',
   component:i_emailto_confirm ,
 },
-  {
-    path: '/upload_contract1',
-    name: 'upload_contract1',
-    component: upload_contract1,
-  },
+
 
 
 {

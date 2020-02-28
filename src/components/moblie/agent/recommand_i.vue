@@ -252,10 +252,9 @@ export default {
               this.$dialog
                 .alert({
                   title: res.data.resultDesc,
-                  // message: "返回我的xi"
+                  message: "等待投行审核"
                 })
                 .then(() => {
-                  // let query1=Object.assign(this.$route.query,{signStatus:6})
                   this.$routerto("mysign")
                 });
             } else {
@@ -453,10 +452,18 @@ export default {
     padding-top: 1.6rem;
     background: #ffffff;
     aside {
-      display: flex;
+      　display:-webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
       width: 100%;
       height: 3rem;
-      justify-content: center;
+      　-webkit-justify-content:center;
+　　justify-content:center;
+　　-moz-box-pack:center;
+　　-webkit--moz-box-pack:center;
+　　box-pack:center;
     }
     article {
       margin: 0 0 1rem 0;
@@ -476,9 +483,12 @@ export default {
         padding: 0.5rem 0.5rem 2rem 0.5rem;
         li {
           margin-bottom: 0.4rem;
+          display:-webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
           display: flex;
           height: 1rem;
-          /*align-items: baseline;*/
           font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;

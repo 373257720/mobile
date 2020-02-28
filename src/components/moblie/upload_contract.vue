@@ -188,10 +188,10 @@ export default {
         // background: none;
         // border: 0;
         // width: 100%;
-           /*white-space: pre-wrap;       !* css-3 *!*/
-           /*   white-space: -moz-pre-wrap;  !* Mozilla, since 1999 *!*/
-           /*   white-space: -pre-wrap;      !* Opera 4-6 *!*/
-           /*   white-space: -o-pre-wrap;*/
+           white-space: pre-wrap;       /* css-3 */
+              white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+              /*white-space: -pre-wrap;      !* Opera 4-6 *!*/
+              white-space: -o-pre-wrap;
       }
     div.button {
       margin-top: 1rem;

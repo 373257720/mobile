@@ -28,7 +28,6 @@ export default {
     }
     window.addEventListener("beforeunload", () => {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state));
-      // sessionStorage.setItem('test',123456)
     });
   }
   // created() {
@@ -73,7 +72,7 @@ export default {
 
 <style>
 #app {
-  height: 100%;  
+  height: 100%;
   width: 100%;
   /* overflow: hidden; */
   /* background: #EEEEEE;  */
@@ -95,21 +94,21 @@ div.loading{
   /* border: 1px solid; */
 }
 
-.van-dialog__message {
-  font-size: 0.48rem;
-}
-.van-button {
-  font-size: 0.48rem;
-}
-.van-dialog{
-    font-size: 0.48rem;
-     
-  }
+/*.van-dialog__message {*/
+/*  font-size: 0.4375rem;*/
+/*}*/
+/*.van-button {*/
+/*  !*font-size: 0.48rem;*!*/
+/*}*/
+/*.van-dialog{*/
+/*    font-size: 0.5rem;*/
+
+/*  }*/
 /* .van-overlay{
   background-color:white;
   opacity: 0.5;
 } */
 /* .van-toast__loading{
-  color:#1989fa; 
+  color:#1989fa;
 } */
 </style>

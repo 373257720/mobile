@@ -95,13 +95,15 @@
             <footer>
               <button
                 v-if="usertype==1"
-                @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList6'][0].investorsIdList) })"
-              >签约投资者资料 ( {{goods.signUserList['signUserList10'][0].signCount?goods.signUserList['signUserList10'][0].signCount:0}} )</button>
-              <button
+                :class="[goods.signUserList['signUserList10'][0].signCount>0?'isactive':'']"
+                @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList10'][0].investorsIdList) })"
+              >签约投资者资料 ( {{goods.signUserList['signUserList10'][0].signCount?goods.signUserList['signUserList10'][0].signCount:0}} )
+              </button>
+              <button class="isactive"
                 v-else-if="usertype==3"
                 @click="$routerto('i_conected_project',{projectId:goods.projectId,signStatus:goods.signUserResp[0].signStatus,signId:goods.signUserResp[0].signId})"
               >已连接项目</button>
-              <button v-else-if="usertype==4" @click="routerto(goods)">感兴趣项目</button>
+              <button class="isactive" v-else-if="usertype==4" @click="routerto(goods)">感兴趣项目</button>
             </footer>
           </div>
         </van-list>
@@ -132,6 +134,13 @@ export default {
       usertype: "",
       activenum:0,//行业下标
       activeIds: '',//行业id
+      // 待处理
+      // 待签约
+      // 待上链
+      // 待推荐
+      // 待审核
+      // 待确认
+      // 签约成功
       tags: {
         signUserList1: {
           text: "待处理",
@@ -142,7 +151,7 @@ export default {
           number: 0
         },
          signUserList4: {
-          text: "已签约",
+          text: "待上链",
           number: 0
         },
         signUserList5: {
@@ -303,9 +312,17 @@ export default {
         this.$routerto(name, obj);
       }
     },
+  uniq(array){
+  var temp = []; //一个新的临时数组
+  for(var i = 0; i < array.length; i++){
+    if(temp.indexOf(array[i]) == -1){
+      temp.push(array[i]);
+    }
+  }
+  return temp;
+},
     routerto(item) {
       console.log(item)
-
       // this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
         let hash = [];
@@ -314,8 +331,10 @@ export default {
             hash.push(item.signUserResp[i].signStatus);
           }
         }
-        console.log(hash);
-        if (item.signUserResp.length > 1) {
+        if(hash.includes(3) || hash.includes(7) || hash.includes(11)){
+         hash= this.uniq(hash.concat(3,7,11))
+        }
+        if (item.signUserResp.length > 0) {
           this.$routerto(
             "mysign",
              {
@@ -323,7 +342,7 @@ export default {
               array:JSON.stringify(hash),
             }
           );
-        } else if (item.signUserResp.length <= 1) {
+        } else if (item.signUserResp.length < 1) {
           let obj={
               projectId: item.projectId,
               signStatus: item.signUserResp[0].signStatus,
@@ -742,15 +761,18 @@ export default {
           right: 0.25rem;
           border-radius: 0.125rem;
           height: 0.88rem;
-          background: #00adef;
+
+          background: #747474;;
+          /*background: #747474;;*/
           color: white;
           font-size: 0.38rem;
           // top: 50%;
           // transform: translateY(-50%);
         }
-        button.active {
-          background: #747474;
-        }
+         .isactive{
+           background: #00adef;
+
+         }
       }
     }
   }

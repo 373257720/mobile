@@ -13,14 +13,12 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 // 富文本
-import  "font-awesome/css/font-awesome.css";
-import initRichText from './editor';
-initRichText();
+// import  "font-awesome/css/font-awesome.css";
+// import initRichText from './editor';
+// initRichText();
 // vuex
 import Vuex from 'vuex';
 Vue.use(Vuex);
-
-
 // import ant from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.less'
 // Vue.use(ant)
@@ -57,8 +55,8 @@ function deepCopy(obj) {
 };
 import {Dialog} from 'vant';
 Vue.use(Dialog);
-// import {Toast} from 'vant';
-// Vue.use(Toast);
+import {Toast} from 'vant';
+Vue.use(Toast);
 // Toast
 // console.log(Vant.Toast)
 // import moment from 'moment'
@@ -118,14 +116,15 @@ axios.interceptors.response.use(res => {
     return res
   }
 } ,error => {
-    // Toast.clear();
+  // console.log(Toast,Dialog)
+    Toast.clear();
     // isShowLoading = false
     // loadingCount = 0
-    Dialog.alert({
-      message: '网络异常，请稍后再试！',
-    }).then(() => {
-      location.href = '/'
-    });
+      Dialog.alert({
+        message: '网络异常，请稍后再试！',
+      }).then(() => {
+        location.href = '/'
+      });
     return Promise.reject(error)
   }
 )
@@ -151,7 +150,6 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
   })
 }
 Vue.prototype.$loading = function loading() {
-  // console.log(this);
   this.$toast.loading({
     loadingType: 'circular',
     overlay:true,
@@ -168,11 +166,11 @@ Vue.prototype.$loadingfail = function loadingfail() {
   });
 };
 var baseurl = {
-  // api: "http://192.168.1.37:8085",//c
+   // api: "http://192.168.1.37:8085",
   // api3:'www.aaa.com',
   api2:'http://47.90.62.114:8081',
   api3: 'http://47.90.62.114:8083',//(前段服务器端口)
-  api: "http://47.90.62.114:8086",//(后台正式服务器端口)3
+  api: "http://47.90.62.114:8086",//(后台正式服务器端口)
 }
 Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl2 = baseurl.api2;

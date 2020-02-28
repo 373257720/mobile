@@ -8,8 +8,18 @@
           项目筛选
           <van-icon name="arrow-down" />
         </div>
+<!--        <form action="" method="get">-->
+<!--          您喜欢的水果？<br /><br />-->
+<!--          <label><input name="Fruit" type="checkbox" value="" />苹果 </label>-->
+<!--          <label><input name="Fruit" type="checkbox" value="" />桃子 </label>-->
+<!--          <label><input name="Fruit" type="checkbox" value="" />香蕉 </label>-->
+<!--          <label><input name="Fruit" type="checkbox" value="" />梨 </label>-->
+<!--        </form>-->
         <van-checkbox-group ref="check" v-model="result">
           <van-cell-group>
+            <div class="all_select" :class="num==2?'isactive':'isorigin'" @click="toggleAll">
+              全选
+            </div>
             <van-cell
               v-for="(item, index) in list"
               clickable
@@ -19,7 +29,11 @@
             >
               <van-checkbox :name="item.value" ref="checkboxes" slot="right-icon" />
             </van-cell>
-            <div class="confirm" @click="confirm_lists">确定</div>
+            <div class="confirm" @click="confirm_lists">
+               确定
+<!--              <p @click="toggleAll">全选</p>-->
+<!--              <p @click="confirm_lists">确定</p>-->
+              </div>
           </van-cell-group>
         </van-checkbox-group>
       </main>
@@ -146,10 +160,11 @@ export default {
           pic: "../../../static/pic/false.png"
         }
       ],
-      checklist_height: ""
+      checklist_height: "",
       // classname: {
       //   // "0":
       // }
+      num:2,
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -180,6 +195,7 @@ export default {
     }
   },
   created() {
+    console.log(this.num)
     this.usertype = this.$store.state.currentUsertype;
     if (this.$route.query.projectId) {
       let arr = JSON.parse(this.$route.query.array);
@@ -241,7 +257,7 @@ export default {
           },
           {
             value: 9,
-            text: "待确认项项目",
+            text: "待确认项目",
             pic: "../../../static/pic/waitinvestor.png"
           },
           {
@@ -280,6 +296,16 @@ export default {
     this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
   },
   methods: {
+     toggleAll() {
+       console.log(this.num)
+       if(this.num==1){
+         this.$refs.check.toggleAll(true);
+         this.num=2;
+       }else if(this.num==2){
+         this.$refs.check.toggleAll(false);
+         this.num=1;
+       }
+    },
     onRefresh() {
       this.finished = false;
       // 重新加载数据
@@ -600,16 +626,39 @@ export default {
       //    border: 0.05rem solid black;
       // }
     }
-
+    .all_select{
+      text-align: center;
+      font-size: 0.4rem;
+      height: 1.12rem;
+      /*background: #00adef;*/
+      /*color: white;*/
+      /*border-bottom: 1px solid #ebedf0;*/
+      line-height: 1.12rem;
+    }
     // }
+    .isorigin{
+      color: black;
+    }
+    .isactive{
+      color: #00adef;
+    }
     .confirm {
       text-align: center;
       // padding: 0.2rem 0.3rem;
       font-size: 0.4rem;
-      height: 1rem;
+      height: 1.12rem;
       background: #00aef1;
       color: white;
-      line-height: 1rem;
+      line-height: 1.12rem;
+      /*p{*/
+      /*  flex: 1;*/
+      /*}*/
+      /*p:nth-child(1){*/
+      /*    background:black;*/
+      /*}*/
+      /*p:nth-child(1):active{*/
+      /*    background: #1989fa;;*/
+      /*}*/
     }
     .fade-enter-active,
     .fade-leave-active {
@@ -622,6 +671,7 @@ export default {
   .van-list ul {
     // padding: 2.8rem 0 0 0;
     background: white;
+    /*border-top: 1px solid #d2d2d2;*/
     li {
       // line-height: 0.6rem;
       /*position: relative;*/

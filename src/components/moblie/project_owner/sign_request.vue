@@ -180,40 +180,44 @@ export default {
           title: "该项目已删除",
         })
         .then(() => {
-          this.$routerto("mysign");
+          this.$router.go(-1);
         });
     }
   })
   },
   methods: {
     review(num){
-      this.$loading();
+      if(num==7){
+
+      }
+      this.$dialog
+        .confirm({
+          title: "请确认操作",
+          // message: "弹窗内容"
+        })
+        .then(() => {
+          // on confirm
+        this.$loading();
        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInvestorsData`,{signId:this.signId,signStatus:num}).then(res=>{
           this.$toast.clear();
           if (res.data.resultCode == 10000) {
             let query1=Object.assign({},this.$route.query,{signStatus:num})
             this.$router.push({query:query1})
-                    if(num==8){
-                      this.$dialog
-                        .alert({
-                          title: res.data.resultDesc,
-                          message:"已发送合作意向，等待中间人发送邀请链接给投资者",
-                        })
-                        .then(() => {
-                          this.$routerto("mysign");
-                        });
-                    }
-                   else if(num==7){
-                        this.$dialog
-                          .alert({
-                            title: res.data.resultDesc,
-                            // message:"已发送合作意向，等待中间人发送邀请链接给投资者",
-                          })
-                          .then(() => {
-                            this.$routerto("mysign");
-                          });
-                      }
-
+              let res_message="";
+                if(num==8){
+                      res_message="已发送合作意向，等待中间人发送邀请链接给投资者";
+                }
+                else if(num==7){
+                      res_message="返回我的项目";
+                  }
+                  this.$dialog
+                    .alert({
+                      title: res.data.resultDesc,
+                      message:res_message,
+                    })
+                    .then(() => {
+                      this.$routerto("mysign");
+                    });
               }else{
                   this.$dialog
                   .alert({
@@ -223,7 +227,12 @@ export default {
                   });
               }
        })
-// a
+        })
+        .catch(() => {
+          // on cancel
+       });
+
+// // a
     },
 
     agreement(num) {
