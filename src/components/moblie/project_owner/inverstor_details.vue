@@ -6,7 +6,7 @@
     <main>
       <article>
         <ul>
-  
+
           <li i v-for="(item) in details_lists" :key="item.name">
             <div
               v-if="item.keyword!='investorsCompany' || (item.keyword=='investorsCompany' && item.response!='')"
@@ -16,7 +16,7 @@
             </div>
           </li>
         </ul>
-        
+
         <!-- <footer>
           <button @click="check_contract">查看合约</button>
           <button @click="$goto('p_check_contract')">查看合约</button>
@@ -64,7 +64,7 @@ export default {
         },
         {
           keyword: "investorsCompanyAddress",
-          name: "投资者公司地址:",
+          name: "投资者地址:",
           response: ""
         },
         {
@@ -73,7 +73,7 @@ export default {
           response: ""
         }
       ]
-      
+
     };
   },
   //  created() {
@@ -162,7 +162,7 @@ export default {
 <style lang="scss" scoped>
 #p_inverstor_details {
   width: 100%;
- 
+
   nav {
     width: 100%;
     text-align: center;
@@ -199,7 +199,7 @@ export default {
          padding: 0.5rem 0.5rem 0 0.5rem;
         li {
           > div {
-            margin-bottom: 0.5rem;  
+            margin-bottom: 0.5rem;
             align-items: baseline;
            font-size: 0.44rem;
             line-height: 0.56rem;
@@ -218,7 +218,7 @@ export default {
           }
         }
       }
- 
+
     }
   }
 }

@@ -178,7 +178,7 @@ const global = {
   cleanall() {
     this.$goto("login");
     sessionStorage.clear();
-    // localStorage.clear()
+
 
   }
 

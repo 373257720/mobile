@@ -35,7 +35,10 @@
           <van-search v-model="text" @input='search_region' placeholder="请输入搜索关键词" />
           <a-spin v-if="countrylist_fetching" size="small"/>
             <ul  v-if='countrylist_fetching==false && countrylist.length>0'>
-              <li v-for="d in countrylist" :class="d.classname" :key="d.remark" :value='d.value' @click="select_country(d.remark,d.chinese,d.value)">{{d.chinese}}{{d.eng}}</li>
+              <li v-for="d in countrylist" :class="d.classname" :key="d.remark" :value='d.value' @click="select_country(d.remark,d.chinese,d.value)">
+                <span>{{d.chinese}}</span><span>{{d.eng}}</span>
+
+              </li>
             </ul>
             <ul  style="max-height:200px" v-else-if="countrylist_fetching==false &&  countrylist.length<=0">
               <li >没有数据</li>
@@ -565,10 +568,18 @@ export default {
         overflow-y: auto;
          padding: 0 0.5rem;
         li{
-        line-height: 1rem;
-        font-weight: 400;
-        cursor: pointer;
-        font-size: 0.38rem;
+        /*line-height: 1rem;*/
+          word-wrap: break-word;
+        /*font-weight: 400;*/
+          min-height: 1rem;
+          cursor: pointer;
+          font-size: 0.38rem;
+          display: flex;
+          align-items: center;
+          /*justify-content: space-between;*/
+          /*span{*/
+
+          /*}*/
         }
       }
     }

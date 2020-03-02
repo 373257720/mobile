@@ -14,10 +14,12 @@
           >
             <aside>{{index+1}}</aside>
             <article class="main_right">
-              <section v-for="(ite) in details_lists" :key="ite.name">
-                <span class="row1">{{ite.name}}</span>
-                <span class="row2">{{item[ite.keyword]}}</span>
-              </section>
+              <div v-for="(ite) in details_lists" :key="ite.name">
+                <p v-if="item[ite.keyword]">
+                  <span class="row1">{{ite.name}}</span>
+                  <span class="row2">{{item[ite.keyword]}}</span>
+                </p>
+              </div>
             </article>
             <footer class="checkall">
               <img src="../../../assets/932de214a934dcc83b834aab8d58a34.png" alt />
@@ -57,7 +59,7 @@ export default {
         },
         {
           keyword: "investorsMobile",
-          name: "投资者电话",
+          name: "投资者电话:",
           response: ""
         },
         // {
@@ -137,7 +139,7 @@ export default {
 <style lang="scss" scoped>
 #p_investor_lists {
   width: 100%;
-  height:100%; 
+  height:100%;
   nav {
     width: 100%;
     text-align: center;
@@ -177,10 +179,13 @@ export default {
           margin: 0 0.5rem;
           width: 7.16rem;
           // font-size: 0.36rem;
-          section {
+          >div {
             display: flex;
-            margin-bottom: 0.3rem;
+
             line-height: 0.6rem;
+            p{
+              margin: 0.1rem;
+            }
             .row1 {
               color: #4c4c4c;
               display: inline-block;
