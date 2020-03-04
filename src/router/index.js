@@ -21,7 +21,6 @@ import p_wait_agent_input from '@/components/moblie/project_owner/wait_agent_inp
 import p_check_contract from '@/components/moblie/project_owner/check_contract'
 import p_investor_lists from '@/components/moblie/project_owner/investor_lists'
 import p_investor_details from '@/components/moblie/project_owner/inverstor_details'
-
 import p_sign_failed from '@/components/moblie/project_owner/sign_failed'
 
 import p_sign_request from '@/components/moblie/project_owner/sign_request'
@@ -374,9 +373,9 @@ let router = new Router({
 //       next();
 //     }
 //     // 要进入to路由，必须调用next()方法
-
 //   }
 // });
+
 // router.afterEach((to, from) => {
 // // console.log('after')
 // })
