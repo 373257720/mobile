@@ -32,7 +32,7 @@
             </p>
           </li>
           <li class="investorsArea">
-            <p class="row1">地区</p>
+            <p class="row1">地区:</p>
             <p class="row2">
 <!--              <el-select-->
 <!--                @change="selectregion(regionlist[form.bslAreaCode])"-->
@@ -98,9 +98,7 @@
           </li>
         </ul>
         <footer>
-          <aside>
-            <button @click="submit">提交</button>
-          </aside>
+          <button @click="submit">提交</button>
         </footer>
       </article>
     </main>
@@ -457,16 +455,16 @@ export default {
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-      width: 100%;
-      height: 3rem;
-      　-webkit-justify-content:center;
+    width: 100%;
+    height: 3rem;
+    　-webkit-justify-content:center;
 　　justify-content:center;
 　　-moz-box-pack:center;
 　　-webkit--moz-box-pack:center;
 　　box-pack:center;
     }
     article {
-      margin: 0 0 1rem 0;
+     padding: 0 0.5rem;
       header {
         height: 2rem;
         font-size: 0.46rem;
@@ -480,7 +478,12 @@ export default {
         // border-bottom: 0.1rem solid #b5b5b5;
       }
       ul {
-        padding: 0.5rem 0.5rem 2rem 0.5rem;
+        padding: 0.5rem 0;
+        /*display: flex;*/
+        /*flex-direction: column;*/
+        /*justify-content: center;*/
+        /*align-items: center;*/
+
         li {
           margin-bottom: 0.4rem;
           display:-webkit-box;
@@ -494,17 +497,19 @@ export default {
             color: #4c4c4c;
             font-weight: 600;
             width: 3rem;
+            /*flex:2;*/
             line-height: 1rem;
             /*margin-bottom: 0.2rem;*/
           }
-            .row1::before {
+          .row1::before {
                 content: "*";
                 color: #f56c6c;
                 margin-right: 0.1rem;
             }
           .row2 {
               position: relative;
-            width: 7rem;
+            /*width: 7rem;*/
+            flex:3;
             height: 100%;
             word-break: break-all;
             /*line-height: 1.2rem;*/
@@ -516,10 +521,12 @@ export default {
         }
       }
       footer {
-        padding: 0 0.5rem 0.5rem 0.5rem;
-        font-size: 0.38rem;
+        /*padding: 0 0.5rem 0.5rem 0.5rem;*/
+        display: flex;
+        justify-content: center;
+        font-size: 0.42rem;
         button {
-          width: 9.9rem;
+          width:8rem;
           height: 1rem;
           background: #00adef;
           color: white;

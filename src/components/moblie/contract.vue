@@ -177,12 +177,12 @@
         display: flex;
         justify-content: space-between;
         ul{
-          width: 4rem;
+          width: 40%;
           li{
             p{
               height: 1rem;
               img {
-                width: 4rem;
+                width: 100%;
                 height: 1rem;
               }
             }

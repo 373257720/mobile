@@ -51,14 +51,14 @@ export default {
           name: "融资阶段",
           response: ""
         },
-        committedCount: {
-          name: "已提交</br>投资者数量",
-          response: ""
-        },
-        interestProjectCount: {
-          name: "项目方<br>有兴趣数量",
-          response: ""
-        }
+        // committedCount: {
+        //   name: "已提交</br>投资者数量",
+        //   response: ""
+        // },
+        // interestProjectCount: {
+        //   name: "项目方<br>有兴趣数量",
+        //   response: ""
+        // }
       },
       details_lists: {
         projectIndustry: {
@@ -94,6 +94,10 @@ export default {
           name: "电邮:",
           response: ""
         },
+        signStatus: {
+          name: "签约状态:",
+          response: "",
+        },
         projectDescribe: {
           name: "项目简介:",
           response: ""
@@ -102,10 +106,10 @@ export default {
           name: "项目详情:",
           response: ""
         },
-        signStatus: {
-          name: "签约状态:",
-          response: ""
-        }
+        // signStatus: {
+        //   name: "签约状态:",
+        //   response: ""
+        // }
       }
     };
   },
@@ -190,6 +194,17 @@ export default {
 </script>
 <style lang="scss">
 #i_sign_failed {
+  article{
+    #nav_lists{
+      .box{
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+
+        /*display: none !important;*/
+      }
+    }
+  }
   nav {
     // position: relative;
     .van-icon-arrow-left {

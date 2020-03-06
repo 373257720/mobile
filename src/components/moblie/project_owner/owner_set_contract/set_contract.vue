@@ -264,6 +264,7 @@ export default {
         background: #00adef;
         color: white;
         height: 1rem;
+        border-radius: 2px;
       }
     }
   }

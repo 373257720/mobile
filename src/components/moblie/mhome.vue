@@ -482,6 +482,7 @@ export default {
 #mhome {
     .van-pull-refresh{
       // padding: 2.8rem 0 2rem 0;
+
     }
    .ant-select{
     width: 100%;
@@ -653,7 +654,7 @@ export default {
   flex-direction: column;
 
   > header {
-    // height: 3.8rem;
+    /*height:5rem;*/
     width: 100%;
     z-index: 5;
     position: fixed;
@@ -665,15 +666,19 @@ export default {
       margin: 0.3rem 0;
     }
     > div {
-      // width: 100%;
-      // height:  1.82rem;;
+       /*width: 100%;*/
+      /*height:  2rem;*/
       img {
-        width: auto;
-        height: auto;
-        display: block;
+        /*width: auto;*/
+        /*height: auto;*/
+        /*display: block;*/
         // display: inline-block;
-        max-width: 100%;
-        max-height: 100%;
+        width: 100%;
+        /*width: auto;*/
+        /*height: auto;*/
+        /*max-width: 100%;*/
+        /*max-height: 100%;*/
+        height: 2rem;
       }
     }
   }
@@ -682,7 +687,7 @@ export default {
     height: 100%;
   }
   .main {
-    margin: 4.7rem 0 1.3rem 0;
+    padding: 4.9rem 0 1.3rem 0;
     // margin-bottom: 5rem;
     // height: 100%;
     background: #eeeeee;

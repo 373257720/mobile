@@ -368,20 +368,21 @@ export default {
         } else if (this.form.userIdentity == "") {
           this.$toast("请输入证件号码");
           return;
-        } else if (this.form.userCountry == "CHN") {
-          if (this.fileList_front.length == 0) {
-            this.$toast("请上传身份证正面");
-            return;
-          } else if (this.fileList_back.length == 0) {
-            this.$toast("请上传身份证反面");
-            return;
-          }
-        } else if (this.form.userCountry != "CHN") {
-          if (this.fileList_front.length == 0) {
-            this.$toast("请上传护照");
-            return;
-          }
         }
+        // else if (this.form.userCountry == "CHN") {
+        //   if (this.fileList_front.length == 0) {
+        //     this.$toast("请上传身份证正面");
+        //     return;
+        //   } else if (this.fileList_back.length == 0) {
+        //     this.$toast("请上传身份证反面");
+        //     return;
+        //   }
+        // } else if (this.form.userCountry != "CHN") {
+        //   if (this.fileList_front.length == 0) {
+        //     this.$toast("请上传护照");
+        //     return;
+        //   }
+        // }
       } else if (this.form.userIdentityType == 2) {
         if (this.form.userCountry == "") {
           this.$toast("请输入国籍");
@@ -392,10 +393,11 @@ export default {
         } else if (this.form.userAddressEn == "") {
           this.$toast("Please input company address");
           return;
-        } else if (this.fileList_company.length == 0) {
-          this.$toast("请上传公司证书");
-          return;
         }
+        // else if (this.fileList_company.length == 0) {
+        //   this.$toast("请上传公司证书");
+        //   return;
+        // }
       }
       this.commit();
       // this.validate((errors, fields) => {
@@ -1089,11 +1091,15 @@ export default {
 
   .van-uploader__preview {
     margin: 0;
+    width: 100%;
 
+    /*box-sizing: border-box;*/
+    /*height: 100%;*/
     // overflow: hidden;
   }
   .van-uploader__preview-image {
     margin: 0;
+    border: 1px solid #ababab;
     width: 100%;
     height: 5rem;
     img {
@@ -1110,10 +1116,10 @@ export default {
     display: block;
     margin-bottom: 0;
   }
-  // .van-uploader__wrapper{
-  //   width: 100%;
-  //   height: 100%;
-  // }
+ .van-uploader__wrapper{
+     width: 100%;
+     height: 100%;
+   }
   .van-uploader__upload {
     width: 100%;
     background: #f6f6f6;
@@ -1180,11 +1186,12 @@ export default {
           margin-bottom: 0.1rem;
           font-size: 0.38rem;
         }
-        > p::before {
-          content: "*";
-          color: #f56c6c;
-          margin-right: 0.1rem;
-        }
+
+      }
+      .idcard_num p::before {
+        content: "*";
+        color: #f56c6c;
+        margin-right: 0.1rem;
       }
     }
     div.gongsi {
@@ -1196,8 +1203,7 @@ export default {
         }
       }
       .companyname,
-      .company_address_eng,
-      .companycheck {
+      .company_address_eng, {
         > p::before {
           content: "*";
           color: #f56c6c;

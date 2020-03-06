@@ -57,14 +57,14 @@ export default {
           name: "融资阶段",
           response: ""
         },
-        committedCount: {
-          name: "已提交</br>投资者数量",
-          response: ""
-        },
-        interestProjectCount: {
-          name: "项目方<br>有兴趣数量",
-          response: ""
-        },
+        // committedCount: {
+        //   name: "已提交</br>投资者数量",
+        //   response: ""
+        // },
+        // interestProjectCount: {
+        //   name: "项目方<br>有兴趣数量",
+        //   response: ""
+        // },
 
       },
       details_lists: {
@@ -143,6 +143,17 @@ export default {
 </script>
 <style lang="scss">
 #i_conected_project {
+  article{
+    #nav_lists{
+      .box{
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+
+        /*display: none !important;*/
+      }
+    }
+  }
   .van-checkbox__icon {
     //   line-height:0.625rem;
     font-size: 0.2rem;
@@ -214,7 +225,9 @@ export default {
         line-height: 0.68rem;
       }
       footer {
-        padding: 0 0.5rem 0.5rem 0.5rem;
+        /*padding: 0 0.5rem 0.5rem 0.5rem;*/
+        display: flex;
+        justify-content: center;
         font-size: 0.42rem;
         button {
           width: 9.9rem;

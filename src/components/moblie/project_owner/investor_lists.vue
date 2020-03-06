@@ -12,6 +12,7 @@
             :key="item.item"
             @click="$routerto('p_inverstor_details',{investorsId:item.investorsId})"
           >
+
             <aside>{{index+1}}</aside>
             <article class="main_right">
               <div v-for="(ite) in details_lists" :key="ite.name">
@@ -176,6 +177,7 @@ export default {
           border: 0.03rem solid #02a7e7;
         }
         .main_right {
+          flex:3;
           margin: 0 0.5rem;
           width: 7.16rem;
           // font-size: 0.36rem;

@@ -16,7 +16,7 @@
 <!--              <van-field  v-model="form.investorsType" placeholder="-" />-->
             </p>
           </li>
-         
+
           <li>
 
             <p class="row1">投资者地区：</p>
@@ -38,7 +38,7 @@
               <!-- :filterOption="filterOption" -->
             <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
                  <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
-          </a-select> 
+          </a-select>
             </p>
           </li>
            <li v-show="form.investorsType==2">
@@ -187,7 +187,7 @@ export default {
      submit() {
         var regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
        if(this.form.investorsType==2 && this.form.investorsCompany=='')   { this.$toast({ message:'请输入投资者公司名称'});
-            return  
+            return
         }
         if(this.form.investorsArea==''){
             this.$toast('请输入投资者地区');
@@ -212,7 +212,7 @@ export default {
             this.$toast('请选择感兴趣行业');
             return
         }
-        
+
       this.commit();
     },
     choose_nation(){
@@ -258,7 +258,7 @@ export default {
           if (res.data.resultCode == 10000) {
              this.dialog(res.data.resultDesc, res.data.resultCode);
           }else{
-            this.$toast(res.data.resultDesc); 
+            this.$toast(res.data.resultDesc);
           }
         })
         .catch(err => {
@@ -302,10 +302,10 @@ export default {
     }
  .ant-select-selection--single{
    height:100%;
-      
+
  }
  .ant-select-selection__rendered{
- 
+
    margin:0;
  }
     .ant-select-selection{
@@ -367,7 +367,7 @@ export default {
   }
   .van-cell--clickable {
     .van-cell__title {
-      margin-left: 2.7rem;
+      /*margin-left: 2.7rem;*/
     }
     .van-cell__value {
       display: none;
@@ -437,6 +437,7 @@ export default {
           align-items: center;
           font-size: 0.42rem;
           .row1 {
+            flex: 1;
             color: #4c4c4c;
             font-weight: 600;
             width: 3rem;
@@ -445,10 +446,11 @@ export default {
                 content: "*";
                 color: #f56c6c;
                 margin-right: 0.1rem;
-            }  
+            }
           .row2 {
             position: relative;
-            width: 7rem;
+            /*width: 7rem;*/
+            flex: 2;
             font-size: 0.42rem;
             word-break: break-all;
             color: #787878;
@@ -458,6 +460,7 @@ export default {
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         button {
+          font-size: 0.42rem;
           width: 8rem;
           height: 1rem;
           background: #00adef;

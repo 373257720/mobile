@@ -114,17 +114,39 @@ const global = {
           let signAgreementKey = res.data.data.signAgreementKey;
           for (let i in res.data.data) {
             if(details_lists.collectMoney.hasOwnProperty(i)){
-              if (i == "collectMoneyMax"){
-                details_lists.collectMoney[i]=res.data.data[i]*1>0?res.data.data[i].toLocaleString():'';
-              }else if (i == "collectMoneyMin"){
-                details_lists.collectMoney[i]=res.data.data[i]*1>0?res.data.data[i].toLocaleString():'';
+              if ( res.data.data[i]*1>0){
+                let value=Math.round(res.data.data[i]*100)/100;
+                var s=value.toString().split(".");
+                if(s.length==1){
+                  details_lists.collectMoney[i]= (value.toLocaleString()).toString()+".00"
+                }
+                if(s.length>1){
+                  if(s[1].length<2){
+                    details_lists.collectMoney[i]= (value.toLocaleString()).toString()+"0"
+                  }
+                }
+              }else{
+                res.data.data[i]='';
               }
+              // if (i == "collectMoneyMax" && res.data.data[i]*1>0){
+              //   // details_lists.collectMoney[i]=res.data.data[i]*1>0?res.data.data[i].toLocaleString():'';
+              // }else if (i == "collectMoneyMin"){
+              //  let value=Math.round(res.data.data[i]*100)/100;
+              //   var s=value.toString().split(".");
+              //   if(s.length==1){
+              //     details_lists.collectMoney[i]= (value.toLocaleString()).toString()+".00"
+              //   }
+              //   if(s.length>1){
+              //     if(s[1].length<2){
+              //       details_lists.collectMoney[i]= (value.toLocaleString()).toString()+"0"
+              //     }
+              //   }
+              //   // details_lists.collectMoney[i]=res.data.data[i]*1>0?res.data.data[i].toLocaleString():'';
+              // }
             }
             if (details_lists.hasOwnProperty(i)) {
               if (i == "signStatus") {
-                details_lists[i].response = this.pic_obj[
-                  res.data.data[i]
-                ];
+                details_lists[i].response = this.pic_obj[res.data.data[i]];
               } else if (i == "publicCompany") {
                 details_lists[i].response = res.data.data[i] == false ? '否' : '是'
               } else {

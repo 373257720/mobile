@@ -362,8 +362,11 @@ export default {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          /*align-items: center;*/
           button {
             height: 1rem;
+            /*width: 80%;*/
+            border-radius: 2px;
             color: #ffffff;
           }
           button:nth-of-type(1) {

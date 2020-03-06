@@ -60,14 +60,14 @@ export default {
           response: ""
         },
 
-        committedCount: {
-          name: "已提交</br>投资者数量",
-          response: ""
-        },
-        interestProjectCount: {
-          name: "项目方<br>有兴趣数量",
-          response: ""
-        },
+        // committedCount: {
+        //   name: "已提交</br>投资者数量",
+        //   response: ""
+        // },
+        // interestProjectCount: {
+        //   name: "项目方<br>有兴趣数量",
+        //   response: ""
+        // },
       },
       details_lists: {
         projectIndustry: {
@@ -206,6 +206,17 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+  article{
+    #nav_lists{
+      .box{
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+
+        /*display: none !important;*/
+      }
+    }
+  }
 }
 
 </style>
@@ -248,6 +259,7 @@ export default {
 
     }
     article {
+
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         font-size: 0.42rem;

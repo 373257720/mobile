@@ -17,7 +17,7 @@
             </div>
             <div class="normal" v-else-if="key=='collectMoney'">
               <p class="row1">{{item.name}}</p>
-              <p class="row2" ><span>{{item.collectMoneyMin}}</span><span>-</span><span>{{item.collectMoneyMax}}</span></p>
+              <p class="row2" ><span>{{item.collectMoneyMin}}</span><span style="margin: 0 0.2rem;">-</span><span>{{item.collectMoneyMax}}</span></p>
             </div>
             <div class="normal" v-else>
               <p class="row1">{{item.name}}</p>

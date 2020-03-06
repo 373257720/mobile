@@ -51,19 +51,19 @@
           <p>Company address:</p>
           <div>{{form.userAddressEn}}</div>
         </li>
-        <li class="idcard_left" v-if="form.userIdentityType==1">
+        <li class="idcard_left" v-if="form.userIdentityType==1 && form.identityPicOne">
           <p>{{switchon==true?'身份证正面':'护照'}}</p>
           <div class="pic">
             <img :src="$baseurl+form.identityPicOne" alt />
           </div>
         </li>
-        <li class="idcard_right" v-if="switchon && form.userIdentityType==1">
+        <li class="idcard_right" v-if="switchon && form.userIdentityType==1 && form.identityPicTwo">
           <p>身份证反面</p>
           <div class="pic">
             <img :src="$baseurl+form.identityPicTwo" alt />
           </div>
         </li>
-        <li v-if="form.userIdentityType==2" class="idcard_right">
+        <li v-if="form.userIdentityType==2 && form.userCompanyPic" class="idcard_right">
           <p>公司营业执照</p>
           <div class="pic">
             <img :src="$baseurl+form.userCompanyPic" alt />

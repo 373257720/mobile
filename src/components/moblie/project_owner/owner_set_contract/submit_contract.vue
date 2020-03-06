@@ -189,6 +189,7 @@ export default {
           line-height: 1rem;
           color: white;
           height: 1rem;
+          border-radius: 2px;
         }
         .blockchain {
           background: orange;

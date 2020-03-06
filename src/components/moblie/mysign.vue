@@ -3,8 +3,8 @@
     <nav>
       <header>我的项目</header>
       <!-- <van-overlay z-index='-666' :show="visible" @click="visible= false"/> -->
-      <main>
-        <div class="sort_box" @click="fliter">
+      <main >
+        <div class="sort_box" @click="fliter" v-if="usertype">
           项目筛选
           <van-icon name="arrow-down" />
         </div>
@@ -20,67 +20,68 @@
             <div class="all_select" :class="num==2?'isactive':'isorigin'" @click="toggleAll">
               全选
             </div>
-            <van-cell
-              v-for="(item, index) in list"
-              clickable
-              :key="item.text"
-              :title="`${item.text}`"
-              @click="toggle(index)"
-            >
-              <van-checkbox :name="item.value" ref="checkboxes" slot="right-icon" />
-            </van-cell>
-            <div class="confirm" @click="confirm_lists">
-               确定
-<!--              <p @click="toggleAll">全选</p>-->
-<!--              <p @click="confirm_lists">确定</p>-->
-              </div>
+            <div class="choose_lists">
+              <van-cell
+                v-for="(item, index) in list"
+                clickable
+                :key="item.text"
+                :title="`${item.text}`"
+                @click="toggle(index)"
+              >
+                <van-checkbox :name="item.value" ref="checkboxes" slot="right-icon" />
+              </van-cell>
+            </div>
+            <div class="confirm" @click="confirm_lists">确定</div>
           </van-cell-group>
         </van-checkbox-group>
       </main>
     </nav>
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <van-list
-        v-model="loading"
-        :finished="finished"
-        @load="onLoad"
-        :loading-text="loadText"
-        finished-text="没有更多了"
-        error-text="请求失败，点击重新加载"
-        :offset="300"
-      >
-        <ul>
-          <li v-for="item in upGoodsInfo" :key="item.signId" @click="mysignto(item)">
-            <div>
-              <p>
-                <span>申请时间:</span>
-                <span>{{item.signTime4Submit}}</span>
-              </p>
-              <p>
-                <span>申请项目:</span>
-                <span>{{item.projectName}}</span>
-              </p>
-              <p>
-                <span>申请中间人:</span>
-                <span>{{item.userIdentityType==1?item.userName:item.userCompany}}</span>
-              </p>
 
-              <p v-if="usertype==1 && item.signStatus>=6">
-                <span>投资者名称:</span>
-                <span>{{item.investorsName}}</span>
-              </p>
-              <p v-if="item.signStatus"  >
-                <span >签约时间:</span>
-                <span>{{item.signTime}}</span>
-              </p>
-            </div>
-            <aside>
-              <img :src="item.pic" alt />
-              <span>{{item.signStatustext}}</span>
-            </aside>
-          </li>
-        </ul>
-      </van-list>
-    </van-pull-refresh>
+      <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          @load="onLoad"
+          :loading-text="loadText"
+          :finished-text="already_check"
+          error-text="请求失败，点击重新加载"
+          :offset="300"
+        >
+          <ul>
+            <li v-for="item in upGoodsInfo" :key="item.signId" @click="mysignto(item)">
+              <div>
+                <p>
+                  <span>申请时间:</span>
+                  <span>{{item.signTime4Submit}}</span>
+                </p>
+                <p>
+                  <span>申请项目:</span>
+                  <span>{{item.projectName}}</span>
+                </p>
+                <p>
+                  <span>申请中间人:</span>
+                  <span>{{item.userIdentityType==1?item.userName:item.userCompany}}</span>
+                </p>
+
+                <p v-if="usertype==1 && item.signStatus>=6">
+                  <span>投资者名称:</span>
+                  <span>{{item.investorsName}}</span>
+                </p>
+                <p v-if="item.signStatus"  >
+                  <span >签约时间:</span>
+                  <span>{{item.signTime}}</span>
+                </p>
+              </div>
+              <aside>
+                <img :src="item.pic" alt />
+                <span>{{item.signStatustext}}</span>
+              </aside>
+            </li>
+          </ul>
+        </van-list>
+      </van-pull-refresh>
+
+
     <mbottom></mbottom>
   </div>
 </template>
@@ -221,6 +222,13 @@ export default {
     }
   },
   computed: {
+    already_check:function(){
+      if(this.$store.state.currentUsertype || this.usertype){
+            return '没有更多了';
+      }else{
+            return '请等待投行审核，方可浏览信息';
+      }
+    },
     list: function() {
       // 待处理项目->1 待签约项目->2 投行拒绝和中间人签约 ->3 已签约待上链->4    已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8   待确认项目->9  签约成功项目->10 投资人拒绝签约项目->11
       if (this.usertype == 1 || this.usertype == 4) {
@@ -530,12 +538,19 @@ export default {
     transition: height 0.3s;
     .van-hairline--top-bottom {
       position: absolute;
+      /*height:100px;*/
       bottom: 0;
       width: 100%;
     }
+    .choose_lists{
+      max-height: 6rem;
+      overflow-y: scroll;
+    }
   }
+
   .van-pull-refresh {
-    margin: 2.8rem 0 1.3rem 0;
+    padding: 2.8rem 0 1.3rem 0;
+
   }
 
   .van-list {
@@ -553,6 +568,7 @@ export default {
   }
   .van-cell {
     padding: 0.2rem 0.3rem;
+
     .van-cell__title {
       text-align: center;
     }
@@ -591,6 +607,8 @@ export default {
     }
     .van-cell--clickable {
       font-size: 0.4rem;
+      box-sizing: border-box;
+      height: 1rem;
     }
   }
 }
@@ -683,9 +701,11 @@ export default {
       font-size: 0.36rem;
       div {
         /*width: 9rem;*/
-        /*display: flex;*/
-        /*flex-direction: column;*/
-        /*justify-content: space-evenly;*/
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
         p {
           display: flex;
           margin-bottom: 0.2rem;
@@ -694,13 +714,14 @@ export default {
             font-weight: 900;
             line-height: 0.46rem;
             display: inline-block;
-            width: 2.3rem;
+            width: 2.6rem;
             vertical-align: top;
           }
           span:nth-child(2) {
             vertical-align: top;
             display: inline-block;
-            width: 6.3rem;
+            /*width: 6.3rem;*/
+            flex: 1;
             color: #575757;
           }
           //
