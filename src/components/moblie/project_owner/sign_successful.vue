@@ -149,8 +149,9 @@ export default {
         this.$toast.clear();
         console.log(res);
         if (res.data.resultCode == 10000) {
-          // window.open();
           newWindow.location.href = res.data.data.pdfPath;
+        }else{
+          this.$toast(res.data.resultDesc);
         }
       });
     }

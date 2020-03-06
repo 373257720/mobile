@@ -163,9 +163,10 @@ export default {
         url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
       }).then(res => {
         this.$toast.clear();
-        // console.log(res);
         if (res.data.resultCode == 10000) {
           newWindow.location.href = res.data.data.pdfPath;
+        }else{
+          this.$toast(res.data.resultDesc);
         }
       });
     },

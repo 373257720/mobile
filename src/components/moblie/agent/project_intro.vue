@@ -118,6 +118,16 @@ export default {
         this.$toast.clear();
         this.details.signUserId1=res.signUserId1;
         this.title = res.title;
+        if(res.projectLifeCycle==-1){
+          this.$dialog
+            .alert({
+              title: "项目已不存在,请确认是否刪除",
+            })
+            .then(() => {
+              this.$router.go(-1);
+            })
+          return
+        }
 
       });
   },

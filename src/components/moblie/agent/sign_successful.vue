@@ -151,6 +151,8 @@ export default {
         console.log(res);
         if (res.data.resultCode == 10000) {
           newWindow.location.href = res.data.data.pdfPath;
+        }else{
+          this.$toast(res.data.resultDesc);
         }
       });
     }

@@ -143,11 +143,9 @@
                 title: "该项目已删除",
               })
               .then(() => {
-                // this.$routerto("mysign");
                 this.$router.go(-1)
               });
           }
-          console.log(res);
         });
     },
     methods: {

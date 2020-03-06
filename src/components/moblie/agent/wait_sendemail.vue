@@ -162,6 +162,16 @@ export default {
         this.title = res.title;
         // this.investorsId = res.investorsId;
         this.$toast.clear();
+        if(res.projectLifeCycle==-1){
+          this.$dialog
+            .alert({
+              title: "项目已不存在,请确认是否刪除",
+            })
+            .then(() => {
+              this.$router.go(-1);
+            })
+          return
+        }
       });
   },
   methods: {

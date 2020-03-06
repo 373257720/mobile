@@ -124,9 +124,19 @@ export default {
       )
       .then(res => {
         this.investorsEmailSend=res.investorsEmailSend;
-        console.log(res);
+        // console.log(res);
         this.projectName = res.title;
         this.$toast.clear();
+        if(res.projectLifeCycle==-1){
+          this.$dialog
+            .alert({
+              title: "项目已不存在,请确认是否刪除",
+            })
+            .then(() => {
+              this.$router.go(-1);
+            })
+          return
+        }
       });
   },
   mounted() {},

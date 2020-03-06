@@ -121,7 +121,6 @@ export default {
         {}
       )
       .then(res => {
-        console.log(res);
         this.title = res.title;
         this.$toast.clear();
       });

@@ -104,7 +104,6 @@ export default {
     };
   },
   created() {
-
     this.details = this.$route.query;
     this.$loading();
     this.$global
@@ -130,11 +129,9 @@ export default {
           this.$dialog
             .alert({
               title: "项目已不存在,请确认是否刪除",
-              // message: "弹窗内容"
             })
             .then(() => {
                 this.$router.go(-1);
-
             })
           return
         }

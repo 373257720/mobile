@@ -1,11 +1,7 @@
 <template>
   <div id="p_user_contact">
     <nav>
-      <header>
-
-          联络人
-
-
+      <header>联络人
         <!-- <van-icon name="arrow-left" @click="$global.previous()" />联络人 -->
 <!--        <commonnav :msg="dad_text"></commonnav>-->
       </header>
