@@ -201,13 +201,14 @@ export default {
     changelanguage(action, done) {
       // console.log(this.radio);
       if (action === "confirm") {
-        this.$axios({
-          method: "post",
-          url: `${this.$baseurl}/bsl_web/base/language.do?lan=${this.radio}`
-        }).then(res => {
-          // console.log(res);
-          done();
-        });
+        done();
+        // this.$axios({
+        //   method: "post",
+        //   url: `${this.$baseurl}/bsl_web/base/language.do?lan=${this.radio}`
+        // }).then(res => {
+        //   // console.log(res);
+        //   done();
+        // });
       } else if (action === "cancel") {
         done(); //关闭
       }
@@ -319,7 +320,7 @@ export default {
   main {
     //  z-index: 0;
     ul {
-      padding: 0 0.5rem;
+      padding: 0 0.5rem 3rem 0.5rem;
       li {
         font-size: 0.38rem;
         // line-height: 1.5rem;

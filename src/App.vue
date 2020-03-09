@@ -17,6 +17,8 @@ export default {
   created() {
     //在页面加载时读取sessionStorage里的状态信息
     // console.log(sessionStorage.getItem("test"))
+    // localStorage.getItem("store", JSON.stringify(this.$store.state))
+    alert(localStorage.getItem("store", JSON.stringify(this.$store.state)));
     if (sessionStorage.getItem("store")) {
       this.$store.replaceState(
         Object.assign(
@@ -27,7 +29,14 @@ export default {
       );
     }
     window.addEventListener("beforeunload", () => {
-      sessionStorage.setItem("store", JSON.stringify(this.$store.state));
+      alert('beforeunload');
+      localStorage.setItem("store", JSON.stringify(this.$store.state))
+      // sessionStorage.setItem("store", JSON.stringify(this.$store.state));
+    });
+    window.addEventListener("pagehide", () => {
+      alert('onpagehide');
+      localStorage.setItem("store", JSON.stringify(this.$store.state))
+      // sessionStorage.setItem("store", JSON.stringify(this.$store.state));
     });
   }
   // created() {

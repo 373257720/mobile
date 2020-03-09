@@ -570,7 +570,7 @@ export default {
          padding: 0 0.5rem;
         li{
         /*line-height: 1rem;*/
-          word-wrap: break-word;
+        /*  word-wrap: break-word;*/
         /*font-weight: 400;*/
           min-height: 1rem;
           cursor: pointer;

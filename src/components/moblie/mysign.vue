@@ -8,13 +8,6 @@
           项目筛选
           <van-icon name="arrow-down" />
         </div>
-<!--        <form action="" method="get">-->
-<!--          您喜欢的水果？<br /><br />-->
-<!--          <label><input name="Fruit" type="checkbox" value="" />苹果 </label>-->
-<!--          <label><input name="Fruit" type="checkbox" value="" />桃子 </label>-->
-<!--          <label><input name="Fruit" type="checkbox" value="" />香蕉 </label>-->
-<!--          <label><input name="Fruit" type="checkbox" value="" />梨 </label>-->
-<!--        </form>-->
         <van-checkbox-group ref="check" v-model="result">
           <van-cell-group>
             <div class="all_select" :class="num==2?'isactive':'isorigin'" @click="toggleAll">
@@ -36,7 +29,6 @@
         </van-checkbox-group>
       </main>
     </nav>
-
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
           v-model="loading"
@@ -80,8 +72,6 @@
           </ul>
         </van-list>
       </van-pull-refresh>
-
-
     <mbottom></mbottom>
   </div>
 </template>
@@ -226,7 +216,7 @@ export default {
       if(this.$store.state.currentUsertype || this.usertype){
             return '没有更多了';
       }else{
-            return '请等待投行审核，方可浏览信息';
+            return '请等待投行审核';
       }
     },
     list: function() {
@@ -301,8 +291,14 @@ export default {
     }
   },
   mounted() {
-    this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
+    // this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
+    this.$nextTick(() => {
+      window.addEventListener("resize",() =>{
+        this.$refs.check.$el.style.height = 0;
+      }, false);
+    });
   },
+
   methods: {
      toggleAll() {
        console.log(this.num)
@@ -429,7 +425,8 @@ export default {
       this.onLoad();
     },
     fliter() {
-      console.log(this.$refs.check.$el.style.height);
+      // console.log(this.$refs.check.$el.style.height);
+      this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
       // this.visible = !this.visible;
       // let aaa=this.$refs.check.$el.children[0].clientHeight;
       // console.log(this.$refs.check.$el.style.height);
@@ -542,9 +539,39 @@ export default {
       bottom: 0;
       width: 100%;
     }
+    /*.choose_lists{*/
+    /*  max-height: 6rem;*/
+    /*  overflow-y: scroll;*/
+    /*}*/
     .choose_lists{
-      max-height: 6rem;
-      overflow-y: scroll;
+      max-height: 4rem;
+      overflow: hidden;
+      overflow-y: auto;
+    }
+    .choose_lists::-webkit-scrollbar-track-piece {
+      background-color: rgba(0, 0, 0, 0);
+      border-left: 1px solid rgba(0, 0, 0, 0);
+    }
+    .choose_lists::-webkit-scrollbar {
+      width: 3px;
+      height: 13px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+    }
+    .choose_lists::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.5);
+      background-clip: padding-box;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      min-height: 28px;
+    }
+    .choose_lists::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
     }
   }
 
@@ -647,11 +674,11 @@ export default {
     .all_select{
       text-align: center;
       font-size: 0.4rem;
-      height: 1.12rem;
+      height: 1rem;
       /*background: #00adef;*/
       /*color: white;*/
       /*border-bottom: 1px solid #ebedf0;*/
-      line-height: 1.12rem;
+      line-height: 1rem;
     }
     // }
     .isorigin{
@@ -664,10 +691,11 @@ export default {
       text-align: center;
       // padding: 0.2rem 0.3rem;
       font-size: 0.4rem;
-      height: 1.12rem;
+      height: 1rem;
+      /*box-sizing: border-box;*/
       background: #00aef1;
       color: white;
-      line-height: 1.12rem;
+      line-height: 1rem;
       /*p{*/
       /*  flex: 1;*/
       /*}*/

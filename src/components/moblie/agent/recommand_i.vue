@@ -521,7 +521,7 @@ export default {
         }
       }
       footer {
-        /*padding: 0 0.5rem 0.5rem 0.5rem;*/
+        padding-bottom: 1.5rem;
         display: flex;
         justify-content: center;
         font-size: 0.42rem;

@@ -11,7 +11,7 @@
           </p>
     </div>
 </div>
-  
+
 </template>
 <script >
 export default {
@@ -31,7 +31,7 @@ export default {
     };
   },
     created(){
-        this.nav_lists.interestProjectCount.name="已接受<br>投资者数量";
+        // this.nav_lists.interestProjectCount.name="已接受<br>投资者数量";
     }
 }
 </script>
@@ -53,7 +53,7 @@ export default {
         > p {
           flex: 1;
           height: 2.5rem;
-          
+
           // font-size: 0.38rem;
              font-size: 0.42rem;
           display: flex;
@@ -70,7 +70,7 @@ export default {
             justify-content:space-between;
            span.rowa{
              line-height: 0.56rem;
-             color: #4D4D4D; 
+             color: #4D4D4D;
            }
             span.rowb{
                  font-size: 0.5rem;

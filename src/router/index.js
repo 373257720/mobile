@@ -328,12 +328,6 @@ const routes = [
   //   name: 'testcavans',
   //   component: testcavans,
   // },
-
-
-
-
-
-
   {
     path: '*',
     // name: 'login',
