@@ -88,16 +88,27 @@ export default {
           name: "电邮:",
           response: ""
         },
+<<<<<<< HEAD
         signStatus: {
           name: "签约状态:",
           response: "",
           classname:'red',
         },
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         projectDescribe: {
           name: "项目简介:",
           response: ""
         },
+<<<<<<< HEAD
 
+=======
+        signStatus: {
+          name: "签约状态:",
+          response: "",
+          classname:'red',
+        }
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       }
     };
   },
@@ -122,6 +133,10 @@ export default {
         {}
       )
       .then(res => {
+<<<<<<< HEAD
+=======
+        console.log(res);
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         this.title = res.title;
         this.$toast.clear();
       });
@@ -171,6 +186,7 @@ export default {
         padding: 0.4rem;
         box-sizing: border-box;
         word-break: break-all;
+<<<<<<< HEAD
         display:-webkit-box;
         display: -moz-box;
         display: -ms-flexbox;
@@ -186,6 +202,12 @@ export default {
     　　box-align:center;
     　　-moz-box-align:center;
     　　-webkit-box-align:center;
+=======
+        display: -webkit-flex;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;

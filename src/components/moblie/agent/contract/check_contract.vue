@@ -46,9 +46,15 @@
         </div>
            <div class="sub_title">
           <header>Contract:</header>
+<<<<<<< HEAD
           <div class="dad_contract">
                   <contractcomponent :contract="contract"></contractcomponent>
           </div>
+=======
+<!--          <div>-->
+                  <contractcomponent :contract="contract"></contractcomponent>
+<!--          </div>-->
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         </div>
 
         <footer>
@@ -139,7 +145,10 @@ export default {
 <style lang="scss" scoped>
 #a_check_contract {
   width: 100%;
+<<<<<<< HEAD
   height: 100%;
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
   nav {
     width: 100%;
     text-align: center;
@@ -168,18 +177,27 @@ export default {
         font-size: 0.38rem;
         line-height: 1rem;
         padding: 0.2rem;
+<<<<<<< HEAD
+=======
+        /*box-sizing: border-box !important;*/
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         height: 1rem;
         width: 100%;
         /*height: 13rem;*/
         border: 1px solid rgb(169, 169, 169);
       }
     }
+<<<<<<< HEAD
     div.dad_contract{
         height: 15rem;
     }
     footer {
       width: 100%;
       padding-bottom: 2rem;
+=======
+    footer {
+      width: 100%;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       font-size: 0.42rem;
       button {
         width: 100%;

@@ -135,6 +135,7 @@
           {}
         )
         .then(res => {
+<<<<<<< HEAD
           this.$toast.clear();
           this.title = res.title;
           if(res.projectLifeCycle==-1){
@@ -146,6 +147,11 @@
                 this.$router.go(-1)
               });
           }
+=======
+          console.log(res);
+          this.title = res.title;
+          this.$toast.clear();
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         });
     },
     methods: {

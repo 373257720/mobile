@@ -100,16 +100,22 @@
       },
       // 上链
       contract_submit() {
+<<<<<<< HEAD
         let agent_signdata=this.contract.agent_signdate?this.$global.stamptodate(this.contract.agent_signdate):'';
          let owner_signdata=this.contract.owner_signdate?this.$global.stamptodate(this.contract.owner_signdata):'';
         // let code=encodeURIComponent('#');
         // let upload_urlpath = `${this.$baseurl3}/${code}/upload_contract?visitToken=${this.token}`;
+=======
+        let code=encodeURIComponent('#');
+        let upload_urlpath = `${this.$baseurl3}/${code}/upload_contract?visitToken=${this.token}`;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         this.$toast.loading({
           loadingType: "spinner",
           message: "上传大概需要1分钟，请耐心等候",
           overlay:true,
           duration: 0
         });
+<<<<<<< HEAD
           this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/ipfs/update`,{signId: `${this.signId}`,
             htmlData:`<html lang="en">
 <head>
@@ -266,6 +272,13 @@
             signUserId1:this.signUserId1})
           .then(res => {
             // urlPath: `${upload_urlpath}`,
+=======
+          this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/ipfs/update`,{signId: `${this.signId}`,
+            urlPath: `${upload_urlpath}`,
+            projectId:this.projectId,
+            signUserId1:this.signUserId1})
+          .then(res => {
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
             this.$toast.clear();
             if (res.data.resultCode == 10000) {
             // let query1 = Object.assign({},this.$route.query,{signStatus: 5})
@@ -366,6 +379,7 @@
       background: #ffffff;
       article{
       height: 100%;
+<<<<<<< HEAD
       display:-webkit-box;
       display: -moz-box;
       display: -ms-flexbox;
@@ -375,6 +389,11 @@
       -webkit-flex-direction:column;
       -webkit-justify-content:space-between;
       justify-content:space-between;
+=======
+      display: flex;
+      flex-direction: column;
+    justify-content: space-between;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       width: 100%;
         >div{
            height: 85%;
@@ -397,6 +416,41 @@
       }
 
       }
+<<<<<<< HEAD
+=======
+      // .contract {
+      //   border: 1px solid #b5b5b5;
+      //   // background: #f2f2f2;
+      //   box-sizing: border-box;
+      //   font-size: 0.4rem;
+      //   line-height: 0.6rem;
+      //   padding: 0.4rem 0.5rem;
+      //   width: 100%;
+      //   height: 13rem;
+      //   overflow-y: auto;
+      //   word-wrap: break-word;
+      //   color: rgb(169, 169, 169);
+      //   div.button {
+      //     margin-top: 2rem;
+      //     display: flex;
+      //     justify-content: space-between;
+      //     p {
+      //       display: flex;
+      //       flex-direction: column;
+      //       align-items: center;
+      //       i {
+      //         width: 3rem;
+      //         height: 1rem;
+      //         border-bottom: 1px solid rgb(169, 169, 169);
+      //         img {
+      //           width: 3rem;
+      //           height: 1rem;
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
 
     }
   }

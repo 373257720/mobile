@@ -1,7 +1,15 @@
 <template>
   <div id="p_user_contact">
     <nav>
+<<<<<<< HEAD
       <header>联络人
+=======
+      <header>
+
+          联络人
+
+
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         <!-- <van-icon name="arrow-left" @click="$global.previous()" />联络人 -->
 <!--        <commonnav :msg="dad_text"></commonnav>-->
       </header>
@@ -20,18 +28,29 @@
         </van-search>
       </div>
     </nav>
+<<<<<<< HEAD
       <ul v-if="arr && arr.length>0">
+=======
+      <ul>
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         <li v-for="item in arr" :key="item.username" @click="$routerto('p_user_contact2',{investorsId:item.investorsId})">
           <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
           <!-- <h2></h2> -->
           <p>
+<<<<<<< HEAD
             <span>{{item.userIdentityType==1? item.userName:item.userIdentityType==2?item.userCompany:''}}</span>
+=======
+            <span>{{item.userName}}</span>
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
             <span>{{item.bslEmail}}</span>
             <!-- <van-icon name="arrow" /> -->
           </p>
         </li>
       </ul>
+<<<<<<< HEAD
     <div v-else-if="arr.length<1" class="nodata">没有更多信息</div>
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     <mbottom></mbottom>
   </div>
 </template>
@@ -194,11 +213,14 @@ export default {
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
   }
+<<<<<<< HEAD
   .nodata{
     text-align: center;
     padding-top: 5rem;
     color: #646566;
   }
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
   ul {
     padding: 3rem 0 1.5rem 0;
     background: white;
@@ -212,7 +234,10 @@ export default {
       align-items: center;
       // border-bottom: 0.01rem solid #b5b5b5;
       font-size: 0.3rem;
+<<<<<<< HEAD
 
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       h2 {
         font-size: 0.32rem;
         font-weight: 600;

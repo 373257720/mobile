@@ -32,7 +32,11 @@
             </p>
           </li>
           <li class="investorsArea">
+<<<<<<< HEAD
             <p class="row1">地区:</p>
+=======
+            <p class="row1">地区</p>
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
             <p class="row2">
 <!--              <el-select-->
 <!--                @change="selectregion(regionlist[form.bslAreaCode])"-->
@@ -98,7 +102,13 @@
           </li>
         </ul>
         <footer>
+<<<<<<< HEAD
           <button @click="submit">提交</button>
+=======
+          <aside>
+            <button @click="submit">提交</button>
+          </aside>
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         </footer>
       </article>
     </main>
@@ -450,6 +460,7 @@ export default {
     padding-top: 1.6rem;
     background: #ffffff;
     aside {
+<<<<<<< HEAD
       　display:-webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -465,6 +476,15 @@ export default {
     }
     article {
      padding: 0 0.5rem;
+=======
+      display: flex;
+      width: 100%;
+      height: 3rem;
+      justify-content: center;
+    }
+    article {
+      margin: 0 0 1rem 0;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       header {
         height: 2rem;
         font-size: 0.46rem;
@@ -478,6 +498,7 @@ export default {
         // border-bottom: 0.1rem solid #b5b5b5;
       }
       ul {
+<<<<<<< HEAD
         padding: 0.5rem 0;
         /*display: flex;*/
         /*flex-direction: column;*/
@@ -492,24 +513,43 @@ export default {
           display: -webkit-flex;
           display: flex;
           height: 1rem;
+=======
+        padding: 0.5rem 0.5rem 2rem 0.5rem;
+        li {
+          margin-bottom: 0.4rem;
+          display: flex;
+          height: 1rem;
+          /*align-items: baseline;*/
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
           font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
             width: 3rem;
+<<<<<<< HEAD
             /*flex:2;*/
             line-height: 1rem;
             /*margin-bottom: 0.2rem;*/
           }
           .row1::before {
+=======
+            line-height: 1rem;
+            /*margin-bottom: 0.2rem;*/
+          }
+            .row1::before {
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
                 content: "*";
                 color: #f56c6c;
                 margin-right: 0.1rem;
             }
           .row2 {
               position: relative;
+<<<<<<< HEAD
             /*width: 7rem;*/
             flex:3;
+=======
+            width: 7rem;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
             height: 100%;
             word-break: break-all;
             /*line-height: 1.2rem;*/
@@ -521,12 +561,19 @@ export default {
         }
       }
       footer {
+<<<<<<< HEAD
         padding-bottom: 1.5rem;
         display: flex;
         justify-content: center;
         font-size: 0.42rem;
         button {
           width:8rem;
+=======
+        padding: 0 0.5rem 0.5rem 0.5rem;
+        font-size: 0.38rem;
+        button {
+          width: 9.9rem;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
           height: 1rem;
           background: #00adef;
           color: white;

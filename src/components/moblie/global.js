@@ -201,7 +201,6 @@ const global = {
     this.$goto("login");
     sessionStorage.clear();
 
-
   }
 
 

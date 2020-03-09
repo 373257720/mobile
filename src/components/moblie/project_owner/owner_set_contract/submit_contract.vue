@@ -37,6 +37,13 @@ export default {
   //     // })
   // },
 
+<<<<<<< HEAD
+=======
+  created() {
+    // this.projectId=this.$route.query.projectId?this.$route.query.projectId*1:null;
+    // this.signId=this.$route.query.signId?this.$route.query.signId*1:-1;
+  },
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
   computed: {
   },
   mounted() {
@@ -57,6 +64,7 @@ export default {
             return;
         }
       };
+<<<<<<< HEAD
       let projectId=this.$route.query.projectId?this.$route.query.projectId*1:-1;
       let signId=this.$route.query.signId?this.$route.query.signId*1:-1;
       console.log(projectId,signId)
@@ -72,6 +80,22 @@ export default {
             signStatus: 2,
             signAgreement: JSON.stringify(this.contract)
           }
+=======
+      this.projectId=this.$route.query.projectId?this.$route.query.projectId*1:-1;
+      this.signId=this.$route.query.signId?this.$route.query.signId*1:-1;
+      console.log(this.projectId,this.signId)
+      console.log(this.contract);
+      this.$loading();
+        this.$axios({
+          method: "post",
+          url: `${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,
+          data: this.$qs.stringify({
+            projectId: this.projectId,
+            signId: this.signId,
+            signStatus: 2,
+            signAgreement: JSON.stringify(this.contract)
+          })
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         }).then(res => {
           console.log(res)
           this.$toast.clear();
@@ -91,7 +115,11 @@ export default {
                 message: "您的注册审核不通过，请前往我的-个人审核里修改"
               })
               .then(() => {
+<<<<<<< HEAD
                 this.$routerto("mysign");
+=======
+                 this.$routerto("mysign");
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
               });
           }else{
             this.$dialog
@@ -100,6 +128,7 @@ export default {
                 message: "返回我的项目",
               })
               .then(() => {
+<<<<<<< HEAD
                 this.$routerto("mysign");
               });
           }
@@ -108,6 +137,12 @@ export default {
         console.log('没有projectid')
       }
 
+=======
+                  this.$routerto("mysign");
+              });
+          }
+        });
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     }
   }
 };
@@ -189,7 +224,10 @@ export default {
           line-height: 1rem;
           color: white;
           height: 1rem;
+<<<<<<< HEAD
           border-radius: 2px;
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         }
         .blockchain {
           background: orange;

@@ -50,11 +50,22 @@ export default {
           name: "投资者电话:",
           response: ""
         },
+<<<<<<< HEAD
         investorsEmail: {
           name: "投资者邮箱:",
           response: ""
         },
 
+=======
+        investorsEmailSend: {
+          name: "投资者邮箱:",
+          response: ""
+        },
+         investorsEmailSend: {
+          name: "投资者邮箱:",
+          response: ""
+        }
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       },
       nav_lists: {
         financingStage: {
@@ -149,9 +160,14 @@ export default {
         this.$toast.clear();
         console.log(res);
         if (res.data.resultCode == 10000) {
+<<<<<<< HEAD
           newWindow.location.href = res.data.data.pdfPath;
         }else{
           this.$toast(res.data.resultDesc);
+=======
+          // window.open();
+          newWindow.location.href = res.data.data.pdfPath;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         }
       });
     }

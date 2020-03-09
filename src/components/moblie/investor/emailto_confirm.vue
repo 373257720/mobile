@@ -53,6 +53,7 @@ export default {
           name: "融资阶段",
           response: ""
         },
+<<<<<<< HEAD
         // committedCount: {
         //   name: "已提交</br>投资者数量",
         //   response: ""
@@ -61,6 +62,16 @@ export default {
         //   name: "项目方<br>有兴趣数量",
         //   response: ""
         // },
+=======
+        committedCount: {
+          name: "已提交</br>投资者数量",
+          response: ""
+        },
+        interestProjectCount: {
+          name: "项目方<br>有兴趣数量",
+          response: ""
+        },
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
 
       },
       details_lists: {
@@ -124,6 +135,7 @@ export default {
       )
       .then(res => {
         this.investorsEmailSend=res.investorsEmailSend;
+<<<<<<< HEAD
         // console.log(res);
         this.projectName = res.title;
         this.$toast.clear();
@@ -137,6 +149,11 @@ export default {
             })
           return
         }
+=======
+        console.log(res);
+        this.projectName = res.title;
+        this.$toast.clear();
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       });
   },
   mounted() {},
@@ -196,6 +213,7 @@ export default {
 </script>
 <style lang="scss">
 #i_emailto_confirm {
+<<<<<<< HEAD
   article{
     #nav_lists{
       .box{
@@ -207,6 +225,8 @@ export default {
       }
     }
   }
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -228,14 +248,22 @@ export default {
     text-align: center;
     line-height: 1.5rem;
     height: 1.5rem;
+<<<<<<< HEAD
     /*position: fixed;*/
+=======
+    // position: fixed;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     top: 0;
     font-size: 0.46rem;
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
   }
   main {
+<<<<<<< HEAD
      /*padding: 1.5rem 0 0 0;*/
+=======
+    // padding: 1.5rem 0 0 0;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     background: #ffffff;
     div.investors_infor {
       h2 {

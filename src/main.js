@@ -13,12 +13,23 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 // 富文本
+<<<<<<< HEAD
 // import  "font-awesome/css/font-awesome.css";
 // import initRichText from './editor';
 // initRichText();
 // vuex
 import Vuex from 'vuex';
 Vue.use(Vuex);
+=======
+import  "font-awesome/css/font-awesome.css";
+import initRichText from './editor';
+initRichText();
+// vuex
+import Vuex from 'vuex';
+Vue.use(Vuex);
+
+
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
 // import ant from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.less'
 // Vue.use(ant)
@@ -104,6 +115,10 @@ axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(res => {
   // isCloseLoading();
+<<<<<<< HEAD
+=======
+
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
   if (res.data && res.data.resultCode) {
     let code = res.data.resultCode
     if (code == 10090) { // 如果是未登录直接踢出去

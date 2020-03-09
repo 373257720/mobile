@@ -17,8 +17,11 @@ export default {
   created() {
     //在页面加载时读取sessionStorage里的状态信息
     // console.log(sessionStorage.getItem("test"))
+<<<<<<< HEAD
     // localStorage.getItem("store", JSON.stringify(this.$store.state))
     alert(localStorage.getItem("store", JSON.stringify(this.$store.state)));
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     if (sessionStorage.getItem("store")) {
       this.$store.replaceState(
         Object.assign(
@@ -29,6 +32,7 @@ export default {
       );
     }
     window.addEventListener("beforeunload", () => {
+<<<<<<< HEAD
       alert('beforeunload');
       localStorage.setItem("store", JSON.stringify(this.$store.state))
       // sessionStorage.setItem("store", JSON.stringify(this.$store.state));
@@ -37,6 +41,10 @@ export default {
       alert('onpagehide');
       localStorage.setItem("store", JSON.stringify(this.$store.state))
       // sessionStorage.setItem("store", JSON.stringify(this.$store.state));
+=======
+      sessionStorage.setItem("store", JSON.stringify(this.$store.state));
+      // sessionStorage.setItem('test',123456)
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     });
   }
   // created() {

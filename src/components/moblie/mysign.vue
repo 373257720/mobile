@@ -25,6 +25,7 @@
               </van-cell>
             </div>
             <div class="confirm" @click="confirm_lists">确定</div>
+
           </van-cell-group>
         </van-checkbox-group>
       </main>
@@ -219,6 +220,7 @@ export default {
             return '请等待投行审核';
       }
     },
+
     list: function() {
       // 待处理项目->1 待签约项目->2 投行拒绝和中间人签约 ->3 已签约待上链->4    已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8   待确认项目->9  签约成功项目->10 投资人拒绝签约项目->11
       if (this.usertype == 1 || this.usertype == 4) {
@@ -298,6 +300,7 @@ export default {
       }, false);
     });
   },
+
 
   methods: {
      toggleAll() {
@@ -427,6 +430,7 @@ export default {
     fliter() {
       // console.log(this.$refs.check.$el.style.height);
       this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
+
       // this.visible = !this.visible;
       // let aaa=this.$refs.check.$el.children[0].clientHeight;
       // console.log(this.$refs.check.$el.style.height);
@@ -578,6 +582,7 @@ export default {
   .van-pull-refresh {
     padding: 2.8rem 0 1.3rem 0;
 
+
   }
 
   .van-list {
@@ -595,7 +600,6 @@ export default {
   }
   .van-cell {
     padding: 0.2rem 0.3rem;
-
     .van-cell__title {
       text-align: center;
     }
@@ -634,8 +638,10 @@ export default {
     }
     .van-cell--clickable {
       font-size: 0.4rem;
+
       box-sizing: border-box;
       height: 1rem;
+
     }
   }
 }
@@ -679,6 +685,7 @@ export default {
       /*color: white;*/
       /*border-bottom: 1px solid #ebedf0;*/
       line-height: 1rem;
+
     }
     // }
     .isorigin{
@@ -696,6 +703,7 @@ export default {
       background: #00aef1;
       color: white;
       line-height: 1rem;
+
       /*p{*/
       /*  flex: 1;*/
       /*}*/
@@ -728,7 +736,6 @@ export default {
       border-bottom: 0.02rem dashed #b5b5b5;
       font-size: 0.36rem;
       div {
-        /*width: 9rem;*/
         flex: 3;
         display: flex;
         flex-direction: column;
@@ -743,13 +750,14 @@ export default {
             line-height: 0.46rem;
             display: inline-block;
             width: 2.6rem;
+
             vertical-align: top;
           }
           span:nth-child(2) {
             vertical-align: top;
             display: inline-block;
-            /*width: 6.3rem;*/
             flex: 1;
+
             color: #575757;
           }
           //

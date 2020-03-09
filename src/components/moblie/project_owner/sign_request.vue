@@ -180,7 +180,11 @@ export default {
           title: "该项目已删除",
         })
         .then(() => {
+<<<<<<< HEAD
           this.$router.go(-1);
+=======
+          this.$routerto("mysign");
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         });
     }
   })
@@ -362,11 +366,16 @@ export default {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+<<<<<<< HEAD
           /*align-items: center;*/
           button {
             height: 1rem;
             /*width: 80%;*/
             border-radius: 2px;
+=======
+          button {
+            height: 1rem;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
             color: #ffffff;
           }
           button:nth-of-type(1) {

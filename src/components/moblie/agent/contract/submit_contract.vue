@@ -189,6 +189,7 @@ export default {
       background: #ffffff;
       article{
       height: 100%;
+<<<<<<< HEAD
       display:-webkit-box;
       display: -moz-box;
       display: -ms-flexbox;
@@ -198,6 +199,11 @@ export default {
       -webkit-flex-direction:column;
       -webkit-justify-content:space-between;
       justify-content:space-between;
+=======
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       width: 100%;
         >div{
            height: 85%;

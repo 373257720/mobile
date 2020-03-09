@@ -12,6 +12,7 @@
             :key="item.item"
             @click="$routerto('p_inverstor_details',{investorsId:item.investorsId})"
           >
+<<<<<<< HEAD
 
             <aside>{{index+1}}</aside>
             <article class="main_right">
@@ -21,6 +22,14 @@
                   <span class="row2">{{item[ite.keyword]}}</span>
                 </p>
               </div>
+=======
+            <aside>{{index+1}}</aside>
+            <article class="main_right">
+              <section v-for="(ite) in details_lists" :key="ite.name">
+                <span class="row1">{{ite.name}}</span>
+                <span class="row2">{{item[ite.keyword]}}</span>
+              </section>
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
             </article>
             <footer class="checkall">
               <img src="../../../assets/932de214a934dcc83b834aab8d58a34.png" alt />
@@ -60,7 +69,11 @@ export default {
         },
         {
           keyword: "investorsMobile",
+<<<<<<< HEAD
           name: "投资者电话:",
+=======
+          name: "投资者电话",
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
           response: ""
         },
         // {
@@ -140,7 +153,11 @@ export default {
 <style lang="scss" scoped>
 #p_investor_lists {
   width: 100%;
+<<<<<<< HEAD
   height:100%;
+=======
+  height:100%; 
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
   nav {
     width: 100%;
     text-align: center;
@@ -177,6 +194,7 @@ export default {
           border: 0.03rem solid #02a7e7;
         }
         .main_right {
+<<<<<<< HEAD
           flex:3;
           margin: 0 0.5rem;
           width: 7.16rem;
@@ -188,6 +206,15 @@ export default {
             p{
               margin: 0.1rem;
             }
+=======
+          margin: 0 0.5rem;
+          width: 7.16rem;
+          // font-size: 0.36rem;
+          section {
+            display: flex;
+            margin-bottom: 0.3rem;
+            line-height: 0.6rem;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
             .row1 {
               color: #4c4c4c;
               display: inline-block;
@@ -214,4 +241,8 @@ export default {
     }
   }
 }
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931

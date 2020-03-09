@@ -14,6 +14,7 @@
              <ul class="item">
                <li v-for="(item,index) in l.investorsResp" :key="index" class="item_li">
                  <p><span>{{index+1}}</span></p>
+<<<<<<< HEAD
                  <p><span>{{item.userIdentityType==1?item.userName:item.userIdentityType==2?item.userCompany:''}}</span></p>
                  <ul >
                    <li>
@@ -24,6 +25,12 @@
                    </li>
                    <li>
                      {{item.investorsCompanyAddress}}
+=======
+                 <p><span>{{item.investorsName}}</span></p>
+                 <ul >
+                   <li v-for="(value,key) in item">
+                     {{value}}
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
                    </li>
                  </ul>
                  <p>
@@ -73,6 +80,7 @@
             if(this.lists.length<=0){
               this.reminder='没有更多了';
               this.remind_show=true;
+<<<<<<< HEAD
               return;
             }
             this.reminder='';
@@ -108,6 +116,20 @@
                 })
               }
 
+=======
+              return
+            }
+            this.reminder='';
+            this.lists.forEach((item=>{
+              item.investorsResp =  item.investorsResp.map(x=>{
+                  return  {
+                        investorsEmail: x.investorsEmail,
+                        investorsName: x.investorsName,
+                        investorsCompanyAddress: x.investorsCompanyAddress,
+                        signStatus:x.signStatus
+                      }
+              })
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
             }))
 
             console.log(this.lists)
@@ -274,7 +296,10 @@
     // margin: 0 0 1.6rem 0;
     .remind{
      text-align: center;padding-top: 1rem;color: #969799;
+<<<<<<< HEAD
       font-size: 0.42rem;
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     }
     nav {
       width: 100%;

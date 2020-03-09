@@ -137,12 +137,43 @@ export default {
       )
       .then(res => {
         console.log(res);
+<<<<<<< HEAD
+=======
+        // this.investor_infor=[...res.investor_infor]
+        // this.nav_lists = [...res.nav_lists];
+        // this.details_lists = [...res.details_lists];
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         this.title = res.title;
         this.$toast.clear();
       });
   },
   methods: {
+<<<<<<< HEAD
     // 点击事件
+=======
+    //   cancel() {
+    //   this.show2 = false;
+    // },
+    daship() {
+      var newWindow = window.open();
+      newWindow.location.href = "http://www.wearetechman.com:5001/webui";
+      // tempwindow.location=hash_id;
+    },
+    // 点击事件
+    share(val) {
+      console.log(val);
+      this.message = val;
+      this.$copyText(this.message).then(
+        e => {
+          this.show = true;
+        },
+        function(e) {
+          // alert("Can not copy");
+          console.log(e);
+        }
+      );
+    },
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     check_contract() {
       this.$loading();
       var newWindow = window.open();
@@ -153,9 +184,14 @@ export default {
         this.$toast.clear();
         console.log(res);
         if (res.data.resultCode == 10000) {
+<<<<<<< HEAD
           newWindow.location.href = res.data.data.pdfPath;
         }else{
           this.$toast(res.data.resultDesc);
+=======
+          // window.open();
+          newWindow.location.href = res.data.data.pdfPath;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         }
       });
     }

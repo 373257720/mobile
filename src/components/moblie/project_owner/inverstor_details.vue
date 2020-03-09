@@ -6,7 +6,11 @@
     <main>
       <article>
         <ul>
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
           <li i v-for="(item) in details_lists" :key="item.name">
             <div
               v-if="item.keyword!='investorsCompany' || (item.keyword=='investorsCompany' && item.response!='')"
@@ -16,7 +20,11 @@
             </div>
           </li>
         </ul>
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         <!-- <footer>
           <button @click="check_contract">查看合约</button>
           <button @click="$goto('p_check_contract')">查看合约</button>
@@ -64,7 +72,11 @@ export default {
         },
         {
           keyword: "investorsCompanyAddress",
+<<<<<<< HEAD
           name: "投资者地址:",
+=======
+          name: "投资者公司地址:",
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
           response: ""
         },
         {
@@ -73,7 +85,11 @@ export default {
           response: ""
         }
       ]
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     };
   },
   //  created() {
@@ -162,7 +178,11 @@ export default {
 <style lang="scss" scoped>
 #p_inverstor_details {
   width: 100%;
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
   nav {
     width: 100%;
     text-align: center;
@@ -199,7 +219,11 @@ export default {
          padding: 0.5rem 0.5rem 0 0.5rem;
         li {
           > div {
+<<<<<<< HEAD
             margin-bottom: 0.5rem;
+=======
+            margin-bottom: 0.5rem;  
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
             align-items: baseline;
            font-size: 0.44rem;
             line-height: 0.56rem;
@@ -218,7 +242,11 @@ export default {
           }
         }
       }
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     }
   }
 }

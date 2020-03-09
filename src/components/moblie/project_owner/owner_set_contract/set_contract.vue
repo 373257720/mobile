@@ -264,7 +264,10 @@ export default {
         background: #00adef;
         color: white;
         height: 1rem;
+<<<<<<< HEAD
         border-radius: 2px;
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       }
     }
   }

@@ -37,7 +37,6 @@
             <ul  v-if='countrylist_fetching==false && countrylist.length>0'>
               <li v-for="d in countrylist" :class="d.classname" :key="d.remark" :value='d.value' @click="select_country(d.remark,d.chinese,d.value)">
                 <span>{{d.chinese}}</span><span>{{d.eng}}</span>
-
               </li>
             </ul>
             <ul  style="max-height:200px" v-else-if="countrylist_fetching==false &&  countrylist.length<=0">
@@ -107,6 +106,7 @@
                 @click="$routerto('i_conected_project',{projectId:goods.projectId,signStatus:goods.signUserResp[0].signStatus,signId:goods.signUserResp[0].signId})"
               >已连接项目</button>
               <button class="isactive" v-else-if="usertype==4" @click="routerto(goods)">感兴趣项目</button>
+
             </footer>
           </div>
         </van-list>
@@ -137,13 +137,6 @@ export default {
       usertype: "",
       activenum:0,//行业下标
       activeIds: '',//行业id
-      // 待处理
-      // 待签约
-      // 待上链
-      // 待推荐
-      // 待审核
-      // 待确认
-      // 签约成功
       tags: {
         signUserList1: {
           text: "待处理",
@@ -326,6 +319,7 @@ export default {
 },
     routerto(item) {
       console.log(item)
+
       // this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
         let hash = [];
@@ -346,6 +340,7 @@ export default {
             }
           );
         } else if (item.signUserResp.length < 1) {
+
           let obj={
               projectId: item.projectId,
               signStatus: item.signUserResp[0].signStatus,
@@ -482,7 +477,6 @@ export default {
 #mhome {
     .van-pull-refresh{
       // padding: 2.8rem 0 2rem 0;
-
     }
    .ant-select{
     width: 100%;
@@ -654,7 +648,6 @@ export default {
   flex-direction: column;
 
   > header {
-    /*height:5rem;*/
     width: 100%;
     z-index: 5;
     position: fixed;
@@ -679,6 +672,7 @@ export default {
         /*max-width: 100%;*/
         /*max-height: 100%;*/
         height: 2rem;
+
       }
     }
   }
@@ -777,18 +771,19 @@ export default {
           right: 0.25rem;
           border-radius: 0.125rem;
           height: 0.88rem;
-
-          background: #747474;;
+       background: #747474;;
           /*background: #747474;;*/
           color: white;
           font-size: 0.38rem;
           // top: 50%;
           // transform: translateY(-50%);
         }
+
          .isactive{
            background: #00adef;
 
          }
+
       }
     }
   }

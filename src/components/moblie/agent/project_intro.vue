@@ -118,6 +118,7 @@ export default {
         this.$toast.clear();
         this.details.signUserId1=res.signUserId1;
         this.title = res.title;
+<<<<<<< HEAD
         if(res.projectLifeCycle==-1){
           this.$dialog
             .alert({
@@ -128,6 +129,8 @@ export default {
             })
           return
         }
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
 
       });
   },
@@ -204,6 +207,7 @@ export default {
         padding: 0.4rem;
         box-sizing: border-box;
         word-break: break-all;
+<<<<<<< HEAD
         display:-webkit-box;
         display: -moz-box;
         display: -ms-flexbox;
@@ -219,6 +223,12 @@ export default {
 box-align:center;
 -moz-box-align:center;
 -webkit-box-align:center;
+=======
+        display: -webkit-flex;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
@@ -230,6 +240,7 @@ box-align:center;
         padding: 0 0.5rem 0 0.5rem;
         aside {
           height: 2.5rem;
+<<<<<<< HEAD
           display:-webkit-box;
           display: -moz-box;
           display: -ms-flexbox;
@@ -247,6 +258,12 @@ justify-content:space-between;
 -moz-box-pack:space-between;
 -webkit--moz-box-pack:space-between;
 box-pack:space-between;
+=======
+          display: flex;
+          font-size: 0.42rem;
+          flex-direction: column;
+          justify-content: space-between;
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
           button {
             height: 1rem;
             color: #ffffff;

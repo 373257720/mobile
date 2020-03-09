@@ -16,6 +16,7 @@
             <span>个人审核</span>
           </p>
           <van-icon name="arrow"/>
+
         </li>
         <li @click="switch_language">
           <p>
@@ -209,6 +210,7 @@ export default {
         //   // console.log(res);
         //   done();
         // });
+
       } else if (action === "cancel") {
         done(); //关闭
       }
@@ -321,6 +323,7 @@ export default {
     //  z-index: 0;
     ul {
       padding: 0 0.5rem 3rem 0.5rem;
+
       li {
         font-size: 0.38rem;
         // line-height: 1.5rem;

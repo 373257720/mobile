@@ -169,7 +169,6 @@
        width: 100%;
           white-space: pre-wrap;      // !* css-3 *!*/
            white-space: -moz-pre-wrap; // !* Mozilla, since 1999 *!*/
-           /*white-space: -pre-wrap;    //  !* Opera 4-6 *!*!*/
         white-space: -o-pre-wrap;
       }
       div.button {
@@ -215,16 +214,6 @@
         }
       }
     }
-    // footer {
-    //   width: 100%;
-    //   font-size: 0.38rem;
-    //   button {
-    //     width: 100%;
-    //     margin-top: 1rem;
-    //     background: #00adef;
-    //     color: white;
-    //     height: 1rem;
-    //   }
-    // }
+
   }
 </style>

@@ -60,6 +60,7 @@ export default {
           response: ""
         },
 
+<<<<<<< HEAD
         // committedCount: {
         //   name: "已提交</br>投资者数量",
         //   response: ""
@@ -68,6 +69,16 @@ export default {
         //   name: "项目方<br>有兴趣数量",
         //   response: ""
         // },
+=======
+        committedCount: {
+          name: "已提交</br>投资者数量",
+          response: ""
+        },
+        interestProjectCount: {
+          name: "项目方<br>有兴趣数量",
+          response: ""
+        },
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       },
       details_lists: {
         projectIndustry: {
@@ -133,10 +144,15 @@ export default {
       )
       .then(res => {
         this.investorsEmailSend=res.investorsEmailSend;
+<<<<<<< HEAD
+=======
+        // console.log(res);
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         this.signUserId3=res.signUserId3
         this.investorsId=res.investorsId;
         this.title = res.title;
         this.$toast.clear();
+<<<<<<< HEAD
         if(res.projectLifeCycle==-1){
           this.$dialog
             .alert({
@@ -147,6 +163,8 @@ export default {
             })
           return
         }
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       });
   },
   mounted() {},
@@ -206,6 +224,7 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+<<<<<<< HEAD
   article{
     #nav_lists{
       .box{
@@ -217,6 +236,8 @@ export default {
       }
     }
   }
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
 }
 
 </style>
@@ -259,7 +280,10 @@ export default {
 
     }
     article {
+<<<<<<< HEAD
 
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         font-size: 0.42rem;

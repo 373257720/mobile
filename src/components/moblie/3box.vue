@@ -31,7 +31,7 @@ export default {
     };
   },
     created(){
-        // this.nav_lists.interestProjectCount.name="已接受<br>投资者数量";
+
     }
 }
 </script>
@@ -53,7 +53,6 @@ export default {
         > p {
           flex: 1;
           height: 2.5rem;
-
           // font-size: 0.38rem;
              font-size: 0.42rem;
           display: flex;

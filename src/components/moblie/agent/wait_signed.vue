@@ -104,6 +104,10 @@ export default {
     };
   },
   created() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     this.details = this.$route.query;
     this.$loading();
     this.$global
@@ -129,9 +133,17 @@ export default {
           this.$dialog
             .alert({
               title: "项目已不存在,请确认是否刪除",
+<<<<<<< HEAD
             })
             .then(() => {
                 this.$router.go(-1);
+=======
+              // message: "弹窗内容"
+            })
+            .then(() => {
+                this.$router.go(-1);
+
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
             })
           return
         }
@@ -210,7 +222,10 @@ export default {
     article {
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
+<<<<<<< HEAD
         margin-bottom: 1.5rem;
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         font-size: 0.42rem;
         aside {
           height: 2rem;

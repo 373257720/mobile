@@ -48,7 +48,11 @@ export default {
           name: "投资者电话:",
           response: ""
         },
+<<<<<<< HEAD
         investorsEmail: {
+=======
+        investorsEmailSend: {
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
           name: "投资者邮箱:",
           response: ""
         }
@@ -151,8 +155,11 @@ export default {
         console.log(res);
         if (res.data.resultCode == 10000) {
           newWindow.location.href = res.data.data.pdfPath;
+<<<<<<< HEAD
         }else{
           this.$toast(res.data.resultDesc);
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         }
       });
     }

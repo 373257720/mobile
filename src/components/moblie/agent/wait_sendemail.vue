@@ -158,6 +158,7 @@ export default {
         {}
       )
       .then(res => {
+<<<<<<< HEAD
         console.log(res);
         this.title = res.title;
         // this.investorsId = res.investorsId;
@@ -172,13 +173,23 @@ export default {
             })
           return
         }
+=======
+        // console.log(res);
+        this.title = res.title;
+        // this.investorsId = res.investorsId;
+        this.$toast.clear();
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
       });
   },
   methods: {
     cancel() {
       this.show2 = false;
+<<<<<<< HEAD
        this.show='';
        this.emailadress=''
+=======
+           this.show='';
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     },
     // 提交
     summit() {
@@ -193,12 +204,17 @@ export default {
           if (res.data.resultCode == 10000) {
             this.investorsId = res.data.data.investorsId;
             this.custmoers_obj = res.data.data;
+<<<<<<< HEAD
 
+=======
+            console.log(this.custmoers_obj);
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
           }
       });
     },
     submit_email() {
     this.show='';
+<<<<<<< HEAD
       console.log(this.custmoers_obj);
       let companyname;
       let agent_name;
@@ -652,6 +668,8 @@ export default {
     </table>
   </div>
 </div>`;
+=======
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
     var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
     if(reg.test(this.emailadress)) {
         this.$loading();
@@ -662,8 +680,80 @@ export default {
           signId: this.$route.query.signId,
           memberEmail: this.emailadress,
           investorsId: this.investorsId,
+<<<<<<< HEAD
           emailData:letter
 
+=======
+          emailData: `<html lang="en" style="width: 100%;margin: 0;padding: 0;
+            height: 100%;">
+                    <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                    <title>mobile</title>
+                  </head>
+          <body>
+              <table id="box" style="width: 580px;height:450px;
+              margin: auto;
+              border-collapse:collapse; border-spacing:0px 10px;
+              border:1px solid #cccccc;border-radius:5px;
+
+            ">
+                  <thead>
+                      <tr>
+                          <th colspan="2" height="100">
+                              <img style="width: 100px;height: 50px;" src="${this.custmoers_obj.picUrl}"
+                                  alt="">
+                          </th>
+                      </tr>
+                  </thead>
+                  <tobody>
+                      <tr class="column" style="">
+                          <td style="text-align:center;vertical-align:top;">【投资银行】</td>
+                          <td style="padding:0 20px 0 0;width: 430px;text-align:left;vertical-align:top;">尊敬的投资人，您有一个投资项目，由中间人把项目方推荐给您，同意与其签约？
+                          </td>
+                      </tr>
+                      <tr class="column" style="">
+                          <td style="text-align:center;vertical-align:top;">【投资项目】</td>
+                          <td style="padding:0 20px 0 0;text-align:left;vertical-align:top;">
+                            ${this.custmoers_obj.projectName?this.custmoers_obj.projectName:''}</td>
+                      </tr>
+                      <tr class="column" style="margin-bottom: 15px;">
+                          <td style="width: 120px;text-align:center;vertical-align:top;">【中间人】</td>
+                          <td style="padding:0 20px 0 0;width: 430px;text-align:left;vertical-align:top;">
+                              ${this.custmoers_obj.userName4?this.custmoers_obj.userName4:''}</td>
+                      </tr>
+                      <tr class="column" style="margin-bottom: 15px;">
+                          <td style="width: 120px;text-align:center;vertical-align:top;">【项目方】</td>
+                          <td style="padding:0 20px 0 0;width: 400px;text-align:left;vertical-align:top;">
+                              ${this.custmoers_obj.userName1?this.custmoers_obj.userName1:''}
+                          </td>
+                      </tr>
+                    <tr class="column" style="margin-bottom: 15px;color: lightcoral">
+                        <td style="width: 120px;text-align:center;vertical-align:top;">提示：</td>
+                        <td style="padding:0 20px 0 0;width: 400px;text-align:left;vertical-align:top;">
+                          投资者注册账号后，并提交资料认证。待银行认证后，方可查阅详细资料。如果您已有账号，可以直接登录进行操作。
+                        </td>
+                    </tr>
+                      <tr class="column" style="">
+                          <td colspan="2" style="text-align:center;vertical-align:center;">
+                              <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}" class="button" style="text-decoration:none;">
+                                  <span
+                                      style="display:inline-block;border-radius:5px;text-decoration:none;width:200px;height:40px;background: #00B1F5;color:white;line-height:40px;">
+                                      了解详情
+                                  </span>
+                              </a>
+                          </td>
+
+
+                      </tr>
+                  </tobody>
+
+              </table>
+          </body>
+
+          </html>`
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
         })
       }).then(res => {
         this.$toast.clear();
