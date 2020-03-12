@@ -10,6 +10,7 @@ import Promise from 'es6-promise';
 Promise.polyfill();
 import global from '@/components/moblie/global.js'
 import store from './store/store'
+
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 // 富文本

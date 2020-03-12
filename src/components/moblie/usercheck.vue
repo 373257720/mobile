@@ -172,7 +172,6 @@
 </template>
 <script>
 let timeout;
-// import validator from './validator.js'
 export default {
   name: "usercheck",
   components: {
@@ -214,6 +213,7 @@ export default {
       },
       form: {
         emailData: "",
+
         userCountry: "",
         userIdentityType: 1,
         userCountryEn: "",
@@ -234,6 +234,7 @@ export default {
       createTime: "", //注册时间
       email_pic: "",
       bslEmail: ""
+
       // rules: {
       //   userType: [
       //     {required: true, message: '请选择' ,trigger: "change" }
@@ -307,6 +308,7 @@ export default {
         this.switchon = false;
         this.form.identityType = 2; //护照
       }
+
       this.form.userCountry = this.countrylist[value - 1].remark;
       this.form.userCountryEn = this.countrylist[value - 1].eng;
       this.form.userCountryCh = this.countrylist[value - 1].chinese;
@@ -489,6 +491,7 @@ export default {
       console.log(this.form);
       let userIdentityType;
       let userIdentityType_name;
+
       if (this.form.userIdentityType == 1) {
         userIdentityType = "个人";
         userIdentityType_name = this.form.userName;
@@ -946,6 +949,7 @@ export default {
 
 `;
       this.form.emailData =letter;
+
       this.$loading();
       this.$axios({
         method: "post",
@@ -999,6 +1003,7 @@ export default {
     max-height: 4rem;
   }
   .ant-select {
+
     width: 100%;
     border: 1px solid #ababab;
     font-size: 0.38rem;
@@ -1022,6 +1027,7 @@ export default {
     }
     .ant-select-selection {
       border: 0;
+
     }
   }
   // background: white;
@@ -1040,6 +1046,7 @@ export default {
     .van-field__body {
       border: 1px solid #ababab;
     }
+
   }
   .van-dropdown-menu__item {
     // display:inline;
@@ -1067,6 +1074,7 @@ export default {
     border-color: #ababab;
   }
 
+
   .van-field__body {
     //  width: 100%;
     height: 1rem;
@@ -1093,13 +1101,12 @@ export default {
     margin: 0;
     width: 100%;
 
-    /*box-sizing: border-box;*/
-    /*height: 100%;*/
     // overflow: hidden;
   }
   .van-uploader__preview-image {
     margin: 0;
     border: 1px solid #ababab;
+
     width: 100%;
     height: 5rem;
     img {
@@ -1120,6 +1127,7 @@ export default {
      width: 100%;
      height: 100%;
    }
+
   .van-uploader__upload {
     width: 100%;
     background: #f6f6f6;
@@ -1178,6 +1186,7 @@ export default {
           color: #ee0a24;
         }
       }
+
     }
     div.identy_check {
       > div {
@@ -1192,6 +1201,7 @@ export default {
         content: "*";
         color: #f56c6c;
         margin-right: 0.1rem;
+
       }
     }
     div.gongsi {
@@ -1201,6 +1211,7 @@ export default {
           margin-bottom: 0.1rem;
           font-size: 0.38rem;
         }
+
       }
       .companyname,
       .company_address_eng, {
@@ -1209,6 +1220,7 @@ export default {
           color: #f56c6c;
           margin-right: 0.1rem;
         }
+
       }
     }
     header {
@@ -1231,6 +1243,7 @@ export default {
         background: #00adef;
       }
     }
+
   }
 }
 </style>

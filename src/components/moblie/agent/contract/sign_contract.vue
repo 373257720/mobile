@@ -21,23 +21,9 @@ export default {
       let timestamp = new Date().getTime();
       this.contract.agent_sign=data;
       this.contract.agent_signdate=timestamp;
-      //  this.$emit("update:contract") 
+      //  this.$emit("update:contract")
       this.$routerto('a_submit_contract',this.$route.query)
     },
-    gg() {
-      // console.log(this.$dialog);
-      this.$dialog
-        .confirm({
-          title: "标题",
-          message: "弹窗内容"
-        })
-        .then(() => {
-          // on confirm
-        })
-        .catch(() => {
-          // on cancel
-        });
-    }
   }
 };
 </script>

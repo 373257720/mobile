@@ -240,10 +240,17 @@ UE.I18N['en'] = {
         'static':{
             'lang_background_normal':'Normal',
             'lang_background_local':'Online',
+<<<<<<< HEAD
             'lang_background_set':'BackgroundSet',
             'lang_background_none':'No Background',
             'lang_background_colored':'Colored Background',
             'lang_background_color':'ColorSet',
+=======
+            'lang_background_set':'Background Set',
+            'lang_background_none':'No Background',
+            'lang_background_colored':'Colored Background',
+            'lang_background_color':'Color Set',
+>>>>>>> d655775c3eb162d21465407e6af55749abc46931
             'lang_background_netimg':'Net-Image',
             'lang_background_align':'Align Type',
             'lang_background_position':'Position',

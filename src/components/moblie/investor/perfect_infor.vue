@@ -16,7 +16,6 @@
 <!--              <van-field  v-model="form.investorsType" placeholder="-" />-->
             </p>
           </li>
-
           <li>
 
             <p class="row1">投资者地区：</p>
@@ -212,7 +211,6 @@ export default {
             this.$toast('请选择感兴趣行业');
             return
         }
-
       this.commit();
     },
     choose_nation(){

@@ -63,16 +63,22 @@ export default {
       console.log(this.contract);
       this.$loading();
       if(projectId){
-        this.$axios({
-          method: "post",
-          url: `${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,
-          data: {
-            projectId: projectId,
-            signId: signId,
-            signStatus: 2,
-            signAgreement: JSON.stringify(this.contract)
-          }
-        }).then(res => {
+        // this.$axios({
+        //   method: "post",
+        //   url: `${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,
+        //   data: {
+        //     projectId: projectId,
+        //     signId: signId,
+        //     signStatus: 2,
+        //     signAgreement: JSON.stringify(this.contract)
+        //   }
+        // })
+      this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,{
+        projectId: projectId,
+        signId: signId,
+        signStatus: 2,
+        signAgreement: JSON.stringify(this.contract)
+      }).then(res => {
           console.log(res)
           this.$toast.clear();
           if (res.data.resultCode == 10000) {

@@ -122,26 +122,12 @@ export default {
         {}
       )
       .then(res => {
+
         this.title = res.title;
         this.$toast.clear();
       });
   },
   methods: {
-    gg() {
-      // console.log(this.$dialog);
-
-      this.$dialog
-        .confirm({
-          title: "标题",
-          message: "弹窗内容"
-        })
-        .then(() => {
-          // on confirm
-        })
-        .catch(() => {
-          // on cancel
-        });
-    }
   }
 };
 </script>

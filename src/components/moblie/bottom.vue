@@ -23,7 +23,6 @@ export default {
       active: "mhome"
     };
   },
-
   created() {
     this.active = this.$route.name;
   }

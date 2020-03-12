@@ -193,7 +193,6 @@ export default {
           if (res.data.resultCode == 10000) {
             this.investorsId = res.data.data.investorsId;
             this.custmoers_obj = res.data.data;
-
           }
       });
     },

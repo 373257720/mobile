@@ -10,8 +10,6 @@
                     class="row2"
                     v-model="item.response"
                     autosize
-
-                    type="textarea"
                   /> -->
                   <p class="row2">{{item.response}}</p>
             </div>
@@ -23,7 +21,6 @@
               <p class="row1">{{item.name}}</p>
               <p class="row2" >{{item.response}}</p>
             </div>
-
           </li>
         </ul>
       </article>
@@ -55,7 +52,6 @@ export default {
   .common_details{
 
   }
-
 }
 </style>
 <style lang="scss" scoped>

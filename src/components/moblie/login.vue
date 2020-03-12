@@ -73,6 +73,7 @@
             var rescode = res.data.resultCode;
             if (rescode == 10000) {
               sessionStorage.clear();
+              // localStorage.clear();
               this.$store.dispatch("reset_actions", this.$restore_obj);
               this.$store.dispatch("usertype", res.data.data.userType);
               this.$store.dispatch("setUser", this.username);
@@ -193,4 +194,5 @@
       }
     }
   }
+
 </style>
