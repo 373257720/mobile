@@ -110,7 +110,7 @@
           overlay:true,
           duration: 0
         });
-          this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/ipfs/update`,{signId: `${this.signId}`,
+        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/ipfs/update`,{signId: `${this.signId}`,
             htmlData:`<html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -375,6 +375,7 @@
       -webkit-flex-direction:column;
       -webkit-justify-content:space-between;
       justify-content:space-between;
+
       width: 100%;
         >div{
            height: 85%;

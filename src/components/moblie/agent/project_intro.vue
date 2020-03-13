@@ -118,7 +118,6 @@ export default {
         this.$toast.clear();
         this.details.signUserId1=res.signUserId1;
         this.title = res.title;
-
         if(res.projectLifeCycle==-1){
           this.$dialog
             .alert({
@@ -129,6 +128,7 @@ export default {
             })
           return
         }
+
 
 
       });

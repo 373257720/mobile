@@ -228,14 +228,12 @@ export default {
     text-align: center;
     line-height: 1.5rem;
     height: 1.5rem;
-    /*position: fixed;*/
     top: 0;
     font-size: 0.46rem;
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
   }
   main {
-     /*padding: 1.5rem 0 0 0;*/
     background: #ffffff;
     div.investors_infor {
       h2 {

@@ -2,7 +2,6 @@
   <div id="p_user_contact">
     <nav>
       <header>联络人
-
         <!-- <van-icon name="arrow-left" @click="$global.previous()" />联络人 -->
 <!--        <commonnav :msg="dad_text"></commonnav>-->
       </header>
@@ -22,21 +21,17 @@
       </div>
     </nav>
       <ul v-if="arr && arr.length>0">
-
         <li v-for="item in arr" :key="item.username" @click="$routerto('p_user_contact2',{investorsId:item.investorsId})">
           <img src="../../../assets/4a1d586cb6cffdaee2c91f77293a773.png" alt />
           <!-- <h2></h2> -->
           <p>
-
             <span>{{item.userIdentityType==1? item.userName:item.userIdentityType==2?item.userCompany:''}}</span>
-
+            <span>{{item.userName}}</span>
             <span>{{item.bslEmail}}</span>
-            <!-- <van-icon name="arrow" /> -->
           </p>
         </li>
       </ul>
     <div v-else-if="arr.length<1" class="nodata">没有更多信息</div>
-
     <mbottom></mbottom>
   </div>
 </template>
@@ -218,7 +213,6 @@ export default {
       align-items: center;
       // border-bottom: 0.01rem solid #b5b5b5;
       font-size: 0.3rem;
-
       h2 {
         font-size: 0.32rem;
         font-weight: 600;

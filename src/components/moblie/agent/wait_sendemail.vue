@@ -7,12 +7,9 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-
-        <!-- <header>投资者资料</header> -->
         <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <div class="owner_confirmed">
@@ -172,6 +169,7 @@ export default {
             })
           return
         }
+
       });
   },
   methods: {
@@ -179,6 +177,7 @@ export default {
       this.show2 = false;
        this.show='';
        this.emailadress=''
+
     },
     // 提交
     summit() {
@@ -651,6 +650,7 @@ export default {
     </table>
   </div>
 </div>`;
+
     var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
     if(reg.test(this.emailadress)) {
         this.$loading();
@@ -662,7 +662,6 @@ export default {
           memberEmail: this.emailadress,
           investorsId: this.investorsId,
           emailData:letter
-
         })
       }).then(res => {
         this.$toast.clear();

@@ -146,6 +146,7 @@
                 this.$router.go(-1)
               });
           }
+
         });
     },
     methods: {

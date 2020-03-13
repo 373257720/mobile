@@ -24,6 +24,7 @@
                    </li>
                    <li>
                      {{item.investorsCompanyAddress}}
+
                    </li>
                  </ul>
                  <p>
@@ -107,7 +108,6 @@
                   }
                 })
               }
-
             }))
 
             console.log(this.lists)
@@ -275,6 +275,7 @@
     .remind{
      text-align: center;padding-top: 1rem;color: #969799;
       font-size: 0.42rem;
+
     }
     nav {
       width: 100%;

@@ -142,7 +142,6 @@ export default {
       });
   },
   methods: {
-    // 点击事件
     check_contract() {
       this.$loading();
       var newWindow = window.open();
@@ -156,6 +155,7 @@ export default {
           newWindow.location.href = res.data.data.pdfPath;
         }else{
           this.$toast(res.data.resultDesc);
+
         }
       });
     }

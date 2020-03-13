@@ -98,6 +98,7 @@ export default {
           name: "签约状态:",
           response: "",
         },
+
         projectDescribe: {
           name: "项目简介:",
           response: ""
@@ -106,10 +107,6 @@ export default {
           name: "项目详情:",
           response: ""
         },
-        // signStatus: {
-        //   name: "签约状态:",
-        //   response: ""
-        // }
       }
     };
   },
@@ -205,6 +202,7 @@ export default {
       }
     }
   }
+
   nav {
     // position: relative;
     .van-icon-arrow-left {

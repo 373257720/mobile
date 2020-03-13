@@ -66,6 +66,7 @@ export default {
         //   response: ""
         // },
 
+
       },
       details_lists: {
         projectIndustry: {
@@ -154,6 +155,7 @@ export default {
       }
     }
   }
+
   .van-checkbox__icon {
     //   line-height:0.625rem;
     font-size: 0.2rem;

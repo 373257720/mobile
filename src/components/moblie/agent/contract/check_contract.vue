@@ -44,12 +44,11 @@
             <!-- <input maxlength="30" v-model="contract.agent_title"  placeholder="请输入"/> -->
           </div>
         </div>
-           <div class="sub_title">
+        <div class="sub_title">
           <header>Contract:</header>
           <div class="dad_contract">
                   <contractcomponent :contract="contract"></contractcomponent>
           </div>
-
         </div>
 
         <footer>
@@ -170,7 +169,6 @@ export default {
         font-size: 0.38rem;
         line-height: 1rem;
         padding: 0.2rem;
-
         height: 1rem;
         width: 100%;
         /*height: 13rem;*/
@@ -183,7 +181,6 @@ export default {
     footer {
       width: 100%;
       padding-bottom: 2rem;
-
       font-size: 0.42rem;
       button {
         width: 100%;

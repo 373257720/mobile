@@ -20,6 +20,7 @@ Vue.prototype.$qs = qs;
 // vuex
 import Vuex from 'vuex';
 Vue.use(Vuex);
+
 // import ant from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.less'
 // Vue.use(ant)
@@ -104,7 +105,6 @@ axios.defaults.withCredentials = true;
 //   });
 
 axios.interceptors.response.use(res => {
-  // isCloseLoading();
   if (res.data && res.data.resultCode) {
     let code = res.data.resultCode
     if (code == 10090) { // 如果是未登录直接踢出去

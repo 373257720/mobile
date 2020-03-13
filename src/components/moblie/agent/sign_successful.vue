@@ -153,7 +153,6 @@ export default {
           newWindow.location.href = res.data.data.pdfPath;
         }else{
           this.$toast(res.data.resultDesc);
-
         }
       });
     }

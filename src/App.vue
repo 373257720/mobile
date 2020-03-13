@@ -17,8 +17,6 @@ export default {
   created() {
     //在页面加载时读取sessionStorage里的状态信息
     // console.log(sessionStorage.getItem("test"))
-    // localStorage.getItem("store", JSON.stringify(this.$store.state))
-    // alert(localStorage.getItem("store", JSON.stringify(this.$store.state)));
     if (sessionStorage.getItem("store")) {
       this.$store.replaceState(
         Object.assign(
@@ -35,11 +33,10 @@ export default {
     // });
     window.addEventListener("pagehide", () => {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state))
-      // sessionStorage.setItem("store", JSON.stringify(this.$store.state));
     });
   },
   mounted() {
-      plus.screen.lockOrientation("landscape-primary");
+      // plus.screen.lockOrientation("landscape-primary");
     // plus.screen.lockOrientation( 'portrait-primary')
   }
 };

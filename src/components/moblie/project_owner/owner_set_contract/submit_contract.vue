@@ -63,16 +63,6 @@ export default {
       console.log(this.contract);
       this.$loading();
       if(projectId){
-        // this.$axios({
-        //   method: "post",
-        //   url: `${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,
-        //   data: {
-        //     projectId: projectId,
-        //     signId: signId,
-        //     signStatus: 2,
-        //     signAgreement: JSON.stringify(this.contract)
-        //   }
-        // })
       this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,{
         projectId: projectId,
         signId: signId,
@@ -106,6 +96,7 @@ export default {
                 message: "返回我的项目",
               })
               .then(() => {
+
                 this.$routerto("mysign");
               });
           }
@@ -113,7 +104,6 @@ export default {
       }else {
         console.log('没有projectid')
       }
-
     }
   }
 };
@@ -195,7 +185,6 @@ export default {
           line-height: 1rem;
           color: white;
           height: 1rem;
-          border-radius: 2px;
         }
         .blockchain {
           background: orange;

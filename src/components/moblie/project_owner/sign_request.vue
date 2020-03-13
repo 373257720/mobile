@@ -367,6 +367,7 @@ export default {
             height: 1rem;
             /*width: 80%;*/
             border-radius: 2px;
+
             color: #ffffff;
           }
           button:nth-of-type(1) {

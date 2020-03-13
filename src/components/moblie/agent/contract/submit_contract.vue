@@ -198,7 +198,6 @@ export default {
       -webkit-flex-direction:column;
       -webkit-justify-content:space-between;
       justify-content:space-between;
-
       width: 100%;
         >div{
            height: 85%;

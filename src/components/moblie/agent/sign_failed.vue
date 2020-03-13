@@ -97,7 +97,6 @@ export default {
           name: "项目简介:",
           response: ""
         },
-
       }
     };
   },
@@ -122,7 +121,6 @@ export default {
         {}
       )
       .then(res => {
-
         this.title = res.title;
         this.$toast.clear();
       });

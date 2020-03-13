@@ -38,6 +38,7 @@
             <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
                  <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
           </a-select>
+
             </p>
           </li>
            <li v-show="form.investorsType==2">
@@ -187,6 +188,7 @@ export default {
         var regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
        if(this.form.investorsType==2 && this.form.investorsCompany=='')   { this.$toast({ message:'请输入投资者公司名称'});
             return
+
         }
         if(this.form.investorsArea==''){
             this.$toast('请输入投资者地区');
@@ -257,6 +259,7 @@ export default {
              this.dialog(res.data.resultDesc, res.data.resultCode);
           }else{
             this.$toast(res.data.resultDesc);
+
           }
         })
         .catch(err => {
@@ -303,6 +306,7 @@ export default {
 
  }
  .ant-select-selection__rendered{
+
 
    margin:0;
  }
@@ -366,6 +370,7 @@ export default {
   .van-cell--clickable {
     .van-cell__title {
       /*margin-left: 2.7rem;*/
+
     }
     .van-cell__value {
       display: none;

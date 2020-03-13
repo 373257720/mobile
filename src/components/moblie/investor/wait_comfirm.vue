@@ -138,6 +138,7 @@ export default {
             })
           return
         }
+
       });
   },
   mounted() {},
@@ -197,6 +198,7 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+
   article{
     #nav_lists{
       .box{
@@ -208,6 +210,7 @@ export default {
       }
     }
   }
+
 }
 
 </style>

@@ -33,7 +33,6 @@
           </li>
           <li class="investorsArea">
             <p class="row1">地区:</p>
-
             <p class="row2">
 <!--              <el-select-->
 <!--                @change="selectregion(regionlist[form.bslAreaCode])"-->
@@ -100,7 +99,6 @@
         </ul>
         <footer>
           <button @click="submit">提交</button>
-
         </footer>
       </article>
     </main>
@@ -467,7 +465,11 @@ export default {
     }
     article {
      padding: 0 0.5rem;
-
+      display: flex;
+      width: 100%;
+      height: 3rem;
+      justify-content: center;
+    }
       header {
         height: 2rem;
         font-size: 0.46rem;
@@ -482,11 +484,6 @@ export default {
       }
       ul {
         padding: 0.5rem 0;
-        /*display: flex;*/
-        /*flex-direction: column;*/
-        /*justify-content: center;*/
-        /*align-items: center;*/
-
         li {
           margin-bottom: 0.4rem;
           display:-webkit-box;
@@ -495,28 +492,23 @@ export default {
           display: -webkit-flex;
           display: flex;
           height: 1rem;
-
           font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
             width: 3rem;
-
             /*flex:2;*/
             line-height: 1rem;
             /*margin-bottom: 0.2rem;*/
           }
           .row1::before {
-
                 content: "*";
                 color: #f56c6c;
                 margin-right: 0.1rem;
             }
           .row2 {
               position: relative;
-            /*width: 7rem;*/
             flex:3;
-
             height: 100%;
             word-break: break-all;
             /*line-height: 1.2rem;*/
@@ -534,7 +526,6 @@ export default {
         font-size: 0.42rem;
         button {
           width:8rem;
-
           height: 1rem;
           background: #00adef;
           color: white;
@@ -542,5 +533,6 @@ export default {
       }
     }
   }
-}
+
+
 </style>
