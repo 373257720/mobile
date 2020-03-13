@@ -11,7 +11,7 @@
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button @click="$routerto('p_check_contract',$route.query)">查看合约</button>
+            <button @click="$routerto('p_check_contract',$route.query)">{{$t('agent.CheckContract')}}</button>
           </aside>
         </footer>
       </article>
@@ -26,96 +26,100 @@
       return {
         title: "",
         dad_text: "",
-        investor_infor: {
-          investorsType: {
-            name: "投资者类型:",
-            response: ""
-          },
-          investorsCompany: {
-            name: "投资者公司:",
-            response: ""
-          },
-          investorsName: {
-            name: "投资者姓名:",
-            response: ""
-          },
-          investorsArea: {
-            name: "投资者地区:",
-            response: ""
-          },
-          projectMobile: {
-            name: "投资者电话:",
-            response: ""
-          },
-        },
         nav_lists: {
           financingStage: {
-            name: "融资阶段",
+            name: this.$t('agent.FinancingStage'),
             response: ""
           },
           committedCount: {
-            name: "已提交</br>投资者数量",
+            name: this.$t('agent.NumberOfinvestorsHaveSubmitted'),
             response: ""
           },
           interestProjectCount: {
-            name: "项目方<br>有兴趣数量",
+            name: this.$t('agent.Numberofprojectsinterested'),
             response: ""
           },
-
         },
         details_lists: {
           projectIndustry: {
-            name: "行业:",
+            name:this.$t('common.Industry'),
             response: ""
           },
           projectArea: {
-            name: "地区:",
+            name: this.$t('common.region'),
             response: ""
           },
-          // signStatu: {
-          //   name: "项目状态:",
-          //   response: "暂无"
-          // },
           projectCompany: {
-            name: "公司名称:",
+            name: this.$t('common.CompanyName'),
             response: ""
           },
           currencyType: {
-            name: "币种:",
+            name:this.$t('common.Currency'),
             response: ""
           },
           collectMoney: {
-            name: "集资额:",
+            name: this.$t('common.FundingAmount'),
             collectMoneyMin:'',
             collectMoneyMax: "",
           },
           projectMobile: {
-            name: "联系电话:",
+            name: this.$t('common.ContactNumber'),
             response: ""
           },
           projectEmail: {
-            name: "电邮:",
+            name: this.$t('common.Email'),
             response: ""
           },
+          signStatus: {
+            name: this.$t('common.ContractStatus'),
+            response: "",
+            classname:'red',
+          },
           projectDescribe: {
-            name: "项目简介:",
+            name: this.$t('common.ProjectDescription'),
             response: ""
           },
           projectDetail:{
-            name: "项目详情:",
+            name: this.$t('common.ProjectDetails'),
             response: ""
           },
-        }
+        },
+        investor_infor: {
+          investorsType: {
+            name: this.$t('agent.InvestorType'),
+            response: ""
+          },
+          investorsCompany: {
+            name: this.$t('agent.InvestorCompany'),
+            response: ""
+          },
+          investorsName: {
+            name:this.$t('agent.InvestorName'),
+            response: ""
+          },
+          investorsArea: {
+            name: this.$t('agent.InvestorRegion'),
+            response: ""
+          },
+          investorsMobile: {
+            name: this.$t('agent.InvestorPhone'),
+            response: ""
+          },
+          investorsEmail: {
+            name: this.$t('agent.InvestorMailbox'),
+            response: ""
+          }
+        },
       };
     },
     created() {
       let details = this.$route.query;
       if(this.$route.query.signStatus==4){
-        this.dad_text='中间人已签约待上链'
+        this.dad_text= this.$t('common.SignedForChain');
       }else if(this.$route.query.signStatus==2){
-        this.dad_text='等待中间人签约'
+        this.dad_text= this.$t('common.ToBeSigned');
       }else if(this.$route.query.signStatus==5){
-        this.dad_text='已上链待推荐'
+        this.dad_text=this.$t('common.ChainedForRecommendation');
       }
       this.$loading();
       this.$global
@@ -140,7 +144,7 @@
           if(res.projectLifeCycle==-1){
             this.$dialog
               .alert({
-                title: "该项目已删除",
+                title: this.$t('projectOwner.ThisItemHasBeenDeleted'),
               })
               .then(() => {
                 this.$router.go(-1)

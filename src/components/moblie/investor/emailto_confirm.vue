@@ -1,6 +1,6 @@
 <template>
   <div id="i_emailto_confirm">
-    <nav>待确认项目</nav>
+    <nav>{{$t('investor.Itemstobeconfirmed')}}</nav>
     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <div class="investors_infor">
@@ -13,8 +13,8 @@
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button @click="agree">完善资料</button>
-            <button @click="refuse">拒绝</button>
+            <button @click="agree">{{$t('investor.CompleteMaterial')}}</button>
+            <button @click="refuse">{{$t('investor.Refuse')}}</button>
           </aside>
         </footer>
       </article>
@@ -30,78 +30,56 @@ export default {
       // dad_text:'待确认项目',
       investorsEmailSend: "",
       projectName: "",
-      investor_infor: {
-        investorsType: {
-          name: "投资者类型:",
-          response: ""
-        },
-        investorsCompany: {
-          name: "投资者公司:",
-          response: ""
-        },
-        investorsName: {
-          name: "投资者姓名:",
-          response: ""
-        },
-        investorsArea: {
-          name: "投资者地区:",
-          response: ""
-        }
-      },
       nav_lists: {
         financingStage: {
-          name: "融资阶段",
+          name: this.$t('agent.FinancingStage'),
           response: ""
         },
-        // committedCount: {
-        //   name: "已提交</br>投资者数量",
-        //   response: ""
-        // },
-        // interestProjectCount: {
-        //   name: "项目方<br>有兴趣数量",
-        //   response: ""
-        // },
-
       },
       details_lists: {
         projectIndustry: {
-          name: "行业:",
+          name:this.$t('common.Industry'),
           response: ""
         },
         projectArea: {
-          name: "地区:",
+          name: this.$t('common.region'),
           response: ""
         },
-        // signStatu: {
-        //   name: "项目状态:",
-        //   response: "暂无"
-        // },
         projectCompany: {
-          name: "公司名称:",
+          name: this.$t('common.CompanyName'),
           response: ""
         },
         currencyType: {
-          name: "币种:",
+          name:this.$t('common.Currency'),
           response: ""
         },
         collectMoney: {
-          name: "集资额:",
+          name: this.$t('common.FundingAmount'),
           collectMoneyMin:'',
           collectMoneyMax: "",
         },
         projectMobile: {
-          name: "联系电话:",
+          name: this.$t('common.ContactNumber'),
           response: ""
         },
         projectEmail: {
-          name: "电邮:",
+          name: this.$t('common.Email'),
           response: ""
         },
+        signStatus: {
+          name: this.$t('common.ContractStatus'),
+          response: "",
+          classname:'red',
+        },
         projectDescribe: {
-          name: "项目简介:",
+          name: this.$t('common.ProjectDescription'),
           response: ""
-        }
-      }
+        },
+        projectDetail:{
+          name: this.$t('common.ProjectDetails'),
+          response: ""
+        },
+      },
     };
   },
   created() {
@@ -130,7 +108,7 @@ export default {
         if(res.projectLifeCycle==-1){
           this.$dialog
             .alert({
-              title: "项目已不存在,请确认是否刪除",
+              title: this.$t('TheItemNoLongerExists'),
             })
             .then(() => {
               this.$router.go(-1);
@@ -144,15 +122,13 @@ export default {
     agree() {
         this.$dialog
           .confirm({
-            title: "下一步注册新账号",
-            message: "如已有账号，请直接登陆"
+            title: this.$t('investor.NextRegisterANewAccount'),
+            message: this.$t('investor.IfYouHaveAnAccountPleaseLogIn'),
           })
           .then(() => {
-            // on confirm
             this.$routerto("login", { email: this.investorsEmailSend });
           })
           .catch(() => {
-            // on cancel
           });
 
     },
@@ -160,7 +136,7 @@ export default {
     refuse() {
       this.$dialog
         .confirm({
-          title: "是否拒绝"
+          title: this.$t('investor.WhetherToDecline'),
           // message: "弹窗内容"
         })
         .then(() => {
@@ -171,7 +147,7 @@ export default {
             if (res.data.resultCode == 10000) {
               this.$dialog
                 .alert({
-                  title: "拒绝成功"
+                  title:this.$t('investor.RefuseSuccessfully'),
                 })
                 .then(() => {
                   this.$routerto("login");

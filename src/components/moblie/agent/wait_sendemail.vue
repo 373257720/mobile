@@ -13,24 +13,24 @@
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <div class="owner_confirmed">
-          <van-divider>投行已确认</van-divider>
-          <p>投行已经确认你所推荐的投资者，请尽快发送邮件给投资者</p>
+          <van-divider>{{$t('agent.InvestmentBankConfirmed')}}</van-divider>
+          <p>{{$t('agent.TheInvestmentBankHasConfirmed')}}</p>
         </div>
         <footer>
           <aside>
-            <button @click="summit">发送邮件到投资者</button>
+            <button @click="summit">{{$t('agent.SendEmailToInvestors')}}</button>
           </aside>
         </footer>
         <van-dialog v-model="show2" :show-confirm-button="false">
           <footer class="email">
-            <p>请输入投资者邮箱</p>
+            <p>{{$t('investor.PleaseEnterInvestorEmail')}}</p>
             <p class="reminder" >{{show}}</p>
             <div class="emailadress">
               <van-field v-model="emailadress" clearable />
             </div>
             <aside>
-              <button @click="submit_email">确定</button>
-              <button @click="cancel">取消</button>
+              <button @click="submit_email">{{$t('agent.Determine')}}</button>
+              <button @click="cancel">{{$t('agent.Cancel')}}</button>
             </aside>
           </footer>
         </van-dialog>
@@ -45,90 +45,89 @@ export default {
   data() {
     return {
       title: "",
-      dad_text: "待发送邀请给投资者",
+      dad_text: this.$t('agent.InvitationToBeSentToInvestors'),
       show2: false, //邮箱开关
       show:'',//邮箱验证信息
       custmoers_obj: {},
       investorsId: "",
       emailadress: "",
-      investor_infor: {
-        investorsType: {
-          name: "投资者类型:",
-          response: ""
-        },
-        investorsCompany: {
-          name: "投资者公司:",
-          response: ""
-        },
-        investorsName: {
-          name: "投资者姓名:",
-          response: ""
-        },
-        investorsArea: {
-          name: "投资者地区:",
-          response: ""
-        }
-      },
       nav_lists: {
         financingStage: {
-          name: "融资阶段",
+          name: this.$t('agent.FinancingStage'),
           response: ""
         },
-
         committedCount: {
-          name: "已提交</br>投资者数量",
+          name: this.$t('agent.NumberOfinvestorsHaveSubmitted'),
           response: ""
         },
         interestProjectCount: {
-          name: "项目方<br>有兴趣数量",
+          name: this.$t('agent.Numberofprojectsinterested'),
           response: ""
         },
       },
       details_lists: {
         projectIndustry: {
-          name: "行业:",
+          name:this.$t('common.Industry'),
           response: ""
         },
         projectArea: {
-          name: "地区:",
+          name: this.$t('common.region'),
           response: ""
         },
-        // signStatu: {
-        //   name: "项目状态:",
-        //   response: "暂无"
-        // },
         projectCompany: {
-          name: "公司名称:",
+          name: this.$t('common.CompanyName'),
           response: ""
         },
         currencyType: {
-          name: "币种:",
+          name:this.$t('common.Currency'),
           response: ""
         },
         collectMoney: {
-          name: "集资额:",
+          name: this.$t('common.FundingAmount'),
           collectMoneyMin:'',
           collectMoneyMax: "",
         },
         projectMobile: {
-          name: "联系电话:",
+          name: this.$t('common.ContactNumber'),
           response: ""
         },
         projectEmail: {
-          name: "电邮:",
+          name: this.$t('common.Email'),
           response: ""
         },
+        signStatus: {
+          name: this.$t('common.ContractStatus'),
+          response: "",
+          classname:'red',
+        },
         projectDescribe: {
-          name: "项目简介:",
+          name: this.$t('common.ProjectDescription'),
           response: ""
         }
-      }
+      },
+      investor_infor: {
+        investorsType: {
+          name: this.$t('agent.InvestorType'),
+          response: ""
+        },
+        investorsCompany: {
+          name: this.$t('agent.InvestorCompany'),
+          response: ""
+        },
+        investorsName: {
+          name:this.$t('agent.InvestorName'),
+          response: ""
+        },
+        investorsArea: {
+          name: this.$t('agent.InvestorRegion'),
+          response: ""
+        }
+      },
     };
   },
   beforeRouteLeave(to,from,next){
       console.log(to,from)
         if(to.name=='uploadtoblock'){
-          // console.log(123)
            next({path: '/mysign'});
         }else{
           next()
@@ -162,7 +161,7 @@ export default {
         if(res.projectLifeCycle==-1){
           this.$dialog
             .alert({
-              title: "项目已不存在,请确认是否刪除",
+              title: this.$t('common.TheItemNoLongerExists'),
             })
             .then(() => {
               this.$router.go(-1);
@@ -211,7 +210,7 @@ export default {
         agent_name=this.custmoers_obj.userCompanyEn4;
       }
       let letter = `<meta charset="utf-8" />
-<div class="content-wrap"
+                    <div class="content-wrap"
   style="margin: 0px auto; overflow: hidden; padding: 0px; width: 500px;border:1px solid #cccccc;">
   <div tindex="1" style="margin: 0px auto; max-width: 500px;">
     <table align="center" border="0" cellpadding="0" cellspacing="0"
@@ -238,7 +237,7 @@ export default {
                                     <td
                                       style="font-size: 0px; word-break: break-word; width: 500px; text-align: center; padding: 30px 0; ">
                                       <div>
-                                        <img height="auto" alt="拉易网图片" width="180" height="200"
+                                        <img height="auto" alt="" width="180" height="200"
                                           src="http://47.90.62.114:8086/bsl_web/images/bc15640a323b1c6ebee583ccccbb1db.png"
                                           style="box-sizing: border-box; border: 0px; display: inline-block; outline: none; text-decoration: none; height: auto; max-width: 100%; padding: 0px;" />
                                       </div>
@@ -650,7 +649,6 @@ export default {
     </table>
   </div>
 </div>`;
-
     var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
     if(reg.test(this.emailadress)) {
         this.$loading();
@@ -671,8 +669,8 @@ export default {
           this.$router.push({query:query1})
           this.$dialog
             .alert({
-              title: "发送成功",
-              message: "请等待投资者确认并完善资料"
+              title:this.$t('agent.SentSuccessfully'),
+              message: this.$t('agent.PleaseWaitForInvestorsToConfirmAndImproveTheInformation'),
             })
             .then(() => {
               this.$routerto("mysign");
@@ -686,7 +684,7 @@ export default {
           }
       });
       }else{
-          this.show='邮箱格式不正确';
+          this.show=this.$t('agent.EmailFormatIsIncorrect');
       }
 
 

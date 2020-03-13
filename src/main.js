@@ -10,7 +10,7 @@ import Promise from 'es6-promise';
 Promise.polyfill();
 import global from '@/components/moblie/global.js'
 import store from './store/store'
-
+import { i18n } from './language'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 // 富文本
@@ -59,6 +59,13 @@ import {Dialog} from 'vant';
 Vue.use(Dialog);
 import {Toast} from 'vant';
 Vue.use(Toast);
+
+// 多语言设置
+if (localStorage.getItem("lang")) {
+  store.commit("currencylang", localStorage.getItem("lang"));
+}
+
+
 // Toast
 // console.log(Vant.Toast)
 // import moment from 'moment'
@@ -207,6 +214,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   components: {
     App
   },

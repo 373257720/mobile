@@ -20,79 +20,71 @@ export default {
   data() {
     return {
       title: "",
-      dad_text: "项目详情",
+      dad_text: this.common.ProjectDetails,
       nav_lists: {
         financingStage: {
-          name: "融资阶段",
+          name: this.$t('agent.FinancingStage'),
           response: ""
         },
         committedCount: {
-          name: "已提交</br>投资者数量",
+          name: this.$t('agent.NumberOfinvestorsHaveSubmitted'),
           response: ""
         },
         interestProjectCount: {
-          name: "已接受<br>投资者数量",
+          name: this.$t('agent.Numberofprojectsinterested'),
           response: ""
         },
-
       },
       details_lists: {
         projectIndustry: {
-          name: "行业:",
+          name:this.$t('common.Industry'),
           response: ""
         },
         projectArea: {
-          name: "地区:",
+          name: this.$t('common.region'),
           response: ""
         },
-        // projectStatus: {
-        //   name: "项目状态:",
-        //   response: ""
-        // },
         projectCompany: {
-          name: "公司名称:",
+          name: this.$t('common.CompanyName'),
           response: ""
         },
         currencyType: {
-          name: "币种:",
+          name:this.$t('common.Currency'),
           response: ""
         },
         collectMoney: {
-          name: "集资额:",
+          name: this.$t('common.FundingAmount'),
           collectMoneyMin:'',
           collectMoneyMax: "",
-
         },
         projectMobile: {
-          name: "联系电话:",
+          name: this.$t('common.ContactNumber'),
           response: ""
         },
         projectEmail: {
-          name: "电邮:",
+          name: this.$t('common.Email'),
           response: ""
         },
+        signStatus: {
+          name: this.$t('common.ContractStatus'),
+          response: "",
+          classname:'red',
+        },
         projectDescribe: {
-          name: "项目简介:",
+          name: this.$t('common.ProjectDescription'),
           response: ""
         },
         projectDetail:{
-          name: "项目详情:",
+          name: this.$t('common.ProjectDetails'),
           response: ""
-        }
-      },
-      // ：0初步接洽；1在物色投資者；2已完成部份融；3完成融資
-      project_status:{
-        '0':'初步接洽',
-        '1':'在物色投資者',
-        '2':'已完成部份融资',
-        '3':'完成融資'
+        },
       },
       financingStage: {
-        '0': '种子轮',
-        '1': "天使轮",
-        '2': "A轮",
-        '3': "B轮",
-        '4': "C轮",
+        '0': this.$t('projectOwner.SeedRound'),
+        '1': this.$t('projectOwner.AngelWheel'),
+        '2': this.$t('projectOwner.ARound'),
+        '3': this.$t('projectOwner.BRound'),
+        '4': this.$t('projectOwner.CRound'),
         '5': "PRE-IPO",
         '6': "IPO",
       },

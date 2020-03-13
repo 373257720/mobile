@@ -34,49 +34,49 @@ export default {
   data() {
     return {
       searchkey: "",
-      dad_text: "联络人",
+      dad_text: this.$t('projectOwner.Contacts'),
       details_lists: [
         {
           keyword: "investorsCompany",
-          name: "投资者公司:",
+          name:  this.$t('agent.InvestorCompany'),
           response: ""
         },
         {
           keyword: "investorsName",
-          name: "投资者名称",
+          name: this.$t('agent.InvestorName'),
           response: ""
         },
         {
           keyword: "investorsArea",
-          name: "投资者地区:",
+          name: this.$t('investor.InvestorRegion'),
           response: ""
         },
         {
           keyword: "investorsMobile",
-          name: "投资者电话:",
-          response: ""
-        },
-        {
-          keyword: "interestedIndustries",
-          name: "投资者兴趣:",
+          name: this.$t('investor.InvestorPhone'),
           response: ""
         },
         {
           keyword: "investorsEmail",
-          name: "投资者邮箱:",
+          name: this.$t('investor.InvestorEmail'),
+          response: ""
+        },
+        {
+          keyword: "interestedIndustries",
+          name: this.$t('investor.InvestorInterest'),
           response: ""
         },
         {
           keyword: "investorsCompanyAddress",
-          name: "投资者地址:",
+          name: this.$t('investor.InvestorCompanyAddress'),
           response: ""
         },
         {
           keyword: "signTime3",
-          name: "签约时间:",
+          name: this.$t('common.SigningTime'),
           response: ""
         }
-      ]
+      ],
     };
   },
   computed: {
@@ -103,7 +103,7 @@ export default {
                 ];
               } else if (this.details_lists[j].keyword == "publicCompany") {
                 this.details_lists[j].response =
-                  this.res.data.data[i] == false ? "否" : "是";
+                  this.res.data.data[i] == false ? this.$t('common.isno'): this.$t('common.isyes');
               } else {
                 this.details_lists[j].response = res.data.data[i];
               }
@@ -116,7 +116,7 @@ export default {
           }
         }
         }
-       
+
       });
 
     // if(a.er
@@ -220,7 +220,7 @@ export default {
       font-size: 0.38rem;
     div{
           > div {
-            margin-bottom: 0.5rem;  
+            margin-bottom: 0.5rem;
             align-items: baseline;
            font-size: 0.44rem;
             line-height: 0.56rem;

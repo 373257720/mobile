@@ -1,7 +1,7 @@
 <template>
   <div id="i_wait_confirm">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />待确认项目
+      <van-icon name="arrow-left" @click="$global.previous()" />{{$t('investor.Itemstobeconfirmed')}}
     </nav>
     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
@@ -15,8 +15,8 @@
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button @click="agree">完善资料</button>
-            <button @click="refuse">拒绝</button>
+            <button @click="agree">{{$t('investor.CompleteMaterial')}}</button>
+            <button @click="refuse">{{$t('investor.Refuse')}}</button>
           </aside>
         </footer>
       </article>
@@ -38,70 +38,72 @@ export default {
       investorsId:'',
       investor_infor: {
         investorsType: {
-          name: "投资者类型:",
+          name: this.$t('agent.InvestorType'),
           response: ""
         },
         investorsCompany: {
-          name: "投资者公司:",
+          name: this.$t('agent.InvestorCompany'),
           response: ""
         },
         investorsName: {
-          name: "投资者姓名:",
+          name:this.$t('agent.InvestorName'),
           response: ""
         },
         investorsArea: {
-          name: "投资者地区:",
+          name: this.$t('agent.InvestorRegion'),
           response: ""
-        }
+        },
       },
       nav_lists: {
         financingStage: {
-          name: "融资阶段",
+          name: this.$t('agent.FinancingStage'),
           response: ""
         },
       },
       details_lists: {
         projectIndustry: {
-          name: "行业:",
+          name:this.$t('common.Industry'),
           response: ""
         },
         projectArea: {
-          name: "地区:",
+          name: this.$t('common.region'),
           response: ""
         },
-        // signStatu: {
-        //   name: "项目状态:",
-        //   response: "暂无"
-        // },
         projectCompany: {
-          name: "公司名称:",
+          name: this.$t('common.CompanyName'),
           response: ""
         },
         currencyType: {
-          name: "币种:",
+          name:this.$t('common.Currency'),
           response: ""
         },
         collectMoney: {
-          name: "集资额:",
+          name: this.$t('common.FundingAmount'),
           collectMoneyMin:'',
           collectMoneyMax: "",
         },
         projectMobile: {
-          name: "联系电话:",
+          name: this.$t('common.ContactNumber'),
           response: ""
         },
         projectEmail: {
-          name: "电邮:",
+          name: this.$t('common.Email'),
           response: ""
+        },
+        signStatus: {
+          name: this.$t('common.ContractStatus'),
+          response: "",
+          classname:'red',
         },
         projectDescribe: {
-          name: "项目简介:",
-          response: ""
-        },  projectDetail:{
-          name: "项目详情:",
+          name: this.$t('common.ProjectDescription'),
           response: ""
         },
-      }
+        projectDetail:{
+          name: this.$t('common.ProjectDetails'),
+          response: ""
+        },
+      },
     };
   },
   created() {
@@ -131,7 +133,7 @@ export default {
         if(res.projectLifeCycle==-1){
           this.$dialog
             .alert({
-              title: "项目已不存在,请确认是否刪除",
+              title:this.$t('common.TheItemNoLongerExists'),
             })
             .then(() => {
               this.$router.go(-1);
@@ -151,7 +153,7 @@ export default {
     refuse() {
       this.$dialog
         .confirm({
-          title: "是否拒绝"
+          title:this.$t('investor.WhetherToDecline')
           // message: "弹窗内容"
         })
         .then(() => {

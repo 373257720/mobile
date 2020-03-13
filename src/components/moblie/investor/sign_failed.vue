@@ -1,22 +1,18 @@
 <template>
   <div id="i_sign_failed">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />拒绝签约项目
+      <van-icon name="arrow-left" @click="$global.previous()" />{{$t('common.RefusalToSignProject')}}
     </nav>
-    <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-        <!-- <header>投资者资料</header> -->
         <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
       </article>
     </main>
-    <!-- <mbottom></mbottom> -->
   </div>
 </template>
 <script>
@@ -25,89 +21,76 @@ export default {
   data() {
     return {
       show: false,
-      // dad_text:'待确认项目',
       investorsEmailSend: "",
       title: "",
       investor_infor: {
         investorsType: {
-          name: "投资者类型:",
+          name: this.$t('agent.InvestorType'),
           response: ""
         },
         investorsCompany: {
-          name: "投资者公司:",
+          name: this.$t('agent.InvestorCompany'),
           response: ""
         },
         investorsName: {
-          name: "投资者姓名:",
+          name:this.$t('agent.InvestorName'),
           response: ""
         },
         investorsArea: {
-          name: "投资者地区:",
+          name: this.$t('agent.InvestorRegion'),
           response: ""
-        }
+        },
       },
       nav_lists: {
         financingStage: {
-          name: "融资阶段",
+          name: this.$t('agent.FinancingStage'),
           response: ""
         },
-        // committedCount: {
-        //   name: "已提交</br>投资者数量",
-        //   response: ""
-        // },
-        // interestProjectCount: {
-        //   name: "项目方<br>有兴趣数量",
-        //   response: ""
-        // }
       },
       details_lists: {
         projectIndustry: {
-          name: "行业:",
+          name:this.$t('common.Industry'),
           response: ""
         },
         projectArea: {
-          name: "地区:",
+          name: this.$t('common.region'),
           response: ""
         },
-        // signStatu: {
-        //   name: "项目状态:",
-        //   response: "暂无"
-        // },
         projectCompany: {
-          name: "公司名称:",
+          name: this.$t('common.CompanyName'),
           response: ""
         },
         currencyType: {
-          name: "币种:",
+          name:this.$t('common.Currency'),
           response: ""
         },
         collectMoney: {
-          name: "集资额:",
-          collectMoneyMin: "",
-          collectMoneyMax: ""
+          name: this.$t('common.FundingAmount'),
+          collectMoneyMin:'',
+          collectMoneyMax: "",
         },
         projectMobile: {
-          name: "联系电话:",
+          name: this.$t('common.ContactNumber'),
           response: ""
         },
         projectEmail: {
-          name: "电邮:",
+          name: this.$t('common.Email'),
           response: ""
         },
         signStatus: {
-          name: "签约状态:",
+          name: this.$t('common.ContractStatus'),
           response: "",
+          classname:'red',
         },
-
         projectDescribe: {
-          name: "项目简介:",
+          name: this.$t('common.ProjectDescription'),
           response: ""
         },
-        projectDetail: {
-          name: "项目详情:",
+        projectDetail:{
+          name: this.$t('common.ProjectDetails'),
           response: ""
         },
-      }
+      },
     };
   },
   created() {

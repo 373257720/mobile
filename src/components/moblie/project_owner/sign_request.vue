@@ -5,7 +5,7 @@
       <div class="investors_infor">
       <h2>{{title}}</h2>
       <div class="middlerean_info">
-          <van-divider>中间人资料</van-divider>
+          <van-divider>{{$t('projectOwner.IntermediaryInformation')}}</van-divider>
           <ul>
             <li  v-for="(item,key) in middlemen">
               <div v-if="key=='userName'">
@@ -14,7 +14,7 @@
               </div>
               <div v-if="key=='userIdentityType'">
                 <p class="row1">{{item.name}}</p>
-                <p class="row2">{{item.response==1?'个人':item.response==2?"公司":'-'}}</p>
+                <p class="row2">{{item.response==1?$t('common.individual'):item.response==2?$t('common.company'):'-'}}</p>
               </div>
               <div v-else-if="( middlemen['userIdentityType'].response==2 && (key=='userCompanyCh' || key=='userCompanyEn'))">
                 <p class="row1">{{item.name}}</p>
@@ -30,12 +30,12 @@
         <commondetails :toson="details_lists"></commondetails>
         <footer>
            <aside v-if="$route.query.signStatus==6">
-            <button @click="review(8)">确认投资人</button>
-            <button @click="review(7)">拒绝</button>
+            <button @click="review(8)">{{$t('projectOwner.ConfirmInvestor')}}</button>
+            <button @click="review(7)">{{$t('investor.Refuse')}}</button>
           </aside>
           <aside v-else-if="$route.query.signStatus==1">
-            <button @click="$routerto('owner_set_contract',$route.query)">感兴趣</button>
-            <button @click="agreement(3)">拒绝</button>
+            <button @click="$routerto('owner_set_contract',$route.query)">{{$t('projectOwner.Interested')}}</button>
+            <button @click="agreement(3)">{{$t('investor.Refuse')}}</button>
           </aside>
         </footer>
       </article>
@@ -56,15 +56,15 @@ export default {
       dad_text: "",
       middlemen:{
         userIdentityType: {
-          name: "中间人类型:",
+          name: this.$t('projectOwner.MiddlemanType'),
           response: ""
         },
         userName: {
-          name: "中间人名称:",
+          name: this.$t('projectOwner.MiddlemanName'),
           response: ""
         },
         userCompanyCh:{
-          name: "公司名称:",
+          name: this.$t('projectOwner.CompanyName'),
           response: ""
         },
         userCompanyEn: {
@@ -73,82 +73,90 @@ export default {
         }
       },
 
-     investor_infor: {
-        investorsType: {
-          name: "投资者类型:",
-          response: ""
-        },
-        investorsCompany: {
-          name: "投资者公司:",
-          response: ""
-        },
-        investorsName: {
-          name: "投资者姓名:",
-          response: ""
-        },
-        investorsArea: {
-          name: "投资者地区:",
-          response: ""
-        }
-      },
       nav_lists: {
         financingStage: {
-          name: "融资阶段",
+          name: this.$t('agent.FinancingStage'),
           response: ""
         },
         committedCount: {
-          name: "已提交</br>投资者数量",
+          name: this.$t('agent.NumberOfinvestorsHaveSubmitted'),
           response: ""
         },
         interestProjectCount: {
-          name: "项目方<br>有兴趣数量",
+          name: this.$t('agent.Numberofprojectsinterested'),
           response: ""
         },
-
       },
       details_lists: {
         projectIndustry: {
-          name: "行业:",
+          name:this.$t('common.Industry'),
           response: ""
         },
         projectArea: {
-          name: "地区:",
+          name: this.$t('common.region'),
           response: ""
         },
-        // signStatu: {
-        //   name: "项目状态:",
-        //   response: "暂无"
-        // },
         projectCompany: {
-          name: "公司名称:",
+          name: this.$t('common.CompanyName'),
           response: ""
         },
         currencyType: {
-          name: "币种:",
+          name:this.$t('common.Currency'),
           response: ""
         },
         collectMoney: {
-          name: "集资额:",
+          name: this.$t('common.FundingAmount'),
           collectMoneyMin:'',
           collectMoneyMax: "",
         },
         projectMobile: {
-          name: "联系电话:",
+          name: this.$t('common.ContactNumber'),
           response: ""
         },
         projectEmail: {
-          name: "电邮:",
+          name: this.$t('common.Email'),
           response: ""
         },
+        signStatus: {
+          name: this.$t('common.ContractStatus'),
+          response: "",
+          classname:'red',
+        },
         projectDescribe: {
-          name: "项目简介:",
+          name: this.$t('common.ProjectDescription'),
           response: ""
         },
         projectDetail:{
-          name: "项目详情:",
+          name: this.$t('common.ProjectDetails'),
           response: ""
         },
-      }
+      },
+      investor_infor: {
+        investorsType: {
+          name: this.$t('agent.InvestorType'),
+          response: ""
+        },
+        investorsCompany: {
+          name: this.$t('agent.InvestorCompany'),
+          response: ""
+        },
+        investorsName: {
+          name:this.$t('agent.InvestorName'),
+          response: ""
+        },
+        investorsArea: {
+          name: this.$t('agent.InvestorRegion'),
+          response: ""
+        },
+        investorsMobile: {
+          name: this.$t('agent.InvestorPhone'),
+          response: ""
+        },
+        investorsEmail: {
+          name: this.$t('agent.InvestorMailbox'),
+          response: ""
+        }
+      },
     };
   },
   beforeRouteLeave(to,from,next){
@@ -166,9 +174,9 @@ export default {
     this.signId=this.$route.query.signId?this.$route.query.signId:-1;
     this.signStatus=this.$route.query.signStatus?this.$route.query.signStatus:'';
     if(this.signStatus==6){
-      this.dad_text="待审核项目"
+      this.dad_text= this.$t('projectOwner.ReviewItems');
     }else if(this.signStatus==1){
-      this.dad_text="待处理项目"
+      this.dad_text=this.$t('projectOwner.PendingItems');
     }
     this.$loading();
     this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.projectId}&signStatus=${this.signStatus}&signId=${this.signId}`,'get',{},this.details_lists,this.nav_lists,this.investor_infor,this.middlemen).then(res=>{
@@ -177,7 +185,7 @@ export default {
     if(res.projectLifeCycle==-1){
       this.$dialog
         .alert({
-          title: "该项目已删除",
+          title: this.$t('projectOwner.ThisItemHasBeenDeleted')
         })
         .then(() => {
           this.$router.go(-1);
@@ -192,7 +200,7 @@ export default {
       }
       this.$dialog
         .confirm({
-          title: "请确认操作",
+          title: this.$t('projectOwner.PleaseConfirmTheOperation')
           // message: "弹窗内容"
         })
         .then(() => {
@@ -205,10 +213,10 @@ export default {
             this.$router.push({query:query1})
               let res_message="";
                 if(num==8){
-                      res_message="已发送合作意向，等待中间人发送邀请链接给投资者";
+                      res_message=this.$t('projectOwner.CooperationIntentionHasBeenSent');
                 }
                 else if(num==7){
-                      res_message="返回我的项目";
+                      res_message=this.$t('projectOwner.BackToMyProject');
                   }
                   this.$dialog
                     .alert({
@@ -238,7 +246,7 @@ export default {
     agreement(num) {
       this.$dialog
         .confirm({
-          title: "拒绝签约"
+          title: this.$t('investor.WhetherToDecline')
         })
         .then(() => {
           this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,{

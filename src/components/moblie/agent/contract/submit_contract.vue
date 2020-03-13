@@ -1,13 +1,13 @@
 <template>
   <div id="a_submit_contract">
       <nav class="a_submit_contract">
-        <van-icon name="arrow-left" @click="$router.go(-2)" />签署合约
+        <van-icon name="arrow-left" @click="$router.go(-2)" />{{$t('agent.SignTheContract')}}
       </nav>
       <main>
         <article>
           <contractcomponent :contract="contract"></contractcomponent>
           <footer>
-            <button @click="signproject4">提交</button>
+              <button @click="signproject4">{{$t('common.Submit')}}</button>
           </footer>
         </article>
       </main>
@@ -55,7 +55,7 @@ export default {
         if(this.contract[i]==''){
           this.$dialog
             .confirm({
-              title: "请返回完成全部信息填写"
+              title: this.$t('ContractWrods.PleaseReturnToCompleteInformation')
               // message: "弹窗内容"
             })
             .then(() => {
@@ -83,7 +83,7 @@ export default {
           this.$dialog
             .alert({
               title: res.data.resultDesc,
-              message: "下一步确认及上载到区块链"
+              message: this.$t('ContractWrods.ConfirmAndUploadToBlockchain')
             })
             .then(() => {
                this.$routerto("uploadtoblock",  {

@@ -2,13 +2,13 @@
 <template>
   <div id="p_submit_contract">
       <nav class="p_submit_contract">
-        <van-icon name="arrow-left" @click="$router.go(-1)" />签署合约
+        <van-icon name="arrow-left" @click="$router.go(-1)" />{{$t('agent.SignTheContract')}}
       </nav>
       <main>
         <article>
           <contractcomponent :contract="contract"></contractcomponent>
           <footer>
-            <button @click="contract_submit">提 交</button>
+            <button @click="contract_submit">{{$t('common.Submit')}}</button>
           </footer>
         </article>
       </main>
@@ -48,7 +48,7 @@ export default {
         if(this.contract[i]==''){
           this.$dialog
             .confirm({
-              title: "请返回完成信息填写"
+              title: this.$t('ContractWrods.PleaseReturnToCompleteInformation')
               // message: "弹窗内容"
             })
             .then(() => {
@@ -75,7 +75,7 @@ export default {
             this.$dialog
               .alert({
                 title: res.data.resultDesc,
-                message: "返回我的项目"
+                message:this.$t('projectOwner.BackToMyProject')
               })
               .then(() => {
                 this.$routerto("mysign");
@@ -83,8 +83,9 @@ export default {
           } else if(res.data.resultCode==10051) {
             this.$dialog
               .alert({
-                title: "提醒",
-                message: "您的注册审核不通过，请前往我的-个人审核里修改"
+                title: this.$t('common.Reminder'),
+                message: this.$t('projectOwner.YourRegistrationReviewDidNotPass')
+
               })
               .then(() => {
                 this.$routerto("mysign");
@@ -93,16 +94,15 @@ export default {
             this.$dialog
               .alert({
                 title: res.data.resultDesc,
-                message: "返回我的项目",
+                message:this.$t('projectOwner.BackToMyProject')
               })
               .then(() => {
-
                 this.$routerto("mysign");
               });
           }
         });
       }else {
-        console.log('没有projectid')
+        // console.log('没有projectid')
       }
     }
   }
@@ -138,7 +138,6 @@ export default {
 
 </style>
 <style lang="scss" scoped>
-
  #p_submit_contract {
     width: 100%;
       height: 100%;

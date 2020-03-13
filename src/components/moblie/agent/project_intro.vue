@@ -10,9 +10,8 @@
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button v-if="$route.query.signStatus>=5"  @click="recommamd">推荐投资者</button>
-            <button v-if="$route.query.signStatus==='0'" @click="confirm_alert">感兴趣</button>
-            <!-- <button @click="$global.previous()">再考虑一下</button> -->
+            <button v-if="$route.query.signStatus>=5"  @click="recommamd">{{$t('agent.Recommendinvestors')}}</button>
+            <button v-if="$route.query.signStatus==='0'" @click="confirm_alert">{{$t('agent.Interested')}}</button>
           </aside>
         </footer>
       </article>
@@ -29,55 +28,50 @@ export default {
       dad_text: "项目简介",
       nav_lists: {
         financingStage: {
-          name: "融资阶段",
+          name: this.$t('agent.FinancingStage'),
           response: ""
         },
         committedCount: {
-          name: "已提交</br>投资者数量",
+          name: this.$t('agent.NumberOfinvestorsHaveSubmitted'),
           response: ""
         },
         interestProjectCount: {
-          name: "项目方<br>有兴趣数量",
+          name: this.$t('agent.Numberofprojectsinterested'),
           response: ""
         },
-
       },
       details_lists: {
         projectIndustry: {
-          name: "行业:",
+          name:this.$t('common.Industry'),
           response: ""
         },
         projectArea: {
-          name: "地区:",
+          name: this.$t('common.region'),
           response: ""
         },
-        // signStatu: {
-        //   name: "项目状态:",
-        //   response: "暂无"
-        // },
         projectCompany: {
-          name: "公司名称:",
+          name: this.$t('common.CompanyName'),
           response: ""
         },
         currencyType: {
-          name: "币种:",
+          name:this.$t('common.Currency'),
           response: ""
         },
         collectMoney: {
-          name: "集资额:",
+          name: this.$t('common.FundingAmount'),
           collectMoneyMin:'',
           collectMoneyMax: "",
         },
         projectMobile: {
-          name: "联系电话:",
+          name: this.$t('common.ContactNumber'),
           response: ""
         },
         projectEmail: {
-          name: "电邮:",
+          name: this.$t('common.Email'),
           response: ""
         },
         projectDescribe: {
-          name: "项目简介:",
+          name: this.$t('common.ProjectDescription'),
           response: ""
         }
       },
@@ -95,9 +89,9 @@ export default {
   created() {
     this.details = this.$route.query;
     if(this.$route.query.signStatus>=5){
-      this.dad_text="推荐投资者"
+      this.dad_text=this.$t('agent.Recommendinvestors');
     }else{
-      this.dad_text="项目简介"
+      this.dad_text=this.$t('common.ProjectDescription')
     }
     this.$loading();
     this.$global
@@ -121,7 +115,7 @@ export default {
         if(res.projectLifeCycle==-1){
           this.$dialog
             .alert({
-              title: "项目已不存在,请确认是否刪除",
+              title: this.$t('common.TheItemNoLongerExists'),
             })
             .then(() => {
               this.$router.go(-1);
@@ -146,8 +140,8 @@ export default {
         if(res.data.resultCode==10000){
             this.$dialog
               .alert({
-                title: "您已提交签约申请",
-                message: "申请获处理后，请于待签约项目中签署确认条款。"
+                title: this.$t('agent.YouHaveSubmittedYourApplication'),
+                message:this.$t('common.AfterTheApplicationIsProcessed'),
               })
               .then(() => {
                   this.$routerto("mysign")

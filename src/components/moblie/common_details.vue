@@ -19,7 +19,7 @@
             </div>
             <div class="normal" v-else>
               <p class="row1">{{item.name}}</p>
-              <p class="row2" >{{item.response}}</p>
+              <p class="row2" :class="item.classname" >{{item.response}}</p>
             </div>
           </li>
         </ul>
@@ -81,6 +81,9 @@ export default {
             // line-height: 0.48rem;
             color: #787878;
           }
+            .red{
+              color: #ee0a24;
+            }
           }
          div.content{
             .row1 {

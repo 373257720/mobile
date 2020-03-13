@@ -21,7 +21,7 @@ export default {
   //     }else{
   //       next(false);
   //     }
-   
+
   // },
   methods: {
     commit(data) {
@@ -30,20 +30,6 @@ export default {
       this.contract.owner_signdate=timestamp;
       this.$routerto('p_submit_contract',this.$route.query)
     },
-    gg() {
-      // console.log(this.$dialog);
-      this.$dialog
-        .confirm({
-          title: "标题",
-          message: "弹窗内容"
-        })
-        .then(() => {
-          // on confirm
-        })
-        .catch(() => {
-          // on cancel
-        });
-    }
   }
 };
 </script>

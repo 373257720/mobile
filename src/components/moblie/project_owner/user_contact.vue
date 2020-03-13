@@ -8,7 +8,7 @@
       <div>
         <van-search
           v-model="searchkey"
-          placeholder="请输入搜索关键词"
+          :placeholder="$('common.PleaseEnterTheSearchKeyword')"
           show-action
           shape="round"
           left-icon
@@ -31,7 +31,7 @@
           </p>
         </li>
       </ul>
-    <div v-else-if="arr.length<1" class="nodata">没有更多信息</div>
+    <div v-else-if="arr.length<1" class="nodata">{{$t('projectOwner.NoMore')}}</div>
     <mbottom></mbottom>
   </div>
 </template>
@@ -40,8 +40,8 @@ export default {
   name: "p_user_contact",
   data() {
     return {
-      dad_text: "联络人",
-      loadText: "加载中…",
+      dad_text: this.$t('projectOwner.Contacts'),
+      loadText: "Loading…",
       loading: false,
       finished: false,
       arr: [

@@ -1,14 +1,13 @@
 <template>
   <div id="i_perfect_infor">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />完善资料
+      <van-icon name="arrow-left" @click="$global.previous()" />{{$t('investor.CompleteMaterial')}}
     </nav>
     <main>
       <article>
-        <!-- <header>{{title}}</header> -->
         <ul>
           <li>
-            <p class="row1">投资者类型</p>
+            <p class="row1">{{$t('agent.InvestorType')}}</p>
             <p class="row2">
             <van-dropdown-menu>
                 <van-dropdown-item  v-model="form.investorsType" :options="option1" />
@@ -18,14 +17,14 @@
           </li>
           <li>
 
-            <p class="row1">投资者地区：</p>
+            <p class="row1">{{$t('investor.InvestorRegion')}}</p>
             <p class="row2">
               <!-- <van-dropdown-menu>
                 <van-dropdown-item @close="choose_nation" placeholder="-" v-model="form.investorsArea"  :options="countrylist" />
               </van-dropdown-menu> -->
                 <a-select
               showSearch
-              placeholder="请输入"
+              :placeholder="$t('ContractWrods.pleaseEnter')"
               :value='form.investorsArea'
              :getPopupContainer="triggerNode => triggerNode.parentNode"
               :showArrow="false"
@@ -42,37 +41,37 @@
             </p>
           </li>
            <li v-show="form.investorsType==2">
-            <p class="row1">投资者公司：</p>
+            <p class="row1">{{$t('agent.InvestorCompany')}}</p>
             <p class="row2">
-              <van-field  v-model="form.investorsCompany" placeholder="请输入" />
+              <van-field  v-model="form.investorsCompany"  :placeholder="$t('ContractWrods.pleaseEnter')" />
             </p>
           </li>
           <li>
-            <p class="row1">投资者姓名：</p>
+            <p class="row1">{{$t('agent.InvestorName')}}</p>
             <p class="row2">
-              <van-field  v-model="form.investorsName" placeholder="请输入" />
+              <van-field  v-model="form.investorsName"  :placeholder="$t('ContractWrods.pleaseEnter')" />
             </p>
           </li>
           <li>
-            <p class="row1">投资者电话：</p>
+            <p class="row1">{{$t('agent.InvestorPhone')}}</p>
             <p class="row2">
-              <van-field v-model="form.investorsMobile" placeholder="请输入" />
+              <van-field v-model="form.investorsMobile"  :placeholder="$t('ContractWrods.pleaseEnter')" />
             </p>
           </li>
           <li>
-            <p class="row1">投资者邮箱：</p>
+            <p class="row1">{{$t('agent.InvestorMailbox')}}</p>
             <p class="row2">
-              <van-field v-model="form.investorsEmail" placeholder="请输入" />
+              <van-field v-model="form.investorsEmail"  :placeholder="$t('ContractWrods.pleaseEnter')" />
             </p>
           </li>
           <li >
-            <p class="row1">投资者地址：</p>
+            <p class="row1"> {{$t('investor.InvestorAddress')}}</p>
             <p class="row2">
-              <van-field v-model="form.investorsCompanyAddress" placeholder="请输入"  />
+              <van-field v-model="form.investorsCompanyAddress"  :placeholder="$t('ContractWrods.pleaseEnter')"  />
             </p>
           </li>
           <li>
-            <p class="row1">感兴趣行业：</p>
+            <p class="row1">{{$t('investor.IndustryOfInterest')}}</p>
             <p class="row2">
               <van-checkbox-group v-model="form.interestedIndustries">
                 <van-checkbox
@@ -86,7 +85,7 @@
         </ul>
         <footer>
           <aside>
-            <button @click="submit">提交</button>
+            <button @click="submit">{{$t('common.Submit')}}</button>
           </aside>
         </footer>
       </article>
@@ -119,7 +118,8 @@ export default {
       },
       industrylist: [],
       region:[],
-      option1: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }]
+      option1: [{ text: this.$t('common.individual'), value: 1 },
+        { text: this.$t('common.company'), value: 2 }]
     };
   },
   // beforeRouteEnter(to,from,next){
@@ -186,65 +186,40 @@ export default {
     },
      submit() {
         var regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
-       if(this.form.investorsType==2 && this.form.investorsCompany=='')   { this.$toast({ message:'请输入投资者公司名称'});
+       if(this.form.investorsType==2 && this.form.investorsCompany=='')
+       { this.$toast({ message:this.$t('investor.PleaseEnterTheNameOfTheInvestorCompany')});
             return
 
         }
         if(this.form.investorsArea==''){
-            this.$toast('请输入投资者地区');
+            this.$toast(this.$t('investor.PleaseEnterInvestorRegion'));
             return
         }else  if(this.form.investorsName==''){
-            this.$toast('请输入投资者姓名');
+          this.$toast(this.$t('investor.PleaseEnterInvestorName'));
             return
         }else  if(this.form.investorsMobile==''){
-            this.$toast('请输入投资者电话');
+          this.$toast(this.$t('investor.PleaseEnterInvestorPhone'));
             return
         }else  if(this.form.investorsEmail==''){
-            this.$toast('请输入投资者邮箱');
+          this.$toast(this.$t('investor.PleaseEnterInvestorEmail'));
             return
         }else  if(!regemail.test(this.form.investorsEmail)){
-          this.$toast('邮箱格式不正确');
+          this.$toast(this.$t('investor.EmailFormatIsIncorrect'));
             return
         }
         else  if(this.form.investorsCompanyAddress==''){
-            this.$toast('请输入投资者地址');
+          this.$toast(this.$t('investor.PleaseEnterInvestorAddress'));
             return
         }else  if(this.form.interestedIndustries.length<=0){
-            this.$toast('请选择感兴趣行业');
+          this.$toast(this.$t('investor.PleaseSelectIndustry'));
             return
         }
       this.commit();
-    },
-    choose_nation(){
-      // if(!this.form.investorsArea && this.form.investorsArea!==0){
-      //   this.form_err.investorsArea="请选择"
-      // }else{
-      //   this.form_err.investorsArea=''
-      // }
     },
     commit() {
       let formtable = JSON.parse(JSON.stringify(this.form));
       let interestedIndustries = this.form.interestedIndustries.join("/");
       formtable.interestedIndustries = interestedIndustries;
-      // let  formtable= {
-      //   signId: this.$route.query.signId,
-      //   signStatus: 6,
-      //   investorsId: this.$route.query.investorsId,
-      //   investorsType: 1,
-      //   investorsCompany: "2",
-      //   investorsName: "2",
-      //   investorsArea: "2",
-      //   investorsEmail: "2",
-      //   investorsMobile: "2",
-      //   interestedIndustries: a ,
-      //   investorsCompanyAddress: "2",
-      //   investorsName: "33"
-      // };
-      // if (formtable.investorsType == "个人") {
-      //   formtable.investorsType = 1;
-      // } else if (formtable.investorsType == "公司") {
-      //   formtable.investorsType = 2;
-      // }s
       console.log(formtable);
       this.$loading();
       this.$axios({
@@ -282,10 +257,6 @@ export default {
 </script>
 <style lang="scss">
 #i_perfect_infor {
-
-//  .van-button__text{
-//      font-size: 0.48rem !important;
-//     }
  .ant-select-dropdown-menu{
       max-height: 4rem;
     }
@@ -306,8 +277,6 @@ export default {
 
  }
  .ant-select-selection__rendered{
-
-
    margin:0;
  }
     .ant-select-selection{

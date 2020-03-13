@@ -1,17 +1,16 @@
 <template>
   <div id="i_conected_project">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />已连接项目
+      <van-icon name="arrow-left" @click="$global.previous()" />{{$t('common.ConnectedItems')}}
     </nav>
     <main>
       <article>
         <header>{{title}}</header>
-        <!-- <commoninvestors :investor_infor="investor_infor"></commoninvestors> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button @click="$routerto('i_inverstor_infor',{investorsId:investorsId})">我的资料</button>
+            <button @click="$routerto('i_inverstor_infor',{investorsId:investorsId})">{{$t('investor.MyProfile')}}</button>
           </aside>
         </footer>
       </article>
@@ -26,91 +25,82 @@ export default {
     return {
       investorsId: "",
       title: "",
-      // investor_infor: {
-      //   investorsType: {
-      //     name: "投资者类型:",
-      //     response: ""
-      //   },
-      //   investorsCompany: {
-      //     name: "投资者公司:",
-      //     response: ""
-      //   },
-      //   investorsName: {
-      //     name: "投资者姓名:",
-      //     response: ""
-      //   },
-      //   investorsArea: {
-      //     name: "投资者地区:",
-      //     response: ""
-      //   },
-      //   investorsMobile: {
-      //     name: "投资者电话:",
-      //     response: ""
-      //   },
-      //   investorsEmailSend: {
-      //     name: "投资者邮箱:",
-      //     response: ""
-      //   }
-      // },
-      nav_lists: {
-        financingStage: {
-          name: "融资阶段",
+      investor_infor: {
+        investorsType: {
+          name: this.$t('agent.InvestorType'),
           response: ""
         },
-        // committedCount: {
-        //   name: "已提交</br>投资者数量",
-        //   response: ""
-        // },
-        // interestProjectCount: {
-        //   name: "项目方<br>有兴趣数量",
-        //   response: ""
-        // },
-
-
+        investorsCompany: {
+          name: this.$t('agent.InvestorCompany'),
+          response: ""
+        },
+        investorsName: {
+          name:this.$t('agent.InvestorName'),
+          response: ""
+        },
+        investorsArea: {
+          name: this.$t('agent.InvestorRegion'),
+          response: ""
+        },
+        investorsMobile: {
+          name: this.$t('agent.InvestorPhone'),
+          response: ""
+        },
+        investorsEmail: {
+          name: this.$t('agent.InvestorMailbox'),
+          response: ""
+        }
+      },
+      nav_lists: {
+        financingStage: {
+          name: this.$t('agent.FinancingStage'),
+          response: ""
+        },
       },
       details_lists: {
         projectIndustry: {
-          name: "行业:",
+          name:this.$t('common.Industry'),
           response: ""
         },
         projectArea: {
-          name: "地区:",
+          name: this.$t('common.region'),
           response: ""
         },
-        // signStatu: {
-        //   name: "项目状态:",
-        //   response: "暂无"
-        // },
         projectCompany: {
-          name: "公司名称:",
+          name: this.$t('common.CompanyName'),
           response: ""
         },
         currencyType: {
-          name: "币种:",
+          name:this.$t('common.Currency'),
           response: ""
         },
         collectMoney: {
-          name: "集资额:",
+          name: this.$t('common.FundingAmount'),
           collectMoneyMin:'',
           collectMoneyMax: "",
         },
         projectMobile: {
-          name: "联系电话:",
+          name: this.$t('common.ContactNumber'),
           response: ""
         },
         projectEmail: {
-          name: "电邮:",
+          name: this.$t('common.Email'),
           response: ""
         },
+        signStatus: {
+          name: this.$t('common.ContractStatus'),
+          response: "",
+          classname:'red',
+        },
         projectDescribe: {
-          name: "项目简介:",
+          name: this.$t('common.ProjectDescription'),
           response: ""
         },
         projectDetail:{
-          name: "项目详情:",
+          name: this.$t('common.ProjectDetails'),
           response: ""
         },
-      }
+      },
     };
   },
   created() {
@@ -181,15 +171,6 @@ export default {
     }
   }
 }
-// .van-dialog {
-//   font-size: 0.3rem;
-// }
-// .van-dialog__message {
-//   font-size: 0.3rem;
-// }
-// .van-button {
-//   font-size: 0.3rem;
-// }
 </style>
 <style lang="scss" scoped>
 #i_conected_project {

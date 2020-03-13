@@ -1,7 +1,8 @@
 <template>
   <div id="p_investor_lists">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />投资者资料
+      <van-icon name="arrow-left" @click="$global.previous()" />
+      {{$t('common.InformationOfContractedInvestors')}}
     </nav>
     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
@@ -36,7 +37,7 @@ export default {
   name: "goods_details",
   data() {
     return {
-      dad_text: "投资者资料",
+      dad_text: this.$t('projectOwner.InvestorInformation'),
       form: {
         investorsIdList: []
       },
@@ -44,50 +45,30 @@ export default {
       details_lists: [
         {
           keyword: "signTime3",
-          name: "签约成功时间:",
+          name:  this.$t('projectOwner.SigningTime'),
           response: ""
         },
         {
           keyword: "investorsCompany",
-          name: "投资者公司:",
+          name:  this.$t('agent.InvestorCompany'),
           response: ""
         },
         {
           keyword: "investorsName",
-          name: "投资者名称:",
+          name: this.$t('agent.InvestorName'),
           response: ""
         },
         {
           keyword: "investorsMobile",
-          name: "投资者电话:",
+          name: this.$t('investor.InvestorPhone'),
           response: ""
         },
-        // {
-        //   keyword: "interestedIndustries",
-        //   name: "投资者兴趣:",
-        //   response: ""
-        // }
       ],
       totallists: []
     };
   },
 
   methods: {
-    gg() {
-      // console.log(this.$dialog);
-
-      this.$dialog
-        .confirm({
-          title: "标题",
-          message: "弹窗内容"
-        })
-        .then(() => {
-          // on confirm
-        })
-        .catch(() => {
-          // on cancel
-        });
-    }
   },
   created() {
     this.$loading();

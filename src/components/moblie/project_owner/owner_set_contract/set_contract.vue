@@ -1,7 +1,7 @@
 <template>
   <div id="p_set_contract">
     <nav>
-      <van-icon name="arrow-left" @click="$router.go(-1)" />签署合约
+      <van-icon name="arrow-left" @click="$router.go(-1)" />{{$t('agent.SignTheContract')}}
     </nav>
     <main>
       <article>
@@ -12,7 +12,7 @@
               v-model="contract.owner_behalf"
               autosize
               maxlength="60"
-              placeholder="请输入"
+              :placeholder="$t('ContractWrods.pleaseEnter')"
               show-word-limit
             />
             <!-- <input maxlength="60" v-model="contract.owner_behalf"  placeholder="请输入"> -->
@@ -26,7 +26,7 @@
               v-model="contract.owner_name"
               autosize
               maxlength="30"
-              placeholder="请输入"
+              :placeholder="$t('ContractWrods.pleaseEnter')"
               show-word-limit
             />
           </div>
@@ -39,7 +39,7 @@
               v-model="contract.owner_title"
               autosize
               maxlength="30"
-              placeholder="请输入"
+              :placeholder="$t('ContractWrods.pleaseEnter')"
               show-word-limit
             />
          </div>
@@ -49,11 +49,11 @@
         <div>
            <!-- <vue-html5-editor :content="contract.article" :height="400"
             @change="updateData"></vue-html5-editor> -->
-          <textarea v-model="contract.article"  placeholder="请输入"></textarea>
+          <textarea v-model="contract.article"  :placeholder="$t('ContractWrods.pleaseEnter')"></textarea>
         </div>
       </div>
         <footer>
-          <button @click="signature">签署</button>
+          <button @click="signature">{{$t('agent.Sign')}}</button>
         </footer>
       </article>
     </main>
@@ -125,16 +125,16 @@ export default {
       } ,
     signature() {
       if(this.contract.owner_behalf==''){
-        this.$toast('请输入代表权益')
+        this.$toast(this.$t('ContractWrods.PleaseEnterRepresentativeRights'))
         return
       }else if(this.contract.owner_name==''){
-        this.$toast('请输入名称')
+        this.$toast(this.$t('ContractWrods.PleaseEnterName'))
         return;
       }else if(this.contract.owner_title==''){
-        this.$toast('请输入职称')
+        this.$toast(this.$t('ContractWrods.PleaseEnterTheTitle'))
         return;
       }else if(this.contract.article==''){
-        this.$toast('请输入合同内容')
+        this.$toast(this.$t('projectOwner.PleaseEnterContractContent'))
         return;
       }
         this.$routerto("p_sign_contract", this.$route.query);
@@ -189,19 +189,7 @@ export default {
     // background: #f2f2f2;
   }
 }
-// .van-dialog {
-//   font-size: 0.3rem;
-// }
-// .van-hairline--top-bottom::after{
-//      border: 0.02rem solid #8e8e8e;
-// }
-// van-cell van-cell--small van-field
-// .van-dialog__message {
-//   font-size: 0.3rem;
-// }
-// .van-button {
-//   font-size: 0.3rem;
-// }
+
 </style>
 <style lang="scss" scoped>
 #p_set_contract {
@@ -224,9 +212,7 @@ export default {
     padding: 0.5rem;
     background: #ffffff;
     .sub_title{
-      // margin-bottom:0.5rem;
       header{
-        /*margin-bottom: 0.2rem;*/
         font-size: 0.42rem;
          font-weight: 600;
       }
@@ -235,22 +221,17 @@ export default {
         font-size: 0.42rem;
         line-height: 1rem;
         padding: 0.2rem;
-        /*box-sizing: border-box !important;*/
         height: 1rem;
         width: 100%;
-        /*height: 13rem;*/
         border: 1px solid rgb(169, 169, 169);
       }
     }
     textarea {
-      // background: #f2f2f2;
       box-sizing: border-box;
       font-size: 12px;
-      // background: #f6f6f6;
       color:black;
       line-height: 0.56rem;
       padding: 0.3rem 0.4rem;
-      /*color: rgb(169, 169, 169);*/
       width:100%;
       height: 13rem
     }

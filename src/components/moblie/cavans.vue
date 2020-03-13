@@ -3,15 +3,15 @@
     <div id="canvasBox" :style="getHorizontalStyle">
       <div class="greet">
         <nav class="visaDetailTop">
-          <van-icon name="arrow-left" @click="$global.previous()" />电子签名
+          <van-icon name="arrow-left" @click="$global.previous()" />{{$t('common.ElectronicSignature')}}
         </nav>
       </div>
       <canvas></canvas>
       <div class="btnBox">
-        <button @mousedown="clear">重写</button>
-        <button @mousedown="commit">提交签名</button>
+        <button @mousedown="clear">{{$t('common.Rewrite')}}</button>
+        <button @mousedown="commit">{{$t('common.Submit')}}</button>
       </div>
-      <van-dialog v-model="show" title="请在方框内签名"></van-dialog>
+      <van-dialog v-model="show" :title="$t('common.PleaseSignInTheBox')"></van-dialog>
     </div>
     <!-- <img :src="url" alt=""> -->
     <!-- <div class="image-box" v-show="showBox">
@@ -32,7 +32,7 @@ export default {
   // inject:['app'],
   data() {
     return {
-      msg: "请在空白处签名",
+      msg: this.$t('common.PleaseSignInTheBox'),
       degree: 90,
       signImage: null,
       showBox: false,

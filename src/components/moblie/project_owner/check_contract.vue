@@ -1,7 +1,8 @@
 <template>
   <div id="p_check_contract">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />查看合约
+      <van-icon name="arrow-left" @click="$global.previous()" />
+      {{$t('agent.CheckContract')}}
     </nav>
     <main>
       <article>

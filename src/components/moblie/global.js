@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Vue from 'vue'
 import router from '../../router';
+import { i18n } from '../../language'
 import qs from 'qs'
 
 const global = {
@@ -45,31 +46,31 @@ const global = {
     })
   },
   pic_obj: {
-    '1': "待处理",
-    '2': "待签约",
-    '3': "投行已拒绝",
-    '4':'已签约待上链',
-    '5': "已上链待推荐",
-    '6': "待审核",
-    '7': "投行已拒绝",
-    '8':"已审核待发送",
-    '9':'待投资者确认',
-    '10':'签约成功',
-    '11': "投资者已拒绝"
+    '1': i18n.t('common.Pending'),
+    '2': i18n.t('common.ToBeSigned'),
+    '3': i18n.t('common.InvestmentBankHasRejected'),
+    '4':i18n.t('common.SignedForChain'),
+    '5':i18n.t('common.ChainedForRecommendation'),
+    '6': ('common.PendingReview'),
+    '7': i18n.t('common.InvestmentbankHasRejected'),
+    '8':i18n.t('common.ReviewedPending:'),
+    '9':i18n.t('common.ToBeConfirmedByInvestors'),
+    '10':i18n.t('common.SignedContract'),
+    '11': i18n.t('common.InvestorHasRejected'),
   },
   financingStage: {
-    '0': '种子轮',
-    '1': "天使轮",
-    '2': "A轮",
-    '3': "B轮",
-    '4': "C轮",
+    '0': i18n.t('projectOwner.SeedRound'),
+    '1':i18n.t('projectOwner.AngelWheel'),
+    '2': i18n.t('projectOwner.ARound'),
+    '3': i18n.t('projectOwner.BRound'),
+    '4': i18n.t('projectOwner.CRound'),
     '5': "PRE-IPO",
     '6': "IPO",
   },
   // 投资者身份类型：1个人，2公司
   investorsType: {
-    '1': '个人',
-    '2': '公司'
+    '1': i18n.t('common.individual'),
+    '2': i18n.t('common.company'),
   },
   get_encapsulation: function (url,  datas) {
     return new Promise((resolve, reject) => {

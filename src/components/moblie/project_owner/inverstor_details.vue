@@ -1,7 +1,8 @@
 <template>
   <div id="p_inverstor_details">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签约投资者资料
+      <van-icon name="arrow-left" @click="$global.previous()" />
+      {{$t('common.InformationOfContractedInvestors')}}
     </nav>
     <main>
       <article>
@@ -32,45 +33,40 @@ export default {
       details_lists: [
         {
           keyword: "investorsCompany",
-          name: "投资者公司:",
+          name:  this.$t('agent.InvestorCompany'),
           response: ""
         },
         {
           keyword: "investorsName",
-          name: "投资者名称",
+          name: this.$t('agent.InvestorName'),
           response: ""
         },
         {
           keyword: "investorsArea",
-          name: "投资者地区:",
+          name: this.$t('investor.InvestorRegion'),
           response: ""
         },
         {
           keyword: "investorsMobile",
-          name: "投资者电话:",
-          response: ""
-        },
-        {
-          keyword: "interestedIndustries",
-          name: "感兴趣行业:",
+          name: this.$t('investor.InvestorPhone'),
           response: ""
         },
         {
           keyword: "investorsEmail",
-          name: "投资者邮箱:",
+          name: this.$t('investor.InvestorEmail'),
+          response: ""
+        },
+        {
+          keyword: "interestedIndustries",
+          name: this.$t('investor.InvestorInterest'),
           response: ""
         },
         {
           keyword: "investorsCompanyAddress",
-          name: "投资者地址:",
-          response: ""
-        },
-        {
-          keyword: "signTime3",
-          name: "签约时间:",
+          name: this.$t('investor.InvestorCompanyAddress'),
           response: ""
         }
-      ]
+      ],
     };
   },
   //  created() {

@@ -2,7 +2,7 @@
   <div id="a_uploadtoblock">
     <!-- <div class="a_uploadtoblock"> -->
       <nav class="a_uploadtoblock">
-        <van-icon name="arrow-left" @click="$global.previous()" />确认及上载到区块链
+        <van-icon name="arrow-left" @click="$global.previous()" />{{$t('ContractWrods.ConfirmAndUploadToBlockchain')}}
       </nav>
       <main>
         <article v-if="watch">
@@ -10,7 +10,7 @@
               <contractcomponent  :contract="contract"></contractcomponent>
           </div>
           <footer>
-            <button class="blockchain" @click="contract_submit">确认及上载到区块链</button>
+            <button class="blockchain" @click="contract_submit">{{$t('ContractWrods.ConfirmAndUploadToBlockchain')}}</button>
           </footer>
 
         </article>
@@ -106,7 +106,7 @@
         // let upload_urlpath = `${this.$baseurl3}/${code}/upload_contract?visitToken=${this.token}`;
         this.$toast.loading({
           loadingType: "spinner",
-          message: "上传大概需要1分钟，请耐心等候",
+          message: this.$t('ContractWrods.UploadTakesAboutOneMinute'),
           overlay:true,
           duration: 0
         });
@@ -273,7 +273,7 @@
             this.$dialog
                 .alert({
                   title: res.data.resultDesc,
-                  message: "下一步推荐投资者"
+                  message:this.$t('agent.RecommendInvestors'),
                 })
                 .then(() => {
                   this.$routerto("a_project_intro",  {
@@ -286,7 +286,7 @@
               this.$dialog
                 .alert({
                   title: res.data.resultDesc,
-                  message: "返回列表页"
+                  message: this.$t('projectOwner.BackToMyProject'),
                 })
                 .then(() => {
                   this.$routerto('mysign');
@@ -297,8 +297,8 @@
             this.$toast.clear();
             this.$dialog
               .alert({
-                title: "上传失败",
-                message: "返回"
+                title: this.$t('ContractWrods.UploadFailed'),
+                message: this.$t('projectOwner.BackToMyProject'),
               })
               .then(() => {
                 this.$routerto('mysign');

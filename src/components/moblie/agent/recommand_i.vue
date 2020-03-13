@@ -3,10 +3,9 @@
     <commonnav :msg="dad_text"></commonnav>
     <main>
       <article>
-        <!-- <header>{{title}}</header> -->
         <ul>
           <li class="identity">
-            <p class="row1">投资者类型:</p>
+            <p class="row1">{{$t('agent.InvestorType')}}:</p>
             <p class="row2">
               <van-cell-group>
                 <van-dropdown-menu >
@@ -16,89 +15,43 @@
             </p>
           </li>
           <li class="investorsCompany" v-show="form.investorsType==2">
-            <p class="row1">投资者公司:</p>
+            <p class="row1">{{$t('agent.InvestorCompany')}}:</p>
             <p class="row2">
               <van-cell-group>
-                <van-field v-model="form.investorsCompany" placeholder="请输入" />
+                <van-field v-model="form.investorsCompany" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
             </p>
           </li>
           <li class="investorsName">
-            <p class="row1">投资者姓名:</p>
+            <p class="row1">{{$t('agent.InvestorName')}}:</p>
             <p class="row2">
               <van-cell-group>
-                <van-field v-model="form.investorsName" placeholder="请输入" />
+                <van-field v-model="form.investorsName" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
             </p>
           </li>
           <li class="investorsArea">
-            <p class="row1">地区:</p>
+            <p class="row1">{{$t('common.region')}}:</p>
             <p class="row2">
-<!--              <el-select-->
-<!--                @change="selectregion(regionlist[form.bslAreaCode])"-->
-<!--                v-model="form.investorsArea"-->
-<!--                placeholder="请选择"-->
-<!--                remote-->
-<!--                :remote-method="region_remoteMethod"-->
-<!--                filterable-->
-<!--              >-->
-<!--                <el-option-->
-<!--                  v-for="(item,index) in region" :key="item.countryCode"  :label="item.text" :value="item.countryCode"-->
-<!--                >-->
-<!--&lt;!&ndash;                  <span style="float: left; ">{{ item.countryZhname }}</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                  <span style="float: right; color: #8492a6; font-size: 13px">{{item.countryEnname}}</span>&ndash;&gt;-->
-<!--                </el-option>-->
-<!--              </el-select>-->
-<!--              <mu-select  @change="searchregion" solo filterable v-model="form.investorsArea" full-width>-->
-<!--                <mu-option  v-for="(item,index) in region" :key="item.countryCode"  :label="item.text" :value="item.countryCode"></mu-option>-->
-<!--              </mu-select>-->
-<!--
-              <van-cell-group>
-                <van-dropdown-menu>
-                  <van-dropdown-item
-                    v-model="form.investorsArea"
-                    :options="region"
-                    :title="region_nametitle"
-                    @change="function(value){
-          return regionchoose(value,region[value])
-        }"
-                  />
-                </van-dropdown-menu> -->
-             <!-- <input type="text" class="layui-input blockInput" id="taskExpression" name="taskExpression" :v-model="region_nametitle" lay-verify="required"  oninput="ulHtml()"/> -->
-            <!-- <div id="expressionDiv" class="expression" style="width: 535px;height:200px;display:none;border: 1px rgb(210, 210, 210) solid;"> -->
-
-            <!-- </div> -->
-                <!-- <van-field v-model="region_nametitle" placeholder="请输入" @focus='getlist' @input='ulHtml' @blur='judge'/>
-                <ul id="expression" v-show="isshow">
-                  <li v-for='(item,idx) in region' :key='idx' @click='selectregion(item)'>{{item.text}}</li>
-                </ul> -->
-                <!-- <a-select
-            showSearch
-            placeholder="请输入报告模板类型"
-            v-decorator="['reportTemplate', validatorRules.reportTemplate]"
-          >
-          <a-select-option v-for="d in templateDatas" :key="d.value" :value="d.value">{{d.text}}</a-select-option>
-          </a-select> -->
-              <!-- </van-cell-group> -->
-            <a-select
-              showSearch
-              placeholder="请输入"
-              :value="form.investorsArea"
-              :showArrow="false"
-               :getPopupContainer="triggerNode => triggerNode.parentNode"
-              :filterOption="false"
-              @change="handleChange"
-              @search='search'
-              :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
-            >
-             <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
-              <a-select-option :title='d.chinese' v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
-         </a-select>
+              <a-select
+                  showSearch
+                  :placeholder="$t('ContractWrods.pleaseEnter')"
+                  :value="form.investorsArea"
+                  :showArrow="false"
+                   :getPopupContainer="triggerNode => triggerNode.parentNode"
+                  :filterOption="false"
+                  @change="handleChange"
+                  @search='search'
+                  :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
+                >
+                 <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
+                <a-select-option :title='d.chinese' v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
+             </a-select>
             </p>
           </li>
         </ul>
         <footer>
-          <button @click="submit">提交</button>
+          <button @click="submit">{{$t('ContractWrods.submit')}}</button>
         </footer>
       </article>
     </main>
@@ -116,8 +69,8 @@ export default {
   data() {
     return {
       countrylist_fetching:false,
-      investors_type: [{ text: "个人", value: 1 }, { text: "公司", value: 2 }],
-      dad_text: "推荐投资人",
+      investors_type: [{ text:  this.$t('common.individual'), value: 1 }, { text: this.$t('common.company'), value: 2 }],
+      dad_text:  this.$t('agent.Recommendinvestors'),
       title: "",
       region: [
         // {
@@ -221,14 +174,14 @@ export default {
     },
     submit() {
        if(this.form.investorsType==2 && this.form.investorsCompany==''){
-              this.$toast({ message:'请输入公司名称'});
-            return
+              this.$toast({ message:this.$t('agent.PleaseEnterTheCompanyName')});
+return
         }
         if(this.form.investorsName==''){
-            this.$toast('请输入投资者姓名');
+          this.$toast({ message:this.$t('agent.PleaseEnterInvestorName')});
             return
         }else if(this.form.investorsArea==''){
-            this.$toast('请输入地区');
+          this.$toast({ message:this.$t('agent.PleaseEnterRegion')});
             return
         }
       this.commit();
@@ -250,7 +203,7 @@ export default {
               this.$dialog
                 .alert({
                   title: res.data.resultDesc,
-                  message: "等待投行审核"
+                  message: this.$t('agent.WaitingForInvestmentBankReview')
                 })
                 .then(() => {
                   this.$routerto("mysign")
@@ -446,42 +399,12 @@ export default {
   width: 100%;
   height: 100%;
   main {
-    // z-index: -999;
     padding-top: 1.6rem;
     background: #ffffff;
-    aside {
-      　display:-webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    width: 100%;
-    height: 3rem;
-    　-webkit-justify-content:center;
-　　justify-content:center;
-　　-moz-box-pack:center;
-　　-webkit--moz-box-pack:center;
-　　box-pack:center;
-    }
     article {
      padding: 0 0.5rem;
-      display: flex;
       width: 100%;
-      height: 3rem;
-      justify-content: center;
     }
-      header {
-        height: 2rem;
-        font-size: 0.46rem;
-        padding: 0.4rem;
-        box-sizing: border-box;
-        // font-size: 0.5rem;
-        color: #0f6ebe;
-        // text-align: center;
-        font-weight: 600;
-        line-height: 0.7rem;
-        // border-bottom: 0.1rem solid #b5b5b5;
-      }
       ul {
         padding: 0.5rem 0;
         li {

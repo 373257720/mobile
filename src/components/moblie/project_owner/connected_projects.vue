@@ -1,7 +1,7 @@
 <template>
   <div id="p_connected_projects">
     <nav>
-        已连接项目
+      {{$t('agent.ConnectedItems')}}
     </nav>
     <main>
       <div class='remind' v-if='remind_show'>{{reminder}}</div>
@@ -10,7 +10,8 @@
           <div slot="title" class="title">
               <header>{{l.projectName}}</header>
           </div>
-              <div><span>序号</span><span>推荐人</span><span>投资者资料</span><span></span></div>
+              <div><span>{{$t('projectOwner.SerialNumber')}}</span><span>{{$t('projectOwner.Recommender')}}</span>
+                <span>{{$t('projectOwner.InvestorInformation')}}</span><span></span></div>
              <ul class="item">
                <li v-for="(item,index) in l.investorsResp" :key="index" class="item_li">
                  <p><span>{{index+1}}</span></p>
@@ -32,7 +33,7 @@
                   </p>
                </li>
                <footer>
-                 <button @click="$routerto('p_goods_details',{projectId:l.projectId})">查看项目详情</button>
+                 <button @click="$routerto('p_goods_details',{projectId:l.projectId})">{{$t('projectOwner.ViewProjectDetails')}}</button>
                </footer>
              </ul>
         </van-collapse-item>
@@ -72,7 +73,7 @@
             this.$toast.clear();
             this.lists=[...res.data.data];
             if(this.lists.length<=0){
-              this.reminder='没有更多了';
+              this.reminder=this.projectOwner.NoMore;
               this.remind_show=true;
               return;
             }

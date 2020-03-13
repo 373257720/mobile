@@ -1,7 +1,7 @@
 <template>
   <div id="a_check_contract">
     <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />签署合约
+      <van-icon name="arrow-left" @click="$global.previous()" />{{$t("agent.SignTheContract")}}
     </nav>
     <main>
       <article>
@@ -12,7 +12,7 @@
               v-model="contract.agent_behalf"
               autosize
               maxlength="60"
-              placeholder="请输入"
+              :placeholder="$t('ContractWrods.pleaseEnter')"
               show-word-limit
             />
             <!-- <input maxlength="50" v-model="contract.agent_behalf"  placeholder="请输入"/> -->
@@ -25,7 +25,7 @@
               v-model="contract.agent_name"
               autosize
               maxlength="30"
-              placeholder="请输入"
+              :placeholder="$t('ContractWrods.pleaseEnter')"
               show-word-limit
             />
             <!-- <input maxlength="30" v-model="contract.agent_name"  placeholder="请输入"/> -->
@@ -38,7 +38,7 @@
               v-model="contract.agent_title"
               autosize
               maxlength="30"
-              placeholder="请输入"
+              :placeholder="$t('ContractWrods.pleaseEnter')"
               show-word-limit
             />
             <!-- <input maxlength="30" v-model="contract.agent_title"  placeholder="请输入"/> -->
@@ -52,7 +52,7 @@
         </div>
 
         <footer>
-          <button @click="confirm">签署</button>
+          <button @click="confirm">{{$t("agent.Sign")}}</button>
         </footer>
       </article>
     </main>
@@ -88,13 +88,13 @@ export default {
   methods: {
       confirm(){
           if(this.contract.agent_behalf==''){
-            this.$toast('请输入代表权益')
+            this.$toast(this.$t('ContractWrods.PleaseEnterRepresentativeRights'))
             return
           }else if(this.contract.agent_name==''){
-            this.$toast('请输入名称')
+            this.$toast(this.$t('ContractWrods.PleaseEnterName'))
             return;
           }else if(this.contract.agent_title==''){
-            this.$toast('请输入职称')
+            this.$toast(this.$t('ContractWrods.PleaseEnterTheTitle'))
             return;
           }
           // this.$emit("update:contract")

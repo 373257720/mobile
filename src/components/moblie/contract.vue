@@ -96,53 +96,53 @@
       // this.content = "";
     },
     methods: {
-      contract_submit() {
-        this.$loading();
-        // if (this.content && this.signature) {
-        this.$axios({
-          method: "post",
-          url: `${this.$baseurl3}/bsl_web/projectSign/sendInvestorsData`,
-          data: this.$qs.stringify({
-            projectId: this.$route.query.projectId,
-            signId: this.$route.query.signId,
-            signStatus: 2,
-            signAgreement: JSON.stringify(this.$store.state.contract)
-          })
-        }).then(res => {
-          this.$toast.clear();
-          if (res.data.resultCode == 10000) {
-            this.$dialog
-              .alert({
-                title: "提交成功",
-                message: "返回我的项目"
-              })
-              .then(() => {
-                this.$routerto("mysign");
-              });
-          } else if(res.data.resultCode==10051) {
-            this.$dialog
-              .alert({
-                title: "提醒",
-                message: "您的注册审核不通过，请前往我的-个人审核里修改"
-              })
-              .then(() => {
-                // on close
-                // this.$routerto("mysign");
-              });
-          }
-        });
-        // } else {
-        //   this.$dialog
-        //     .confirm({
-        //       title: "请返回完成签名"
-        //       // message: "弹窗内容"
-        //     })
-        //     .then(() => {
-        //       // on confirm
-        //     });
-        // }
-        // console.log(JSON.stringify(this.$store.state.contract));
-      }
+      // contract_submit() {
+      //   this.$loading();
+      //   // if (this.content && this.signature) {
+      //   this.$axios({
+      //     method: "post",
+      //     url: `${this.$baseurl3}/bsl_web/projectSign/sendInvestorsData`,
+      //     data: this.$qs.stringify({
+      //       projectId: this.$route.query.projectId,
+      //       signId: this.$route.query.signId,
+      //       signStatus: 2,
+      //       signAgreement: JSON.stringify(this.$store.state.contract)
+      //     })
+      //   }).then(res => {
+      //     this.$toast.clear();
+      //     if (res.data.resultCode == 10000) {
+      //       this.$dialog
+      //         .alert({
+      //           title: "提交成功",
+      //           message: "返回我的项目"
+      //         })
+      //         .then(() => {
+      //           this.$routerto("mysign");
+      //         });
+      //     } else if(res.data.resultCode==10051) {
+      //       this.$dialog
+      //         .alert({
+      //           title: "提醒",
+      //           message: "您的注册审核不通过，请前往我的-个人审核里修改"
+      //         })
+      //         .then(() => {
+      //           // on close
+      //           // this.$routerto("mysign");
+      //         });
+      //     }
+      //   });
+      //   // } else {
+      //   //   this.$dialog
+      //   //     .confirm({
+      //   //       title: "请返回完成签名"
+      //   //       // message: "弹窗内容"
+      //   //     })
+      //   //     .then(() => {
+      //   //       // on confirm
+      //   //     });
+      //   // }
+      //   // console.log(JSON.stringify(this.$store.state.contract));
+      // }
     }
   };
 </script>

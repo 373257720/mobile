@@ -21,78 +21,78 @@ export default {
     return {
       title: "",
       dad_text: "",
-      investor_infor: {
-        investorsType: {
-          name: "投资者类型:",
-          response: ""
-        },
-        investorsCompany: {
-          name: "投资者公司:",
-          response: ""
-        },
-        investorsName: {
-          name: "投资者姓名:",
-          response: ""
-        },
-        investorsArea: {
-          name: "投资者地区:",
-          response: ""
-        }
-      },
       nav_lists: {
         financingStage: {
-          name: "融资阶段",
+          name: this.$t('agent.FinancingStage'),
           response: ""
         },
         committedCount: {
-          name: "已提交</br>投资者数量",
+          name: this.$t('agent.NumberOfinvestorsHaveSubmitted'),
           response: ""
         },
         interestProjectCount: {
-          name: "项目方<br>有兴趣数量",
+          name: this.$t('agent.Numberofprojectsinterested'),
           response: ""
         },
-
       },
       details_lists: {
         projectIndustry: {
-          name: "行业:",
+          name:this.$t('common.Industry'),
           response: ""
         },
         projectArea: {
-          name: "地区:",
+          name: this.$t('common.region'),
           response: ""
         },
-        // signStatu: {
-        //   name: "项目状态:",
-        //   response: "暂无"
-        // },
         projectCompany: {
-          name: "公司名称:",
+          name: this.$t('common.CompanyName'),
           response: ""
         },
         currencyType: {
-          name: "币种:",
+          name:this.$t('common.Currency'),
           response: ""
         },
         collectMoney: {
-          name: "集资额:",
+          name: this.$t('common.FundingAmount'),
           collectMoneyMin:'',
           collectMoneyMax: "",
         },
         projectMobile: {
-          name: "联系电话:",
+          name: this.$t('common.ContactNumber'),
           response: ""
         },
         projectEmail: {
-          name: "电邮:",
+          name: this.$t('common.Email'),
           response: ""
         },
+        signStatus: {
+          name: this.$t('common.ContractStatus'),
+          response: "",
+          classname:'red',
+        },
         projectDescribe: {
-          name: "项目简介:",
+          name: this.$t('common.ProjectDescription'),
           response: ""
         }
-      }
+      },
+      investor_infor: {
+        investorsType: {
+          name: this.$t('agent.InvestorType'),
+          response: ""
+        },
+        investorsCompany: {
+          name: this.$t('agent.InvestorCompany'),
+          response: ""
+        },
+        investorsName: {
+          name:this.$t('agent.InvestorName'),
+          response: ""
+        },
+        investorsArea: {
+          name: this.$t('agent.InvestorRegion'),
+          response: ""
+        }
+      },
     };
   },
   beforeRouteLeave(to,from,next){
@@ -106,9 +106,9 @@ export default {
   created() {
     let details = this.$route.query;
     if(this.$route.query.signStatus==6){
-      this.dad_text="待投行审核项目"
+      this.dad_text= this.$t('agent.InvestmentBankToReviewTheProject');
     }else{
-      this.dad_text="待处理项目"
+      this.dad_text=this.$t('agent.PendingItems');
     }
     this.$loading();
     this.$global
