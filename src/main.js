@@ -29,6 +29,7 @@ Vue.use(Vuex);
 import Select from 'ant-design-vue/lib/select';
 import 'ant-design-vue/lib/select/style/css';
 Vue.use(Select);
+
 import Spin from 'ant-design-vue/lib/spin';
 import 'ant-design-vue/lib/spin/style/css';
 Vue.use(Spin);
@@ -59,12 +60,23 @@ import {Dialog} from 'vant';
 Vue.use(Dialog);
 import {Toast} from 'vant';
 Vue.use(Toast);
-
-// 多语言设置
-if (localStorage.getItem("lang")) {
-  store.commit("currencylang", localStorage.getItem("lang"));
+import { Locale } from 'vant';
+import en_US from 'vant/lib/locale/lang/en-US';
+import zh_CN from 'vant/lib/locale/lang/zh-CN';
+// zh-CN
+function locales(a) {
+  if(a == 'en_US'){
+    Locale.use('en-US', en_US);
+  }
+  if(a == 'zh_CN'){
+    Locale.use('zh_CN',zh_CN)
+  }
 }
-
+Vue.prototype.$Local = locales;
+// 多语言设置
+let z = window.localStorage.getItem('language') == null? 'en_US': window.localStorage.getItem('language');
+locales(z);
+i18n.locale=window.localStorage.getItem('language') == null? 'en_US': window.localStorage.getItem('language');
 
 // Toast
 // console.log(Vant.Toast)
@@ -129,7 +141,8 @@ axios.interceptors.response.use(res => {
     // isShowLoading = false
     // loadingCount = 0
       Dialog.alert({
-        message: '网络异常，请稍后再试！',
+        title: "网络异常",
+        message: "点击返回登录页"
       }).then(() => {
         location.href = '/'
       });

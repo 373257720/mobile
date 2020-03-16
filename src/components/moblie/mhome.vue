@@ -6,7 +6,7 @@
       </div>
       <van-search
         v-model="searchkey"
-        placeholder="请输入搜索关键词"
+        :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
         show-action
         shape="round"
         left-icon
@@ -31,27 +31,17 @@
           />
         </van-dropdown-item>
         <van-dropdown-item class='region_class' :title="region_title" ref="region" >
-          <!-- <van-field placeholder="请输入地区" v-model="text" @input='search_region'/>  -->
-          <van-search v-model="text" @input='search_region' placeholder="请输入搜索关键词" />
+          <van-search v-model="text" @input='search_region'  :placeholder="$t('common.PleaseEnterTheSearchKeyword')"/>
           <a-spin v-if="countrylist_fetching" size="small"/>
-            <ul  v-if='countrylist_fetching==false && countrylist.length>0'>
+            <ul  v-if='!countrylist_fetching && countrylist.length>0'>
               <li v-for="d in countrylist" :class="d.classname" :key="d.remark" :value='d.value' @click="select_country(d.remark,d.chinese,d.value)">
                 <span>{{d.chinese}}</span><span>{{d.eng}}</span>
               </li>
             </ul>
-            <ul  style="max-height:200px" v-else-if="countrylist_fetching==false &&  countrylist.length<=0">
-              <li >没有数据</li>
+            <ul  style="max-height:200px" v-else-if="!countrylist_fetching &&  countrylist.length<1">
+              <li >{{$t('projectOwner.NoMore')}}</li>
             </ul>
         </van-dropdown-item>
-        <!-- <van-dropdown-item
-          v-model="region_name"
-          @change="function(value){
-          return region(value,option[value])
-        }"
-          :title="region_nametitle?region_nametitle:'地区'"
-          :options="option"
-        >
-       </van-dropdown-item> -->
      </van-dropdown-menu>
     </header>
     <div id="main">
@@ -62,23 +52,23 @@
           :finished="finished"
           @load="onLoad"
           :loading-text="loadText"
-           finished-text="没有更多了"
-           error-text="请求失败，点击重新加载"
+           :finished-text="$t('projectOwner.NoMore')"
+           :error-text="$t('projectOwner.RequestFailed')"
           :offset="300"
         >
           <div v-for="(goods,idx) in  upGoodsInfo" :key="idx" class="goodlists">
             <article @click="routerto(goods)">
               <nav>{{goods.projectName}}</nav>
               <section>
-                <span>行业：</span>
+                <span>{{$t('common.Industry')}}:</span>
                 <span>{{goods.projectIndustry}}</span>
               </section>
               <section>
-                <span>地区：</span>
+                <span>{{$t('common.Region')}}:</span>
                 <span>{{goods.projectArea}}</span>
               </section>
               <section>
-                <span>简介：</span>
+                <span>{{$t('common.ProjectDescription')}}:</span>
                 <span v-html="goods.projectDescribe.length>90? goods.projectDescribe.substr(0, [90])+'...':goods.projectDescribe"></span>
                 <!-- <div class="van-multi-ellipsis--l3" v-html="goods.projectDescribe"></div> -->
               </section>
@@ -99,13 +89,13 @@
                 v-if="usertype==1"
                 :class="[goods.signUserList['signUserList10'][0].signCount>0?'isactive':'']"
                 @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList10'][0].investorsIdList) })"
-              >签约投资者资料 ( {{goods.signUserList['signUserList10'][0].signCount?goods.signUserList['signUserList10'][0].signCount:0}} )
+              >{{$t('common.InformationOfContractedInvestors')}} ({{goods.signUserList['signUserList10'][0].signCount?goods.signUserList['signUserList10'][0].signCount:0}} )
               </button>
               <button class="isactive"
                 v-else-if="usertype==3"
                 @click="$routerto('i_conected_project',{projectId:goods.projectId,signStatus:goods.signUserResp[0].signStatus,signId:goods.signUserResp[0].signId})"
-              >已连接项目</button>
-              <button class="isactive" v-else-if="usertype==4" @click="routerto(goods)">感兴趣项目</button>
+              >{{$t('common.ConnectedItems')}}</button>
+              <button class="isactive" v-else-if="usertype==4" @click="routerto(goods)">{{$t('common.ItemsOfInterest')}}</button>
 
             </footer>
           </div>
@@ -129,49 +119,49 @@ export default {
       countrylist_fetching:false,
       items: [
         {
-          text: "行业",
+          text: this.$t('common.Industry'),
           children: []
         }
       ],
-      industry_title:'行业',
+      industry_title:this.$t('common.Industry'),
       usertype: "",
       activenum:0,//行业下标
       activeIds: '',//行业id
       tags: {
         signUserList1: {
-          text: "待处理",
+          text: this.$t('common.Pending'),
           number: 0
         },
         signUserList2: {
-          text: "待签约",
+          text: this.$t('common.ToBeSigned'),
           number: 0
         },
          signUserList4: {
-          text: "待上链",
+          text: this.$t('common.SignedForChain'),
           number: 0
         },
         signUserList5: {
-          text: "已上链",
+          text: this.$t('common.ChainedForRecommendation'),
           number: 0
         },
         signUserList6: {
-          text: "待审核",
+          text: this.$t('common.PendingReview'),
           number: 0
         },
         signUserList8: {
-          text: "已审核",
+          text: this.$t('common.ReviewedPending'),
           number: 0
         },
         signUserList9: {
-          text: "待确认",
+          text: this.$t('common.ToBeConfirmedByInvestors'),
           number: 0
         },
         signUserList10: {
-          text: "签约成功",
+          text: this.$t('common.SignedContract'),
           number: 0
         },
         signUserList3711: {
-          text: "已拒绝",
+          text: this.$t('common.InvestorHasRejected'),
           number: 0
         }},
       // 左侧高亮元素的index
@@ -181,17 +171,17 @@ export default {
       searchkey: "",
       loading: false,
       finished: false,
-      loadText: "加载中…",
+      loadText: "Loading…",
       pageNum: 1,
       loadNumUp: 20,
       upGoodsInfo: [],
       industry_value: "", //行业value
       region_name: "",
       region_nametitle: "",
-      region_title:'全部地区',
+      region_title:this.$t('common.AllAreas'),
       countrylist: [
           {
-            chinese: "全部地区",
+            chinese: this.$t('common.AllAreas'),
             eng:'',
             value: 0,
             remark: "",
@@ -277,7 +267,7 @@ export default {
       this.countrylist=[];
       let arr=[];
       arr.push({
-            chinese: "全部地区",
+            chinese: this.$t('common.AllAreas'),
             eng:'',
             value: 0,
             remark: "",
@@ -406,7 +396,7 @@ export default {
       if (this.activenum== data.num) {
         this.activenum=0;
         this.activeIds = '';
-        this.industry_title='行业';
+        this.industry_title=this.$t('common.Industry');
       } else {
         this.activenum=data.num
         this.activeIds = data.id;

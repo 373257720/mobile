@@ -3,28 +3,25 @@
     <h2>
       <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
     </h2>
-
     <div class="main">
       <p>{{remind}}</p>
-      <!-- <div class="username" v-if="$route.query.email">
-        <van-field v-model="username" placeholder="电子邮箱" disabled />
-      </div>-->
-      <div class="username">
-        <van-field v-model="username" placeholder="电子邮箱" clearable />
+      <van-form>
+      <div class="username form">
+        <van-field v-model="username" :placeholder="$t('common.Email')" clearable />
       </div>
-      <div class="password">
-        <van-field type="password" v-model="password" placeholder="请输入密码" clearable />
+      <div class="password form">
+        <van-field type="password" v-model="password" :placeholder="$t('common.PassWord')" clearable />
       </div>
-      <div class="repeatpassword">
-        <van-field type="password" v-model="password2" placeholder="请再输入密码" clearable />
+      <div class="repeatpassword form">
+        <van-field type="password" v-model="password2" :placeholder="$t('common.ConfirmPassword')" clearable />
       </div>
-      <div class="registerbtn">
-        <button @click="register()">注 册</button>
+      <div class="registerbtn form">
+        <button @click="register()">{{$t('common.Register')}}</button>
       </div>
+      </van-form>
        <div class="tologin">
-         <p class="tologin" @click="$goto('login')">已有账号,前往登录</p>
+         <p class="tologin" @click="$goto('login')">{{$t('common.AlreadyHaveAnAccount')}}</p>
       </div>
-
     </div>
   </div>
 </template>
@@ -71,8 +68,8 @@ export default {
             // console.log("注册成功");
             this.$dialog
               .alert({
-                title: "注册成功",
-                message: "下一步请登录"
+                title: this.$t('common.registrationSuccess'),
+                message: this.$t('common.NextLogin'),
               })
               .then(() => {
                 this.$goto("login");
@@ -87,9 +84,9 @@ export default {
         this.password2 &&
         this.password != this.password2
       ) {
-        this.remind = "与第一次输入密码不相符";
+        this.remind =this.$t('common.PasswordsEnteredTwiceAreInconsistent');
       } else {
-        this.remind = "账号和密码不能为空，请输入 ";
+        this.remind = this.$t('common.AccountAndPasswordCannotBeEmpty');
       }
     }
   }
@@ -151,11 +148,12 @@ export default {
   }
   .main {
     flex: 1;
-    // width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    div.form {
+      margin-bottom: 0.5rem;
+    }
     p {
       font-size: 0.34rem;
       height: 0.84rem;
@@ -173,9 +171,7 @@ export default {
           cursor: pointer;
        }
     }
-    > div {
-      margin-bottom: 0.5rem;
-    }
+
     button {
       color: white;
       // width: 100%;

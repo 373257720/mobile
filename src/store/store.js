@@ -17,8 +17,6 @@ export default new Vuex.Store({
       agent_signdate:null,
     },
     genre: [],
-    // genre_projectid: [],
-    // investor_infor:[],
   },
   getters: {
 

@@ -1,17 +1,17 @@
 <template>
   <div id="mysign">
     <nav>
-      <header>我的项目</header>
+      <header>{{$t('common.MyProjectS')}}</header>
       <!-- <van-overlay z-index='-666' :show="visible" @click="visible= false"/> -->
       <main >
         <div class="sort_box" @click="fliter" v-if="usertype">
-          项目筛选
+          {{$t('common.ProjectScreening')}}
           <van-icon name="arrow-down" />
         </div>
         <van-checkbox-group ref="check" v-model="result">
           <van-cell-group>
             <div class="all_select" :class="num==2?'isactive':'isorigin'" @click="toggleAll">
-              全选
+              {{$t('common.SelectAll')}}
             </div>
             <div class="choose_lists">
               <van-cell
@@ -24,7 +24,7 @@
                 <van-checkbox :name="item.value" ref="checkboxes" slot="right-icon" />
               </van-cell>
             </div>
-            <div class="confirm" @click="confirm_lists">确定</div>
+            <div class="confirm" @click="confirm_lists">{{$t('common.Determine')}}</div>
 
           </van-cell-group>
         </van-checkbox-group>
@@ -37,31 +37,31 @@
           @load="onLoad"
           :loading-text="loadText"
           :finished-text="already_check"
-          error-text="请求失败，点击重新加载"
+          :error-text="$t('common.RequestFailed')"
           :offset="300"
         >
           <ul>
             <li v-for="item in upGoodsInfo" :key="item.signId" @click="mysignto(item)">
               <div>
                 <p>
-                  <span>申请时间:</span>
+                  <span>{{$t('common.ApplicationTime')}}:</span>
                   <span>{{item.signTime4Submit}}</span>
                 </p>
                 <p>
-                  <span>申请项目:</span>
+                  <span>{{$t('common.ApplicationProject')}}:</span>
                   <span>{{item.projectName}}</span>
                 </p>
                 <p>
-                  <span>申请中间人:</span>
+                  <span>{{$t('common.ApplicationMiddleman')}}:</span>
                   <span>{{item.userIdentityType==1?item.userName:item.userCompany}}</span>
                 </p>
 
                 <p v-if="usertype==1 && item.signStatus>=6">
-                  <span>投资者名称:</span>
+                  <span>{{$t('common.InvestorName')}}:</span>
                   <span>{{item.investorsName}}</span>
                 </p>
                 <p v-if="item.signStatus"  >
-                  <span >签约时间:</span>
+                  <span >{{$t('common.SigningTime')}}:</span>
                   <span>{{item.signTime}}</span>
                 </p>
               </div>
@@ -88,7 +88,7 @@ export default {
       result: [],
       finished: false,
       refreshing: false,
-      loadText: "加载中…",
+      loadText: "Loading…",
       pageNum: 1,
       loadNumUp: 20,
       usertype: "",
@@ -98,57 +98,57 @@ export default {
       piclists: [
         {
           value: 1,
-          text: "待处理项目",
+          text: this.$t('common.PendingItems'),
           pic: "../../../static/pic/waitreview.png"
         },
         {
           value: 2,
-          text: "待签约项目",
+          text: this.$t('common.ToBeSignedProject'),
           pic: "../../../static/pic/waitsign.png"
         },
         {
           value: 4,
-          text: "已签约待上链",
+          text:this.$t('common.SignedForChain'),
           pic: "../../../static/pic/waitinvestor.png"
         },
         {
           value: 5,
-          text: "已上链待推荐",
+          text: this.$t('common.ChainedForRecommendation'),
           pic: "../../../static/pic/waitinvestor.png"
         },
         {
           value: 6,
-          text: "待审核项目",
+          text: this.$t('common.PendingReview'),
           pic: "../../../static/pic/waitreview.png"
         },
         {
           value: 8,
-          text: "待发送邀请",
+          text: this.$t('common.ReviewedPending'),
           pic: "../../../static/pic/waitinvestor.png"
         },
         {
           value: 9,
-          text: "待确认项目",
+          text: this.$t('investor.Itemstobeconfirmed'),
           pic: "../../../static/pic/waitinvestor.png"
         },
         {
           value: 10,
-          text: "签约成功项目",
+          text:this.$t('common.SignedContract'),
           pic: "../../../static/pic/success.png"
         },
         {
           value: 3,
-          text: "投行已拒绝",
+          text:this.$t('common.InvestmentBankHasRejected'),
           pic: "../../../static/pic/false.png"
         },
         {
           value: 7,
-          text: "投行已拒绝",
+          text:this.$t('common.InvestmentBankHasRejected'),
           pic: "../../../static/pic/false.png"
         },
         {
           value: 11,
-          text: "投资者已拒绝",
+          text:this.$t('common.InvestorHasRejected'),
           pic: "../../../static/pic/false.png"
         }
       ],
@@ -215,59 +215,61 @@ export default {
   computed: {
     already_check:function(){
       if(this.$store.state.currentUsertype || this.usertype){
-            return '没有更多了';
+            return this.$t('projectOwner.NoMore')
       }else{
-            return '请等待审核';
+            return this.$t('projectOwner.WaitForReview:')
       }
     },
 
     list: function() {
-      // 待处理项目->1 待签约项目->2 投行拒绝和中间人签约 ->3 已签约待上链->4    已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8   待确认项目->9  签约成功项目->10 投资人拒绝签约项目->11
+      // 待处理项目->1 待签约项目->2 投行拒绝和中间人签约 ->3 已签约待上链->4
+      // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
+      // 待确认项目->9  签约成功项目->10 投资人拒绝签约项目->11
       if (this.usertype == 1 || this.usertype == 4) {
         return [
           {
             value: 1,
-            text: "待处理项目",
+            text:  this.$t('common.PendingItems'),
             pic: "../../../static/pic/waitreview.png"
           },
           {
             value: 2,
-            text: "待签约项目",
+            text: this.$t('common.ToBeSignedProject'),
             pic: "../../../static/pic/waitsign.png"
           },
           {
             value: 4,
-            text: "已签约待上链",
+            text: this.$t('common.SignedForChain'),
             pic: "../../../static/pic/waitsign.png"
           },
           {
             value: 5,
-            text: "已上链待推荐",
+            text: this.$t('common.ChainedForRecommendation'),
             pic: "../../../static/pic/waitinvestor.png"
           },
           {
             value: 6,
-            text: "待审核项目",
+            text: this.$t('common.PendingReview'),
             pic: "../../../static/pic/waitreview.png"
           },
           {
             value: 8,
-            text: "待中间人发送邀请给投资者",
+            text:  this.$t('common.ReviewedPending'),
             pic: "../../../static/pic/waitreview.png"
           },
           {
             value: 9,
-            text: "待确认项目",
+            text:this.$t('common.ToBeConfirmedByInvestors'),
             pic: "../../../static/pic/waitinvestor.png"
           },
           {
             value: 10,
-            text: "签约成功项目",
+            text: this.$t('common.SignedContract'),
             pic: "../../../static/pic/success.png"
           },
           {
             value: 3,
-            text: "已拒绝项目",
+            text: this.$t('common.RejectedProject'),
             pic: "../../../static/pic/false.png"
           }
         ];
@@ -275,17 +277,17 @@ export default {
         return [
           {
             value: 9,
-            text: "待确认项目",
+            text: this.$t('common.ToBeConfirmedByInvestors'),
             pic: "../../../static/pic/waitinvestor.png"
           },
           {
             value: 10,
-            text: "已连接的项目",
+            text:this.$t('common.SignedContract'),
             pic: "../../../static/pic/success.png"
           },
           {
             value: 11,
-            text: "拒绝签约项目",
+            text:this.$t('common.RejectedProject'),
             pic: "../../../static/pic/false.png"
           }
         ];
@@ -418,7 +420,6 @@ export default {
         }
       }
       this.$store.commit("genre_array", this.result);
-      // this.visible = false;
       console.log(this.$store.state)
       this.finished = false;
       this.loading = true;
@@ -428,12 +429,7 @@ export default {
       this.onLoad();
     },
     fliter() {
-      // console.log(this.$refs.check.$el.style.height);
       this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
-
-      // this.visible = !this.visible;
-      // let aaa=this.$refs.check.$el.children[0].clientHeight;
-      // console.log(this.$refs.check.$el.style.height);
       if (
         this.$refs.check.$el.style.height == 0 ||
         this.$refs.check.$el.style.height == 0 + "px"
@@ -446,12 +442,6 @@ export default {
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
     },
-    //  checkAll() {
-    //   this.$refs.checkboxGroup.toggleAll(true);
-    // },
-    // toggleAll() {
-    //   this.$refs.checkboxGroup.toggleAll();
-    // },
     onLoad() {
       if (this.refreshing) {
         this.upGoodsInfo = [];
@@ -511,15 +501,6 @@ export default {
         })
         .catch(err => {
           // this.loadText = "加载失败";
-          //  let fff = document.querySelector(
-          //         "#mysign .van-loading__spinner--circular"
-          //       );
-          //       console.log(fff);
-          //       let a = (document.querySelector(
-          //         "#mysign .van-loading__text"
-          //       ).style = "margin-left:0");
-          //       fff.parentNode.removeChild(fff);
-          // console.log(a);
         });
     }
   }
@@ -743,21 +724,20 @@ export default {
 
         p {
           display: flex;
-          margin-bottom: 0.2rem;
-          font-size: 0.34rem;
+          flex-direction: column;
+          margin-bottom: 0.12rem;
+          font-size: 0.38rem;
           span:nth-child(1) {
-            font-weight: 900;
-            line-height: 0.46rem;
-            display: inline-block;
-            width: 2.6rem;
-
-            vertical-align: top;
+            font-weight: 800;
+            /*line-height: 0.46rem;*/
+            /*display: inline-block;*/
+            /*width: 2.6rem;*/
+            /*vertical-align: top;*/
           }
           span:nth-child(2) {
-            vertical-align: top;
-            display: inline-block;
-            flex: 1;
-
+            /*vertical-align: top;*/
+            /*display: inline-block;*/
+            /*flex: 1;*/
             color: #575757;
           }
           //
@@ -768,6 +748,7 @@ export default {
       }
       aside {
         flex: 1;
+        text-align: center;
         display: flex;
         font-size: 0.34rem;
         flex-direction: column;

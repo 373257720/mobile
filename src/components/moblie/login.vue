@@ -10,19 +10,22 @@
       <!--        <van-field v-model.trim="username" placeholder="电子邮箱" disabled />-->
       <!--      </div>-->
       <!--      v-if="!$route.query.email"-->
-      <div class="username common">
-        <van-field v-model.trim="username" placeholder="电子邮箱" clearable/>
-      </div>
-      <div class="password common">
-        <van-field v-model.trim="password" type="password" placeholder="请输入密码" clearable/>
-      </div>
-      <div class="loginbtn common">
-        <button @click="login">登 录</button>
-      </div>
+      <van-form>
+        <div class="username common">
+          <van-field v-model.trim="username" :placeholder="$t('common.Email')" clearable/>
+        </div>
+        <div class="password common">
+          <van-field v-model.trim="password" type="password" :placeholder="$t('common.PassWord')" clearable/>
+        </div>
+        <div class="loginbtn common">
+          <button @click="login">{{$t('common.LogIn')}}</button>
+        </div>
+      </van-form>
+
       <!-- </van-form> -->
 
       <div class="registerbtn">
-        <button @click="$routerto('register',{email:username})">注册新账号</button>
+        <button @click="$routerto('register',{email:username})">{{$t('common.Register')}}</button>
       </div>
     </div>
   </div>
@@ -46,7 +49,7 @@
       // console.log(this.$route.query.email);
     },
     beforeRouteLeave(to, from, next) {
-      console.log(to, from)
+      // console.log(to, from)
       if (to.name == 'i_emailto_confirm') {
         next(false);
       } else {
@@ -92,7 +95,7 @@
               }
             });
         } else {
-          this.remind = "账号和密码不能为空，请输入 ";
+          this.remind = this.$t('common.AccountAndPasswordCannotBeEmpty')
         }
       }
 

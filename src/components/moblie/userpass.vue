@@ -8,31 +8,31 @@
       <h2>
         <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
       </h2>
-      <section>你的资料已提交,请等待审核</section>
+      <section>{{$t('common.YourInformationHasBeenSubmitted')}}</section>
       <nav class="backbtn"></nav>
     </main>
     <main v-if="optStatus==1 || optStatus==2">
-    <h2 v-if="optStatus==2">很抱歉,您的审核没通过</h2>
+    <h2 v-if="optStatus==2">{{$t('common.YourReviewFailed')}}</h2>
       <ul>
         <li>
-          <p>类型:</p>
+          <p>{{$t('common.Category')}}:</p>
           <div>{{form.userType}}</div>
         </li>
         <li>
-          <p>身份:</p>
+          <p>{{$t('common.Identity')}}:</p>
           <div>{{form.userIdentityType==1?'个人':'公司'}}</div>
         </li>
         <li>
-          <p>国籍:</p>
+          <p>{{$t('common.Nationality')}}:</p>
           <div>{{form.userCountryCh}}</div>
         </li>
         <li v-if="form.userIdentityType==1">
-          <p>姓名:</p>
+          <p>{{$t('common.PersonalName')}}:</p>
           <div>{{form.userName}}</div>
         </li>
         <li v-if="form.userIdentityType==1">
-          <p v-if="switchon">身份证号:</p>
-          <p v-if="!switchon">护照:</p>
+          <p v-if="switchon">{{$t('common.IdentificationNumber')}}:</p>
+          <p v-if="!switchon">{{$t('common.passport')}}:</p>
           <div>{{form.userIdentity}}</div>
         </li>
         <li v-if="form.userIdentityType==2">
@@ -52,26 +52,26 @@
           <div>{{form.userAddressEn}}</div>
         </li>
         <li class="idcard_left" v-if="form.userIdentityType==1 && form.identityPicOne">
-          <p>{{switchon==true?'身份证正面':'护照'}}</p>
+          <p>{{ switchon == true ?  $t('common.IDCardFront') : $t('common.passport')  }}</p>
           <div class="pic">
             <img :src="$baseurl+form.identityPicOne" alt />
           </div>
         </li>
         <li class="idcard_right" v-if="switchon && form.userIdentityType==1 && form.identityPicTwo">
-          <p>身份证反面</p>
+          <p>{{$t('common.IDCardBack')}}</p>
           <div class="pic">
             <img :src="$baseurl+form.identityPicTwo" alt />
           </div>
         </li>
         <li v-if="form.userIdentityType==2 && form.userCompanyPic" class="idcard_right">
-          <p>公司营业执照</p>
+          <p>{{$t('common.Certificate')}}</p>
           <div class="pic">
             <img :src="$baseurl+form.userCompanyPic" alt />
           </div>
         </li>
       </ul>
       <div v-if="optStatus==2" class="failure">
-        <button @click="$goto('usercheck')">再次申请</button>
+        <button @click="$goto('usercheck')">{{$t('common.ApplyAgain')}}</button>
       </div>
     </main>
     <mbottom></mbottom>
@@ -82,7 +82,7 @@ export default {
   name: "userpass",
   data() {
     return {
-      dad_text: "个人审核",
+      dad_text:this.$t('common.Reveiw'),
       switchon: true, //护照和身份证,true是身份证
       optStatus: 3,
       form: {
@@ -128,11 +128,11 @@ export default {
           this.form[key] = res.data.data[key];
           if (key == "userType") {
             if (this.form[key] == 1) {
-              this.form[key] = "项目方";
+              this.form[key] = this.$t('common.ProjectParty');
             } else if (this.form[key] == 3) {
-              this.form[key] = "投资者";
+              this.form[key] = this.$t('common.Investor');
             } else if (this.form[key] == 4) {
-              this.form[key] = "中间人";
+              this.form[key] = this.$t('common.Middleman');
             }
           }
           if (key == "userCountryEn") {

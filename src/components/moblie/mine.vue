@@ -13,7 +13,7 @@
         <li @click="$goto('userpass')">
           <p>
             <img src="../../assets/6d991a52e05250a2570d768f8cc1e3e.png" alt />
-            <span>个人审核</span>
+            <span>{{$t('common.Reveiw')}}</span>
           </p>
           <van-icon name="arrow"/>
 
@@ -21,7 +21,7 @@
         <li @click="switch_language">
           <p>
             <img src="../../assets/4d28cc99e537444f8869e17c77906f4.png" alt />
-            <span>切换语言</span>
+            <span>{{$t('common.SwitchLanguage')}}</span>
           </p>
           <van-icon name="arrow" />
         </li>
@@ -42,37 +42,38 @@
         <li @click="correct_password_function">
           <p>
             <img src="../../assets/change_password.png" alt />
-            <span>修改密码</span>
+            <span>{{$t('common.changePassword')}}</span>
           </p>
           <van-icon name="arrow" />
         </li>
         <li @click="loginout">
           <p>
             <img src="../../assets/10fe37a805f657460d990771d6454f1.png" alt />
-            <span>退出登录</span>
+            <span>{{$t('common.LogOut')}}</span>
           </p>
           <van-icon name="arrow" />
         </li>
         <van-dialog v-model="logout" class="logout" :show-confirm-button="false">
           <footer>
-            <p>你选择退出当前登录账户,是否继续</p>
+            <p>{{$t('common.YouChooseToLogOut')}}</p>
             <aside>
-              <button @click="loginout(1)">确定</button>
-              <button @click="loginout(2)">取消</button>
+              <button @click="loginout(1)">{{$t('common.isyes')}}</button>
+              <button @click="loginout(2)">{{$t('common.isno')}}</button>
             </aside>
           </footer>
         </van-dialog>
-
-        <van-dialog v-model="correct_password" class="correct_password" show-cancel-button :beforeClose="correct_password_fun">
+        <van-dialog v-model="correct_password" class="correct_password" show-cancel-button >
           <footer>
-            <h4>修改密码</h4>
+            <h4>{{$t('common.changePassword')}}</h4>
             <h5>{{reminder}}</h5>
+            <van-form>
             <div class="password">
-              <van-field v-model.trim="password1" clearable placeholder="新密码" type="password" />
+              <van-field v-model.trim="password1" clearable :placeholder="$t('common.NewPassword')" type="password" />
             </div>
             <div class="password2">
-              <van-field v-model.trim="password2" clearable placeholder="确认密码" type="password"  />
+              <van-field v-model.trim="password2" clearable :placeholder="$t('common.ConfirmPassword')" type="password"  />
             </div>
+              </van-form>
             <!-- <aside>
               <button @click="confirm_passowrd(1)">确定</button>
               <button @click="confirm_passowrd(2)">取消</button>
@@ -143,10 +144,10 @@ export default {
                   }
                 )}
                 else {
-                this.reminder="两次密码输入不一致"
+                this.reminder= this.$t('common.PasswordsEnteredTwiceAreInconsistent');
               }
               }else{
-              this.reminder='请填写新密码';
+              this.reminder=this.$t('common.PleaseFillInTheNewPassword');
             }
         }
 
@@ -165,52 +166,52 @@ export default {
     //   // radio: event.detail
     //   // });
     // },
-    correct_password_fun(action,done){
-        if (action === "confirm") {
-          if(this.password1 && this.password2 ){
-              if(this.password1 ===this.password2){
-                this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/updatePwd`,{newPwd:this.password1}).then(
-                  res=> {
-                    this.reminder=res.data.resultDesc;
-                    if(res.data.resultCode==10000){
-                         setTimeout(()=>{
-                          this.password1='';
-                          this.password2='';
-                          this.reminder='';
-                           done();
-                         }, 1000);
-                    }else{
-                      done(false);
-                    }
-                  }
-                )}
-                else {
-                this.reminder="两次密码输入不一致"
-                   done(false);
-                }
-              }else{
-              this.reminder='请填写新密码';
-                done(false);
-            }
-      } else if (action === "cancel") {
-        this.password1='';
-        this.password2='';
-        this.reminder='';
-        done(); //关闭
-      }
-    },
+    // correct_password_fun(action,done){
+    //     if (action === "confirm") {
+    //       if(this.password1 && this.password2 ){
+    //           if(this.password1 ===this.password2){
+    //             this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/updatePwd`,{newPwd:this.password1}).then(
+    //               res=> {
+    //                 this.reminder=res.data.resultDesc;
+    //                 if(res.data.resultCode==10000){
+    //                      setTimeout(()=>{
+    //                       this.password1='';
+    //                       this.password2='';
+    //                       this.reminder='';
+    //                        done();
+    //                      }, 1000);
+    //                 }else{
+    //                   done(false);
+    //                 }
+    //               }
+    //             )}
+    //             else {
+    //             this.reminder="两次密码输入不一致"
+    //                done(false);
+    //             }
+    //           }else{
+    //           this.reminder='请填写新密码';
+    //             done(false);
+    //         }
+    //   } else if (action === "cancel") {
+    //     this.password1='';
+    //     this.password2='';
+    //     this.reminder='';
+    //     done(); //关闭
+    //   }
+    // },
     changelanguage(action, done) {
-      // console.log(this.radio);
       if (action === "confirm") {
-        done();
-        // this.$axios({
-        //   method: "post",
-        //   url: `${this.$baseurl}/bsl_web/base/language.do?lan=${this.radio}`
-        // }).then(res => {
-        //   // console.log(res);
-        //   done();
-        // });
-
+        this.$i18n.locale=this.radio;
+        this.$Local(this.radio);
+        window.localStorage.setItem("language",this.radio)
+        this.$axios({
+          method: "post",
+          url: `${this.$baseurl}/bsl_web/base/language.do?lan=${this.radio}`
+        }).then(res => {
+          // console.log(res);
+          done();
+        });
       } else if (action === "cancel") {
         done(); //关闭
       }
@@ -228,11 +229,7 @@ export default {
             console.log(res);
             if (res.data.resultCode == 10000) {
                this.$store.dispatch("reset_actions",this.$restore_obj)
-              // window.addEventListener("onunload", () => {
-              //   console.log("onunload！！！！！");
-              //   localStorage.clear();
                sessionStorage.clear()
-              // });
               this.$goto("login");
             }
           });

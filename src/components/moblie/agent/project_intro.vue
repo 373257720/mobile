@@ -10,7 +10,7 @@
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button v-if="$route.query.signStatus>=5"  @click="recommamd">{{$t('agent.Recommendinvestors')}}</button>
+            <button v-if="$route.query.signStatus>=5"  @click="recommamd">{{$t('agent.RecommendInvestors')}}</button>
             <button v-if="$route.query.signStatus==='0'" @click="confirm_alert">{{$t('agent.Interested')}}</button>
           </aside>
         </footer>
@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       title: "",
-      dad_text: "项目简介",
+      dad_text: this.$t('common.ProjectDescription'),
       nav_lists: {
         financingStage: {
           name: this.$t('agent.FinancingStage'),
@@ -89,7 +89,7 @@ export default {
   created() {
     this.details = this.$route.query;
     if(this.$route.query.signStatus>=5){
-      this.dad_text=this.$t('agent.Recommendinvestors');
+      this.dad_text=this.$t('agent.RecommendInvestors');
     }else{
       this.dad_text=this.$t('common.ProjectDescription')
     }

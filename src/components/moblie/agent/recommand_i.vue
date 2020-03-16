@@ -9,16 +9,35 @@
             <p class="row2">
               <van-cell-group>
                 <van-dropdown-menu >
-                  <van-dropdown-item  v-model="form.investorsType" :options="investors_type" />
+                  <van-dropdown-item @change="cleanall" v-model="form.investorsType" :options="investors_type" />
                 </van-dropdown-menu>
               </van-cell-group>
+            </p>
+          </li>
+          <li class="investorsArea">
+            <p class="row1">{{$t('common.region')}}:</p>
+            <p class="row2">
+              <a-select
+                :placeholder="$t('ContractWrods.pleaseEnter')"
+                :value="form.investorsArea"
+                :showArrow="false"
+                :defaultActiveFirstOption="false"
+                :getPopupContainer="triggerNode => triggerNode.parentNode"
+                :filterOption="false"
+                @change="handleChange"
+                @search='search'
+                :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
+              >
+                <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
+                <a-select-option :title='d.chinese' v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
+              </a-select>
             </p>
           </li>
           <li class="investorsCompany" v-show="form.investorsType==2">
             <p class="row1">{{$t('agent.InvestorCompany')}}:</p>
             <p class="row2">
               <van-cell-group>
-                <van-field v-model="form.investorsCompany" :placeholder="$t('ContractWrods.pleaseEnter')" />
+                <van-field  v-model="form.investorsCompany" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
             </p>
           </li>
@@ -30,25 +49,7 @@
               </van-cell-group>
             </p>
           </li>
-          <li class="investorsArea">
-            <p class="row1">{{$t('common.region')}}:</p>
-            <p class="row2">
-              <a-select
-                  showSearch
-                  :placeholder="$t('ContractWrods.pleaseEnter')"
-                  :value="form.investorsArea"
-                  :showArrow="false"
-                   :getPopupContainer="triggerNode => triggerNode.parentNode"
-                  :filterOption="false"
-                  @change="handleChange"
-                  @search='search'
-                  :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
-                >
-                 <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
-                <a-select-option :title='d.chinese' v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
-             </a-select>
-            </p>
-          </li>
+
         </ul>
         <footer>
           <button @click="submit">{{$t('ContractWrods.submit')}}</button>
@@ -69,8 +70,8 @@ export default {
   data() {
     return {
       countrylist_fetching:false,
-      investors_type: [{ text:  this.$t('common.individual'), value: 1 }, { text: this.$t('common.company'), value: 2 }],
-      dad_text:  this.$t('agent.Recommendinvestors'),
+      investors_type: [{ text:  this.$t('common.Individual'), value: 1 }, { text: this.$t('common.Company'), value: 2 }],
+      dad_text:  this.$t('agent.RecommendInvestors'),
       title: "",
       region: [
         // {
@@ -120,20 +121,9 @@ export default {
       this.countrylist_fetching = false;
       // console.log(this.form)
     },
-    // handleBlur() {
-    //   // console.log('blur');
-    // },
-    // handleFocus() {
-    //   // console.log('focus');
-    // },
-    // filterOption(input, option) {
-    //   if(this.region.length>0){
-    //     return true
-    //   }else{
-    //     return false
-    //   }
-    //   // return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
-    // },
+    cleanall(	value){
+        this.form.investorsCompany='';
+    },
     ulHtml(val){
       this.region=[];
       let arr=[];
@@ -175,7 +165,7 @@ export default {
     submit() {
        if(this.form.investorsType==2 && this.form.investorsCompany==''){
               this.$toast({ message:this.$t('agent.PleaseEnterTheCompanyName')});
-return
+          return
         }
         if(this.form.investorsName==''){
           this.$toast({ message:this.$t('agent.PleaseEnterInvestorName')});
@@ -227,6 +217,7 @@ return
     }
   .ant-select{
     width: 100%;
+    height: 100%;
     font-size: 0.38rem;
     color: #323233;
     .ant-select-selection__placeholder, .ant-select-search__field__placeholder{
@@ -242,7 +233,8 @@ return
 
  }
  .ant-select-selection__rendered{
-
+   height: 100%;
+   line-height: 1rem;
    margin:0;
  }
     .ant-select-selection{
@@ -289,6 +281,7 @@ return
   }
   .van-field__control{
     height: 100%;
+    line-height: 1rem;
   }
   .van-dropdown-menu__item {
     justify-content: left;
@@ -313,7 +306,7 @@ return
     .van-cell {
       font-size: 0.38rem;
       padding: 0 1rem;
-      line-height: 1rem;
+      /*line-height: 1rem;*/
       // padding: 0;
       height:1rem;
       /*line-height: 1.2rem;*/
@@ -409,19 +402,20 @@ return
         padding: 0.5rem 0;
         li {
           margin-bottom: 0.4rem;
-          display:-webkit-box;
-          display: -moz-box;
-          display: -ms-flexbox;
-          display: -webkit-flex;
-          display: flex;
-          height: 1rem;
+          /*line-height: 1rem;*/
+          /*display:-webkit-box;*/
+          /*display: -moz-box;*/
+          /*display: -ms-flexbox;*/
+          /*display: -webkit-flex;*/
+          /*display: flex;*/
+
           font-size: 0.38rem;
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
-            width: 3rem;
+            /*width: 3rem;*/
             /*flex:2;*/
-            line-height: 1rem;
+            /*line-height: 1rem;*/
             /*margin-bottom: 0.2rem;*/
           }
           .row1::before {
@@ -431,8 +425,9 @@ return
             }
           .row2 {
               position: relative;
-            flex:3;
+            /*flex:3;*/
             height: 100%;
+            height: 1rem;
             word-break: break-all;
             /*line-height: 1.2rem;*/
             color: #787878;

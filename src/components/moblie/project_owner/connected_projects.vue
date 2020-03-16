@@ -1,7 +1,7 @@
 <template>
   <div id="p_connected_projects">
     <nav>
-      {{$t('agent.ConnectedItems')}}
+      {{$t('common.ConnectedItems')}}
     </nav>
     <main>
       <div class='remind' v-if='remind_show'>{{reminder}}</div>

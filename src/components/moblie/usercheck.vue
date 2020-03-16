@@ -1,10 +1,10 @@
 <template>
   <div id="usercheck">
     <div class="usercheck">
-      <header>审核</header>
+      <header>{{$t('common.Reveiw')}}</header>
       <van-cell-group class="vanForm">
         <div class="usertype">
-          <p>类型</p>
+          <p>{{$t('common.category')}}</p>
           <van-dropdown-menu>
             <van-dropdown-item
               @change="function(params) {
@@ -19,7 +19,7 @@
           <footer>{{ form_err.userType }}</footer>
         </div>
         <div class="identity">
-          <p>身份</p>
+          <p>{{$t('common.Identity')}}</p>
           <van-dropdown-menu>
             <van-dropdown-item
               v-if="form.userType == 1"
@@ -36,12 +36,12 @@
           <footer>{{ form_err.userIdentityType }}</footer>
         </div>
         <div class="nationality">
-          <p>国籍</p>
+          <p>{{$t('common.Nationality')}}</p>
           <div class="nationality_position">
             <a-select
               showSearch
               :value="form.userCountryCh"
-              placeholder="请输入"
+              :placeholder="$('ContractWrods.pleaseEnter')"
               :showArrow="false"
               :filterOption="false"
               :getPopupContainer="triggerNode => triggerNode.parentNode"
@@ -74,22 +74,22 @@
           v-show="form.userIdentityType == 2 ? false : true"
         >
           <div class="idcard_num">
-            <p>个人姓名</p>
-            <van-field v-model="form.userName" placeholder="请输入" clearable />
+            <p>{{$t('common.PersonalName')}}</p>
+            <van-field v-model="form.userName"   :placeholder="$('ContractWrods.pleaseEnter')" clearable />
             <footer>{{ form_err.userName }}</footer>
           </div>
           <!-- this.form.userCountry=this.countrylist[value].remark; -->
           <div class="idcard_num">
-            <p>{{ form.userCountry === "CHN" ? "身份证号码" : "Passport" }}</p>
+            <p>{{ form.userCountry === "CHN" ? $t('common.IdentificationNumber'):$t('common.passport') }}</p>
             <van-field
               v-model="form.userIdentity"
-              placeholder="请输入"
+              :placeholder="$('ContractWrods.pleaseEnter')"
               clearable
             />
             <footer>{{ form_err.userIdentity }}</footer>
           </div>
           <div class="id_front">
-            <p>{{ switchon == true ? "身份证正面" : "护照" }}</p>
+            <p>{{ switchon == true ?  $t('common.IDCardFront') : $t('common.passport')  }}</p>
             <van-uploader
               :before-read="function(params){return asyncBeforeRead(params, 1)}"
               v-model="fileList_front"
@@ -99,7 +99,7 @@
             <footer>{{ form_err.userIdentity }}</footer>
           </div>
           <div class="id_back" v-show="switchon">
-            <p>身份证背面</p>
+            <p>{{$t('common.IDCardBack')}}</p>
             <van-uploader
               :before-read="function(params) {return asyncBeforeRead(params, 2)}"
               v-model="fileList_back"
@@ -144,7 +144,7 @@
             />
           </div>
           <div class="companycheck">
-            <p>公司证书</p>
+            <p>{{$t('common.Certificate')}}</p>
             <van-uploader
               :before-read="function(params) {return asyncBeforeRead(params, 3)}"
               v-model="fileList_company"
@@ -183,13 +183,13 @@ export default {
       switchon: false,
       countrylist: [],
       option1: [
-        { text: "项目方", value: 1 },
-        { text: "中间人", value: 4 },
-        { text: "投资者", value: 3 }
+        { text: this.$t('common.ProjectParty'), value: 1 },
+        { text: this.$t('common.Middleman'),  value: 4 },
+        { text: this.$t('common.Investor'), value: 3 }
       ],
       option2: [
-        { text: "个人", value: 1 },
-        { text: "公司", value: 2 }
+        { text: this.$t('common.individual'), value: 1 },
+        { text:this.$t('common.company'), value: 2 }
       ],
       fileList_front: [],
       fileList_back: [],
@@ -213,7 +213,6 @@ export default {
       },
       form: {
         emailData: "",
-
         userCountry: "",
         userIdentityType: 1,
         userCountryEn: "",
@@ -234,7 +233,6 @@ export default {
       createTime: "", //注册时间
       email_pic: "",
       bslEmail: ""
-
       // rules: {
       //   userType: [
       //     {required: true, message: '请选择' ,trigger: "change" }
@@ -362,13 +360,13 @@ export default {
     submit() {
       if (this.form.userIdentityType == 1) {
         if (this.form.userCountry == "") {
-          this.$toast("请输入国籍");
+          this.$toast( this.$t('ContractWrods.pleaseEnter')+this.$t('common.Nationality'));
           return;
         } else if (this.form.userName == "") {
-          this.$toast("请输入个人姓名");
+          this.$toast( this.$t('ContractWrods.pleaseEnter')+this.$t('common.PersonalName'));
           return;
         } else if (this.form.userIdentity == "") {
-          this.$toast("请输入证件号码");
+          this.$toast( this.$t('ContractWrods.pleaseEnter')+this.$t('common.CertificateNumber'));
           return;
         }
         // else if (this.form.userCountry == "CHN") {
@@ -493,10 +491,10 @@ export default {
       let userIdentityType_name;
 
       if (this.form.userIdentityType == 1) {
-        userIdentityType = "个人";
+        userIdentityType = this.$t('common.individual');
         userIdentityType_name = this.form.userName;
       } else if (this.form.userIdentityType == 2) {
-        userIdentityType = "公司";
+        userIdentityType =  this.$t('common.company');
         userIdentityType_name = this.form.userCompanyEn;
       }
 
@@ -532,7 +530,7 @@ export default {
                               <td
                                 style="font-size: 0px; word-break: break-word; width: 500px; text-align: center; padding: 30px 0; ">
                                 <div>
-                                  <img height="auto" alt="拉易网图片" width="180" height="200"
+                                  <img height="auto" alt="" width="180" height="200"
                                        src="http://47.90.62.114:8086/bsl_web/images/bc15640a323b1c6ebee583ccccbb1db.png"
                                        style="box-sizing: border-box; border: 0px; display: inline-block; outline: none; text-decoration: none; height: auto; max-width: 100%; padding: 0px;" />
                                 </div>
@@ -949,7 +947,6 @@ export default {
 
 `;
       this.form.emailData =letter;
-
       this.$loading();
       this.$axios({
         method: "post",
@@ -984,14 +981,14 @@ export default {
         })
         .catch(err => {
           this.$toast.clear();
-          this.$dialog
-            .alert({
-              title: "网络异常",
-              message: "点击返回登录页"
-            })
-            .then(() => {
-              this.$goto("login");
-            });
+          // this.$dialog
+          //   .alert({
+          //     title: "网络异常",
+          //     message: "点击返回登录页"
+          //   })
+          //   .then(() => {
+          //     this.$goto("login");
+          //   });
         });
     }
   }

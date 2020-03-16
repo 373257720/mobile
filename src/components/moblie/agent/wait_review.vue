@@ -108,7 +108,7 @@ export default {
     if(this.$route.query.signStatus==6){
       this.dad_text= this.$t('agent.InvestmentBankToReviewTheProject');
     }else{
-      this.dad_text=this.$t('agent.PendingItems');
+      this.dad_text=this.$t('common.PendingItems');
     }
     this.$loading();
     this.$global

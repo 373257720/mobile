@@ -19,20 +19,9 @@ export default {
     props:["nav_lists"],
   data() {
     return {
-      // financingStage: {
-      //   '0': '种子轮',
-      //   '1': "天使轮",
-      //   '2': "A轮",
-      //   '3': "B轮",
-      //   '4': "C轮",
-      //   '5': "PRE-IPO",
-      //   '6': "IPO",
-      // },
     };
   },
-    created(){
 
-    }
 }
 </script>
 <style lang="scss">
@@ -52,23 +41,23 @@ export default {
         border-bottom: 0.25rem solid #f2f2f2;
         > p {
           flex: 1;
-          height: 2.5rem;
+          height: 2.6rem;
           // font-size: 0.38rem;
-             font-size: 0.42rem;
+          font-size: 0.42rem;
           display: flex;
           align-items:center;
           section.box{
             box-sizing: border-box;
-              width: 100%;
-              display: flex;
-              text-align: center;
-             height: 2rem;
+            width: 100%;
+            display: flex;
+            text-align: center;
+             height: 2.2rem;
             //  padding: 0.1rem;
             border-right: 0.08rem solid #f2f2f2;
             flex-direction: column;
             justify-content:space-between;
            span.rowa{
-             line-height: 0.56rem;
+             line-height: 0.5rem;
              color: #4D4D4D;
            }
             span.rowb{

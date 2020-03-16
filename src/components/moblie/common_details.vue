@@ -65,18 +65,19 @@ export default {
         li {
           margin-bottom: 0.2rem;
           align-items: baseline;
-          line-height: 0.6rem;
+
           font-size: 0.42rem;
           div.normal{
-            display: flex;
+            /*display: flex;*/
+            line-height: 0.6rem;
             .row1 {
             color: #4c4c4c;
             font-weight: 600;
             font-size: 0.46rem;
-            width: 2.5rem;
+            /*width: 2.5rem;*/
             }
               .row2 {
-            width: 7.5rem;
+            /*width: 7.5rem;*/
             word-break: break-all;
             // line-height: 0.48rem;
             color: #787878;
@@ -90,8 +91,6 @@ export default {
             color: #4c4c4c;
             font-weight: 600;
             font-size: 0.46rem;
-              margin-bottom: 0.2rem;
-            width: 2.5rem;
             }
             .row2{
               color: #787878;

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Vue from 'vue'
 import router from '../../router';
-import { i18n } from '../../language'
+import  {i18n}  from '../../language'
 import qs from 'qs'
 
 const global = {
@@ -53,7 +53,7 @@ const global = {
     '5':i18n.t('common.ChainedForRecommendation'),
     '6': ('common.PendingReview'),
     '7': i18n.t('common.InvestmentbankHasRejected'),
-    '8':i18n.t('common.ReviewedPending:'),
+    '8':i18n.t('common.ReviewedPending'),
     '9':i18n.t('common.ToBeConfirmedByInvestors'),
     '10':i18n.t('common.SignedContract'),
     '11': i18n.t('common.InvestorHasRejected'),
