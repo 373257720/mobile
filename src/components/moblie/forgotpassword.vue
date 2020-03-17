@@ -20,8 +20,13 @@
                 center
                 :placeholder="$t('ContractWrods.pleaseEnter')"
               >
-                <button v-if="!isactive" slot="button" >{{countdown?countdown:code}}</button>
-                <button v-if="isactive" @click="sendcode" class="isactive"  slot="button" >{{code}}</button>
+   
+                <button v-if="!isactive"  slot="button" > 
+                  {{countdown?countdown:code}}
+                  </button>
+                <button v-else-if="isactive" @click="sendcode" class="isactive"  slot="button" >
+                 {{code}}
+                  </button>
 <!--                <van-button slot="button" size="small" type="primary">发送验证码</van-button>-->
               </van-field>
             </p>
@@ -71,27 +76,29 @@
     },
     watch:{
       'form.email':function (neww,oldd) {
-        console.log(this.countdown )
-        // if(this.countdown !== 0){
-        //     return
-        // }
+        if(this.timeCounter){
+            return 
+        }
         let regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
         if(regemail.test(neww)){
           this.isactive=true;
         }else{
           this.isactive=false;
+          //  this.isshow=false;
         }
       },
     },
     methods: {
       sendcode() {
+        console.log(123);
+        // this.isshow=true;
         this.isactive=false;
-        this.countDown();
         this.countdown=5;
+        this.countDown();
+        
       },
-      countDown(times) {
+      countDown() {
         const self = this;
-        // let count = 0;
         if(self.countdown===0){
                 let regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
                 if(regemail.test(self.form.email)){
@@ -181,7 +188,7 @@
     .van-field__button{
       button{
         height: 1rem;
-        width: 3rem;
+        width: 4rem;
         color: white;
         border-radius: 2px;
         cursor: pointer;
