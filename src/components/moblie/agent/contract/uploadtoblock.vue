@@ -15,7 +15,7 @@
 
         </article>
       </main>
-      <mbottom></mbottom>
+<!--      <mbottom></mbottom>-->
     <!-- </div> -->
   </div>
 </template>

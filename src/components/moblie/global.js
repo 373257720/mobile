@@ -52,7 +52,7 @@ const global = {
     '4':i18n.t('common.SignedForChain'),
     '5':i18n.t('common.ChainedForRecommendation'),
     '6': ('common.PendingReview'),
-    '7': i18n.t('common.InvestmentbankHasRejected'),
+    '7': i18n.t('common.InvestmentBankHasRejected'),
     '8':i18n.t('common.ReviewedPending'),
     '9':i18n.t('common.ToBeConfirmedByInvestors'),
     '10':i18n.t('common.SignedContract'),

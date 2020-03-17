@@ -29,14 +29,14 @@
               <van-field v-model="emailadress" clearable />
             </div>
             <aside>
-              <button @click="submit_email">{{$t('agent.Determine')}}</button>
-              <button @click="cancel">{{$t('agent.Cancel')}}</button>
+              <button @click="submit_email">{{$t('common.Determine')}}</button>
+              <button @click="cancel">{{$t('common.Cancel')}}</button>
             </aside>
           </footer>
         </van-dialog>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>

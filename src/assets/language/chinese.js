@@ -43,6 +43,7 @@ export default {
     // Projects to be confirmed by investors
   },
   common:{
+    forgetpassword:'忘记密码',
     Investor:'投资者',
     Middleman:'中间人',
     ProjectParty:'项目方',
@@ -86,7 +87,6 @@ export default {
     SignedForChain:'已签约待上链',
     ChainedForRecommendation:'已上链待推荐',
     PendingReview:'待审核项目',
-    InvestmentbankHasRejected:'投行已拒绝',
     ReviewedPending:'已审核待发送',
     ToBeConfirmedByInvestors:'待投资者确认',
     SignedContract:'签约成功',
@@ -99,7 +99,7 @@ export default {
     ItemsOfInterest:'感兴趣项目',
     AllAreas:'全部地区',
     YouChooseToLogOut:'你选择退出当前登录账户,是否继续',
-    Logout:'退出登录',
+    LogOut:'退出登录',
     LogIn:'登 录',
     PassWord:'密码',
     changePassword:'修改密码',

@@ -18,16 +18,28 @@
             <p class="row1">{{$t('common.region')}}:</p>
             <p class="row2">
               <a-select
-                :placeholder="$t('ContractWrods.pleaseEnter')"
+                showSearch
                 :value="form.investorsArea"
-                :showArrow="false"
+                :placeholder="$t('ContractWrods.pleaseEnter')"
                 :defaultActiveFirstOption="false"
                 :getPopupContainer="triggerNode => triggerNode.parentNode"
+                :showArrow="false"
                 :filterOption="false"
                 @change="handleChange"
                 @search='search'
-                :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
+                :notFoundContent="null"
               >
+<!--              <a-select-->
+<!--                :placeholder="$t('ContractWrods.pleaseEnter')"-->
+<!--                :value="form.investorsArea"-->
+<!--                :showArrow="false"-->
+<!--                :defaultActiveFirstOption="false"-->
+<!--                :getPopupContainer="triggerNode => triggerNode.parentNode"-->
+<!--                :filterOption="false"-->
+<!--                @change="handleChange"-->
+<!--                @search='search'-->
+<!--                :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"-->
+<!--              >-->
                 <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
                 <a-select-option :title='d.chinese' v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
               </a-select>
@@ -56,7 +68,7 @@
         </footer>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -70,7 +82,7 @@ export default {
   data() {
     return {
       countrylist_fetching:false,
-      investors_type: [{ text:  this.$t('common.Individual'), value: 1 }, { text: this.$t('common.Company'), value: 2 }],
+      investors_type: [{ text:  this.$t('common.individual'), value: 1 }, { text: this.$t('common.company'), value: 2 }],
       dad_text:  this.$t('agent.RecommendInvestors'),
       title: "",
       region: [
@@ -84,7 +96,7 @@ export default {
         investorsType: 1,
         investorsCompany: "",
         investorsName: "",
-        investorsArea: "",
+        investorsArea: undefined,
         projectId: "",
         signId:'',
         signStatus:'',
@@ -180,7 +192,7 @@ export default {
       console.log(this.form)
       this.$dialog
         .confirm({
-          title: "确认提交"
+          title: this.$t('agent.Confirm')
           // message: "确认提交"
         })
         .then(() => {
@@ -228,41 +240,18 @@ export default {
       background: #f6f6f6;
       box-shadow:none;
     }
- .ant-select-selection--single{
-   height:100%;
+   .ant-select-selection--single{
+     height:100%;
 
- }
- .ant-select-selection__rendered{
-   height: 100%;
-   line-height: 1rem;
-   margin:0;
- }
+   }
+   .ant-select-selection__rendered{
+     height: 100%;
+     line-height: 1rem;
+     margin:0;
+   }
     .ant-select-selection{
           border: 0;
     }
-  }
-  .el-select{
-    height: 100%;
-    width: 100%;
-    background: #f6f6f6;
-    padding: 0 0.5rem;
-    box-sizing: border-box;
-
-  }
-  .el-input{
-    height: 100%;
-
-  }
-  .el-input--suffix .el-input__inner{
-    width: 100%;
-    height: 100%;
-    padding: 0;
-  }
-  .el-input__inner{
-    border: none;
-    font-size: 0.38rem;
-    color: #323233;
-    background: #f6f6f6;
   }
   .van-cell {
     font-size: 0.38rem;

@@ -40,7 +40,7 @@
         </footer>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -64,7 +64,7 @@ export default {
           response: ""
         },
         userCompanyCh:{
-          name: this.$t('projectOwner.CompanyName'),
+          name: this.$t('common.CompanyName'),
           response: ""
         },
         userCompanyEn: {
@@ -176,7 +176,7 @@ export default {
     if(this.signStatus==6){
       this.dad_text= this.$t('projectOwner.ReviewItems');
     }else if(this.signStatus==1){
-      this.dad_text=this.$t('projectOwner.PendingItems');
+      this.dad_text=this.$t('common.PendingItems');
     }
     this.$loading();
     this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.projectId}&signStatus=${this.signStatus}&signId=${this.signId}`,'get',{},this.details_lists,this.nav_lists,this.investor_infor,this.middlemen).then(res=>{
@@ -339,19 +339,23 @@ export default {
             display: flex;
             align-items: baseline;
             font-size: 0.42rem;
+
           }
           .row1 {
             color: #4c4c4c;
             font-weight: 600;
-            width: 3rem;
+            width: 4.4rem;
           }
           .draft {
             margin-bottom: 0.25rem;
           }
           .row2 {
-            width: 7rem;
-            word-break: break-all;
-            line-height: 0.48rem;
+            flex: 1;
+            /*width: 7rem;*/
+            /*word-break: break-all;*/
+            display: flex;
+            justify-content: center;
+            /*line-height: 0.48rem;*/
             color: #787878;
           }
           .draft1 {

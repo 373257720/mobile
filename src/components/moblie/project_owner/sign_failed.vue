@@ -4,16 +4,14 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-        <!-- <header>投资者资料</header> -->
         <commoninvestors v-if="$route.query.signStatus==7 || $route.query.signStatus==11    " :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
-        <!-- <header>项目详情</header> -->
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -98,14 +96,6 @@
             name: this.$t('agent.InvestorRegion'),
             response: ""
           },
-          investorsMobile: {
-            name: this.$t('agent.InvestorPhone'),
-            response: ""
-          },
-          investorsEmail: {
-            name: this.$t('agent.InvestorMailbox'),
-            response: ""
-          }
         },
       };
     },

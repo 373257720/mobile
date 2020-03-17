@@ -23,9 +23,11 @@
       </van-form>
 
       <!-- </van-form> -->
-
       <div class="registerbtn">
         <button @click="$routerto('register',{email:username})">{{$t('common.Register')}}</button>
+      </div>
+      <div class="tologin">
+        <p class="tologin" @click="$routerto('forgotpassword')">{{$t('common.forgetpassword')}}</p>
       </div>
     </div>
   </div>
@@ -68,15 +70,13 @@
               bslEmail: this.username,
               bslPwd: this.password
             })
-            // headers: {
-            //   "Content-Type": "application/x-www-form-urlencoded"
-            // }
           }).then(res => {
+            // console.log(res.headers['x-token'])
             this.$toast.clear();
             var rescode = res.data.resultCode;
             if (rescode == 10000) {
-              sessionStorage.clear();
-              // localStorage.clear();
+              window.sessionStorage.clear();
+              window.sessionStorage.setItem('Xoken',res.headers['x-token'])
               this.$store.dispatch("reset_actions", this.$restore_obj);
               this.$store.dispatch("usertype", res.data.data.userType);
               this.$store.dispatch("setUser", this.username);
@@ -173,7 +173,17 @@
         line-height: 0.84rem;
         color: #f36c69;
       }
-
+      div.tologin{
+        width: 9.8rem;
+        display: flex;
+        justify-content:flex-end;
+        p{
+          //  align-self:  flex-end;
+          color:#00adef;
+          text-decoration:underline;
+          cursor: pointer;
+        }
+      }
       div.common {
         margin-bottom: 0.5rem;
       }

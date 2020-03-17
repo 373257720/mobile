@@ -21,7 +21,7 @@
         </footer>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -107,25 +107,18 @@ export default {
           name: this.$t('agent.InvestorRegion'),
           response: ""
         },
-        investorsMobile: {
-          name: this.$t('agent.InvestorPhone'),
-          response: ""
-        },
-        investorsEmail: {
-          name: this.$t('agent.InvestorMailbox'),
-          response: ""
-        }
+
       },
     };
   },
   created() {
     let details = this.$route.query;
     if(this.$route.query.signStatus==5){
-      this.dad_text='已上链待推荐'
+      this.dad_text=this.$t('common.ChainedForRecommendation')
     }else if(this.$route.query.signStatus==8){
-      this.dad_text='已审核待发送';
+      this.dad_text=this.$t('common.ReviewedPending')
     }else if(this.$route.query.signStatus==9){
-      this.dad_text='待投资者确认';
+      this.dad_text=this.$t('common.ToBeConfirmedByInvestors')
     }
 
     this.$loading();

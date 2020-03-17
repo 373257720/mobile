@@ -53,7 +53,7 @@
           @load="onLoad"
           :loading-text="loadText"
            :finished-text="$t('projectOwner.NoMore')"
-           :error-text="$t('projectOwner.RequestFailed')"
+           :error-text="$t('common.RequestFailed')"
           :offset="300"
         >
           <div v-for="(goods,idx) in  upGoodsInfo" :key="idx" class="goodlists">
@@ -64,7 +64,7 @@
                 <span>{{goods.projectIndustry}}</span>
               </section>
               <section>
-                <span>{{$t('common.Region')}}:</span>
+                <span>{{$t('common.region')}}:</span>
                 <span>{{goods.projectArea}}</span>
               </section>
               <section>
@@ -77,8 +77,9 @@
                   <li v-for="(item,key) in  tags" :key="item.text">
                     <div
                       v-if="goods.signUserList[key].length>0 && goods.signUserList[key][0].signCount">
+                      <span class="spot"></span>
                       <span> {{item.text}}</span>
-                      <span>( {{goods.signUserList[key][0].signCount}} )</span>
+                      <span>({{goods.signUserList[key][0].signCount}})</span>
                     </div>
                   </li>
                 </ul>
@@ -89,7 +90,7 @@
                 v-if="usertype==1"
                 :class="[goods.signUserList['signUserList10'][0].signCount>0?'isactive':'']"
                 @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList10'][0].investorsIdList) })"
-              >{{$t('common.InformationOfContractedInvestors')}} ({{goods.signUserList['signUserList10'][0].signCount?goods.signUserList['signUserList10'][0].signCount:0}} )
+              >{{$t('common.InformationOfContractedInvestors')}} ({{goods.signUserList['signUserList10'][0].signCount?goods.signUserList['signUserList10'][0].signCount:0}})
               </button>
               <button class="isactive"
                 v-else-if="usertype==3"
@@ -694,20 +695,30 @@ export default {
           /*justify-content: space-between;*/
           div {
             display: flex;
-            width: 3rem;
+            /*width: 6rem;*/
+            /*padding: 0 0.2rem;*/
             color: #fdfffe  ;
-            text-indent: 0.6rem;
-            line-height: 0.6rem;
+            height: 0.6rem;
+            align-items: center;
+            /*line-height: 0.6rem;*/
             margin-right: 0.2rem;
+
             margin-bottom: 0.12rem;
-            background: url(../../assets/c5652240e4485f406fbaf8cb89b0afb.png)
-              no-repeat;
+            background: url(../../assets/1b8b7a9c6657be15ae60708495f9da3.png) no-repeat;
+            /*background-origin:content-box;*/
             background-size: cover;
             span:nth-of-type(1){
-
+              height: 0.2rem;
+              width: 0.2rem;
+              border-radius: 50%;
+              margin:0 0.12rem;
+              background: white;
             }
             span:nth-of-type(2){
-              text-indent:0.1rem;
+
+             }
+            span:nth-of-type(3){
+              margin:0 0.12rem;
             }
           }
           /*foot*/
@@ -746,13 +757,15 @@ export default {
         display: flex;
         align-items: center;
         button {
-          width: 45%;
+          min-width: 45%;
+          padding: 0 0.16rem;
+          box-sizing: border-box;
           text-align: center;
           position: absolute;
           right: 0.25rem;
           border-radius: 0.125rem;
           height: 0.88rem;
-       background: #747474;;
+          background: #747474;;
           /*background: #747474;;*/
           color: white;
           font-size: 0.38rem;

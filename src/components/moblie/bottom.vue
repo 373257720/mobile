@@ -10,7 +10,7 @@
       icon="friends-o"
       v-if="this.$store.state.currentUsertype==1"
       @click="$goto('p_user_contact')"
-    >{{$t('common.ContactS')}}</van-tabbar-item>
+    >{{$t('common.Contacts')}}</van-tabbar-item>
     <van-tabbar-item name="mine" icon="contact" @click="$goto('mine')">{{$t('common.ME')}}</van-tabbar-item>
 
   </van-tabbar>

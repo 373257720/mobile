@@ -56,7 +56,7 @@
         </footer>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -154,10 +154,13 @@ export default {
     border-bottom: 0.1rem solid #b5b5b5;
   }
   main {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-    padding: 0.5rem;
+    /*margin-top: 1.5rem;*/
+    /*margin-bottom: 1.5rem;*/
+    padding: 1.5rem 0;
     background: #ffffff;
+    article{
+      padding: 0.5rem;
+    }
     .sub_title{
       // margin-bottom:0.5rem;
       header{
@@ -180,7 +183,7 @@ export default {
     }
     footer {
       width: 100%;
-      padding-bottom: 2rem;
+      /*padding-bottom: 1rem;*/
       font-size: 0.42rem;
       button {
         width: 100%;

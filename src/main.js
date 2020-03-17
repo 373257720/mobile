@@ -106,22 +106,21 @@ i18n.locale=window.localStorage.getItem('language') == null? 'en_US': window.loc
 //   }
 // };
 axios.defaults.withCredentials = true;
-// axios.interceptors.request.use(function (config) {
-//   　　// 在发送请求之前做些什么
-//   console.log(config)
-//         // addLoading();
-//   　　return config
-//   }, function (error) {
-//   　　// 对请求错误做些什么
-//  isShowLoading = false
-//  loadingCount = 0
-//   Dialog.alert({
-//     message: '网络异常，请稍后再试',
-//   }).then(() => {
-//     location.href = '/'
-//   });
-//   return Promise.reject(error)
-//   });
+axios.interceptors.request.use(function (config) {
+  　　// 在发送请求之前做些什么
+  if (config.url){
+    config.headers['X-Token'] = window.sessionStorage.getItem('Xoken')
+  }
+  　　return config
+  }, function (error) {
+  　　// 对请求错误做些什么
+    Dialog.alert({
+      message: '网络异常，请稍后再试',
+    }).then(() => {
+      location.href = '/'
+    });
+  return Promise.reject(error)
+  });
 
 axios.interceptors.response.use(res => {
   if (res.data && res.data.resultCode) {
@@ -136,10 +135,7 @@ axios.interceptors.response.use(res => {
     return res
   }
 } ,error => {
-  // console.log(Toast,Dialog)
     Toast.clear();
-    // isShowLoading = false
-    // loadingCount = 0
       Dialog.alert({
         title: "网络异常",
         message: "点击返回登录页"
@@ -160,7 +156,6 @@ Vue.prototype.$goto = function goto(name, id) {
       idx: id
     };
   }
-  // console.log(this.$router);
   this.$router.push(obj);
 }
 
@@ -187,11 +182,11 @@ Vue.prototype.$loadingfail = function loadingfail() {
   });
 };
 var baseurl = {
-   // api: "http://192.168.1.37:8085",
+   api: "http://192.168.1.37:8085",
   // api3:'www.aaa.com',
   api2:'http://47.90.62.114:8081',
   api3: 'http://47.90.62.114:8083',//(前段服务器端口)
-  api: "http://47.90.62.114:8086",//(后台正式服务器端口)
+  // api: "http://47.90.62.114:8086",//(后台正式服务器端口)
 }
 Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl2 = baseurl.api2;

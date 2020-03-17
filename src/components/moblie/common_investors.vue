@@ -1,10 +1,10 @@
 <template>
   <div id="common_investors">
-    <van-divider>投资者资料</van-divider>
+    <van-divider>{{$t('projectOwner.InvestorInformation')}}</van-divider>
     <ul>
       <li i v-for="(item,key) in investor_infor" :key="item.name">
         <div v-if="key!='investorsCompany' || (key='investorsCompany' && item.response!='')">
-          <p class="row1">{{item.name}}</p>
+          <p class="row1">{{item.name}}:</p>
           <p class="row2">{{item.response}}</p>
         </div>
       </li>
@@ -46,18 +46,21 @@ export default {
         margin-bottom: 0.1rem;
         display: flex;
         align-items: baseline;
-           font-size: 0.42rem;
+        font-size: 0.42rem;
       }
       .row1 {
         color: #4c4c4c;
         font-weight: 600;
-        width: 3rem;
+        width: 4.4rem;
+
       }
       .draft {
         margin-bottom: 0.25rem;
       }
       .row2 {
-        width: 7rem;
+        flex: 1;
+       display: flex;
+        justify-content: center;
         word-break: break-all;
         line-height: 0.48rem;
         color: #787878;

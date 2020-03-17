@@ -11,7 +11,7 @@
         <commondetails :toson="details_lists"></commondetails>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>

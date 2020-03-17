@@ -11,7 +11,7 @@
           </footer>
         </article>
       </main>
-      <mbottom></mbottom>
+<!--      <mbottom></mbottom>-->
 
   </div>
 </template>

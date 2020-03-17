@@ -4,6 +4,7 @@ import Router from 'vue-router'
 // import home from '@/components/moblie/home'
 import register from '@/components/moblie/register'
 import login from '@/components/moblie/login'
+import forgotpassword from "../components/moblie/forgotpassword";
 import usercheck from '@/components/moblie/usercheck'
 import mysign from '@/components/moblie/mysign'
 import userpass from '@/components/moblie/userpass'
@@ -160,6 +161,7 @@ const routes = [
     component:p_inverstor_details,
   },
 
+
   // agent
   {
     path: '/a_sign_successful',
@@ -302,6 +304,11 @@ const routes = [
     path: '/mysign',
     name: 'mysign',
     component: mysign,
+  },
+  {
+    path: '/forgotpassword',
+    name: 'forgotpassword',
+    component: forgotpassword,
   },
 
   {

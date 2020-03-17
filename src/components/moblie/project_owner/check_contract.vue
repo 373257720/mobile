@@ -9,7 +9,7 @@
         <contractcomponent v-if="watch" :contract="contract"></contractcomponent>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>

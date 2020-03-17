@@ -5,7 +5,7 @@
         <ul>
           <li v-for="(item,key) in toson" :key="item.name">
             <div class="content" v-if="key=='projectDescribe' || key=='projectDetail'">
-                <p class="row1">{{item.name}}</p>
+                <p class="row1">{{item.name}}:</p>
                <!-- <van-field
                     class="row2"
                     v-model="item.response"
@@ -14,11 +14,11 @@
                   <p class="row2">{{item.response}}</p>
             </div>
             <div class="normal" v-else-if="key=='collectMoney'">
-              <p class="row1">{{item.name}}</p>
+              <p class="row1">{{item.name}}:</p>
               <p class="row2" ><span>{{item.collectMoneyMin}}</span><span style="margin: 0 0.2rem;">-</span><span>{{item.collectMoneyMax}}</span></p>
             </div>
             <div class="normal" v-else>
-              <p class="row1">{{item.name}}</p>
+              <p class="row1">{{item.name}}:</p>
               <p class="row2" :class="item.classname" >{{item.response}}</p>
             </div>
           </li>

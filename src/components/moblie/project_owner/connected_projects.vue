@@ -242,7 +242,10 @@
                padding: 0 0.2rem;
               // color: #575757;
               word-wrap:break-word;
-
+                li{
+                  display: flex;
+                  justify-content: center;
+                }
             }
           }
           footer{

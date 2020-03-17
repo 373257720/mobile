@@ -1,14 +1,14 @@
 <template>
   <div id="p_user_contact">
     <nav>
-      <header>联络人
+      <header>{{$t('common.Contacts')}}
         <!-- <van-icon name="arrow-left" @click="$global.previous()" />联络人 -->
 <!--        <commonnav :msg="dad_text"></commonnav>-->
       </header>
       <div>
         <van-search
           v-model="searchkey"
-          :placeholder="$('common.PleaseEnterTheSearchKeyword')"
+          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
           show-action
           shape="round"
           left-icon
@@ -26,7 +26,7 @@
           <!-- <h2></h2> -->
           <p>
             <span>{{item.userIdentityType==1? item.userName:item.userIdentityType==2?item.userCompany:''}}</span>
-            <span>{{item.userName}}</span>
+<!--            <span>{{item.userName}}</span>-->
             <span>{{item.bslEmail}}</span>
           </p>
         </li>
@@ -40,7 +40,7 @@ export default {
   name: "p_user_contact",
   data() {
     return {
-      dad_text: this.$t('projectOwner.Contacts'),
+      dad_text: this.$t('common.Contacts'),
       loadText: "Loading…",
       loading: false,
       finished: false,

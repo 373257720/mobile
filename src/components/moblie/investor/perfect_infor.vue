@@ -31,7 +31,7 @@
               :filterOption="false"
               @change="handleChange"
               @search='search'
-              :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
+              :notFoundContent="null"
             >
               <!-- :filterOption="filterOption" -->
             <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
@@ -70,7 +70,7 @@
               <van-field v-model="form.investorsCompanyAddress"  :placeholder="$t('ContractWrods.pleaseEnter')"  />
             </p>
           </li>
-          <li>
+          <li class="interests">
             <p class="row1">{{$t('investor.IndustryOfInterest')}}</p>
             <p class="row2">
               <van-checkbox-group v-model="form.interestedIndustries">
@@ -90,7 +90,7 @@
         </footer>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -109,7 +109,7 @@ export default {
         investorsType:1,
         investorsCompany: "",
         investorsName: "",
-        investorsArea: "",
+        investorsArea: undefined,
         investorsEmail: "",
         investorsMobile: "",
         interestedIndustries: [],
@@ -321,9 +321,9 @@ export default {
   }
 
   .van-icon-success {
-    height: 0.48rem;
-    width: 0.48rem;
-    line-height: 0.48rem;
+    height: 0.42rem;
+    width: 0.42rem;
+    line-height: 0.42rem;
     font-size: 0.38rem;
   }
   .van-field__control {
@@ -346,7 +346,10 @@ export default {
     }
   }
   .van-checkbox__icon {
-    height: 100%;
+
+    /*height: 100%;*/
+    display: flex;
+    align-items: center;
   }
 
   .van-dropdown-menu__title::after {
@@ -404,18 +407,21 @@ export default {
         padding: 0.5rem;
         li {
           margin-bottom: 0.4rem;
-          display: flex;
+          /*display: flex;*/
           /*line-height: 0.48rem;*/
           align-items: center;
           font-size: 0.42rem;
           .row1 {
             flex: 1;
             color: #4c4c4c;
+            /*margin-bottom: 0.12rem;*/
             font-weight: 600;
-            width: 3rem;
           }
             .row1::before {
                 content: "*";
+                 display: inline-block;
+                height: 100%;
+                vertical-align: middle;
                 color: #f56c6c;
                 margin-right: 0.1rem;
             }
@@ -427,6 +433,26 @@ export default {
             word-break: break-all;
             color: #787878;
           }
+        }
+        li.interests{
+          .row1{
+            margin-bottom: 0.12rem;
+          }
+
+             .row2{
+               .van-checkbox-group{
+                 display: flex;
+                 flex-wrap: wrap;
+                 .van-checkbox{
+                   padding: 0.12rem;
+                   box-sizing: border-box;
+                     display: flex;
+                     align-items: flex-start;
+                   width: 50%;
+
+                 }
+               }
+             }
         }
       }
       footer {

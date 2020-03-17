@@ -11,7 +11,7 @@
         </footer> -->
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       title: "",
-      dad_text: this.common.ProjectDetails,
+      dad_text: this.$t('common.ProjectDetails'),
       nav_lists: {
         financingStage: {
           name: this.$t('agent.FinancingStage'),

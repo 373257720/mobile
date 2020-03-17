@@ -22,7 +22,7 @@
         </footer>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -213,7 +213,7 @@ export default {
     background: #ffffff;
     div.investors_infor {
       h2 {
-        min-height: 0.68rem;
+        min-height: 2rem;
         font-size: 0.46rem;
         padding: 0.4rem;
         box-sizing: border-box;

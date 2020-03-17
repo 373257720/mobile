@@ -25,7 +25,7 @@
         </main>
       </li>
     </ul>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       searchkey: "",
-      dad_text: this.$t('projectOwner.Contacts'),
+      dad_text: this.$t('common.Contacts'),
       details_lists: [
         {
           keyword: "investorsCompany",

@@ -16,7 +16,6 @@
             <span>{{$t('common.Reveiw')}}</span>
           </p>
           <van-icon name="arrow"/>
-
         </li>
         <li @click="switch_language">
           <p>
@@ -26,10 +25,10 @@
           <van-icon name="arrow" />
         </li>
         <section>
-          <van-dialog v-model="show" title="此功能暂没开通" show-cancel-button :beforeClose="changelanguage">
+          <van-dialog v-model="show" :title="$t('common.SwitchLanguage')" show-cancel-button :beforeClose="changelanguage">
             <van-radio-group v-model="radio">
               <van-cell-group>
-              <van-cell title="ENGLISH" clickable @click="radio = 'en_US'">
+              <van-cell title="ENGLISH" clickable @click="radio ='en_US'">
                 <van-radio slot="right-icon" name="en_US" />
               </van-cell>
               <van-cell title="中文" clickable @click="radio = 'zh_CN'">
@@ -62,7 +61,7 @@
             </aside>
           </footer>
         </van-dialog>
-        <van-dialog v-model="correct_password" class="correct_password" show-cancel-button >
+        <van-dialog v-model="correct_password" class="correct_password" show-cancel-button  :beforeClose='correct_password_fun'>
           <footer>
             <h4>{{$t('common.changePassword')}}</h4>
             <h5>{{reminder}}</h5>
@@ -119,39 +118,37 @@ export default {
     })
   },
   methods: {
-    correct_password_function(){
-      this.correct_password = true;
-    },
-    confirm_passowrd(num){
-      this.reminder='';
-        if(num==2){
-          this.correct_password = false;
-          this.password1='';
-          this.password2='';
-        }else if(num==1){
-            if(this.password1 && this.password2 ){
-              if(this.password1 ===this.password2){
-                this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/updatePwd`,{newPwd:this.password1}).then(
-                  res=> {
-                    this.reminder=res.data.resultDesc;
-                    if(res.data.resultCode==10000){
-                      setTimeout( () =>{
-                        this.password1='';
-                        this.password2='';
-                        this.correct_password=false;
-                      },1000)
-                    }
-                  }
-                )}
-                else {
-                this.reminder= this.$t('common.PasswordsEnteredTwiceAreInconsistent');
-              }
-              }else{
-              this.reminder=this.$t('common.PleaseFillInTheNewPassword');
-            }
-        }
 
-    },
+    // confirm_passowrd(num){
+    //   this.reminder='';
+    //     if(num==2){
+    //       this.correct_password = false;
+    //       this.password1='';
+    //       this.password2='';
+    //     }else if(num==1){
+    //         if(this.password1 && this.password2 ){
+    //           if(this.password1 ===this.password2){
+    //             this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/updatePwd`,{newPwd:this.password1}).then(
+    //               res=> {
+    //                 this.reminder=res.data.resultDesc;
+    //                 if(res.data.resultCode==10000){
+    //                   setTimeout( () =>{
+    //                     this.password1='';
+    //                     this.password2='';
+    //                     this.correct_password=false;
+    //                   },1000)
+    //                 }
+    //               }
+    //             )}
+    //             else {
+    //             this.reminder= this.$t('common.PasswordsEnteredTwiceAreInconsistent');
+    //           }
+    //           }else{
+    //           this.reminder=this.$t('common.PleaseFillInTheNewPassword');
+    //         }
+    //     }
+    //
+    // },
     // beforeClose(action, done) {
     //   if (action === "confirm") {
     //     setTimeout(done, 1000);
@@ -166,40 +163,43 @@ export default {
     //   // radio: event.detail
     //   // });
     // },
-    // correct_password_fun(action,done){
-    //     if (action === "confirm") {
-    //       if(this.password1 && this.password2 ){
-    //           if(this.password1 ===this.password2){
-    //             this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/updatePwd`,{newPwd:this.password1}).then(
-    //               res=> {
-    //                 this.reminder=res.data.resultDesc;
-    //                 if(res.data.resultCode==10000){
-    //                      setTimeout(()=>{
-    //                       this.password1='';
-    //                       this.password2='';
-    //                       this.reminder='';
-    //                        done();
-    //                      }, 1000);
-    //                 }else{
-    //                   done(false);
-    //                 }
-    //               }
-    //             )}
-    //             else {
-    //             this.reminder="两次密码输入不一致"
-    //                done(false);
-    //             }
-    //           }else{
-    //           this.reminder='请填写新密码';
-    //             done(false);
-    //         }
-    //   } else if (action === "cancel") {
-    //     this.password1='';
-    //     this.password2='';
-    //     this.reminder='';
-    //     done(); //关闭
-    //   }
-    // },
+    correct_password_function(){
+      this.correct_password = true;
+    },
+    correct_password_fun(action,done){
+        if (action === "confirm") {
+          if(this.password1 && this.password2 ){
+              if(this.password1 ===this.password2){
+                this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/updatePwd`,{newPwd:this.password1}).then(
+                  res=> {
+                    this.reminder=res.data.resultDesc;
+                    if(res.data.resultCode==10000){
+                         setTimeout(()=>{
+                          this.password1='';
+                          this.password2='';
+                          this.reminder='';
+                           done();
+                         }, 1000);
+                    }else{
+                      done(false);
+                    }
+                  }
+                )}
+                else {
+                this.reminder="两次密码输入不一致"
+                   done(false);
+                }
+              }else{
+              this.reminder='请填写新密码';
+                done(false);
+            }
+      } else if (action === "cancel") {
+        this.password1='';
+        this.password2='';
+        this.reminder='';
+        done(); //关闭
+      }
+    },
     changelanguage(action, done) {
       if (action === "confirm") {
         this.$i18n.locale=this.radio;
@@ -280,12 +280,6 @@ export default {
   }
 }
 
-// .van-dialog__message {
-//   font-size: 0.3rem;
-// }
-// .van-button {
-//   font-size: 0.48rem;
-// }
 </style>
 <style lang="scss" scoped>
 #mine {

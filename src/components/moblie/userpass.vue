@@ -74,7 +74,7 @@
         <button @click="$goto('usercheck')">{{$t('common.ApplyAgain')}}</button>
       </div>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>

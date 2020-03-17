@@ -15,7 +15,7 @@
         </footer>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -208,7 +208,7 @@ export default {
         line-height: 0.68rem;
       }
       footer {
-        /*padding: 0 0.5rem 0.5rem 0.5rem;*/
+        padding-bottom: 1rem;
         display: flex;
         justify-content: center;
         font-size: 0.42rem;
