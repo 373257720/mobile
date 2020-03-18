@@ -235,10 +235,13 @@ export default {
           height: 1.8rem;
           display: flex;
           flex-direction: column;
+          align-items: center;
           justify-content: space-between;
           p {
           }
           button {
+            width: 8rem;
+            border-radius:5px;
             font-size: 0.42rem;
             height: 1rem;
             color: #ffffff;

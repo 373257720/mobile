@@ -190,6 +190,7 @@ export default {
       }).then(res => {
           if (res.data.resultCode == 10000) {
             this.investorsId = res.data.data.investorsId;
+            // this.picUrl=res.data.data.investorsId.picUrl;
             this.custmoers_obj = res.data.data;
           }
       });
@@ -238,7 +239,7 @@ export default {
                                       style="font-size: 0px; word-break: break-word; width: 500px; text-align: center; padding: 30px 0; ">
                                       <div>
                                         <img height="auto" alt="" width="180" height="200"
-                                          src="http://47.90.62.114:8086/bsl_web/images/bc15640a323b1c6ebee583ccccbb1db.png"
+                                          src="${this.custmoers_obj.picUrl}"
                                           style="box-sizing: border-box; border: 0px; display: inline-block; outline: none; text-decoration: none; height: auto; max-width: 100%; padding: 0px;" />
                                       </div>
                                     </td>
@@ -773,10 +774,13 @@ export default {
           height: 2rem;
           display: flex;
           flex-direction: column;
+          align-items: center;
           justify-content: space-between;
           button {
             height: 1rem;
             color: #ffffff;
+            width: 8rem;
+            border-radius:5px;
           }
           button:nth-of-type(1) {
             background: #00adef;
@@ -810,6 +814,8 @@ export default {
           justify-content: space-between;
           button {
             height: 1rem;
+            width: 8rem;
+            border-radius:5px;
             color: #ffffff;
           }
           button:nth-of-type(1) {

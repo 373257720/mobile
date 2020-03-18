@@ -21,7 +21,6 @@
 <script>
   import router from "../../../router";
 
-  console.log(this)
 export default {
   name: "goods_details",
   data() {
@@ -202,13 +201,17 @@ export default {
           height: 2rem;
           display: flex;
           flex-direction: column;
+          align-items: center;
           justify-content: space-between;
           button {
             height: 1rem;
             color: #ffffff;
+            width: 8rem;
+            border-radius:5px;
           }
           button:nth-of-type(1) {
             background: #00adef;
+
           }
           button:nth-of-type(2) {
             background: #ff7c2c;

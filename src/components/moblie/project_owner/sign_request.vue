@@ -373,13 +373,13 @@ export default {
           height: 2.4rem;
           display: flex;
           flex-direction: column;
+          align-items: center;
           justify-content: space-between;
           /*align-items: center;*/
           button {
             height: 1rem;
-            /*width: 80%;*/
-            border-radius: 2px;
-
+            width: 8rem;
+            border-radius:5px;
             color: #ffffff;
           }
           button:nth-of-type(1) {

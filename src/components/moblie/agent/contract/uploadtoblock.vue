@@ -385,8 +385,11 @@
         height: 10%;
         width: 100%;
         font-size: 0.42rem;
+        display: flex;
+        justify-content: center;
         button {
-          width: 100%;
+          width: 8rem;
+          border-radius:5px;
           background: #00adef;
           line-height: 1rem;
           color: white;

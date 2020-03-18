@@ -213,7 +213,8 @@ export default {
         justify-content: center;
         font-size: 0.42rem;
         button {
-          width: 9.9rem;
+          width:8rem;
+          border-radius: 5px;
           height: 1rem;
           background: #00adef;
           color: white;

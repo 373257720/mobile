@@ -40,6 +40,7 @@ export default {
     // Projects to be confirmed by investors
   },
   common:{
+    NoMore: 'No more',
     forgetpassword:'Forgot password',
     Investor:'Investor',
     Middleman:'Middleman',
@@ -180,7 +181,7 @@ export default {
     Recommender: 'Recommender',
     InvestorInformation: 'Investors Information',
     ViewProjectDetails: 'See Project Details',
-    NoMore: ' No more',
+
     SeedRound: 'Seed round',
     AngelWheel: 'Angel round',
     ARound: 'A round',

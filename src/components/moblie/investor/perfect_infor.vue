@@ -7,17 +7,16 @@
       <article>
         <ul>
           <li>
-            <p class="row1">{{$t('agent.InvestorType')}}</p>
+            <p class="row1">{{$t('agent.InvestorType')}}:</p>
             <p class="row2">
             <van-dropdown-menu>
-                <van-dropdown-item  v-model="form.investorsType" :options="option1" />
+                <van-dropdown-item  disabled v-model="form.investorsType" :options="option1" />
               </van-dropdown-menu>
-<!--              <van-field  v-model="form.investorsType" placeholder="-" />-->
+<!--              <van-field disabled   v-model="form.investorsType" placeholder="-" />-->
             </p>
           </li>
           <li>
-
-            <p class="row1">{{$t('investor.InvestorRegion')}}</p>
+            <p class="row1 isbefore">{{$t('investor.InvestorRegion')}}:</p>
             <p class="row2">
               <!-- <van-dropdown-menu>
                 <van-dropdown-item @close="choose_nation" placeholder="-" v-model="form.investorsArea"  :options="countrylist" />
@@ -31,54 +30,54 @@
               :filterOption="false"
               @change="handleChange"
               @search='search'
-              :notFoundContent="null"
+              :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
             >
               <!-- :filterOption="filterOption" -->
             <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
-                 <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
+                 <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >
+                   {{d.chinese}}{{d.eng}}</a-select-option>
           </a-select>
-
             </p>
           </li>
            <li v-show="form.investorsType==2">
-            <p class="row1">{{$t('agent.InvestorCompany')}}</p>
+            <p class="row1">{{$t('agent.InvestorCompany')}}:</p>
             <p class="row2">
-              <van-field  v-model="form.investorsCompany"  :placeholder="$t('ContractWrods.pleaseEnter')" />
+              <van-field  disabled v-model="form.investorsCompany"  placeholder="-" />
             </p>
           </li>
           <li>
-            <p class="row1">{{$t('agent.InvestorName')}}</p>
+            <p class="row1">{{$t('agent.InvestorName')}}:</p>
             <p class="row2">
-              <van-field  v-model="form.investorsName"  :placeholder="$t('ContractWrods.pleaseEnter')" />
+              <van-field disabled v-model="form.investorsName"  placeholder="-" />
             </p>
           </li>
           <li>
-            <p class="row1">{{$t('agent.InvestorPhone')}}</p>
+            <p class="row1 isbefore">{{$t('agent.InvestorPhone')}}:</p>
             <p class="row2">
               <van-field v-model="form.investorsMobile"  :placeholder="$t('ContractWrods.pleaseEnter')" />
             </p>
           </li>
           <li>
-            <p class="row1">{{$t('agent.InvestorMailbox')}}</p>
+            <p class="row1 isbefore">{{$t('agent.InvestorMailbox')}}:</p>
             <p class="row2">
               <van-field v-model="form.investorsEmail"  :placeholder="$t('ContractWrods.pleaseEnter')" />
             </p>
           </li>
           <li >
-            <p class="row1"> {{$t('investor.InvestorAddress')}}</p>
+            <p class="row1 isbefore"> {{$t('investor.InvestorAddress')}}:</p>
             <p class="row2">
               <van-field v-model="form.investorsCompanyAddress"  :placeholder="$t('ContractWrods.pleaseEnter')"  />
             </p>
           </li>
-          <li class="interests">
-            <p class="row1">{{$t('investor.IndustryOfInterest')}}</p>
+          <li class="interests isbefore">
+            <p class="row1">{{$t('investor.IndustryOfInterest')}}:</p>
             <p class="row2">
               <van-checkbox-group v-model="form.interestedIndustries">
                 <van-checkbox
                   v-for="(item) in industrylist"
                   :key="item.industryId"
-                  :name="item.industryNameCh"
-                >{{item.industryNameCh}}</van-checkbox>
+                  :name="item.industryId"
+                >{{$i18n.locale=='zh_CN'?item.industryNameCh:item.industryNameEn}}</van-checkbox>
               </van-checkbox-group>
             </p>
           </li>
@@ -106,7 +105,7 @@ export default {
         signStatus: 10,
         signUserId3:this.$route.query.signUserId3,
         investorsId: this.$route.query.investorsId,
-        investorsType:1,
+        investorsType:null,
         investorsCompany: "",
         investorsName: "",
         investorsArea: undefined,
@@ -131,9 +130,15 @@ export default {
 
   //   })
   // },
+
   created() {
     this.ulHtml('');
-     this.$loading();
+    this.$loading();
+    this.form.investorsType=this.$store.state.inverstor.investorsType;
+    this.form.investorsName=this.$store.state.inverstor.investorsName;
+    this.form.investorsCompany=this.$store.state.inverstor.investorsCompany;
+    let a =this.$store.state.inverstor;
+    console.log(a)
     this.$axios({
       method: "get",
       url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
@@ -160,6 +165,7 @@ export default {
     },
    handleChange (value) {
       this.form.investorsArea=this.region[value-1].chinese;
+     // this.userCountry=this.$i18n.locale=='zh_CN'?this.region[value-1].chinese:this.region[value - 1].eng;
       this.countrylist_fetching = false;
       // console.log(this.form)
     },
@@ -189,7 +195,6 @@ export default {
        if(this.form.investorsType==2 && this.form.investorsCompany=='')
        { this.$toast({ message:this.$t('investor.PleaseEnterTheNameOfTheInvestorCompany')});
             return
-
         }
         if(this.form.investorsArea==''){
             this.$toast(this.$t('investor.PleaseEnterInvestorRegion'));
@@ -262,13 +267,24 @@ export default {
     }
   .ant-select{
     width: 100%;
+    border: 1px solid #ababab;
     font-size: 0.38rem;
     color: #323233;
+    .ant-select-selection-selected-value{
+      height: 100%;
+      line-height: 1rem;
+    }
     .ant-select-selection__placeholder, .ant-select-search__field__placeholder{
       color:#969799;
+      height: 1rem;
+      line-height: 1rem;
+      margin-top:0;
+      top:0;
+
+      /*height: 100%;*/
     }
     .ant-select-selection{
-       padding: 0 0.2rem;
+       padding: 0 0.3rem;
       background: #f6f6f6;
       box-shadow:none;
     }
@@ -278,10 +294,13 @@ export default {
  }
  .ant-select-selection__rendered{
    margin:0;
+   height: 100%;
  }
     .ant-select-selection{
       border-radius: 0.05rem;
-              border: 1px solid #ababab;
+      border:0;
+      height: 1rem;
+
     }
   }
   .van-cell {
@@ -302,21 +321,23 @@ export default {
     -webkit-transform: translate(0, -50%);
     transform: translate(0, -50%);
   }
+  .van-dropdown-menu__item{
+    border: 1px solid #ababab;
+  }
   .van-dropdown-menu {
     height: 1rem;
-    border-radius: 0.05rem;
     box-sizing: border-box;
-    border: 1px solid #ababab;
+
     background: #f6f6f6;
   }
   .van-field__body {
     //  width: 100%;
     height: 1rem;
     line-height: 1rem;
-     border: 1px solid #ababab;
+     /*border: 1px solid #ababab;*/
     border-radius: 0.05rem;
     background: #f6f6f6;
-    padding: 0 0.2rem;
+
     box-sizing: border-box;
   }
 
@@ -328,7 +349,10 @@ export default {
   }
   .van-field__control {
     // padding: 0 0.2rem;
-    // height: 0.5rem;
+    padding: 0 0.3rem;
+    border: 1px solid #ababab;
+    height: 1rem;
+    line-height: 1rem;
   }
   .van-field__clear {
     font-size: 0.3rem;
@@ -417,13 +441,14 @@ export default {
             /*margin-bottom: 0.12rem;*/
             font-weight: 600;
           }
-            .row1::before {
-                content: "*";
-                 display: inline-block;
-                height: 100%;
-                vertical-align: middle;
-                color: #f56c6c;
-                margin-right: 0.1rem;
+
+          .isbefore::before {
+              content: "*";
+              display: inline-block;
+              height: 100%;
+              vertical-align: middle;
+              color: #f56c6c;
+              margin-right: 0.1rem;
             }
           .row2 {
             position: relative;

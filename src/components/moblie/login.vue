@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <h2>
-      <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt/>
+      <img src="../../assets/a90d2e72eba32b8386db15d5e35b895.png" alt/>
     </h2>
     <div class="main">
       <p>{{remind}}</p>
@@ -21,9 +21,8 @@
           <button @click="login">{{$t('common.LogIn')}}</button>
         </div>
       </van-form>
-
       <!-- </van-form> -->
-      <div class="registerbtn">
+      <div class="registerbtn common">
         <button @click="$routerto('register',{email:username})">{{$t('common.Register')}}</button>
       </div>
       <div class="tologin">
@@ -47,7 +46,6 @@
       if (this.$route.query.email) {
         this.username = this.$route.query.email ? this.$route.query.email : '';
       }
-
       // console.log(this.$route.query.email);
     },
     beforeRouteLeave(to, from, next) {
@@ -112,7 +110,7 @@
     .van-field__body {
       //  width: 100%;
       height: 1rem;
-      border: 0.02rem solid #dddddd;
+      border:1px solid #dddddd;
       border-radius: 0.05rem;
       background: #f6f6f6;
       padding: 0.1rem 0.3rem;
@@ -155,8 +153,8 @@
       align-items: center;
 
       img {
-        // width: 4.28rem;
-        height: 1.54rem;
+           width:5rem;
+           height:2.6rem;
       }
     }
 
@@ -189,12 +187,14 @@
       }
 
       button {
+        /*margin-bottom: 0.5rem;*/
         color: white;
-        border-radius: 0.05rem;
+        border-radius:5px;
         width: 9.8rem;
         line-height: 1rem;
         height: 1rem;
         font-size: 0.42rem;
+
       }
 
       .loginbtn button {

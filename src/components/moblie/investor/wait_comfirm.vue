@@ -25,7 +25,6 @@
   </div>
 </template>
 <script>
-import { log } from "util";
 export default {
   name: "goods_details",
   data() {
@@ -36,6 +35,9 @@ export default {
       title: "",
       signUserId3:'',
       investorsId:'',
+      investorsType:'',
+       investorsCompany:'',
+       investorsName:'',
       investor_infor: {
         investorsType: {
           name: this.$t('agent.InvestorType'),
@@ -125,6 +127,10 @@ export default {
         {}
       )
       .then(res => {
+        console.log(res)
+        this.investorsType=res.investorsType;
+        this.investorsCompany=res.investorsCompany?res.investorsCompany:'-';
+        this.investorsName=res.investorsName?res.investorsName:'-';
         this.investorsEmailSend=res.investorsEmailSend;
         this.signUserId3=res.signUserId3
         this.investorsId=res.investorsId;
@@ -147,6 +153,11 @@ export default {
   methods: {
     agree() {
         let query=Object.assign({investorsId:this.investorsId,signUserId3:this.signUserId3},this.$route.query)
+        this.$store.commit('inverstor_mutation',{
+          investorsType:this.investorsType,
+          investorsCompany:this.investorsCompany,
+          investorsName:this.investorsName,
+        })
         this.$routerto("i_perfect_infor", query);
 
     },
@@ -263,7 +274,10 @@ export default {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          align-items: center;
           button {
+            border-radius: 5px;
+            width: 8rem;
             height: 1rem;
             color: #ffffff;
           }

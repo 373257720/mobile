@@ -76,7 +76,9 @@ const global = {
     return new Promise((resolve, reject) => {
       axios.get(url, {
         params: datas
-      }).then((res) => {
+      },{ headers:{
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }}).then((res) => {
         resolve(res)
       }).catch(function (error) {
         reject(error)
@@ -84,15 +86,21 @@ const global = {
       })
     })
   },
+  // { headers: {
+  //   'Content-Type': 'application/x-www-form-urlencoded'
+  // }}
   post_encapsulation: function (url,  datas) {
     return new Promise((resolve, reject) => {
-      axios.post(url, qs.stringify(datas))
-        .then((res) => {
-          resolve(res)
-        }).catch(function (error) {
-        reject(error)
-        // console.log(error);
-      })
+        axios.post(url, qs.stringify(datas),{  headers:{
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },})
+          .then((res) => {
+            resolve(res)
+          }).catch(function (error) {
+          reject(error)
+          // console.log(error);
+        })
+
     })
 
   },
@@ -111,7 +119,10 @@ const global = {
           let investorsId = res.data.data.investorsId;
           let projectName = res.data.data.projectName;
           let signUserId3=res.data.data.signUserId3;
+          let investorsName=res.data.data.investorsName;
           let signUserId1=res.data.data.signUserId1;
+          let investorsType=res.data.data.investorsType;
+          let investorsCompany=res.data.data.investorsCompany;
           let signAgreementKey = res.data.data.signAgreementKey;
           for (let i in res.data.data) {
             if(details_lists.collectMoney.hasOwnProperty(i)){
@@ -181,6 +192,9 @@ const global = {
             investorsEmailSend:investorsEmailSend,
             signAgreement: signAgreement,
             investorsId: investorsId,
+            investorsType:investorsType,
+            investorsName:investorsName,
+            investorsCompany:investorsCompany,
             title: projectName,
             signAgreementKey: signAgreementKey,
           }

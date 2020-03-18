@@ -1,19 +1,19 @@
 <template>
   <div id="register">
     <h2>
-      <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
+      <img src="../../assets/a90d2e72eba32b8386db15d5e35b895.png" alt />
     </h2>
     <div class="main">
       <p>{{remind}}</p>
       <van-form>
       <div class="username form">
-        <van-field v-model="username" :placeholder="$t('common.Email')" clearable />
+        <van-field v-model.trim="username" :placeholder="$t('common.Email')" clearable />
       </div>
       <div class="password form">
-        <van-field type="password" v-model="password" :placeholder="$t('common.PassWord')" clearable />
+        <van-field type="password" v-model.trim="password" :placeholder="$t('common.PassWord')" clearable />
       </div>
       <div class="repeatpassword form">
-        <van-field type="password" v-model="password2" :placeholder="$t('common.ConfirmPassword')" clearable />
+        <van-field type="password" v-model.trim="password2" :placeholder="$t('common.ConfirmPassword')" clearable />
       </div>
       <div class="registerbtn form">
         <button @click="register()">{{$t('common.Register')}}</button>

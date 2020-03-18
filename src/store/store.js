@@ -16,12 +16,26 @@ export default new Vuex.Store({
       agent_title:'',
       agent_signdate:null,
     },
+    inverstor:{
+      investorsType:null,
+      investorsCompany:'',
+      investorsName:'',
+    },
     genre: [],
   },
   getters: {
 
   },
   mutations: {
+    inverstor_mutation(state, content) {
+      var arr = Object.keys(content);
+      if (arr.length > 0) {
+        state.inverstor = Object.assign({}, content);
+        // console.log(state);
+      } else if (arr.length == 0) {
+        state.inverstor = {};
+      }
+    },
     agent_signdate(state, content) {
       if (content) {
         state.contract.agent_signdate = content;

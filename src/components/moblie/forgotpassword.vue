@@ -8,7 +8,7 @@
             <p class="row1">{{$t('agent.InvestorCompany')}}:</p>
             <p class="row2">
               <van-cell-group>
-                <van-field  v-model="form.email" :placeholder="$t('ContractWrods.pleaseEnter')" />
+                <van-field  v-model="email" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
             </p>
           </li>
@@ -16,12 +16,12 @@
             <p class="row1">{{$t('agent.InvestorName')}}:</p>
             <p class="row2">
               <van-field
-                v-model="form.vertificationCode"
+                v-model="form.verificationCode"
                 center
                 :placeholder="$t('ContractWrods.pleaseEnter')"
               >
-   
-                <button v-if="!isactive"  slot="button" > 
+
+                <button v-if="!isactive"  slot="button" >
                   {{countdown?countdown:code}}
                   </button>
                 <button v-else-if="isactive" @click="sendcode" class="isactive"  slot="button" >
@@ -32,18 +32,18 @@
             </p>
           </li>
           <li class="investorsName">
-            <p class="row1">{{$t('agent.InvestorName')}}:</p>
+            <p class="row1">{{$t('common.NewPassword')}}:</p>
             <p class="row2">
               <van-cell-group>
-                <van-field v-model="form.password" :placeholder="$t('ContractWrods.pleaseEnter')" />
+                <van-field type="password"  v-model="form.newPwd" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
             </p>
           </li>
           <li class="investorsName">
-            <p class="row1">{{$t('agent.InvestorName')}}:</p>
+            <p class="row1">{{$t('common.ConfirmPassword')}}:</p>
             <p class="row2">
               <van-cell-group>
-                <van-field v-model="form.comfirmpassword" :placeholder="$t('ContractWrods.pleaseEnter')" />
+                <van-field type="password" v-model="comfirmpassword" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
             </p>
           </li>
@@ -65,56 +65,75 @@
         dad_text:  this.$t('common.forgetpassword'),
         isactive:false,
         countdown:null,
+        // verificationCodeToken:'',
         timeCounter:null,
+        watch:false,//controll watch's email，
+        email:'',
+        comfirmpassword: '',
         form: {
-          email: '',
-          vertificationCode: "",
-          password: "",
-          comfirmpassword: '',
+          verificationCodeToken:'',
+          verificationCode: "",
+          newPwd: "",
         }
       };
     },
     watch:{
-      'form.email':function (neww,oldd) {
-        if(this.timeCounter){
-            return 
+      'email':function (neww,oldd) {
+        if(this.watch){
+            return
         }
+        // console.log(neww)
         let regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
         if(regemail.test(neww)){
           this.isactive=true;
         }else{
           this.isactive=false;
-          //  this.isshow=false;
         }
       },
     },
     methods: {
       sendcode() {
-        console.log(123);
-        // this.isshow=true;
-        this.isactive=false;
-        this.countdown=5;
-        this.countDown();
-        
-      },
-      countDown() {
         const self = this;
-        if(self.countdown===0){
-                let regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
-                if(regemail.test(self.form.email)){
-                  this.isactive=true;
-                }
-                 clearTimeout(self.timeCounter)
-                  self.timeCounter = null;
-                 return
-        }else{
-          self.timeCounter = setTimeout(()=>{
-            self.countdown--;
-            this.countDown();
-          }, 1000);
-        }
+        self.isactive=false;
+        self.watch=true;
+        // self.timeCounter = setTimeout(()=>{}, 100);
+        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/sendEmail.do`,
+          {memberEmail:self.email}).then(res=>{
+              if(res.data.resultCode==10000){
+                let obj=JSON.parse(res.data.data);
+                // console.log(JSON.parse(res.data.data).verificationCodeToken)
+                this.form.verificationCodeToken=obj.verificationCodeToken
+              }
+          console.log(this.form)
+              // clearTimeout(self.timeCounter);
+              // self.timeCounter = null;
+              this.$toast(res.data.resultDesc)
+              let regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+              if(regemail.test(self.email)){
+                this.isactive=true;
+              }
+              self.watch=false;
+          })
 
       },
+      // countDown() {
+      //   const self = this;
+      //   if(self.countdown===0){
+      //           let regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+      //           if(regemail.test(self.form.email)){
+      //             this.isactive=true;
+      //           }
+      //            clearTimeout(self.timeCounter)
+      //             self.timeCounter = null;
+      //            return
+      //   }else{
+      //     self.timeCounter = setTimeout(()=>{
+      //       self.countdown--;
+      //       this.countDown();
+      //     }, 1000);
+      //   }
+      //
+      // },
       remind(meg) {
         this.$dialog
           .alert({
@@ -126,16 +145,25 @@
           });
       },
       submit() {
-        if(this.form.investorsType==2 && this.form.investorsCompany==''){
-          this.$toast({ message:this.$t('agent.PleaseEnterTheCompanyName')});
-          return
+        // if(this.form.verificationCodeToken==''){
+        //   this.$toast({ message:'请发送邮件'});
+        //   return false;
+        // }
+        if(this.form.newPwd==''){
+          this.$toast({ message:this.$t('common.PleaseFillInTheNewPassword')});
+          return false;
         }
-        if(this.form.investorsName==''){
-          this.$toast({ message:this.$t('agent.PleaseEnterInvestorName')});
-          return
-        }else if(this.form.investorsArea==''){
+        if(this.comfirmpassword==''){
+          this.$toast({ message:this.$t('common.ConfirmPassword')});
+          return false;
+        }
+        if(this.comfirmpassword!==this.form.newPwd){
+          this.$toast({ message:this.$t('common.PasswordsEnteredTwiceAreInconsistent')});
+          return false;
+        }
+        else if(this.form.verificationCode==''){
           this.$toast({ message:this.$t('agent.PleaseEnterRegion')});
-          return
+          return false;
         }
         this.commit();
       },
@@ -147,22 +175,20 @@
             // message: "确认提交"
           })
           .then(() => {
-            this.$axios({
-              method: "post",
-              url: `${this.$baseurl}/bsl_web/projectSign/submitInvestors`,
-              data: this.$qs.stringify(this.form)
-            }).then(res => {
+            this.$loading();
+            this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/forgetPwd.do`,this.form).
+            then(res => {
+              this.$toast.clear();
               if (res.data.resultCode == 10000) {
                 this.$dialog
                   .alert({
                     title: res.data.resultDesc,
-                    message: this.$t('agent.WaitingForInvestmentBankReview')
                   })
                   .then(() => {
-                    this.$routerto("mysign")
+                    this.$routerto("login")
                   });
               } else {
-                this.remind(res.data.resultDesc);
+               this.$toast(res.data.resultDesc);
               }
             });
           })
@@ -184,6 +210,9 @@
       color: #fff;
       background-color: grey;
       border: 1px solid grey;
+    }
+    .van-field__body{
+      /*border: 1px solid #ababab;*/
     }
     .van-field__button{
       button{
@@ -263,6 +292,7 @@
         font-size: 0.42rem;
         button {
           border-radius: 5px;
+
           width:8rem;
           height: 1rem;
           background: #00adef;

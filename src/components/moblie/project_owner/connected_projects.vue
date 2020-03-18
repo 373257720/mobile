@@ -73,7 +73,7 @@
             this.$toast.clear();
             this.lists=[...res.data.data];
             if(this.lists.length<=0){
-              this.reminder=this.projectOwner.NoMore;
+              this.reminder=this.common.NoMore;
               this.remind_show=true;
               return;
             }
@@ -252,6 +252,7 @@
             text-align: center;
             padding: 0.2rem 0;
             button{
+              border-radius:5px;
               height: 1rem;
               width: 8rem;
               background: #00adef;

@@ -2,7 +2,7 @@
   <div id="mhome">
     <header>
       <div>
-        <img src="../../assets/a815bb7a0d3bbf55b916045900e4d9f.png" alt />
+        <img src="../../assets/b6914fa1dc74e7b7678ac9ffb9ad647.png" alt />
       </div>
       <van-search
         v-model="searchkey"
@@ -34,12 +34,14 @@
           <van-search v-model="text" @input='search_region'  :placeholder="$t('common.PleaseEnterTheSearchKeyword')"/>
           <a-spin v-if="countrylist_fetching" size="small"/>
             <ul  v-if='!countrylist_fetching && countrylist.length>0'>
-              <li v-for="d in countrylist" :class="d.classname" :key="d.remark" :value='d.value' @click="select_country(d.remark,d.chinese,d.value)">
-                <span>{{d.chinese}}</span><span>{{d.eng}}</span>
+              <li v-for="d in countrylist" :class="d.classname" :key="d.remark" :value='d.value'
+                  @click="select_country(d.remark,d.eng,d.chinese,d.value)">
+                <span v-if="$i18n.locale=='zh_CN'">{{d.chinese}}</span>
+                <span v-else>{{d.eng}}</span>
               </li>
             </ul>
             <ul  style="max-height:200px" v-else-if="!countrylist_fetching &&  countrylist.length<1">
-              <li >{{$t('projectOwner.NoMore')}}</li>
+              <li >{{$t('common.NoMore')}}</li>
             </ul>
         </van-dropdown-item>
      </van-dropdown-menu>
@@ -52,7 +54,7 @@
           :finished="finished"
           @load="onLoad"
           :loading-text="loadText"
-           :finished-text="$t('projectOwner.NoMore')"
+           :finished-text="$t('common.NoMore')"
            :error-text="$t('common.RequestFailed')"
           :offset="300"
         >
@@ -109,6 +111,8 @@
   </div>
 </template>
 <script>
+import {i18n} from "../../language";
+
 let  timeout;
 import { log } from "util";
 export default {
@@ -183,7 +187,7 @@ export default {
       countrylist: [
           {
             chinese: this.$t('common.AllAreas'),
-            eng:'',
+            eng:this.$t('common.AllAreas'),
             value: 0,
             remark: "",
             classname:''
@@ -200,13 +204,25 @@ export default {
     this.$axios.all(axiosList).then(
       this.$axios.spread((res1, res2) => {
         if (res1) {
-          for (let i = 0; i < res1.data.data.length; i++) {
-            this.items[0].children.push({
-              text: res1.data.data[i].industryNameCh,
-              id: res1.data.data[i].industryId,
-              num:i+1,
-            });
+          console.log(this.$i18n.locale)
+          if(this.$i18n.locale=='zh_CN'){
+            for (let i = 0; i < res1.data.data.length; i++) {
+              this.items[0].children.push({
+                text: res1.data.data[i].industryNameCh,
+                id: res1.data.data[i].industryId,
+                num:i+1,
+              });
+            }
+          }else{
+            for (let i = 0; i < res1.data.data.length; i++) {
+              this.items[0].children.push({
+                text: res1.data.data[i].industryNameEn,
+                id: res1.data.data[i].industryId,
+                num:i+1,
+              });
+            }
           }
+
         }
         if (res2) {
           for (let i = 0; i < res2.data.data.length; i++) {
@@ -235,9 +251,13 @@ export default {
       this.pageNum = 1;
       this.onLoad();
     },
-    select_country(remark,chinese,idx) {
-      console.log(remark,chinese)
-      this.region_title=chinese;
+    select_country(remark,eng,chinese,idx) {
+      console.log(remark,eng,chinese)
+      if(this.$i18n.locale=='zh_CN'){
+        this.region_title=chinese;
+      }else{
+        this.region_title=eng;
+      }
       this.region_name=remark;
       this.countrylist_fetching = false;
       this.pageNum = 1;
@@ -269,7 +289,7 @@ export default {
       let arr=[];
       arr.push({
             chinese: this.$t('common.AllAreas'),
-            eng:'',
+            eng:this.$t('common.AllAreas'),
             value: 0,
             remark: "",
             classname:''
@@ -758,7 +778,7 @@ export default {
         align-items: center;
         button {
           min-width: 45%;
-          padding: 0 0.16rem;
+          padding: 0 0.2rem;
           box-sizing: border-box;
           text-align: center;
           position: absolute;

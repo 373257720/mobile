@@ -184,14 +184,17 @@ export default {
     footer {
       width: 100%;
       /*padding-bottom: 1rem;*/
+      display: flex;
+      justify-content: center;
       font-size: 0.42rem;
       button {
-        width: 100%;
         margin-top: 1rem;
         line-height: 1rem;
         background: #00adef;
         color: white;
         height: 1rem;
+        width: 8rem;
+        border-radius:5px;
       }
     }
   }

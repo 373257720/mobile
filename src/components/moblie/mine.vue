@@ -355,6 +355,7 @@ export default {
             height: 1rem;
             line-height: 1rem;
             color: #ffffff;
+            border-radius: 5px;
           }
           button:nth-of-type(1) {
             background: #00adef;

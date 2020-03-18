@@ -232,6 +232,7 @@ box-align:center;
           display: -webkit-flex;
           display: flex;
           font-size: 0.42rem;
+          align-items: center;
           -webkit-box-orient:vertical;
     -webkit-box-direction:normal;
     -moz-box-orient:vertical;
@@ -240,12 +241,14 @@ box-align:center;
     -webkit-flex-direction:column;
     -webkit-justify-content:space-between;
 justify-content:space-between;
--moz-box-pack:space-between;
+/*-moz-box-pack:space-between;*/
 -webkit--moz-box-pack:space-between;
 box-pack:space-between;
           button {
             height: 1rem;
             color: #ffffff;
+            width: 8rem;
+            border-radius:5px;
           }
           button:nth-of-type(1) {
             background: #00adef;

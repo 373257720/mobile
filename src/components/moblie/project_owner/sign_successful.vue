@@ -239,11 +239,14 @@ export default {
           height: 1.8rem;
           display: flex;
           flex-direction: column;
+          align-items: center;
           justify-content: space-between;
           p {
           }
           button {
             height: 1rem;
+            width: 8rem;
+            border-radius:5px;
             line-height: 1rem;
             color: #ffffff;
           }

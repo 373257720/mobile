@@ -66,6 +66,7 @@ import i_inverstor_infor from '@/components/moblie/investor/investor_infor'
 import i_perfect_infor from '@/components/moblie/investor/perfect_infor'
 import i_sign_failed from '@/components/moblie/investor/sign_failed'
 import i_emailto_confirm from '@/components/moblie/investor/emailto_confirm'
+import wait_confirmRoot from "@/components/moblie/investor/wait_confirmRoot";
 // moblie
 
 Vue.use(Router);
@@ -249,26 +250,28 @@ const routes = [
   name: 'i_inverstor_infor',
   component: i_inverstor_infor,
 },
-{
-  path: '/i_perfect_infor',
-  name: 'i_perfect_infor',
-  component: i_perfect_infor,
-},
+
 {
   path: '/i_sign_failed',
   name: 'i_sign_failed',
   component: i_sign_failed,
 },
-{
-  path: '/i_wait_confirm',
-  name: 'i_wait_confirm',
-  component:i_wait_confirm,
-},
+
 {
   path: '/i_emailto_confirm',
   name: 'i_emailto_confirm',
   component:i_emailto_confirm ,
 },
+  {
+    path: '/i_wait_confirm',
+    name: 'i_wait_confirm',
+    component:i_wait_confirm,
+  },
+  {
+    path: '/i_perfect_infor',
+    name: 'i_perfect_infor',
+    component: i_perfect_infor,
+  },
 
 
 

@@ -205,12 +205,15 @@ export default {
       footer {
         width: 100%;
         font-size: 0.42rem;
+        display: flex;
+        justify-content: center;
         button {
-          width: 100%;
           background: #00adef;
           line-height: 1rem;
           color: white;
           height: 1rem;
+          width: 8rem;
+          border-radius:5px;
         }
         .blockchain {
           background: orange;

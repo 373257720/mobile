@@ -31,7 +31,7 @@
           </p>
         </li>
       </ul>
-    <div v-else-if="arr.length<1" class="nodata">{{$t('projectOwner.NoMore')}}</div>
+    <div v-else-if="arr.length<1" class="nodata">{{$t('common.NoMore')}}</div>
     <mbottom></mbottom>
   </div>
 </template>

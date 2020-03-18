@@ -6,7 +6,7 @@
     </header>
     <main class="userpass2" v-if="optStatus===0">
       <h2>
-        <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
+        <img src="../../assets/a90d2e72eba32b8386db15d5e35b895.png" alt />
       </h2>
       <section>{{$t('common.YourInformationHasBeenSubmitted')}}</section>
       <nav class="backbtn"></nav>
@@ -243,8 +243,8 @@ export default {
     text-align: center;
 
     img {
-      // width: 4.28rem;
-      height: 1.54rem;
+     width: 6rem;
+      height: 3rem;
     }
     section {
       text-align: center;

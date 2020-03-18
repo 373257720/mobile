@@ -215,9 +215,9 @@ export default {
   computed: {
     already_check:function(){
       if(this.$store.state.currentUsertype || this.usertype){
-            return this.$t('projectOwner.NoMore')
+            return this.$t('common.NoMore')
       }else{
-            return this.$t('projectOwner.WaitForReview:')
+            return this.$t('common.WaitForReview')
       }
     },
 
@@ -301,6 +301,9 @@ export default {
         this.$refs.check.$el.style.height = 0;
       }, false);
     });
+  },
+  destroyed() {
+    // window.removeEventListener('resize', this.listenResize)
   },
 
 

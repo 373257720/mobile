@@ -4,7 +4,7 @@
       <header>{{$t('common.Reveiw')}}</header>
       <van-cell-group class="vanForm">
         <div class="usertype">
-          <p>{{$t('common.category')}}</p>
+          <p>{{$t('common.Category')}}</p>
           <van-dropdown-menu>
             <van-dropdown-item
               @change="function(params) {
@@ -40,8 +40,8 @@
           <div class="nationality_position">
             <a-select
               showSearch
-              :value="form.userCountryCh"
-              :placeholder="$('ContractWrods.pleaseEnter')"
+              :value="userCountry"
+              :placeholder="$t('ContractWrods.pleaseEnter')"
               :showArrow="false"
               :filterOption="false"
               :getPopupContainer="triggerNode => triggerNode.parentNode"
@@ -59,7 +59,8 @@
                 v-for="d in countrylist"
                 :key="d.remark"
                 :value="d.value + 1"
-                >{{ d.chinese }}{{ d.eng }}</a-select-option
+                >{{$i18n.locale=='zh_CN'?d.chinese:d.eng}}
+               </a-select-option
               >
             </a-select>
           </div>
@@ -75,7 +76,7 @@
         >
           <div class="idcard_num">
             <p>{{$t('common.PersonalName')}}</p>
-            <van-field v-model="form.userName"   :placeholder="$('ContractWrods.pleaseEnter')" clearable />
+            <van-field v-model="form.userName"   :placeholder="$t('ContractWrods.pleaseEnter')" clearable />
             <footer>{{ form_err.userName }}</footer>
           </div>
           <!-- this.form.userCountry=this.countrylist[value].remark; -->
@@ -83,7 +84,7 @@
             <p>{{ form.userCountry === "CHN" ? $t('common.IdentificationNumber'):$t('common.passport') }}</p>
             <van-field
               v-model="form.userIdentity"
-              :placeholder="$('ContractWrods.pleaseEnter')"
+              :placeholder="$t('ContractWrods.pleaseEnter')"
               clearable
             />
             <footer>{{ form_err.userIdentity }}</footer>
@@ -156,7 +157,7 @@
         <!--        </vantForm>-->
       </van-cell-group>
       <div class="commit">
-        <button @click="submit">提交</button>
+        <button @click="submit">{{$t('common.Submit')}}</button>
       </div>
     </div>
     <!-- <div class="usercheck2" v-if="!success">
@@ -193,6 +194,7 @@ export default {
       ],
       fileList_front: [],
       fileList_back: [],
+      userCountry:undefined,
       fileList_company: [],
       form_err: {
         userCountry: "",
@@ -216,7 +218,7 @@ export default {
         userCountry: "",
         userIdentityType: 1,
         userCountryEn: "",
-        userCountryCh: "",
+        userCountryCh: undefined,
         userIdentity: "",
         userName: "",
         identityType: "",
@@ -233,30 +235,6 @@ export default {
       createTime: "", //注册时间
       email_pic: "",
       bslEmail: ""
-      // rules: {
-      //   userType: [
-      //     {required: true, message: '请选择' ,trigger: "change" }
-      //   ],
-      //   userName :[
-      //     {required: true, message: '请选择',trigger: "blur"  }
-      //   ],
-      //   mobile: [
-      //     {
-      //       validator: (rule, value, callback) => {
-      //         if (!value) {
-      //           callback('请输入手机号码');
-      //         } else if (/^[1][0-9]{10}$/.test(value)) {
-      //           callback();
-      //         } else {
-      //           callback('请输入正确的手机号码');
-      //         }
-      //       }
-      //     }
-      //   ],
-      //   code: [
-      //     {required: true, message: '请输入验证码'}
-      //   ]
-      // },
     };
   },
   created() {
@@ -298,7 +276,6 @@ export default {
       timeout = setTimeout(this.ulHtml(val), 300);
     },
     handleChange(value) {
-      // console.log(value);
       if (this.countrylist[value - 1].remark === "CHN") {
         this.switchon = true;
         this.form.identityType = 1; //身份证
@@ -306,7 +283,7 @@ export default {
         this.switchon = false;
         this.form.identityType = 2; //护照
       }
-
+      this.userCountry=this.$i18n.locale=='zh_CN'?this.countrylist[value - 1].chinese:this.countrylist[value - 1].eng;
       this.form.userCountry = this.countrylist[value - 1].remark;
       this.form.userCountryEn = this.countrylist[value - 1].eng;
       this.form.userCountryCh = this.countrylist[value - 1].chinese;
@@ -531,7 +508,7 @@ export default {
                                 style="font-size: 0px; word-break: break-word; width: 500px; text-align: center; padding: 30px 0; ">
                                 <div>
                                   <img height="auto" alt="" width="180" height="200"
-                                       src="http://47.90.62.114:8086/bsl_web/images/bc15640a323b1c6ebee583ccccbb1db.png"
+                                       src="${this.email_pic}"
                                        style="box-sizing: border-box; border: 0px; display: inline-block; outline: none; text-decoration: none; height: auto; max-width: 100%; padding: 0px;" />
                                 </div>
                               </td>
