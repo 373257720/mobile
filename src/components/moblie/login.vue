@@ -67,15 +67,19 @@
             data: this.$qs.stringify({
               bslEmail: this.username,
               bslPwd: this.password
-            })
-          }).then(res => {
-            // console.log(res.headers['x-token'])
+            }),
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            }
+          })
+            .then(res => {
             this.$toast.clear();
             var rescode = res.data.resultCode;
             if (rescode == 10000) {
               window.sessionStorage.clear();
-              window.sessionStorage.setItem('Xoken',res.headers['x-token'])
+              // window.sessionStorage.setItem('Xoken',res.data.data.X_Token)
               this.$store.dispatch("reset_actions", this.$restore_obj);
+              this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
               this.$store.dispatch("usertype", res.data.data.userType);
               this.$store.dispatch("setUser", this.username);
               if (res.data.data.isAuth == 1) {

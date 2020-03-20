@@ -73,7 +73,7 @@
             this.$toast.clear();
             this.lists=[...res.data.data];
             if(this.lists.length<=0){
-              this.reminder=this.common.NoMore;
+              this.reminder=this.$t('common.NoMore');
               this.remind_show=true;
               return;
             }
@@ -279,7 +279,7 @@
     // margin: 0 0 1.6rem 0;
     .remind{
      text-align: center;padding-top: 1rem;color: #969799;
-      font-size: 0.42rem;
+      font-size: 0.4375rem;
 
     }
     nav {

@@ -76,10 +76,11 @@ export default {
 
   created() {
     this.$loading();
-    this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement.do?visitToken=${this.$route.query.visitToken}`
-    }).then(res => {
+    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getSignAgreement.do`,
+      {
+        visitToken:this.$route.query.visitToken,
+      })
+      .then(res => {
       this.$toast.clear();
       if(res.data.resultCode==10000){
         let str = JSON.parse(res.data.data.signAgreement);

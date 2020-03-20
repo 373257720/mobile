@@ -139,10 +139,7 @@ export default {
     this.form.investorsCompany=this.$store.state.inverstor.investorsCompany;
     let a =this.$store.state.inverstor;
     console.log(a)
-    this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/base/getAllIndustry`
-    })
+    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/getAllIndustry`,)
       .then(res => {
         if(res.data.resultCode==10000){
           this.title = res.data.data.projectName;
@@ -173,7 +170,10 @@ export default {
       this.region=[];
       let arr=[];
       this.countrylist_fetching=true;
-      this.$global.changepage(`${this.$baseurl}/bsl_web/base/countryList.do?searchKey=${val}`, "get")
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`,
+        {
+          searchKey:val,
+        })
       .then(res => {
          if(res.data.data.length>0){
             for (let i = 0; i < res.data.data.length; i++) {
@@ -227,11 +227,9 @@ export default {
       formtable.interestedIndustries = interestedIndustries;
       console.log(formtable);
       this.$loading();
-      this.$axios({
-        method: "post",
-        url: `${this.$baseurl}/bsl_web/projectSign/signProject3`,
-        data: this.$qs.stringify(formtable)
-      })
+        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/signProject3`,
+          formtable
+        )
         .then(res => {
           console.log(res);
            this.$toast.clear();
@@ -486,6 +484,7 @@ export default {
           font-size: 0.42rem;
           width: 8rem;
           height: 1rem;
+          border-radius: 5px;
           background: #00adef;
           color: white;
         }

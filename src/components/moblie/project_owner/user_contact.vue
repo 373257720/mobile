@@ -66,10 +66,9 @@ export default {
       console.log(this.searchkey);
     },
     onLoad() {
-       this.$loading();
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_web/user/getRelationUser?searchKey=${this.searchkey}`
+      this.$loading();
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getRelationUser`,{
+        searchKey:this.searchkey
       })
         .then(res => {
           if (res.status === 200) {

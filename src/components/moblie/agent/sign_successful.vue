@@ -118,15 +118,13 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${
-          this.$baseurl
-        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          details.projectId
-        }&signStatus=${details.signStatus}&signId=${
-          details.signId ? details.signId : -1
-        }`,
+        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
         "get",
-        {},
+        {
+          projectId:details.projectId,
+          signStatus:details.signStatus,
+          signId:details.signId ? details.signId : -1
+        },
         this.details_lists,
         this.nav_lists,
         this.investor_infor,
@@ -142,9 +140,8 @@ export default {
     check_contract() {
       this.$loading();
       var newWindow = window.open();
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getPdf`,{
+        signId:this.$route.query.signId,
       }).then(res => {
         this.$toast.clear();
         console.log(res);
@@ -232,11 +229,6 @@ export default {
         font-size: 0.38rem;
         text-align: center;
         aside {
-          height: 1.8rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: space-between;
           p {
           }
           button {

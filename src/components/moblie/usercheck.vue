@@ -93,6 +93,7 @@
             <p>{{ switchon == true ?  $t('common.IDCardFront') : $t('common.passport')  }}</p>
             <van-uploader
               :before-read="function(params){return asyncBeforeRead(params, 1)}"
+              @delete="(params)=> {return deletepic(params, 1)}"
               v-model="fileList_front"
               multiple
               :max-count="1"
@@ -102,6 +103,7 @@
           <div class="id_back" v-show="switchon">
             <p>{{$t('common.IDCardBack')}}</p>
             <van-uploader
+              @delete="(params)=> {return deletepic(params, 2)}"
               :before-read="function(params) {return asyncBeforeRead(params, 2)}"
               v-model="fileList_back"
               multiple
@@ -147,7 +149,8 @@
           <div class="companycheck">
             <p>{{$t('common.Certificate')}}</p>
             <van-uploader
-              :before-read="function(params) {return asyncBeforeRead(params, 3)}"
+              :before-read="(params)=>{return asyncBeforeRead(params, 3)}"
+              @delete="(params)=> {return deletepic(params, 3)}"
               v-model="fileList_company"
               multiple
               :max-count="1"
@@ -160,15 +163,7 @@
         <button @click="submit">{{$t('common.Submit')}}</button>
       </div>
     </div>
-    <!-- <div class="usercheck2" v-if="!success">
-      <h2>
-        <img src="../../assets/f2c54dee46c853237c6ac91840de782.png" alt />
-      </h2>
-      <section>你的资料已提交</section>
-      <nav class="backbtn">
-        <button @click="$goto('login')"></button>
-      </nav>
-    </div>-->
+
   </div>
 </template>
 <script>
@@ -229,12 +224,14 @@ export default {
         userAddressCh: "",
         userAddressEn: "",
         userCompanyPic: "",
-        userType: null
+        userType: null,
+        X_Token:this.$store.state.X_Token
         // identity: ""
       },
       createTime: "", //注册时间
       email_pic: "",
-      bslEmail: ""
+      bslEmail: "",
+      value:null, //change region result in uploadpic change
     };
   },
   created() {
@@ -254,6 +251,10 @@ export default {
 
     // this.validator = validator(this.rules, this.form);
   },
+  destroyed() {
+    clearTimeout(timeout);
+    timeout = null;
+  },
   watch: {
     "form.userType": {
       handler: function(val, oldVal) {
@@ -267,7 +268,23 @@ export default {
     }
   },
   methods: {
-    signer_submit() {},
+    deletepic(file,index){
+      if (index == 1) {
+        this.form.identityPicOne = '';
+      } else if (index == 2) {
+        this.form.identityPicTwo = '';
+      } else if (index == 3) {
+        this.form.userCompanyPic = '';
+      }
+    },
+    signer_submit(params, userType) {
+      this.fileList_front=[];
+      this.fileList_back=[];
+      this.fileList_company= [];
+      this.form.identityPicOne = '';
+      this.form.identityPicTwo = '';
+      this.form.userCompanyPic = '';
+    },
     search(val) {
       if (timeout) {
         clearTimeout(timeout);
@@ -276,6 +293,16 @@ export default {
       timeout = setTimeout(this.ulHtml(val), 300);
     },
     handleChange(value) {
+      if(this.value!==value){
+        this.fileList_front=[];
+        this.fileList_back=[];
+        this.fileList_company= [];
+        this.form.identityPicOne = '';
+        this.form.identityPicTwo = '';
+        this.form.userCompanyPic = '';
+        this.value=value;
+      }
+
       if (this.countrylist[value - 1].remark === "CHN") {
         this.switchon = true;
         this.form.identityType = 1; //身份证
@@ -283,6 +310,7 @@ export default {
         this.switchon = false;
         this.form.identityType = 2; //护照
       }
+
       this.userCountry=this.$i18n.locale=='zh_CN'?this.countrylist[value - 1].chinese:this.countrylist[value - 1].eng;
       this.form.userCountry = this.countrylist[value - 1].remark;
       this.form.userCountryEn = this.countrylist[value - 1].eng;
@@ -294,11 +322,10 @@ export default {
       this.countrylist = [];
       let arr = [];
       this.coutry_fetching = true;
-      this.$global
-        .changepage(
-          `${this.$baseurl}/bsl_web/base/countryList.do?searchKey=${val}`,
-          "get"
-        )
+        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`,
+          {
+            searchKey:val,
+          })
         .then(res => {
           if (res.data.data.length > 0) {
             for (let i = 0; i < res.data.data.length; i++) {
@@ -337,13 +364,13 @@ export default {
     submit() {
       if (this.form.userIdentityType == 1) {
         if (this.form.userCountry == "") {
-          this.$toast( this.$t('ContractWrods.pleaseEnter')+this.$t('common.Nationality'));
+          this.$toast( this.$t('common.PleaseNationality'));
           return;
         } else if (this.form.userName == "") {
-          this.$toast( this.$t('ContractWrods.pleaseEnter')+this.$t('common.PersonalName'));
+          this.$toast( this.$t('common.PleasePersonalName'));
           return;
         } else if (this.form.userIdentity == "") {
-          this.$toast( this.$t('ContractWrods.pleaseEnter')+this.$t('common.CertificateNumber'));
+          this.$toast( this.$t('common.PleasePerCertificateNumber'));
           return;
         }
         // else if (this.form.userCountry == "CHN") {
@@ -362,13 +389,13 @@ export default {
         // }
       } else if (this.form.userIdentityType == 2) {
         if (this.form.userCountry == "") {
-          this.$toast("请输入国籍");
+          this.$toast( this.$t('common.PleaseNationality'));
           return;
         } else if (this.form.userCompanyEn == "") {
-          this.$toast("Please input company name");
+          this.$toast("Please enter company name");
           return;
         } else if (this.form.userAddressEn == "") {
-          this.$toast("Please input company address");
+          this.$toast("Please enter company address");
           return;
         }
         // else if (this.fileList_company.length == 0) {
@@ -466,7 +493,6 @@ export default {
       console.log(this.form);
       let userIdentityType;
       let userIdentityType_name;
-
       if (this.form.userIdentityType == 1) {
         userIdentityType = this.$t('common.individual');
         userIdentityType_name = this.form.userName;
@@ -474,7 +500,6 @@ export default {
         userIdentityType =  this.$t('common.company');
         userIdentityType_name = this.form.userCompanyEn;
       }
-
 
       let signuptime = this.createTime
         ? this.$global.timestampToTime(this.createTime)
@@ -925,14 +950,8 @@ export default {
 `;
       this.form.emailData =letter;
       this.$loading();
-      this.$axios({
-        method: "post",
-        url: `${this.$baseurl}/bsl_web/user/submitAuth`,
-        data: this.$qs.stringify(this.form),
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      })
+        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/submitAuth`,this.form
+        )
         .then(res => {
           this.$toast.clear();
           if (res.data.resultCode == 10000) {
@@ -944,7 +963,7 @@ export default {
               .then(() => {
                 this.$router.replace({
                   //核心语句
-                  path: "/mhome" //跳转的路径
+                  path: "/login" //跳转的路径
                 });
               });
             // this.success = !this.success;
@@ -958,14 +977,6 @@ export default {
         })
         .catch(err => {
           this.$toast.clear();
-          // this.$dialog
-          //   .alert({
-          //     title: "网络异常",
-          //     message: "点击返回登录页"
-          //   })
-          //   .then(() => {
-          //     this.$goto("login");
-          //   });
         });
     }
   }
@@ -1207,11 +1218,12 @@ export default {
     .commit {
       padding: 0 0.8rem;
       margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
       button {
-        width: 100%;
+        width: 8rem;
         color: white;
-
-        border-radius: 0.05rem;
+        border-radius: 5px;
         margin: 0.6rem 0;
         height: 1rem;
         background: #00adef;

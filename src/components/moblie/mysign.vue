@@ -295,19 +295,26 @@ export default {
     }
   },
   mounted() {
+    this.initial();
     // this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
     this.$nextTick(() => {
-      window.addEventListener("resize",() =>{
-        this.$refs.check.$el.style.height = 0;
-      }, false);
+      window.addEventListener("resize",this.initial, false);
     });
   },
   destroyed() {
-    // window.removeEventListener('resize', this.listenResize)
+    window.removeEventListener("resize",this.initial, false);
   },
 
-
   methods: {
+    initial(){
+      this.$refs.check.$el.style.height = 0;
+      console.log(123)
+      if (window.orientation == 90 || window.orientation == -90) {
+        document.querySelector('.choose_lists').style.maxHeight=4+'rem';
+      }else{
+        document.querySelector('.choose_lists').style.maxHeight='initial';
+      }
+    },
      toggleAll() {
        console.log(this.num)
        if(this.num==1){
@@ -458,7 +465,8 @@ export default {
             projectId: this.$route.query.projectId,
             signStatusList: this.result,
             pageIndex: this.pageNum,
-            pageSize: this.loadNumUp
+            pageSize: this.loadNumUp,
+            X_Token:this.$store.state.X_Token
           },
           { arrayFormat: "brackets" }
         ),
@@ -532,7 +540,7 @@ export default {
     /*  overflow-y: scroll;*/
     /*}*/
     .choose_lists{
-      max-height: 4rem;
+      /*max-height: 4rem;*/
       overflow: hidden;
       overflow-y: auto;
     }

@@ -4,6 +4,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     currentUser: '',
+    X_Token:'',
     currentUsertype: null,
     contract: {
       article:'',
@@ -121,18 +122,17 @@ export default new Vuex.Store({
     reset_mutation(state, usertype) {
         Object.assign(state, usertype)
     },
-    // RESET_STATE(state, initState) {
-    //   if (initState) {
-    //     /**
-    //      * 注：如果目标对象与源对象有同名属性，或多个源对象有同名属性，则后面的属性会覆盖前面的属性
-    //      * Object.assign方法用来将源对象（source）的所有可枚举属性，复制到目标对象（target）。
-    //      *  */
-    //     Object.assign(state, initState);
-    //   }
-    // }
+    X_Token_mutation(state,usertype){
+      if (usertype) {
+        state.X_Token = usertype;
+      }
+    },
   },
   actions: {
       // 重置所有状态
+    X_Token_actions(context,obj) {
+      context.commit('X_Token_mutation',obj)
+    },
     reset_actions(context,obj) {
       context.commit('reset_mutation',obj)
     },

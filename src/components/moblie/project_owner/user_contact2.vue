@@ -86,10 +86,11 @@ export default {
   },
   created() {
       this.$loading();
-    this.$global
-      .changepage(
-        `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail?investorsId=${this.$route.query.investorsId}`,
-        "get"
+      this.$global.get_encapsulation(
+        `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail`,
+        {
+          investorsId: this.$route.query.investorsId,
+        }
       )
       .then(res => {
         this.$toast.clear();

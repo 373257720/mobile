@@ -107,15 +107,13 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${
-          this.$baseurl
-        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          this.details.projectId
-        }&signStatus=${this.details.signStatus}&signId=${
-          this.details.signId ? this.details.signId : -1
-        }`,
+        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
         "get",
-        {},
+        {
+          projectId:this.details.projectId,
+          signStatus:this.details.signStatus,
+          signId:this.details.signId || -1
+        },
         this.details_lists,
         this.nav_lists,
         this.investor_infor,
@@ -194,15 +192,15 @@ export default {
     }
     article {
       footer {
-        padding: 0 0.5rem 0.5rem 0.5rem;
+        /*padding: 0 0.5rem 0.5rem 0.5rem;*/
         margin-bottom: 1.5rem;
         font-size: 0.42rem;
         aside {
-          height: 2rem;
+          /*height: 2rem;*/
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: space-between;
+          /*justify-content: space-between;*/
           button {
             height: 1rem;
             color: #ffffff;

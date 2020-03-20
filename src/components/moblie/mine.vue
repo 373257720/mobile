@@ -87,6 +87,8 @@
   </div>
 </template>
 <script>
+import store from "../../store/store";
+
 export default {
   name: "mime",
   data() {
@@ -106,8 +108,7 @@ export default {
     this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getAuthDetails`).then(res=>{
       this.$toast.clear();
       if(res.data.resultCode==10000){
-            // this.user_infor=res.data.data;
-              this.user_infor={};
+           this.user_infor={};
             if(res.data.data.userType==1){
               this.user_infor.name=res.data.data.userName;
             }else if(res.data.data.userType==2){
@@ -118,51 +119,6 @@ export default {
     })
   },
   methods: {
-
-    // confirm_passowrd(num){
-    //   this.reminder='';
-    //     if(num==2){
-    //       this.correct_password = false;
-    //       this.password1='';
-    //       this.password2='';
-    //     }else if(num==1){
-    //         if(this.password1 && this.password2 ){
-    //           if(this.password1 ===this.password2){
-    //             this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/updatePwd`,{newPwd:this.password1}).then(
-    //               res=> {
-    //                 this.reminder=res.data.resultDesc;
-    //                 if(res.data.resultCode==10000){
-    //                   setTimeout( () =>{
-    //                     this.password1='';
-    //                     this.password2='';
-    //                     this.correct_password=false;
-    //                   },1000)
-    //                 }
-    //               }
-    //             )}
-    //             else {
-    //             this.reminder= this.$t('common.PasswordsEnteredTwiceAreInconsistent');
-    //           }
-    //           }else{
-    //           this.reminder=this.$t('common.PleaseFillInTheNewPassword');
-    //         }
-    //     }
-    //
-    // },
-    // beforeClose(action, done) {
-    //   if (action === "confirm") {
-    //     setTimeout(done, 1000);
-    //   } else {
-    //     done();
-    //   }
-    // },
-    // onChange(event) {
-    //   console.log(event);
-
-    //   // this.setData({
-    //   // radio: event.detail
-    //   // });
-    // },
     correct_password_function(){
       this.correct_password = true;
     },
@@ -202,15 +158,28 @@ export default {
     },
     changelanguage(action, done) {
       if (action === "confirm") {
-        this.$i18n.locale=this.radio;
-        this.$Local(this.radio);
-        window.localStorage.setItem("language",this.radio)
-        this.$axios({
-          method: "post",
-          url: `${this.$baseurl}/bsl_web/base/language.do?lan=${this.radio}`
-        }).then(res => {
-          // console.log(res);
-          done();
+        // let form;
+        // if(this.$store.state.X_Token){
+        //   form =  {
+        //    lan:this.radio,
+        //     X_Token:this.$store.state.X_Token
+        //   }
+        // }else{
+        //   form =  {
+        //     lan:this.radio,
+        //   }
+        // }
+        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`,{lan:this.radio})
+          .then(res => {
+         if(res.data.resultCode==10000){
+           this.$i18n.locale=this.radio;
+           this.$Local(this.radio);
+           window.localStorage.setItem("language",this.radio);
+
+         }
+            this.$toast(res.data.resultDesc)
+            done();
+
         });
       } else if (action === "cancel") {
         done(); //关闭
@@ -223,16 +192,14 @@ export default {
       // console.log(this.$dialog);
       this.logout = !this.logout;
       if (num == 1) {
-        this.$global
-          .changepage(`${this.$baseurl}/bsl_web/user/logOut`, "get")
-          .then(res => {
-            console.log(res);
-            if (res.data.resultCode == 10000) {
-               this.$store.dispatch("reset_actions",this.$restore_obj)
-               sessionStorage.clear()
-              this.$goto("login");
-            }
-          });
+        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/logOut`).then(res => {
+          console.log(res);
+          if (res.data.resultCode == 10000) {
+            this.$store.dispatch("reset_actions",this.$restore_obj)
+            sessionStorage.clear()
+            this.$goto("login");
+          }
+        });
       } else if (num == 2) {
         this.logout = false;
       }

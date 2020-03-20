@@ -114,13 +114,13 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${
-          this.$baseurl
-        }/bsl_web/project/getProjectDetails.do?projectLan=zh_CN&signId=${
-          details.signId ? details.signId : -1
-        }`,
+        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
         "get",
-        {},
+        {
+          projectId:details.projectId,
+          signStatus:details.signStatus,
+          signId:details.signId ? details.signId : -1
+        },
         this.details_lists,
         this.nav_lists,
         this.investor_infor,
@@ -168,10 +168,10 @@ export default {
           // message: "弹窗内容"
         })
         .then(() => {
-          this.$axios({
-            method: "get",
-            url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.investorsEmailSend}`
-          }).then(res => {
+          this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/rejectProject.do`,
+            {signId:this.$route.query.signId,
+              investorsEmailSend:this.investorsEmailSend})
+            .then(res => {
             if (res.data.resultCode == 10000) {
               let query1 = Object.assign({},this.$route.query,{signStatus: 11})
             this.$router.push({query:query1})

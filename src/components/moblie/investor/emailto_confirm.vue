@@ -88,13 +88,13 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${
-          this.$baseurl
-        }/bsl_web/project/getProjectDetails.do?projectLan=${details.projectLan}&signId=${
-          details.signId ? details.signId : -1
-        }`,
+        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
         "get",
-        {},
+        {
+          projectId:details.projectId,
+          signStatus:details.signStatus,
+          signId:details || -1
+        },
         this.details_lists,
         this.nav_lists,
         this.investor_infor,
@@ -140,9 +140,9 @@ export default {
           // message: "弹窗内容"
         })
         .then(() => {
-          this.$axios({
-            method: "get",
-            url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.investorsEmailSend}`
+          this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/rejectProject.do`,{
+            signId:this.$route.query.signId,
+            investorsEmailSend:this.investorsEmailSend,
           }).then(res => {
             if (res.data.resultCode == 10000) {
               this.$dialog

@@ -139,15 +139,13 @@ export default {
     this.agent_beforesend();
     this.$global
       .goods_deatails(
-        `${
-          this.$baseurl
-        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          details.projectId
-        }&signStatus=${details.signStatus}&signId=${
-          details.signId ? details.signId : -1
-        }`,
+        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
         "get",
-        {},
+        {
+          projectId:details.projectId,
+          signStatus:details.signStatus,
+          signId:details || -1
+        },
         this.details_lists,
         this.nav_lists,
         this.investor_infor,
@@ -184,10 +182,10 @@ export default {
     },
     // 中间人发送邮件前专用
     agent_beforesend() {
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_web/project/getDetails?signId=${this.$route.query.signId}`
-      }).then(res => {
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getPdf`,{
+        signId:this.$route.query.signId
+      })
+        .then(res => {
           if (res.data.resultCode == 10000) {
             this.investorsId = res.data.data.investorsId;
             // this.picUrl=res.data.data.investorsId.picUrl;
@@ -652,17 +650,15 @@ export default {
 </div>`;
     var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
     if(reg.test(this.emailadress)) {
-        this.$loading();
-        this.$axios({
-        method: "post",
-        url: `${this.$baseurl}/bsl_web/projectSign/sendProject4`,
-        data: this.$qs.stringify({
+      this.$loading();
+      this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/sendProject4`,
+        {
           signId: this.$route.query.signId,
           memberEmail: this.emailadress,
           investorsId: this.investorsId,
           emailData:letter
         })
-      }).then(res => {
+          .then(res => {
         this.$toast.clear();
          this.show2 = false;
         if (res.data.resultCode == 10000) {

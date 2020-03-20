@@ -108,15 +108,13 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${
-          this.$baseurl
-        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          details.projectId
-        }&signStatus=${details.signStatus}&signId=${
-          details.signId ? details.signId : -1
-        }`,
+        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
         "get",
-        {},
+        {
+          projectId:details.projectId,
+          signStatus:details.signStatus,
+          signId:details.signId || -1
+        },
         this.details_lists,
         this.nav_lists,
         {},

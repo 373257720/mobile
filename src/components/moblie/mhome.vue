@@ -198,8 +198,8 @@ export default {
   created() {
     this.usertype = this.$store.state.currentUsertype;
     let axiosList = [
-      this.$axios.get(`${this.$baseurl}/bsl_web/base/getAllIndustry`),
-      this.$axios.get(`${this.$baseurl}/bsl_web/base/countryList.do`)
+      this.$axios.get(`${this.$baseurl}/bsl_web/base/getAllIndustry?X_Token=${this.$store.state.X_Token}`),
+      this.$axios.get(`${this.$baseurl}/bsl_web/base/countryList.do?X_Token=${this.$store.state.X_Token}`)
     ];
     this.$axios.all(axiosList).then(
       this.$axios.spread((res1, res2) => {
@@ -295,7 +295,8 @@ export default {
             classname:''
           })
       this.countrylist_fetching=true;
-      this.$global.changepage(`${this.$baseurl}/bsl_web/base/countryList.do?searchKey=${val}`, "get")
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`,
+        {searchKey:val})
       .then(res => {
          if(res.data.data.length>0){
             for (let i = 0; i < res.data.data.length; i++) {
@@ -435,20 +436,13 @@ export default {
           this.upGoodsInfo= [];
           this.refreshing = false;
       }
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_web/project/getAllProject?`,
-        params: {
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/project/getAllProject`,
+        {
           searchKey: this.searchkey,
           pageIndex: this.pageNum,
           pageSize: this.loadNumUp,
           bslAreaCode: this.region_name,
-          industryId: this.activeIds
-        },
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      })
+          industryId: this.activeIds})
         .then(res => {
           if (res.status === 200) {
             let re = res.data.data.lists;

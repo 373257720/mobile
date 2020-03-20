@@ -120,22 +120,20 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${
-          this.$baseurl
-        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          this.details.projectId
-        }&signStatus=${this.details.signStatus}&signId=${
-          this.details.signId ? this.details.signId : -1
-        }`,
+        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
         "get",
-        {},
+        {
+          projectId:this.details.projectId,
+          signStatus:this.details.signStatus,
+          signId:this.details.signId || -1
+        },
         this.details_lists,
         this.nav_lists,
         this.investor_infor,
         {}
       )
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.title = res.title;
         this.$toast.clear();
       });
@@ -144,10 +142,10 @@ export default {
     check_contract() {
       this.$loading();
       var newWindow = window.open();
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
-      }).then(res => {
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getPdf`,{
+        signId:this.$route.query.signId,
+      })
+        .then(res => {
         this.$toast.clear();
         console.log(res);
         if (res.data.resultCode == 10000) {
@@ -235,11 +233,11 @@ export default {
         font-size: 0.38rem;
         text-align: center;
         aside {
-          height: 1.8rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: space-between;
+          /*height: 1.8rem;*/
+          /*display: flex;*/
+          /*flex-direction: column;*/
+          /*align-items: center;*/
+          /*justify-content: space-between;*/
           p {
           }
           button {

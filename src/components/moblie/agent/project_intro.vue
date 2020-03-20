@@ -96,13 +96,13 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          this.details.projectId
-        }&signStatus=${this.details.signStatus}&signId=${
-          this.details.signId ? this.details.signId : -1
-        }`,
+        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
         "get",
-        {},
+        {
+          projectId:this.details .projectId,
+          signStatus:this.details .signStatus,
+          signId:this.details .signId ? this.details.signId : -1
+        },
         this.details_lists,
         this.nav_lists,
         {},
@@ -135,13 +135,16 @@ export default {
     confirm_alert() {
       let that=this;
        this.$loading();
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/interested`,{projectId:this.$route.query.projectId}).then(res=>{
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/interested`,
+        {
+          projectId:this.$route.query.projectId,
+        }).then(res=>{
          this.$toast.clear();
         if(res.data.resultCode==10000){
             this.$dialog
               .alert({
                 title: this.$t('agent.YouHaveSubmittedYourApplication'),
-                message:this.$t('common.AfterTheApplicationIsProcessed'),
+                message:this.$t('agent.AfterTheApplicationIsProcessed'),
               })
               .then(() => {
                   this.$routerto("mysign")

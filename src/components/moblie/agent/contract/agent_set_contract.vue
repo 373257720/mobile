@@ -30,10 +30,10 @@
       },
       get_contract(){
         this.$loading();
-        this.$axios({
-          method: "get",
-          url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.$route.query.signId}`
-        }).then(res => {
+        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getSignAgreement`,{
+          signId:this.$route.query.signId,X_Token:this.$store.state.X_Token,
+        })
+          .then(res => {
           this.$toast.clear();
           if(res.data.resultCode==10000){
             let str = JSON.parse(res.data.data.signAgreement);

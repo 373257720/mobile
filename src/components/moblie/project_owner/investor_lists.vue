@@ -39,7 +39,8 @@ export default {
     return {
       dad_text: this.$t('projectOwner.InvestorInformation'),
       form: {
-        investorsIdList: []
+        investorsIdList: [],
+        X_Token:this.$store.state.X_Token
       },
       // investorsId:'',
       details_lists: [
@@ -80,8 +81,10 @@ export default {
     this.$axios({
       method: "post",
       url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
-      data: this.$qs.stringify(this.form, { arrayFormat: "brackets" })
-    }).then(res => {
+      data: this.$qs.stringify(this.form, { arrayFormat: "brackets" }),
+
+    })
+      .then(res => {
        this.$toast.clear();
       if(res.data.resultCode==10000){
       this.totallists = res.data.data;

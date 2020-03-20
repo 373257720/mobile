@@ -67,15 +67,15 @@ export default {
       };
 
       this.$loading();
-      this.$axios({
-        method: "post",
-        url: `${this.$baseurl}/bsl_web/projectSign/signProject4`,
-        data: this.$qs.stringify({
-          signId: this.signId,
-          projectId:this.projectId,
-          signAgreement: JSON.stringify(this.contract),
-        })
-      }).then(res => {
+        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/signProject4`,
+          {
+            signId: this.signId,
+            projectId:this.projectId,
+            signAgreement: JSON.stringify(this.contract),
+            X_Token:this.$store.state.X_Token,
+          }
+        )
+        .then(res => {
         this.$toast.clear();
         if (res.data.resultCode == 10000) {
           // this.signId = res.data.data.signId;

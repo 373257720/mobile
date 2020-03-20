@@ -106,10 +106,7 @@ export default {
   },
   created() {
     this.$loading();
-    this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/user/getAuthDetails`
-    })
+    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getAuthDetails`)
       .then(res => {
         this.$toast.clear();
         console.log(res.data.data);

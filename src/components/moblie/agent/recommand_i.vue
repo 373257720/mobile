@@ -27,19 +27,8 @@
                 :filterOption="false"
                 @change="handleChange"
                 @search='search'
-                :notFoundContent="null"
+                :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
               >
-<!--              <a-select-->
-<!--                :placeholder="$t('ContractWrods.pleaseEnter')"-->
-<!--                :value="form.investorsArea"-->
-<!--                :showArrow="false"-->
-<!--                :defaultActiveFirstOption="false"-->
-<!--                :getPopupContainer="triggerNode => triggerNode.parentNode"-->
-<!--                :filterOption="false"-->
-<!--                @change="handleChange"-->
-<!--                @search='search'-->
-<!--                :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"-->
-<!--              >-->
                 <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
                 <a-select-option :title='d.chinese' v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
               </a-select>
@@ -101,6 +90,7 @@ export default {
         signId:'',
         signStatus:'',
         signUserId1:'',
+
         // areaCode: ""
         // identity: ""
       }
@@ -140,7 +130,11 @@ export default {
       this.region=[];
       let arr=[];
       this.countrylist_fetching=true;
-      this.$global.changepage(`${this.$baseurl}/bsl_web/base/countryList.do?searchKey=${val}`, "get")
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`,
+        {
+          searchKey:val,
+        }
+      )
       .then(res => {
          if(res.data.data.length>0){
             for (let i = 0; i < res.data.data.length; i++) {
@@ -196,11 +190,8 @@ export default {
           // message: "确认提交"
         })
         .then(() => {
-          this.$axios({
-            method: "post",
-            url: `${this.$baseurl}/bsl_web/projectSign/submitInvestors`,
-            data: this.$qs.stringify(this.form)
-          }).then(res => {
+           this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/submitInvestors`,this.form)
+            .then(res => {
             if (res.data.resultCode == 10000) {
               this.$dialog
                 .alert({
@@ -236,7 +227,7 @@ export default {
       color:#969799;
     }
     .ant-select-selection{
-       padding: 0 0.5rem;
+       padding: 0 0.3rem;
       background: #f6f6f6;
       box-shadow:none;
     }
@@ -265,7 +256,7 @@ export default {
     font-size: 0.38rem;
     width: 100%;
     // height: 100%  ;
-    padding: 0 0.5rem;
+    padding: 0 0.3rem;
     box-sizing: border-box;
   }
   .van-field__control{
@@ -307,7 +298,7 @@ export default {
     // border: 0.02rem solid #ababab;
     border-radius: 0.05rem;
     background: #f6f6f6;
-    padding: 0 0.5rem;
+    padding: 0 0.3rem;
     box-sizing: border-box;
     height: 100%;
   }

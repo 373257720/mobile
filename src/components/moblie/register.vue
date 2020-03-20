@@ -60,7 +60,8 @@ export default {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
           }
-        }).then(res => {
+        })
+          .then(res => {
           var rescode = res.data.resultCode;
           console.log(res);
           this.$toast.clear();
@@ -142,8 +143,8 @@ export default {
     align-items: center;
 
     img {
-      // width: 4.28rem;
-      height: 1.54rem;
+      width: 5rem;
+      height: 2.6rem;
     }
   }
   .main {
@@ -176,7 +177,7 @@ export default {
       color: white;
       // width: 100%;
       // font-size: 0.1rem;
-      border-radius: 0.05rem;
+      border-radius: 5px;
       width: 9.8rem;
       line-height: 1rem;
       height: 1rem;

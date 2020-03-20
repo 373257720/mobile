@@ -98,16 +98,15 @@ export default {
     let details = this.$route.query;
     this.$loading();
     this.$global
+    this.$global
       .goods_deatails(
-        `${
-          this.$baseurl
-        }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-          details.projectId
-        }&signStatus=${details.signStatus}&signId=${
-          details.signId ? details.signId : -1
-        }`,
+        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
         "get",
-        {},
+        {
+          projectId:details.projectId,
+          signStatus:details.signStatus,
+          signId:details.signId || -1
+        },
         this.details_lists,
         this.nav_lists,
         this.investor_infor,
@@ -121,54 +120,7 @@ export default {
   },
   mounted() {},
   methods: {
-    agree() {
-      let isyes = this.$store.state.currentUser;
-      console.log(isyes);
-      if (isyes) {
-        this.$routerto("i_perfect_infor", this.$route.query);
-      } else {
-        this.$dialog
-          .confirm({
-            title: "请登录后操作"
-            // message: "弹窗内容"
-          })
-          .then(() => {
-            // on confirm
-            this.$routerto("login", { email: this.investorsEmailSend });
-          });
-        // .catch(() => {
-        //   // on cancel
-        // });
-      }
-    },
 
-    refuse() {
-      this.$dialog
-        .confirm({
-          title: "是否拒绝"
-          // message: "弹窗内容"
-        })
-        .then(() => {
-          this.$axios({
-            method: "get",
-            url: `${this.$baseurl}/bsl_web/projectSign/rejectProject.do?signId=${this.$route.query.signId}&investorsEmailSend=${this.investorsEmailSend}`
-          }).then(res => {
-            console.log(res.data);
-            if ((res.data.resultCode = 10000)) {
-              this.$dialog
-                .alert({
-                  title: "拒绝成功"
-                })
-                .then(() => {
-                  this.$routerto("login");
-                });
-            }
-          });
-        })
-        .catch(() => {
-          // on cancel
-        });
-    }
   }
 };
 </script>

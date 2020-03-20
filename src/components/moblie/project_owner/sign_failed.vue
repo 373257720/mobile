@@ -104,15 +104,13 @@
       this.$loading();
       this.$global
         .goods_deatails(
-          `${
-            this.$baseurl
-          }/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${
-            details.projectId
-          }&signStatus=${details.signStatus}&signId=${
-            details.signId ? details.signId : -1
-          }`,
+          `${this.$baseurl}/bsl_web/project/getProjectDetails`,
           "get",
-          {},
+          {
+            projectId:details.projectId,
+            signStatus:details.signStatus,
+            signId:details.signId || -1
+          },
           this.details_lists,
           this.nav_lists,
           this.investor_infor,
@@ -134,26 +132,14 @@
         // tempwindow.location=hash_id;
       },
       // 点击事件
-      share(val) {
-        console.log(val);
-        this.message = val;
-        this.$copyText(this.message).then(
-          e => {
-            this.show = true;
-          },
-          function(e) {
-            // alert("Can not copy");
-            console.log(e);
-          }
-        );
-      },
       check_contract() {
         this.$loading();
         var newWindow = window.open();
-        this.$axios({
-          method: "get",
-          url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
-        }).then(res => {
+        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getPdf`,
+          {
+            signId:this.$route.query.signId,
+          })
+          .then(res => {
           this.$toast.clear();
           console.log(res);
           if (res.data.resultCode == 10000) {

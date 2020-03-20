@@ -109,10 +109,6 @@ axios.defaults.withCredentials = true;
 // const exceptUrls = [ '/bsl_web/base/sendEmail.do','/bsl_web/user/forgetPwd.do'];
 axios.interceptors.request.use(function (config) {
   　　// 在发送请求之前做些什么
-  if(window.sessionStorage.getItem('Xoken')){
-    // console.log(123)
-    config.headers['X-Token'] = window.sessionStorage.getItem('Xoken')
-  }
   return config;
   }, function (error) {
   　　// 对请求错误做些什么
@@ -224,7 +220,6 @@ Vue.component('commoninvestors', commoninvestors)
 import contract from './components/moblie/contract'
 Vue.component('contractcomponent', contract)
 // Vue.component('Vue-ueditor-wrap ',VueUeditorWrap )
-// Vue.prototype.$axios = axios;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

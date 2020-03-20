@@ -148,14 +148,14 @@ export default {
           name: this.$t('agent.InvestorRegion'),
           response: ""
         },
-        investorsMobile: {
-          name: this.$t('agent.InvestorPhone'),
-          response: ""
-        },
-        investorsEmail: {
-          name: this.$t('agent.InvestorMailbox'),
-          response: ""
-        }
+        // investorsMobile: {
+        //   name: this.$t('agent.InvestorPhone'),
+        //   response: ""
+        // },
+        // investorsEmail: {
+        //   name: this.$t('agent.InvestorMailbox'),
+        //   response: ""
+        // }
       },
     };
   },
@@ -179,7 +179,20 @@ export default {
       this.dad_text=this.$t('common.PendingItems');
     }
     this.$loading();
-    this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${this.projectId}&signStatus=${this.signStatus}&signId=${this.signId}`,'get',{},this.details_lists,this.nav_lists,this.investor_infor,this.middlemen).then(res=>{
+    this.$global
+      .goods_deatails(
+        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        "get",
+        {
+          projectId:this.projectId,
+          signStatus:this.signStatus,
+          signId:this.signId || -1
+        },
+        this.details_lists,
+        this.nav_lists,
+        this.investor_infor,
+        this.middlemen
+      ).then(res=>{
     this.title=res.title;
     this.$toast.clear();
     if(res.projectLifeCycle==-1){
@@ -206,7 +219,11 @@ export default {
         .then(() => {
           // on confirm
         this.$loading();
-       this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInvestorsData`,{signId:this.signId,signStatus:num}).then(res=>{
+       this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInvestorsData`,
+         {signId:this.signId,
+           signStatus:num,
+         })
+         .then(res=>{
           this.$toast.clear();
           if (res.data.resultCode == 10000) {
             let query1=Object.assign({},this.$route.query,{signStatus:num})

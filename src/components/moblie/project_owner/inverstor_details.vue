@@ -69,30 +69,13 @@ export default {
       ],
     };
   },
-  //  created() {
-  //   this.$loading();
-  //   this.$axios({
-  //     method: "post",
-  //     url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail?investorsId=${this.$route.query.investorsId}`
-  //   }).then(res => {
-  //     for (var i in res.data.data) {
-  //       for (var j = 0; j < this.details_lists.length; j++) {
-  //         if (this.details_lists[j].keyword == i) {
-  //           this.details_lists[j].response = res.data.data[i];
-  //         }
-  //       }
-  //     }
-  //      this.$toast.clear();
-  //   });
-
-  // },
   created() {
     this.$loading();
     console.log(this.$route.query);
-    this.$axios({
-      method: "get",
-      url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail?investorsId=${this.$route.query.investorsId}`
-    }).then(res => {
+
+    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail`,
+      {investorsId:this.$route.query.investorsId})
+      .then(res => {
       console.log(res);
       this.$route.query.signId = res.data.data.signId;
       for (var i in res.data.data) {
@@ -120,21 +103,7 @@ export default {
     });
   },
   methods:{
-    //  check_contract() {
-    //   this.$loading();
-    //   var newWindow = window.open();
-    //   this.$axios({
-    //     method: "get",
-    //     url: `${this.$baseurl}/bsl_web/projectSign/getPdf?signId=${this.$route.query.signId}`
-    //   }).then(res => {
-    //     this.$toast.clear();
-    //     console.log(res);
-    //     if (res.data.resultCode == 10000) {
-    //       // window.open();
-    //       newWindow.location.href = res.data.data.pdfPath;
-    //     }
-    //   });
-    // },
+
   }
 };
 </script>

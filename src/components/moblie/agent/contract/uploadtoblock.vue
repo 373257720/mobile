@@ -57,10 +57,15 @@
         }
   },
     created() {
-      // this.projectId = this.$route.query.projectId;
+      this.projectId = this.$route.query.projectId;
       this.signStatu=this.$route.query.signStatus;
       this.signId=this.$route.query.signId?this.$route.query.signId:-1;
-        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getVisitToken?signId=${this.signId}&signStatus=${this.signStatu}`).then(res=>{
+        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getVisitToken`,
+        {
+        signId:this.signId,
+        signStatus:this.signStatu,
+          X_Token:this.$store.state.X_Token,
+        }).then(res=>{
           if(res.data.resultCode==10000){
             this.token=res.data.data.visitToken;
           }
@@ -71,7 +76,14 @@
     },
     methods: {
       get_datails(){
-          this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/project/getProjectDetails`,{projectLan:"zh_CN",projectId:this.projectId,signStatus:this.signStatu,signId:this.signId}).then(res=>{
+          this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/project/getProjectDetails`,
+            {projectLan:this.$i18n.locale,
+              projectId:this.projectId,
+              signStatus:this.signStatu,
+              signId:this.signId,
+              X_Token:this.$store.state.X_Token,
+            })
+            .then(res=>{
                 if(res.data.resultCode==10000){
                   console.log(res.data.data);
                       this.projectId=res.data.data.projectId;
@@ -81,10 +93,10 @@
       },
     get_contract(){
         this.$loading();
-        this.$axios({
-          method: "get",
-          url: `${this.$baseurl}/bsl_web/projectSign/getSignAgreement?signId=${this.signId}`
-        }).then(res => {
+        this.$global.get_encapsulation( `${this.$baseurl}/bsl_web/projectSign/getSignAgreement`,{
+          signId:this.signId, X_Token:this.$store.state.X_Token,
+        })
+        .then(res => {
           this.$toast.clear();
           if(res.data.resultCode==10000){
             this.signStatu=res.data.data.signStatus;
@@ -110,9 +122,13 @@
           overlay:true,
           duration: 0
         });
-        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/ipfs/update`,{signId: `${this.signId}`,
+        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/ipfs/update`,{
+          signId: `${this.signId}`,
+          X_Token:this.$store.state.X_Token,
+          projectId:this.projectId,
+          signUserId1:this.signUserId1,
             htmlData:`<html lang="en">
-<head>
+   <head>
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -261,9 +277,7 @@
   </div>
 </div>
 </body>
-</html>`,
-            projectId:this.projectId,
-            signUserId1:this.signUserId1})
+</html>`})
           .then(res => {
             // urlPath: `${upload_urlpath}`,
             this.$toast.clear();
@@ -338,7 +352,7 @@
   #a_uploadtoblock {
     width: 100%;
       height: 100%;
-    padding: 1.5rem 0 1.3rem 0;
+    padding: 1.5rem 0 0 0;
 
     nav.a_uploadtoblock {
       width: 100%;

@@ -95,12 +95,15 @@ export default {
     // projectId=1576493020&signStatus=0&signId=0
     this.$loading();
     if(details.signStatus && details.signId){
-      this.$global.goods_deatails(`${this.$baseurl}/bsl_web/project/getProjectDetails?projectLan=zh_CN&projectId=${details.projectId
-      }&signStatus=${details.signStatus}&signId=${
-            details.signId ? details.signId : -1
-          }`,
+      this.$global
+        .goods_deatails(
+          `${this.$baseurl}/bsl_web/project/getProjectDetails`,
           "get",
-          {},
+          {
+            projectId:details.projectId,
+            signStatus:details.signStatus,
+            signId:details || -1
+          },
           this.details_lists,
           this.nav_lists,
           {},
@@ -113,7 +116,11 @@ export default {
           this.$toast.clear();
         });
     }else{
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/connected/getConnectedDetails?projectId=${details.projectId}`).then(
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/connected/getConnectedDetails`,
+      {
+        projectId:details.projectId,
+      }
+     ).then(
         res=>{
           let res_obj=res.data.data[0];
           this.title=res_obj.projectName;

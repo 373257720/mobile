@@ -3,6 +3,7 @@ import Vue from 'vue'
 import router from '../../router';
 import  {i18n}  from '../../language'
 import qs from 'qs'
+import store from "../../store/store";
 
 const global = {
   stamptodate: function (stamp) {
@@ -28,22 +29,6 @@ const global = {
     var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
     var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
     return Y + M + D + h + m + s;
-  },
-  changepage: function (url, methods, datas) {
-    return new Promise((resolve, reject) => {
-      axios({
-        url: url,
-        method: methods,
-        data: datas
-      }).then((res) => {
-        resolve(res)
-        // console.log(resolve);
-
-      }).catch(function (error) {
-        reject(error)
-        // console.log(error);
-      })
-    })
   },
   pic_obj: {
     '1': i18n.t('common.Pending'),
@@ -73,6 +58,12 @@ const global = {
     '2': i18n.t('common.company'),
   },
   get_encapsulation: function (url,  datas) {
+    if(Object.prototype.toString.call(datas) !== '[object Object]'){
+        datas={};
+    }
+    if(store.state.X_Token){
+      datas.X_Token=store.state.X_Token;
+    }
     return new Promise((resolve, reject) => {
       axios.get(url, {
         params: datas
@@ -86,10 +77,13 @@ const global = {
       })
     })
   },
-  // { headers: {
-  //   'Content-Type': 'application/x-www-form-urlencoded'
-  // }}
   post_encapsulation: function (url,  datas) {
+    if(Object.prototype.toString.call(datas) !== '[object Object]'){
+      datas={};
+    }
+    if(store.state.X_Token){
+      datas.X_Token=store.state.X_Token;
+    }
     return new Promise((resolve, reject) => {
         axios.post(url, qs.stringify(datas),{  headers:{
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -105,6 +99,9 @@ const global = {
 
   },
   goods_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor,middlemen) {
+    datas.projectLan=i18n.locale;
+    datas.X_Token=store.state.X_Token;
+    console.log(datas)
     return new Promise((resolve, reject) => {
       axios({
           url: url,

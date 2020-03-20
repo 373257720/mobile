@@ -71,10 +71,11 @@ export default {
   },
   created() {
     this.$loading();
-    this.$axios({
-      method: "post",
-      url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail?investorsId=${this.$route.query.investorsId}`
-    }).then(res => {
+      this.$global.get_encapsulation( `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail`,
+        {
+          investorsId:this.$route.query.investorsId,
+        })
+      .then(res => {
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
