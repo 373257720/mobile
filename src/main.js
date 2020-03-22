@@ -35,6 +35,13 @@ import 'ant-design-vue/lib/spin/style/css';
 Vue.use(Spin);
 import "./css/base.css"
 
+import VueQuillEditor from 'vue-quill-editor'
+// require styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+Vue.use(VueQuillEditor, /* { default global options } */)
+
 // import Vconsole from 'vconsole'
 // let vConsole = new Vconsole()
 // Vue.use(vConsole);
@@ -151,18 +158,6 @@ axios.interceptors.response.use(res => {
 )
 
 
-Vue.prototype.$goto = function goto(name, id) {
-  let obj = {
-    name
-  };
-  if (id) {
-    obj.params = {
-      idx: id
-    };
-  }
-  this.$router.push(obj);
-}
-
 Vue.prototype.$routerto = function routerTo(name, obj) {
   this.$router.push({
     name: name,
@@ -186,11 +181,11 @@ Vue.prototype.$loadingfail = function loadingfail() {
   });
 };
 var baseurl = {
-   api: "http://192.168.1.37:8085",
+  //  api: "http://192.168.1.37:8085",
   // api3:'www.aaa.com',
   api2:'http://47.90.62.114:8081',
   api3: 'http://47.90.62.114:8083',//(前段服务器端口)
-  // api: "http://47.90.62.114:8086",//(后台正式服务器端口)
+  api: "http://47.90.62.114:8086",//(后台正式服务器端口)
 }
 Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl2 = baseurl.api2;

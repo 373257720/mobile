@@ -1,166 +1,160 @@
-<!--<!doctype html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <meta name="viewport"-->
-<!--        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
-<!--  <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
-<!--  <title>Document</title>-->
-<!--  <style>-->
-<!--    html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img,input{ margin:0; padding:0; }-->
-<!--    fieldset, img,input,button { border:0 none; padding:0;margin:0;outline-style:none; }   /*去掉input等聚焦时的蓝色边框*/-->
-<!--    ul,li,ol{ list-style:none; }-->
-<!--    #contract_component {-->
-<!--      width: 595px;-->
-<!--      height: 100%;-->
-<!--      margin: 0 auto;-->
-<!--      /*595×842*/-->
-<!--    }-->
-<!--    #contract_component .contract_component {-->
-<!--      border: 1px solid #b5b5b5;-->
-<!--      box-sizing: border-box;-->
-<!--      font-size: 12px;-->
-<!--      line-height: 20px;-->
-<!--      /*background: #f6f6f6;*/-->
-<!--      padding:30px;-->
-<!--      width: 100%;-->
-<!--      height: 100%;-->
-<!--      overflow-y: auto;-->
-<!--      color: black;-->
-<!--      word-wrap: break-word;-->
-<!--    }-->
-<!--    #contract_component .contract_component .middle{-->
-<!--      min-height: 5rem;-->
-<!--      background: none;-->
-<!--      border: 0;-->
-<!--      width: 100%;-->
-<!--      white-space: pre-wrap;-->
-<!--   /* css-3 *!*/-->
-<!--    white-space: -moz-pre-wrap;-->
-<!--    /*//Mozilla, since 1999 *!*!*/-->
-<!--    /*white-space: -pre-wrap;*/-->
-<!--    /*//  //!* Opera 4-6 *!*!*/-->
-<!--    white-space: -o-pre-wrap;-->
-<!--    }-->
-<!--    #contract_component .contract_component div.button {-->
-<!--      margin-top: 10px;-->
-<!--      display: -moz-box;-->
-<!--      display: -ms-flexbox;-->
-<!--      display: -webkit-flex;-->
-<!--      display: flex;-->
-<!--      -webkit-justify-content:space-between;-->
-<!--      justify-content:space-between;-->
-<!--      /*justify-content: space-between;*/-->
-<!--    }-->
-<!--    #contract_component .contract_component ul {-->
-<!--      width: 40%;-->
-<!--    }-->
-<!--    #contract_component .contract_component ul li p{-->
-<!--      height: 30px;-->
-<!--    }-->
-<!--    #contract_component .contract_component ul li p img{-->
-<!--      width: 100px;-->
-<!--      height: 50px;-->
-<!--    }-->
-<!--    #contract_component .contract_component ul li p:nth-child(1){-->
-<!--      position: relative;-->
-<!--      line-height: initial;-->
-<!--      border-bottom: 1px solid black;-->
-<!--    }-->
-<!--    #contract_component .contract_component ul li p:nth-child(2){-->
-<!--      font-weight: 600;-->
-<!--    }-->
-<!--    #contract_component .contract_component ul li:nth-of-type(1){-->
+<html lang="en">
+   <head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img,input{ margin:0; padding:0; }
+    fieldset, img,input,button { border:0 none; padding:0;margin:0;outline-style:none; }   /*去掉input等聚焦时的蓝色边框*/
+    ul,li,ol{ list-style:none; }
+    #contract_component {
+      width: 595px;
+      height: 100%;
+      margin: 0 auto;
+      /*595×842*/
+    }
+    #contract_component .contract_component {
+      /*border: 1px solid #b5b5b5;*/
+      box-sizing: border-box;
+      font-size: 12px;
+      line-height: 20px;
+      padding:30px;
+      width: 100%;
+      height: 100%;
+      color: black;
+      word-wrap: break-word;
+    }
+    #contract_component .contract_component .middle{
+      min-height: 250px;
+      background: none;
+      border: 0;
+      width: 100%;
+      white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    /*//Mozilla, since 1999 *!*!*/
+    /*white-space: -pre-wrap;*/
+    /*//  //!* Opera 4-6 *!*!*/
+    white-space: -o-pre-wrap;
+    }
+    #contract_component .contract_component div.button {
+      margin-top: 10px;
+       display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content:space-between;
+      justify-content:space-between;
+    }
+    #contract_component .contract_component ul {
+      width: 40%;
+    }
+    #contract_component .contract_component ul li p{
+      height: 30px;
+    }
+   
+    #contract_component .contract_component ul li p.signature{
+              text-align: center;
+               
+    }
+    #contract_component .contract_component ul li p.signature img{
+            width: auto;  
+            height: auto;  
+            max-width: 100%;  
+            max-height: 100%;  
+    }
+    #contract_component .contract_component ul li p:nth-child(1){
+      position: relative;
+      line-height: 14px;
+      border-bottom: 1px solid black;
+    }
+    #contract_component .contract_component ul li p:nth-child(2){
+      font-weight: 600;
+    }
+    #contract_component .contract_component ul li:nth-of-type(1){
+       margin-bottom: 30px;
+       height: 80px;
+       line-height: 14px;
+      /* min-height: 50px;
+      max-height: 100px; */
+    }
+      #contract_component .contract_component ul li:nth-of-type(1) nav{
+        font-weight: 600;
 
-<!--      margin-bottom: 50px;-->
-<!--      min-height: 50px;-->
-<!--      max-height: 100px;-->
-<!--    }-->
-<!--    #contract_component .contract_component ul li:nth-of-type(1) nav{-->
-<!--        font-weight: 600;-->
+    }   #contract_component .contract_component ul li:nth-of-type(1) div{
+        /* min-height: 30px;*/
+        /*max-height: 100px;*/
 
-<!--    }-->
-<!--    #contract_component .contract_component ul li p:nth-child(1) span{-->
-<!--      position: absolute;-->
-<!--      line-height: 20px;-->
-<!--      word-break: break-all;-->
-<!--      bottom: 0;-->
-<!--    }-->
+    }
+    #contract_component .contract_component ul li p:nth-child(1) span{
+      position: absolute;
+      line-height: 14px;
+      word-break: break-all;
+      bottom: 0;
+    }
 
-<!--    /*li:nth-of-type(1){*/-->
-<!--    /*  margin-bottom: 0.6rem;*/-->
-<!--    /*h3{*/-->
-<!--    /*  height: 3rem;*/-->
-<!--    /*  line-height: initial;*/-->
-<!--    /*}*/-->
-<!--  </style>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<div id="contract_component">-->
-<!--  <div class="contract_component">-->
-<!--    <div class="middle">tml空格字符输入，html网页代码多个空格输入,空格字符代码教程篇-->
-<!--      我们知道这HTML网页中插入多个空格间隔是需要特殊字符编码的。如果是直接敲入多个空格键，虽然看似代码中有了多个空格效果，但在浏览器中还是只有1个空格的间隔位置。-->
-<!--      接下来DIVCSS5教大家如果输入html空格字符，多个空格字符如何输入？我们采用直接复制空格字符与DW软件输入空格字符方法。-->
-<!--      html空格目录-->
-<!--      Html空格字符语法代码-->
-<!--      输入空格方法-->
-<!--      html空格总结-->
-<!--      一、Html空格字符语法代码   -   TOP-->
-<!--      空格字符由&+n+b+s+p+;组成字符，后面的分号记住不能少了。这组空格字符一定输入到HTML代码里，才能实现空格效果。-->
-<!--代表空格的转意字符-->
-<!--      二、输入空格方法   -   TOP-->
-<!--      1、dw软件输入空格字符-->
-<!--      首先我们将鼠标当前指针放到要插入空格字符地方，然后点击DW软件“插入”然后选择点击“HTML”</div>-->
-<!--    <div class="button">-->
-<!--      <ul>-->
-<!--        <li>-->
-<!--          <nav>For and on behalf of:</nav>-->
-<!--          <div>第三方</div>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p><span>-->
-<!--              <img v-if="contract.owner_sign" src="http://47.90.62.114:8086/bsl_web/images/bc15640a323b1c6ebee583ccccbb1db.png" alt="">-->
-<!--            </span></p>-->
-<!--          <p>Signature</p>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p><span>投行名字</span></p>-->
-<!--          <p>Name</p>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p><span>投行头衔</span></p>-->
-<!--          <p>Title</p>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p><span>投行日期</span></p>-->
-<!--          <p>Date</p>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--      <ul>-->
-<!--        <li>-->
-<!--          <nav>For and on behalf of:</nav>-->
-<!--          <h3>中间人</h3>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p><span><img v-if="contract.agent_sign"  src="http://47.90.62.114:8086/bsl_web/images/bc15640a323b1c6ebee583ccccbb1db.png" alt=""></span></p>-->
-<!--          <p>Signature</p>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p><span>中间人名字</span></p>-->
-<!--          <p>Name</p>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p><span>中间人头衔</span></p>-->
-<!--          <p>Title</p>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p><span>中间人日期</span></p>-->
-<!--          <p>Date</p>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
+  </style>
+</head>
+<body>
+<div id="contract_component">
+  <div class="contract_component">
+    <div class="middle"></div>
+    <div class="button">
+      <ul>
+        <li>
+          <nav>For and on behalf of:</nav>
+          <div>${this.contract.owner_behalf}</div>
+        </li>
+        <li>
+            <div>
+                <p><img src="${this.contract.owner_sign}" alt=""></p>
+            </div>
+          <p>Signature</p>
+        </li>
+        <li>
+          <p><span>${this.contract.owner_name}</span></p>
+          <p>Name</p>
+        </li>
+        <li>
+          <p><span>${this.contract.owner_title}</span></p>
+          <p>Title</p>
+        </li>
+        <li>
+          <p><span>${owner_signdata}</span></p>
+          <p>Date</p>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <nav>For and on behalf of:</nav>
+          <div>${this.contract.agent_behalf}</div>
+        </li>
+        <li>
+          <div>
+                <p><img src="${this.contract.agent_sign}" alt=""></p>
+            </div>
+          <p>Signature</p>
+        </li>
+        <li>
+          <p><span>${this.contract.agent_name}</span></p>
+          <p>Name</p>
+        </li>
+        <li>
+          <p><span>${this.contract.agent_title}</span></p>
+          <p>Title</p>
+        </li>
+        <li>
+          <p><span>${agent_signdata}</span></p>
+          <p>Date</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script>
+  let a=  document.querySelector('#contract_component .middle');
+//   a.innerHTML={{$this.contract.article}};
+</script>
+</body>
+</html>

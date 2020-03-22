@@ -8,7 +8,7 @@
 <!--        readonly-->
 <!--        type="textarea"-->
 <!--      />-->
-      <div class="middle">{{contract.article}}</div>
+      <div class="middle ql-editor" v-html="contract.article"></div>
       <div class="button">
         <ul>
           <li>
@@ -16,9 +16,11 @@
             <h3>{{contract.owner_behalf}}</h3>
           </li>
           <li>
-            <p><span>
-              <img v-if="contract.owner_sign" :src="contract.owner_sign" alt="">
-            </span></p>
+            <div>
+              <p class='signature'>
+                 <img v-if="contract.owner_sign" :src="contract.owner_sign" alt="">
+              </p>
+            </div>
             <p>Signature</p>
           </li>
           <li>
@@ -40,7 +42,11 @@
             <h3>{{contract.agent_behalf}}</h3>
           </li>
           <li>
-            <p><span><img v-if="contract.agent_sign"  :src="contract.agent_sign" alt=""></span></p>
+            <div>
+              <p class='signature'>
+                <img v-if="contract.agent_sign"  :src="contract.agent_sign" alt="">
+              </p>
+              </div>
             <p>Signature</p>
           </li>
           <li>
@@ -153,25 +159,29 @@
     .contract_component {
       border: 1px solid #b5b5b5;
       box-sizing: border-box;
-      font-size: 12px;
-      line-height: 0.6rem;
+    
       /*background: #f6f6f6;*/
-      padding: 0.4rem 0.4rem;
+           padding: 0.375rem 0.46875rem;
       width: 100%;
       height: 100%;
       overflow-y: auto;
       color: black;
       word-wrap: break-word;
-      .middle{
+      div.middle{ 
         min-height: 5rem;
-         background: none;
+        background: none;
         border: 0;
-       width: 100%;
-          white-space: pre-wrap;      // !* css-3 *!*/
-           white-space: -moz-pre-wrap; // !* Mozilla, since 1999 *!*/
+        width: 100%;
+        white-space: pre-wrap;      // !* css-3 *!*/
+        white-space: -moz-pre-wrap; // !* Mozilla, since 1999 *!*/
         white-space: -o-pre-wrap;
       }
+       div.ql-editor{
+          padding: 0;
+        }
       div.button {
+        font-size: 12px;
+        line-height: 0.6rem;
         margin-top: 1rem;
         display: flex;
         justify-content: space-between;
@@ -180,10 +190,18 @@
           li{
             p{
               height: 1rem;
-              img {
-                width: 100%;
-                height: 1rem;
-              }
+             
+            }
+            p.signature{
+              text-align: center;
+                img {
+                    // width: 100%;
+                    // height: 1rem;
+                  width: auto;  
+                  height: auto;  
+                  max-width: 100%;  
+                  max-height: 100%;  
+                  }
             }
             p:nth-child(1){
               position: relative;

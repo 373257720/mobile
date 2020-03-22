@@ -677,7 +677,7 @@ export default {
     height: 100%;
   }
   .main {
-    padding: 4.9rem 0 1.3rem 0;
+    padding: 4.84rem 0 1.3rem 0;
     // margin-bottom: 5rem;
     // height: 100%;
     background: #eeeeee;

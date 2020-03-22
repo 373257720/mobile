@@ -45,11 +45,19 @@
          </div>
        </div>
       <div class="sub_title">
-        <header>Contract:</header>
+        <header>Contract content:</header>
         <div>
            <!-- <vue-html5-editor :content="contract.article" :height="400"
             @change="updateData"></vue-html5-editor> -->
-          <textarea v-model="contract.article"  :placeholder="$t('ContractWrods.pleaseEnter')"></textarea>
+              <quill-editor v-model="contract.article"
+                ref="myQuillEditor"
+                 :options="editorOption"
+                @change="onEditorChange($event)"
+                @blur="onEditorBlur($event)"
+                @focus="onEditorFocus($event)"
+             >
+  </quill-editor>
+          <!-- <textarea v-model="contract.article"  :placeholder="$t('ContractWrods.pleaseEnter')"></textarea> -->
         </div>
       </div>
         <footer>
@@ -67,6 +75,21 @@ export default {
   props:['contract'],
   data() {
     return {
+      editorOption:{
+             modules:{
+                  toolbar:[
+                    ['bold', 'underline',],        // toggled buttons
+            [{ 'header': 1 }, { 'header': 2 }],
+  [{ 'list': 'ordered'}, { 'list': 'bullet' }],      // superscript/subscript
+  // [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent                    // text direction
+
+  // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown      // dropdown with defaults from theme
+  // [{ 'font': [] }],
+  [{ 'align': [] }],
+  // ['clean'] 
+                  ]
+              }
+      },
       // content: '请输入文章内容',
       // contract:{
       //   article:'',
@@ -118,6 +141,16 @@ export default {
   },
   computed: {},
   methods: {
+    onEditorChange(){
+      console.log('Change',this.contract.article)
+    },
+        onEditorBlur() {
+        console.log('blur',this.contract.article)
+      },
+
+      onEditorFocus(){
+        console.log('focus',this.contract.article)
+      },
      updateData(e){
            // console.log(e);
             this.contract.article = e;
@@ -169,10 +202,18 @@ export default {
       //  background: #f6f6f6;
     max-height:4rem;
   }
-  .vue-html5-editor {
-    border: 1px solid #a9a9a9;
+//   .vue-html5-editor {
+//     border: 1px solid #a9a9a9;
 
-}
+// }
+ div.ql-container.ql-snow{
+    height: 13rem;
+        background: #f6f6f6;
+  }
+
+  div.ql-editor.ql-blank{
+    height: 12rem;
+  }
   nav {
     position: relative;
     .van-icon-arrow-left {
@@ -237,15 +278,17 @@ export default {
     }
     footer {
       width: 100%;
+      display: flex;
+      justify-content: center;
       button {
-        width: 100%;
+        width: 8rem;
         font-size: 0.42rem;
         margin: 1rem 0;
         line-height: 1rem;
         background: #00adef;
         color: white;
         height: 1rem;
-        border-radius: 2px;
+        border-radius: 5px;
 
       }
     }

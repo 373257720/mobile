@@ -10,7 +10,7 @@
     <nav></nav>
     <main>
       <ul>
-        <li @click="$goto('userpass')">
+        <li @click="$routerto('userpass')">
           <p>
             <img src="../../assets/6d991a52e05250a2570d768f8cc1e3e.png" alt />
             <span>{{$t('common.Reveiw')}}</span>
@@ -197,7 +197,7 @@ export default {
           if (res.data.resultCode == 10000) {
             this.$store.dispatch("reset_actions",this.$restore_obj)
             sessionStorage.clear()
-            this.$goto("login");
+            this.$routerto("login");
           }
         });
       } else if (num == 2) {

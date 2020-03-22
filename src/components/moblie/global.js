@@ -210,7 +210,7 @@ const global = {
 
   },
   cleanall() {
-    this.$goto("login");
+    this.$routerto("login");
     sessionStorage.clear();
 
 

@@ -83,9 +83,10 @@
               this.$store.dispatch("usertype", res.data.data.userType);
               this.$store.dispatch("setUser", this.username);
               if (res.data.data.isAuth == 1) {
-                this.$goto("mhome");
+                this.$routerto("mhome");
+                
               } else if (res.data.data.isAuth == 0) {
-                this.$goto("usercheck");
+                this.$routerto("usercheck");
               }
             }
             this.remind = res.data.resultDesc;

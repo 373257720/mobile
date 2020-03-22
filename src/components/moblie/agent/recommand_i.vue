@@ -159,7 +159,6 @@ export default {
           // message: "弹窗内容"
         })
         .then(() => {
-          // this.$goto("mhome");
         });
     },
     regionchoose(value, region) {

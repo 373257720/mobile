@@ -50,6 +50,7 @@ function Draw(canvas, degree, config = {}) {
     context.shadowBlur = 1;
     context.shadowColor = 'black';
   }
+  
   let pressed = false;
 
   const paint = (signal) => {

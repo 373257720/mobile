@@ -71,7 +71,7 @@
         </li>
       </ul>
       <div v-if="optStatus==2" class="failure">
-        <button @click="$goto('usercheck')">{{$t('common.ApplyAgain')}}</button>
+        <button @click="$routerto('usercheck')">{{$t('common.ApplyAgain')}}</button>
       </div>
     </main>
 <!--    <mbottom></mbottom>-->

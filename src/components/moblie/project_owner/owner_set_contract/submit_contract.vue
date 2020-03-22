@@ -12,7 +12,7 @@
           </footer>
         </article>
       </main>
-      <mbottom></mbottom>
+      <!-- <mbottom></mbottom> -->
 
   </div>
 </template>
@@ -178,9 +178,12 @@ export default {
       footer {
         width: 100%;
         font-size: 0.42rem;
+        display: flex;
+        justify-content: center;
         button {
-          width: 100%;
+          width: 8rem;
           background: #00adef;
+          border-radius: 5px;
           line-height: 1rem;
           color: white;
           height: 1rem;

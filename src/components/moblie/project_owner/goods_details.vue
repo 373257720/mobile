@@ -7,7 +7,6 @@
          <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
         <!-- <footer>
-          <button @click="$goto('p_investor_lists')">投资者资料</button>
         </footer> -->
       </article>
     </main>

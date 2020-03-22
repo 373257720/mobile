@@ -20,7 +20,7 @@
       </div>
       </van-form>
        <div class="tologin">
-         <p class="tologin" @click="$goto('login')">{{$t('common.AlreadyHaveAnAccount')}}</p>
+         <p class="tologin" @click="$routerto('login')">{{$t('common.AlreadyHaveAnAccount')}}</p>
       </div>
     </div>
   </div>
@@ -73,7 +73,7 @@ export default {
                 message: this.$t('common.NextLogin'),
               })
               .then(() => {
-                this.$goto("login");
+                this.$routerto("login");
               });
           } else {
             this.remind = res.data.resultDesc;
