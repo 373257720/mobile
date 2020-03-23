@@ -135,7 +135,6 @@ export default {
   display: flex;
   flex-direction: column;
   // justify-content: center;
-
   h2 {
     height: 40%;
     display: flex;
@@ -143,12 +142,12 @@ export default {
     align-items: center;
 
     img {
-      width: 5rem;
-      height: 2.6rem;
+      width:4.8rem;
+      height:2.6rem;
     }
   }
   .main {
-    flex: 1;
+    /*flex: 1;*/
     display: flex;
     flex-direction: column;
     align-items: center;

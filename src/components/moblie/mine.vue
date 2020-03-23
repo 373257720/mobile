@@ -158,20 +158,10 @@ export default {
     },
     changelanguage(action, done) {
       if (action === "confirm") {
-        // let form;
-        // if(this.$store.state.X_Token){
-        //   form =  {
-        //    lan:this.radio,
-        //     X_Token:this.$store.state.X_Token
-        //   }
-        // }else{
-        //   form =  {
-        //     lan:this.radio,
-        //   }
-        // }
         this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`,{lan:this.radio})
           .then(res => {
          if(res.data.resultCode==10000){
+           this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
            this.$i18n.locale=this.radio;
            this.$Local(this.radio);
            window.localStorage.setItem("language",this.radio);

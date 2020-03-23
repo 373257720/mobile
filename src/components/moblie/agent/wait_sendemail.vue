@@ -144,7 +144,7 @@ export default {
         {
           projectId:details.projectId,
           signStatus:details.signStatus,
-          signId:details || -1
+          signId:details.signId || -1
         },
         this.details_lists,
         this.nav_lists,

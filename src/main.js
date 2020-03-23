@@ -120,7 +120,8 @@ axios.interceptors.request.use(function (config) {
   }, function (error) {
   　　// 对请求错误做些什么
     Dialog.alert({
-      message: '网络异常，请稍后再试',
+      title:i18n.t('common.network'),
+      // message: i18n.t('common.network'),
     }).then(() => {
       store.dispatch("reset_actions",restore_obj);
       window.sessionStorage.clear();
@@ -134,7 +135,7 @@ axios.interceptors.response.use(res => {
     let code = res.data.resultCode
     if (code == 10090) { // 如果是未登录直接踢出去
       Dialog.alert({
-        message: res.data.resultDesc,
+        title: res.data.resultDesc,
       }).then(() => {
         store.dispatch("reset_actions",restore_obj)
         window.sessionStorage.clear();
@@ -146,8 +147,8 @@ axios.interceptors.response.use(res => {
 } ,error => {
     Toast.clear();
       Dialog.alert({
-        title: "网络异常",
-        message: "点击返回登录页"
+       title:i18n.t('common.network'),
+        // message: "点击返回登录页"
       }).then(() => {
         store.dispatch("reset_actions",restore_obj)
         window.sessionStorage.clear();
@@ -181,7 +182,7 @@ Vue.prototype.$loadingfail = function loadingfail() {
   });
 };
 var baseurl = {
-  //  api: "http://192.168.1.37:8085",
+  // api: "http://192.168.1.37:8085",
   // api3:'www.aaa.com',
   api2:'http://47.90.62.114:8081',
   api3: 'http://47.90.62.114:8083',//(前段服务器端口)

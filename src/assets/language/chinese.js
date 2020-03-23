@@ -31,7 +31,7 @@ export default {
     TheInvestmentBankHasConfirmed:'投行已经确认你所推荐的投资者，请尽快发送邮件给投资者',
     SendEmailToInvestors:'发送邮件到投资者',
 
-    InvitationToBeSentToInvestors:'待发送邀请给投资者',
+    InvitationToBeSentToInvestors:'待发送邀请邮件给投资者',
     InvestmentBank:'投资银行',
     InvestmentProject:'投资项目',
 
@@ -43,6 +43,9 @@ export default {
     // Projects to be confirmed by investors
   },
   common:{
+    network:'网络异常',
+    Sendcode:'发送验证码',
+    Code:'验证码',
     NoMore: '没有更多了',
     forgetpassword:'忘记密码',
     Investor:'投资者',

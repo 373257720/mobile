@@ -159,15 +159,31 @@
     .contract_component {
       border: 1px solid #b5b5b5;
       box-sizing: border-box;
-    
+
       /*background: #f6f6f6;*/
-           padding: 0.375rem 0.46875rem;
+      padding: 0.375rem 0.175rem 0.375rem 0.46875rem;
       width: 100%;
       height: 100%;
-      overflow-y: auto;
+      /*overflow-y: auto;*/
+      overflow-y:scroll;
+
+      /*&::-webkit-scrollbar {!*滚动条整体样式*!*/
+      /*  width: 0.2rem;     !*高宽分别对应横竖滚动条的尺寸*!*/
+      /*  !*height: 1px;*!*/
+      /*}*/
+      /*&::-webkit-scrollbar-thumb {!*滚动条里面小方块*!*/
+      /*  border-radius: 10px;*/
+      /*  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);*/
+      /*  background: #535353;*/
+      /*}*/
+      /*&::-webkit-scrollbar-track {!*滚动条里面轨道*!*/
+      /*  !*-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);*!*/
+      /*  !*border-radius: 10px;*!*/
+      /*  !*background: #EDEDED;*!*/
+      /*}*/
       color: black;
       word-wrap: break-word;
-      div.middle{ 
+      div.middle{
         min-height: 5rem;
         background: none;
         border: 0;
@@ -177,11 +193,14 @@
         white-space: -o-pre-wrap;
       }
        div.ql-editor{
+         font-size: 14px;
+         overflow-y: initial;
+         height: initial;
           padding: 0;
         }
       div.button {
         font-size: 12px;
-        line-height: 0.6rem;
+        line-height: 14px;
         margin-top: 1rem;
         display: flex;
         justify-content: space-between;
@@ -190,17 +209,18 @@
           li{
             p{
               height: 1rem;
-             
+
             }
             p.signature{
               text-align: center;
+                height: 1.2rem;
                 img {
                     // width: 100%;
                     // height: 1rem;
-                  width: auto;  
-                  height: auto;  
-                  max-width: 100%;  
-                  max-height: 100%;  
+                  /*width: auto;*/
+                  /*height: auto;*/
+                  max-width: 100%;
+                  max-height: 100%;
                   }
             }
             p:nth-child(1){
@@ -213,10 +233,11 @@
               }
               /*line-height:1rem;*/
               line-height: initial;
-              border-bottom: 1px solid black;
+
             }
             p:nth-child(2){
               font-weight: 600;
+              border-top: 1px solid black;
             }
           }
           li:nth-of-type(1){

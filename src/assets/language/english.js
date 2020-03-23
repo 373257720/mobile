@@ -40,6 +40,9 @@ export default {
     // Projects to be confirmed by investors
   },
   common:{
+    network:'Network exception',
+    Sendcode:'Send',
+    Code:'Code',
     NoMore: 'No more',
     forgetpassword:'Forgot password',
     Investor:'Investor',

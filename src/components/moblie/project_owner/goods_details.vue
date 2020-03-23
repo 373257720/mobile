@@ -141,10 +141,20 @@ export default {
               }
             }
             if(this.details_lists.collectMoney.hasOwnProperty(i)){
-                if (i == "collectMoneyMax"){
-                this.details_lists.collectMoney[i]=res_obj[i].toLocaleString();
-              }else if (i == "collectMoneyMin"){
-                this.details_lists.collectMoney[i]=res_obj[i].toLocaleString();
+                if (i == "collectMoneyMax" || i == "collectMoneyMin"){
+                // this.details_lists.collectMoney[i]=res_obj[i].toLocaleString();
+                  if ( res_obj[i]*1>0){
+                    let value=Math.round(res_obj[i]*100)/100;
+                    var s=value.toString().split(".");
+                    if(s.length==1){
+                      this.details_lists.collectMoney[i]= (value.toLocaleString()).toString()+".00"
+                    }
+                    if(s.length>1){
+                      if(s[1].length<2){
+                        this.details_lists.collectMoney[i]= (value.toLocaleString()).toString()+"0"
+                      }
+                    }
+                  }
               }
             }
           }

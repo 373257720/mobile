@@ -33,7 +33,7 @@ function Draw(canvas, degree, config = {}) {
     canvas.height = height;
   }
 
-  context.lineWidth = 4;
+  context.lineWidth = 5;
   context.strokeStyle = 'black';
   context.lineCap = 'round';
   context.lineJoin = 'round';
@@ -50,7 +50,7 @@ function Draw(canvas, degree, config = {}) {
     context.shadowBlur = 1;
     context.shadowColor = 'black';
   }
-  
+
   let pressed = false;
 
   const paint = (signal) => {
@@ -60,13 +60,13 @@ function Draw(canvas, degree, config = {}) {
       case 1:
         context.beginPath();
         context.moveTo(point.x, point.y);
-       
-        
+
+
       case 2:
-       
+
         context.lineTo(point.x, point.y);
         context.stroke();
-  
+
         break;
 
       default:
@@ -74,8 +74,8 @@ function Draw(canvas, degree, config = {}) {
   };
 
 
-  const create = signal => (e) => { 
-    
+  const create = signal => (e) => {
+
     e.preventDefault();
     if (signal === 1) {
       pressed = true;
@@ -87,10 +87,10 @@ function Draw(canvas, degree, config = {}) {
       paint(signal);
         if(signal==2){
           console.log(draw_stauts);
-          
+
           draw_stauts=1;
         }
-      
+
     }
   };
   const start = create(1);
@@ -145,7 +145,7 @@ Draw.prototype = {
     //   const tmpContext = tmpCanvas.getContext('2d');
     //   tmpCanvas.width = width;
     //   console.log(tmpCanvas);
-      
+
     //   tmpCanvas.height = height;
     //   console.log(tmpContext);
     //   tmpContext.lineWidth =5;
@@ -155,8 +155,8 @@ Draw.prototype = {
 
     //   tmpContext.drawImage(canvas, 0, 0, w, h, 0, 0, width, height);
     //   console.log(tmpContext);
-      
-   
+
+
     //   canvas = tmpCanvas;
 
     // }

@@ -278,8 +278,11 @@
    height:100%;
     // margin: 0 0 1.6rem 0;
     .remind{
-     text-align: center;padding-top: 1rem;color: #969799;
+     text-align: center;
+      /*padding-top: 1rem;*/
+      color: #969799;
       font-size: 0.4375rem;
+      line-height: 1.5625rem;
 
     }
     nav {

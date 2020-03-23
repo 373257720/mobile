@@ -67,9 +67,13 @@ const global = {
     return new Promise((resolve, reject) => {
       axios.get(url, {
         params: datas
-      },{ headers:{
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }}).then((res) => {
+      },
+
+        // { headers:{
+        //   'Content-Type': 'application/x-www-form-urlencoded'
+        // }}
+
+        ).then((res) => {
         resolve(res)
       }).catch(function (error) {
         reject(error)

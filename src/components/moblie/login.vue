@@ -84,7 +84,7 @@
               this.$store.dispatch("setUser", this.username);
               if (res.data.data.isAuth == 1) {
                 this.$routerto("mhome");
-                
+
               } else if (res.data.data.isAuth == 0) {
                 this.$routerto("usercheck");
               }
@@ -153,18 +153,29 @@
 
     h2 {
       height: 40%;
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
 
       img {
-           width:5rem;
+           width:4.8rem;
            height:2.6rem;
+          /*max-height: 100%;*/
+          /*max-width: 100%;*/
+
       }
+      /*@media screen and (min-width: 1024px) {*/
+      /*  img {*/
+
+      /*    height:2rem;*/
+
+      /*  }*/
+      /*}*/
     }
 
     .main {
-      flex: 1;
+      /*flex: 1;*/
       // width: 100%;
       display: flex;
       flex-direction: column;

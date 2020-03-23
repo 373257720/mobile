@@ -5,7 +5,7 @@
       <article>
         <ul>
           <li class="investorsCompany">
-            <p class="row1">{{$t('agent.InvestorCompany')}}:</p>
+            <p class="row1">{{$t('common.Email')}}:</p>
             <p class="row2">
               <van-cell-group>
                 <van-field  v-model="email" :placeholder="$t('ContractWrods.pleaseEnter')" />
@@ -13,7 +13,7 @@
             </p>
           </li>
           <li class="investorsName">
-            <p class="row1">{{$t('agent.InvestorName')}}:</p>
+            <p class="row1">{{$t('common.Code')}}:</p>
             <p class="row2">
               <van-field
                 v-model="form.verificationCode"
@@ -61,7 +61,7 @@
     name: "forgotpassword",
     data() {
       return {
-        code:'发送验证码',
+        code:this.$t('common.Sendcode'),
         dad_text:  this.$t('common.forgetpassword'),
         isactive:false,
         countdown:null,
@@ -97,6 +97,7 @@
         self.isactive=false;
         self.watch=true;
         // self.timeCounter = setTimeout(()=>{}, 100);
+        this.$loading();
         this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/sendEmail.do`,
           {memberEmail:self.email}).then(res=>{
               if(res.data.resultCode==10000){
@@ -104,7 +105,7 @@
                 // console.log(JSON.parse(res.data.data).verificationCodeToken)
                 this.form.verificationCodeToken=obj.verificationCodeToken
               }
-          console.log(this.form)
+               console.log(this.form)
               // clearTimeout(self.timeCounter);
               // self.timeCounter = null;
               this.$toast(res.data.resultDesc)
