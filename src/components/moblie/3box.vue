@@ -3,11 +3,10 @@
       <van-divider>{{$t('common.ProjectDetails')}}</van-divider>
     <div class="nav_lists">
           <p v-for="(item) in nav_lists" :key="item.name">
-            <section class="box">
+            <section  class="box">
                <span class="rowa" v-html="item.name"></span>
               <span class="rowb" >{{item.response}}</span>
             </section>
-
           </p>
     </div>
 </div>

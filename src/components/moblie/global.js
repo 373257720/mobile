@@ -5,6 +5,8 @@ import  {i18n}  from '../../language'
 import qs from 'qs'
 import store from "../../store/store";
 
+// console.log(localStorage.getItem('language'))
+
 const global = {
   stamptodate: function (stamp) {
     if(stamp==''){
@@ -31,31 +33,34 @@ const global = {
     return Y + M + D + h + m + s;
   },
   pic_obj: {
-    '1': i18n.t('common.Pending'),
-    '2': i18n.t('common.ToBeSigned'),
-    '3': i18n.t('common.InvestmentBankHasRejected'),
-    '4':i18n.t('common.SignedForChain'),
-    '5':i18n.t('common.ChainedForRecommendation'),
-    '6': ('common.PendingReview'),
-    '7': i18n.t('common.InvestmentBankHasRejected'),
-    '8':i18n.t('common.ReviewedPending'),
-    '9':i18n.t('common.ToBeConfirmedByInvestors'),
-    '10':i18n.t('common.SignedContract'),
-    '11': i18n.t('common.InvestorHasRejected'),
+
+      '1': 'common.Pending',
+      '2': 'common.ToBeSigned',
+      '3': 'common.InvestmentBankHasRejected',
+      '4':'common.SignedForChain',
+      '5':'common.ChainedForRecommendation',
+      '6': 'common.PendingReview',
+      '7': 'common.InvestmentBankHasRejected',
+      '8':'common.ReviewedPending',
+      '9':'common.ToBeConfirmedByInvestors',
+      '10':'common.SignedContract',
+      '11': 'common.InvestorHasRejected',
+
+
   },
   financingStage: {
-    '0': i18n.t('projectOwner.SeedRound'),
-    '1':i18n.t('projectOwner.AngelWheel'),
-    '2': i18n.t('projectOwner.ARound'),
-    '3': i18n.t('projectOwner.BRound'),
-    '4': i18n.t('projectOwner.CRound'),
-    '5': "PRE-IPO",
-    '6': "IPO",
+    '0': 'projectOwner.SeedRound',
+    '1': 'projectOwner.AngelWheel',
+    '2': 'projectOwner.ARound',
+    '3': 'projectOwner.BRound',
+    '4': 'projectOwner.CRound',
+    '5': "common.PREIPO",
+    '6': "common.IPO",
   },
   // 投资者身份类型：1个人，2公司
   investorsType: {
-    '1': i18n.t('common.individual'),
-    '2': i18n.t('common.company'),
+    '1':'common.individual',
+    '2': 'common.company',
   },
   get_encapsulation: function (url,  datas) {
     if(Object.prototype.toString.call(datas) !== '[object Object]'){
@@ -105,7 +110,7 @@ const global = {
   goods_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor,middlemen) {
     datas.projectLan=i18n.locale;
     datas.X_Token=store.state.X_Token;
-    console.log(datas)
+    // console.log(datas)
     return new Promise((resolve, reject) => {
       axios({
           url: url,
@@ -113,18 +118,20 @@ const global = {
           params: datas
         })
         .then((res) => {
-          // let {projectLifeCycle,signAgreement,investorsEmailSend,investorsId,projectName,signUserId3,signUserId1,signAgreementKey}= res.data.data;
-          let projectLifeCycle=res.data.data.projectLifeCycle;
-          let signAgreement = res.data.data.signAgreement;
-          let investorsEmailSend=res.data.data.investorsEmailSend;
-          let investorsId = res.data.data.investorsId;
-          let projectName = res.data.data.projectName;
-          let signUserId3=res.data.data.signUserId3;
-          let investorsName=res.data.data.investorsName;
-          let signUserId1=res.data.data.signUserId1;
-          let investorsType=res.data.data.investorsType;
-          let investorsCompany=res.data.data.investorsCompany;
-          let signAgreementKey = res.data.data.signAgreementKey;
+          let {projectLifeCycle,signAgreement,investorsEmailSend,
+            investorsId,projectName,investorsName,signUserId3,signUserId1,
+            investorsType,investorsCompany,signAgreementKey}= res.data.data;
+          // let projectLifeCycle=res.data.data.projectLifeCycle;
+          // let signAgreement = res.data.data.signAgreement;
+          // let investorsEmailSend=res.data.data.investorsEmailSend;
+          // let investorsId = res.data.data.investorsId;
+          // let projectName = res.data.data.projectName;
+          // let signUserId3=res.data.data.signUserId3;
+          // let investorsName=res.data.data.investorsName;
+          // let signUserId1=res.data.data.signUserId1;
+          // let investorsType=res.data.data.investorsType;
+          // let investorsCompany=res.data.data.investorsCompany;
+          // let signAgreementKey = res.data.data.signAgreementKey;
           for (let i in res.data.data) {
             if(details_lists.collectMoney.hasOwnProperty(i)){
               if ( res.data.data[i]*1>0){
@@ -141,36 +148,22 @@ const global = {
               }else{
                 res.data.data[i]='';
               }
-              // if (i == "collectMoneyMax" && res.data.data[i]*1>0){
-              //   // details_lists.collectMoney[i]=res.data.data[i]*1>0?res.data.data[i].toLocaleString():'';
-              // }else if (i == "collectMoneyMin"){
-              //  let value=Math.round(res.data.data[i]*100)/100;
-              //   var s=value.toString().split(".");
-              //   if(s.length==1){
-              //     details_lists.collectMoney[i]= (value.toLocaleString()).toString()+".00"
-              //   }
-              //   if(s.length>1){
-              //     if(s[1].length<2){
-              //       details_lists.collectMoney[i]= (value.toLocaleString()).toString()+"0"
-              //     }
-              //   }
-              //   // details_lists.collectMoney[i]=res.data.data[i]*1>0?res.data.data[i].toLocaleString():'';
-              // }
             }
             if (details_lists.hasOwnProperty(i)) {
               if (i == "signStatus") {
-                details_lists[i].response = this.pic_obj[res.data.data[i]];
+                details_lists[i].response = i18n.t(this.pic_obj[res.data.data[i]]);
               } else if (i == "publicCompany") {
-                details_lists[i].response = res.data.data[i] == false ? '否' : '是'
+                details_lists[i].response = res.data.data[i] == false ? i18n.t('common.isno') : i18n.t('common.isyes')
               } else {
                 details_lists[i].response = res.data.data[i];
               }
             }
             if (nav_lists.hasOwnProperty(i)) {
               if (i == "financingStage") {
-                nav_lists[i].response = this.financingStage[
-                  res.data.data[i]
-                ];
+                nav_lists[i].response =
+                i18n.t(this.financingStage[
+                  res.data.data[i]])
+                ;
               } else {
                 nav_lists[i].response = res.data.data[i];
               }
@@ -180,7 +173,7 @@ const global = {
             }
             if (investor_infor.hasOwnProperty(i)) {
               if (i == 'investorsType') {
-                investor_infor[i].response = this.investorsType[res.data.data[i]]
+                investor_infor[i].response = i18n.t(this.investorsType[res.data.data[i]]);
               } else {
                 investor_infor[i].response = res.data.data[i];
               }

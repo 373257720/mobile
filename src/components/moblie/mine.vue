@@ -99,11 +99,12 @@ export default {
       password2:'',
       reminder:'',
       logout: false,
-      radio: "en_US",
+      radio: "",
       user_infor:{},
     };
   },
   created() {
+    this.radio= window.localStorage.getItem("language");
     this.$loading();
     this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getAuthDetails`).then(res=>{
       this.$toast.clear();
@@ -126,7 +127,8 @@ export default {
         if (action === "confirm") {
           if(this.password1 && this.password2 ){
               if(this.password1 ===this.password2){
-                this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/updatePwd`,{newPwd:this.password1}).then(
+                this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/updatePwd`,
+                  {newPwd:this.password1}).then(
                   res=> {
                     this.reminder=res.data.resultDesc;
                     if(res.data.resultCode==10000){
@@ -165,7 +167,6 @@ export default {
            this.$i18n.locale=this.radio;
            this.$Local(this.radio);
            window.localStorage.setItem("language",this.radio);
-
          }
             this.$toast(res.data.resultDesc)
             done();

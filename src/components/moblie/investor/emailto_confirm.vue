@@ -83,7 +83,6 @@ export default {
     };
   },
   created() {
-    // console.log(this.$route.query);
     let details = this.$route.query;
     this.$loading();
     this.$global
@@ -93,7 +92,7 @@ export default {
         {
           projectId:details.projectId,
           signStatus:details.signStatus,
-          signId:details || -1
+          signId:details.signId || -1
         },
         this.details_lists,
         this.nav_lists,
@@ -102,7 +101,6 @@ export default {
       )
       .then(res => {
         this.investorsEmailSend=res.investorsEmailSend;
-        // console.log(res);
         this.projectName = res.title;
         this.$toast.clear();
         if(res.projectLifeCycle==-1){

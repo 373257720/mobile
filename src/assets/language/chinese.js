@@ -2,11 +2,11 @@ export default {
   agent: {
     SignTheContract: "签署合约",
     Sign: "签署",
-    Recommendinvestors:'推荐投资者',
+    RecommendInvestors:'推荐投资者',
     Interested:'感兴趣',
     FinancingStage:'融资阶段',
-    NumberOfinvestorsHaveSubmitted:"Number Of investors Have Submitted",
-    Numberofprojectsinterested:' Number</br> of projects interested',
+    NumberOfinvestorsHaveSubmitted:"已提交</br>的投资者数量",
+    Numberofprojectsinterested:'感兴趣</br>的投资者数量',
     YouHaveSubmittedYourApplication:'您已提交签约申请',
     AfterTheApplicationIsProcessed:'申请获处理后，请于待签约项目中签署确认条款',
     InvestorType:'投资者类型',
@@ -26,15 +26,12 @@ export default {
     InvestorMailbox:'投资者邮箱',
     ProjectsToBeConfirmedByInvestors:'待投资者确认项目',
     InvestmentBankToReviewTheProject:'待投行审核项目',
-
     InvestmentBankConfirmed:'投行已确认',
     TheInvestmentBankHasConfirmed:'投行已经确认你所推荐的投资者，请尽快发送邮件给投资者',
     SendEmailToInvestors:'发送邮件到投资者',
-
     InvitationToBeSentToInvestors:'待发送邀请邮件给投资者',
     InvestmentBank:'投资银行',
     InvestmentProject:'投资项目',
-
     Reminder:'提示',
     FurtherInformation:'了解详情',
     SentSuccessfully:'发送成功',
@@ -43,6 +40,8 @@ export default {
     // Projects to be confirmed by investors
   },
   common:{
+    PREIPO:'PRE-IPO',
+    IPO:"IPO",
     network:'网络异常',
     Sendcode:'发送验证码',
     Code:'验证码',

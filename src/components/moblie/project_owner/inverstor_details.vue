@@ -86,7 +86,7 @@ export default {
               ];
             } else if (this.details_lists[j].keyword == "publicCompany") {
               this.details_lists[j].response =
-                res.data.data[i] == false ? "否" : "是";
+                res.data.data[i] == false ? this.$t('common.isno'): this.$t('common.isyes');
             } else {
               this.details_lists[j].response = res.data.data[i];
             }

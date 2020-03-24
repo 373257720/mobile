@@ -182,14 +182,15 @@ export default {
     },
     // 中间人发送邮件前专用
     agent_beforesend() {
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getPdf`,{
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/project/getDetails`,{
         signId:this.$route.query.signId
       })
         .then(res => {
-          if (res.data.resultCode == 10000) {
+          if (res.data.resultCode == 10000){
             this.investorsId = res.data.data.investorsId;
-            // this.picUrl=res.data.data.investorsId.picUrl;
+            this.picUrl=res.data.data.investorsId.picUrl;
             this.custmoers_obj = res.data.data;
+            console.log(this.custmoers_obj)
           }
       });
     },
@@ -713,6 +714,7 @@ export default {
     P{
       padding: 0.2rem 0.5rem;
       color:#f36c69;
+      text-align: center;
       line-height: 0.6rem;
       font-size: 0.42rem;
 

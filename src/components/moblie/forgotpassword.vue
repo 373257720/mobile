@@ -20,15 +20,18 @@
                 center
                 :placeholder="$t('ContractWrods.pleaseEnter')"
               >
-
-                <button v-if="!isactive"  slot="button" >
-                  {{countdown?countdown:code}}
-                  </button>
-                <button v-else-if="isactive" @click="sendcode" class="isactive"  slot="button" >
-                 {{code}}
-                  </button>
-<!--                <van-button slot="button" size="small" type="primary">发送验证码</van-button>-->
+                <template #button>
+                  <van-button v-if="!isactive" size="small" type="primary">{{code}}</van-button>
+                  <van-button v-else-if="isactive" @click="sendcode" class="isactive"  size="small" type="primary">{{code}}</van-button>
+                </template>
+<!--                <button v-if="!isactive"  slot="button" >-->
+<!--                  {{countdown?countdown:code}}-->
+<!--                  </button>-->
+<!--                <button v-else-if="isactive" @click="sendcode" class="isactive"  slot="button" >-->
+<!--                 {{code}}-->
+<!--                  </button>-->
               </van-field>
+
             </p>
           </li>
           <li class="investorsName">
@@ -209,9 +212,10 @@
     }
     .van-button--primary{
       color: #fff;
-      background-color: grey;
-      border: 1px solid grey;
+      background-color:#afafaf;
+      border: #00adef;
     }
+
     .van-field__body{
       /*border: 1px solid #ababab;*/
     }
