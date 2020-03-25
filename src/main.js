@@ -14,9 +14,9 @@ import { i18n } from './language'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
 // 富文本
-// import  "font-awesome/css/font-awesome.css";
-// import initRichText from './editor';
-// initRichText();
+import  "font-awesome/css/font-awesome.css";
+import initRichText from './editor';
+initRichText();
 // vuex
 import Vuex from 'vuex';
 Vue.use(Vuex);

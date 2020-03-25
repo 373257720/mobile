@@ -220,6 +220,8 @@ export default {
   .ant-select{
     width: 100%;
     height: 100%;
+    border: 1px solid #b3b3b3;
+    border-radius: 3px;
     font-size: 0.38rem;
     color: #323233;
     .ant-select-selection__placeholder, .ant-select-search__field__placeholder{
@@ -279,13 +281,14 @@ export default {
   }
   .van-dropdown-menu {
     height: 100%;
-    border-radius: 0.05rem;
+    border-radius: 3px;
+    border: 1px solid #b3b3b3;
     // border: 0.01rem solid #ababab;
     background: #f6f6f6;
     .van-cell {
       font-size: 0.38rem;
-      padding: 0 1rem;
-      /*line-height: 1rem;*/
+      padding: 0 0.8rem;
+      line-height: 1rem;
       // padding: 0;
       height:1rem;
       /*line-height: 1.2rem;*/
@@ -295,7 +298,8 @@ export default {
     //  width: 100%;
     /*height: 1rem;*/
     // border: 0.02rem solid #ababab;
-    border-radius: 0.05rem;
+    border-radius: 3px;
+    border: 1px solid #b3b3b3;
     background: #f6f6f6;
     padding: 0 0.3rem;
     box-sizing: border-box;
@@ -405,13 +409,14 @@ export default {
           .row2 {
               position: relative;
             /*flex:3;*/
-            height: 100%;
             height: 1rem;
             word-break: break-all;
+            border-radius: 3px;
+            /*overflow: hidden;*/
             /*line-height: 1.2rem;*/
             color: #787878;
             box-sizing: border-box;
-             border: 1px solid #b3b3b3;
+             /*border: 1px solid #b3b3b3;*/
 
           }
         }

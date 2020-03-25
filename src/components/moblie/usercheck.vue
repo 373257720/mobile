@@ -47,7 +47,7 @@
               :getPopupContainer="triggerNode => triggerNode.parentNode"
               @change="handleChange"
               @search="search"
-              :notFoundContent="coutry_fetching ? undefined : 'Not Found'"
+              :notFoundContent="coutry_fetching ? undefined :$t('common.NotFound')"
             >
               <!-- :filterOption="filterOption" -->
               <a-spin
@@ -59,12 +59,12 @@
                 v-for="d in countrylist"
                 :key="d.remark"
                 :value="d.value + 1"
-                >{{$i18n.locale=='zh_CN'?d.chinese:d.eng}}
-               </a-select-option
-              >
+                >
+                <span style="margin-right: 0.1rem">{{d.eng}}</span><span>{{d.chinese}}</span>
+               </a-select-option>
+<!--              {{$i18n.locale=='zh_CN'?d.chinese:d.eng}}-->
             </a-select>
           </div>
-
           <!-- <van-dropdown-menu>
               <van-dropdown-item v-model="form.userCountry" @change="nation" :options="countrylist" />
             </van-dropdown-menu> -->
@@ -113,7 +113,7 @@
         </div>
         <div class="gongsi" v-show="form.userIdentityType == 2 ? true : false">
           <div class="companyname2">
-            <p>公司名字</p>
+            <p>公司名称</p>
             <van-field
               v-model="form.userCompanyCh"
               placeholder="请输入公司名称"
@@ -302,7 +302,6 @@ export default {
         this.form.userCompanyPic = '';
         this.value=value;
       }
-
       if (this.countrylist[value - 1].remark === "CHN") {
         this.switchon = true;
         this.form.identityType = 1; //身份证
@@ -310,7 +309,6 @@ export default {
         this.switchon = false;
         this.form.identityType = 2; //护照
       }
-
       this.userCountry=this.$i18n.locale=='zh_CN'?this.countrylist[value - 1].chinese:this.countrylist[value - 1].eng;
       this.form.userCountry = this.countrylist[value - 1].remark;
       this.form.userCountryEn = this.countrylist[value - 1].eng;
@@ -424,7 +422,7 @@ export default {
 
     asyncBeforeRead(file, index) {
       if (file.type !== "image/jpeg") {
-        this.$toast("请上传 jpg 格式图片");
+        this.$toast(this.$t('common.UploadJPG'));
         return false;
       }
       let formData = new FormData();
@@ -505,401 +503,401 @@ export default {
         ? this.$global.timestampToTime(this.createTime)
         : "";
       let letter = `<meta charset="utf-8" />
-<div class="content-wrap"
-     style="margin: 0px auto; overflow: hidden; padding: 0px; width: 500px;border:1px solid #cccccc;">
-  <div tindex="1" style="margin: 0px auto; max-width: 500px;">
-    <table align="center" border="0" cellpadding="0" cellspacing="0"
-           style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
-      <tbody>
-      <tr>
-        <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
-          <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
-            <tbody>
-            <tr>
-              <td
-                style="width: 100%; max-width: 100%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
-                <div class="full" style="margin: 0px auto; max-width: 500px;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                         style="width: 500px;">
-                    <tbody>
-                    <tr>
-                      <td
-                        style="direction: ltr; width: 500px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top;">
-                        <div style="display: inline-block; vertical-align: top; width: 100%;">
-                          <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                                 style="vertical-align: top;">
-                            <tr>
-                              <td
-                                style="font-size: 0px; word-break: break-word; width: 500px; text-align: center; padding: 30px 0; ">
-                                <div>
-                                  <img height="auto" alt="" width="180" height="200"
-                                       src="${this.email_pic}"
-                                       style="box-sizing: border-box; border: 0px; display: inline-block; outline: none; text-decoration: none; height: auto; max-width: 100%; padding: 0px;" />
-                                </div>
-                              </td>
-                            </tr>
-                          </table>
-                        </div>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div tindex="2" style="margin: 0px auto; max-width: 500px;">
-    <table align="center" border="0" cellpadding="0" cellspacing="0"
-           style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
-      <tbody>
-      <tr>
-        <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
-          <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
-            <tbody>
-            <tr>
-              <td
-                style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr;vertical-align: top; padding: 0px;">
-                <div class="full" style="margin: 0px auto; max-width: 500px;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                         style="width: 150px;">
-                    <tbody>
-                    <tr>
-                      <td
-                        style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                               style="vertical-align: top;">
+                    <div class="content-wrap"
+                         style="margin: 0px auto; overflow: hidden; padding: 0px; width: 500px;border:1px solid #cccccc;">
+                      <div tindex="1" style="margin: 0px auto; max-width: 500px;">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
+                          <tbody>
                           <tr>
-                            <td align="left" style="font-size: 0px; padding: 20px;">
-                              <div class="text"
-                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px;  color: lightcoral;font-size: 14px; font-weight: normal;'>
-                                <div>提示：</div>
-                              </div>
+                            <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
+                              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
+                                <tbody>
+                                <tr>
+                                  <td
+                                    style="width: 100%; max-width: 100%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
+                                    <div class="full" style="margin: 0px auto; max-width: 500px;">
+                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                             style="width: 500px;">
+                                        <tbody>
+                                        <tr>
+                                          <td
+                                            style="direction: ltr; width: 500px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top;">
+                                            <div style="display: inline-block; vertical-align: top; width: 100%;">
+                                              <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
+                                                     style="vertical-align: top;">
+                                                <tr>
+                                                  <td
+                                                    style="font-size: 0px; word-break: break-word; width: 500px; text-align: center; padding: 30px 0; ">
+                                                    <div>
+                                                      <img height="auto" alt="" width="180" height="200"
+                                                           src="${this.email_pic}"
+                                                           style="box-sizing: border-box; border: 0px; display: inline-block; outline: none; text-decoration: none; height: auto; max-width: 100%; padding: 0px;" />
+                                                    </div>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
                             </td>
                           </tr>
+                          </tbody>
                         </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-              <td
-                style="width: 66.6667%; max-width: 66.6667%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
-                <div class="full" style="margin: 0px auto; max-width: 500px;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                         style="width: 320px;">
-                    <tbody>
-                    <tr>
-                      <td
-                        style='direction: ltr; width: 320px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                               style="vertical-align: top;">
+                      </div>
+                      <div tindex="2" style="margin: 0px auto; max-width: 500px;">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
+                          <tbody>
                           <tr>
-                            <td align="left" style="font-size: 0px; padding: 20px 0 20px 20px;">
-                              <div class="text"
-                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align:left; line-height: 20px;  color: lightcoral; font-size: 14px; font-weight: normal;'>
-                                <div>您已收到新用户的个人信息提交，请尽快审核。</div>
-                              </div>
+                            <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
+                              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
+                                <tbody>
+                                <tr>
+                                  <td
+                                    style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr;vertical-align: top; padding: 0px;">
+                                    <div class="full" style="margin: 0px auto; max-width: 500px;">
+                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                             style="width: 150px;">
+                                        <tbody>
+                                        <tr>
+                                          <td
+                                            style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
+                                                   style="vertical-align: top;">
+                                              <tr>
+                                                <td align="left" style="font-size: 0px; padding: 20px;">
+                                                  <div class="text"
+                                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px;  color: lightcoral;font-size: 14px; font-weight: normal;'>
+                                                    <div>提示：</div>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                  <td
+                                    style="width: 66.6667%; max-width: 66.6667%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
+                                    <div class="full" style="margin: 0px auto; max-width: 500px;">
+                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                             style="width: 320px;">
+                                        <tbody>
+                                        <tr>
+                                          <td
+                                            style='direction: ltr; width: 320px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
+                                                   style="vertical-align: top;">
+                                              <tr>
+                                                <td align="left" style="font-size: 0px; padding: 20px 0 20px 20px;">
+                                                  <div class="text"
+                                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align:left; line-height: 20px;  color: lightcoral; font-size: 14px; font-weight: normal;'>
+                                                    <div>您已收到新用户的个人信息提交，请尽快审核。</div>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
                             </td>
                           </tr>
+                          </tbody>
                         </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div tindex="3" style="margin: 0px auto; max-width: 500px;">
-    <table align="center" border="0" cellpadding="0" cellspacing="0"
-           style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
-      <tbody>
-      <tr>
-        <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
-          <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
-            <tbody>
-            <tr>
-              <td
-                style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
-                <div class="full" style="margin: 0px auto; max-width: 500px;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                         style="width: 150px;">
-                    <tbody>
-                    <tr>
-                      <td
-                        style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                               style="vertical-align: top;">
+                      </div>
+                      <div tindex="3" style="margin: 0px auto; max-width: 500px;">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
+                          <tbody>
                           <tr>
-                            <td align="left" style="font-size: 0px; padding: 20px;">
-                              <div class="text"
-                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>【注册时间】</div>
-                              </div>
+                            <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
+                              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
+                                <tbody>
+                                <tr>
+                                  <td
+                                    style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
+                                    <div class="full" style="margin: 0px auto; max-width: 500px;">
+                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                             style="width: 150px;">
+                                        <tbody>
+                                        <tr>
+                                          <td
+                                            style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
+                                                   style="vertical-align: top;">
+                                              <tr>
+                                                <td align="left" style="font-size: 0px; padding: 20px;">
+                                                  <div class="text"
+                                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
+                                                    <div>【注册时间】</div>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                  <td
+                                    style="width: 66.6667%; max-width: 66.6667%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
+                                    <div class="full" style="margin: 0px auto; max-width: 500px;">
+                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                             style="width: 320px;">
+                                        <tbody>
+                                        <tr>
+                                          <td
+                                            style='direction: ltr; width: 320px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
+                                                   style="vertical-align: top;">
+                                              <tr>
+                                                <td align="left" style="font-size: 0px; padding: 20px;">
+                                                  <div class="text"
+                                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
+                                                    <div> ${signuptime}</div>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
                             </td>
                           </tr>
+                          </tbody>
                         </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-              <td
-                style="width: 66.6667%; max-width: 66.6667%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
-                <div class="full" style="margin: 0px auto; max-width: 500px;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                         style="width: 320px;">
-                    <tbody>
-                    <tr>
-                      <td
-                        style='direction: ltr; width: 320px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                               style="vertical-align: top;">
+                      </div>
+                      <div tindex="4" style="margin: 0px auto; max-width: 500px;">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
+                          <tbody>
                           <tr>
-                            <td align="left" style="font-size: 0px; padding: 20px;">
-                              <div class="text"
-                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div> ${signuptime}</div>
-                              </div>
+                            <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
+                              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
+                                <tbody>
+                                <tr>
+                                  <td
+                                    style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
+                                    <div class="full" style="margin: 0px auto; max-width: 500px;">
+                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                             style="width: 150px;">
+                                        <tbody>
+                                        <tr>
+                                          <td
+                                            style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
+                                                   style="vertical-align: top;">
+                                              <tr>
+                                                <td align="left" style="font-size: 0px; padding: 20px 0;">
+                                                  <div class="text"
+                                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
+                                                    <div>【个人/公司名称】</div>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                  <td
+                                    style="width: 66.6667%; max-width: 66.6667%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
+                                    <div class="full" style="margin: 0px auto; max-width: 500px;">
+                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                             style="width: 320px;">
+                                        <tbody>
+                                        <tr>
+                                          <td
+                                            style='direction: ltr; width: 320px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
+                                                   style="vertical-align: top;">
+                                              <tr>
+                                                <td align="left" style="font-size: 0px; padding: 20px;">
+                                                  <div class="text"
+                                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
+                                                    <div>${userIdentityType_name}</div>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
                             </td>
                           </tr>
+                          </tbody>
                         </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div tindex="4" style="margin: 0px auto; max-width: 500px;">
-    <table align="center" border="0" cellpadding="0" cellspacing="0"
-           style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
-      <tbody>
-      <tr>
-        <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
-          <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
-            <tbody>
-            <tr>
-              <td
-                style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
-                <div class="full" style="margin: 0px auto; max-width: 500px;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                         style="width: 150px;">
-                    <tbody>
-                    <tr>
-                      <td
-                        style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                               style="vertical-align: top;">
+                      </div>
+                      <div tindex="5" style="margin: 0px auto; max-width: 500px;">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
+                          <tbody>
                           <tr>
-                            <td align="left" style="font-size: 0px; padding: 20px 0;">
-                              <div class="text"
-                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>【个人/公司名字】</div>
-                              </div>
+                            <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
+                              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
+                                <tbody>
+                                <tr>
+                                  <td
+                                    style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
+                                    <div class="full" style="margin: 0px auto; max-width: 500px;">
+                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                             style="width: 150px;">
+                                        <tbody>
+                                        <tr>
+                                          <td
+                                            style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
+                                                   style="vertical-align: top;">
+                                              <tr>
+                                                <td align="left" style="font-size: 0px; padding: 20px;">
+                                                  <div class="text"
+                                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
+                                                    <div>【类型】</div>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                  <td
+                                    style="width: 66.6667%; max-width: 66.6667%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
+                                    <div class="full" style="margin: 0px auto; max-width: 500px;">
+                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                             style="width: 320px;">
+                                        <tbody>
+                                        <tr>
+                                          <td
+                                            style='direction: ltr; width: 320px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
+                                                   style="vertical-align: top;">
+                                              <tr>
+                                                <td align="left" style="font-size: 0px; padding: 20px;">
+                                                  <div class="text"
+                                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
+                                                    <div>${userIdentityType}</div>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
                             </td>
                           </tr>
+                          </tbody>
                         </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-              <td
-                style="width: 66.6667%; max-width: 66.6667%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
-                <div class="full" style="margin: 0px auto; max-width: 500px;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                         style="width: 320px;">
-                    <tbody>
-                    <tr>
-                      <td
-                        style='direction: ltr; width: 320px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                               style="vertical-align: top;">
+                      </div>
+                      <div tindex="6" style="margin: 0px auto; max-width: 500px;">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
+                          <tbody>
                           <tr>
-                            <td align="left" style="font-size: 0px; padding: 20px;">
-                              <div class="text"
-                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>${userIdentityType_name}</div>
-                              </div>
+                            <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
+                              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
+                                <tbody>
+                                <tr>
+                                  <td
+                                    style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
+                                    <div class="full" style="margin: 0px auto; max-width: 500px;">
+                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                             style="width: 150px;">
+                                        <tbody>
+                                        <tr>
+                                          <td
+                                            style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
+                                                   style="vertical-align: top;">
+                                              <tr>
+                                                <td align="left" style="font-size: 0px; padding: 20px;">
+                                                  <div class="text"
+                                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
+                                                    <div>【注册邮箱】</div>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                  <td
+                                    style="width: 66.6667%; max-width: 66.6667%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
+                                    <div class="full" style="margin: 0px auto; max-width: 500px;">
+                                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                             style="width: 320px;">
+                                        <tbody>
+                                        <tr>
+                                          <td
+                                            style='direction: ltr; width: 320px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
+                                                   style="vertical-align: top;">
+                                              <tr>
+                                                <td align="left" style="font-size: 0px; padding: 20px;">
+                                                  <div class="text"
+                                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align:left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
+                                                    <div> ${this.bslEmail}</div>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
                             </td>
                           </tr>
+                          </tbody>
                         </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div tindex="5" style="margin: 0px auto; max-width: 500px;">
-    <table align="center" border="0" cellpadding="0" cellspacing="0"
-           style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
-      <tbody>
-      <tr>
-        <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
-          <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
-            <tbody>
-            <tr>
-              <td
-                style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
-                <div class="full" style="margin: 0px auto; max-width: 500px;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                         style="width: 150px;">
-                    <tbody>
-                    <tr>
-                      <td
-                        style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                               style="vertical-align: top;">
-                          <tr>
-                            <td align="left" style="font-size: 0px; padding: 20px;">
-                              <div class="text"
-                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>【类型】</div>
-                              </div>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-              <td
-                style="width: 66.6667%; max-width: 66.6667%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
-                <div class="full" style="margin: 0px auto; max-width: 500px;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                         style="width: 320px;">
-                    <tbody>
-                    <tr>
-                      <td
-                        style='direction: ltr; width: 320px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                               style="vertical-align: top;">
-                          <tr>
-                            <td align="left" style="font-size: 0px; padding: 20px;">
-                              <div class="text"
-                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>${userIdentityType}</div>
-                              </div>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div tindex="6" style="margin: 0px auto; max-width: 500px;">
-    <table align="center" border="0" cellpadding="0" cellspacing="0"
-           style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
-      <tbody>
-      <tr>
-        <td style="direction: ltr; font-size: 0px; text-align: center; vertical-align: top; width: 500px;">
-          <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
-            <tbody>
-            <tr>
-              <td
-                style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
-                <div class="full" style="margin: 0px auto; max-width: 500px;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                         style="width: 150px;">
-                    <tbody>
-                    <tr>
-                      <td
-                        style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                               style="vertical-align: top;">
-                          <tr>
-                            <td align="left" style="font-size: 0px; padding: 20px;">
-                              <div class="text"
-                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>【注册邮箱】</div>
-                              </div>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-              <td
-                style="width: 66.6667%; max-width: 66.6667%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
-                <div class="full" style="margin: 0px auto; max-width: 500px;">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-                         style="width: 320px;">
-                    <tbody>
-                    <tr>
-                      <td
-                        style='direction: ltr; width: 320px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                               style="vertical-align: top;">
-                          <tr>
-                            <td align="left" style="font-size: 0px; padding: 20px;">
-                              <div class="text"
-                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align:left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div> ${this.bslEmail}</div>
-                              </div>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div tindex="7" style="margin: 0px auto; max-width: 500px;">
+                      </div>
+                      <div tindex="7" style="margin: 0px auto; max-width: 500px;">
     <table align="center" border="0" cellpadding="0" cellspacing="0"
            style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
       <tbody>
@@ -944,10 +942,7 @@ export default {
       </tbody>
     </table>
   </div>
-</div>
-
-
-`;
+                   </div>`;
       this.form.emailData =letter;
       this.$loading();
         this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/submitAuth`,this.form
@@ -991,6 +986,7 @@ export default {
 
     width: 100%;
     border: 1px solid #ababab;
+    border-radius: 3px;
     font-size: 0.38rem;
     color: #323233;
     .ant-select-selection__placeholder,
@@ -1048,7 +1044,7 @@ export default {
 
   .van-dropdown-menu {
     height: 1rem;
-    border-radius: 0.05rem;
+    border-radius: 3px;
     border: 1px solid #ababab;
     background: #f6f6f6;
   }
@@ -1064,7 +1060,7 @@ export default {
     //  width: 100%;
     height: 1rem;
     // border: 0.02rem solid #ababab;
-    border-radius: 0.05rem;
+    border-radius: 3px;
     background: #f6f6f6;
     padding: 0 0.2rem;
     box-sizing: border-box;
@@ -1121,7 +1117,7 @@ export default {
     border: 1px solid #ababab;
     margin: 0;
 
-    border-radius: 0.05rem;
+    border-radius: 3px;
     // box-sizing: border-box;
     .van-uploader__upload-icon {
       font-size: 0.5rem;

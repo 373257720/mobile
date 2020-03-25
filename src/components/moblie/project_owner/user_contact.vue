@@ -196,9 +196,9 @@ export default {
   .nodata{
     text-align: center;
     padding-top: 4rem;
+    color: #969799;
     font-size: 0.4375rem;
     line-height: 1.5625rem;
-    color: #646566;
   }
 
   ul {

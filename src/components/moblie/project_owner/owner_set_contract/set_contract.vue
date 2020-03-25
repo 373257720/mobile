@@ -47,8 +47,8 @@
       <div class="sub_title">
         <header>Contract content:</header>
         <div>
-           <!-- <vue-html5-editor :content="contract.article" :height="400"
-            @change="updateData"></vue-html5-editor> -->
+<!--          <vue-html5-editor :content="contract.article" :height="400"-->
+<!--            @change="updateData"></vue-html5-editor>-->
               <quill-editor v-model="contract.article"
                 ref="myQuillEditor"
                  :options="editorOption"
@@ -56,7 +56,7 @@
                 @blur="onEditorBlur($event)"
                 @focus="onEditorFocus($event)"
              >
-  </quill-editor>
+              </quill-editor>
           <!-- <textarea v-model="contract.article"  :placeholder="$t('ContractWrods.pleaseEnter')"></textarea> -->
         </div>
       </div>
@@ -76,17 +76,20 @@ export default {
   data() {
     return {
       editorOption:{
+          placeholder: 'Compose an epic',
+          theme: 'snow',
              modules:{
                   toolbar:[
                     ['bold', 'underline',],        // toggled buttons
-            [{ 'header': 1 }, { 'header': 2 }],
-  [{ 'list': 'ordered'}, { 'list': 'bullet' }],      // superscript/subscript
-  // [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent                    // text direction
-
-  // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown      // dropdown with defaults from theme
-  // [{ 'font': [] }],
-  [{ 'align': [] }],
-  // ['clean'] 
+                    [{ 'header': 1 }, { 'header': 2 }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],      // superscript/subscript
+                      // [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent                    // text direction
+                      //                   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                      // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown      // dropdown with defaults from theme
+                      // [{ 'font': [] }],
+                   [{ 'align': [] }],
+                      // ['clean']
                   ]
               }
       },
@@ -141,8 +144,14 @@ export default {
   },
   computed: {},
   methods: {
+    updateData(e = ''){
+      this.contract.article = e;
+      console.info(this.contract.article);
+    },
     onEditorChange(){
-      console.log('Change',this.contract.article)
+      // console.log('Change',)
+      // this.contract.article=E;
+      console.log('change',this.contract.article)
     },
         onEditorBlur() {
         console.log('blur',this.contract.article)
@@ -151,11 +160,6 @@ export default {
       onEditorFocus(){
         console.log('focus',this.contract.article)
       },
-     updateData(e){
-           // console.log(e);
-            this.contract.article = e;
-            console.log(this.contract.article);
-      } ,
     signature() {
       if(this.contract.owner_behalf==''){
         this.$toast(this.$t('ContractWrods.PleaseEnterRepresentativeRights'))
@@ -183,6 +187,7 @@ export default {
 #p_set_contract {
     .van-field__control{
     box-sizing: border-box;
+      border-radius: 3px;
     font-size: 0.38rem;
     line-height: 1rem;
         background: #f6f6f6;

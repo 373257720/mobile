@@ -40,6 +40,8 @@ export default {
     // Projects to be confirmed by investors
   },
   common:{
+    NotFound:'没有找到',
+    UploadJPG:'请上传 jpg 格式图片',
     PREIPO:'PRE-IPO',
     IPO:"IPO",
     network:'网络异常',
@@ -205,7 +207,7 @@ export default {
     ReviewItems: '待审核项目',
     ThisItemHasBeenDeleted: '该项目已删除',
     PleaseConfirmTheOperation: '请确认操作',
-    CooperationIntentionHasBeenSent: '已发送合作意向，等待中间人发送邀请链接给投资者',
+    CooperationIntentionHasBeenSent: '已发送合作意向，等待中间人发送邀请邮件给投资者',
     Contacts: '联络人',
   },
 }

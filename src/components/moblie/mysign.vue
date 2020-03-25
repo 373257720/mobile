@@ -316,7 +316,7 @@ export default {
       }
     },
      toggleAll() {
-       console.log(this.num)
+       // console.log(this.num)
        if(this.num==1){
          this.$refs.check.toggleAll(true);
          this.num=2;

@@ -8,7 +8,7 @@
             <p class="row1">{{$t('common.Email')}}:</p>
             <p class="row2">
               <van-cell-group>
-                <van-field  v-model="email" :placeholder="$t('ContractWrods.pleaseEnter')" />
+                <van-field   v-model="email" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
             </p>
           </li>

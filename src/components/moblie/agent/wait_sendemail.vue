@@ -283,7 +283,7 @@ export default {
                                   <td align="left" style="font-size: 0px; padding: 20px;">
                                     <div class="text"
                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                      <div>【投资银行】</div>
+                                      <div>【信息】</div>
                                     </div>
                                   </td>
                                 </tr>
@@ -309,7 +309,9 @@ export default {
                                   <td align="left" style="font-size: 0px; padding: 20px;">
                                     <div class="text"
                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                      <div>尊敬的投资人，您有一个投资项目，由中间人把项目方推荐给您，同意与其签约？</div>
+                                      <div>尊敬的投资人，您有一个投资项目，由下列中间人把项目方推荐给您。
+                                       請核對及提供您的資料作系統紀錄和核實用途。閣下完成登錄核實程序后，
+                                       投資銀行的負責人員將與您聯係並進一步提供投資項目相關資料。謝謝！</div>
                                     </div>
                                   </td>
                                 </tr>
@@ -585,7 +587,7 @@ export default {
                                   <td align="left" style="font-size: 0px; padding: 20px;">
                                     <div class="text"
                                       style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align:left; line-height: 20px;  color: lightcoral; font-size: 14px; font-weight: normal;'>
-                                      <div>投资者注册账号后，并提交资料认证。待银行认证后，方可查阅详细资料。如果您已有账号，可以直接登录进行操作。</div>
+                                      <div>如果您已有账号，可以直接登录进行操作。</div>
                                     </div>
                                   </td>
                                 </tr>

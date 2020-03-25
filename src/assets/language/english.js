@@ -40,6 +40,8 @@ export default {
     // Projects to be confirmed by investors
   },
   common:{
+    NotFound:'Not Found',
+    UploadJPG:'Please upload picture in JPG format',
     PREIPO:'PRE-IPO',
     IPO:"IPO",
     network:'Network exception',
@@ -71,7 +73,7 @@ export default {
     Reminder: 'Reminder',
     PleaseEnterTheSearchKeyword:'Please Enter The Keyword',
     Home:'Home',
-    MyProjectS:'My Projects',
+    MyProjectS:'Projects',
     ConnectedItems:'Connection',
     Contacts:'Contacts',
     ContractStatus:'Status',
@@ -107,8 +109,8 @@ export default {
     changePassword:'Change Password',
     NewPassword:'New Password',
     ConfirmPassword:'Confirm Password',
-    PasswordsEnteredTwiceAreInconsistent:'Passwords Entered Twice Are inconsistent',
-    PleaseFillInTheNewPassword:'Please Enter The NewPassword',
+    PasswordsEnteredTwiceAreInconsistent:'Passwords entered twice are inconsistent',
+    PleaseFillInTheNewPassword:'Please Enter the new password',
     ProjectScreening:'Projects fliter',
     SelectAll:'Select All',
     ApplicationTime:'Time Of Application',

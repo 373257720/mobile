@@ -218,6 +218,7 @@ export default {
           line-height: 1rem;
           font-size: 0.38rem;
           border: 1px solid #d9d9d9;
+          border-radius: 3px;
           padding: 0 0.2rem;
           color: #8a8a8a;
         }
@@ -226,6 +227,7 @@ export default {
           // border-radius: 0.1rem;
           border: 1px solid #d9d9d9;
           height: 5rem;
+          border-radius: 3px;
           overflow: hidden;
           img {
             width: 100%;

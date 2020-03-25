@@ -31,13 +31,13 @@
           />
         </van-dropdown-item>
         <van-dropdown-item class='region_class' :title="region_title" ref="region" >
-          <van-search v-model="text" @input='search_region'  :placeholder="$t('common.PleaseEnterTheSearchKeyword')"/>
+          <van-search v-model="text" @input='search_region' :placeholder="$t('common.PleaseEnterTheSearchKeyword')"/>
           <a-spin v-if="countrylist_fetching" size="small"/>
             <ul  v-if='!countrylist_fetching && countrylist.length>0'>
               <li v-for="d in countrylist" :class="d.classname" :key="d.remark" :value='d.value'
                   @click="select_country(d.remark,d.eng,d.chinese,d.value)">
-                <span v-if="$i18n.locale=='zh_CN'">{{d.chinese}}</span>
-                <span v-else>{{d.eng}}</span>
+                <span>{{d.eng}}</span>
+                <span>{{d.chinese}}</span>
               </li>
             </ul>
             <ul  style="max-height:200px" v-else-if="!countrylist_fetching &&  countrylist.length<1">
@@ -106,7 +106,6 @@
          </van-pull-refresh>
       </div>
     </div>
-
     <mbottom></mbottom>
   </div>
 </template>
@@ -186,8 +185,8 @@ export default {
       region_title:this.$t('common.AllAreas'),
       countrylist: [
           {
-            chinese: this.$t('common.AllAreas'),
-            eng:this.$t('common.AllAreas'),
+            chinese: '全部地区',
+            eng:'AllAreas',
             value: 0,
             remark: "",
             classname:''
@@ -234,6 +233,7 @@ export default {
                     classname:''
             });
           }
+          // console.log(this.countrylist)
         }
       })
     );
@@ -461,7 +461,7 @@ export default {
             this.loading = false;
             this.finished = true;
           }
-          console.log(this.upGoodsInfo);
+          // console.log(this.upGoodsInfo);
 
         })
         .catch(err => {

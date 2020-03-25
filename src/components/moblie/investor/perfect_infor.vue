@@ -266,6 +266,7 @@ export default {
   .ant-select{
     width: 100%;
     border: 1px solid #ababab;
+    border-radius: 3px;
     font-size: 0.38rem;
     color: #323233;
     .ant-select-selection-selected-value{
@@ -321,6 +322,8 @@ export default {
   }
   .van-dropdown-menu__item{
     border: 1px solid #ababab;
+    border-radius: 3px;
+    /*border: 1px solid #b3b3b3;*/
   }
   .van-dropdown-menu {
     height: 1rem;

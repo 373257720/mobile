@@ -112,6 +112,7 @@ export default {
         background: #f6f6f6;
         // color: rgba(0, 0, 0, 0.65);
     padding:0.1rem 0.2rem;
+    border-radius: 3px;
     height: 1rem;
     width: 100%;
     border: 1px solid #a9a9a9;

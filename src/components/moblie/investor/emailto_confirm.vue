@@ -109,7 +109,11 @@ export default {
               title: this.$t('TheItemNoLongerExists'),
             })
             .then(() => {
-              this.$router.go(-1);
+              // this.$routerto('login')
+              this.$router.replace({
+                //核心语句
+                path: "/login" //跳转的路径
+              });
             })
           return
         }

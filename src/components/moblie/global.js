@@ -33,7 +33,6 @@ const global = {
     return Y + M + D + h + m + s;
   },
   pic_obj: {
-
       '1': 'common.Pending',
       '2': 'common.ToBeSigned',
       '3': 'common.InvestmentBankHasRejected',
@@ -45,8 +44,6 @@ const global = {
       '9':'common.ToBeConfirmedByInvestors',
       '10':'common.SignedContract',
       '11': 'common.InvestorHasRejected',
-
-
   },
   financingStage: {
     '0': 'projectOwner.SeedRound',
@@ -73,11 +70,6 @@ const global = {
       axios.get(url, {
         params: datas
       },
-
-        // { headers:{
-        //   'Content-Type': 'application/x-www-form-urlencoded'
-        // }}
-
         ).then((res) => {
         resolve(res)
       }).catch(function (error) {
@@ -155,7 +147,7 @@ const global = {
               } else if (i == "publicCompany") {
                 details_lists[i].response = res.data.data[i] == false ? i18n.t('common.isno') : i18n.t('common.isyes')
               } else {
-                details_lists[i].response = res.data.data[i];
+                details_lists[i].response = res.data.data[i] || '-';
               }
             }
             if (nav_lists.hasOwnProperty(i)) {
@@ -165,11 +157,11 @@ const global = {
                   res.data.data[i]])
                 ;
               } else {
-                nav_lists[i].response = res.data.data[i];
+                nav_lists[i].response = res.data.data[i] || 0;
               }
             }
             if (middlemen.hasOwnProperty(i)) {
-              middlemen[i].response = res.data.data[i];
+              middlemen[i].response = res.data.data[i] || '-';
             }
             if (investor_infor.hasOwnProperty(i)) {
               if (i == 'investorsType') {

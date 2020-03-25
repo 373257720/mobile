@@ -144,11 +144,11 @@ export default {
                   }
                 )}
                 else {
-                this.reminder="两次密码输入不一致"
+                this.reminder=this.$t('common.PasswordsEnteredTwiceAreInconsistent')
                    done(false);
                 }
               }else{
-              this.reminder='请填写新密码';
+              this.reminder= this.$t('common.PleaseFillInTheNewPassword')
                 done(false);
             }
       } else if (action === "cancel") {
@@ -355,7 +355,8 @@ export default {
           //  width: 100%;
           height: 1rem;
           border: 1px solid #dddddd;
-          border-radius: 0.05rem;
+          /*border-radius: 0.05rem;*/
+          border-radius: 3px;
           padding: 0;
           background: #f6f6f6;
           padding:0 0.34rem;

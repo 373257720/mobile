@@ -3,7 +3,7 @@
     <van-divider>{{$t('projectOwner.InvestorInformation')}}</van-divider>
     <ul>
       <li i v-for="(item,key) in investor_infor" :key="item.name">
-        <div v-if="key!='investorsCompany' || (key='investorsCompany' && item.response!='')">
+          <div v-if="key!='investorsCompany' || (key='investorsCompany' && item.response!='')">
           <p class="row1">{{item.name}}:</p>
           <p class="row2">{{item.response}}</p>
         </div>
