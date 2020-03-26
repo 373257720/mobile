@@ -32,6 +32,8 @@
   </div>
 </template>
 <script>
+  import {i18n} from "../../language";
+
   export default {
     name: "login",
     data() {
@@ -46,7 +48,15 @@
       if (this.$route.query.email) {
         this.username = this.$route.query.email ? this.$route.query.email : '';
       }
-      // console.log(this.$route.query.email);
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`,
+        {lan:this.$i18n.locale})
+        .then(res => {
+          console.log(res)
+          if(res.data.resultCode==10000){
+            this.$store.dispatch("X_Token_actions",JSON.parse(res.data.data).X_Token);
+            console.log(this.$store.state)
+          }
+        });
     },
     beforeRouteLeave(to, from, next) {
       // console.log(to, from)
@@ -61,17 +71,9 @@
         this.remind = "";
         if (this.username && this.password) {
           this.$loading();
-          this.$axios({
-            method: "post",
-            url: `${this.$baseurl}/bsl_web/user/login.do`,
-            data: this.$qs.stringify({
-              bslEmail: this.username,
-              bslPwd: this.password
-            }),
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            }
-          })
+          this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/login.do`,
+            {bslEmail: this.username,
+              bslPwd: this.password})
             .then(res => {
             this.$toast.clear();
             var rescode = res.data.resultCode;
@@ -82,6 +84,7 @@
               this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
               this.$store.dispatch("usertype", res.data.data.userType);
               this.$store.dispatch("setUser", this.username);
+              // console.log(this.$i18n.locale)
               if (res.data.data.isAuth == 1) {
                 this.$routerto("mhome");
 
@@ -92,10 +95,6 @@
             this.remind = res.data.resultDesc;
           })
             .catch(err => {
-              if (err) {
-                // this.$toast.clear();
-                // this.$loadingfail('网络故障');
-              }
             });
         } else {
           this.remind = this.$t('common.AccountAndPasswordCannotBeEmpty')
@@ -116,7 +115,7 @@
       //  width: 100%;
       height: 1rem;
       border:1px solid #dddddd;
-      border-radius: 0.05rem;
+      border-radius: 3px;
       background: #f6f6f6;
       padding: 0.1rem 0.3rem;
       box-sizing: border-box;

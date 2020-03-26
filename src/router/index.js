@@ -226,10 +226,6 @@ const routes = [
     name: 'a_recommand_i',
     component:a_recommand_i,
   },
-
-
-
-
   {
     path: '/a_wait_sendemail',
     name: 'a_wait_sendemail',

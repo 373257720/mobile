@@ -47,6 +47,7 @@ export default {
     network:'网络异常',
     Sendcode:'发送验证码',
     Code:'验证码',
+    pleasecode:'请输入验证码',
     NoMore: '没有更多了',
     forgetpassword:'忘记密码',
     Investor:'投资者',

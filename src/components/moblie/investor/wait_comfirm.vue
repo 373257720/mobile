@@ -25,6 +25,9 @@
   </div>
 </template>
 <script>
+import {i18n} from "../../../language";
+import store from "../../../store/store";
+
 export default {
   name: "goods_details",
   data() {
@@ -36,6 +39,9 @@ export default {
       signUserId3:'',
       investorsId:'',
       investorsType:'',
+      investorsCompanyEn:'',
+      investorsAreaEn:'',
+      investorsArea:'',
        investorsCompany:'',
        investorsName:'',
       investor_infor: {
@@ -112,9 +118,11 @@ export default {
     console.log(this.$route.query);
     let details = this.$route.query;
     this.$loading();
+
+
     this.$global
-      .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+      .get_deatails(
+        `${this.$baseurl}/bsl_web/project/getProjectDetails.do`,
         "get",
         {
           projectId:details.projectId,
@@ -129,10 +137,13 @@ export default {
       .then(res => {
         console.log(res)
         this.investorsType=res.investorsType;
-        this.investorsCompany=res.investorsCompany?res.investorsCompany:'-';
-        this.investorsName=res.investorsName?res.investorsName:'-';
+        this.investorsCompany=res.investorsCompany || '-';
+        this.investorsCompanyEn=res.investorsCompanyEn ||'-'
+        this.investorsName=res.investorsName || '-';
+        this.investorsArea= res.investorsArea || '-';
+        this.investorsAreaEn=res.investorsAreaEn || '-'
         this.investorsEmailSend=res.investorsEmailSend;
-        this.signUserId3=res.signUserId3
+        this.signUserId3=res.signUserId3;
         this.investorsId=res.investorsId;
         this.title = res.title;
         this.$toast.clear();
@@ -156,6 +167,9 @@ export default {
         this.$store.commit('inverstor_mutation',{
           investorsType:this.investorsType,
           investorsCompany:this.investorsCompany,
+          investorsCompanyEn:this.investorsCompanyEn,
+          investorsArea:this.investorsArea,
+          investorsAreaEn:this.investorsAreaEn,
           investorsName:this.investorsName,
         })
         this.$routerto("i_perfect_infor", query);

@@ -27,7 +27,7 @@
                                 style="font-size: 0px; word-break: break-word; width: 500px; text-align: center; padding: 30px 0; ">
                                 <div>
                                   <img height="auto" alt="" width="180" height="200"
-                                       src="http://47.90.62.114:8086/bsl_web/images/05148fe12e21df605d7c38f1b481de5.png"
+                                       src="${this.custmoers_obj.picUrl}"
                                        style="box-sizing: border-box; border: 0px; display: inline-block; outline: none; text-decoration: none; height: auto; max-width: 100%; padding: 0px;" />
                                 </div>
                               </td>
@@ -169,7 +169,7 @@
                             <td align="left" style="font-size: 0px; padding: 20px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>tom</div>
+                                <div>${agent_name}</div>
                               </div>
                             </td>
                           </tr>
@@ -238,7 +238,7 @@
                             <td align="left" style="font-size: 0px; padding: 20px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>Project Bit</div>
+                                <div>${this.custmoers_obj.projectName?this.custmoers_obj.projectName:''}</div>
                               </div>
                             </td>
                           </tr>
@@ -308,7 +308,7 @@
                             <td align="left" style="font-size: 0px; padding: 20px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align:left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>福建天使投资技术有限公司</div>
+                                <div>${companyname}</div>
                               </div>
                             </td>
                           </tr>
@@ -377,7 +377,7 @@
                             <td align="left" style="font-size: 0px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei";word-wrap:break-word;word-break:break-all; overflow-wrap: break-word; margin: 0px; text-align:left; line-height: 20px;  color: lightcoral; font-size: 14px; font-weight: normal;'>
-                                <div>如您還未在系統注冊賬號，請先按以下連結注冊 <a href="http://47.90.62.114:8083/#/register">http://47.90.62.114:8083/#/register</a>。注冊完成后，再按以下按鈕登錄操作。</div>
+                                <div>如您還未在系統注冊賬號，請先按以下連接註冊 <a href="${this.$baseurl3}/#/register">http://www.bit-bro.biz/#/register</a>。注冊完成后，再按以下按鈕登錄操作。</div>
                               </div>
                             </td>
                           </tr>

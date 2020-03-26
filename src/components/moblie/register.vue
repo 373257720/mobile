@@ -102,7 +102,7 @@ export default {
     //  width: 100%;
     height: 1rem;
     border: 0.02rem solid #dddddd;
-    border-radius: 0.05rem;
+    border-radius: 3px;
     background: #f6f6f6;
         padding:0.1rem 0.3rem;
     box-sizing: border-box;

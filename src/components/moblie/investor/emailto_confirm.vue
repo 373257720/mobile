@@ -87,11 +87,10 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$baseurl}/bsl_web/project/getProjectDetails.do`,
         "get",
         {
-          projectId:details.projectId,
-          signStatus:details.signStatus,
+          projectLan:details.projectLan,
           signId:details.signId || -1
         },
         this.details_lists,
@@ -111,7 +110,6 @@ export default {
             .then(() => {
               // this.$routerto('login')
               this.$router.replace({
-                //核心语句
                 path: "/login" //跳转的路径
               });
             })

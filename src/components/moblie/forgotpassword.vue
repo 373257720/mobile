@@ -166,7 +166,7 @@
           return false;
         }
         else if(this.form.verificationCode==''){
-          this.$toast({ message:this.$t('agent.PleaseEnterRegion')});
+          this.$toast({ message:this.$t('common.pleasecode')});
           return false;
         }
         this.commit();
@@ -235,6 +235,7 @@
       padding: 0.1rem 0.3rem;
       height: 1rem;
       border: 1px solid #ababab;
+      border-radius: 3px;
       line-height: 1rem;
     }
     .van-icon-arrow-left {

@@ -76,14 +76,14 @@ export default {
   data() {
     return {
       editorOption:{
-          placeholder: 'Compose an epic',
+          placeholder: this.$t('ContractWrods.pleaseEnter'),
           theme: 'snow',
              modules:{
                   toolbar:[
-                    ['bold', 'underline',],        // toggled buttons
+                    // ['bold', 'underline',],        // toggled buttons
                     [{ 'header': 1 }, { 'header': 2 }],
-                    [{ 'size': ['small', false, 'large', 'huge'] }],
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],      // superscript/subscript
+                    // [{ 'size': ['small', false, 'large', 'huge'] }],
+                    // [{ 'list': 'ordered'}, { 'list': 'bullet' }],      // superscript/subscript
                       // [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent                    // text direction
                       //                   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                       // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown      // dropdown with defaults from theme

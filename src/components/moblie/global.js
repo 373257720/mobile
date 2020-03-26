@@ -203,7 +203,94 @@ const global = {
     sessionStorage.clear();
 
 
-  }
+  },
+  get_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor,middlemen) {
+    datas.projectLan=i18n.locale;
+    datas.X_Token=store.state.X_Token;
+    // console.log(datas)
+    return new Promise((resolve, reject) => {
+      axios({
+        url: url,
+        method: methods,
+        params: datas
+      })
+        .then((res) => {
+          let {projectLifeCycle,signAgreement,investorsEmailSend,
+            investorsId,projectName,investorsName,userCompanyCh3,signUserId3,signUserId1,
+            investorsType,userCompanyEn3,userName3,userCountryCh3,userCountryEn3,investorsCompany,signAgreementKey}= res.data.data;
+          for (let i in res.data.data) {
+            if(details_lists.collectMoney.hasOwnProperty(i)){
+              if ( res.data.data[i]*1>0){
+                let value=Math.round(res.data.data[i]*100)/100;
+                var s=value.toString().split(".");
+                if(s.length==1){
+                  details_lists.collectMoney[i]= (value.toLocaleString()).toString()+".00"
+                }
+                if(s.length>1){
+                  if(s[1].length<2){
+                    details_lists.collectMoney[i]= (value.toLocaleString()).toString()+"0"
+                  }
+                }
+              }else{
+                res.data.data[i]='';
+              }
+            }
+            if (details_lists.hasOwnProperty(i)) {
+              if (i == "signStatus") {
+                details_lists[i].response = i18n.t(this.pic_obj[res.data.data[i]]);
+              } else if (i == "publicCompany") {
+                details_lists[i].response = res.data.data[i] == false ? i18n.t('common.isno') : i18n.t('common.isyes')
+              } else {
+                details_lists[i].response = res.data.data[i] || '-';
+              }
+            }
+            if (nav_lists.hasOwnProperty(i)) {
+              if (i == "financingStage") {
+                nav_lists[i].response =
+                  i18n.t(this.financingStage[
+                    res.data.data[i]])
+                ;
+              } else {
+                nav_lists[i].response = res.data.data[i] || 0;
+              }
+            }
+            if (middlemen.hasOwnProperty(i)) {
+              middlemen[i].response = res.data.data[i] || '-';
+            }
+            if (investor_infor.hasOwnProperty(i)) {
+              if (i == 'investorsType') {
+                investor_infor[i].response = i18n.t(this.investorsType[res.data.data[i]]);
+              } else {
+                investor_infor[i].response = res.data.data[i];
+              }
+            }
+          }
+          let combin = {
+            signUserId1:signUserId1,
+            signUserId3:signUserId3,
+            projectLifeCycle:projectLifeCycle,
+            investorsEmailSend:investorsEmailSend,
+            signAgreement: signAgreement,
+            investorsId: investorsId,
+            investorsType:investorsType,
+            investorsCompany:userCompanyCh3,
+            investorsCompanyEn:userCompanyEn3,
+            investorsName:userName3,
+            investorsArea:userCountryCh3,
+            investorsAreaEn:userCountryEn3,
+            title: projectName,
+            signAgreementKey: signAgreementKey,
+          }
+          resolve(combin)
+
+        }).catch(function (error) {
+        reject(error)
+        // console.log(error);
+      })
+    })
+
+  },
+
 
 
 }

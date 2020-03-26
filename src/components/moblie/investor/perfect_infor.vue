@@ -24,7 +24,7 @@
                 <a-select
               showSearch
               :placeholder="$t('ContractWrods.pleaseEnter')"
-              :value='form.investorsArea'
+              :value='investorsArea'
              :getPopupContainer="triggerNode => triggerNode.parentNode"
               :showArrow="false"
               :filterOption="false"
@@ -35,7 +35,7 @@
               <!-- :filterOption="filterOption" -->
             <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
                  <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >
-                   {{d.chinese}}{{d.eng}}</a-select-option>
+                <span>{{d.eng}}</span><span>{{d.chinese}}</span>  </a-select-option>
           </a-select>
             </p>
           </li>
@@ -73,11 +73,26 @@
             <p class="row1">{{$t('investor.IndustryOfInterest')}}:</p>
             <p class="row2">
               <van-checkbox-group v-model="form.interestedIndustries">
-                <van-checkbox
-                  v-for="(item) in industrylist"
+
+<!--                <van-checkbox-->
+<!--                  v-for="(item) in industrylist"-->
+<!--                  :key="item.industryId"-->
+<!--                  @click="chooseindustry"-->
+<!--                  :name="item.industryId"-->
+<!--                >-->
+<!--                  <span>{{$i18n.locale=='zh_CN'?item.industryNameCh:item.industryNameEn}}</span>-->
+<!--                </van-checkbox>-->
+                <van-cell
+                  v-for="(item, index) in industrylist"
+                  clickable
                   :key="item.industryId"
-                  :name="item.industryId"
-                >{{$i18n.locale=='zh_CN'?item.industryNameCh:item.industryNameEn}}</van-checkbox>
+                  :title="$i18n.locale=='zh_CN'?item.industryNameCh:item.industryNameEn"
+                  @click="toggle(index)"
+                >
+                  <template #right-icon>
+                    <van-checkbox :name="item.industryId" ref="checkboxes" />
+                  </template>
+                </van-cell>
               </van-checkbox-group>
             </p>
           </li>
@@ -100,6 +115,7 @@ export default {
     return {
       title: "",
       countrylist_fetching:false,
+      investorsArea:undefined,
       form: {
         signId: this.$route.query.signId,
         signStatus: 10,
@@ -107,12 +123,16 @@ export default {
         investorsId: this.$route.query.investorsId,
         investorsType:null,
         investorsCompany: "",
+        investorsCompanyEn:'',
         investorsName: "",
-        investorsArea: undefined,
+        investorsArea:"",
+        investorsAreaEn:'',
         investorsEmail: "",
         investorsMobile: "",
         interestedIndustries: [],
+        interestedIndustriesEn:[],
         investorsCompanyAddress: "",
+        investorsCompanyAddressEn:'',
         investorsName: ""
       },
       industrylist: [],
@@ -134,11 +154,15 @@ export default {
   created() {
     this.ulHtml('');
     this.$loading();
+    console.log(this.$store.state)
     this.form.investorsType=this.$store.state.inverstor.investorsType;
     this.form.investorsName=this.$store.state.inverstor.investorsName;
     this.form.investorsCompany=this.$store.state.inverstor.investorsCompany;
+    this.form.investorsCompanyEn=this.$store.state.inverstor.investorsCompanyEn;
+    this.form.investorsName=this.$store.state.inverstor.investorsName;
+
+
     let a =this.$store.state.inverstor;
-    console.log(a)
     this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/getAllIndustry`,)
       .then(res => {
         if(res.data.resultCode==10000){
@@ -152,6 +176,12 @@ export default {
       });
   },
   methods: {
+    toggle(index) {
+      this.$refs.checkboxes[index].toggle();
+    },
+    chooseindustry(e){
+      console.log(e.target)
+    },
      search(val){
     if (timeout) {
           clearTimeout(timeout);
@@ -352,6 +382,7 @@ export default {
     // padding: 0 0.2rem;
     padding: 0 0.3rem;
     border: 1px solid #ababab;
+    border-radius: 3px;
     height: 1rem;
     line-height: 1rem;
   }
@@ -456,7 +487,7 @@ export default {
             /*width: 7rem;*/
             flex: 2;
             font-size: 0.42rem;
-            word-break: break-all;
+            /*word-break: break-all;*/
             color: #787878;
           }
         }

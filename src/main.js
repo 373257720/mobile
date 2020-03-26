@@ -81,10 +81,12 @@ function locales(a) {
 }
 Vue.prototype.$Local = locales;
 // 多语言设置
-let z = window.localStorage.getItem('language') == null? 'en_US': window.localStorage.getItem('language');
+let z = localStorage.getItem('language')?localStorage.getItem('language'):'en_US';
 locales(z);
-i18n.locale=window.localStorage.getItem('language') == null? 'en_US': window.localStorage.getItem('language');
+// console.log(window.localStorage.getItem('language'))
 
+i18n.locale=localStorage.getItem('language')?localStorage.getItem('language'):'en_US';
+// console.log(i18n.locale)
 // Toast
 // console.log(Vant.Toast)
 // import moment from 'moment'
@@ -182,11 +184,11 @@ Vue.prototype.$loadingfail = function loadingfail() {
   });
 };
 var baseurl = {
-  // api: "http://192.168.1.37:8085",
+  api: "http://192.168.1.37:8085",
   // api3:'www.aaa.com',
   api2:'http://47.90.62.114:8081',
   api3: 'http://47.90.62.114:8083',//(前段服务器端口)
-  api: "http://47.90.62.114:8086",//(后台正式服务器端口)
+  // api: "http://47.90.62.114:8086",//(后台正式服务器端口)
 }
 Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl2 = baseurl.api2;

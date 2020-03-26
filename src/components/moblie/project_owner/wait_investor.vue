@@ -271,7 +271,7 @@ export default {
         font-size: 0.42rem;
         text-align: center;
         aside {
-          height: 1.8rem;
+          /*height: 1.8rem;*/
           display: flex;
           flex-direction: column;
           align-items: center;

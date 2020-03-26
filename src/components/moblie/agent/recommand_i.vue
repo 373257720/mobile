@@ -5,7 +5,7 @@
       <article>
         <ul>
           <li class="identity">
-            <p class="row1">{{$t('agent.InvestorType')}}:</p>
+            <p class="row1 must">{{$t('agent.InvestorType')}}:</p>
             <p class="row2">
               <van-cell-group>
                 <van-dropdown-menu >
@@ -15,11 +15,11 @@
             </p>
           </li>
           <li class="investorsArea">
-            <p class="row1">{{$t('common.region')}}:</p>
+            <p class="row1 must">{{$t('common.region')}}:</p>
             <p class="row2">
               <a-select
                 showSearch
-                :value="form.investorsArea"
+                :value="investorsArea"
                 :placeholder="$t('ContractWrods.pleaseEnter')"
                 :defaultActiveFirstOption="false"
                 :getPopupContainer="triggerNode => triggerNode.parentNode"
@@ -30,20 +30,29 @@
                 :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
               >
                 <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
-                <a-select-option :title='d.chinese' v-for="d in region" :key="d.remark" :value='d.value+1' >{{d.chinese}}{{d.eng}}</a-select-option>
+                <a-select-option :title='d.chinese' v-for="d in region" :key="d.remark" :value='d.value+1' >
+                  <span style="margin-right: 0.1rem">{{d.eng}}</span><span>{{d.chinese}}</span></a-select-option>
               </a-select>
             </p>
           </li>
           <li class="investorsCompany" v-show="form.investorsType==2">
-            <p class="row1">{{$t('agent.InvestorCompany')}}:</p>
-            <p class="row2">
+            <p class="row1">投资者公司(中文):</p>
+            <p class="row2 ">
               <van-cell-group>
                 <van-field  v-model="form.investorsCompany" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
             </p>
           </li>
+          <li class="investorsCompany" v-show="form.investorsType==2">
+            <p class="row1 must">Investor company:</p>
+            <p class="row2">
+              <van-cell-group>
+                <van-field  v-model="form.investorsCompanyEn" :placeholder="$t('ContractWrods.pleaseEnter')" />
+              </van-cell-group>
+            </p>
+          </li>
           <li class="investorsName">
-            <p class="row1">{{$t('agent.InvestorName')}}:</p>
+            <p class="row1 must">{{$t('agent.InvestorName')}}:</p>
             <p class="row2">
               <van-cell-group>
                 <van-field v-model="form.investorsName" :placeholder="$t('ContractWrods.pleaseEnter')" />
@@ -81,11 +90,14 @@ export default {
         //   remark: ""
         // }
       ],
+      investorsArea:undefined,
       form: {
         investorsType: 1,
         investorsCompany: "",
+        investorsCompanyEn:'',
         investorsName: "",
-        investorsArea: undefined,
+        investorsArea: '',
+        investorsAreaEn:'',
         projectId: "",
         signId:'',
         signStatus:'',
@@ -118,7 +130,8 @@ export default {
       ;
     },
    handleChange (value) {
-    //  console.log(value)
+      this.investorsArea=this.$i18n.locale=='zh_CN'?this.region[value-1].chinese:this.region[value-1].eng;
+     this.form.investorsAreaEn=this.region[value-1].eng;
       this.form.investorsArea=this.region[value-1].chinese;
       this.countrylist_fetching = false;
       // console.log(this.form)
@@ -401,7 +414,7 @@ export default {
             /*line-height: 1rem;*/
             /*margin-bottom: 0.2rem;*/
           }
-          .row1::before {
+          .must::before {
                 content: "*";
                 color: #f56c6c;
                 margin-right: 0.1rem;

@@ -20,11 +20,11 @@
         </li>
         <li>
           <p>{{$t('common.Identity')}}:</p>
-          <div>{{form.userIdentityType==1?'个人':'公司'}}</div>
+          <div>{{form.userIdentityType==1?$t('common.individual'):$t('common.company')}}</div>
         </li>
         <li>
           <p>{{$t('common.Nationality')}}:</p>
-          <div>{{form.userCountryCh}}</div>
+          <div>{{$i18n.locale=='zh_CN'?form.userCountryCh:form.userCountryEn}}</div>
         </li>
         <li v-if="form.userIdentityType==1">
           <p>{{$t('common.PersonalName')}}:</p>

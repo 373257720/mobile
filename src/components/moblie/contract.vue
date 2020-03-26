@@ -159,9 +159,8 @@
     .contract_component {
       border: 1px solid #b5b5b5;
       box-sizing: border-box;
-
       /*background: #f6f6f6;*/
-      padding: 0.375rem 0.175rem 0.375rem 0.46875rem;
+      padding: 0.375rem  0.46875rem;
       width: 100%;
       height: 100%;
       /*overflow-y: auto;*/
