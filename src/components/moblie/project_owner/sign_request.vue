@@ -4,25 +4,36 @@
     <main>
       <div class="investors_infor">
       <h2>{{title}}</h2>
-      <div class="middlerean_info">
+        <div class="middlerean_info">
           <van-divider>{{$t('projectOwner.IntermediaryInformation')}}</van-divider>
           <ul>
-            <li  v-for="(item,key) in middlemen">
-              <div v-if="key=='userName'">
-                <p class="row1">{{item.name}}</p>
-                <p class="row2">{{item.response}}</p>
+            <!--            v-for="(item,key) in middlemen"-->
+            <li>
+              <div>
+                <p class="row1">{{middlemen.userIdentityType.name}}:</p>
+                <p class="row2">{{middlemen.Type==1?$t('common.individual'):middlemen.Type==2?$t('common.company'):'-'}}</p>
               </div>
-              <div v-if="key=='userIdentityType'">
-                <p class="row1">{{item.name}}</p>
-                <p class="row2">{{item.response==1?$t('common.individual'):item.response==2?$t('common.company'):'-'}}</p>
+            </li>
+            <li v-if="middlemen.Type==1">
+              <div>
+                <p class="row1">{{middlemen.userName.name}}</p>
+                <p class="row2">{{middlemen.userName.response}}</p>
               </div>
-              <div v-else-if="( middlemen['userIdentityType'].response==2 && (key=='userCompanyCh' || key=='userCompanyEn'))">
-                <p class="row1">{{item.name}}</p>
-                <p class="row2">{{item.response}}</p>
+            </li>
+            <li v-if="middlemen.Type==2 && $i18n.locale=='zh_CN'">
+              <div>
+                <p class="row1">{{middlemen.userCompanyCh.name}}</p>
+                <p class="row2">{{middlemen.userCompanyCh.response}}</p>
+              </div>
+            </li>
+            <li v-if="middlemen.Type==2 && $i18n.locale=='en_US'">
+              <div>
+                <p class="row1">{{middlemen.userCompanyEn.name}}</p>
+                <p class="row2">{{middlemen.userCompanyEn.response}}</p>
               </div>
             </li>
           </ul>
-      </div>
+        </div>
       <commoninvestors v-if="$route.query.signStatus==6" :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
@@ -72,7 +83,6 @@ export default {
           response: ""
         }
       },
-
       nav_lists: {
         financingStage: {
           name: this.$t('agent.FinancingStage'),
@@ -332,6 +342,42 @@ export default {
   main {
     padding: 1.6rem 0 1.3rem 0;
     background: #ffffff;
+    div.middlerean_info{
+      ul{
+        padding: 0.1rem 0.5rem;
+        li{
+          >div{
+            margin-bottom: 0.1rem;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: baseline;
+            -webkit-align-items: baseline;
+            align-items: baseline;
+            font-size: 0.42rem;
+            .row1{
+              color: #4c4c4c;
+              font-weight: 600;
+              width: 4.4rem;
+            }
+            .row2{
+              -webkit-box-flex: 1;
+              -webkit-flex: 1;
+              flex: 1;
+              display: -webkit-box;
+              display: -webkit-flex;
+              display: flex;
+              -webkit-box-pack: center;
+              -webkit-justify-content: center;
+              justify-content: center;
+              word-break: break-all;
+              line-height: 0.48rem;
+              color: #787878;
+            }
+          }
+        }
+      }
+    }
     div.investors_infor {
       h2 {
        min-height: 2rem;

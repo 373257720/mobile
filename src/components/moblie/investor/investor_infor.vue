@@ -15,7 +15,7 @@
               v-if="item.keyword!='investorsCompany' || (item.keyword=='investorsCompany' && item.response!='')"
             >
               <p class="row1">{{item.name}}</p>
-              <p class="row2">{{item.response}}</p>
+              <p class="row2 init">{{item.response}}</p>
             </div>
           </li>
         </ul>
@@ -76,10 +76,41 @@ export default {
           investorsId:this.$route.query.investorsId,
         })
       .then(res => {
+        console.log(res.data.data.lan)
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
-            this.details_lists[j].response = res.data.data[i];
+            if(i=='interestedIndustries'){
+              if(res.data.data.lan=='zh_CN'){
+                this.details_lists[j].response = res.data.data.interestedIndustries|| '-';
+              }else {
+                this.details_lists[j].response = res.data.data.interestedIndustriesEn|| '-';
+              }
+            }
+           else if(i=='investorsArea'){
+              if(res.data.data.lan=='zh_CN'){
+                this.details_lists[j].response = res.data.data.investorsArea|| '-';
+              }else {
+                this.details_lists[j].response = res.data.data.investorsAreaEn|| '-';
+              }
+            }
+            else if(i=='investorsCompany'){
+              if(res.data.data.lan=='zh_CN'){
+                this.details_lists[j].response = res.data.data.investorsCompany|| '-';
+              }else {
+                this.details_lists[j].response = res.data.data.investorsCompanyEn|| '-';
+              }
+            }
+            else if(i=='investorsCompanyAddress'){
+              if(res.data.data.lan=='zh_CN'){
+                this.details_lists[j].response = res.data.data.investorsCompanyAddress || '-';
+              }else {
+                this.details_lists[j].response = res.data.data.investorsCompanyAddressEn|| '-';
+              }
+            }else {
+              this.details_lists[j].response = res.data.data[i] || '-';
+            }
+
           }
         }
       }
@@ -145,11 +176,12 @@ export default {
             margin-bottom: 0.2rem;
           }
           .row2 {
-            height: 0.6rem;
+            /*height: 0.6rem;*/
             word-break: break-all;
             line-height: 0.6rem;
             color: #787878;
           }
+
         }
       }
     }

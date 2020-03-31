@@ -125,8 +125,7 @@ export default {
         `${this.$baseurl}/bsl_web/project/getProjectDetails.do`,
         "get",
         {
-          projectId:details.projectId,
-          signStatus:details.signStatus,
+          projectLan:this.$i18n.locale,
           signId:details.signId ? details.signId : -1
         },
         this.details_lists,

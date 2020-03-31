@@ -85,7 +85,6 @@
         if(this.watch){
             return
         }
-        // console.log(neww)
         let regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
         if(regemail.test(neww)){
           this.isactive=true;
@@ -149,24 +148,24 @@
           });
       },
       submit() {
-        // if(this.form.verificationCodeToken==''){
-        //   this.$toast({ message:'请发送邮件'});
-        //   return false;
-        // }
-        if(this.form.newPwd==''){
+        if(this.form.verificationCodeToken==''){
+          this.$toast({ message:this.$t('common.pleasegetcode')});
+          return false;
+        }
+        if(this.form.verificationCode==''){
+          this.$toast({ message:this.$t('common.pleasecode')});
+          return false;
+        }
+       else if(this.form.newPwd==''){
           this.$toast({ message:this.$t('common.PleaseFillInTheNewPassword')});
           return false;
         }
-        if(this.comfirmpassword==''){
+        else if(this.comfirmpassword==''){
           this.$toast({ message:this.$t('common.ConfirmPassword')});
           return false;
         }
-        if(this.comfirmpassword!==this.form.newPwd){
+        else if(this.comfirmpassword!==this.form.newPwd){
           this.$toast({ message:this.$t('common.PasswordsEnteredTwiceAreInconsistent')});
-          return false;
-        }
-        else if(this.form.verificationCode==''){
-          this.$toast({ message:this.$t('common.pleasecode')});
           return false;
         }
         this.commit();
@@ -183,6 +182,7 @@
             this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/forgetPwd.do`,this.form).
             then(res => {
               this.$toast.clear();
+              // this.form.verificationCodeToken="";
               if (res.data.resultCode == 10000) {
                 this.$dialog
                   .alert({
@@ -194,6 +194,7 @@
               } else {
                this.$toast(res.data.resultDesc);
               }
+
             });
           })
           .catch(() => {

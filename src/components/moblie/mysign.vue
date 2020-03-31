@@ -49,14 +49,15 @@
                 </p>
                 <p>
                   <span>{{$t('common.ApplicationProject')}}:</span>
-                  <span>{{item.projectName}}</span>
+                  <span>{{item.projectName || '-'}}</span>
                 </p>
                 <p>
                   <span>{{$t('common.ApplicationMiddleman')}}:</span>
-                  <span>{{item.userIdentityType==1?item.userName:item.userCompany}}</span>
+                  <span>{{item.userIdentityType==1?item.userName:
+                    item.userCompany}}</span>
                 </p>
 
-                <p v-if="usertype==1 && item.signStatus>=6">
+                <p v-if="usertype==1 && item.signStatus>5">
                   <span>{{$t('common.InvestorName')}}:</span>
                   <span>{{item.investorsName}}</span>
                 </p>
@@ -740,6 +741,7 @@ export default {
           font-size: 0.38rem;
           span:nth-child(1) {
             font-weight: 800;
+            font-size: 0.42rem;
             /*line-height: 0.46rem;*/
             /*display: inline-block;*/
             /*width: 2.6rem;*/
@@ -749,6 +751,7 @@ export default {
             /*vertical-align: top;*/
             /*display: inline-block;*/
             /*flex: 1;*/
+            font-size: 0.4rem;
             color: #575757;
           }
           //

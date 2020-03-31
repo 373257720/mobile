@@ -36,18 +36,18 @@
             </p>
           </li>
           <li class="investorsCompany" v-show="form.investorsType==2">
-            <p class="row1">投资者公司(中文):</p>
-            <p class="row2 ">
-              <van-cell-group>
-                <van-field  v-model="form.investorsCompany" :placeholder="$t('ContractWrods.pleaseEnter')" />
-              </van-cell-group>
-            </p>
-          </li>
-          <li class="investorsCompany" v-show="form.investorsType==2">
             <p class="row1 must">Investor company:</p>
             <p class="row2">
               <van-cell-group>
                 <van-field  v-model="form.investorsCompanyEn" :placeholder="$t('ContractWrods.pleaseEnter')" />
+              </van-cell-group>
+            </p>
+          </li>
+          <li class="investorsCompany" v-show="form.investorsType==2">
+            <p class="row1">投资者公司(中文):</p>
+            <p class="row2 ">
+              <van-cell-group>
+                <van-field  v-model="form.investorsCompany" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
             </p>
           </li>
@@ -181,7 +181,11 @@ export default {
       //  console.log(this.form.investorsArea,region.remark)
     },
     submit() {
-       if(this.form.investorsType==2 && this.form.investorsCompany==''){
+      // if(this.form.investorsType==2 && this.form.investorsCompany==''){
+      //   this.$toast({ message:this.$t('agent.PleaseEnterTheCompanyName')});
+      //   return
+      // }
+       if(this.form.investorsType==2 && this.form.investorsCompanyEn==''){
               this.$toast({ message:this.$t('agent.PleaseEnterTheCompanyName')});
           return
         }
@@ -192,6 +196,7 @@ export default {
           this.$toast({ message:this.$t('agent.PleaseEnterRegion')});
             return
         }
+      console.log(this.form)
       this.commit();
     },
     commit() {
@@ -202,20 +207,23 @@ export default {
           // message: "确认提交"
         })
         .then(() => {
-           this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/submitInvestors`,this.form)
+          this.$loading()
+           this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/submitInvestors`,
+             this.form)
             .then(res => {
-            if (res.data.resultCode == 10000) {
-              this.$dialog
-                .alert({
-                  title: res.data.resultDesc,
-                  message: this.$t('agent.WaitingForInvestmentBankReview')
-                })
-                .then(() => {
-                  this.$routerto("mysign")
-                });
-            } else {
-              this.remind(res.data.resultDesc);
-            }
+              this.$toast.clear();
+              if (res.data.resultCode == 10000) {
+                this.$dialog
+                  .alert({
+                    title: res.data.resultDesc,
+                    message: this.$t('agent.WaitingForInvestmentBankReview')
+                  })
+                  .then(() => {
+                    this.$routerto("mysign")
+                  });
+              } else {
+                this.remind(res.data.resultDesc);
+              }
           });
         })
         .catch(() => {

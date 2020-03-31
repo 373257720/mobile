@@ -100,8 +100,12 @@ const global = {
 
   },
   goods_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor,middlemen) {
-    datas.projectLan=i18n.locale;
-    datas.X_Token=store.state.X_Token;
+    if(!datas.projectLan){
+      datas.projectLan=i18n.locale;
+    }
+    if(store.state.X_Token){
+      datas.X_Token=store.state.X_Token;
+    }
     // console.log(datas)
     return new Promise((resolve, reject) => {
       axios({
@@ -112,7 +116,7 @@ const global = {
         .then((res) => {
           let {projectLifeCycle,signAgreement,investorsEmailSend,
             investorsId,projectName,investorsName,signUserId3,signUserId1,
-            investorsType,investorsCompany,signAgreementKey}= res.data.data;
+            investorsType,investorsCompany,signAgreementKey,projectLan}= res.data.data;
           // let projectLifeCycle=res.data.data.projectLifeCycle;
           // let signAgreement = res.data.data.signAgreement;
           // let investorsEmailSend=res.data.data.investorsEmailSend;
@@ -161,12 +165,31 @@ const global = {
               }
             }
             if (middlemen.hasOwnProperty(i)) {
+              if(i=='userIdentityType'){
+                middlemen.Type=res.data.data[i];
+              }
               middlemen[i].response = res.data.data[i] || '-';
             }
             if (investor_infor.hasOwnProperty(i)) {
               if (i == 'investorsType') {
+                investor_infor.Type=res.data.data[i];
                 investor_infor[i].response = i18n.t(this.investorsType[res.data.data[i]]);
-              } else {
+              }else if(i == 'investorsArea'){
+                if(projectLan=='zh_CN'){
+                  investor_infor[i].response = res.data.data.investorsArea || '-';
+                }else{
+                  investor_infor[i].response = res.data.data.investorsAreaEn || '-';
+                }
+              }else if(i=='investorsCompany'){
+                if(projectLan=='zh_CN'){
+                  investor_infor[i].response = res.data.data.investorsCompany || '-';
+                }else{
+                  investor_infor[i].response = res.data.data.investorsCompanyEn || '-';
+                }
+                console.log(investor_infor)
+              }
+              else {
+
                 investor_infor[i].response = res.data.data[i];
               }
             }
@@ -205,9 +228,12 @@ const global = {
 
   },
   get_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor,middlemen) {
-    datas.projectLan=i18n.locale;
-    datas.X_Token=store.state.X_Token;
-    // console.log(datas)
+    if(!datas.projectLan){
+      datas.projectLan=i18n.locale;
+    }
+    if(store.state.X_Token){
+      datas.X_Token=store.state.X_Token;
+    }
     return new Promise((resolve, reject) => {
       axios({
         url: url,
@@ -216,7 +242,7 @@ const global = {
       })
         .then((res) => {
           let {projectLifeCycle,signAgreement,investorsEmailSend,
-            investorsId,projectName,investorsName,userCompanyCh3,signUserId3,signUserId1,
+            investorsId,projectName,userIdentityType3,investorsName,projectLan,userCompanyCh3,signUserId3,signUserId1,
             investorsType,userCompanyEn3,userName3,userCountryCh3,userCountryEn3,investorsCompany,signAgreementKey}= res.data.data;
           for (let i in res.data.data) {
             if(details_lists.collectMoney.hasOwnProperty(i)){
@@ -259,8 +285,25 @@ const global = {
             }
             if (investor_infor.hasOwnProperty(i)) {
               if (i == 'investorsType') {
+                investor_infor.Type=res.data.data[i];
                 investor_infor[i].response = i18n.t(this.investorsType[res.data.data[i]]);
-              } else {
+              }else if(i == 'investorsArea'){
+                if(projectLan=='zh_CN'){
+                  investor_infor[i].response = res.data.data.userCountryCh3 || '-';
+                }else{
+                  investor_infor[i].response = res.data.data.userCountryEn3 || '-';
+                }
+              }else if(i=='investorsCompany'){
+
+                if(projectLan=='zh_CN'){
+                  investor_infor[i].response = res.data.data.userCompanyCh3 || '-';
+                }else{
+                  investor_infor[i].response = res.data.data.userCompanyEn3 || '-';
+                }
+
+              }
+
+              else {
                 investor_infor[i].response = res.data.data[i];
               }
             }
@@ -272,7 +315,7 @@ const global = {
             investorsEmailSend:investorsEmailSend,
             signAgreement: signAgreement,
             investorsId: investorsId,
-            investorsType:investorsType,
+            investorsType:userIdentityType3,
             investorsCompany:userCompanyCh3,
             investorsCompanyEn:userCompanyEn3,
             investorsName:userName3,

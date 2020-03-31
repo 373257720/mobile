@@ -16,36 +16,46 @@
             </p>
           </li>
           <li>
-            <p class="row1 isbefore">{{$t('investor.InvestorRegion')}}:</p>
+            <p class="row1">{{$t('investor.InvestorRegion')}}:</p>
             <p class="row2">
+              <van-field v-if="$i18n.locale=='zh_CN'"  disabled v-model="form.investorsArea"  placeholder="-" />
+              <van-field v-else  disabled v-model="form.investorsAreaEn"  placeholder="-" />
               <!-- <van-dropdown-menu>
                 <van-dropdown-item @close="choose_nation" placeholder="-" v-model="form.investorsArea"  :options="countrylist" />
               </van-dropdown-menu> -->
-                <a-select
-              showSearch
-              :placeholder="$t('ContractWrods.pleaseEnter')"
-              :value='investorsArea'
-             :getPopupContainer="triggerNode => triggerNode.parentNode"
-              :showArrow="false"
-              :filterOption="false"
-              @change="handleChange"
-              @search='search'
-              :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"
-            >
-              <!-- :filterOption="filterOption" -->
-            <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>
-                 <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >
-                <span>{{d.eng}}</span><span>{{d.chinese}}</span>  </a-select-option>
-          </a-select>
+<!--                <a-select-->
+<!--              showSearch-->
+<!--              :placeholder="$t('ContractWrods.pleaseEnter')"-->
+<!--              :value='investorsArea'-->
+<!--             :getPopupContainer="triggerNode => triggerNode.parentNode"-->
+<!--              :showArrow="false"-->
+<!--              :filterOption="false"-->
+<!--              @change="handleChange"-->
+<!--              @search='search'-->
+<!--              :notFoundContent="countrylist_fetching ? undefined : 'Not Found'"-->
+<!--            >-->
+<!--              &lt;!&ndash; :filterOption="filterOption" &ndash;&gt;-->
+<!--            <a-spin v-if="countrylist_fetching" slot="notFoundContent" size="small"/>-->
+<!--                 <a-select-option v-for="d in region" :key="d.remark" :value='d.value+1' >-->
+<!--                <span>{{d.eng}}</span><span>{{d.chinese}}</span>  </a-select-option>-->
+<!--          </a-select>-->
             </p>
           </li>
+
            <li v-show="form.investorsType==2">
             <p class="row1">{{$t('agent.InvestorCompany')}}:</p>
             <p class="row2">
-              <van-field  disabled v-model="form.investorsCompany"  placeholder="-" />
+              <van-field v-if="$i18n.locale=='zh_CN'"  disabled v-model="form.investorsCompany"  placeholder="-" />
+              <van-field v-else disabled v-model="form.investorsCompanyEn"  placeholder="-" />
             </p>
           </li>
-          <li>
+<!--          <li v-show="form.investorsType==2">-->
+<!--            <p class="row1">公司名称:</p>-->
+<!--            <p class="row2">-->
+<!--              <van-field  disabled v-model="form.investorsCompany"  placeholder="-" />-->
+<!--            </p>-->
+<!--          </li>-->
+          <li v-show="form.investorsType==1">
             <p class="row1">{{$t('agent.InvestorName')}}:</p>
             <p class="row2">
               <van-field disabled v-model="form.investorsName"  placeholder="-" />
@@ -63,8 +73,20 @@
               <van-field v-model="form.investorsEmail"  :placeholder="$t('ContractWrods.pleaseEnter')" />
             </p>
           </li>
+<!--          <li >-->
+<!--            <p class="row1"> {{$t('investor.InvestorAddress')}}:</p>-->
+<!--            <p class="row2">-->
+<!--              <van-field v-model="form.investorsCompanyAddress"  :placeholder="$t('ContractWrods.pleaseEnter')"  />-->
+<!--            </p>-->
+<!--          </li>-->
           <li >
             <p class="row1 isbefore"> {{$t('investor.InvestorAddress')}}:</p>
+            <p class="row2">
+              <van-field v-model="form.investorsCompanyAddressEn"  :placeholder="$t('ContractWrods.pleaseEnter')"  />
+            </p>
+          </li>
+          <li >
+            <p class="row1">投资人地址(中文):</p>
             <p class="row2">
               <van-field v-model="form.investorsCompanyAddress"  :placeholder="$t('ContractWrods.pleaseEnter')"  />
             </p>
@@ -72,8 +94,7 @@
           <li class="interests isbefore">
             <p class="row1">{{$t('investor.IndustryOfInterest')}}:</p>
             <p class="row2">
-              <van-checkbox-group v-model="form.interestedIndustries">
-
+              <van-checkbox-group v-model="interestedInduslistid" ref="checkboxGroup">
 <!--                <van-checkbox-->
 <!--                  v-for="(item) in industrylist"-->
 <!--                  :key="item.industryId"-->
@@ -90,7 +111,7 @@
                   @click="toggle(index)"
                 >
                   <template #right-icon>
-                    <van-checkbox :name="item.industryId" ref="checkboxes" />
+                    <van-checkbox  :name="item.industryId" ref="checkboxess" />
                   </template>
                 </van-cell>
               </van-checkbox-group>
@@ -136,6 +157,7 @@ export default {
         investorsName: ""
       },
       industrylist: [],
+      interestedInduslistid:[],
       region:[],
       option1: [{ text: this.$t('common.individual'), value: 1 },
         { text: this.$t('common.company'), value: 2 }]
@@ -152,16 +174,17 @@ export default {
   // },
 
   created() {
-    this.ulHtml('');
     this.$loading();
+    this.ulHtml('');
     console.log(this.$store.state)
+    this.form.investorsArea=this.$store.state.inverstor.investorsArea;
+    this.form.investorsAreaEn=this.$store.state.inverstor.investorsAreaEn;
+    this.investorsArea=this.$i18n.locate=='zh_CN'?this.form.investorsArea:this.form.investorsAreaEn;
     this.form.investorsType=this.$store.state.inverstor.investorsType;
     this.form.investorsName=this.$store.state.inverstor.investorsName;
     this.form.investorsCompany=this.$store.state.inverstor.investorsCompany;
     this.form.investorsCompanyEn=this.$store.state.inverstor.investorsCompanyEn;
     this.form.investorsName=this.$store.state.inverstor.investorsName;
-
-
     let a =this.$store.state.inverstor;
     this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/getAllIndustry`,)
       .then(res => {
@@ -176,8 +199,36 @@ export default {
       });
   },
   methods: {
+   unique(arr) {
+        if (!Array.isArray(arr)) {
+          console.log('type error!')
+          return
+        }
+        var array = [];
+        for (var i = 0; i < arr.length; i++) {
+          if (array .indexOf(arr[i]) === -1) {
+            array .push(arr[i])
+          }
+        }
+        return array;
+      },
     toggle(index) {
-      this.$refs.checkboxes[index].toggle();
+      this.$refs.checkboxess[index].toggle();
+    },
+    result(){
+      this.form.interestedIndustries=[];
+      this.form.interestedIndustriesEn=[];
+      this.interestedInduslistid=this.unique(this.interestedInduslistid)
+      this.interestedInduslistid.forEach(item=>{
+        this.industrylist.forEach(item2=>{
+          if(item2.industryId===item){
+            this.form.interestedIndustries.push(item2.industryNameCh);
+            this.form.interestedIndustriesEn.push(item2.industryNameEn);
+          }
+        })
+      })
+      this.form.interestedIndustries= this.unique(this.form.interestedIndustries);
+      this.form.interestedIndustriesEn= this.unique(this.form.interestedIndustriesEn);
     },
     chooseindustry(e){
       console.log(e.target)
@@ -191,7 +242,9 @@ export default {
       ;
     },
    handleChange (value) {
+      this.investorsArea=this.$i18n.locale=='zh_CN'?this.region[value-1].chinese:this.region[value - 1].eng;
       this.form.investorsArea=this.region[value-1].chinese;
+     this.form.investorsArea=this.region[value-1].eng;
      // this.userCountry=this.$i18n.locale=='zh_CN'?this.region[value-1].chinese:this.region[value - 1].eng;
       this.countrylist_fetching = false;
       // console.log(this.form)
@@ -221,15 +274,17 @@ export default {
       // console.log(this.region)
     },
      submit() {
+       this.result();
         var regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
        if(this.form.investorsType==2 && this.form.investorsCompany=='')
        { this.$toast({ message:this.$t('investor.PleaseEnterTheNameOfTheInvestorCompany')});
             return
         }
-        if(this.form.investorsArea==''){
-            this.$toast(this.$t('investor.PleaseEnterInvestorRegion'));
-            return
-        }else  if(this.form.investorsName==''){
+        // if(this.investorsArea==''){
+        //     this.$toast(this.$t('investor.PleaseEnterInvestorRegion'));
+        //     return
+        // }
+        else  if(this.form.investorsName==''){
           this.$toast(this.$t('investor.PleaseEnterInvestorName'));
             return
         }else  if(this.form.investorsMobile==''){
@@ -242,7 +297,7 @@ export default {
           this.$toast(this.$t('investor.EmailFormatIsIncorrect'));
             return
         }
-        else  if(this.form.investorsCompanyAddress==''){
+        else  if(this.form.investorsCompanyAddressEn==''){
           this.$toast(this.$t('investor.PleaseEnterInvestorAddress'));
             return
         }else  if(this.form.interestedIndustries.length<=0){
@@ -254,7 +309,9 @@ export default {
     commit() {
       let formtable = JSON.parse(JSON.stringify(this.form));
       let interestedIndustries = this.form.interestedIndustries.join("/");
+      let interestedIndustriesEn=this.form.interestedIndustriesEn.join("/");
       formtable.interestedIndustries = interestedIndustries;
+      formtable.interestedIndustriesEn=interestedIndustriesEn;
       console.log(formtable);
       this.$loading();
         this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/signProject3`,
@@ -501,11 +558,11 @@ export default {
                  display: flex;
                  flex-wrap: wrap;
                  .van-checkbox{
-                   padding: 0.12rem;
+                   /*padding: 0.12rem;*/
                    box-sizing: border-box;
                      display: flex;
                      align-items: flex-start;
-                   width: 50%;
+                   /*width: 50%;*/
 
                  }
                }

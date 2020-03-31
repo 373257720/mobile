@@ -6,7 +6,7 @@ export default {
     Interested:'Interested',
     FinancingStage:'Financing Stage',
     NumberOfinvestorsHaveSubmitted:"Submission of Investors",
-    Numberofprojectsinterested:'Interest of Project Side',
+    Numberofprojectsinterested:'Number of investors received',
     YouHaveSubmittedYourApplication:'You have submitted the application successfully',
     AfterTheApplicationIsProcessed:'Once approval by bank, please sign the contract',
     InvestorType:'Investor Type',
@@ -40,6 +40,7 @@ export default {
     // Projects to be confirmed by investors
   },
   common:{
+    pleasegetcode:'Please send email to get code',
     NotFound:'Not Found',
     UploadJPG:'Please upload picture in JPG format',
     PREIPO:'PRE-IPO',

@@ -36,6 +36,24 @@ export default {
           response: ""
         },
       },
+      investor_infor: {
+        investorsType: {
+          name: this.$t('agent.InvestorType'),
+          response: ""
+        },
+        investorsCompany: {
+          name: this.$t('agent.InvestorCompany'),
+          response: ""
+        },
+        investorsName: {
+          name:this.$t('agent.InvestorName'),
+          response: ""
+        },
+        investorsArea: {
+          name: this.$t('agent.InvestorRegion'),
+          response: ""
+        },
+      },
       details_lists: {
         projectIndustry: {
           name:this.$t('common.Industry'),
@@ -86,7 +104,7 @@ export default {
     let details = this.$route.query;
     this.$loading();
     this.$global
-      .goods_deatails(
+      .get_deatails(
         `${this.$baseurl}/bsl_web/project/getProjectDetails.do`,
         "get",
         {
@@ -238,6 +256,7 @@ export default {
           flex-direction: column;
           justify-content: space-between;
           button {
+            border-radius: 5px;
             height: 1rem;
             line-height: 1rem;
             color: #ffffff;

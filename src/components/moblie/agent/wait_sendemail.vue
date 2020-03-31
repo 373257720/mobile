@@ -210,7 +210,7 @@ export default {
         agent_name=this.custmoers_obj.userCompanyEn4;
       }
       let letter = `<meta charset="utf-8" />
-<div class="content-wrap"
+                <div class="content-wrap"
      style="margin: 0px auto; overflow: hidden; padding: 0px; width: 500px;border:1px solid #cccccc;">
   <div tindex="1" style="margin: 0px auto; max-width: 500px;">
     <table align="center" border="0" cellpadding="0" cellspacing="0"
@@ -720,8 +720,7 @@ export default {
       </tbody>
     </table>
   </div>
-</div>
-`;
+</div>`;
     var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
     if(reg.test(this.emailadress)) {
       this.$loading();

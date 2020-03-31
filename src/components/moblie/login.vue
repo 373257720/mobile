@@ -21,7 +21,6 @@
           <button @click="login">{{$t('common.LogIn')}}</button>
         </div>
       </van-form>
-      <!-- </van-form> -->
       <div class="registerbtn common">
         <button @click="$routerto('register',{email:username})">{{$t('common.Register')}}</button>
       </div>
@@ -44,17 +43,17 @@
       };
     },
     created() {
-      console.log(this.$restore_obj);
+      // console.log(this.$restore_obj);
       if (this.$route.query.email) {
         this.username = this.$route.query.email ? this.$route.query.email : '';
       }
       this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`,
         {lan:this.$i18n.locale})
         .then(res => {
-          console.log(res)
+          // console.log(res)
           if(res.data.resultCode==10000){
             this.$store.dispatch("X_Token_actions",JSON.parse(res.data.data).X_Token);
-            console.log(this.$store.state)
+            // console.log(this.$store.state)
           }
         });
     },

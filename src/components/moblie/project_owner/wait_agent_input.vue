@@ -4,6 +4,36 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
+        <div class="middlerean_info">
+          <van-divider>{{$t('projectOwner.IntermediaryInformation')}}</van-divider>
+          <ul>
+            <!--            v-for="(item,key) in middlemen"-->
+            <li>
+              <div>
+                <p class="row1">{{middlemen.userIdentityType.name}}:</p>
+                <p class="row2">{{middlemen.Type==1?$t('common.individual'):middlemen.Type==2?$t('common.company'):'-'}}</p>
+              </div>
+            </li>
+            <li v-if="middlemen.Type==1">
+              <div>
+                <p class="row1">{{middlemen.userName.name}}</p>
+                <p class="row2">{{middlemen.userName.response}}</p>
+              </div>
+            </li>
+            <li v-if="middlemen.Type==2 && $i18n.locale=='zh_CN'">
+              <div>
+                <p class="row1">{{middlemen.userCompanyCh.name}}</p>
+                <p class="row2">{{middlemen.userCompanyCh.response}}</p>
+              </div>
+            </li>
+            <li v-if="middlemen.Type==2 && $i18n.locale=='en_US'">
+              <div>
+                <p class="row1">{{middlemen.userCompanyEn.name}}</p>
+                <p class="row2">{{middlemen.userCompanyEn.response}}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
         <!-- <commoninvestors :investor_infor="investor_infor"></commoninvestors> -->
       </div>
       <article>
@@ -26,6 +56,24 @@
       return {
         title: "",
         dad_text: "",
+        middlemen:{
+          userIdentityType: {
+            name: this.$t('projectOwner.MiddlemanType'),
+            response: ""
+          },
+          userName: {
+            name: this.$t('projectOwner.MiddlemanName'),
+            response: ""
+          },
+          userCompanyCh:{
+            name: this.$t('common.CompanyName'),
+            response: ""
+          },
+          userCompanyEn: {
+            name: "Company Name:",
+            response: ""
+          }
+        },
         nav_lists: {
           financingStage: {
             name: this.$t('agent.FinancingStage'),
@@ -113,6 +161,7 @@
       };
     },
     created() {
+      console.log(this.$i18n.locale)
       let details = this.$route.query;
       if(this.$route.query.signStatus==4){
         this.dad_text= this.$t('common.SignedForChain');
@@ -134,7 +183,7 @@
           this.details_lists,
           this.nav_lists,
           this.investor_infor,
-          {}
+          this.middlemen
         )
         .then(res => {
           this.$toast.clear();
@@ -204,6 +253,16 @@
         transform: (translate(0, -50%));
       }
     }
+    .middlerean_info{
+      .van-divider{
+        background:#F2F2F2;
+        border-color: #D2D2D2;
+        padding: 0 2rem;
+        margin:0;
+        color: #858585;
+        font-size: 0.42rem;
+      }
+    }
     .van-dialog__header {
       font-size: 0.5rem;
     }
@@ -232,6 +291,42 @@
     main {
       padding: 1.6rem 0 1.3rem 0;
       background: #ffffff;
+      div.middlerean_info{
+        ul{
+          padding: 0.1rem 0.5rem;
+          li{
+            >div{
+              margin-bottom: 0.1rem;
+              display: -webkit-box;
+              display: -webkit-flex;
+              display: flex;
+              -webkit-box-align: baseline;
+              -webkit-align-items: baseline;
+              align-items: baseline;
+              font-size: 0.42rem;
+              .row1{
+                color: #4c4c4c;
+                font-weight: 600;
+                width: 4.4rem;
+              }
+              .row2{
+                -webkit-box-flex: 1;
+                -webkit-flex: 1;
+                flex: 1;
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-box-pack: center;
+                -webkit-justify-content: center;
+                justify-content: center;
+                word-break: break-all;
+                line-height: 0.48rem;
+                color: #787878;
+              }
+            }
+          }
+        }
+      }
       div.investors_infor {
         h2 {
            min-height: 2rem;

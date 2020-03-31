@@ -98,15 +98,43 @@ export default {
            for (let i in res.data.data) {
           for (let j = 0; j < this.details_lists.length; j++) {
             if (this.details_lists[j].keyword == i) {
-              if (this.details_lists[j].keyword == "signStatus") {
+              if(i=='interestedIndustries'){
+                if(res.data.data.lan=='zh_CN'){
+                  this.details_lists[j].response = res.data.data.interestedIndustries || '-';;
+                }else {
+                  this.details_lists[j].response = res.data.data.interestedIndustriesEn || '-';;
+                }
+              }
+              else if(i=='investorsArea'){
+                if(res.data.data.lan=='zh_CN'){
+                  this.details_lists[j].response = res.data.data.investorsArea || '-';
+                }else {
+                  this.details_lists[j].response = res.data.data.investorsAreaEn || '-';
+                }
+              }
+              else if(i=='investorsCompany'){
+                if(res.data.data.lan=='zh_CN'){
+                  this.details_lists[j].response = res.data.data.investorsCompany || '-';
+                }else {
+                  this.details_lists[j].response = res.data.data.investorsCompanyEn || '-';
+                }
+              }
+              else if(i=='investorsCompanyAddress'){
+                if(res.data.data.lan=='zh_CN'){
+                  this.details_lists[j].response = res.data.data.investorsCompanyAddress || '-';
+                }else {
+                  this.details_lists[j].response = res.data.data.investorsCompanyAddressEn || '-';;
+                }
+              }
+              else if (this.details_lists[j].keyword == "signStatus") {
                 this.details_lists[j].response = this.$global.pic_obj[
                   res.data.data[i]
-                ];
+                ] || '-';;
               } else if (this.details_lists[j].keyword == "publicCompany") {
                 this.details_lists[j].response =
-                  this.res.data.data[i] == false ? this.$t('common.isno'): this.$t('common.isyes');
+                  this.res.data.data[i] == false ? this.$t('common.isno'): this.$t('common.isyes')|| '-';;
               } else {
-                this.details_lists[j].response = res.data.data[i];
+                this.details_lists[j].response = res.data.data[i]|| '-';;
               }
               if (this.details_lists[j].keyword == "signTime3") {
                 this.details_lists[j].response = this.$global.timestampToTime(
@@ -232,7 +260,7 @@ export default {
             margin-bottom: 0.2rem;
           }
           .row2 {
-            height: 0.6rem;
+            /*height: 0.6rem;*/
             word-break: break-all;
             line-height: 0.6rem;
             color: #787878;

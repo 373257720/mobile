@@ -2,12 +2,31 @@
   <div id="common_investors">
     <van-divider>{{$t('projectOwner.InvestorInformation')}}</van-divider>
     <ul>
-      <li i v-for="(item,key) in investor_infor" :key="item.name">
-          <div v-if="key!='investorsCompany' || (key='investorsCompany' && item.response!='')">
-          <p class="row1">{{item.name}}:</p>
-          <p class="row2">{{item.response}}</p>
+      <li >
+        <div >
+          <p class="row1">{{investor_infor.investorsType.name}}:</p>
+          <p class="row2">{{investor_infor.investorsType.response}}</p>
         </div>
       </li>
+      <li>
+        <div v-if="investor_infor.Type==1">
+          <p class="row1">{{investor_infor.investorsName.name}}:</p>
+          <p class="row2">{{investor_infor.investorsName.response}}</p>
+        </div>
+      </li>
+      <li v-if="investor_infor.Type==2">
+        <div>
+          <p class="row1">{{investor_infor.investorsCompany.name}}:</p>
+          <p class="row2">{{investor_infor.investorsCompany.response}}</p>
+        </div>
+      </li>
+      <li  >
+        <div >
+          <p class="row1">{{investor_infor.investorsArea.name}}:</p>
+          <p class="row2">{{investor_infor.investorsArea.response}}</p>
+        </div>
+      </li>
+
     </ul>
   </div>
 </template>

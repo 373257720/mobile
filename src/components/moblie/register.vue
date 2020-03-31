@@ -50,17 +50,20 @@ export default {
         this.password === this.password2
       ) {
         this.$loading();
-        this.$axios({
-          method: "post",
-          url: `${this.$baseurl}/bsl_web/user/register.do`,
-          data: this.$qs.stringify({
-            bslEmail: this.username,
-            bslPwd: this.password
-          }),
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          }
-        })
+        // this.$axios({
+        //   method: "post",
+        //   url: `${this.$baseurl}/bsl_web/user/register.do`,
+        //   data: this.$qs.stringify({
+        //     bslEmail: this.username,
+        //     bslPwd: this.password
+        //   }),
+        //   headers: {
+        //     "Content-Type": "application/x-www-form-urlencoded"
+        //   }
+        // })
+        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/register.do`,
+          {bslEmail: this.username,
+            bslPwd: this.password})
           .then(res => {
           var rescode = res.data.resultCode;
           console.log(res);

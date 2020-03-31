@@ -25,7 +25,6 @@
                    </li>
                    <li>
                      {{item.investorsCompanyAddress}}
-
                    </li>
                  </ul>
                  <p>
@@ -101,8 +100,8 @@
                     investorsName: x.investorsName,
                     investorsType:x.investorsType,
                     userIdentityType:x.userIdentityType,
-                    investorsCompanyAddress: x.investorsCompanyAddress,
-                    investorsCompany:x.investorsCompany,
+                    investorsCompanyAddress: x.investorsCompanyAddressEn,
+                    investorsCompany:x.investorsCompanyEn,
                     signStatus:x.signStatus,
                     userCompany:x.userCompanyEn,
                     userName:x.userName

@@ -5,8 +5,8 @@ export default {
     RecommendInvestors:'推荐投资者',
     Interested:'感兴趣',
     FinancingStage:'融资阶段',
-    NumberOfinvestorsHaveSubmitted:"已提交</br>的投资者数量",
-    Numberofprojectsinterested:'感兴趣</br>的投资者数量',
+    NumberOfinvestorsHaveSubmitted:"已提交</br>投资者数量",
+    Numberofprojectsinterested:'已接收</br>投资者数量',
     YouHaveSubmittedYourApplication:'您已提交签约申请',
     AfterTheApplicationIsProcessed:'申请获处理后，请于待签约项目中签署确认条款',
     InvestorType:'投资者类型',
@@ -40,6 +40,7 @@ export default {
     // Projects to be confirmed by investors
   },
   common:{
+    pleasegetcode:'请发送邮件获取验证码',
     NotFound:'没有找到',
     UploadJPG:'请上传 jpg 格式图片',
     PREIPO:'PRE-IPO',
