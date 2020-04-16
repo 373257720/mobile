@@ -26,11 +26,6 @@ export default {
         )
       );
     }
-    // window.addEventListener("beforeunload", () => {
-    //   alert('beforeunload');
-    //   localStorage.setItem("store", JSON.stringify(this.$store.state))
-    //   // sessionStorage.setItem("store", JSON.stringify(this.$store.state));
-    // });
     window.addEventListener("pagehide", () => {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state))
     });

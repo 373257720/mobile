@@ -4,9 +4,6 @@ import router from '../../router';
 import  {i18n}  from '../../language'
 import qs from 'qs'
 import store from "../../store/store";
-
-// console.log(localStorage.getItem('language'))
-
 const global = {
   stamptodate: function (stamp) {
     if(stamp==''){
@@ -88,7 +85,7 @@ const global = {
     return new Promise((resolve, reject) => {
         axios.post(url, qs.stringify(datas),{  headers:{
             'Content-Type': 'application/x-www-form-urlencoded'
-          },})
+          }})
           .then((res) => {
             resolve(res)
           }).catch(function (error) {
@@ -289,16 +286,15 @@ const global = {
                 investor_infor[i].response = i18n.t(this.investorsType[res.data.data[i]]);
               }else if(i == 'investorsArea'){
                 if(projectLan=='zh_CN'){
-                  investor_infor[i].response = res.data.data.userCountryCh3 || '-';
+                  investor_infor[i].response = (res.data.data.userCountryCh3 || res.data.data.investorsArea) || '-';
                 }else{
-                  investor_infor[i].response = res.data.data.userCountryEn3 || '-';
+                  investor_infor[i].response = (res.data.data.userCountryEn3 || res.data.data.investorsAreaEn) || '-';
                 }
               }else if(i=='investorsCompany'){
-
                 if(projectLan=='zh_CN'){
-                  investor_infor[i].response = res.data.data.userCompanyCh3 || '-';
+                  investor_infor[i].response = (res.data.data.userCompanyCh3 || res.data.data.investorsCompany) || '-';
                 }else{
-                  investor_infor[i].response = res.data.data.userCompanyEn3 || '-';
+                  investor_infor[i].response = (res.data.data.userCompanyEn3 || res.data.data.investorsCompanyEn) || '-';
                 }
 
               }

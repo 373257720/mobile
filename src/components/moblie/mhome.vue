@@ -186,7 +186,7 @@ export default {
       countrylist: [
           {
             chinese: '全部地区',
-            eng:'AllAreas',
+            eng:'All',
             value: 0,
             remark: "",
             classname:''
@@ -288,8 +288,8 @@ export default {
       this.countrylist=[];
       let arr=[];
       arr.push({
-            chinese: this.$t('common.AllAreas'),
-            eng:this.$t('common.AllAreas'),
+            chinese: '全部地区',
+            eng:'All',
             value: 0,
             remark: "",
             classname:''
@@ -311,8 +311,9 @@ export default {
              this.countrylist=arr;
          }
          this.countrylist_fetching = false
-
+        console.log( this.countrylist )
       });
+
 
     },
     router(name, obj) {
@@ -571,6 +572,11 @@ export default {
           min-height: 1rem;
           cursor: pointer;
           font-size: 0.38rem;
+          display: flex;
+          align-items: center;
+          span:nth-of-type(1){
+            margin-right: 0.2rem;
+          }
         }
       }
     }
@@ -676,8 +682,12 @@ export default {
     background: #eeeeee;
     height: 100%;
   }
+  /*.van-pull-refresh{*/
+  /*  height: 100%;*/
+  /*}*/
   .main {
     padding: 4.84rem 0 1.3rem 0;
+    /*height: 100%;*/
     // margin-bottom: 5rem;
     // height: 100%;
     background: #eeeeee;
@@ -779,7 +789,7 @@ export default {
           right: 0.25rem;
           border-radius: 0.125rem;
           height: 0.88rem;
-          background: #747474;;
+          background:#afafaf;
           /*background: #747474;;*/
           color: white;
           font-size: 0.38rem;

@@ -16,19 +16,19 @@
             </li>
             <li v-if="middlemen.Type==1">
               <div>
-                <p class="row1">{{middlemen.userName.name}}</p>
+                <p class="row1">{{middlemen.userName.name}}:</p>
                 <p class="row2">{{middlemen.userName.response}}</p>
               </div>
             </li>
             <li v-if="middlemen.Type==2 && $i18n.locale=='zh_CN'">
               <div>
-                <p class="row1">{{middlemen.userCompanyCh.name}}</p>
+                <p class="row1">{{middlemen.userCompanyCh.name}}:</p>
                 <p class="row2">{{middlemen.userCompanyCh.response}}</p>
               </div>
             </li>
             <li v-if="middlemen.Type==2 && $i18n.locale=='en_US'">
               <div>
-                <p class="row1">{{middlemen.userCompanyEn.name}}</p>
+                <p class="row1">{{middlemen.userCompanyEn.name}}:</p>
                 <p class="row2">{{middlemen.userCompanyEn.response}}</p>
               </div>
             </li>
@@ -70,7 +70,7 @@
             response: ""
           },
           userCompanyEn: {
-            name: "Company Name:",
+            name:this.$t('common.CompanyName'),
             response: ""
           }
         },

@@ -113,7 +113,8 @@ export default {
             if(res.data.data.userType==1){
               this.user_infor.name=res.data.data.userName;
             }else if(res.data.data.userType==2){
-              this.user_infor.name=res.data.data.userCompanyCh;
+              this.user_infor.name=this.$i18n.locale=='zh_CN'?res.data.data.userCompanyCh:
+                res.data.data.userCompanyEn;
             }
           this.user_infor.account=res.data.data.bslEmail;
       }
@@ -163,13 +164,14 @@ export default {
         this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`,{lan:this.radio})
           .then(res => {
          if(res.data.resultCode==10000){
-           this.$store.dispatch("X_Token_actions",JSON.parse(res.data.data).X_Token);
-           this.$i18n.locale=this.radio;
-           this.$Local(this.radio);
            window.localStorage.setItem("language",this.radio);
+           this.$Local(this.radio);
+           this.$i18n.locale=this.radio;
+           this.$store.dispatch("X_Token_actions",JSON.parse(res.data.data).X_Token);
+
          }
-            this.$toast(res.data.resultDesc)
-            done();
+          this.$toast(res.data.resultDesc)
+          done();
 
         });
       } else if (action === "cancel") {

@@ -194,7 +194,6 @@ export default {
     Recommender: '推荐人',
     InvestorInformation: '投资者资料',
     ViewProjectDetails: '查看项目详情',
-
     SeedRound: '种子轮',
     AngelWheel: '天使轮',
     ARound: 'A轮',

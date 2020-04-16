@@ -181,8 +181,6 @@ export default {
     PleaseSelectIndustry:'Please Select Industry',
     PleaseLoginAndOperate:'Please Login and Operate',
     Itemstobeconfirmed:'Items to be confirmed',
-
-
   },
   projectOwner: {
     PleaseEnterContractContent: 'Please enter contract content',

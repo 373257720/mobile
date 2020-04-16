@@ -50,21 +50,22 @@
       this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`,
         {lan:this.$i18n.locale})
         .then(res => {
-          // console.log(res)
           if(res.data.resultCode==10000){
+            window.localStorage.setItem("language",this.$i18n.locale);
+            this.$Local(this.$i18n.locale);
+            this.$i18n.locale=this.$i18n.locale;
             this.$store.dispatch("X_Token_actions",JSON.parse(res.data.data).X_Token);
-            // console.log(this.$store.state)
           }
         });
     },
-    beforeRouteLeave(to, from, next) {
-      // console.log(to, from)
-      if (to.name == 'i_emailto_confirm') {
-        next(false);
-      } else {
-        next()
-      }
-    },
+    // beforeRouteLeave(to, from, next) {
+    //   // console.log(to, from)
+    //   if (to.name == 'i_emailto_confirm') {
+    //     next(false);
+    //   } else {
+    //     next()
+    //   }
+    // },
     methods: {
       login() {
         this.remind = "";

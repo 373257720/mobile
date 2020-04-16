@@ -81,10 +81,12 @@ function locales(a) {
 }
 Vue.prototype.$Local = locales;
 // 多语言设置
+
+
+
 let z = localStorage.getItem('language')?localStorage.getItem('language'):'en_US';
 locales(z);
 // console.log(window.localStorage.getItem('language'))
-
 i18n.locale=localStorage.getItem('language')?localStorage.getItem('language'):'en_US';
 // console.log(i18n.locale)
 // Toast
@@ -115,47 +117,53 @@ i18n.locale=localStorage.getItem('language')?localStorage.getItem('language'):'e
 //   }
 // };
 axios.defaults.withCredentials = true;
+let isShowLoading =true;
 // const exceptUrls = [ '/bsl_web/base/sendEmail.do','/bsl_web/user/forgetPwd.do'];
-axios.interceptors.request.use(function (config) {
-  　　// 在发送请求之前做些什么
-  return config;
-  }, function (error) {
-  　　// 对请求错误做些什么
-    Dialog.alert({
-      title:i18n.t('common.network'),
-      // message: i18n.t('common.network'),
-    }).then(() => {
-      store.dispatch("reset_actions",restore_obj);
-      window.sessionStorage.clear();
-      location.href = '/'
-    });
-  return Promise.reject(error)
-  });
+// axios.interceptors.request.use(function (config) {
+//   　　// 在发送请求之前做些什么
+//   return config;
+//   }, function (error) {
+//   　　// 对请求错误做些什么
+//     Dialog.alert({
+//       title:i18n.t('common.network'),
+//       // message: i18n.t('common.network'),
+//     }).then(() => {
+//       store.dispatch("reset_actions",restore_obj);
+//       window.sessionStorage.clear();
+//       location.href = '/'
+//     });
+//   return Promise.reject(error)
+//   });
 
 axios.interceptors.response.use(res => {
   if (res.data && res.data.resultCode) {
     let code = res.data.resultCode
     if (code == 10090) { // 如果是未登录直接踢出去
-      Dialog.alert({
-        title: res.data.resultDesc,
-      }).then(() => {
-        store.dispatch("reset_actions",restore_obj)
-        window.sessionStorage.clear();
-        location.href = '/'
-      });
+      if(isShowLoading){
+        isShowLoading=false;
+        Dialog.alert({
+          title: res.data.resultDesc,
+        }).then(() => {
+          store.dispatch("reset_actions",restore_obj)
+          window.sessionStorage.clear();
+          router.push({name:'login'})
+        });
+      }
     }
     return res
   }
 } ,error => {
     Toast.clear();
+    if(isShowLoading){
+      isShowLoading=false;
       Dialog.alert({
-       title:i18n.t('common.network'),
-        // message: "点击返回登录页"
+        title:i18n.t('common.network'),
       }).then(() => {
         store.dispatch("reset_actions",restore_obj)
         window.sessionStorage.clear();
-        location.href = '/'
+        router.push({name:'login'})
       });
+    }
     return Promise.reject(error)
   }
 )

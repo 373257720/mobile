@@ -103,37 +103,51 @@ export default {
   created() {
     let details = this.$route.query;
     this.$loading();
-    this.$global
-      .get_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails.do`,
-        "get",
-        {
-          projectLan:details.projectLan,
-          signId:details.signId || -1
-        },
-        this.details_lists,
-        this.nav_lists,
-        this.investor_infor,
-        {}
-      )
+      window.localStorage.setItem("language",details.projectLan);
+      this.$Local(details.projectLan);
+      this.$i18n.locale=details.projectLan;
+      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`,
+      {lan:details.projectLan})
       .then(res => {
-        this.investorsEmailSend=res.investorsEmailSend;
-        this.projectName = res.title;
-        this.$toast.clear();
-        if(res.projectLifeCycle==-1){
-          this.$dialog
-            .alert({
-              title: this.$t('TheItemNoLongerExists'),
-            })
-            .then(() => {
-              // this.$routerto('login')
-              this.$router.replace({
-                path: "/login" //跳转的路径
-              });
-            })
-          return
+        if(res.data.resultCode==10000){
+          this.$store.dispatch("X_Token_actions",JSON.parse(res.data.data).X_Token);
+          this.$global
+            .get_deatails(
+              `${this.$baseurl}/bsl_web/project/getProjectDetails.do`,
+              "get",
+              {
+                projectLan:details.projectLan,
+                signId:details.signId || -1
+              },
+              this.details_lists,
+              this.nav_lists,
+              this.investor_infor,
+              {}
+            )
+            .then(res => {
+              this.investorsEmailSend=res.investorsEmailSend;
+              this.projectName = res.title;
+              this.$toast.clear();
+              if(res.projectLifeCycle==-1){
+                this.$dialog
+                  .alert({
+                    title: this.$t('TheItemNoLongerExists'),
+                  })
+                  .then(() => {
+                    // this.$routerto('login')
+                    this.$router.replace({
+                      path: "/login" //跳转的路径
+                    });
+                  })
+                return
+              }
+            });
         }
       });
+
+
+
+
   },
   mounted() {},
   methods: {
