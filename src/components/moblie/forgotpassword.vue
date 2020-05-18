@@ -21,7 +21,7 @@
                 :placeholder="$t('ContractWrods.pleaseEnter')"
               >
                 <template #button>
-                  <van-button v-if="!isactive" size="small" type="primary">{{code}}</van-button>
+                  <van-button v-if="!isactive" :disabled="true" size="small" type="primary">{{code}}</van-button>
                   <van-button v-else-if="isactive" @click="sendcode" class="isactive"  size="small" type="primary">{{code}}</van-button>
                 </template>
 <!--                <button v-if="!isactive"  slot="button" >-->

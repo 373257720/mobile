@@ -21,7 +21,7 @@
 </template>
 <script>
 export default {
-  name: "goods_details",
+  name: "a_project_intro",
   data() {
     return {
       title: "",
@@ -168,15 +168,7 @@ export default {
 </script>
 <style lang="scss">
 #a_project_intro {
-  nav {
-    // position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
+
 //   .van-dialog {
 //   font-size: 0.3rem;
 // }

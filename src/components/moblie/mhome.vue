@@ -71,7 +71,8 @@
               </section>
               <section>
                 <span>{{$t('common.ProjectDescription')}}:</span>
-                <span v-html="goods.projectDescribe.length>90? goods.projectDescribe.substr(0, [90])+'...':goods.projectDescribe"></span>
+				<!-- <span v-html="goods.projectDescribe"></span> -->
+                <span v-html="goods.projectDescribe.length>200? goods.projectDescribe.substr(0, [200])+'...':goods.projectDescribe"></span>
                 <!-- <div class="van-multi-ellipsis--l3" v-html="goods.projectDescribe"></div> -->
               </section>
               <div class="tag" v-if="usertype==1">
@@ -203,7 +204,7 @@ export default {
     this.$axios.all(axiosList).then(
       this.$axios.spread((res1, res2) => {
         if (res1) {
-          console.log(this.$i18n.locale)
+          // console.log(this.$i18n.locale)
           if(this.$i18n.locale=='zh_CN'){
             for (let i = 0; i < res1.data.data.length; i++) {
               this.items[0].children.push({
@@ -268,7 +269,7 @@ export default {
       this.countrylist.forEach(item=>{
         item.classname='';
       })
-      this.countrylist[idx].classname='country_isactive',
+      this.countrylist[idx].classname='country_isactive';
        this.$refs.region.toggle()
     },
     search_region(val){
@@ -484,6 +485,19 @@ export default {
     .van-pull-refresh{
       // padding: 2.8rem 0 2rem 0;
     }
+	.van-overlay {
+	  opacity: 0.7;
+	  background-color: rgba(0,0,0,.7)
+	  /*background-color: black;*/
+	}
+	.van-fade-leave-active{
+	  /*webkit-animation:none;*/
+	  animation: none;
+	}
+	.van-fade-enter-active{
+	  /*webkit-animation:none;*/
+	  animation: none;
+	}
    .ant-select{
     width: 100%;
     font-size: 0.38rem;

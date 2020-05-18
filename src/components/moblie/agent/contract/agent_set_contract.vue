@@ -3,6 +3,7 @@
 </template>
 <script>
   export default {
+    name:'agent_set_contract',
     data(){
       return{
         watch:false,

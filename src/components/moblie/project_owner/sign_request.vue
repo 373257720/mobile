@@ -56,7 +56,7 @@
 </template>
 <script>
 export default {
-  name: "goods_details",
+  name: "p_sign_request",
   data() {
     return {
       show: false,

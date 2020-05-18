@@ -164,18 +164,19 @@
           /*max-width: 100%;*/
 
       }
-      /*@media screen and (min-width: 1024px) {*/
-      /*  img {*/
-
-      /*    height:2rem;*/
-
-      /*  }*/
-      /*}*/
+   
+ 
     }
+	   @media screen and (min-width: 1024px) {
+		   h2{
+			     /* height: 50%; */
+		   }
+		
+	   }
 
     .main {
       /*flex: 1;*/
-      // width: 100%;
+      /* // width: 100%; */
       display: flex;
       flex-direction: column;
       align-items: center;

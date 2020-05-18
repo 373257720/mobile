@@ -7,11 +7,16 @@
           <li class="identity">
             <p class="row1 must">{{$t('agent.InvestorType')}}:</p>
             <p class="row2">
-              <van-cell-group>
+           <!--   <van-cell-group>
                 <van-dropdown-menu >
                   <van-dropdown-item @change="cleanall" v-model="form.investorsType" :options="investors_type" />
                 </van-dropdown-menu>
-              </van-cell-group>
+              </van-cell-group> -->
+		 <a-select :default-value="1" @change="handleChange1">
+			<a-select-option v-for="item in investors_type" :value="item.value" :key='item.value'>
+				{{item.text}}
+			</a-select-option>
+		  </a-select>
             </p>
           </li>
           <li class="investorsArea">
@@ -23,7 +28,6 @@
                 :placeholder="$t('ContractWrods.pleaseEnter')"
                 :defaultActiveFirstOption="false"
                 :getPopupContainer="triggerNode => triggerNode.parentNode"
-                :showArrow="false"
                 :filterOption="false"
                 @change="handleChange"
                 @search='search'
@@ -38,25 +42,28 @@
           <li class="investorsCompany" v-show="form.investorsType==2">
             <p class="row1 must">Investor company:</p>
             <p class="row2">
-              <van-cell-group>
+			<a-input  v-model="form.investorsCompanyEn" :placeholder="$t('ContractWrods.pleaseEnter')"/>
+             <!-- <van-cell-group>
                 <van-field  v-model="form.investorsCompanyEn" :placeholder="$t('ContractWrods.pleaseEnter')" />
-              </van-cell-group>
+              </van-cell-group> -->
             </p>
           </li>
           <li class="investorsCompany" v-show="form.investorsType==2">
             <p class="row1">投资者公司(中文):</p>
             <p class="row2 ">
-              <van-cell-group>
+            <!--  <van-cell-group>
                 <van-field  v-model="form.investorsCompany" :placeholder="$t('ContractWrods.pleaseEnter')" />
-              </van-cell-group>
+              </van-cell-group> -->
+			  <a-input  v-model="form.investorsCompany" :placeholder="$t('ContractWrods.pleaseEnter')"/>
             </p>
           </li>
           <li class="investorsName">
             <p class="row1 must">{{$t('agent.InvestorName')}}:</p>
             <p class="row2">
-              <van-cell-group>
+          <!--    <van-cell-group>
                 <van-field v-model="form.investorsName" :placeholder="$t('ContractWrods.pleaseEnter')" />
-              </van-cell-group>
+              </van-cell-group> -->
+			   <a-input :placeholder="$t('ContractWrods.pleaseEnter')"  v-model="form.investorsName"/>
             </p>
           </li>
 
@@ -80,7 +87,8 @@ export default {
   data() {
     return {
       countrylist_fetching:false,
-      investors_type: [{ text:  this.$t('common.individual'), value: 1 }, { text: this.$t('common.company'), value: 2 }],
+      investors_type: [{ text:  this.$t('common.individual'), value: 1 }, 
+	  { text: this.$t('common.company'), value: 2 }],
       dad_text:  this.$t('agent.RecommendInvestors'),
       title: "",
       region: [
@@ -121,6 +129,12 @@ export default {
 
   },
   methods: {
+	  handleChange1(value){
+		  this.form.investorsType=value;
+		  // console.log()
+		  
+		  
+	  },
    search(val){
     if (timeout) {
           clearTimeout(timeout);
@@ -136,7 +150,7 @@ export default {
       this.countrylist_fetching = false;
       // console.log(this.form)
     },
-    cleanall(	value){
+    cleanall(value){
         this.form.investorsCompany='';
     },
     ulHtml(val){
@@ -241,7 +255,7 @@ export default {
   .ant-select{
     width: 100%;
     height: 100%;
-    border: 1px solid #b3b3b3;
+    // border: 1px solid #d9d9d9;
     border-radius: 3px;
     font-size: 0.38rem;
     color: #323233;
@@ -255,7 +269,6 @@ export default {
     }
    .ant-select-selection--single{
      height:100%;
-
    }
    .ant-select-selection__rendered{
      height: 100%;
@@ -263,7 +276,7 @@ export default {
      margin:0;
    }
     .ant-select-selection{
-          border: 0;
+          // border: 0;
     }
   }
   .van-cell {

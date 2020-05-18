@@ -1,8 +1,9 @@
 <template>
   <div id="i_conected_project">
-    <nav>
+<!--    <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />{{$t('common.ConnectedItems')}}
-    </nav>
+    </nav> -->
+	  <commonnav :msg="$t('common.ConnectedItems')"></commonnav>
     <main>
       <article>
         <header>{{title}}</header>
@@ -159,33 +160,13 @@ export default {
       box-sizing: border-box;
     }
   }
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
+
 }
 </style>
 <style lang="scss" scoped>
 #i_conected_project {
   width: 100%;
   height: 100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-     color:#333;
-    top: 0;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
     padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;

@@ -22,7 +22,7 @@
   import router from "../../../router";
 
 export default {
-  name: "goods_details",
+  name: "a_wait_signed",
   data() {
     return {
       title: "",

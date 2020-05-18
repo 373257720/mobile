@@ -51,7 +51,7 @@
 </template>
 <script>
   export default {
-    name: "goods_details",
+    name: "p_wait_agent_input",
     data() {
       return {
         title: "",

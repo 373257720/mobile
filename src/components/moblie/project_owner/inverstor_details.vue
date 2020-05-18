@@ -1,9 +1,10 @@
 <template>
   <div id="p_inverstor_details">
-    <nav>
+<!--    <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />
       {{$t('common.InformationOfContractedInvestors')}}
-    </nav>
+    </nav> -->
+	<commonnav :msg="$t('common.InformationOfContractedInvestors')"></commonnav>
     <main>
       <article>
         <ul>
@@ -137,34 +138,13 @@ export default {
 </script>
 <style lang="scss">
 #p_inverstor_details {
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      // line-height: 1rem;
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
+
 }
 </style>
 <style lang="scss" scoped>
 #p_inverstor_details {
   width: 100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    // font-weight: 550;
-    font-size: 0.46rem;
-    background: white;
 
-        border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
     margin-top: 1.5rem;
     background: #ffffff;

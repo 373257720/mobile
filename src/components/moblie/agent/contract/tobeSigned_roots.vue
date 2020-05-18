@@ -1,5 +1,5 @@
 <template>
-  <keep-alive include="i_wait_confirm,i_perfect_infor">
+  <keep-alive include="a_wait_signed,agent_set_contract">
     <router-view ></router-view>
   </keep-alive>
 

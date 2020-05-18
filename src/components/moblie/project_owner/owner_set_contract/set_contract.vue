@@ -1,8 +1,9 @@
 <template>
   <div id="p_set_contract">
-    <nav>
+ <!--   <nav>
       <van-icon name="arrow-left" @click="$router.go(-1)" />{{$t('agent.SignTheContract')}}
-    </nav>
+    </nav> -->
+		<commonnav :msg="$t('agent.SignTheContract')"></commonnav>
     <main>
       <article>
         <div class="sub_title">
@@ -65,7 +66,7 @@
         </footer>
       </article>
     </main>
-    <mbottom></mbottom>
+<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -80,16 +81,17 @@ export default {
           theme: 'snow',
              modules:{
                   toolbar:[
-                    // ['bold', 'underline',],        // toggled buttons
+                    ['bold',  'underline'],       // toggled buttons
                     [{ 'header': 1 }, { 'header': 2 }],
-                    // [{ 'size': ['small', false, 'large', 'huge'] }],
-                    // [{ 'list': 'ordered'}, { 'list': 'bullet' }],      // superscript/subscript
-                      // [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent                    // text direction
-                      //                   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],      // superscript/subscript
+                      // [{ 'indent': '-1'}, { 'indent': '+1' }], 
+					 [{ 'color': [] }, { 'background': [] }],  //                 // text direction
+                       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                       // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown      // dropdown with defaults from theme
                       // [{ 'font': [] }],
                    [{ 'align': [] }],
-                      // ['clean']
+                     // ['clean']
                   ]
               }
       },
@@ -219,15 +221,7 @@ export default {
   div.ql-editor.ql-blank{
     height: 12rem;
   }
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
+
   .van-hairline--top-bottom::after {
     border: 0.02rem solid #8e8e8e;
   }
@@ -240,18 +234,7 @@ export default {
 <style lang="scss" scoped>
 #p_set_contract {
   width: 100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    z-index: 5;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
+
   main {
     margin-top: 1.5rem;
     margin-bottom: 1.3rem;

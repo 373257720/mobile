@@ -1,8 +1,9 @@
 <template>
   <div id="i_perfect_infor">
-    <nav>
+<!--    <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />{{$t('investor.CompleteMaterial')}}
-    </nav>
+    </nav> -->
+    <commonnav :msg="$t('investor.CompleteMaterial')"></commonnav>
     <main>
       <article>
         <ul>
@@ -400,13 +401,7 @@ export default {
     width: 100%;
     // text-align: left;
   }
-  .van-icon-arrow-left {
-    position: absolute;
-    left: 0.6rem;
-    top: 50%;
-    -webkit-transform: translate(0, -50%);
-    transform: translate(0, -50%);
-  }
+
   .van-dropdown-menu__item{
     border: 1px solid #ababab;
     border-radius: 3px;
@@ -484,18 +479,6 @@ export default {
 <style lang="scss" scoped>
 #i_perfect_infor {
   width: 100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    z-index: 2017;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
     margin-top: 1.5rem;
     background: #ffffff;

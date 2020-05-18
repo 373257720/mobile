@@ -1,8 +1,9 @@
 <template>
   <div id="a_submit_contract">
-      <nav class="a_submit_contract">
+<!--      <nav class="a_submit_contract">
         <van-icon name="arrow-left" @click="$router.go(-2)" />{{$t('agent.SignTheContract')}}
-      </nav>
+      </nav> -->
+		<commonnav :msg="$t('agent.SignTheContract')"></commonnav>
       <main>
         <article>
           <contractcomponent :contract="contract"></contractcomponent>
@@ -143,15 +144,6 @@ export default {
 #a_submit_contract {
     height: 100%;
     width: 100%;
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
 .van-cell{
   padding: 0;
 }
@@ -163,19 +155,6 @@ export default {
     width: 100%;
       height: 100%;
     padding: 1.5rem 0 1.3rem 0;
-    nav.a_submit_contract{
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      line-height: 1.5rem;
-      height: 1.5rem;
-      position: fixed;
-      top: 0;
-      z-index: 5;
-      font-size: 0.46rem;
-      background: white;
-      border-bottom: 0.1rem solid #b5b5b5;
-    }
     div.middle {
       /*margin: 0 0.5rem;*/
       box-sizing: border-box;

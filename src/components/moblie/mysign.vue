@@ -161,7 +161,7 @@ export default {
     };
   },
   beforeRouteLeave(to, from, next) {
-    console.log(to, from);
+    // console.log(to, from);
     if (to.name == "p_submit_contract" || to.name == "a_submit_contract") {
       next(false);
     }else if (to.name =="a_recommand_i") {
@@ -309,7 +309,7 @@ export default {
   methods: {
     initial(){
       this.$refs.check.$el.style.height = 0;
-      console.log(123)
+      // console.log(123)
       if (window.orientation == 90 || window.orientation == -90) {
         document.querySelector('.choose_lists').style.maxHeight=4+'rem';
       }else{
@@ -509,7 +509,7 @@ export default {
             this.loading = false;
             this.finished = true;
           }
-          console.log(this.upGoodsInfo);
+          // console.log(this.upGoodsInfo);
         })
         .catch(err => {
           // this.loadText = "加载失败";
@@ -574,6 +574,7 @@ export default {
 
   .van-pull-refresh {
     padding: 2.8rem 0 1.3rem 0;
+    /*height: 100%;*/
 
 
   }
@@ -723,6 +724,7 @@ export default {
       // line-height: 0.6rem;
       /*position: relative;*/
       display: flex;
+			letter-spacing: 0.0125rem;
       /*word-break: break-all;*/
       margin: 0 0.54rem;
       padding: 0.3rem 0;

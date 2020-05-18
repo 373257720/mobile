@@ -32,10 +32,11 @@ import p_user_contact from '@/components/moblie/project_owner/user_contact'
 import p_user_contact2 from '@/components/moblie/project_owner/user_contact2'
 import p_sign_successful from '@/components/moblie/project_owner/sign_successful'
 import p_inverstor_details from'@/components/moblie/project_owner/inverstor_details'
+import tobeSigned_roots from '@/components/moblie/project_owner/tobeSigned_roots'
 // import p_check_done_contract from'@/components/moblie/project_owner/check_done_contract'
 import connected_projects from "../components/moblie/project_owner/connected_projects";
 
-
+import owner_roots from '@/components/moblie/project_owner/owner_set_contract/owner_roots'
 import p_submit_contract from '@/components/moblie/project_owner/owner_set_contract/submit_contract'
 import p_set_contract from '@/components/moblie/project_owner/owner_set_contract/set_contract'
 import owner_set_contract from "../components/moblie/project_owner/owner_set_contract/owner_set_contract";
@@ -43,6 +44,7 @@ import p_sign_contract from '@/components/moblie/project_owner/owner_set_contrac
 
 
 // agent/
+import a_project_intro_roots from '@/components/moblie/agent/a_project_intro_roots'
 import a_project_intro from '@/components/moblie/agent/project_intro'
 import a_wait_review from '@/components/moblie/agent/wait_review'
 import a_recommand_i from '@/components/moblie/agent/recommand_i'
@@ -52,6 +54,7 @@ import a_sign_failed from '@/components/moblie/agent/sign_failed'
 import a_sign_successful from '@/components/moblie/agent/sign_successful'
 import a_wait_sendemail from '@/components/moblie/agent/wait_sendemail'
 // agent_set_contract
+import a_tobeSigned_roots from '@/components/moblie/agent/contract/tobeSigned_roots'
 import a_sign_contract from '@/components/moblie/agent/contract/sign_contract'
 import a_submit_contract from '@/components/moblie/agent/contract/submit_contract'
 import a_check_contract from '@/components/moblie/agent/contract/check_contract'
@@ -60,6 +63,7 @@ import uploadtoblock from  "../components/moblie/agent/contract/uploadtoblock";
 
 
 // investor/
+import  investor_roots from '@/components/moblie/investor/investor_roots'
 import i_wait_confirm from '@/components/moblie/investor/wait_comfirm'
 import i_conected_project from '@/components/moblie/investor/conected_project'
 import i_inverstor_infor from '@/components/moblie/investor/investor_infor'
@@ -72,11 +76,7 @@ import wait_confirmRoot from "@/components/moblie/investor/wait_confirmRoot";
 Vue.use(Router);
 const routes = [
   // project/
-  {
-    path: '/p_sign_request',
-    name: 'p_sign_request',
-    component: p_sign_request,
-  },
+
   {
     path: '/p_user_contact',
     name: 'p_user_contact',
@@ -87,11 +87,7 @@ const routes = [
     name: 'p_user_contact2',
     component: p_user_contact2,
   },
-  {
-    path: '/p_check_contract',
-    name: 'p_check_contract',
-    component: p_check_contract,
-  },
+
   {
     path: '/p_goods_details',
     name: 'p_goods_details',
@@ -107,11 +103,28 @@ const routes = [
     name: 'p_sign_failed',
     component: p_sign_failed,
   },
+
   {
-    path: '/p_wait_agent_input',
-    name: 'p_wait_agent_input',
-    component: p_wait_agent_input,
+    path: '/tobeSigned_roots',
+    name: 'tobeSigned_roots',
+    component: tobeSigned_roots,
+    redirect: '/tobeSigned_roots/p_wait_agent_input',
+    children:[
+      {
+        path: 'p_wait_agent_input',
+        name: 'p_wait_agent_input',
+        component: p_wait_agent_input,
+      },
+      {
+        path: 'p_check_contract',
+        name: 'p_check_contract',
+        component: p_check_contract,
+      },
+    ],
   },
+
+
+
   {
     path: '/p_wait_investor',
     name: 'p_wait_investor',
@@ -127,30 +140,43 @@ const routes = [
     name: 'connected_projects',
     component: connected_projects,
   },
-
   {
-    path: '/owner_set_contract',
-    name: 'owner_set_contract',
-    component: owner_set_contract,
-    redirect: '/owner_set_contract/p_set_contract',
+    path: '/owner_roots',
+    name: 'owner_roots',
+    component: owner_roots,
+    redirect: '/owner_roots/p_sign_request',
     children:[
       {
-        path: 'p_set_contract',
-        name: 'p_set_contract',
-        component: p_set_contract,
+        path: 'p_sign_request',
+        name: 'p_sign_request',
+        component: p_sign_request,
       },
       {
-        path: 'p_sign_contract',
-        name: 'p_sign_contract',
-        component: p_sign_contract,
+        path: 'owner_set_contract',
+        name: 'owner_set_contract',
+        component: owner_set_contract,
+        redirect: '/owner_roots/owner_set_contract/p_set_contract',
+        children:[
+          {
+            path: 'p_set_contract',
+            name: 'p_set_contract',
+            component: p_set_contract,
+          },
+          {
+            path: 'p_sign_contract',
+            name: 'p_sign_contract',
+            component: p_sign_contract,
+          },
+          {
+            path: 'p_submit_contract',
+            name: 'p_submit_contract',
+            component: p_submit_contract,
+          },
+        ]
       },
-      {
-        path: 'p_submit_contract',
-        name: 'p_submit_contract',
-        component: p_submit_contract,
-      },
-    ]
+    ],
   },
+
   {
     path: '/p_sign_successful',
     name: 'p_sign_successful',
@@ -169,29 +195,7 @@ const routes = [
     name: 'a_sign_successful',
     component: a_sign_successful,
   },
-  {
-    path: '/agent_set_contract',
-    name: 'agent_set_contract',
-    component: agent_set_contract,
-    redirect: '/agent_set_contract/a_check_contract',
-    children:[
-      {
-        path: 'a_check_contract',
-        name: 'a_check_contract',
-        component: a_check_contract,
-      },
-      {
-        path: 'a_sign_contract',
-        name: 'a_sign_contract',
-        component: a_sign_contract,
-      },
-      {
-        path: 'a_submit_contract',
-        name: 'a_submit_contract',
-        component: a_submit_contract,
-      },
-    ],
-  },
+
   {
 
     path: '/uploadtoblock',
@@ -199,19 +203,69 @@ const routes = [
     component:uploadtoblock,
   },
   {
-    path: '/a_project_intro',
-    name: 'a_project_intro',
-    component: a_project_intro,
-  }, {
+    path: '/a_project_intro_roots',
+    name: 'a_project_intro_roots',
+    component: a_project_intro_roots,
+    redirect: '/a_project_intro_roots/a_check_contract',
+    children:[
+      {
+        path: 'a_project_intro',
+        name: 'a_project_intro',
+        component: a_project_intro,
+      },
+      {
+        path: 'a_recommand_i',
+        name: 'a_recommand_i',
+        component:a_recommand_i,
+      },
+    ],
+  },
+  // {
+  //   path: '/a_project_intro',
+  //   name: 'a_project_intro',
+  //   component: a_project_intro,
+  // },
+  {
     path: '/a_sign_failed',
     name: 'a_sign_failed',
     component: a_sign_failed,
   },
   {
-    path: '/a_wait_signed',
-    name: 'a_wait_signed',
-    component: a_wait_signed,
-  },{
+    path: '/a_tobeSigned_roots',
+    name: 'a_tobeSigned_roots',
+    component: a_tobeSigned_roots,
+    redirect: '/a_tobeSigned_roots/a_check_contract',
+    children:[
+      {
+        path: 'a_wait_signed',
+        name: 'a_wait_signed',
+        component: a_wait_signed,
+      },  {
+        path: 'agent_set_contract',
+        name: 'agent_set_contract',
+        component: agent_set_contract,
+        redirect: '/a_tobeSigned_roots/agent_set_contract/a_check_contract',
+        children:[
+          {
+            path: 'a_check_contract',
+            name: 'a_check_contract',
+            component: a_check_contract,
+          },
+          {
+            path: 'a_sign_contract',
+            name: 'a_sign_contract',
+            component: a_sign_contract,
+          },
+          {
+            path: 'a_submit_contract',
+            name: 'a_submit_contract',
+            component: a_submit_contract,
+          },
+        ],
+      },
+    ],
+  },
+ {
     path: '/a_wait_investor_comfirm',
     name: 'a_wait_investor_comfirm',
     component: a_wait_investor_comfirm,
@@ -221,11 +275,7 @@ const routes = [
     name: 'a_wait_review',
     component: a_wait_review,
   },
-  {
-    path: '/a_recommand_i',
-    name: 'a_recommand_i',
-    component:a_recommand_i,
-  },
+
   {
     path: '/a_wait_sendemail',
     name: 'a_wait_sendemail',
@@ -234,18 +284,34 @@ const routes = [
 
 
 // investor
-
-
-{
-  path: '/i_conected_project',
-  name: 'i_conected_project',
-  component: i_conected_project,
-},
-{
-  path: '/i_inverstor_infor',
-  name: 'i_inverstor_infor',
-  component: i_inverstor_infor,
-},
+  {
+    path: '/investor_roots',
+    name: 'investor_roots',
+    component: investor_roots,
+    redirect: '/investor_roots/i_conected_project',
+    children:[
+      {
+        path: '/i_conected_project',
+        name: 'i_conected_project',
+        component: i_conected_project,
+      },
+      {
+        path: '/i_inverstor_infor',
+        name: 'i_inverstor_infor',
+        component: i_inverstor_infor,
+      },
+    ],
+  },
+// {
+//   path: '/i_conected_project',
+//   name: 'i_conected_project',
+//   component: i_conected_project,
+// },
+// {
+//   path: '/i_inverstor_infor',
+//   name: 'i_inverstor_infor',
+//   component: i_inverstor_infor,
+// },
 
 {
   path: '/i_sign_failed',
@@ -258,16 +324,37 @@ const routes = [
   name: 'i_emailto_confirm',
   component:i_emailto_confirm ,
 },
+
   {
-    path: '/i_wait_confirm',
-    name: 'i_wait_confirm',
-    component:i_wait_confirm,
+    path: '/wait_confirmRoot',
+    name: 'wait_confirmRoot',
+    component: wait_confirmRoot,
+    redirect: '/wait_confirmRoot/i_conected_project',
+    children:[
+      {
+        path: 'i_wait_confirm',
+        name: 'i_wait_confirm',
+        component:i_wait_confirm,
+      },
+      {
+        path: 'i_perfect_infor',
+        name: 'i_perfect_infor',
+        component: i_perfect_infor,
+      },
+      // {
+      //   path: '/i_conected_project',
+      //   name: 'i_conected_project',
+      //   component: i_conected_project,
+      // },
+      // {
+      //   path: '/i_inverstor_infor',
+      //   name: 'i_inverstor_infor',
+      //   component: i_inverstor_infor,
+      // },
+    ],
   },
-  {
-    path: '/i_perfect_infor',
-    name: 'i_perfect_infor',
-    component: i_perfect_infor,
-  },
+
+
 
 
 

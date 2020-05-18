@@ -13,10 +13,11 @@ import store from './store/store'
 import { i18n } from './language'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
+// import 'lib-flexible/flexible.js'
 // 富文本
-import  "font-awesome/css/font-awesome.css";
-import initRichText from './editor';
-initRichText();
+// import  "font-awesome/css/font-awesome.css";
+// import initRichText from './editor';
+// initRichText();
 // vuex
 import Vuex from 'vuex';
 Vue.use(Vuex);
@@ -24,12 +25,14 @@ Vue.use(Vuex);
 // import ant from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.less'
 // Vue.use(ant)
-// import Antd from 'ant-design-vue'
-// import 'ant-design-vue/dist/antd.css'
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
+import input from 'ant-design-vue/lib/input';
+import 'ant-design-vue/lib/input/style/css';
+Vue.use(input);
 import Select from 'ant-design-vue/lib/select';
 import 'ant-design-vue/lib/select/style/css';
 Vue.use(Select);
-
 import Spin from 'ant-design-vue/lib/spin';
 import 'ant-design-vue/lib/spin/style/css';
 Vue.use(Spin);
@@ -63,6 +66,7 @@ function deepCopy(obj) {
   }
   return result;
 };
+
 import {Dialog} from 'vant';
 Vue.use(Dialog);
 import {Toast} from 'vant';
@@ -140,9 +144,10 @@ axios.interceptors.response.use(res => {
     let code = res.data.resultCode
     if (code == 10090) { // 如果是未登录直接踢出去
       if(isShowLoading){
-        isShowLoading=false;
+        isShowLoading=false;	
         Dialog.alert({
-          title: res.data.resultDesc,
+          title: res.data.resultDesc.slice(10),
+		   message:res.data.resultDesc.slice(0,10),
         }).then(() => {
           store.dispatch("reset_actions",restore_obj)
           window.sessionStorage.clear();

@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <router-view />
+		<!-- <keep-alive include="mhome,mysign"> -->
+			  <router-view></router-view>
+		<!-- </keep-alive> -->
+    
+<!--    <router-view />-->
   </div>
 </template>
 <script>
@@ -15,6 +19,11 @@ export default {
     }
   },
   created() {
+	  // function lockOrientation(){
+	  // 	window.screen.lockOrientation("landscape-primary");
+	  // };
+	  // lockOrientation();
+	  // window.screen.lockOrientation("landscape-primary");
     //在页面加载时读取sessionStorage里的状态信息
     // console.log(sessionStorage.getItem("test"))
     if (sessionStorage.getItem("store")) {
@@ -46,12 +55,15 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   /* text-align: center;
   color: #2c3e50;
   margin-top: 60px; */
 }
-
+ .van-overlay{
+  /* background-color: white; */
+  /* opacity: 0.5; */
+  /*transition-property:*/
+}
 div.loading{
   background: none;
 
@@ -71,11 +83,9 @@ div.loading{
 /*    font-size: 0.5rem;*/
 
 /*  }*/
-/* .van-overlay{
-  background-color:white;
-  opacity: 0.5;
-} */
-/* .van-toast__loading{
-  color:#1989fa;
-} */
+
+
+.van-toast__loading{
+  /* color:#00adef; */
+}
 </style>

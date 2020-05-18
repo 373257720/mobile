@@ -201,14 +201,27 @@ export default {
 };
 </script>
 <style lang="scss">
-#mine {
-  .van-overlay{
-  // background-color:black;
-  // opacity: 0.7;
-}
-  .van-dialog {
-    font-size: 0.4rem;
+  /*van-fade-enter-active*/
+  /*van-fade-enter-to*/
+  #mine {
+  .van-overlay {
+    // opacity: 0.5;
+    background-color: rgba(0,0,0,.7)
+    /*background-color: black;*/
   }
+  .van-fade-leave-active{
+    /*webkit-animation:none;*/
+    animation: none;
+  }
+  .van-fade-enter-active{
+    /*webkit-animation:none;*/
+    animation: none;
+  }
+  /*.van-dialog {*/
+  /*  font-size: 0.4rem;*/
+  /*  transition-property: transform,-webkit-transform;*/
+  /*}*/
+
   section .van-dialog {
     .van-dialog__header{
       padding-top: 0;

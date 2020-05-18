@@ -1,9 +1,7 @@
 <template>
-  <div class="common_nav">
-    <nav>
+    <nav class="common_nav">
       <van-icon name="arrow-left" @click="$global.previous()" />{{msg}}
     </nav>
-  </div>
 </template>
 <script >
 export default {
@@ -14,20 +12,24 @@ name:'common_nav',
 }
 </script>
 <style lang="scss">
-.common_nav {
-  nav {
- width: 100%;
- z-index: 999;
-    text-align: center;
-    line-height: 1.6rem;
-    height: 1.6rem;
-    position: fixed;
-    top: 0;
-    color:#333;
-    font-weight: 500;
-    font-size: 0.5rem;
-    background: white;
-    border-bottom: 1px dashed #b5b5b5;
-  }
-}
+ nav.common_nav {
+      width: 100%;
+	   position: relative;
+      height: 100%;
+      text-align: center;
+      line-height: 1.5rem;
+      height: 1.5rem;
+      position: fixed;
+      top: 0;
+      z-index: 5;
+      font-size: 0.46rem;
+      background: white;
+      border-bottom: 0.1rem solid #b5b5b5;
+	  .van-icon-arrow-left {
+	    position: absolute;
+	    left: 0.6rem;
+	    top: 50%;
+	    transform: (translate(0, -50%));
+	  }
+    }
 </style>

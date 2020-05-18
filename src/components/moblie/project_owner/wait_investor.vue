@@ -1,9 +1,10 @@
 <template>
   <div id="p_wait_investor">
-    <nav>
+ <!--   <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />
       {{dad_text}}
-    </nav>
+    </nav> -->
+	<commonnav :msg="dad_text"></commonnav>
     <main>
          <div class="investors_infor">
         <h2>{{title}}</h2>
@@ -191,15 +192,6 @@ export default {
       box-sizing: border-box;
     }
   }
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
   .van-dialog__header {
     font-size: 0.5rem;
   }
@@ -234,17 +226,7 @@ export default {
 #p_wait_investor {
   width: 100%;
   height: 100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
+
   main {
     padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;

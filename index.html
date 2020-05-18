@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0"> -->
     <!--  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">-->
-    <meta
+   <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
-
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <title>bit-bro.biz</title>
   </head>
   <body>
@@ -28,11 +28,13 @@
             width > maxWidth && (width = maxWidth);
           }
           if (window.orientation == 90 || window.orientation == -90) {
+
             if (width > 800) {
               width = 540;
             } else {
               width = 360;
             }
+            console.log(width)
           }
           var rem = (width * 100) / designWidth;
           remStyle.innerHTML = "html{font-size:" + rem + "px;}";

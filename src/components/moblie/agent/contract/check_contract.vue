@@ -1,8 +1,9 @@
 <template>
   <div id="a_check_contract">
-    <nav>
+ <!--   <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />{{$t("agent.SignTheContract")}}
-    </nav>
+    </nav> -->
+	<commonnav :msg="$t('agent.SignTheContract')"></commonnav>
     <main>
       <article>
         <div class="sub_title">
@@ -117,15 +118,6 @@ export default {
     width: 100%;
     border: 1px solid #a9a9a9;
   }
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
   .van-cell{
     padding: 0;
   }
@@ -141,19 +133,6 @@ export default {
 #a_check_contract {
   width: 100%;
   height: 100%;
-
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    z-index: 5;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
     /*margin-top: 1.5rem;*/
     /*margin-bottom: 1.5rem;*/

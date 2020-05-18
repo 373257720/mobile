@@ -1,8 +1,9 @@
 <template>
   <div id="i_wait_confirm">
-    <nav>
+ <!--   <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />{{$t('investor.Itemstobeconfirmed')}}
-    </nav>
+    </nav> -->
+		<commonnav :msg="$t('common.investor.Itemstobeconfirmed')"></commonnav>
     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <div class="investors_infor">
@@ -29,7 +30,7 @@ import {i18n} from "../../../language";
 import store from "../../../store/store";
 
 export default {
-  name: "goods_details",
+  name: "i_wait_confirm",
   data() {
     return {
       show: false,
@@ -215,16 +216,6 @@ export default {
 </script>
 <style lang="scss">
 #i_wait_confirm {
-  nav {
-    // position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
-
   article{
     #nav_lists{
       .box{
@@ -244,19 +235,6 @@ export default {
 #i_wait_confirm {
   width: 100%;
   height:100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    z-index: 999;
-    top: 0;
-    font-size: 0.46rem;
-    color:#333333;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
     padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;

@@ -1,8 +1,9 @@
 <template>
   <div id="i_sign_failed">
-    <nav>
+ <!--   <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />{{$t('common.RefusalToSignProject')}}
-    </nav>
+    </nav> -->
+		<commonnav :msg="$t('common.RefusalToSignProject')"></commonnav>
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
@@ -137,16 +138,6 @@ export default {
       }
     }
   }
-
-  nav {
-    // position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
 }
 .van-dialog {
   font-size: 0.3rem;
@@ -162,18 +153,7 @@ export default {
 #i_sign_failed {
   width: 100%;
   height:100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    color: #333;
-    top: 0;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
+
   main {
     padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;

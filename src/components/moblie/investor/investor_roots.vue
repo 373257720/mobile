@@ -1,5 +1,5 @@
 <template>
-  <keep-alive include="i_wait_confirm,i_perfect_infor">
+  <keep-alive include="i_conected_project,i_inverstor_infor">
     <router-view ></router-view>
   </keep-alive>
 
