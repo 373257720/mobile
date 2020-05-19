@@ -81,36 +81,34 @@ export default {
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
-            if(i=='interestedIndustries'){
-              if(res.data.data.lan=='zh_CN'){
-                this.details_lists[j].response = res.data.data.interestedIndustries|| '-';
-              }else {
-                this.details_lists[j].response = res.data.data.interestedIndustriesEn|| '-';
-              }
-            }
-           else if(i=='investorsArea'){
-              if(res.data.data.lan=='zh_CN'){
-                this.details_lists[j].response = res.data.data.investorsArea|| '-';
-              }else {
-                this.details_lists[j].response = res.data.data.investorsAreaEn|| '-';
-              }
-            }
-            else if(i=='investorsCompany'){
-              if(res.data.data.lan=='zh_CN'){
-                this.details_lists[j].response = res.data.data.investorsCompany|| '-';
-              }else {
-                this.details_lists[j].response = res.data.data.investorsCompanyEn|| '-';
-              }
-            }
-            else if(i=='investorsCompanyAddress'){
-              if(res.data.data.lan=='zh_CN'){
-                this.details_lists[j].response = res.data.data.investorsCompanyAddress || '-';
-              }else {
-                this.details_lists[j].response = res.data.data.investorsCompanyAddressEn|| '-';
-              }
-            }else {
-              this.details_lists[j].response = res.data.data[i] || '-';
-            }
+						
+						if(res.data.data.lan=='zh_CN'){
+							  if(i=='interestedIndustries'){
+								  this.details_lists[j].response = res.data.data.interestedIndustries || '-';
+							  }else if(i=='investorsArea'){
+								   this.details_lists[j].response = res.data.data.investorsArea || '-';;
+							  }  else if(i=='investorsCompany'){
+								this.details_lists[j].response = res.data.data.investorsCompany || '-';;
+									}  else if(i=='investorsCompanyAddress'){
+										   this.details_lists[j].response = res.data.data.investorsCompanyAddress || '-';;
+									}else{
+										 this.details_lists[j].response = res.data.data[i] || '-';
+									}
+						}else {
+							  if(i=='interestedIndustries'){
+							   this.details_lists[j].response = res.data.data.interestedIndustriesEn || '-';;
+							  }else if(i=='investorsArea'){
+								 this.details_lists[j].response = res.data.data.investorsAreaEn || '-';;
+							  }else if(i=='investorsCompany'){
+								this.details_lists[j].response = res.data.data.investorsCompanyEn || '-';;
+							}else if(i=='investorsCompanyAddress'){
+							 this.details_lists[j].response = res.data.data.investorsCompanyAddressEn || '-';;
+							}else{
+							 this.details_lists[j].response = res.data.data[i] || '-';
+								}
+										    
+						}
+						
 
           }
         }

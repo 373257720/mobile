@@ -17,8 +17,8 @@ name:'common_nav',
 	   position: relative;
       height: 100%;
       text-align: center;
-      line-height: 1.5rem;
-      height: 1.5rem;
+      line-height: 1.6rem;
+      height: 1.6rem;
       position: fixed;
       top: 0;
       z-index: 5;

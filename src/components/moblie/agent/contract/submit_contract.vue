@@ -87,11 +87,11 @@ export default {
               message: this.$t('ContractWrods.ConfirmAndUploadToBlockchain')
             })
             .then(() => {
-               this.$routerto("uploadtoblock",  {
-                  signId: this.signId,
-                  projectId: this.projectId,
-                  signStatus: 4
-                });
+               // this.$routerto("uploadtoblock",  {
+               //    signId: this.signId,
+               //    projectId: this.projectId,
+               //    signStatus: 4
+               //  });
             });
         } else {
           this.$dialog

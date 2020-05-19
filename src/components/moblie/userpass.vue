@@ -110,16 +110,17 @@ export default {
       .then(res => {
         this.$toast.clear();
         console.log(res.data.data);
-        if (res.data.data.optStatus === 0) {
-          // 0审核中
-          this.optStatus = 0;
-        } else if (res.data.data.optStatus === 1) {
-          // 1通过
-          this.optStatus = 1;
-        } else if (res.data.data.optStatus === 2) {
-          // 2不通过
-          this.optStatus = 2;
-        }
+		this.optStatus=res.data.data.optStatus;
+        // if (res.data.data.optStatus === 0) {
+        //   // 0审核中
+        //   this.optStatus = 0;
+        // } else if (res.data.data.optStatus === 1) {
+        //   // 1通过
+        //   this.optStatus = 1;
+        // } else if (res.data.data.optStatus === 2) {
+        //   // 2不通过
+        //   this.optStatus = 2;
+        // }
         console.log(this.optStatus);
         for (let key in res.data.data) {
           this.form[key] = res.data.data[key];
@@ -142,7 +143,7 @@ export default {
             }
           }
         }
-        console.log(this.form);
+        // console.log(this.form);
       })
       .catch(err => {
         console.log(err);

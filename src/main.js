@@ -98,7 +98,7 @@ i18n.locale=localStorage.getItem('language')?localStorage.getItem('language'):'e
 // import moment from 'moment'
 // Vue.prototype.$moment = moment
 // 引入公共组件
-// let loadingCount=0;
+
 // let isShowLoading =false;
 // function addLoading() {
 //   isShowLoading = true;
@@ -121,40 +121,46 @@ i18n.locale=localStorage.getItem('language')?localStorage.getItem('language'):'e
 //   }
 // };
 axios.defaults.withCredentials = true;
+let loadingCount=0;
 let isShowLoading =true;
+Vue.prototype.$isShowLoading=isShowLoading;
 // const exceptUrls = [ '/bsl_web/base/sendEmail.do','/bsl_web/user/forgetPwd.do'];
-// axios.interceptors.request.use(function (config) {
-//   　　// 在发送请求之前做些什么
-//   return config;
-//   }, function (error) {
-//   　　// 对请求错误做些什么
-//     Dialog.alert({
-//       title:i18n.t('common.network'),
-//       // message: i18n.t('common.network'),
-//     }).then(() => {
-//       store.dispatch("reset_actions",restore_obj);
-//       window.sessionStorage.clear();
-//       location.href = '/'
-//     });
-//   return Promise.reject(error)
-//   });
+	axios.interceptors.request.use(function (config) {
+  　　// 在发送请求之前做些什么
+  loadingCount++;
+  return config;
+  }, function (error) {
+  　　// 对请求错误做些什么
+  return Promise.reject(error)
+  });
 
 axios.interceptors.response.use(res => {
   if (res.data && res.data.resultCode) {
     let code = res.data.resultCode
+	loadingCount--;
     if (code == 10090) { // 如果是未登录直接踢出去
       if(isShowLoading){
         isShowLoading=false;	
+		let mes;
+		if(i18n.locale=='en_US'){
+			mes=res.data.resultDesc.slice(11,-1)
+		}else{
+			mes=res.data.resultDesc.slice(0,10)
+		}
         Dialog.alert({
-          title: res.data.resultDesc.slice(10),
-		   message:res.data.resultDesc.slice(0,10),
+          title:mes,
         }).then(() => {
           store.dispatch("reset_actions",restore_obj)
           window.sessionStorage.clear();
           router.push({name:'login'})
+		  // window.location=baseurl.api3+'/#/login';
+		 // window.location.href = baseurl.api3+'/#/login';
         });
       }
     }
+	if(loadingCount == 0){
+		isShowLoading=true;	
+	}
     return res
   }
 } ,error => {
@@ -198,9 +204,10 @@ Vue.prototype.$loadingfail = function loadingfail() {
 };
 var baseurl = {
   // api: "http://192.168.1.37:8085",
-  // api3:'www.aaa.com',
+  
   api2:'http://47.90.62.114:8081',
-  api3: 'http://47.90.62.114:8083',//(前段服务器端口)
+  // api3: 'http://47.90.62.114:8083',//(前段服务器端口)
+  api3:'http://localhost:8080',
   api: "http://47.90.62.114:8086",//(后台正式服务器端口)
 }
 Vue.prototype.$baseurl3 = baseurl.api3;

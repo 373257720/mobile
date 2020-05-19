@@ -287,8 +287,8 @@
     nav {
       width: 100%;
       text-align: center;
-      line-height: 1.5rem;
-      height: 1.5rem;
+      line-height: 1.6rem;
+      height: 1.6rem;
       position: fixed;
       top: 0;
       z-index: 5;
@@ -297,7 +297,7 @@
       border-bottom: 0.1rem solid #b5b5b5;
     }
     main {
-      padding: 1.5rem 0 1.3rem 0;
+      padding: 1.6rem 0 1.3rem 0;
       // margin
       // border: 0;
       /*padding: 0 0.5rem;*/

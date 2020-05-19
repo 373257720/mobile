@@ -3,7 +3,7 @@
  <!--   <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />{{$t('investor.Itemstobeconfirmed')}}
     </nav> -->
-		<commonnav :msg="$t('common.investor.Itemstobeconfirmed')"></commonnav>
+		<commonnav :msg="$t('investor.Itemstobeconfirmed')"></commonnav>
     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <div class="investors_infor">

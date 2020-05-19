@@ -47,22 +47,22 @@ export default {
       details_lists: [
         {
           keyword: "signTime3",
-          name:  this.$t('projectOwner.SigningTime'),
+          name:  this.$t('projectOwner.SigningTime')+":",
           response: ""
         },
         {
           keyword: "investorsCompany",
-          name:  this.$t('agent.InvestorCompany'),
+          name:  this.$t('agent.InvestorCompany')+":",
           response: ""
         },
         {
           keyword: "investorsName",
-          name: this.$t('agent.InvestorName'),
+          name: this.$t('agent.InvestorName')+":",
           response: ""
         },
         {
           keyword: "investorsMobile",
-          name: this.$t('investor.InvestorPhone'),
+          name: this.$t('investor.InvestorPhone')+":",
           response: ""
         },
       ],

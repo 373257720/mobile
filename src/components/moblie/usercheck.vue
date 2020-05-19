@@ -5,7 +5,7 @@
       <van-cell-group class="vanForm">
         <div class="usertype">
           <p>{{$t('common.Category')}}</p>
-          <van-dropdown-menu>
+         <van-dropdown-menu>
             <van-dropdown-item
               @change="function(params) {
                   return signer_submit(params, 'userType');
@@ -16,11 +16,16 @@
             >
             </van-dropdown-item>
           </van-dropdown-menu>
+		<!--  <a-select :default-value="1" @change="handleChange1">
+		  			<a-select-option v-for="item in option1" :value="item.value" :key='item.value'>
+		  				{{item.text}}
+		  			</a-select-option>
+		   </a-select> -->
           <footer>{{ form_err.userType }}</footer>
         </div>
         <div class="identity">
           <p>{{$t('common.Identity')}}</p>
-          <van-dropdown-menu>
+        <van-dropdown-menu>
             <van-dropdown-item
               v-if="form.userType == 1"
               disabled
@@ -33,6 +38,14 @@
               :options="option2"
             />
           </van-dropdown-menu>
+	<!-- 	 <a-select :default-value="1" @change="handleChange1" >
+			  <a-select-option  :value="option2[0].value" v-show="form.userType == 1">
+				  {{option2[0].text }}
+				</a-select-option>
+				<a-select-option  :value="option2[1].value">
+				  {{option2[1].text }}
+				</a-select-option>
+		   </a-select> -->
           <footer>{{ form_err.userIdentityType }}</footer>
         </div>
         <div class="nationality">
@@ -268,6 +281,9 @@ export default {
     }
   },
   methods: {
+	  handleChange1(value){
+		 this.form.userType=value;
+	  },
     deletepic(file,index){
       if (index == 1) {
         this.form.identityPicOne = '';
