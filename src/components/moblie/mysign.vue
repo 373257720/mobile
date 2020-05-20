@@ -655,6 +655,7 @@ export default {
       line-height: 1.6rem;
       font-size: 0.46rem;
       height: 1.6rem;
+	  font-weight: bold;
       // font-size: 0.4rem;
       border-bottom: 0.1rem solid #d2d2d2;
     }

@@ -73,7 +73,11 @@ export default {
         projectDescribe: {
           name: this.$t('common.ProjectDescription'),
           response: ""
-        }
+        },
+		projectDetail:{
+		  name: this.$t('common.ProjectDetails'),
+		  response: ""
+		},
       },
       investor_infor: {
         investorsType: {

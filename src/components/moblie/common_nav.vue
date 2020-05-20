@@ -14,6 +14,7 @@ name:'common_nav',
 <style lang="scss">
  nav.common_nav {
       width: 100%;
+	  font-weight: bold;
 	   position: relative;
       height: 100%;
       text-align: center;

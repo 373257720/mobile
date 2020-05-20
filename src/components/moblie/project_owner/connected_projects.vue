@@ -291,6 +291,7 @@
       height: 1.6rem;
       position: fixed;
       top: 0;
+	font-weight: bold;
       z-index: 5;
       font-size: 0.46rem;
       background: white;

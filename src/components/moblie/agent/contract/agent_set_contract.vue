@@ -23,6 +23,7 @@
       }
     },
     created() {
+			
       this.get_contract();
     },
     methods:{

@@ -64,6 +64,9 @@ export default {
   /* opacity: 0.5; */
   /*transition-property:*/
 }
+.van-tabbar-item--active {
+    color: #00adef;
+}
 div.loading{
   background: none;
 
