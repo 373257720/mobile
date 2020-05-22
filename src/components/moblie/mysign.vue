@@ -647,7 +647,7 @@ export default {
     width: 100%;
     position: fixed;
     z-index: 5;
-    color: #333;
+    // color: #333;
     text-align: center;
     top: 0;
     background: white;

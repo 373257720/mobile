@@ -53,6 +53,7 @@ import a_wait_signed from '@/components/moblie/agent/wait_signed'
 import a_sign_failed from '@/components/moblie/agent/sign_failed'
 import a_sign_successful from '@/components/moblie/agent/sign_successful'
 import a_wait_sendemail from '@/components/moblie/agent/wait_sendemail'
+import recent_recommand from '@/components/moblie/agent/recent_recommand'
 // agent_set_contract
 import a_tobeSigned_roots from '@/components/moblie/agent/contract/tobeSigned_roots'
 import a_sign_contract from '@/components/moblie/agent/contract/sign_contract'
@@ -218,6 +219,12 @@ const routes = [
         name: 'a_recommand_i',
         component:a_recommand_i,
       },
+	  {
+	    path: 'recent_recommand',
+	    name: 'recent_recommand',
+	    component:recent_recommand,
+	  },
+	  
     ],
   },
   // {

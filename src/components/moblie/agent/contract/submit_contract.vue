@@ -74,6 +74,7 @@ export default {
             projectId:this.projectId,
             signAgreement: JSON.stringify(this.contract),
             X_Token:this.$store.state.X_Token,
+			htmlData:'',
           }
         )
         .then(res => {

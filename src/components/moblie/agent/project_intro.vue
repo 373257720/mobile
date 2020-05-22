@@ -83,7 +83,7 @@ export default {
     };
   },
   beforeRouteLeave(to,from,next){
-      console.log(to,from)
+      // console.log(to,from)
         if(to.name=='uploadtoblock'){
            next({path: '/mysign'});
         }else{
@@ -103,9 +103,9 @@ export default {
         `${this.$baseurl}/bsl_web/project/getProjectDetails`,
         "get",
         {
-          projectId:this.details .projectId,
-          signStatus:this.details .signStatus,
-          signId:this.details .signId ? this.details.signId : -1
+          projectId:this.details.projectId,
+          signStatus:this.details.signStatus,
+          signId:this.details.signId ? this.details.signId : -1
         },
         this.details_lists,
         this.nav_lists,
@@ -134,7 +134,7 @@ export default {
   methods: {
     recommamd(){
       console.log(this.details)
-      this.$routerto("a_recommand_i",this.details)
+      this.$routerto("recent_recommand",this.details)
     },
     confirm_alert() {
       let that=this;
