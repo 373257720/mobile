@@ -107,11 +107,11 @@ export default {
           text: this.$t('common.ToBeSignedProject'),
           pic: "../../../static/pic/waitsign.png"
         },
-        // {
-        //   value: 4,
-        //   text:this.$t('common.SignedForChain'),
-        //   pic: "../../../static/pic/waitinvestor.png"
-        // },
+        {
+          value: 4,
+          text:this.$t('common.SignedForChain'),
+          pic: "../../../static/pic/waitsign.png"
+        },
         {
           value: 5,
           text: this.$t('common.ChainedForRecommendation'),
@@ -574,7 +574,7 @@ export default {
 
   .van-pull-refresh {
     padding: 2.8rem 0 1.3rem 0;
-    /*height: 100%;*/
+    // height: 100%;
 
 
   }
@@ -643,6 +643,7 @@ export default {
 <style lang="scss" scoped>
 #mysign {
   width: 100%;
+  // height:100%;
   nav {
     width: 100%;
     position: fixed;
@@ -725,7 +726,7 @@ export default {
       // line-height: 0.6rem;
       /*position: relative;*/
       display: flex;
-			letter-spacing: 0.0125rem;
+		letter-spacing: 0.02rem;
       /*word-break: break-all;*/
       margin: 0 0.54rem;
       padding: 0.3rem 0;

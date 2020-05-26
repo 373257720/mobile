@@ -4,21 +4,17 @@
 			<article>
 				<ul>
 					<li v-for="(item,key) in toson" :key="item.name">
-						<div class="content" v-if="key=='projectDescribe'">
+						<div class="content" v-if="key=='projectDescribe' || key=='potentialInvestorsTags'">
 							<p class="row1">{{item.name}}:</p>
 							<p class="row2">{{item.response}}</p>
 						</div>
 						<div class="content projectDetail" v-else-if="key=='projectDetail'">
 							<p class="row1">{{item.name}}:</p>
-							<!-- <van-field
-			        class="row2"
-			        v-model="item.response"
-			        autosize
-			      /> -->
 							<p class="row2">
 								<span v-show="!switch1">{{item.response}}</span>
 								<span v-show="switch1">{{item.response.substr(0,[800])}}...</span>
-								<i :class={up:!switch1} @click="moreDetails" v-if="item.response.length>800"></i></p>
+								<i :class={up:!switch1} @click="moreDetails" v-if="item.response.length>800"></i>
+							</p>
 						</div>
 						<div class="normal" v-else-if="key=='collectMoney'">
 							<p class="row1">{{item.name}}:</p>
@@ -86,12 +82,12 @@
 						font-size: 0.42rem;
 
 						div.normal {
-							
+
 							// display: flex;
-							
+
 
 							.row1 {
-								
+
 								color: #4c4c4c;
 								font-weight: 600;
 								font-size: 0.46rem;
@@ -116,6 +112,7 @@
 						}
 
 						div.content {
+
 							// padding-bottom: 1rem;
 							.row1 {
 								color: #4c4c4c;

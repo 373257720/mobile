@@ -77,6 +77,10 @@ export default {
           name: this.$t('common.ProjectDetails'),
           response: ""
         },
+		potentialInvestorsTags:{
+			name: this.$t('common.potentialInvestors'),
+			response: ""
+		}	
       },
       financingStage: {
         '0': this.$t('projectOwner.SeedRound'),

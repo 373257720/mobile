@@ -90,7 +90,7 @@
 import store from "../../store/store";
 
 export default {
-  name: "mime",
+  name: "mine",
   data() {
     return {
       show: false,
@@ -190,7 +190,8 @@ export default {
           if (res.data.resultCode == 10000) {
             this.$store.dispatch("reset_actions",this.$restore_obj)
             sessionStorage.clear()
-            this.$routerto("login");
+            // this.$routerto("http://192.168.1.21:8080");
+			location.href=this.$baseurl3;
           }
         });
       } else if (num == 2) {
@@ -209,6 +210,7 @@ export default {
     background-color: rgba(0,0,0,.7)
     /*background-color: black;*/
   }
+  
   .van-fade-leave-active{
     /*webkit-animation:none;*/
     animation: none;

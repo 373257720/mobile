@@ -152,7 +152,8 @@ axios.interceptors.response.use(res => {
         }).then(() => {
           store.dispatch("reset_actions",restore_obj)
           window.sessionStorage.clear();
-          router.push({name:'login'})
+          // router.push({name:'login'})
+		  location.href=baseurl.api3;
 		  // window.location=baseurl.api3+'/#/login';
 		 // window.location.href = baseurl.api3+'/#/login';
         });
@@ -206,7 +207,8 @@ var baseurl = {
   api: "http://192.168.1.37:8085",
   
   api2:'http://47.90.62.114:8081',
-   api3: 'http://47.90.62.114:8083',//(前段服务器端口)
+  api3:'http://192.168.1.21:8080',
+   // api3: 'http://47.90.62.114:8083',//(前段服务器端口)
   // api3:'http://localhost:8080',
   // api: "http://47.90.62.114:8086",//(后台正式服务器端口)
 }

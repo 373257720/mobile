@@ -66,6 +66,7 @@
         <li v-if="form.userIdentityType==2 && form.userCompanyPic" class="idcard_right">
           <p>{{$t('common.Certificate')}}</p>
           <div class="pic">
+
             <img :src="$baseurl+form.userCompanyPic" alt />
           </div>
         </li>
@@ -80,6 +81,7 @@
 <script>
 export default {
   name: "userpass",
+  
   data() {
     return {
       dad_text:this.$t('common.Reveiw'),
@@ -142,6 +144,7 @@ export default {
               this.switchon = false;
             }
           }
+		  
         }
         // console.log(this.form);
       })

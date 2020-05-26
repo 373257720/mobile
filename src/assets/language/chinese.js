@@ -40,6 +40,7 @@ export default {
     // Projects to be confirmed by investors
   },
   common:{
+	potentialInvestors:'潜在投资者要求',
     pleasegetcode:'请发送邮件获取验证码',
     NotFound:'没有找到',
     UploadJPG:'请上传 jpg 格式图片',

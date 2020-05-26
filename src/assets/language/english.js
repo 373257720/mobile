@@ -40,6 +40,7 @@ export default {
     // Projects to be confirmed by investors
   },
   common:{
+	potentialInvestors:'Potential investors',
     pleasegetcode:'Please send email to get code',
     NotFound:'Not Found',
     UploadJPG:'Please upload picture in JPG format',

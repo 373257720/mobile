@@ -393,6 +393,7 @@ export default {
   .van-cell {
     font-size: 0.38rem;
     padding: 0 1rem;
+	// padding: 0.3125rem 0.5rem;
     line-height: 1rem;
     // padding: 0;
   }

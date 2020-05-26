@@ -483,6 +483,7 @@ export default {
 <style lang="scss">
 #mhome {
     .van-pull-refresh{
+		// height: 100%;
       // padding: 2.8rem 0 2rem 0;
     }
 	.van-overlay {
@@ -702,8 +703,9 @@ export default {
   .main {
     padding: 4.84rem 0 1.3rem 0;
     /*height: 100%;*/
+	overflow-y: auto;
     // margin-bottom: 5rem;
-    // height: 100%;
+    height: 100%;
     background: #eeeeee;
     box-sizing: border-box;
     .goodlists {

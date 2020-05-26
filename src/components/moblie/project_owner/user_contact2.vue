@@ -91,20 +91,16 @@
 				.then(res => {
 					this.$toast.clear();
 					if (res.data.resultCode == 10000) {
-						for (let i in res.data.data) {
-							for (let j = 0; j < this.details_lists.length; j++) {
+						for (let j = 0; j < this.details_lists.length; j++) {
+							for (let i in res.data.data) {
 								if (this.details_lists[j].keyword == i) {
-									if (res.data.data.lan == 'zh_CN') {
-										if (i == 'interestedIndustries') {
-											this.details_lists[j].response = res.data.data.interestedIndustries || '-';
-										} else if (i == 'investorsArea') {
-											this.details_lists[j].response = res.data.data.investorsArea || '-';;
-										} else if (i == 'investorsCompany') {
-											this.details_lists[j].response = res.data.data.investorsCompany || '-';;
-										} else if (i == 'investorsCompanyAddress') {
-											this.details_lists[j].response = res.data.data.investorsCompanyAddress || '-';;
-										}
+									if (this.details_lists[j].keyword == "signTime3") {
+										this.details_lists[j].response = res.data.data[i] ? this.$global.timestampToTime(res.data.data[i]) : "-";
 									} else {
+										this.details_lists[j].response = res.data.data[i] || '-';;
+									}
+									if (res.data.data.lan == 'en_US') {
+										// console.log(res.data.data.interestedIndustriesEn)
 										if (i == 'interestedIndustries') {
 											this.details_lists[j].response = res.data.data.interestedIndustriesEn || '-';;
 										} else if (i == 'investorsArea') {
@@ -125,14 +121,9 @@
 									// 	this.details_lists[j].response =
 									// 		this.res.data.data[i] == false ? this.$t('common.isno') : this.$t('common.isyes') || '-';;
 									// } 
-									if (this.details_lists[j].keyword == "signTime3") {
-										this.details_lists[j].response =  res.data.data[i]==0?"-":this.$global.timestampToTime(res.data.data[i]);
-					
-									}
-									else {
-										this.details_lists[j].response = res.data.data[i] || '-';;
-									}
-								
+
+
+
 								}
 							}
 						}
@@ -143,9 +134,7 @@
 			// if(a.er
 		},
 		methods: {
-			onSearch() {
-				console.log(this.searchkey);
-			}
+
 		}
 	};
 </script>

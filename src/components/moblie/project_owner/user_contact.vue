@@ -63,7 +63,8 @@ export default {
   },
   methods: {
     onSearch() {
-      console.log(this.searchkey);
+      // console.log(this.searchkey);
+	  this.onLoad() ;
     },
     onLoad() {
       this.$loading();
@@ -89,9 +90,13 @@ export default {
     // padding: 0.2rem 0.2rem;
     // background: #1F2652;
   }
+.van-icon-clear{
+          padding-right: 0.5rem;
+      }
   .van-search__content--round{
     border:1px solid #ccc;
   }
+  
   .van-search__action {
     // font-size: 0.3rem;
     // line-height: 0.5rem;

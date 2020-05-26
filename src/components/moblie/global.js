@@ -75,13 +75,14 @@ const global = {
       })
     })
   },
+
   post_encapsulation: function (url,  datas) {
     if(Object.prototype.toString.call(datas) !== '[object Object]'){
       datas={};
     }
-    if(store.state.X_Token){
-      datas.X_Token=store.state.X_Token;
-    }
+  if(store.state.X_Token){
+    datas.X_Token=store.state.X_Token;
+  }
     return new Promise((resolve, reject) => {
         axios.post(url, qs.stringify(datas),{  headers:{
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -183,7 +184,7 @@ const global = {
                 }else{
                   investor_infor[i].response = res.data.data.investorsCompanyEn || '-';
                 }
-                console.log(investor_infor)
+                // console.log(investor_infor)
               }
               else {
 

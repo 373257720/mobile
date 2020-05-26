@@ -96,7 +96,10 @@ export default {
         projectDetail:{
           name: this.$t('common.ProjectDetails'),
           response: ""
-        },
+        },potentialInvestorsTags:{
+			name: this.$t('common.potentialInvestors'),
+			response: ""
+		}	
       },
     };
   },

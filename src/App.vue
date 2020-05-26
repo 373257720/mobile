@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-		<!-- <keep-alive include="mhome,mysign"> -->
+		<keep-alive include="mhome,mysign,mine,userpass,p_user_contact">
 			  <router-view></router-view>
-		<!-- </keep-alive> -->
+		</keep-alive>
     
 <!--    <router-view />-->
   </div>
@@ -19,6 +19,7 @@ export default {
     }
   },
   created() {
+	  console.log(1)
 	  // function lockOrientation(){
 	  // 	window.screen.lockOrientation("landscape-primary");
 	  // };
