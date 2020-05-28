@@ -119,15 +119,18 @@ export default {
   },
 
   created() {
-    this.form.projectId = this.$route.query.projectId?this.$route.query.projectId:"";
-    this.form.signId= this.$route.query.projectId?this.$route.query.signId:-1;
-    this.form.signStatus=this.$route.query.signStatus>=5?5:this.$route.query.signStatus;
-    this.form.signUserId1=this.$route.query.signUserId1?this.$route.query.signUserId1:'';
+ 
     // console.log(this.form.signUserId1?1:2)
     this.ulHtml('');
   },
   computed: {
 
+  },
+  activated() {
+  	this.form.projectId = this.$route.query.projectId?this.$route.query.projectId:"";
+  	this.form.signId= this.$route.query.projectId?this.$route.query.signId:-1;
+  	this.form.signStatus=this.$route.query.signStatus>=5?5:this.$route.query.signStatus;
+  	this.form.signUserId1=this.$route.query.signUserId1?this.$route.query.signUserId1:'';
   },
   methods: {
 	  handleChange1(value){

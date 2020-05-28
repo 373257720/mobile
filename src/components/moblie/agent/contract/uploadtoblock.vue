@@ -10,10 +10,11 @@
           <div>
               <contractcomponent  :contract="contract"></contractcomponent>
           </div>
-          <footer>
-            <button class="blockchain" @click="contract_submit">{{$t('ContractWrods.ConfirmAndUploadToBlockchain')}}</button>
+         <footer>
+			 <p>({{$t('agent.ToIPF')}})</p>
+            <!-- <button class="blockchain">({{$t('agent.ToIPFS')}})</button> -->
           </footer>
-
+<!-- <p>({{$t('agent.ToIPFS')}})</p> -->
         </article>
       </main>
 <!--      <mbottom></mbottom>-->
@@ -405,7 +406,7 @@
   #a_uploadtoblock {
     width: 100%;
       height: 100%;
-    padding: 1.5rem 0 0 0;
+    padding: 1.6rem 0 0 0;
     div.middle {
       /*margin: 0 0.5rem;*/
       box-sizing: border-box;
@@ -431,7 +432,7 @@
 
       width: 100%;
         >div{
-           height: 85%;
+           height: 90%;
         }
       footer {
 

@@ -26,7 +26,7 @@
                 <p class="row2">{{middlemen.userCompanyCh.response}}</p>
               </div>
             </li>
-            <li v-if="middlemen.Type==2 && $i18n.locale=='en_US'">
+            <li v-else-if="middlemen.Type==2 && $i18n.locale=='en_US'">
               <div>
                 <p class="row1">{{middlemen.userCompanyEn.name}}:</p>
                 <p class="row2">{{middlemen.userCompanyEn.response}}</p>

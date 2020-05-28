@@ -271,7 +271,7 @@
 									title: res.data.resultDesc,
 								})
 								.then(() => {
-									this.$routerto('mysign');
+									// this.$routerto('mysign');
 								});
 						}
 					});

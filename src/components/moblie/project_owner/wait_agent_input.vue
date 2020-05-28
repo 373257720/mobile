@@ -26,7 +26,7 @@
                 <p class="row2">{{middlemen.userCompanyCh.response}}</p>
               </div>
             </li>
-            <li v-if="middlemen.Type==2 && $i18n.locale=='en_US'">
+            <li v-else-if="middlemen.Type==2 && $i18n.locale=='en_US'">
               <div>
                 <p class="row1">{{middlemen.userCompanyEn.name}}:</p>
                 <p class="row2">{{middlemen.userCompanyEn.response}}</p>
@@ -205,28 +205,7 @@
         });
     },
     methods: {
-      //   cancel() {
-      //   this.show2 = false;
-      // },
-      daship() {
-        var newWindow = window.open();
-        newWindow.location.href = "http://www.wearetechman.com:5001/webui";
-        // tempwindow.location=hash_id;
-      },
       // 点击事件
-      share(val) {
-        console.log(val);
-        this.message = val;
-        this.$copyText(this.message).then(
-          e => {
-            this.show = true;
-          },
-          function(e) {
-            // alert("Can not copy");
-            console.log(e);
-          }
-        );
-      },
       check_contract() {
         this.$loading();
         var newWindow = window.open();

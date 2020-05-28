@@ -119,7 +119,7 @@ export default {
   height:100%;
 
   main {
-    padding: 1.5rem 0 1.3rem 0;
+    padding: 1.6rem 0 1.3rem 0;
     background: #ffffff;
     ul {
       padding: 0 0.42rem;

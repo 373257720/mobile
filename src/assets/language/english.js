@@ -19,6 +19,7 @@ export default {
     WaitingForInvestmentBankReview:'Waiting approval by bank',
     RejectedItems:'Reject',
     ToIPFS:'It takes some time to synchronize the contract to IPFS. If fail to open, please try it later',
+	ToIPF:'It takes some time to synchronize the contract to IPFS',
     CheckContract:'View',
     signedproject:'Signed Project',
     InvestorRegion:'Investor Region',
@@ -153,7 +154,7 @@ export default {
     PleaseEnterTheTitle:'Please enter your title',
     PleaseReturnToCompleteInformation:'Please Return To Complete Information',
     NextConfirmAndUploadToBlockchain:'Next Step： Confirm & Upload to blockchain',
-    ConfirmAndUploadToBlockchain: "Confirm And Upload To Blockchain",
+    ConfirmAndUploadToBlockchain: "Uploading To Blockchain",
     UploadTakesAboutOneMinute:'Please wait with patient, about 1 minute...',
   },
   investor: {

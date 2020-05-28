@@ -10,7 +10,7 @@
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button v-if="$route.query.signStatus>=5"  @click="recommamd">{{$t('agent.RecommendInvestors')}}</button>
+            <button v-if="$route.query.signStatus>4"  @click="recommamd">{{$t('agent.RecommendInvestors')}}</button>
             <button v-if="$route.query.signStatus==='0'" @click="confirm_alert">{{$t('agent.Interested')}}</button>
           </aside>
         </footer>
@@ -96,7 +96,7 @@ export default {
   },
   created() {
     this.details = this.$route.query;
-    if(this.$route.query.signStatus>=5){
+    if(this.$route.query.signStatus>4){
       this.dad_text=this.$t('agent.RecommendInvestors');
     }else{
       this.dad_text=this.$t('common.ProjectDescription')
@@ -138,7 +138,7 @@ export default {
   methods: {
     recommamd(){
       console.log(this.details)
-      this.$routerto("recent_recommand",this.details)
+      this.$routerto("a_recommand_i",this.details)
     },
     confirm_alert() {
       let that=this;

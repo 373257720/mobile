@@ -8,8 +8,8 @@
           <p class="row2">{{investor_infor.investorsType.response}}</p>
         </div>
       </li>
-      <li>
-        <div v-if="investor_infor.Type==1">
+      <li v-if="investor_infor.Type==1">
+        <div >
           <p class="row1">{{investor_infor.investorsName.name}}:</p>
           <p class="row2">{{investor_infor.investorsName.response}}</p>
         </div>
@@ -60,9 +60,12 @@ export default {
 #common_investors {
   ul {
     padding: 0.1rem 0.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
     li {
       > div {
-        margin-bottom: 0.1rem;
+        // margin-bottom: 0.1rem;
         display: flex;
         align-items: baseline;
         font-size: 0.42rem;

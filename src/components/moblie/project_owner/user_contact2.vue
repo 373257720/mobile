@@ -91,42 +91,28 @@
 				.then(res => {
 					this.$toast.clear();
 					if (res.data.resultCode == 10000) {
-						for (let j = 0; j < this.details_lists.length; j++) {
-							for (let i in res.data.data) {
-								if (this.details_lists[j].keyword == i) {
-									if (this.details_lists[j].keyword == "signTime3") {
-										this.details_lists[j].response = res.data.data[i] ? this.$global.timestampToTime(res.data.data[i]) : "-";
-									} else {
-										this.details_lists[j].response = res.data.data[i] || '-';;
+						this.details_lists.forEach((item,idx)=>{
+							if(res.data.data.hasOwnProperty(item.keyword)){
+								if (item.keyword == "signTime3") {
+									item.response = res.data.data[item.keyword] ? this.$global.timestampToTime(res.data.data[item.keyword]) : "-";
+								} else {
+									item.response = res.data.data[item.keyword] || '-';
+								}
+								if (res.data.data.lan == 'en_US') {
+									// console.log(res.data.data.interestedIndustriesEn)
+									if (item.keyword == 'interestedIndustries') {
+										item.response = res.data.data.interestedIndustriesEn || '-';;
+									} else if (item.keyword == 'investorsArea') {
+										item.response = res.data.data.investorsAreaEn || '-';;
+									} else if (item.keyword == 'investorsCompany') {
+										item.response = res.data.data.investorsCompanyEn || '-';;
+									} else if (item.keyword == 'investorsCompanyAddress') {
+										item.response = res.data.data.investorsCompanyAddressEn || '-';;
 									}
-									if (res.data.data.lan == 'en_US') {
-										// console.log(res.data.data.interestedIndustriesEn)
-										if (i == 'interestedIndustries') {
-											this.details_lists[j].response = res.data.data.interestedIndustriesEn || '-';;
-										} else if (i == 'investorsArea') {
-											this.details_lists[j].response = res.data.data.investorsAreaEn || '-';;
-										} else if (i == 'investorsCompany') {
-											this.details_lists[j].response = res.data.data.investorsCompanyEn || '-';;
-										} else if (i == 'investorsCompanyAddress') {
-											this.details_lists[j].response = res.data.data.investorsCompanyAddressEn || '-';;
-										}
-
-									}
-									// if (this.details_lists[j].keyword == "signStatus") {
-									// 	this.details_lists[j].response = this.$global.pic_obj[
-									// 		res.data.data[i]
-									// 	] || '-';;
-									// } 
-									// else if (this.details_lists[j].keyword == "publicCompany") {
-									// 	this.details_lists[j].response =
-									// 		this.res.data.data[i] == false ? this.$t('common.isno') : this.$t('common.isyes') || '-';;
-									// } 
-
-
-
+								
 								}
 							}
-						}
+						})
 					}
 
 				});

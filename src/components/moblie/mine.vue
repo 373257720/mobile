@@ -91,6 +91,7 @@ import store from "../../store/store";
 
 export default {
   name: "mine",
+  
   data() {
     return {
       show: false,
@@ -183,15 +184,18 @@ export default {
     },
     loginout(num) {
       // console.log(this.$dialog);
+	  
       this.logout = !this.logout;
       if (num == 1) {
         this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/logOut`).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.resultCode == 10000) {
             this.$store.dispatch("reset_actions",this.$restore_obj)
             sessionStorage.clear()
-            // this.$routerto("http://192.168.1.21:8080");
-			location.href=this.$baseurl3;
+            this.$routerto("login");
+			
+			// location.href=this.$baseurl3;
+			
           }
         });
       } else if (num == 2) {

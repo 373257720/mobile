@@ -19,6 +19,7 @@ export default {
     WaitingForInvestmentBankReview:'等待投行审核',
     RejectedItems:'拒签项目',
     ToIPFS:'合约同步到IPFS需要时间，如不能打开请稍后再试',
+	ToIPF:'合约同步到IPFS需要时间',
     CheckContract:'查看合约',
     signedproject:'成功签约项目',
     InvestorRegion:'投资者地区',
@@ -154,7 +155,7 @@ export default {
     PleaseEnterTheTitle:'请输入职称',
     PleaseReturnToCompleteInformation:'请返回完成信息填写',
     NextConfirmAndUploadToBlockchain:'下一步确认及上载到区块链',
-    ConfirmAndUploadToBlockchain: "确认及上载到区块链",
+    ConfirmAndUploadToBlockchain: "正在上载到区块链",
     UploadTakesAboutOneMinute:'上传大概需要1分钟，请耐心等候',
   },
   investor: {

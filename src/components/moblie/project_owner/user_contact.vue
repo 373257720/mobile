@@ -156,7 +156,6 @@ export default {
   }
   header {
     position: relative;
-
     .van-icon-arrow-left {
       // line-height: 1rem;
       position: absolute;
@@ -189,9 +188,10 @@ export default {
   nav {
     width: 100%;
     text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
+    line-height: 1.6rem;
+    height: 1.6rem;
     position: fixed;
+	font-weight: bold;
     top: 0;
     z-index: 5;
     font-size: 0.46rem;

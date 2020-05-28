@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import 'vant/lib/index.css';
+// import 'vant/lib/index.css';
 import axios from '../node_modules/axios'
 import qs from 'qs'
 import Promise from 'es6-promise';
@@ -13,20 +13,17 @@ import store from './store/store'
 import { i18n } from './language'
 Vue.config.productionTip = false
 Vue.prototype.$qs = qs;
+import  './vant.js'
+// console.log(vant)
 // import 'lib-flexible/flexible.js'
-// 富文本
-// import  "font-awesome/css/font-awesome.css";
-// import initRichText from './editor';
-// initRichText();
 // vuex
 import Vuex from 'vuex';
 Vue.use(Vuex);
-
 // import ant from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.less'
 // Vue.use(ant)
-import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css'
+// import Antd from 'ant-design-vue'
+// import 'ant-design-vue/dist/antd.css'
 import input from 'ant-design-vue/lib/input';
 import 'ant-design-vue/lib/input/style/css';
 Vue.use(input);
@@ -48,11 +45,13 @@ Vue.use(VueQuillEditor, /* { default global options } */)
 // import Vconsole from 'vconsole'
 // let vConsole = new Vconsole()
 // Vue.use(vConsole);
-import Vant from 'vant';
-Vue.use(Vant);
+
 Vue.prototype.$axios = axios;
 const restore_obj=deepCopy(store._modules.root.state);
 Vue.prototype.$restore_obj=restore_obj;
+
+// let a=global.deepCopy(store._modules.root.state);
+// console.log(a)
 function deepCopy(obj) {
   var result = Array.isArray(obj) ? [] : {};
   for (var key in obj) {
@@ -151,9 +150,11 @@ axios.interceptors.response.use(res => {
           title:mes,
         }).then(() => {
           store.dispatch("reset_actions",restore_obj)
-          window.sessionStorage.clear();
-          // router.push({name:'login'})
-		  location.href=baseurl.api3;
+          window.sessionStorage.clear();  
+		  // loadingCount=0;
+		  // isShowLoading =true;
+		  router.push({name:'login'})
+		  // location.href=baseurl.api3;
 		  // window.location=baseurl.api3+'/#/login';
 		 // window.location.href = baseurl.api3+'/#/login';
         });
@@ -207,8 +208,8 @@ var baseurl = {
   api: "http://192.168.1.37:8085",
   
   api2:'http://47.90.62.114:8081',
-  api3:'http://192.168.1.21:8080',
-   // api3: 'http://47.90.62.114:8083',//(前段服务器端口)
+  // api3:'http://192.168.1.21:8080',
+   api3: 'http://47.90.62.114:8083',//(前段服务器端口)
   // api3:'http://localhost:8080',
   // api: "http://47.90.62.114:8086",//(后台正式服务器端口)
 }

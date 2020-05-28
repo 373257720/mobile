@@ -59,7 +59,7 @@
           <li v-show="form.investorsType==1">
             <p class="row1">{{$t('agent.InvestorName')}}:</p>
             <p class="row2">
-              <van-field disabled v-model="form.investorsName"  placeholder="-" />
+              <van-field  v-model="form.investorsName"  placeholder="-" />
             </p>
           </li>
           <li>
