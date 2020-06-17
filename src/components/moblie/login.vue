@@ -89,7 +89,7 @@
 								this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
 								this.$store.dispatch("usertype", res.data.data.userType);
 								this.$store.dispatch("setUser", this.username);
-								this.reload();
+								// this.reload();
 								// console.log(this.$i18n.locale)
 								if (res.data.data.isAuth == 1) {
 									this.$routerto("mhome");

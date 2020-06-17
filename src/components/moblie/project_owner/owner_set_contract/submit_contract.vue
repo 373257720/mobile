@@ -4,7 +4,7 @@
   <!--    <nav class="p_submit_contract">
         <van-icon name="arrow-left" @click="$router.go(-1)" />{{$t('agent.SignTheContract')}}
       </nav> -->
-			<commonnav :msg="$t('agent.SignTheContract')"></commonnav>
+			<!-- <commonnav :msg="$t('agent.SignTheContract')"></commonnav> -->
       <main>
         <article>
           <contractcomponent :contract="contract"></contractcomponent>
