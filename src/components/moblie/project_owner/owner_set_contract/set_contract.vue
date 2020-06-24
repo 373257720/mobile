@@ -187,9 +187,9 @@ export default {
                 console.log(e);
                 // ducument.created
                 const sourceEditorButton = document.querySelector(".ql-editor");
-                let shadeBox = document.createElement("div");
+                let shadeBox = document.createElement("hr");
                 // shadeBox.classList.add = "divider";
-                shadeBox.setAttribute("class", "divider");
+                // shadeBox.setAttribute("class", "divider");
                 console.log(shadeBox);
                 // const sourceEditorButton = document.querySelector(
                 //   ".ql-sourceEditor"
@@ -201,9 +201,9 @@ export default {
         },
         initButton: function() {
           //在使用的页面中初始化按钮样式
-          // const sourceEditorButton = document.querySelector(".ql-sourceEditor");
-          // sourceEditorButton.style.cssText = "width:100px;";
-          // sourceEditorButton.innerText = "——";
+          const sourceEditorButton = document.querySelector(".ql-sourceEditor");
+          sourceEditorButton.style.cssText = "width:100px;";
+          sourceEditorButton.innerText = "——";
         },
         register(q) {
           //注册标签(因为在富文本编辑器中是没有div,table等标签的，需要自己去注册自己需要的标签)
@@ -211,20 +211,21 @@ export default {
           class table extends q.import("blots/block/embed") {}
           class tr extends q.import("blots/block/embed") {}
           class td extends q.import("blots/block/embed") {}
-
+          class hr extends q.import("blots/block/embed") {}
           // class DividerBlot extends q.import("blots/block/embed"){}
           // DividerBlot.blotName = "divider";
           // DividerBlot.tagName = "hr";
           // Quill.register(DividerBlot);
-
-          // div.blotName = div.tagName = "div";
-          // table.blotName = table.tagName = "table";
-          // tr.blotName = tr.tagName = "tr";
-          // td.blotName = td.tagName = "td";
-          // q.register(div);
-          // q.register(table);
-          // q.register(tr);
-          // q.register(td);
+          hr.blotName = hr.tagName = "hr";
+          div.blotName = div.tagName = "div";
+          table.blotName = table.tagName = "table";
+          tr.blotName = tr.tagName = "tr";
+          td.blotName = td.tagName = "td";
+          q.register(div);
+          q.register(hr);
+          q.register(table);
+          q.register(tr);
+          q.register(td);
         }
       }
       // content: '请输入文章内容',
@@ -362,7 +363,7 @@ export default {
     .btn-group {
       margin-top: 0.2rem;
       display: flex;
-      flex-direction:  row-reverse;
+      flex-direction: row-reverse;
       .btn-confirm {
         display: flex;
         justify-content: center;
@@ -382,7 +383,7 @@ export default {
     .item {
       background: #f6f6f6;
       margin-bottom: 0.3rem;
-      .van-field__control{
+      .van-field__control {
         //  background:;
       }
     }

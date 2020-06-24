@@ -99,104 +99,104 @@ const upload_contract = () =>
 
 const p_wait_agent_input = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/wait_agent_input"
   );
 const p_check_contract = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/check_contract"
   );
 const p_investor_lists = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/investor_lists"
   );
 const p_investor_details = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/inverstor_details"
   );
 const p_sign_failed = () =>
   import(
-    /* webpackChunkName: "project_owner" */ "@/components/moblie/project_owner/sign_failed"
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/project_owner/sign_failed"
   );
 const p_sign_request = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/sign_request"
   );
 const p_wait_investor = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/wait_investor"
   );
 const p_goods_details = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/goods_details"
   );
 const p_user_contact = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/user_contact"
   );
 const p_user_contact2 = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/user_contact2"
   );
 const p_sign_successful = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/sign_successful"
   );
 const p_inverstor_details = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/inverstor_details"
   );
 const tobeSigned_roots = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/tobeSigned_roots"
   );
 const connected_projects = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/connected_projects"
   );
 const owner_roots = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/owner_set_contract/owner_roots"
   );
 const p_submit_contract = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/owner_set_contract/submit_contract"
   );
 const owner_contract = () =>
   import(
-    /* webpackChunkName: "project_owner" */ "@/components/moblie/project_owner/owner_set_contract/owner_contract"
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/project_owner/owner_set_contract/owner_contract"
   );
-  const contract_items = () =>
+const contract_items = () =>
   import(
-    /* webpackChunkName: "project_owner" */ "@/components/moblie/project_owner/owner_set_contract/contract_items"
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/project_owner/owner_set_contract/contract_items"
   );
 const p_set_contract = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/owner_set_contract/set_contract"
   );
 const owner_set_contract = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/owner_set_contract/owner_set_contract"
   );
 const p_sign_contract = () =>
   import(
-    /* webpackChunkName: "project_owner" */
+    /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/owner_set_contract/sign_contract"
   );
 
@@ -442,14 +442,15 @@ const routes = [
       {
         path: "owner_contract",
         name: "owner_contract",
-		component: owner_contract,
-		redirect: "/owner_roots/owner_contract/owner_set_contract",
+        component: owner_contract,
+        redirect: "/owner_roots/owner_contract/owner_set_contract",
         children: [
           {
             path: "owner_set_contract",
             name: "owner_set_contract",
-			component: owner_set_contract,
-			redirect: "/owner_roots/owner_contract/owner_set_contract/p_set_contract",
+            component: owner_set_contract,
+            redirect:
+              "/owner_roots/owner_contract/owner_set_contract/p_set_contract",
             children: [
               {
                 path: "p_set_contract",
@@ -465,15 +466,14 @@ const routes = [
                 path: "p_submit_contract",
                 name: "p_submit_contract",
                 component: p_submit_contract
-			  },
-			  {
-				path: "contract_items",
-				name: "contract_items",
-				component: contract_items
-			  }
+              },
+              {
+                path: "contract_items",
+                name: "contract_items",
+                component: contract_items
+              }
             ]
-          },
-        
+          }
         ]
       }
     ]
@@ -539,7 +539,7 @@ const routes = [
     path: "/a_tobeSigned_roots",
     name: "a_tobeSigned_roots",
     component: a_tobeSigned_roots,
-    redirect: "/a_tobeSigned_roots/a_check_contract",
+    redirect: "/a_tobeSigned_roots/a_wait_signed",
     children: [
       {
         path: "a_wait_signed",

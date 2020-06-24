@@ -27,11 +27,14 @@ import {
   Collapse,
   CollapseItem,
   Checkbox,
+  Pagination,
   CheckboxGroup,
   Divider
 } from "vant";
 // 按需引入UI组件
 Vue.use(Cell);
+// Vue.use(Dialog);
+Vue.use(Pagination);
 Vue.use(Tab);
 Vue.use(Tabs);
 Vue.use(Field);

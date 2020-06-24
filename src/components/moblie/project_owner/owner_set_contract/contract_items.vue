@@ -1,7 +1,7 @@
 <template>
   <div class="contract_items">
     <van-form @submit="onSubmit">
-      <div v-for="(item,idx) in arr" :key="item.title">
+      <div class="items" v-for="(item,idx) in arr" :key="item.title">
         <div class="itemTitle">
           <p>{{item.title}}</p>
           <p>
@@ -15,7 +15,7 @@
           <van-swipe-cell @close="deleteterms(idx,ids)">
             <div class="itemTitle">
               <span>{{ids+1}}</span>
-              <van-field v-model="it.item_ch" placeholder="Username" />
+              <van-field v-model="it.item_ch" placeholder />
             </div>
             <template #right>
               <van-button square text="Delete" type="danger" class="delete-button" />
@@ -24,16 +24,17 @@
         </div>
       </div>
 
-      <div style="margin: 16px;">
+      <!-- <div style="margin: 16px;">
         <van-button round block type="info" native-type="submit">Submit</van-button>
-      </div>
+      </div>-->
     </van-form>
 
     <div>添加条款：</div>
     <p class="dialog-add">
+      <van-field v-model="newtitle" placeholder="中文" />
       <!-- <el-input placeholder="中文" @change="translate" v-model="newtitle"></el-input>
       <el-input placeholder="English" :suffix-icon="loading" v-model="newtitleEN"></el-input>-->
-      <!-- <button @click="addtitle">增加</button> -->
+      <button @click="addtitle">增加</button>
     </p>
     <!-- <p class="dialog-footer">
       <button @click="$routerto('industry_lists')">{{$t('project.Cancel')}}</button>
@@ -46,6 +47,8 @@ export default {
   data() {
     return {
       radio: "1",
+      newtitle: "",
+      newtitleEN: "",
       arr: [
         {
           title: "费率:",
@@ -73,7 +76,7 @@ export default {
     };
   },
   methods: {
-     deleteitem(idx) {
+    deleteitem(idx) {
       this.arr.splice(idx, 1);
       // if(this.arr.length===1){
       //   return
@@ -85,7 +88,7 @@ export default {
         this.arr[idx].terms.splice(index, 1);
       } else {
         // this.$message("最少为1");
-        this.$toast('最少为1');
+        this.$toast("最少为1");
       }
     },
     onSubmit(values) {
@@ -106,15 +109,14 @@ export default {
     },
     addtitle() {
       let a = true;
-      if (this.newtitle && this.newtitleEN) {
+      if (this.newtitle) {
         this.arr.forEach((item, idx) => {
-          if (
-            item.title === this.newtitle ||
-            item.titleEn === this.newtitleEN
-          ) {
+          if (item.title === this.newtitle) {
             a = false;
           }
         });
+        console.log(a);
+
         if (a) {
           this.$nextTick(() => {
             this.arr.push({
@@ -136,6 +138,16 @@ export default {
 };
 </script>
 <style lang="scss">
+.contract_items{
+  font-size: 16px;
+  padding: 1rem 0;
+  .items{
+    margin-bottom: 0.5rem;
+    .van-field__control{
+      border: 1px solid;
+    }
+  }
+}
 .itemTitle {
   // padding: 0.3125rem 0.5rem;
   display: flex;
