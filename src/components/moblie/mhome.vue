@@ -2,7 +2,7 @@
   <div id="mhome">
     <header>
       <div>
-        <img src="../../assets/b6914fa1dc74e7b7678ac9ffb9ad647.png" alt />
+        <img src="../../assets/f6055ec522305641848f75fcafc1e8e.jpg" alt />
       </div>
       <van-search
         v-model="searchkey"

@@ -202,7 +202,7 @@ export default {
         initButton: function() {
           //在使用的页面中初始化按钮样式
           const sourceEditorButton = document.querySelector(".ql-sourceEditor");
-          sourceEditorButton.style.cssText = "width:100px;";
+          sourceEditorButton.style.cssText = "width:50px;";
           sourceEditorButton.innerText = "——";
         },
         register(q) {

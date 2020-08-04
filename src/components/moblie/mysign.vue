@@ -3,16 +3,18 @@
     <nav>
       <header>{{$t('common.MyProjectS')}}</header>
       <!-- <van-overlay z-index='-666' :show="visible" @click="visible= false"/> -->
-      <main >
+      <main>
         <div class="sort_box" @click="fliter" v-if="usertype">
           {{$t('common.ProjectScreening')}}
           <van-icon name="arrow-down" />
         </div>
         <van-checkbox-group ref="check" v-model="result">
           <van-cell-group>
-            <div class="all_select" :class="num==2?'isactive':'isorigin'" @click="toggleAll">
-              {{$t('common.SelectAll')}}
-            </div>
+            <div
+              class="all_select"
+              :class="num==2?'isactive':'isorigin'"
+              @click="toggleAll"
+            >{{$t('common.SelectAll')}}</div>
             <div class="choose_lists">
               <van-cell
                 v-for="(item, index) in list"
@@ -25,55 +27,56 @@
               </van-cell>
             </div>
             <div class="confirm" @click="confirm_lists">{{$t('common.Determine')}}</div>
-
           </van-cell-group>
         </van-checkbox-group>
       </main>
     </nav>
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-        <van-list
-          v-model="loading"
-          :finished="finished"
-          @load="onLoad"
-          :loading-text="loadText"
-          :finished-text="already_check"
-          :error-text="$t('common.RequestFailed')"
-          :offset="300"
-        >
-          <ul>
-            <li v-for="item in upGoodsInfo" :key="item.signId" @click="mysignto(item)">
-              <div>
-                <p>
-                  <span>{{$t('common.ApplicationTime')}}:</span>
-                  <span>{{item.signTime4Submit}}</span>
-                </p>
-                <p>
-                  <span>{{$t('common.ApplicationProject')}}:</span>
-                  <span>{{item.projectName || '-'}}</span>
-                </p>
-                <p>
-                  <span>{{$t('common.ApplicationMiddleman')}}:</span>
-                  <span>{{item.userIdentityType==1?item.userName:
-                    item.userCompany}}</span>
-                </p>
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        @load="onLoad"
+        :loading-text="loadText"
+        :finished-text="already_check"
+        :error-text="$t('common.RequestFailed')"
+        :offset="300"
+      >
+        <ul>
+          <li v-for="item in upGoodsInfo" :key="item.signId" @click="mysignto(item)">
+            <div>
+              <p>
+                <span>{{$t('common.ApplicationTime')}}:</span>
+                <span>{{item.signTime4Submit}}</span>
+              </p>
+              <p>
+                <span>{{$t('common.ApplicationProject')}}:</span>
+                <span>{{item.projectName || '-'}}</span>
+              </p>
+              <p>
+                <span>{{$t('common.ApplicationMiddleman')}}:</span>
+                <span>
+                  {{item.userIdentityType==1?item.userName:
+                  item.userCompany}}
+                </span>
+              </p>
 
-                <p v-if="usertype==1 && item.signStatus>5">
-                  <span>{{$t('common.InvestorName')}}:</span>
-                  <span>{{item.investorsName}}</span>
-                </p>
-                <p v-if="item.signStatus"  >
-                  <span >{{$t('common.SigningTime')}}:</span>
-                  <span>{{item.signTime}}</span>
-                </p>
-              </div>
-              <aside>
-                <img :src="item.pic" alt />
-                <span>{{item.signStatustext}}</span>
-              </aside>
-            </li>
-          </ul>
-        </van-list>
-      </van-pull-refresh>
+              <p v-if="usertype==1 && item.signStatus>5">
+                <span>{{$t('common.InvestorName')}}:</span>
+                <span>{{item.investorsName}}</span>
+              </p>
+              <p v-if="item.signStatus">
+                <span>{{$t('common.SigningTime')}}:</span>
+                <span>{{item.signTime}}</span>
+              </p>
+            </div>
+            <aside>
+              <img :src="item.pic" alt />
+              <span>{{item.signStatustext}}</span>
+            </aside>
+          </li>
+        </ul>
+      </van-list>
+    </van-pull-refresh>
     <mbottom></mbottom>
   </div>
 </template>
@@ -99,57 +102,57 @@ export default {
       piclists: [
         {
           value: 1,
-          text: this.$t('common.PendingItems'),
+          text: this.$t("common.PendingItems"),
           pic: "../../../static/pic/waitreview.png"
         },
         {
           value: 2,
-          text: this.$t('common.ToBeSignedProject'),
+          text: this.$t("common.ToBeSignedProject"),
           pic: "../../../static/pic/waitsign.png"
         },
         {
           value: 4,
-          text:this.$t('common.SignedForChain'),
+          text: this.$t("common.SignedForChain"),
           pic: "../../../static/pic/waitsign.png"
         },
         {
           value: 5,
-          text: this.$t('common.ChainedForRecommendation'),
+          text: this.$t("common.ChainedForRecommendation"),
           pic: "../../../static/pic/waitinvestor.png"
         },
         {
           value: 6,
-          text: this.$t('common.PendingReview'),
+          text: this.$t("common.PendingReview"),
           pic: "../../../static/pic/waitreview.png"
         },
         {
           value: 8,
-          text: this.$t('common.ReviewedPending'),
+          text: this.$t("common.ReviewedPending"),
           pic: "../../../static/pic/waitinvestor.png"
         },
         {
           value: 9,
-          text: this.$t('investor.Itemstobeconfirmed'),
+          text: this.$t("investor.Itemstobeconfirmed"),
           pic: "../../../static/pic/waitinvestor.png"
         },
         {
           value: 10,
-          text:this.$t('common.SignedContract'),
+          text: this.$t("common.SignedContract"),
           pic: "../../../static/pic/success.png"
         },
         {
           value: 3,
-          text:this.$t('common.InvestmentBankHasRejected'),
+          text: this.$t("common.InvestmentBankHasRejected"),
           pic: "../../../static/pic/false.png"
         },
         {
           value: 7,
-          text:this.$t('common.InvestmentBankHasRejected'),
+          text: this.$t("common.InvestmentBankHasRejected"),
           pic: "../../../static/pic/false.png"
         },
         {
           value: 11,
-          text:this.$t('common.InvestorHasRejected'),
+          text: this.$t("common.InvestorHasRejected"),
           pic: "../../../static/pic/false.png"
         }
       ],
@@ -157,35 +160,34 @@ export default {
       // classname: {
       //   // "0":
       // }
-      num:2,
+      num: 2
     };
   },
   beforeRouteLeave(to, from, next) {
     // console.log(to, from);
     if (to.name == "p_submit_contract" || to.name == "a_submit_contract") {
       next(false);
-    }else if (to.name =="a_recommand_i") {
+    } else if (to.name == "a_recommand_i") {
       next(false);
-    }else if (to.name =="a_project_intro" &&  to.query.signStatus==="0") {
+    } else if (to.name == "a_project_intro" && to.query.signStatus === "0") {
       next(false);
     }
-	// else if (to.name =="uploadtoblock" &&  to.query.signStatus==="5") {
- //      next(false);
- //    }
-	else if (to.name =="a_wait_sendemail" &&  to.query.signStatus==="9") {
+    // else if (to.name =="uploadtoblock" &&  to.query.signStatus==="5") {
+    //      next(false);
+    //    }
+    else if (to.name == "a_wait_sendemail" && to.query.signStatus === "9") {
       next(false);
-    }else if (to.name =="i_wait_confirm" &&  to.query.signStatus==="11") {
+    } else if (to.name == "i_wait_confirm" && to.query.signStatus === "11") {
       next(false);
-    }else if (to.name =="i_perfect_infor") {
+    } else if (to.name == "i_perfect_infor") {
       next(false);
-    } else if(to.name=='p_sign_request'){
-      if( to.query.signStatus==6 || to.query.signStatus==1){
-        next()
-      }else{
+    } else if (to.name == "p_sign_request") {
+      if (to.query.signStatus == 6 || to.query.signStatus == 1) {
+        next();
+      } else {
         next(false);
       }
-    }
-    else {
+    } else {
       next();
     }
   },
@@ -194,7 +196,7 @@ export default {
     this.usertype = this.$store.state.currentUsertype;
     if (this.$route.query.projectId) {
       let arr = this.$route.query.array;
-	  // alert(arr);
+      // alert(arr);
       if (arr.length > 0) {
         this.result = [...arr];
       }
@@ -214,34 +216,34 @@ export default {
       }
     }
   },
-  activated(){
-	if (this.$route.query.projectId) {
-	  let arr = JSON.parse(this.$route.query.array);
-	  if (arr.length > 0) {
-	    this.result = [...arr];
-	  }
-	} else {
-	  if (this.$store.state.genre.length > 0) {
-	    this.result = [...this.$store.state.genre];
-	  } else {
-	    // 1投行（项目方），3投资者，4投资中间人
-	    // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
-	    // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
-	    // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
-	    if (this.usertype == 1 || this.usertype == 4) {
-	      this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
-	    } else if (this.usertype == 3) {
-	      this.result = [9, 10, 11];
-	    }
-	  }
-	}	
+  activated() {
+    if (this.$route.query.projectId) {
+      let arr = JSON.parse(this.$route.query.array);
+      if (arr.length > 0) {
+        this.result = [...arr];
+      }
+    } else {
+      if (this.$store.state.genre.length > 0) {
+        this.result = [...this.$store.state.genre];
+      } else {
+        // 1投行（项目方），3投资者，4投资中间人
+        // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
+        // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
+        // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
+        if (this.usertype == 1 || this.usertype == 4) {
+          this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
+        } else if (this.usertype == 3) {
+          this.result = [9, 10, 11];
+        }
+      }
+    }
   },
   computed: {
-    already_check:function(){
-      if(this.$store.state.currentUsertype || this.usertype){
-            return this.$t('common.NoMore')
-      }else{
-            return this.$t('common.WaitForReview')
+    already_check: function() {
+      if (this.$store.state.currentUsertype || this.usertype) {
+        return this.$t("common.NoMore");
+      } else {
+        return this.$t("common.WaitForReview");
       }
     },
 
@@ -253,47 +255,47 @@ export default {
         return [
           {
             value: 1,
-            text:  this.$t('common.PendingItems'),
+            text: this.$t("common.PendingItems"),
             pic: "../../../static/pic/waitreview.png"
           },
           {
             value: 2,
-            text: this.$t('common.ToBeSignedProject'),
+            text: this.$t("common.ToBeSignedProject"),
             pic: "../../../static/pic/waitsign.png"
           },
           {
             value: 4,
-            text: this.$t('common.SignedForChain'),
+            text: this.$t("common.SignedForChain"),
             pic: "../../../static/pic/waitsign.png"
           },
           {
             value: 5,
-            text: this.$t('common.ChainedForRecommendation'),
+            text: this.$t("common.ChainedForRecommendation"),
             pic: "../../../static/pic/waitinvestor.png"
           },
           {
             value: 6,
-            text: this.$t('common.PendingReview'),
+            text: this.$t("common.PendingReview"),
             pic: "../../../static/pic/waitreview.png"
           },
           {
             value: 8,
-            text:  this.$t('common.ReviewedPending'),
+            text: this.$t("common.ReviewedPending"),
             pic: "../../../static/pic/waitreview.png"
           },
           {
             value: 9,
-            text:this.$t('common.ToBeConfirmedByInvestors'),
+            text: this.$t("common.ToBeConfirmedByInvestors"),
             pic: "../../../static/pic/waitinvestor.png"
           },
           {
             value: 10,
-            text: this.$t('common.SignedContract'),
+            text: this.$t("common.SignedContract"),
             pic: "../../../static/pic/success.png"
           },
           {
             value: 3,
-            text: this.$t('common.RejectedProject'),
+            text: this.$t("common.RejectedProject"),
             pic: "../../../static/pic/false.png"
           }
         ];
@@ -301,17 +303,17 @@ export default {
         return [
           {
             value: 9,
-            text: this.$t('common.ToBeConfirmedByInvestors'),
+            text: this.$t("common.ToBeConfirmedByInvestors"),
             pic: "../../../static/pic/waitinvestor.png"
           },
           {
             value: 10,
-            text:this.$t('common.SignedContract'),
+            text: this.$t("common.SignedContract"),
             pic: "../../../static/pic/success.png"
           },
           {
             value: 11,
-            text:this.$t('common.RejectedProject'),
+            text: this.$t("common.RejectedProject"),
             pic: "../../../static/pic/false.png"
           }
         ];
@@ -322,32 +324,32 @@ export default {
     this.initial();
     // this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
     this.$nextTick(() => {
-      window.addEventListener("resize",this.initial, false);
+      window.addEventListener("resize", this.initial, false);
     });
   },
   destroyed() {
-    window.removeEventListener("resize",this.initial, false);
+    window.removeEventListener("resize", this.initial, false);
   },
 
   methods: {
-    initial(){
+    initial() {
       this.$refs.check.$el.style.height = 0;
       // console.log(123)
       if (window.orientation == 90 || window.orientation == -90) {
-        document.querySelector('.choose_lists').style.maxHeight=4+'rem';
-      }else{
-        document.querySelector('.choose_lists').style.maxHeight='initial';
+        document.querySelector(".choose_lists").style.maxHeight = 4 + "rem";
+      } else {
+        document.querySelector(".choose_lists").style.maxHeight = "initial";
       }
     },
-     toggleAll() {
-       // console.log(this.num)
-       if(this.num==1){
-         this.$refs.check.toggleAll(true);
-         this.num=2;
-       }else if(this.num==2){
-         this.$refs.check.toggleAll(false);
-         this.num=1;
-       }
+    toggleAll() {
+      // console.log(this.num)
+      if (this.num == 1) {
+        this.$refs.check.toggleAll(true);
+        this.num = 2;
+      } else if (this.num == 2) {
+        this.$refs.check.toggleAll(false);
+        this.num = 1;
+      }
     },
     onRefresh() {
       this.finished = false;
@@ -422,19 +424,19 @@ export default {
     confirm_lists() {
       function unique(arr) {
         if (!Array.isArray(arr)) {
-          console.log('type error!')
+          console.log("type error!");
           return;
         }
-        arr = arr.sort()
-        var arrry= [arr[0]];
+        arr = arr.sort();
+        var arrry = [arr[0]];
         for (var i = 1; i < arr.length; i++) {
-          if (arr[i] !== arr[i-1]) {
+          if (arr[i] !== arr[i - 1]) {
             arrry.push(arr[i]);
           }
         }
         return arrry;
       }
-      this.result=unique(this.result)
+      this.result = unique(this.result);
       // this.result = [...new Set(this.result)];
       if (this.usertype == 1 || this.usertype == 4) {
         if (this.result.indexOf(3) >= 0) {
@@ -454,7 +456,7 @@ export default {
         }
       }
       this.$store.commit("genre_array", this.result);
-      console.log(this.$store.state)
+      console.log(this.$store.state);
       this.finished = false;
       this.loading = true;
       this.upGoodsInfo = [];
@@ -481,23 +483,30 @@ export default {
         this.upGoodsInfo = [];
         this.refreshing = false;
       }
-      this.$axios({
-        method: "post",
-        url: `${this.$baseurl}/bsl_web/projectSign/project`,
-        data: this.$qs.stringify(
-          {
-            projectId: this.$route.query.projectId,
-            signStatusList: this.result,
-            pageIndex: this.pageNum,
-            pageSize: this.loadNumUp,
-            X_Token:this.$store.state.X_Token
-          },
-          { arrayFormat: "brackets" }
-        ),
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      })
+      // this.$axios({
+      //   method: "post",
+      //   url: `${this.$baseurl}/bsl_web/projectSign/project`,
+      //   data:
+      //     {
+      //       projectId: this.$route.query.projectId,
+      //       signStatusList: this.result,
+      //       pageIndex: this.pageNum,
+      //       pageSize: this.loadNumUp,
+      //       X_Token:this.$store.state.X_Token
+      //     },
+      //     // { arrayFormat: "brackets" }
+      //   // ),
+      //   headers: {
+      //     "Content-Type": 'application/json'
+      //   }
+      // })
+      this.$global
+        .post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/project`, {
+          projectId: this.$route.query.projectId,
+          signStatusList: this.result,
+          pageIndex: this.pageNum,
+          pageSize: this.loadNumUp
+        })
         .then(res => {
           if (res.data.resultCode == 10000) {
             let re = [...res.data.data.lists];
@@ -533,9 +542,6 @@ export default {
             this.finished = true;
           }
           // console.log(this.upGoodsInfo);
-        })
-        .catch(err => {
-          // this.loadText = "加载失败";
         });
     }
   }
@@ -563,7 +569,7 @@ export default {
     /*  max-height: 6rem;*/
     /*  overflow-y: scroll;*/
     /*}*/
-    .choose_lists{
+    .choose_lists {
       /*max-height: 4rem;*/
       overflow: hidden;
       overflow-y: auto;
@@ -598,8 +604,6 @@ export default {
   .van-pull-refresh {
     padding: 2.8rem 0 1.3rem 0;
     // height: 100%;
-
-
   }
 
   .van-list {
@@ -658,7 +662,6 @@ export default {
 
       box-sizing: border-box;
       height: 1rem;
-
     }
   }
 }
@@ -679,7 +682,7 @@ export default {
       line-height: 1.6rem;
       font-size: 0.46rem;
       height: 1.6rem;
-	  font-weight: bold;
+      font-weight: bold;
       // font-size: 0.4rem;
       border-bottom: 0.1rem solid #d2d2d2;
     }
@@ -696,7 +699,7 @@ export default {
       //    border: 0.05rem solid black;
       // }
     }
-    .all_select{
+    .all_select {
       text-align: center;
       font-size: 0.4rem;
       height: 1rem;
@@ -704,13 +707,12 @@ export default {
       /*color: white;*/
       /*border-bottom: 1px solid #ebedf0;*/
       line-height: 1rem;
-
     }
     // }
-    .isorigin{
+    .isorigin {
       color: black;
     }
-    .isactive{
+    .isactive {
       color: #00adef;
     }
     .confirm {
@@ -749,7 +751,7 @@ export default {
       // line-height: 0.6rem;
       /*position: relative;*/
       display: flex;
-		letter-spacing: 0.02rem;
+      letter-spacing: 0.02rem;
       /*word-break: break-all;*/
       margin: 0 0.54rem;
       padding: 0.3rem 0;

@@ -79,12 +79,13 @@ export default {
     arr = JSON.parse(this.$route.query.arr);
     console.log(arr);
     this.form.investorsIdList = arr;
-    this.$axios({
-      method: "post",
-      url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
-      data: this.$qs.stringify(this.form, { arrayFormat: "brackets" }),
+    // this.$axios({
+    //   method: "post",
+    //   url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
+    //   data: this.$qs.stringify(this.form, { arrayFormat: "brackets" }),
 
-    })
+    // })
+    this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,this.form)
       .then(res => {
        this.$toast.clear();
       if(res.data.resultCode==10000){

@@ -1,7 +1,7 @@
 <template>
   <div id="register">
     <h2>
-      <img src="../../assets/a90d2e72eba32b8386db15d5e35b895.png" alt />
+      <img src="../../assets/indexLogo.png" alt />
     </h2>
     <div class="main">
       <p>{{remind}}</p>

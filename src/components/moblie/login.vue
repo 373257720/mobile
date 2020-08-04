@@ -1,7 +1,23 @@
 <template>
   <div id="login">
-    <h2>
-      <img src="../../assets/a90d2e72eba32b8386db15d5e35b895.png" alt />
+    <h2 style="position:relative">
+      <img src="../../assets/indexLogo.png" alt />
+      <button
+        style="   
+       position:absolute;
+    padding: 0 12px;
+    color: #fff;
+    top:0.5rem;
+    right:0.8rem;
+    font-size: 14px;
+    line-height: 24px;
+    background:#c2c0c0;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    cursor: pointer;"
+        @click="switchLan(lan)"
+      >{{lantext}}</button>
     </h2>
     <div class="main">
       <p>{{remind}}</p>
@@ -40,34 +56,31 @@
 
 export default {
   name: "login",
-  inject: ["reload"],
+  // inject: ["reload"],
   data() {
     return {
       username: "",
       password: "",
-      remind: ""
+      remind: "",
+      lan: ""
     };
+  },
+  computed: {
+    lantext: function() {
+      if (this.lan == "en_US") {
+        return "En";
+      } else if (this.lan == "zh_CN") {
+        return "中文";
+      }
+    }
   },
   created() {
     if (this.$route.query.email) {
       this.username = this.$route.query.email ? this.$route.query.email : "";
     }
-    this.$global
-      .get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`, {
-        lan: this.$i18n.locale
-      })
-      .then(res => {
-        if (res.data.resultCode === 10000) {
-          // console.log(this.$i18n.locale);
-          localStorage.setItem("language", this.$i18n.locale);
-          this.$Local(this.$i18n.locale);
-          // this.$i18n.locale = this.$i18n.locale;
-          this.$store.dispatch(
-            "X_Token_actions",
-            JSON.parse(res.data.data).X_Token
-          );
-        }
-      });
+
+    this.lan = this.$i18n.locale;
+    this.switchLan();
   },
   // beforeRouteLeave(to, from, next) {
   //   // console.log(to, from)
@@ -78,12 +91,44 @@ export default {
   //   }
   // },
   methods: {
+    switchLan(lan) {
+      // console.log(lan);
+      let language = this.lan;
+      if (lan == "en_US") {
+        language = "zh_CN";
+      } else if (lan == "zh_CN") {
+        language = "en_US";
+      }
+      console.log(this.$store.state.X_Token);
+      
+      this.$global
+        .get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`, {
+          lan: language
+        })
+        .then(res => {
+          if (res.data.resultCode === 10000) {
+            // console.log(this.$i18n.locale);
+            console.log(JSON.parse(res.data.data).X_Token);
+            
+            this.lan = language;
+            localStorage.setItem("language", language);
+            this.$Local(language);
+            this.$i18n.locale = language;
+            this.$store.dispatch(
+              "X_Token_actions",
+              JSON.parse(res.data.data).X_Token
+            );
+          } else {
+            this.$toast(res.data.resultDesc);
+          }
+        });
+    },
     login() {
       this.remind = "";
       if (this.username && this.password) {
         this.$loading();
         this.$global
-          .post_encapsulation(`${this.$baseurl}/bsl_web/user/login.do`, {
+          .post_encapsulation(`${this.$baseurl}/bsl_web/user/login.do`,  {
             bslEmail: this.username,
             bslPwd: this.password
           })

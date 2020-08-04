@@ -49,20 +49,6 @@ Vue.use(VueQuillEditor /* { default global options } */);
 Vue.prototype.$axios = axios;
 const restore_obj = global.deepCopy(store._modules.root.state);
 Vue.prototype.$restore_obj = restore_obj;
-// function deepCopy(obj) {
-//   var result = Array.isArray(obj) ? [] : {};
-//   for (var key in obj) {
-//     if (obj.hasOwnProperty(key)) {
-//       if (typeof obj[key] === 'object' && obj[key] !== null) {
-//         result[key] = deepCopy(obj[key]); //递归复制
-//       } else {
-//         result[key] = obj[key];
-//       }
-//     }
-//   }
-//   return result;
-// };
-// console.log(Vue.prototype);
 
 import { Dialog } from "vant";
 Vue.use(Dialog);
@@ -90,31 +76,6 @@ i18n.locale = localStorage.getItem("language")
   ? localStorage.getItem("language")
   : "en_US";
 
-// import moment from 'moment'
-// Vue.prototype.$moment = moment
-// 引入公共组件
-
-// let isShowLoading =false;
-// function addLoading() {
-//   isShowLoading = true;
-//   loadingCount++;
-//   if(loadingCount==1){
-//     Vue.prototype.$toast.loading({
-//       loadingType: 'circular',
-//       overlay:true,
-//       className:'loading',
-//       duration: 0,
-//     });
-//   }
-// };
-
-// function isCloseLoading() {
-//   loadingCount--
-//   if (loadingCount == 0) {
-//      isShowLoading = false
-//      Vue.prototype.$toast.clear();
-//   }
-// };
 axios.defaults.withCredentials = true;
 let loadingCount = 0;
 let isShowLoading = true;
@@ -207,7 +168,7 @@ Vue.prototype.$loadingfail = function loadingfail() {
 };
 var baseurl = {
   // api: "http://192.168.1.37:8085",
-  api2: "http://47.90.62.114:8081",//(后台管理)
+  api2: "http://47.90.62.114:8081", //(后台管理)
   // api3:'http://192.168.1.21:8080',
   api3: "http://47.90.62.114:8083", //(前段服务器端口)
   // api3:'http://localhost:8080',
@@ -220,7 +181,6 @@ Vue.prototype.$baseurl = baseurl.api;
 Vue.prototype.$global = global;
 import Router from "vue-router";
 // console.log(Router.prototype);
-
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err);
