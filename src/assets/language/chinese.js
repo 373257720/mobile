@@ -154,7 +154,7 @@ export default {
     PleaseEnterName:'请输入名称',
     PleaseEnterTheTitle:'请输入职称',
     PleaseReturnToCompleteInformation:'请返回完成信息填写',
-    NextConfirmAndUploadToBlockchain:'下一步确认及上载到区块链',
+    NextConfirmAndUploadToBlockchain:'正在上载到区块链,请耐心等候',
     ConfirmAndUploadToBlockchain: "正在上载到区块链",
     UploadTakesAboutOneMinute:'上传大概需要1分钟，请耐心等候',
   },

@@ -173,11 +173,11 @@ Vue.prototype.$loading = function loading() {
 };
 
 var baseurl = {
-  api: "http://192.168.1.37:8085",
+  // api: "http://192.168.1.37:8085",
   // api3:'www.aaa.com',
   api2:'http://47.90.62.114:8081',
   api3: 'http://47.90.62.114:8083',//(前段服务器端口)
-  // api: "http://47.90.62.114:8086",//(后台正式服务器端口)
+  api: "http://47.90.62.114:8086",//(后台正式服务器端口)
 }
 Vue.prototype.$baseurl3 = baseurl.api3;
 Vue.prototype.$baseurl2 = baseurl.api2;

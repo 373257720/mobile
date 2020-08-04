@@ -101,7 +101,7 @@
     mounted() {
       // this.content = "";
       // console.log(this.htmlData); 
-   this.$emit('update:htmlData', document.querySelector('#contract_component'))
+          this.$emit('update:htmlData', document.querySelector('#contract_component'))
       //  this.htmlData.htmldata= document.querySelector('#contract_component');
       // console.log(a);
    

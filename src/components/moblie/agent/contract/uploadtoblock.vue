@@ -13,8 +13,8 @@
         <footer>
           <button
             class="blockchain"
-            @click="contract_submit"
-          >{{$t('ContractWrods.ConfirmAndUploadToBlockchain')}}</button>
+        
+          >{{$t('ContractWrods.NextConfirmAndUploadToBlockchain')}}...</button>
         </footer>
       </article>
     </main>
@@ -135,6 +135,7 @@ export default {
     },
     // 上链
     contract_submit() {
+
       // console.log(this.contract.agent_signdatethis.contract.owner_signdate);
       // let agent_signdate = this.contract.agent_signdate
       //   ? this.$global.stamptodate(this.contract.agent_signdate)
@@ -142,239 +143,6 @@ export default {
       // let owner_signdate = this.contract.owner_signdate
       //   ? this.$global.stamptodate(this.contract.owner_signdate)
       //   : "";
-
-      // let htmldata1 = `<html lang="en">
-      //       <head>
-      //         <meta charset="UTF-8">
-      //         <meta name="viewport" content="user-scalable=yes">
-      //         <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-      //         <style>
-      //           html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img,input{ margin:0; padding:0; }
-      //           fieldset, img,input,button { border:0 none; padding:0;margin:0;outline-style:none; }   /*去掉input等聚焦时的蓝色边框*/
-      //           ul,li,ol{ list-style:none; }
-      //           #contract_component {
-      //             width: 595px;
-      //             /*height: 100%;*/
-      //             margin: 0 auto;
-      //             padding: 50px 0;
-      //             box-sizing: border-box;
-      //             /*595×842*/
-      //           }
-      //           .ql-align-center{
-      //             text-align: center;
-      //           }
-      //           .ql-container{
-      //             height: initial;
-      //           }
-      //             .ql-editor {
-      //               padding: 0;
-      //               height: initial;
-      //             }
-      //           #contract_component .contract_component {
-      //             /*border: 1px solid #b5b5b5;*/
-      //             box-sizing: border-box;
-      //             font-size: 12px;
-      //             line-height: 20px;
-      //             padding:30px;
-      //             width: 100%;
-      //             /*height: 100%;*/
-      //             color: black;
-      //             word-wrap: break-word;
-      //           }
-      //           #contract_component .contract_component .middle{
-      //             min-height: 250px;
-      //             background: none;
-      //             border: 0;
-      //             width: 100%;
-      //             white-space: pre-wrap;
-      //             white-space: -moz-pre-wrap;
-      //             /*//Mozilla, since 1999 *!*!*/
-      //             /*white-space: -pre-wrap;*/
-      //             /*//  //!* Opera 4-6 *!*!*/
-      //             white-space: -o-pre-wrap;
-      //           }
-      //           #contract_component .contract_component div.button {
-      //             margin-top: 10px;
-      //             display: -moz-box;
-      //             display: -ms-flexbox;
-      //             display: -webkit-flex;
-      //             display: flex;
-      //             -webkit-justify-content:space-between;
-      //             justify-content:space-between;
-      //           }
-      //           #contract_component .contract_component ul {
-      //             width: 40%;
-      //           }
-      //           #contract_component .contract_component ul li p{
-      //             height: 30px;
-      //           }
-
-      //           #contract_component .contract_component ul li p.signature{
-      //             text-align: center;
-
-      //           }
-      //           #contract_component .contract_component ul li p.signature img{
-      //             width: auto;
-      //             height: auto;
-      //             max-width: 100%;
-      //             max-height: 100%;
-      //           }
-      //           #contract_component .contract_component ul li p:nth-child(1){
-      //             position: relative;
-      //             line-height: 14px;
-      //             border-bottom: 1px solid black;
-      //           }
-      //           #contract_component .contract_component ul li p:nth-child(2){
-      //             font-weight: 600;
-      //           }
-      //           #contract_component .contract_component ul li:nth-of-type(1){
-      //             margin-bottom: 30px;
-      //             height: 80px;
-      //             line-height: 14px;
-      //             /* min-height: 50px;
-      //             max-height: 100px; */
-      //           }
-      //           #contract_component .contract_component ul li:nth-of-type(1) nav{
-      //             font-weight: 600;
-
-      //           }   #contract_component .contract_component ul li:nth-of-type(1) div{
-      //                 /* min-height: 30px;*/
-      //                 /*max-height: 100px;*/
-
-      //               }
-      //           #contract_component .contract_component ul li p:nth-child(1) span{
-      //             position: absolute;
-      //             line-height: 14px;
-      //             word-break: break-all;
-      //             bottom: 0;
-      //           }
-
-      //         </style>
-
-      //       </head>
-      //       <body>
-      //       ${this.htmlData}
-      //       <script>
-      //         let a=  document.querySelector('#contract_component .middle');
-      //         a.innerHTML=\`${this.contract.article}\`;
-      //       <\/script>
-      //       </body>
-      //       </html>`;
-
-      // let front = `
-      // <head>
-      //   <meta charset="UTF-8">
-      //   <meta name="viewport" content="user-scalable=yes">
-      //   <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-      //   <style>
-      //     html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img,input{ margin:0; padding:0; }
-      //     fieldset, img,input,button { border:0 none; padding:0;margin:0;outline-style:none; }   /*去掉input等聚焦时的蓝色边框*/
-      //     ul,li,ol{ list-style:none; }
-      //     #contract_component {
-      //       width: 595px;
-      //       /*height: 100%;*/
-      //       margin: 0 auto;
-      //       padding: 50px 0;
-      //       box-sizing: border-box;
-      //       /*595×842*/
-      //     }
-      //     .ql-align-center{
-      //       text-align: center;
-      //     }
-      //     .ql-container{
-      //       height: initial;
-      //     }
-      //       .ql-editor {
-      //         padding: 0;
-      //         height: initial;
-      //       }
-      //     #contract_component .contract_component {
-      //       /*border: 1px solid #b5b5b5;*/
-      //       box-sizing: border-box;
-      //       font-size: 12px;
-      //       line-height: 20px;
-      //       padding:30px;
-      //       width: 100%;
-      //       /*height: 100%;*/
-      //       color: black;
-      //       word-wrap: break-word;
-      //     }
-      //     #contract_component .contract_component .middle{
-      //       min-height: 250px;
-      //       background: none;
-      //       border: 0;
-      //       width: 100%;
-      //       white-space: pre-wrap;
-      //       white-space: -moz-pre-wrap;
-      //       /*//Mozilla, since 1999 *!*!*/
-      //       /*white-space: -pre-wrap;*/
-      //       /*//  //!* Opera 4-6 *!*!*/
-      //       white-space: -o-pre-wrap;
-      //     }
-      //     #contract_component .contract_component div.button {
-      //       margin-top: 10px;
-      //       display: -moz-box;
-      //       display: -ms-flexbox;
-      //       display: -webkit-flex;
-      //       display: flex;
-      //       -webkit-justify-content:space-between;
-      //       justify-content:space-between;
-      //     }
-      //     #contract_component .contract_component ul {
-      //       width: 40%;
-      //     }
-      //     #contract_component .contract_component ul li p{
-      //       height: 30px;
-      //     }
-
-      //     #contract_component .contract_component ul li p.signature{
-      //       text-align: center;
-
-      //     }
-      //     #contract_component .contract_component ul li p.signature img{
-      //       width: auto;
-      //       height: auto;
-      //       max-width: 100%;
-      //       max-height: 100%;
-      //     }
-      //     #contract_component .contract_component ul li p:nth-child(1){
-      //       position: relative;
-      //       line-height: 14px;
-      //       border-bottom: 1px solid black;
-      //     }
-      //     #contract_component .contract_component ul li p:nth-child(2){
-      //       font-weight: 600;
-      //     }
-      //     #contract_component .contract_component ul li:nth-of-type(1){
-      //       margin-bottom: 30px;
-      //       height: 80px;
-      //       line-height: 14px;
-      //       /* min-height: 50px;
-      //       max-height: 100px; */
-      //     }
-      //     #contract_component .contract_component ul li:nth-of-type(1) nav{
-      //       font-weight: 600;
-
-      //     }   #contract_component .contract_component ul li:nth-of-type(1) div{
-      //           /* min-height: 30px;*/
-      //           /*max-height: 100px;*/
-
-      //         }
-      //     #contract_component .contract_component ul li p:nth-child(1) span{
-      //       position: absolute;
-      //       line-height: 14px;
-      //       word-break: break-all;
-      //       bottom: 0;
-      //     }
-
-      //   </style>
-
-      // </head>
-      // <body>`;
-
-      // let back = `</body>
-      // `;
-      // console.log(this.htmlData);
       return new Promise((resolve, reject) => {
         let htmldata = document.createElement("html");
         htmldata.setAttribute("lang","en")
@@ -382,7 +150,6 @@ export default {
         let node = document.createElement("head");
         var metautf8= document.createElement("meta");
         metautf8.setAttribute("charset", "UTF-8");
-        // <meta charset="UTF-8">
         var oMeta = document.createElement("meta"),
           cssURL = "https://cdn.quilljs.com/1.0.0/quill.snow.css",
           linkTag = document.createElement("link"),
@@ -426,7 +193,7 @@ export default {
         list-style: none;
       }
       #contract_component {
-        width: 580px;
+        width: 680px;
         /*height: 100%;*/
         margin: 0 auto;
         padding: 50px 0;
@@ -540,7 +307,6 @@ export default {
         resolve(htmldata);
       }).then(res => {
         let htmlstr = this.$global.nodeToString(res);
-        console.log(htmlstr);
         this.$toast.loading({
           loadingType: "spinner",
           message: this.$t("ContractWrods.UploadTakesAboutOneMinute"),
@@ -688,13 +454,13 @@ export default {
         button {
           width: 8rem;
           border-radius: 5px;
-          background: #00adef;
+          // background: #00adef;
           line-height: 1rem;
           color: white;
           height: 1rem;
         }
         .blockchain {
-          background: orange;
+          // background: orange;
         }
       }
     }

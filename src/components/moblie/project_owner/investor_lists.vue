@@ -37,64 +37,69 @@ export default {
   name: "goods_details",
   data() {
     return {
-      dad_text: this.$t('projectOwner.InvestorInformation'),
+      dad_text: this.$t("projectOwner.InvestorInformation"),
       form: {
-        investorsIdList: [],
-        X_Token:this.$store.state.X_Token
+        investorsIdList: []
+        // X_Token: this.$store.state.X_Token
       },
       // investorsId:'',
       details_lists: [
         {
           keyword: "signTime3",
-          name:  this.$t('projectOwner.SigningTime'),
+          name: this.$t("projectOwner.SigningTime"),
           response: ""
         },
         {
           keyword: "investorsCompany",
-          name:  this.$t('agent.InvestorCompany'),
+          name: this.$t("agent.InvestorCompany"),
           response: ""
         },
         {
           keyword: "investorsName",
-          name: this.$t('agent.InvestorName'),
+          name: this.$t("agent.InvestorName"),
           response: ""
         },
         {
           keyword: "investorsMobile",
-          name: this.$t('investor.InvestorPhone'),
+          name: this.$t("investor.InvestorPhone"),
           response: ""
-        },
+        }
       ],
       totallists: []
     };
   },
 
-  methods: {
-  },
+  methods: {},
   created() {
     this.$loading();
     let arr = [];
     // console.log(this.$route.query);
-    arr = JSON.parse(this.$route.query.arr);
-    console.log(arr);
+    arr = this.$route.query.arr && JSON.parse(this.$route.query.arr);
     this.form.investorsIdList = arr;
-    this.$axios({
-      method: "post",
-      url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
-      data: this.$qs.stringify(this.form, { arrayFormat: "brackets" }),
-
-    })
+    // this.$axios({
+    //   method: "post",
+    //   url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
+    //   data: this.$qs.stringify(this.form, { arrayFormat: "brackets" })
+    // });
+    this.$global
+      .post_encapsulation(
+        `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
+        this.form
+      )
       .then(res => {
-       this.$toast.clear();
-      if(res.data.resultCode==10000){
-      this.totallists = res.data.data;
+        this.$toast.clear();
+        if (res.data.resultCode == 10000) {
+          this.totallists = res.data.data;
           for (let i = 0; i < this.totallists.length; i++) {
-            this.totallists[i].signTime3 = this.totallists[i].signTime3==0?"":this.$global.timestampToTime(
-              this.totallists[i].signTime3
-            )
+            this.totallists[i].signTime3 =
+              this.totallists[i].signTime3 == 0
+                ? ""
+                : this.$global.timestampToTime(this.totallists[i].signTime3);
           }
-      }
-    });
+        }else{
+
+        }
+      });
   }
 };
 </script>
@@ -123,7 +128,7 @@ export default {
 <style lang="scss" scoped>
 #p_investor_lists {
   width: 100%;
-  height:100%;
+  height: 100%;
   nav {
     width: 100%;
     text-align: center;
@@ -135,7 +140,6 @@ export default {
     font-size: 0.46rem;
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;
-
   }
   main {
     padding: 1.5rem 0 1.3rem 0;
@@ -160,15 +164,15 @@ export default {
           border: 0.03rem solid #02a7e7;
         }
         .main_right {
-          flex:3;
+          flex: 3;
           margin: 0 0.5rem;
           width: 7.16rem;
           // font-size: 0.36rem;
-          >div {
+          > div {
             display: flex;
 
             line-height: 0.6rem;
-            p{
+            p {
               margin: 0.1rem;
             }
             .row1 {

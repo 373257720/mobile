@@ -204,8 +204,8 @@ export default {
         userAddressCh: "",
         userAddressEn: "",
         userCompanyPic: "",
-        userType: null,
-        X_Token: this.$store.state.X_Token
+        userType: null
+        // X_Token: this.$store.state.X_Token
         // identity: ""
       },
       createTime: "", //注册时间
@@ -408,70 +408,49 @@ export default {
         this.$toast(this.$t("common.UploadJPG"));
         return false;
       }
-      // function a() {
-      //   var img_z_base64 = document.getElementById("img_z_base64").value;
-      //   alert(img_z_base64);
-      // }
-      console.log(file);
-      
-      // console.log(file);
-      // let formData = new FormData();
-      // formData.append("file", file);
-      // console.log(formData);
-      var reader = new FileReader();
-      reader.readAsDataURL(file); //将文件读取为Data URL小文件   这里的小文件通常是指图像与 html 等格式的文件
-      reader.onload = function(e) {
-        console.log(this.result);
-        // $("#zmz").attr("src", e.target.result);
-        // document.getElementById("img_z_base64").value = reader.result;
-      };
-      // console.log(img);
-
-      // this.$loading();
-      // console.log(img);
-
-      // console.log(tmp1);
-
-      // var d1=JSON.parse(tmp1);
-      // console.log(d1);
-
-      // return new Promise((resolve, reject) => {
-      //   this.$axios({
-      //     method: "post",
-      //     url: `${this.$baseurl}/bsl_web/upload/pic.do`,
-      //     data: formData,
-      //     headers: {
-      //       "Content-Type": "application/json"
-      //     }
-      //   })
-      //     // this.$global
-      //     //   .post_encapsulation(
-      //     //     `${this.$baseurl}/bsl_web/upload/pic.do`,
-      //     //     formData
-      //     //   )
-      //     .then(res => {
-      //       this.$toast.clear();
-      //       if (res.data.resultCode == 10000) {
-      //         var imgurl = res.data.data.url;
-      //         console.log(imgurl);
-      //         if (index == 1) {
-      //           this.form.identityPicOne = imgurl;
-      //         } else if (index == 2) {
-      //           this.form.identityPicTwo = imgurl;
-      //         } else if (index == 3) {
-      //           this.form.userCompanyPic = imgurl;
-      //         }
-      //         resolve(true);
-      //       } else {
-      //         this.$toast(res.data.resultDesc);
-      //         reject(res.data.resultDesc);
-      //       }
-      //     })
-      //     .catch(err => {
-      //       this.$toast("系统异常");
-      //       reject(err);
-      //     });
-      // });
+      let formData = new FormData();
+      formData.append("file", file);
+      formData.append("X_Token", this.$store.state.X_Token);
+      this.$loading();
+      return new Promise((resolve, reject) => {
+        this.$axios({
+          method: "post",
+          url: `${this.$baseurl}/bsl_web/upload/pic`,
+          data: formData,
+          headers: {
+            "Content-Type": "multipart/form-data"
+            // "application/x-www-form-urlencoded"
+          }
+        }).then(res => {
+          this.$toast.clear();
+          if (res.data.resultCode == 10000) {
+            let imgurl = res.data.data.url;
+            let urlBase = res.data.data.urlBase;
+            console.log(urlBase + imgurl);
+            if (index == 1) {
+              (this.fileList_front = []),
+                (this.form.identityPicOne = urlBase + imgurl);
+              this.fileList_front.push({ url: urlBase + imgurl });
+            } else if (index == 2) {
+              (this.fileList_back = []),
+                (this.form.fileList_back = urlBase + imgurl);
+              this.fileList_company.push({ url: urlBase + imgurl });
+            } else if (index == 3) {
+              this.fileList_company = [];
+              this.form.userCompanyPic = urlBase + imgurl;
+              this.fileList_company.push({ url: urlBase + imgurl });
+            }
+            // resolve(true);
+          } else {
+            this.$toast(res.data.resultDesc);
+            reject(res.data.resultDesc);
+          }
+        });
+        // .catch(err => {
+        //   // this.$toast("系统异常");
+        //   reject(err);
+        // });
+      });
       // return true;
       // this.$axios({
       //   method: "post",

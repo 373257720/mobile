@@ -93,7 +93,7 @@ export default {
               // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown      // dropdown with defaults from theme
               // [{ 'font': [] }],
               [{ align: [] }],
-              ["sourceEditor"]
+              // ["sourceEditor"]
 
               // ['clean']
             ], // 工具栏选项
@@ -102,24 +102,24 @@ export default {
             //   cssText: "border: none;border-bottom: 1px inset;"
             // },
             // divider: true,
-            handlers: {
-              shadeBox: null,
-              sourceEditor: e => {
-                //添加工具方法
-                console.log(e);
-                // ducument.created
-                const sourceEditorButton = document.querySelector(".ql-editor");
-                let shadeBox = document.createElement("hr");
-                shadeBox.className="divider";
-                // shadeBox.classList.add = "divider";
-                // shadeBox.setAttribute("class", "divider");
-                console.log(sourceEditorButton);
-                // const sourceEditorButton = document.querySelector(
-                //   ".ql-sourceEditor"
-                // );
-                sourceEditorButton.appendChild(shadeBox);
-              }
-            } // 事件重写
+            // handlers: {
+            //   shadeBox: null,
+            //   sourceEditor: e => {
+            //     //添加工具方法
+            //     console.log(e);
+            //     // ducument.created
+            //     const sourceEditorButton = document.querySelector(".ql-editor");
+            //     let shadeBox = document.createElement("hr");
+            //     shadeBox.className="divider";
+            //     // shadeBox.classList.add = "divider";
+            //     // shadeBox.setAttribute("class", "divider");
+            //     console.log(sourceEditorButton);
+            //     // const sourceEditorButton = document.querySelector(
+            //     //   ".ql-sourceEditor"
+            //     // );
+            //     sourceEditorButton.appendChild(shadeBox);
+            //   }
+            // } // 事件重写
           }
         },
         initButton: function() {
@@ -190,8 +190,8 @@ export default {
   },
   mounted() {
       
-    this.editorOption.register(Quill);
-    this.editorOption.initButton();
+    // this.editorOption.register(Quill);
+    // this.editorOption.initButton();
     // quillConfig.initButton();
   },
   watch: {

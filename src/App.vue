@@ -1,7 +1,9 @@
 <template>
-    <keep-alive include="mhome,mine,mysign,userpass,p_user_contact">
+ <div id="app" >
+    <!-- <keep-alive include="mhome,mine,mysign,userpass,p_user_contact"> -->
       <router-view></router-view>
-    </keep-alive>
+    <!-- </keep-alive> -->
+      </div>
 </template>
 <script>
 // import {mapState} from 'vuex'
@@ -57,6 +59,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px; */
 }
+
 
 div.loading {
   background: none;
