@@ -24,7 +24,7 @@
         <van-dialog v-model="show2" :show-confirm-button="false">
           <footer class="email">
             <p>{{$t('investor.PleaseEnterInvestorEmail')}}</p>
-            <p class="reminder" >{{show}}</p>
+            <p class="reminder">{{show}}</p>
             <div class="emailadress">
               <van-field v-model="emailadress" clearable />
             </div>
@@ -36,7 +36,7 @@
         </van-dialog>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
+    <!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -45,66 +45,66 @@ export default {
   data() {
     return {
       title: "",
-      dad_text: this.$t('agent.InvitationToBeSentToInvestors'),
+      dad_text: this.$t("agent.InvitationToBeSentToInvestors"),
       show2: false, //邮箱开关
-      show:'',//邮箱验证信息
+      show: "", //邮箱验证信息
       custmoers_obj: {},
       investorsId: "",
       emailadress: "",
       nav_lists: {
         financingStage: {
-          name: this.$t('agent.FinancingStage'),
+          name: this.$t("agent.FinancingStage"),
           response: ""
         },
         committedCount: {
-          name: this.$t('agent.NumberOfinvestorsHaveSubmitted'),
+          name: this.$t("agent.NumberOfinvestorsHaveSubmitted"),
           response: ""
         },
         interestProjectCount: {
-          name: this.$t('agent.Numberofprojectsinterested'),
+          name: this.$t("agent.Numberofprojectsinterested"),
           response: ""
-        },
+        }
       },
       details_lists: {
         projectIndustry: {
-          name:this.$t('common.Industry'),
+          name: this.$t("common.Industry"),
           response: ""
         },
         projectArea: {
-          name: this.$t('common.region'),
+          name: this.$t("common.region"),
           response: ""
         },
         projectCompany: {
-          name: this.$t('common.CompanyName'),
+          name: this.$t("common.CompanyName"),
           response: ""
         },
         currencyType: {
-          name:this.$t('common.Currency'),
+          name: this.$t("common.Currency"),
           response: ""
         },
         collectMoney: {
-          name: this.$t('common.FundingAmount'),
-          collectMoneyMin:'',
-          collectMoneyMax: "",
+          name: this.$t("common.FundingAmount"),
+          collectMoneyMin: "",
+          collectMoneyMax: ""
         },
         projectMobile: {
-          name: this.$t('common.ContactNumber'),
+          name: this.$t("common.ContactNumber"),
           response: ""
         },
         projectEmail: {
-          name: this.$t('common.Email'),
+          name: this.$t("common.Email"),
           response: ""
         },
         signStatus: {
-          name: this.$t('common.ContractStatus'),
+          name: this.$t("common.ContractStatus"),
           response: "",
-          classname:'red',
+          classname: "red"
         },
         projectDescribe: {
-          name: this.$t('common.ProjectDescription'),
+          name: this.$t("common.ProjectDescription"),
           response: ""
         },
-             projectDetail: {
+        projectDetail: {
           name: this.$t("common.ProjectDetails"),
           response: ""
         },
@@ -115,31 +115,31 @@ export default {
       },
       investor_infor: {
         investorsType: {
-          name: this.$t('agent.InvestorType'),
+          name: this.$t("agent.InvestorType"),
           response: ""
         },
         investorsCompany: {
-          name: this.$t('agent.InvestorCompany'),
+          name: this.$t("agent.InvestorCompany"),
           response: ""
         },
         investorsName: {
-          name:this.$t('agent.InvestorName'),
+          name: this.$t("agent.InvestorName"),
           response: ""
         },
         investorsArea: {
-          name: this.$t('agent.InvestorRegion'),
+          name: this.$t("agent.InvestorRegion"),
           response: ""
         }
-      },
+      }
     };
   },
-  beforeRouteLeave(to,from,next){
-      console.log(to,from)
-        if(to.name=='uploadtoblock'){
-           next({path: '/mysign'});
-        }else{
-          next()
-        }
+  beforeRouteLeave(to, from, next) {
+    console.log(to, from);
+    if (to.name == "uploadtoblock") {
+      next({ path: "/mysign" });
+    } else {
+      next();
+    }
   },
   created() {
     this.$loading();
@@ -150,9 +150,9 @@ export default {
         `${this.$baseurl}/bsl_web/project/getProjectDetails`,
         "get",
         {
-          projectId:details.projectId,
-          signStatus:details.signStatus,
-          signId:details.signId || -1
+          projectId: details.projectId,
+          signStatus: details.signStatus,
+          signId: details.signId || -1
         },
         this.details_lists,
         this.nav_lists,
@@ -164,25 +164,23 @@ export default {
         this.title = res.title;
         // this.investorsId = res.investorsId;
         this.$toast.clear();
-        if(res.projectLifeCycle==-1){
+        if (res.projectLifeCycle == -1) {
           this.$dialog
             .alert({
-              title: this.$t('common.TheItemNoLongerExists'),
+              title: this.$t("common.TheItemNoLongerExists")
             })
             .then(() => {
               this.$router.go(-1);
-            })
-          return
+            });
+          return;
         }
-
       });
   },
   methods: {
     cancel() {
       this.show2 = false;
-       this.show='';
-       this.emailadress=''
-
+      this.show = "";
+      this.emailadress = "";
     },
     // 提交
     summit() {
@@ -190,32 +188,33 @@ export default {
     },
     // 中间人发送邮件前专用
     agent_beforesend() {
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/project/getDetails`,{
-        signId:this.$route.query.signId
-      })
+      this.$global
+        .get_encapsulation(`${this.$baseurl}/bsl_web/project/getDetails`, {
+          signId: this.$route.query.signId
+        })
         .then(res => {
-          if (res.data.resultCode == 10000){
+          if (res.data.resultCode == 10000) {
             this.investorsId = res.data.data.investorsId;
-            this.picUrl=res.data.data.investorsId.picUrl;
+            this.picUrl = res.data.data.investorsId.picUrl;
             this.custmoers_obj = res.data.data;
-            console.log(this.custmoers_obj)
+            console.log(this.custmoers_obj);
           }
-      });
+        });
     },
     submit_email() {
-    this.show='';
+      this.show = "";
       console.log(this.custmoers_obj);
       let companyname;
       let agent_name;
-      if(this.custmoers_obj.userIdentityType1==2){
-        companyname=this.custmoers_obj.userCompanyEn1
-      }else if(this.custmoers_obj.userIdentityType1==1){
-        companyname=this.custmoers_obj.userName1
+      if (this.custmoers_obj.userIdentityType1 == 2) {
+        companyname = this.custmoers_obj.userCompanyEn1;
+      } else if (this.custmoers_obj.userIdentityType1 == 1) {
+        companyname = this.custmoers_obj.userName1;
       }
-      if(this.custmoers_obj.userIdentityType4==1){
-        agent_name=this.custmoers_obj.userName4;
-      }else if(this.custmoers_obj.userIdentityType4==2){
-        agent_name=this.custmoers_obj.userCompanyEn4;
+      if (this.custmoers_obj.userIdentityType4 == 1) {
+        agent_name = this.custmoers_obj.userName4;
+      } else if (this.custmoers_obj.userIdentityType4 == 2) {
+        agent_name = this.custmoers_obj.userCompanyEn4;
       }
       let letter = `<meta charset="utf-8" />
                 <div class="content-wrap"
@@ -457,7 +456,11 @@ export default {
                             <td align="left" style="font-size: 0px; padding: 20px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>${this.custmoers_obj.projectName?this.custmoers_obj.projectName:''}</div>
+                                <div>${
+                                  this.custmoers_obj.projectName
+                                    ? this.custmoers_obj.projectName
+                                    : ""
+                                }</div>
                               </div>
                             </td>
                           </tr>
@@ -476,7 +479,6 @@ export default {
       </tbody>
     </table>
   </div>
-
   <div tindex="4" style="margin: 0px auto; max-width: 500px;">
     <table align="center" border="0" cellpadding="0" cellspacing="0"
            style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
@@ -555,32 +557,7 @@ export default {
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
             <tbody>
             <tr>
-<!--              <td-->
-<!--                style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr;vertical-align: top; padding: 0px;">-->
-<!--                <div class="full" style="margin: 0px auto; max-width: 500px;">-->
-<!--                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"-->
-<!--                         style="width: 150px;">-->
-<!--                    <tbody>-->
-<!--                    <tr>-->
-<!--                      <td-->
-<!--                        style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>-->
-<!--                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"-->
-<!--                               style="vertical-align: top;">-->
-<!--                          <tr>-->
-<!--                            <td align="left" style="font-size: 0px; padding: 20px;">-->
-<!--                              <div class="text"-->
-<!--                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px;  color: lightcoral;font-size: 14px; font-weight: normal;'>-->
-<!--                                <div>提示：</div>-->
-<!--                              </div>-->
-<!--                            </td>-->
-<!--                          </tr>-->
-<!--                        </table>-->
-<!--                      </td>-->
-<!--                    </tr>-->
-<!--                    </tbody>-->
-<!--                  </table>-->
-<!--                </div>-->
-<!--              </td>-->
+
               <td
                 style="width: 100%; max-width: 100%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
                 <div class="full" style="margin: 0px auto; max-width: 500px;">
@@ -596,7 +573,9 @@ export default {
                             <td align="left" style="font-size: 0px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei";word-wrap:break-word;word-break:break-all; overflow-wrap: break-word; margin: 0px; text-align:left; line-height: 20px;  color: lightcoral; font-size: 14px; font-weight: normal;'>
-                                <div>如您還未在系統注冊賬號，請先按以下連接註冊 <a href="${this.$baseurl3}/#/register">http://www.bit-bro.biz/#/register</a>。注冊完成后，再按以下按鈕登錄操作。</div>
+                                <div>如您還未在系統注冊賬號，請先按以下連接註冊 <a href="${
+                                  this.$baseurl3
+                                }/#/register">http://www.bit-bro.biz/#/register</a>。注冊完成后，再按以下按鈕登錄操作。</div>
                               </div>
                             </td>
                           </tr>
@@ -624,32 +603,7 @@ export default {
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
             <tbody>
             <tr>
-              <!--              <td-->
-              <!--                style="width: 20%; max-width: 20%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr;vertical-align: top; padding: 0px;">-->
-              <!--                <div class="full" style="margin: 0px auto; max-width: 500px;">-->
-              <!--                  <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"-->
-              <!--                         style="width: 150px;">-->
-              <!--                    <tbody>-->
-              <!--                    <tr>-->
-              <!--                      <td-->
-              <!--                        style='direction: ltr; width: 150px; font-size: 0px; padding-bottom: 0px; text-align: center; vertical-align: top; background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 10% 50%;'>-->
-              <!--                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"-->
-              <!--                               style="vertical-align: top;">-->
-              <!--                          <tr>-->
-              <!--                            <td align="left" style="font-size: 0px; padding: 20px;">-->
-              <!--                              <div class="text"-->
-              <!--                                   style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 20px;  color: lightcoral;font-size: 14px; font-weight: normal;'>-->
-              <!--                                <div>提示：</div>-->
-              <!--                              </div>-->
-              <!--                            </td>-->
-              <!--                          </tr>-->
-              <!--                        </table>-->
-              <!--                      </td>-->
-              <!--                    </tr>-->
-              <!--                    </tbody>-->
-              <!--                  </table>-->
-              <!--                </div>-->
-              <!--              </td>-->
+ 
               <td
                 style="width: 100%; max-width: 100%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
                 <div class="full" style="margin: 0px auto; max-width: 500px;">
@@ -706,7 +660,13 @@ export default {
                           <tr>
                             <td align="center" bgcolor="#409EFF" valign="middle"
                                 style="line-height: 1; background-color: rgb(64, 158, 255); border-radius:5px; cursor:pointer">
-                              <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}" class="button" style="text-decoration:none;">
+                              <a href="${
+                                this.$baseurl3
+                              }/#/i_emailto_confirm?projectLan=${
+        this.custmoers_obj.projectLan
+      }&signId=${
+        this.custmoers_obj.signId
+      }" class="button" style="text-decoration:none;">
                                 <p style='font-family: "Microsoft YaHei";padding: 14px 54px; margin: 0px; color: rgb(255, 255, 255); line-height: 1; font-size: 14px; font-weight: normal; text-decoration: none; text-transform: none;'>
                                   <span>登錄系統並確認資料</span>
                                 </p>
@@ -729,43 +689,48 @@ export default {
     </table>
   </div>
 </div>`;
-    var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
-    if(reg.test(this.emailadress)) {
-      this.$loading();
-      this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/sendProject4`,
-        {
-          signId: this.$route.query.signId,
-          memberEmail: this.emailadress,
-          investorsId: this.investorsId,
-          emailData:letter
-        })
+      var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
+      if (reg.test(this.emailadress)) {
+        this.$loading();
+        this.$global
+          .post_encapsulation(
+            `${this.$baseurl}/bsl_web/projectSign/sendProject4`,
+            {
+              signId: this.$route.query.signId,
+              memberEmail: this.emailadress,
+              investorsId: this.investorsId,
+              emailData: letter
+            }
+          )
           .then(res => {
-        this.$toast.clear();
-         this.show2 = false;
-        if (res.data.resultCode == 10000) {
-          let query1 = Object.assign({},this.$route.query,{signStatus: 9})
-          this.$router.push({query:query1})
-          this.$dialog
-            .alert({
-              title:this.$t('agent.SentSuccessfully'),
-              message: this.$t('agent.PleaseWaitForInvestorsToConfirmAndImproveTheInformation'),
-            })
-            .then(() => {
-              this.$routerto("mysign");
-            });
-        } else  {
-          this.$dialog
-            .alert({
-              title: res.data.resultDesc
-            })
-            .then(() => {});
-          }
-      });
-      }else{
-          this.show=this.$t('agent.EmailFormatIsIncorrect');
+            this.$toast.clear();
+            this.show2 = false;
+            if (res.data.resultCode == 10000) {
+              let query1 = Object.assign({}, this.$route.query, {
+                signStatus: 9
+              });
+              this.$router.push({ query: query1 });
+              this.$dialog
+                .alert({
+                  title: this.$t("agent.SentSuccessfully"),
+                  message: this.$t(
+                    "agent.PleaseWaitForInvestorsToConfirmAndImproveTheInformation"
+                  )
+                })
+                .then(() => {
+                  this.$routerto("mysign");
+                });
+            } else {
+              this.$dialog
+                .alert({
+                  title: res.data.resultDesc
+                })
+                .then(() => {});
+            }
+          });
+      } else {
+        this.show = this.$t("agent.EmailFormatIsIncorrect");
       }
-
-
     }
   }
 };
@@ -781,27 +746,26 @@ export default {
       transform: (translate(0, -50%));
     }
   }
-  .owner_confirmed{
+  .owner_confirmed {
     margin-bottom: 0.5rem;
-     .van-divider{
-    background:#F2F2F2;
-    border-color: #D2D2D2;
-    padding: 0 2rem;
-    margin:0;
-    color: #858585;
-    font-size: 0.42rem;
+    .van-divider {
+      background: #f2f2f2;
+      border-color: #d2d2d2;
+      padding: 0 2rem;
+      margin: 0;
+      color: #858585;
+      font-size: 0.42rem;
     }
-    P{
+    p {
       padding: 0.2rem 0.5rem;
-      color:#f36c69;
+      color: #f36c69;
       text-align: center;
       line-height: 0.6rem;
       font-size: 0.42rem;
-
     }
   }
 
-  .van-field__control{
+  .van-field__control {
     font-size: 0.4rem;
   }
   .van-dialog {
@@ -840,11 +804,8 @@ export default {
         font-weight: 600;
         line-height: 0.68rem;
       }
-
-
     }
     article {
-
       footer {
         padding: 0 0.5rem 0.5rem 0.5rem;
         font-size: 0.42rem;
@@ -858,7 +819,7 @@ export default {
             height: 1rem;
             color: #ffffff;
             width: 8rem;
-            border-radius:5px;
+            border-radius: 5px;
           }
           button:nth-of-type(1) {
             background: #00adef;
@@ -893,7 +854,7 @@ export default {
           button {
             height: 1rem;
             width: 8rem;
-            border-radius:5px;
+            border-radius: 5px;
             color: #ffffff;
           }
           button:nth-of-type(1) {

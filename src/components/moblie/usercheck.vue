@@ -429,15 +429,15 @@ export default {
             console.log(urlBase + imgurl);
             if (index == 1) {
               (this.fileList_front = []),
-                (this.form.identityPicOne = urlBase + imgurl);
+                (this.form.identityPicOne =  imgurl);
               this.fileList_front.push({ url: urlBase + imgurl });
             } else if (index == 2) {
               (this.fileList_back = []),
-                (this.form.fileList_back = urlBase + imgurl);
+                (this.form.fileList_back =  imgurl);
               this.fileList_company.push({ url: urlBase + imgurl });
             } else if (index == 3) {
               this.fileList_company = [];
-              this.form.userCompanyPic = urlBase + imgurl;
+              this.form.userCompanyPic = imgurl;
               this.fileList_company.push({ url: urlBase + imgurl });
             }
             // resolve(true);
