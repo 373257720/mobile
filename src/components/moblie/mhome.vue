@@ -176,7 +176,7 @@ export default {
           number: 0
         },
         signUserList3711: {
-          text: this.$t("common.InvestorHasRejected"),
+          text: this.$t("common.Rejected"),
           number: 0
         }
       },

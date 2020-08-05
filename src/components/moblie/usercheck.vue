@@ -428,12 +428,10 @@ export default {
             let urlBase = res.data.data.urlBase;
             console.log(urlBase + imgurl);
             if (index == 1) {
-              (this.fileList_front = []),
-                (this.form.identityPicOne =  imgurl);
+              (this.fileList_front = []), (this.form.identityPicOne = imgurl);
               this.fileList_front.push({ url: urlBase + imgurl });
             } else if (index == 2) {
-              (this.fileList_back = []),
-                (this.form.fileList_back =  imgurl);
+              (this.fileList_back = []), (this.form.fileList_back = imgurl);
               this.fileList_company.push({ url: urlBase + imgurl });
             } else if (index == 3) {
               this.fileList_company = [];
@@ -1127,7 +1125,6 @@ export default {
   }
 }
 </style>
-
 <style lang="scss" scoped>
 #usercheck {
   height: 100%;

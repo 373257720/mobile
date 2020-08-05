@@ -179,7 +179,7 @@
           })
           .then(() => {
             this.$loading();
-            this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/forgetPwd.do`,this.form).
+            this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/forgetPwd.do`,this.form).
             then(res => {
               this.$toast.clear();
               // this.form.verificationCodeToken="";

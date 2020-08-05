@@ -244,6 +244,7 @@ export default {
         resolve(htmldata);
       }).then(res => {
         let htmlstr = this.$global.nodeToString(res);
+        console.log(htmlstr);
         this.$global
           .post_encapsulation(
             `${this.$baseurl}/bsl_web/projectSign/signProject4`,
@@ -251,7 +252,6 @@ export default {
               signId: this.signId,
               projectId: this.projectId,
               signAgreement: JSON.stringify(this.contract),
-              // X_Token:this.$store.state.X_Token,
               htmlData: htmlstr 
             }
           )
@@ -272,11 +272,6 @@ export default {
                   // });
                 });
             } else {
-
-
-
-
-              
               this.$dialog
                 .alert({
                   title: res.data.resultDesc

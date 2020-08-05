@@ -100,6 +100,7 @@ export default {
     ToBeConfirmedByInvestors:'待投资者确认',
     SignedContract:'签约成功',
     RejectedProject: '已拒绝项项目',
+    Rejected:'已拒绝',
     InvestorHasRejected:'投资者已拒绝',
     RegisterNewAccount:'注册新账号',
     AccountAndPasswordCannotBeEmpty:'账号和密码不能为空，请输入',

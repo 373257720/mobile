@@ -11,10 +11,7 @@
           <contractcomponent :htmlData.sync="htmlData" :contract="contract"></contractcomponent>
         </div>
         <footer>
-          <button
-            class="blockchain"
-        
-          >{{$t('ContractWrods.NextConfirmAndUploadToBlockchain')}}...</button>
+        {{$t('ContractWrods.NextConfirmAndUploadToBlockchain')}}...
         </footer>
       </article>
     </main>
@@ -454,7 +451,7 @@ export default {
         button {
           width: 8rem;
           border-radius: 5px;
-          // background: #00adef;
+          background:#afafaf;
           line-height: 1rem;
           color: white;
           height: 1rem;
