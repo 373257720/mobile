@@ -1,9 +1,10 @@
 <template>
   <div id="p_investor_lists">
-    <nav>
+<!--    <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />
       {{$t('common.InformationOfContractedInvestors')}}
-    </nav>
+    </nav> -->
+	<commonnav :msg="$t('common.InformationOfContractedInvestors')"></commonnav>
     <!-- <commonnav :msg="dad_text"></commonnav> -->
     <main>
       <article>
@@ -29,7 +30,7 @@
         </ul>
       </article>
     </main>
-    <mbottom></mbottom>
+
   </div>
 </template>
 <script>
@@ -78,12 +79,12 @@ export default {
     this.form.investorsIdList = arr;
     // this.$axios({
     //   method: "post",
-    //   url: `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
+    //   url: `${this.$axios.defaults.baseURL}/bsl_web/projectSign/getInvestorsList`,
     //   data: this.$qs.stringify(this.form, { arrayFormat: "brackets" })
     // });
     this.$global
       .post_encapsulation(
-        `${this.$baseurl}/bsl_web/projectSign/getInvestorsList`,
+        `${this.$axios.defaults.baseURL}/bsl_web/projectSign/getInvestorsList`,
         this.form
       )
       .then(res => {
@@ -105,15 +106,6 @@ export default {
 </script>
 <style lang="scss">
 #p_investor_lists {
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
 }
 // .van-dialog {
 //   font-size: 0.3rem;
@@ -128,21 +120,10 @@ export default {
 <style lang="scss" scoped>
 #p_investor_lists {
   width: 100%;
-  height: 100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
+  height:100%;
 
-    top: 0;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
-    padding: 1.5rem 0 1.3rem 0;
+    padding: 1.6rem 0 1.3rem 0;
     background: #ffffff;
     ul {
       padding: 0 0.42rem;

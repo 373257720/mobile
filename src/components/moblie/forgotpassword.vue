@@ -21,7 +21,7 @@
                 :placeholder="$t('ContractWrods.pleaseEnter')"
               >
                 <template #button>
-                  <van-button v-if="!isactive" size="small" type="primary">{{code}}</van-button>
+                  <van-button v-if="!isactive" :disabled="true" size="small" type="primary">{{code}}</van-button>
                   <van-button v-else-if="isactive" @click="sendcode" class="isactive"  size="small" type="primary">{{code}}</van-button>
                 </template>
 <!--                <button v-if="!isactive"  slot="button" >-->
@@ -100,7 +100,7 @@
         self.watch=true;
         // self.timeCounter = setTimeout(()=>{}, 100);
         this.$loading();
-        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/sendEmail.do`,
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/sendEmail.do`,
           {memberEmail:self.email}).then(res=>{
               if(res.data.resultCode==10000){
                 let obj=JSON.parse(res.data.data);
@@ -179,7 +179,7 @@
           })
           .then(() => {
             this.$loading();
-            this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/forgetPwd.do`,this.form).
+            this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/forgetPwd.do`,this.form).
             then(res => {
               this.$toast.clear();
               // this.form.verificationCodeToken="";

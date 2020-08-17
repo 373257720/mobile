@@ -6,6 +6,9 @@ const path = require('path')
 
 module.exports = {
   dev: {
+    testEnv:require('./test.env'),
+    prodEnv:require('./prod.env'),
+    devEnv:require('./dev.env'),
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
@@ -44,13 +47,16 @@ module.exports = {
   },
 
   build: {
+      testEnv:require("./test.env"),
+      prodEnv:require("./prod.env"),
+      devEnv:require("./dev.env"),
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

@@ -19,7 +19,6 @@
         </footer>
       </article>
     </main>
-    <!-- <mbottom></mbottom> -->
   </div>
 </template>
 <script>
@@ -106,14 +105,14 @@ export default {
       window.localStorage.setItem("language",details.projectLan);
       this.$Local(details.projectLan);
       this.$i18n.locale=details.projectLan;
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`,
+      this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/language.do`,
       {lan:details.projectLan})
       .then(res => {
         if(res.data.resultCode==10000){
           this.$store.dispatch("X_Token_actions",JSON.parse(res.data.data).X_Token);
           this.$global
             .get_deatails(
-              `${this.$baseurl}/bsl_web/project/getProjectDetails.do`,
+              `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails.do`,
               "get",
               {
                 projectLan:details.projectLan,
@@ -172,7 +171,7 @@ export default {
           // message: "弹窗内容"
         })
         .then(() => {
-          this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/rejectProject.do`,{
+          this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/rejectProject.do`,{
             signId:this.$route.query.signId,
             investorsEmailSend:this.investorsEmailSend,
           }).then(res => {

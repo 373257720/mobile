@@ -39,7 +39,7 @@
       </van-collapse>
     </main>
 
-    <mbottom></mbottom>
+
   </div>
 </template>
 <script>
@@ -67,7 +67,7 @@
     methods: {
       getlist(){
         this.$loading();
-        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/connected/getConnected`).then(
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/connected/getConnected`).then(
           res=>{
             this.$toast.clear();
             this.lists=[...res.data.data];

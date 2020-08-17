@@ -1,20 +1,20 @@
 <template>
   <div id="p_check_contract">
-    <nav>
+ <!--   <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />
       {{$t('agent.CheckContract')}}
-    </nav>
+    </nav> -->
+		<commonnav :msg="$t('agent.CheckContract')"></commonnav>
     <main>
       <article>
         <contractcomponent v-if="watch" :contract="contract"></contractcomponent>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
 export default {
-  name: "goods_details",
+  name: "p_check_contract",
   data() {
     return {
       watch:false,
@@ -42,7 +42,7 @@ export default {
   methods: {
   get_contract(){
     this.$loading();
-    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getSignAgreement`,
+    this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getSignAgreement`,
       {
         signId:this.$route.query.signId})
       .then(res => {
@@ -64,15 +64,6 @@ export default {
 </script>
 <style lang="scss">
 #p_check_contract {
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
   .van-hairline--top-bottom::after {
     border: 0.02rem solid #8e8e8e;
   }
@@ -86,18 +77,6 @@ export default {
   width: 100%;
   height:100%;
   padding: 1.5rem 0 1.3rem 0;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    z-index: 5;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
     padding: 0.6rem 0.5rem;
     height: 100%;

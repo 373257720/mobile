@@ -50,7 +50,7 @@ export default {
         this.password === this.password2
       ) {
         this.$loading();
-        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/register.do`,
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/register.do`,
           {bslEmail: this.username,
             bslPwd: this.password})
           .then(res => {

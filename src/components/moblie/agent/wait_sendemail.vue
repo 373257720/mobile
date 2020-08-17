@@ -36,7 +36,6 @@
         </van-dialog>
       </article>
     </main>
-    <!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -147,7 +146,7 @@ export default {
     this.agent_beforesend();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
           projectId: details.projectId,
@@ -189,7 +188,7 @@ export default {
     // 中间人发送邮件前专用
     agent_beforesend() {
       this.$global
-        .get_encapsulation(`${this.$baseurl}/bsl_web/project/getDetails`, {
+        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/project/getDetails`, {
           signId: this.$route.query.signId
         })
         .then(res => {
@@ -456,11 +455,7 @@ export default {
                             <td align="left" style="font-size: 0px; padding: 20px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>${
-                                  this.custmoers_obj.projectName
-                                    ? this.custmoers_obj.projectName
-                                    : ""
-                                }</div>
+                                <div>${this.custmoers_obj.projectName?this.custmoers_obj.projectName:''}</div>
                               </div>
                             </td>
                           </tr>
@@ -479,6 +474,10 @@ export default {
       </tbody>
     </table>
   </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 02c7d4ff173c623e66539a8589ecf6a4b6d93ec0
   <div tindex="4" style="margin: 0px auto; max-width: 500px;">
     <table align="center" border="0" cellpadding="0" cellspacing="0"
            style='background-color: rgb(255, 255, 255); background-image: url(""); background-repeat: no-repeat; background-size: 100px; background-position: 1% 50%;'>
@@ -557,7 +556,6 @@ export default {
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="vertical-align: top;">
             <tbody>
             <tr>
-
               <td
                 style="width: 100%; max-width: 100%; min-height: 1px; font-size: 14px; text-align: left; direction: ltr; vertical-align: top; padding: 0px;">
                 <div class="full" style="margin: 0px auto; max-width: 500px;">
@@ -573,9 +571,7 @@ export default {
                             <td align="left" style="font-size: 0px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei";word-wrap:break-word;word-break:break-all; overflow-wrap: break-word; margin: 0px; text-align:left; line-height: 20px;  color: lightcoral; font-size: 14px; font-weight: normal;'>
-                                <div>如您還未在系統注冊賬號，請先按以下連接註冊 <a href="${
-                                  this.$baseurl3
-                                }/#/register">http://www.bit-bro.biz/#/register</a>。注冊完成后，再按以下按鈕登錄操作。</div>
+                                <div>如您還未在系統注冊賬號，請先按以下連接註冊 <a href="${this.$baseurl3}/#/register">http://www.bit-bro.biz/#/register</a>。注冊完成后，再按以下按鈕登錄操作。</div>
                               </div>
                             </td>
                           </tr>
@@ -660,13 +656,7 @@ export default {
                           <tr>
                             <td align="center" bgcolor="#409EFF" valign="middle"
                                 style="line-height: 1; background-color: rgb(64, 158, 255); border-radius:5px; cursor:pointer">
-                              <a href="${
-                                this.$baseurl3
-                              }/#/i_emailto_confirm?projectLan=${
-        this.custmoers_obj.projectLan
-      }&signId=${
-        this.custmoers_obj.signId
-      }" class="button" style="text-decoration:none;">
+                              <a href="${this.$baseurl3}/#/i_emailto_confirm?projectLan=${this.custmoers_obj.projectLan}&signId=${this.custmoers_obj.signId}" class="button" style="text-decoration:none;">
                                 <p style='font-family: "Microsoft YaHei";padding: 14px 54px; margin: 0px; color: rgb(255, 255, 255); line-height: 1; font-size: 14px; font-weight: normal; text-decoration: none; text-transform: none;'>
                                   <span>登錄系統並確認資料</span>
                                 </p>
@@ -694,7 +684,7 @@ export default {
         this.$loading();
         this.$global
           .post_encapsulation(
-            `${this.$baseurl}/bsl_web/projectSign/sendProject4`,
+            `${this.$axios.defaults.baseURL}/bsl_web/projectSign/sendProject4`,
             {
               signId: this.$route.query.signId,
               memberEmail: this.emailadress,

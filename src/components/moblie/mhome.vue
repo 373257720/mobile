@@ -117,14 +117,13 @@
         </van-pull-refresh>
       </div>
     </div>
-    <mbottom></mbottom>
   </div>
 </template>
 <script>
-import { i18n } from "../../language";
+// import { i18n } from "../../language";
 
 let timeout;
-import { log } from "util";
+// import { log } from "util";
 export default {
   name: "mhome",
   data() {
@@ -210,10 +209,10 @@ export default {
     this.usertype = this.$store.state.currentUsertype;
     let axiosList = [
       this.$axios.get(
-        `${this.$baseurl}/bsl_web/base/getAllIndustry?X_Token=${this.$store.state.X_Token}`
+        `${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry?X_Token=${this.$store.state.X_Token}`
       ),
       this.$axios.get(
-        `${this.$baseurl}/bsl_web/base/countryList.do?X_Token=${this.$store.state.X_Token}`
+        `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do?X_Token=${this.$store.state.X_Token}`
       )
     ];
     this.$axios.all(axiosList).then(
@@ -310,7 +309,7 @@ export default {
       });
       this.countrylist_fetching = true;
       this.$global
-        .get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`, {
+        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`, {
           searchKey: val
         })
         .then(res => {
@@ -445,7 +444,7 @@ export default {
         this.refreshing = false;
       }
       this.$global
-        .get_encapsulation(`${this.$baseurl}/bsl_web/project/getAllProject`, {
+        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/project/getAllProject`, {
           searchKey: this.searchkey,
           pageIndex: this.pageNum,
           pageSize: this.loadNumUp,
@@ -884,10 +883,6 @@ export default {
     }
   }
 
-  #moblie_bottom {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-  }
+
 }
 </style>

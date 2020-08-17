@@ -4,22 +4,18 @@
     <main>
       <div class="investors_infor">
         <h2>{{title}}</h2>
-        <commoninvestors
-          v-if="$route.query.signStatus==7 || $route.query.signStatus==11    "
-          :investor_infor="investor_infor"
-        ></commoninvestors>
+        <commoninvestors v-if="$route.query.signStatus==7 || $route.query.signStatus==11    " :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
         <boxx :nav_lists="nav_lists"></boxx>
         <commondetails :toson="details_lists"></commondetails>
       </article>
     </main>
-    <!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
 export default {
-  name: "goods_details",
+  name: "p_sign_failed",
   data() {
     return {
       title: "",
@@ -112,7 +108,7 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
           projectId: details.projectId,
@@ -144,7 +140,7 @@ export default {
       this.$loading();
       var newWindow = window.open();
       this.$global
-        .get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getPdf`, {
+        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getPdf`, {
           signId: this.$route.query.signId
         })
         .then(res => {

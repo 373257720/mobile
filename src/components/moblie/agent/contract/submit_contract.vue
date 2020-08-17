@@ -12,7 +12,6 @@
         </footer>
       </article>
     </main>
-    <!--      <mbottom></mbottom>-->
   </div>
 </template>
 
@@ -247,7 +246,7 @@ export default {
         console.log(htmlstr);
         this.$global
           .post_encapsulation(
-            `${this.$baseurl}/bsl_web/projectSign/signProject4`,
+            `${this.$axios.defaults.baseURL}/bsl_web/projectSign/signProject4`,
             {
               signId: this.signId,
               projectId: this.projectId,

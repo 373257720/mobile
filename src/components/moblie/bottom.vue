@@ -30,14 +30,11 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.name);
-    
-    this.active = this.$route.name;
+    // this.active = this.$route.name;
   },
-  computed:{
-      // active:function(){
-      //       return  this.$route.name;
-      // },
+  activated() {
+    // console.log(this.$route.name)
+    this.active = this.$route.name;
   }
 };
 </script>

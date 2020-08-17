@@ -1,8 +1,9 @@
 <template>
   <div id="i_perfect_infor">
-    <nav>
+<!--    <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />{{$t('investor.CompleteMaterial')}}
-    </nav>
+    </nav> -->
+    <commonnav :msg="$t('investor.CompleteMaterial')"></commonnav>
     <main>
       <article>
         <ul>
@@ -125,7 +126,7 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
+
   </div>
 </template>
 <script>
@@ -186,7 +187,7 @@ export default {
     this.form.investorsCompanyEn=this.$store.state.inverstor.investorsCompanyEn;
     this.form.investorsName=this.$store.state.inverstor.investorsName;
     let a =this.$store.state.inverstor;
-    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/getAllIndustry`,)
+    this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry`,)
       .then(res => {
         if(res.data.resultCode==10000){
           this.title = res.data.data.projectName;
@@ -253,7 +254,7 @@ export default {
       this.region=[];
       let arr=[];
       this.countrylist_fetching=true;
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`,
+      this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
         {
           searchKey:val,
         })
@@ -314,7 +315,7 @@ export default {
       formtable.interestedIndustriesEn=interestedIndustriesEn;
       console.log(formtable);
       this.$loading();
-        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/signProject3`,
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/signProject3`,
           formtable
         )
         .then(res => {
@@ -392,6 +393,7 @@ export default {
   .van-cell {
     font-size: 0.38rem;
     padding: 0 1rem;
+	// padding: 0.3125rem 0.5rem;
     line-height: 1rem;
     // padding: 0;
   }
@@ -399,13 +401,6 @@ export default {
     font-size: 0.38rem;
     width: 100%;
     // text-align: left;
-  }
-  .van-icon-arrow-left {
-    position: absolute;
-    left: 0.6rem;
-    top: 50%;
-    -webkit-transform: translate(0, -50%);
-    transform: translate(0, -50%);
   }
   .van-dropdown-menu__item{
     border: 1px solid #ababab;
@@ -484,18 +479,6 @@ export default {
 <style lang="scss" scoped>
 #i_perfect_infor {
   width: 100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    z-index: 2017;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
     margin-top: 1.5rem;
     background: #ffffff;

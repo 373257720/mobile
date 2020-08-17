@@ -16,18 +16,6 @@
       </article>
     </main>
 
-    <!-- <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="user-scalable=yes">
-        <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-        <style>
-         
-        </style>
-
-    </head>-->
-
-    <!--      <mbottom></mbottom>-->
-    <!-- </div> -->
   </div>
 </template>
 <script>
@@ -73,7 +61,7 @@ export default {
     this.signStatu = this.$route.query.signStatus;
     this.signId = this.$route.query.signId ? this.$route.query.signId : -1;
     this.$global
-      .get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getVisitToken`, {
+      .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getVisitToken`, {
         signId: this.signId,
         signStatus: this.signStatu,
         X_Token: this.$store.state.X_Token
@@ -91,7 +79,7 @@ export default {
     get_datails() {
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+          `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
           {
             projectLan: this.$i18n.locale,
             projectId: this.projectId,
@@ -111,7 +99,7 @@ export default {
       this.$loading();
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/bsl_web/projectSign/getSignAgreement`,
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/getSignAgreement`,
           {
             signId: this.signId
           }
@@ -311,7 +299,7 @@ export default {
           duration: 0
         });
         this.$global
-          .post_encapsulation(`${this.$baseurl}/bsl_web/ipfs/update`, {
+          .post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/ipfs/update`, {
             signId: `${this.signId}`,
             projectId: this.projectId,
             signUserId1: this.signUserId1,
@@ -346,28 +334,7 @@ export default {
                 });
             }
           });
-        // .catch(err => {
-        //   this.$toast.clear();
-        //   this.$dialog
-        //     .alert({
-        //       title: this.$t("ContractWrods.UploadFailed"),
-        //       message: this.$t("projectOwner.BackToMyProject")
-        //     })
-        //     .then(() => {
-        //       this.$routerto("mysign");
-        //     });
-        // });
       });
-
-      // let node =document.createTextNode(front)
-      // htmldata.appendChild(front+this.htmlData)
-      // let deepcopy=this.$global.deepCopy(this.htmlData)
-      // htmldata.insertAdjacentHTML("beforeBegin",front);
-      // htmldata.insertAdjacentHTML("afterEnd", back);
-      // console.log(htmldata);
-
-      // let code = encodeURIComponent("#");
-      // let upload_urlpath = `${this.$baseurl3}/${code}/upload_contract?visitToken=${this.token}`;
     }
   }
 };
@@ -385,15 +352,6 @@ export default {
       transform: (translate(0, -50%));
     }
   }
-  //  .van-dialog {
-  //     font-size: 0.42rem;
-  //   }
-  //   .van-dialog__message {
-  //     font-size: 0.42rem;
-  //   }
-  //   .van-button {
-  //     font-size: 0.3rem;
-  //   }
 }
 </style>
 <style lang="scss" scoped>

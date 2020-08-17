@@ -83,7 +83,6 @@
 
       </ul>
     </main>
-    <mbottom></mbottom>
   </div>
 </template>
 <script>
@@ -106,7 +105,7 @@ export default {
   created() {
     this.radio= window.localStorage.getItem("language");
     this.$loading();
-    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getAuthDetails`).then(res=>{
+    this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/getAuthDetails`).then(res=>{
       this.$toast.clear();
       if(res.data.resultCode==10000){
            this.user_infor={};
@@ -128,7 +127,7 @@ export default {
         if (action === "confirm") {
           if(this.password1 && this.password2 ){
               if(this.password1 ===this.password2){
-                this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/updatePwd`,
+                this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/updatePwd`,
                   {newPwd:this.password1}).then(
                   res=> {
                     this.reminder=res.data.resultDesc;
@@ -161,7 +160,7 @@ export default {
     },
     changelanguage(action, done) {
       if (action === "confirm") {
-        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`,{lan:this.radio})
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/language.do`,{lan:this.radio})
           .then(res => {
          if(res.data.resultCode==10000){
            window.localStorage.setItem("language",this.radio);
@@ -185,7 +184,7 @@ export default {
       // console.log(this.$dialog);
       this.logout = !this.logout;
       if (num == 1) {
-        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/logOut`).then(res => {
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/logOut`).then(res => {
           console.log(res);
           if (res.data.resultCode == 10000) {
             this.$store.dispatch("reset_actions",this.$restore_obj)
@@ -201,14 +200,28 @@ export default {
 };
 </script>
 <style lang="scss">
-#mine {
-  .van-overlay{
-  // background-color:black;
-  // opacity: 0.7;
-}
-  .van-dialog {
-    font-size: 0.4rem;
+  /*van-fade-enter-active*/
+  /*van-fade-enter-to*/
+  #mine {
+  .van-overlay {
+    // opacity: 0.5;
+    background-color: rgba(0,0,0,.7)
+    /*background-color: black;*/
   }
+  
+  .van-fade-leave-active{
+    /*webkit-animation:none;*/
+    animation: none;
+  }
+  .van-fade-enter-active{
+    /*webkit-animation:none;*/
+    animation: none;
+  }
+  /*.van-dialog {*/
+  /*  font-size: 0.4rem;*/
+  /*  transition-property: transform,-webkit-transform;*/
+  /*}*/
+
   section .van-dialog {
     .van-dialog__header{
       padding-top: 0;

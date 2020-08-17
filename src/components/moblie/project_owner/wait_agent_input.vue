@@ -46,12 +46,11 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
   export default {
-    name: "goods_details",
+    name: "p_wait_agent_input",
     data() {
       return {
         title: "",
@@ -177,7 +176,7 @@
       this.$loading();
       this.$global
         .goods_deatails(
-          `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+          `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
           "get",
           {
             projectId:details.projectId,
@@ -205,32 +204,11 @@
         });
     },
     methods: {
-      //   cancel() {
-      //   this.show2 = false;
-      // },
-      daship() {
-        var newWindow = window.open();
-        newWindow.location.href = "http://www.wearetechman.com:5001/webui";
-        // tempwindow.location=hash_id;
-      },
       // 点击事件
-      share(val) {
-        console.log(val);
-        this.message = val;
-        this.$copyText(this.message).then(
-          e => {
-            this.show = true;
-          },
-          function(e) {
-            // alert("Can not copy");
-            console.log(e);
-          }
-        );
-      },
       check_contract() {
         this.$loading();
         var newWindow = window.open();
-        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getPdf`,
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getPdf`,
           {
             signId:this.$route.query.signId,
           })

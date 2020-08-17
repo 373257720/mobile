@@ -1,8 +1,9 @@
 <template>
   <div id="i_inverstor_infor">
-    <nav>
+<!--    <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />{{$t('investor.InformationOfContractedInvestors')}}
-    </nav>
+    </nav> -->
+    <commonnav :msg="$t('investor.InformationOfContractedInvestors')"></commonnav>
     <main>
       <!-- <aside>
         <img src="../../assets/26566ffb301dac8c24d21969b538612.png" alt />
@@ -21,7 +22,6 @@
         </ul>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -71,7 +71,7 @@ export default {
   },
   created() {
     this.$loading();
-      this.$global.get_encapsulation( `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail`,
+      this.$global.get_encapsulation( `${this.$axios.defaults.baseURL}/bsl_web/projectSign/getInvestorsDetail`,
         {
           investorsId:this.$route.query.investorsId,
         })
@@ -80,36 +80,34 @@ export default {
       for (var i in res.data.data) {
         for (var j = 0; j < this.details_lists.length; j++) {
           if (this.details_lists[j].keyword == i) {
-            if(i=='interestedIndustries'){
-              if(res.data.data.lan=='zh_CN'){
-                this.details_lists[j].response = res.data.data.interestedIndustries|| '-';
-              }else {
-                this.details_lists[j].response = res.data.data.interestedIndustriesEn|| '-';
-              }
-            }
-           else if(i=='investorsArea'){
-              if(res.data.data.lan=='zh_CN'){
-                this.details_lists[j].response = res.data.data.investorsArea|| '-';
-              }else {
-                this.details_lists[j].response = res.data.data.investorsAreaEn|| '-';
-              }
-            }
-            else if(i=='investorsCompany'){
-              if(res.data.data.lan=='zh_CN'){
-                this.details_lists[j].response = res.data.data.investorsCompany|| '-';
-              }else {
-                this.details_lists[j].response = res.data.data.investorsCompanyEn|| '-';
-              }
-            }
-            else if(i=='investorsCompanyAddress'){
-              if(res.data.data.lan=='zh_CN'){
-                this.details_lists[j].response = res.data.data.investorsCompanyAddress || '-';
-              }else {
-                this.details_lists[j].response = res.data.data.investorsCompanyAddressEn|| '-';
-              }
-            }else {
-              this.details_lists[j].response = res.data.data[i] || '-';
-            }
+						
+						if(res.data.data.lan=='zh_CN'){
+							  if(i=='interestedIndustries'){
+								  this.details_lists[j].response = res.data.data.interestedIndustries || '-';
+							  }else if(i=='investorsArea'){
+								   this.details_lists[j].response = res.data.data.investorsArea || '-';;
+							  }  else if(i=='investorsCompany'){
+								this.details_lists[j].response = res.data.data.investorsCompany || '-';;
+									}  else if(i=='investorsCompanyAddress'){
+										   this.details_lists[j].response = res.data.data.investorsCompanyAddress || '-';;
+									}else{
+										 this.details_lists[j].response = res.data.data[i] || '-';
+									}
+						}else {
+							  if(i=='interestedIndustries'){
+							   this.details_lists[j].response = res.data.data.interestedIndustriesEn || '-';;
+							  }else if(i=='investorsArea'){
+								 this.details_lists[j].response = res.data.data.investorsAreaEn || '-';;
+							  }else if(i=='investorsCompany'){
+								this.details_lists[j].response = res.data.data.investorsCompanyEn || '-';;
+							}else if(i=='investorsCompanyAddress'){
+							 this.details_lists[j].response = res.data.data.investorsCompanyAddressEn || '-';;
+							}else{
+							 this.details_lists[j].response = res.data.data[i] || '-';
+								}
+										    
+						}
+						
 
           }
         }
@@ -122,33 +120,11 @@ export default {
 </script>
 <style lang="scss">
 #i_inverstor_infor {
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      // line-height: 1rem;
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
 }
 </style>
 <style lang="scss" scoped>
 #i_inverstor_infor {
   width: 100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    color:#333;
-    font-size: 0.46rem;
-    // background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
     padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;

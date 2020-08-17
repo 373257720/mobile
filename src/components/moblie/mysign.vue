@@ -77,7 +77,6 @@
         </ul>
       </van-list>
     </van-pull-refresh>
-    <mbottom></mbottom>
   </div>
 </template>
 <script>
@@ -205,9 +204,29 @@ export default {
         // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
         // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
         // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
-        if (this.usertype == 1) {
+        if (this.usertype == 1 || this.usertype == 4) {
           this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
-        } else if (this.usertype == 4) {
+        } else if (this.usertype == 3) {
+          this.result = [9, 10, 11];
+        }
+      }
+    }
+  },
+  activated() {
+    if (this.$route.query.projectId) {
+      let arr = JSON.parse(this.$route.query.array);
+      if (arr.length > 0) {
+        this.result = [...arr];
+      }
+    } else {
+      if (this.$store.state.genre.length > 0) {
+        this.result = [...this.$store.state.genre];
+      } else {
+        // 1投行（项目方），3投资者，4投资中间人
+        // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
+        // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
+        // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
+        if (this.usertype == 1 || this.usertype == 4) {
           this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
         } else if (this.usertype == 3) {
           this.result = [9, 10, 11];
@@ -462,7 +481,7 @@ export default {
       }
       // this.$axios({
       //   method: "post",
-      //   url: `${this.$baseurl}/bsl_web/projectSign/project`,
+      //   url: `${this.$axios.defaults.baseURL}/bsl_web/projectSign/project`,
       //   data: this.$qs.stringify(
       //     {
       //       projectId: this.$route.query.projectId,
@@ -480,7 +499,7 @@ export default {
       // console.log(result);
 
       this.$global
-        .post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/project`, {
+        .post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/project`, {
           projectId: this.$route.query.projectId,
           signStatusList: this.result,
           pageIndex: this.pageNum,
@@ -731,6 +750,7 @@ export default {
       // line-height: 0.6rem;
       /*position: relative;*/
       display: flex;
+      letter-spacing: 0.02rem;
       /*word-break: break-all;*/
       margin: 0 0.54rem;
       padding: 0.3rem 0;

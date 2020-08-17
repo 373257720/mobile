@@ -15,14 +15,13 @@
         </footer>
       </article>
     </main>
-    <!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
-import router from "../../../router";
+  import router from "../../../router";
 
 export default {
-  name: "goods_details",
+  name: "a_wait_signed",
   data() {
     return {
       title: "",
@@ -115,7 +114,7 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
           projectId: this.details.projectId,

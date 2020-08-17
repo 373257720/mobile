@@ -1,29 +1,28 @@
 
 <template>
   <div id="p_submit_contract">
-      <nav class="p_submit_contract">
+    <!--    <nav class="p_submit_contract">
         <van-icon name="arrow-left" @click="$router.go(-1)" />{{$t('agent.SignTheContract')}}
-      </nav>
-      <main>
-        <article>
-          <contractcomponent :contract="contract"></contractcomponent>
-          <footer>
-            <button @click="contract_submit">{{$t('common.Submit')}}</button>
-          </footer>
-        </article>
-      </main>
-      <!-- <mbottom></mbottom> -->
-
+    </nav>-->
+    <commonnav :msg="$t('agent.SignTheContract')"></commonnav>
+    <main>
+      <article>
+        <contractcomponent :contract="contract"></contractcomponent>
+        <footer>
+          <button @click="contract_submit">{{$t('common.Submit')}}</button>
+        </footer>
+      </article>
+    </main>
   </div>
 </template>
 <script>
 export default {
   name: "goods_details",
-  props:['contract'],
+  props: ["contract"],
   data() {
     return {
-      projectId:'',
-      signId:'',
+      projectId: "",
+      signId: ""
     };
   },
   // beforeRouteEnter:(to,from,next)=>{
@@ -36,7 +35,6 @@ export default {
   //     //     alert(vm.num)
   //     // })
   // },
-
   computed: {
   },
   mounted() {
@@ -63,7 +61,7 @@ export default {
       console.log(this.contract);
       this.$loading();
       if(projectId){
-      this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,{
+      this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/reviewInterestedRequest`,{
         projectId: projectId,
         signId: signId,
         signStatus: 2,
@@ -110,63 +108,40 @@ export default {
 </script>
 <style lang="scss">
 #p_submit_contract {
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
-  .van-field__control{
+  .van-field__control {
     min-height: 4rem;
   }
-  .van-cell{
+  .van-cell {
     padding: 0;
   }
   .van-dialog {
-  font-size: 0.48rem;
+    font-size: 0.48rem;
+  }
+  .van-dialog__message {
+    font-size: 0.4rem;
+  }
+  .van-button {
+    font-size: 0.48rem;
+  }
 }
-.van-dialog__message {
-  font-size: 0.4rem;
-}
-.van-button {
-  font-size: 0.48rem;
-}
-}
-
 </style>
 <style lang="scss" scoped>
- #p_submit_contract {
+#p_submit_contract {
+  width: 100%;
+  height: 100%;
+  padding: 1.6rem 0 1.3rem 0;
+  div.middle {
+    /*margin: 0 0.5rem;*/
+    box-sizing: border-box;
+  }
+  main {
+    // margin-top: 1.5rem;
+    // margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    height: 100%;
     width: 100%;
-      height: 100%;
-    padding: 1.5rem 0 1.3rem 0;
-    nav.p_submit_contract{
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      line-height: 1.5rem;
-      height: 1.5rem;
-      position: fixed;
-      top: 0;
-      z-index: 5;
-      font-size: 0.46rem;
-      background: white;
-      border-bottom: 0.1rem solid #b5b5b5;
-    }
-    div.middle {
-      /*margin: 0 0.5rem;*/
-      box-sizing: border-box;
-    }
-    main {
-      // margin-top: 1.5rem;
-      // margin-bottom: 1.5rem;
-      padding: 0.5rem;
-      height: 100%;
-      width: 100%;
-      background: #ffffff;
-      article{
+    background: #ffffff;
+    article {
       height: 100%;
       display: flex;
       flex-direction: column;

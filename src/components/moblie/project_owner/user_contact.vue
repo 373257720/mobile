@@ -32,7 +32,7 @@
         </li>
       </ul>
     <div v-else-if="arr.length<1" class="nodata">{{$t('common.NoMore')}}</div>
-    <mbottom></mbottom>
+
   </div>
 </template>
 <script>
@@ -63,11 +63,12 @@ export default {
   },
   methods: {
     onSearch() {
-      console.log(this.searchkey);
+      // console.log(this.searchkey);
+	  this.onLoad() ;
     },
     onLoad() {
       this.$loading();
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getRelationUser`,{
+      this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/getRelationUser`,{
         searchKey:this.searchkey
       })
         .then(res => {
@@ -89,9 +90,13 @@ export default {
     // padding: 0.2rem 0.2rem;
     // background: #1F2652;
   }
+.van-icon-clear{
+          padding-right: 0.5rem;
+      }
   .van-search__content--round{
     border:1px solid #ccc;
   }
+  
   .van-search__action {
     // font-size: 0.3rem;
     // line-height: 0.5rem;
@@ -151,7 +156,6 @@ export default {
   }
   header {
     position: relative;
-
     .van-icon-arrow-left {
       // line-height: 1rem;
       position: absolute;
@@ -184,9 +188,10 @@ export default {
   nav {
     width: 100%;
     text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
+    line-height: 1.6rem;
+    height: 1.6rem;
     position: fixed;
+	font-weight: bold;
     top: 0;
     z-index: 5;
     font-size: 0.46rem;

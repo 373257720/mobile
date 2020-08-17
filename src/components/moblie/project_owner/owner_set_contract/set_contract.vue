@@ -1,9 +1,9 @@
 <template>
   <div id="p_set_contract">
-    <nav>
-      <van-icon name="arrow-left" @click="$router.go(-1)" />
-      {{$t('agent.SignTheContract')}}
-    </nav>
+    <!--   <nav>
+      <van-icon name="arrow-left" @click="$router.go(-1)" />{{$t('agent.SignTheContract')}}
+    </nav>-->
+    <!-- <commonnav :msg="$t('agent.SignTheContract')"></commonnav> -->
     <main>
       <article>
         <div class="sub_title">
@@ -66,7 +66,6 @@
         </footer>
       </article>
     </main>
-    <!-- <mbottom></mbottom> -->
   </div>
 </template>
 <script>
@@ -248,13 +247,25 @@ export default {
 };
 </script>
 <style lang="scss">
+.divider {
+  line-height: 1.5rem;
+  height: 1px;
+  // position: relative;
+  background: black;
+  // border-bottom: 1px solid black;
+  margin: 0.5rem 0;
+}
+// .divider::before{
+//     content:"";
+//     position:absolute;
+//     height: 1px;
+//     top:50%;
+//     transform: translateY(-50%);
+//     width: 100%;
+//     background: #555;
 
+// }
 #p_set_contract {
-  .divider{
-    // margin: 1rem 0;
-    // height: 5px;
-    // border-bottom:1px solid; 
-  }
   .van-field__control {
     box-sizing: border-box;
     border-radius: 3px;
@@ -289,17 +300,9 @@ export default {
   div.ql-editor.ql-blank {
     height: 12rem;
   }
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
+
   .van-hairline--top-bottom::after {
-    // border: 0.02rem solid #8e8e8e;
+    border: 0.02rem solid #8e8e8e;
   }
   .van-field {
     // background: #f2f2f2;
@@ -309,20 +312,9 @@ export default {
 <style lang="scss" scoped>
 #p_set_contract {
   width: 100%;
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    z-index: 5;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
+
   main {
-    margin-top: 1.5rem;
+    // margin-top: 1.5rem;
     margin-bottom: 1.3rem;
     padding: 0.5rem;
     background: #ffffff;

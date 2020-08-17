@@ -84,7 +84,7 @@ export default {
         language = "en_US";
       }
       this.$global
-        .get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`, {
+        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/language.do`, {
           lan: language
         })
         .then(res => {
@@ -108,7 +108,7 @@ export default {
       if (this.username && this.password) {
         this.$loading();
         this.$global
-          .post_encapsulation(`${this.$baseurl}/bsl_web/user/login.do`, {
+          .post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/login.do`, {
             bslEmail: this.username,
             bslPwd: this.password
           })

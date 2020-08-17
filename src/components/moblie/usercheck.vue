@@ -219,7 +219,7 @@ export default {
     this.ulHtml("");
     this.$loading();
     this.$global
-      .get_encapsulation(`${this.$baseurl}/bsl_web/user/getUserDetail`)
+      .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/getUserDetail`)
       .then(res => {
         this.$toast.clear();
         if (res.data.resultCode == 10000) {
@@ -304,7 +304,7 @@ export default {
       let arr = [];
       this.coutry_fetching = true;
       this.$global
-        .get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`, {
+        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`, {
           searchKey: val
         })
         .then(res => {
@@ -411,11 +411,13 @@ export default {
       let formData = new FormData();
       formData.append("file", file);
       formData.append("X_Token", this.$store.state.X_Token);
+      console.log(formData);
+
       this.$loading();
       return new Promise((resolve, reject) => {
         this.$axios({
           method: "post",
-          url: `${this.$baseurl}/bsl_web/upload/pic`,
+          url: `${this.$axios.defaults.baseURL}/bsl_web/upload/pic`,
           data: formData,
           headers: {
             "Content-Type": "multipart/form-data"
@@ -426,12 +428,14 @@ export default {
           if (res.data.resultCode == 10000) {
             let imgurl = res.data.data.url;
             let urlBase = res.data.data.urlBase;
-            console.log(urlBase + imgurl);
+            // console.log(urlBase + imgurl);
             if (index == 1) {
-              (this.fileList_front = []), (this.form.identityPicOne = imgurl);
+              this.fileList_front = [];
+              this.form.identityPicOne = imgurl;
               this.fileList_front.push({ url: urlBase + imgurl });
             } else if (index == 2) {
-              (this.fileList_back = []), (this.form.fileList_back = imgurl);
+              this.fileList_back = [];
+              this.form.fileList_back = imgurl;
               this.fileList_company.push({ url: urlBase + imgurl });
             } else if (index == 3) {
               this.fileList_company = [];
@@ -444,15 +448,11 @@ export default {
             reject(res.data.resultDesc);
           }
         });
-        // .catch(err => {
-        //   // this.$toast("系统异常");
-        //   reject(err);
-        // });
       });
       // return true;
       // this.$axios({
       //   method: "post",
-      //   url: `${this.$baseurl}/bsl_web/upload/pic.do`,
+      //   url: `${this.$axios.defaults.baseURL}/bsl_web/upload/pic.do`,
       //   data: formData,
       //   headers: {
       //     "Content-Type": "multipart/form-data"
@@ -936,7 +936,7 @@ export default {
       this.$loading();
       this.$global
         .post_encapsulation(
-          `${this.$baseurl}/bsl_web/user/submitAuth`,
+          `${this.$axios.defaults.baseURL}/bsl_web/user/submitAuth`,
           this.form
         )
         .then(res => {

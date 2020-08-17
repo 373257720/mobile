@@ -17,7 +17,6 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -122,7 +121,7 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
           projectId:details.projectId,
@@ -144,7 +143,7 @@ export default {
     check_contract() {
       this.$loading();
       var newWindow = window.open();
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getPdf`,{
+      this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getPdf`,{
         signId:this.$route.query.signId,
       }).then(res => {
         this.$toast.clear();

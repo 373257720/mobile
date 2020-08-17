@@ -1,13 +1,14 @@
 <template>
   <div id="a_check_contract">
-    <nav>
+    <!--   <nav>
       <van-icon name="arrow-left" @click="$global.previous()" />{{$t("agent.SignTheContract")}}
-    </nav>
+    </nav>-->
+    <commonnav :msg="$t('agent.SignTheContract')"></commonnav>
     <main>
       <article>
         <div class="sub_title">
           <header>For and on behalf of:</header>
-          <div >
+          <div>
             <van-field
               v-model="contract.agent_behalf"
               autosize
@@ -20,8 +21,8 @@
         </div>
         <div class="sub_title">
           <header>Name:</header>
-          <div >
-             <van-field
+          <div>
+            <van-field
               v-model="contract.agent_name"
               autosize
               maxlength="30"
@@ -34,7 +35,7 @@
         <div class="sub_title">
           <header>Title:</header>
           <div>
-               <van-field
+            <van-field
               v-model="contract.agent_title"
               autosize
               maxlength="30"
@@ -47,7 +48,7 @@
         <div class="sub_title">
           <header>Contract:</header>
           <div class="dad_contract">
-                  <contractcomponent :contract="contract"></contractcomponent>
+            <contractcomponent :contract="contract"></contractcomponent>
           </div>
         </div>
 
@@ -56,13 +57,12 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
 export default {
   name: "a_check_contract",
-  props:['contract'],
+  props: ["contract"],
   data() {
     return {
       // contract: {
@@ -81,52 +81,41 @@ export default {
   },
   created() {
     console.log(this.contract);
-
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
-      confirm(){
-          if(this.contract.agent_behalf==''){
-            this.$toast(this.$t('ContractWrods.PleaseEnterRepresentativeRights'))
-            return
-          }else if(this.contract.agent_name==''){
-            this.$toast(this.$t('ContractWrods.PleaseEnterName'))
-            return;
-          }else if(this.contract.agent_title==''){
-            this.$toast(this.$t('ContractWrods.PleaseEnterTheTitle'))
-            return;
-          }
-          // this.$emit("update:contract")
-          this.$routerto('a_sign_contract',this.$route.query)
+    confirm() {
+      if (this.contract.agent_behalf == "") {
+        this.$toast(this.$t("ContractWrods.PleaseEnterRepresentativeRights"));
+        return;
+      } else if (this.contract.agent_name == "") {
+        this.$toast(this.$t("ContractWrods.PleaseEnterName"));
+        return;
+      } else if (this.contract.agent_title == "") {
+        this.$toast(this.$t("ContractWrods.PleaseEnterTheTitle"));
+        return;
       }
+      // this.$emit("update:contract")
+      this.$routerto("a_sign_contract", this.$route.query);
+    }
   }
 };
 </script>
 <style lang="scss">
 #a_check_contract {
-  .van-field__control{
+  .van-field__control {
     box-sizing: border-box;
     font-size: 0.38rem;
     line-height: 1rem;
-        background: #f6f6f6;
-        // color: rgba(0, 0, 0, 0.65);
-    padding:0.1rem 0.2rem;
+    background: #f6f6f6;
+    // color: rgba(0, 0, 0, 0.65);
+    padding: 0.1rem 0.2rem;
     border-radius: 3px;
     height: 1rem;
     width: 100%;
     border: 1px solid #a9a9a9;
   }
-  nav {
-    position: relative;
-    .van-icon-arrow-left {
-      position: absolute;
-      left: 0.6rem;
-      top: 50%;
-      transform: (translate(0, -50%));
-    }
-  }
-  .van-cell{
+  .van-cell {
     padding: 0;
   }
   .van-hairline--top-bottom::after {
@@ -141,34 +130,21 @@ export default {
 #a_check_contract {
   width: 100%;
   height: 100%;
-
-  nav {
-    width: 100%;
-    text-align: center;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    position: fixed;
-    top: 0;
-    z-index: 5;
-    font-size: 0.46rem;
-    background: white;
-    border-bottom: 0.1rem solid #b5b5b5;
-  }
   main {
     /*margin-top: 1.5rem;*/
     /*margin-bottom: 1.5rem;*/
     padding: 1.5rem 0;
     background: #ffffff;
-    article{
+    article {
       padding: 0.5rem;
     }
-    .sub_title{
+    .sub_title {
       // margin-bottom:0.5rem;
-      header{
+      header {
         font-size: 0.42rem;
         font-weight: 600;
       }
-      input{
+      input {
         box-sizing: border-box;
         font-size: 0.38rem;
         line-height: 1rem;
@@ -179,8 +155,8 @@ export default {
         border: 1px solid rgb(169, 169, 169);
       }
     }
-    div.dad_contract{
-        height: 15rem;
+    div.dad_contract {
+      height: 15rem;
     }
     footer {
       width: 100%;
@@ -195,7 +171,7 @@ export default {
         color: white;
         height: 1rem;
         width: 8rem;
-        border-radius:5px;
+        border-radius: 5px;
       }
     }
   }

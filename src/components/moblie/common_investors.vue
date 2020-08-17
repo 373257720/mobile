@@ -60,9 +60,12 @@ export default {
 #common_investors {
   ul {
     padding: 0.1rem 0.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
     li {
       > div {
-        margin-bottom: 0.1rem;
+        // margin-bottom: 0.1rem;
         display: flex;
         align-items: baseline;
         font-size: 0.42rem;

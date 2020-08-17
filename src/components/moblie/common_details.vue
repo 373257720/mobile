@@ -119,8 +119,8 @@
 
 							.row2 {
 								color: #787878;
-                white-space: pre-wrap;
-                word-wrap:break-word;
+								white-space: pre-wrap;
+								word-wrap:break-word;
 								/* css-3 */
 								white-space: -moz-pre-wrap;
 								/* Mozilla, since 1999 */

@@ -12,6 +12,11 @@
                   <van-dropdown-item @change="cleanall" v-model="form.investorsType" :options="investors_type" />
                 </van-dropdown-menu>
               </van-cell-group>
+	<!-- 	 <a-select :default-value="1" @change="handleChange1">
+			<a-select-option v-for="item in investors_type" :value="item.value" :key='item.value'>
+				{{item.text}}
+			</a-select-option>
+		  </a-select> -->
             </p>
           </li>
           <li class="investorsArea">
@@ -66,7 +71,6 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -110,17 +114,25 @@ export default {
   },
 
   created() {
-    this.form.projectId = this.$route.query.projectId?this.$route.query.projectId:"";
-    this.form.signId= this.$route.query.projectId?this.$route.query.signId:-1;
-    this.form.signStatus=this.$route.query.signStatus>=5?5:this.$route.query.signStatus;
-    this.form.signUserId1=this.$route.query.signUserId1?this.$route.query.signUserId1:'';
     // console.log(this.form.signUserId1?1:2)
     this.ulHtml('');
   },
   computed: {
 
   },
+  activated() {
+  	this.form.projectId = this.$route.query.projectId?this.$route.query.projectId:"";
+  	this.form.signId= this.$route.query.projectId?this.$route.query.signId:-1;
+  	this.form.signStatus=this.$route.query.signStatus>=5?5:this.$route.query.signStatus;
+  	this.form.signUserId1=this.$route.query.signUserId1?this.$route.query.signUserId1:'';
+  },
   methods: {
+	  handleChange1(value){
+		  this.form.investorsType=value;
+		  // console.log()
+		  
+		  
+	  },
    search(val){
     if (timeout) {
           clearTimeout(timeout);
@@ -136,14 +148,14 @@ export default {
       this.countrylist_fetching = false;
       // console.log(this.form)
     },
-    cleanall(	value){
+    cleanall(value){
         this.form.investorsCompany='';
     },
     ulHtml(val){
       this.region=[];
       let arr=[];
       this.countrylist_fetching=true;
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`,
+      this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
         {
           searchKey:val,
         }
@@ -208,7 +220,7 @@ export default {
         })
         .then(() => {
           this.$loading()
-           this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/submitInvestors`,
+           this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/submitInvestors`,
              this.form)
             .then(res => {
               this.$toast.clear();
@@ -255,7 +267,6 @@ export default {
     }
    .ant-select-selection--single{
      height:100%;
-
    }
    .ant-select-selection__rendered{
      height: 100%;
