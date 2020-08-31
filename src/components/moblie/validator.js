@@ -52,9 +52,7 @@ class validator {
       cb = data;
       d = callback;
     }
-
     let _d = d;
-
     if (this.data) {
       if (!d) {
         _d = this.data;
@@ -68,7 +66,6 @@ class validator {
         })
       }
     }
-
     const err = [];
 
     if (_d) {
@@ -89,6 +86,7 @@ class validator {
 
   }
 }
+
 
 export default function (rules, data) {
   return new validator(rules, data)

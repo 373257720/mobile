@@ -34,7 +34,6 @@ export default {
 };
 </script>
 <style lang="scss">
-
 #p_sign_contract {
   nav {
     position: relative;
@@ -57,7 +56,6 @@ export default {
 // }
 </style>
 <style lang="scss" scoped>
-
 #p_sign_contract {
   width: 100%;
   nav {

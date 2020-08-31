@@ -1,10 +1,9 @@
 <template>
-  <div id="app" v-if="isRouterAlive">
-    <keep-alive include="mhome,mine,userpass,p_user_contact">
+  <div id="app">
+    <keep-alive include="mhome,mine,mysign,userpass">
       <router-view></router-view>
     </keep-alive>
-
-    <!--    <router-view />-->
+    <mbottom v-if="$route.meta.isshowbottom"></mbottom>
   </div>
 </template>
 <script>
@@ -13,29 +12,14 @@ export default {
   name: "App",
   watch: {
     $route: function(to, from) {
+      console.log(this.$route);
+
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     }
   },
-  data() {
-    return {
-      isRouterAlive: true
-    };
-  },
-  provide() {
-    return {
-      reload: this.reload
-    };
-  },
   created() {
-    // console.log(1)
-    // function lockOrientation(){
-    // 	window.screen.lockOrientation("landscape-primary");
-    // };
-    // lockOrientation();
-    // window.screen.lockOrientation("landscape-primary");
     //在页面加载时读取sessionStorage里的状态信息
-    // console.log(sessionStorage.getItem("test"))
     if (sessionStorage.getItem("store")) {
       this.$store.replaceState(
         Object.assign(
@@ -50,72 +34,45 @@ export default {
     });
   },
   mounted() {
-    // plus.screen.lockOrientation("landscape-primary");
-    // plus.screen.lockOrientation( 'portrait-primary')
-  },
-  methods: {
-    reload() {
-      this.isRouterAlive = false;
-      this.$nextTick(function() {
-        this.isRouterAlive = true;
-      });
-    }
+    // console.log("7-13更新");
   }
 };
 </script>
 
 <style lang="scss">
+// rem 单位换算：定为 75px 只是方便运算，750px-75px、640-64px、1080px-108px，如此类推
+$vm_fontsize: 75; // iPhone 6尺寸的根元素大小基准值
+@function pxtorem($px) {
+     @return ($px / $vm_fontsize ) * 1rem;
+}
+
+
+
 #app {
   height: 100%;
   width: 100%;
+  // rem 单位换算：定为 75px 只是方便运算，750px-75px、640-64px、1080px-108px，如此类推
+
   .van-dropdown-menu__bar {
     height: 100%;
     background: none;
     box-shadow: initial;
   }
-  /* overflow: hidden; */
-  /* background: #EEEEEE;  */
-  /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
-  /* -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
 
-  /* text-align: center;
-  color: #2c3e50;
-  margin-top: 60px; */
+  div.loading {
+    // background: none;
+  }
+  .van-dialog {
+  }
 }
-
-
-
-.van-overlay {
-  /* background-color: white; */
-  /* opacity: 0.5; */
-  /*transition-property:*/
-}
-
-.van-tabbar-item--active {
-  color: #00adef;
-}
-
-div.loading {
-  background: none;
-}
-
-.van-dialog {
-  /* border: 1px solid; */
-}
-
-/*.van-dialog__message {*/
-/*  font-size: 0.4375rem;*/
-/*}*/
-/*.van-button {*/
-/*  !*font-size: 0.48rem;*!*/
-/*}*/
-/*.van-dialog{*/
-/*    font-size: 0.5rem;*/
-
-/*  }*/
-
-.van-toast__loading {
-  /* color:#00adef; */
-}
+// .van-toast {
+//   background: none;
+// }
+// .van-overlay{
+//     background: white;
+//     opacity: 0.6;
+// }
+// .van-toast__loading{
+//   color: #1989fa;
+// }
 </style>

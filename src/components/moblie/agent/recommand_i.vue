@@ -7,7 +7,7 @@
           <li class="identity">
             <p class="row1 must">{{$t('agent.InvestorType')}}:</p>
             <p class="row2">
-             <van-cell-group>
+              <van-cell-group>
                 <van-dropdown-menu >
                   <van-dropdown-item @change="cleanall" v-model="form.investorsType" :options="investors_type" />
                 </van-dropdown-menu>
@@ -28,7 +28,7 @@
                 :placeholder="$t('ContractWrods.pleaseEnter')"
                 :defaultActiveFirstOption="false"
                 :getPopupContainer="triggerNode => triggerNode.parentNode"
-				:showArrow="false"
+                :showArrow="false"
                 :filterOption="false"
                 @change="handleChange"
                 @search='search'
@@ -43,8 +43,7 @@
           <li class="investorsCompany" v-show="form.investorsType==2">
             <p class="row1 must">Investor company:</p>
             <p class="row2">
-			<!-- <a-input  v-model="form.investorsCompanyEn" :placeholder="$t('ContractWrods.pleaseEnter')"/> -->
-             <van-cell-group>
+              <van-cell-group>
                 <van-field  v-model="form.investorsCompanyEn" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
             </p>
@@ -52,19 +51,17 @@
           <li class="investorsCompany" v-show="form.investorsType==2">
             <p class="row1">投资者公司(中文):</p>
             <p class="row2 ">
-             <van-cell-group>
+              <van-cell-group>
                 <van-field  v-model="form.investorsCompany" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
-			  <!-- <a-input  v-model="form.investorsCompany" :placeholder="$t('ContractWrods.pleaseEnter')"/> -->
             </p>
           </li>
           <li class="investorsName">
             <p class="row1 must">{{$t('agent.InvestorName')}}:</p>
             <p class="row2">
-             <van-cell-group>
+              <van-cell-group>
                 <van-field v-model="form.investorsName" :placeholder="$t('ContractWrods.pleaseEnter')" />
               </van-cell-group>
-			   <!-- <a-input :placeholder="$t('ContractWrods.pleaseEnter')"  v-model="form.investorsName"/> -->
             </p>
           </li>
 
@@ -74,7 +71,6 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -88,8 +84,7 @@ export default {
   data() {
     return {
       countrylist_fetching:false,
-      investors_type: [{ text:  this.$t('common.individual'), value: 1 }, 
-	  { text: this.$t('common.company'), value: 2 }],
+      investors_type: [{ text:  this.$t('common.individual'), value: 1 }, { text: this.$t('common.company'), value: 2 }],
       dad_text:  this.$t('agent.RecommendInvestors'),
       title: "",
       region: [
@@ -119,7 +114,6 @@ export default {
   },
 
   created() {
- 
     // console.log(this.form.signUserId1?1:2)
     this.ulHtml('');
   },
@@ -161,7 +155,7 @@ export default {
       this.region=[];
       let arr=[];
       this.countrylist_fetching=true;
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`,
+      this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
         {
           searchKey:val,
         }
@@ -226,7 +220,7 @@ export default {
         })
         .then(() => {
           this.$loading()
-           this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/submitInvestors`,
+           this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/submitInvestors`,
              this.form)
             .then(res => {
               this.$toast.clear();

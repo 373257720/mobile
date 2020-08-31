@@ -16,7 +16,6 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -101,10 +100,6 @@ export default {
           name: this.$t('common.ProjectDetails'),
           response: ""
         },
-		potentialInvestorsTags:{
-			name: this.$t('common.potentialInvestors'),
-			response: ""
-		}	
       },
     };
   },
@@ -113,7 +108,7 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
           projectId:details.projectId,
@@ -164,7 +159,6 @@ export default {
       box-sizing: border-box;
     }
   }
-
 }
 </style>
 <style lang="scss" scoped>

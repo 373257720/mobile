@@ -76,7 +76,7 @@ export default {
 
   created() {
     this.$loading();
-    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getSignAgreement.do`,
+    this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getSignAgreement.do`,
       {
         visitToken:this.$route.query.visitToken,
       })

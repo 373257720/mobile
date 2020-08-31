@@ -10,7 +10,6 @@
         <contractcomponent v-if="watch" :contract="contract"></contractcomponent>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -43,7 +42,7 @@ export default {
   methods: {
   get_contract(){
     this.$loading();
-    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getSignAgreement`,
+    this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getSignAgreement`,
       {
         signId:this.$route.query.signId})
       .then(res => {
@@ -65,7 +64,6 @@ export default {
 </script>
 <style lang="scss">
 #p_check_contract {
-
   .van-hairline--top-bottom::after {
     border: 0.02rem solid #8e8e8e;
   }

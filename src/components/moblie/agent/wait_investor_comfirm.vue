@@ -8,7 +8,7 @@
       <div class="investors_infor">
         <h2>{{title}}</h2>
         <!-- <header>投资者资料</header> -->
-          <commoninvestors :investor_infor="investor_infor"></commoninvestors>
+        <commoninvestors :investor_infor="investor_infor"></commoninvestors>
       </div>
       <article>
         <!-- <header>项目详情</header> -->
@@ -22,7 +22,6 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -32,108 +31,108 @@ export default {
     return {
       title: "",
       details: {},
-      dad_text:this.$t('agent.ProjectsToBeConfirmedByInvestors'),
+      dad_text: this.$t("agent.ProjectsToBeConfirmedByInvestors"),
       nav_lists: {
         financingStage: {
-          name: this.$t('agent.FinancingStage'),
+          name: this.$t("agent.FinancingStage"),
           response: ""
         },
         committedCount: {
-          name: this.$t('agent.NumberOfinvestorsHaveSubmitted'),
+          name: this.$t("agent.NumberOfinvestorsHaveSubmitted"),
           response: ""
         },
         interestProjectCount: {
-          name: this.$t('agent.Numberofprojectsinterested'),
+          name: this.$t("agent.Numberofprojectsinterested"),
           response: ""
-        },
+        }
       },
       details_lists: {
         projectIndustry: {
-          name:this.$t('common.Industry'),
+          name: this.$t("common.Industry"),
           response: ""
         },
         projectArea: {
-          name: this.$t('common.region'),
+          name: this.$t("common.region"),
           response: ""
         },
         projectCompany: {
-          name: this.$t('common.CompanyName'),
+          name: this.$t("common.CompanyName"),
           response: ""
         },
         currencyType: {
-          name:this.$t('common.Currency'),
+          name: this.$t("common.Currency"),
           response: ""
         },
         collectMoney: {
-          name: this.$t('common.FundingAmount'),
-          collectMoneyMin:'',
-          collectMoneyMax: "",
+          name: this.$t("common.FundingAmount"),
+          collectMoneyMin: "",
+          collectMoneyMax: ""
         },
         projectMobile: {
-          name: this.$t('common.ContactNumber'),
+          name: this.$t("common.ContactNumber"),
           response: ""
         },
         projectEmail: {
-          name: this.$t('common.Email'),
+          name: this.$t("common.Email"),
           response: ""
         },
         signStatus: {
-          name: this.$t('common.ContractStatus'),
+          name: this.$t("common.ContractStatus"),
           response: "",
-          classname:'red',
+          classname: "red"
         },
         projectDescribe: {
-          name: this.$t('common.ProjectDescription'),
+          name: this.$t("common.ProjectDescription"),
           response: ""
         },
-		projectDetail:{
-		  name: this.$t('common.ProjectDetails'),
-		  response: ""
-		},	
-		potentialInvestorsTags:{
-			name: this.$t('common.potentialInvestors'),
-			response: ""
-		}
+        projectDetail: {
+          name: this.$t("common.ProjectDetails"),
+          response: ""
+        },
+        potentialInvestorsTags: {
+          name: this.$t("common.potentialInvestors"),
+          response: ""
+        }
       },
       investor_infor: {
         investorsType: {
-          name: this.$t('agent.InvestorType'),
+          name: this.$t("agent.InvestorType"),
           response: ""
         },
         investorsCompany: {
-          name: this.$t('agent.InvestorCompany'),
+          name: this.$t("agent.InvestorCompany"),
           response: ""
         },
         investorsName: {
-          name:this.$t('agent.InvestorName'),
+          name: this.$t("agent.InvestorName"),
           response: ""
         },
         investorsArea: {
-          name: this.$t('agent.InvestorRegion'),
+          name: this.$t("agent.InvestorRegion"),
           response: ""
         }
-      },
+      }
     };
   },
-  beforeRouteLeave(to,from,next){
-      console.log(to,from)
-        if(to.name=='a_wait_sendemail'){
-           next({path: '/mysign'});
-        }else{
-          next()
-        }
+  beforeRouteLeave(to, from, next) {
+    console.log(to, from);
+    if (to.name == "a_wait_sendemail") {
+      next({ path: "/mysign" });
+    } else {
+      next();
+    }
   },
   created() {
     this.details = this.$route.query;
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
-          projectId:this.details.projectId,
-          signStatus:this.details.signStatus,
-          signId:this.details.signId || -1
+          projectId: this.details.projectId,
+          signStatus: this.details.signStatus,
+          signId: this.details.signId || -1
         },
         this.details_lists,
         this.nav_lists,
@@ -150,19 +149,19 @@ export default {
     check_contract() {
       this.$loading();
       var newWindow = window.open();
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getPdf`,{
-        signId:this.$route.query.signId,
-      })
+      this.$global
+        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getPdf`, {
+          signId: this.$route.query.signId
+        })
         .then(res => {
-        this.$toast.clear();
-        console.log(res);
-        if (res.data.resultCode == 10000) {
-          newWindow.location.href = res.data.data.pdfPath;
-        }else{
-          this.$toast(res.data.resultDesc);
-
-        }
-      });
+          this.$toast.clear();
+          console.log(res);
+          if (res.data.resultCode == 10000) {
+            newWindow.location.href = res.data.data.pdfPath;
+          } else {
+            this.$toast(res.data.resultDesc);
+          }
+        });
     }
   }
 };
@@ -233,7 +232,6 @@ export default {
         font-weight: 600;
         line-height: 0.68rem;
       }
-
     }
     article {
       footer {
@@ -250,7 +248,7 @@ export default {
           }
           button {
             width: 8rem;
-            border-radius:5px;
+            border-radius: 5px;
             font-size: 0.42rem;
             height: 1rem;
             color: #ffffff;

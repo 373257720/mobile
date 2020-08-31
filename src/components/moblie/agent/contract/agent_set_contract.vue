@@ -32,7 +32,7 @@
       },
       get_contract(){
         this.$loading();
-        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getSignAgreement`,{
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getSignAgreement`,{
           signId:this.$route.query.signId,X_Token:this.$store.state.X_Token,
         })
           .then(res => {

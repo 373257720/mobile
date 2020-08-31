@@ -75,7 +75,7 @@
 		},
 
 		created() {
-			this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/getAllIndustry`,)
+			this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry`,)
 			  .then(res => {
 			    if(res.data.resultCode==10000){
 			      this.title = res.data.data.projectName;
@@ -137,7 +137,7 @@
 				this.region = [];
 				let arr = [];
 				this.countrylist_fetching = true;
-				this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`, {
+				this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`, {
 						searchKey: val,
 					})
 					.then(res => {
@@ -205,7 +205,7 @@
 					})
 					.then(() => {
 						this.$loading()
-						this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/submitInvestors`,
+						this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/submitInvestors`,
 								this.form)
 							.then(res => {
 								this.$toast.clear();

@@ -10,13 +10,18 @@
         <commondetails :toson="details_lists"></commondetails>
         <footer>
           <aside>
-            <button v-if="$route.query.signStatus>4"  @click="recommamd">{{$t('agent.RecommendInvestors')}}</button>
-            <button v-if="$route.query.signStatus==='0'" @click="confirm_alert">{{$t('agent.Interested')}}</button>
+            <button
+              v-if="$route.query.signStatus>=5"
+              @click="recommamd"
+            >{{$t('agent.RecommendInvestors')}}</button>
+            <button
+              v-if="$route.query.signStatus==='0'"
+              @click="confirm_alert"
+            >{{$t('agent.Interested')}}</button>
           </aside>
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -104,7 +109,7 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
           projectId:this.details.projectId,
@@ -118,58 +123,52 @@ export default {
       )
       .then(res => {
         this.$toast.clear();
-        this.details.signUserId1=res.signUserId1;
+        this.details.signUserId1 = res.signUserId1;
         this.title = res.title;
-        if(res.projectLifeCycle==-1){
+        if (res.projectLifeCycle == -1) {
           this.$dialog
             .alert({
-              title: this.$t('common.TheItemNoLongerExists'),
+              title: this.$t("common.TheItemNoLongerExists")
             })
             .then(() => {
               this.$router.go(-1);
-            })
-          return
+            });
+          return;
         }
-
-
-
       });
   },
   methods: {
-    recommamd(){
-      console.log(this.details)
-      this.$routerto("a_recommand_i",this.details)
+    recommamd() {
+      console.log(this.details);
+      this.$routerto("a_recommand_i", this.details);
     },
     confirm_alert() {
-      let that=this;
-       this.$loading();
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/interested`,
-        {
-          projectId:this.$route.query.projectId,
-        }).then(res=>{
-         this.$toast.clear();
-        if(res.data.resultCode==10000){
+      let that = this;
+      this.$loading();
+      this.$global
+        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/interested`, {
+          projectId: this.$route.query.projectId
+        })
+        .then(res => {
+          this.$toast.clear();
+          if (res.data.resultCode == 10000) {
             this.$dialog
               .alert({
-                title: this.$t('agent.YouHaveSubmittedYourApplication'),
-                message:this.$t('agent.AfterTheApplicationIsProcessed'),
+                title: this.$t("agent.YouHaveSubmittedYourApplication"),
+                message: this.$t("agent.AfterTheApplicationIsProcessed")
               })
               .then(() => {
-                  this.$routerto("mysign")
-              })
-        }else{
-           this.$dialog
+                this.$routerto("mysign");
+              });
+          } else {
+            this.$dialog
               .alert({
-                title: res.data.resultDesc,
+                title: res.data.resultDesc
                 // message: "弹窗内容"
               })
-              .then(() => {
-              })
-        }
-
-      })
-
-
+              .then(() => {});
+          }
+        });
     }
   }
 };
@@ -208,50 +207,49 @@ export default {
         display: -ms-flexbox;
         display: -webkit-flex;
         display: flex;
-        -webkit-justify-content:center;
-        justify-content:center;
-        -moz-box-pack:center;
-        -webkit--moz-box-pack:center;
-        box-pack:center;
-        align-items:center;
--webkit-align-items:center;
-box-align:center;
--moz-box-align:center;
--webkit-box-align:center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -moz-box-pack: center;
+        -webkit--moz-box-pack: center;
+        box-pack: center;
+        align-items: center;
+        -webkit-align-items: center;
+        box-align: center;
+        -moz-box-align: center;
+        -webkit-box-align: center;
         color: #0f6ebe;
         font-weight: 600;
         line-height: 0.68rem;
       }
-
     }
     article {
       footer {
         padding: 0 0.5rem 0 0.5rem;
         aside {
           height: 2.5rem;
-          display:-webkit-box;
+          display: -webkit-box;
           display: -moz-box;
           display: -ms-flexbox;
           display: -webkit-flex;
           display: flex;
           font-size: 0.42rem;
           align-items: center;
-          -webkit-box-orient:vertical;
-    -webkit-box-direction:normal;
-    -moz-box-orient:vertical;
-    -moz-box-direction:normal;
-    flex-direction:column;
-    -webkit-flex-direction:column;
-    -webkit-justify-content:space-between;
-justify-content:space-between;
-/*-moz-box-pack:space-between;*/
--webkit--moz-box-pack:space-between;
-box-pack:space-between;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -moz-box-orient: vertical;
+          -moz-box-direction: normal;
+          flex-direction: column;
+          -webkit-flex-direction: column;
+          -webkit-justify-content: space-between;
+          justify-content: space-between;
+          /*-moz-box-pack:space-between;*/
+          -webkit--moz-box-pack: space-between;
+          box-pack: space-between;
           button {
             height: 1rem;
             color: #ffffff;
             width: 8rem;
-            border-radius:5px;
+            border-radius: 5px;
           }
           button:nth-of-type(1) {
             background: #00adef;

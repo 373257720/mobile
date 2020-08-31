@@ -23,7 +23,6 @@
 				</main>
 			</li>
 		</ul>
-		<!--    <mbottom></mbottom>-->
 	</div>
 </template>
 <script>
@@ -84,7 +83,7 @@
 		created() {
 			this.$loading();
 			this.$global.get_encapsulation(
-					`${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail`, {
+					`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getInvestorsDetail`, {
 						investorsId: this.$route.query.investorsId,
 					}
 				)

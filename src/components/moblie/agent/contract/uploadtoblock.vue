@@ -1,40 +1,38 @@
 <template>
   <div id="a_uploadtoblock">
     <!-- <div class="a_uploadtoblock"> -->
-    <!-- <nav class="a_uploadtoblock">
-        <van-icon name="arrow-left" @click="$global.previous()" />{{$t('ContractWrods.ConfirmAndUploadToBlockchain')}}
-    </nav>-->
-    <commonnav :msg="$t('ContractWrods.ConfirmAndUploadToBlockchain')"></commonnav>
+    <nav class="a_uploadtoblock">
+      <van-icon name="arrow-left" @click="$global.previous()" />
+      {{$t('ContractWrods.ConfirmAndUploadToBlockchain')}}
+    </nav>
     <main>
       <article v-if="watch">
         <div>
-          <contractcomponent :contract="contract"></contractcomponent>
+          <contractcomponent :htmlData.sync="htmlData" :contract="contract"></contractcomponent>
         </div>
         <footer>
-          <p>({{$t('agent.ToIPF')}})</p>
-          <!-- <button class="blockchain">({{$t('agent.ToIPFS')}})</button> -->
+        {{$t('ContractWrods.NextConfirmAndUploadToBlockchain')}}...
         </footer>
-        <!-- <p>({{$t('agent.ToIPFS')}})</p> -->
       </article>
     </main>
-    <!--      <mbottom></mbottom>-->
-    <!-- </div> -->
+
   </div>
 </template>
+<script>
+</script>
 <script>
 export default {
   name: "goods_details",
   // props:['contract','signStatu'],
   data() {
     return {
-      isShowLoading: false,
-      loadingCount: 0,
       watch: false,
       token: "",
       signStatu: "",
       signId: "",
       signUserId1: "", //项目方id
       projectId: "",
+      htmlData: "",
       contract: {
         article: "",
         owner_sign: "",
@@ -51,7 +49,7 @@ export default {
     };
   },
   beforeRouteLeave(to, from, next) {
-    // console.log(to,from)
+    console.log(to, from);
     if (to.name == "a_submit_contract") {
       next({ path: "/mysign" });
     } else {
@@ -59,39 +57,14 @@ export default {
     }
   },
   created() {
-    let self = this;
-    this.$axios.interceptors.request.use(
-      config => {
-        self.addLoading();
-        return config;
-      },
-      function(error) {
-        self.Loading = false;
-        self.LoadingCount = 0;
-        return Promise.reject(error);
-      }
-    );
-    this.$axios.interceptors.response.use(
-      res => {
-        self.isCloseLoading();
-        if (res.data) {
-          return res;
-        }
-      },
-      error => {
-        self.Loading = false;
-        self.LoadingCount = 0;
-        return Promise.reject(error);
-      }
-    );
     this.projectId = this.$route.query.projectId;
     this.signStatu = this.$route.query.signStatus;
     this.signId = this.$route.query.signId ? this.$route.query.signId : -1;
     this.$global
-      .get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getVisitToken`, {
+      .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getVisitToken`, {
         signId: this.signId,
-        signStatus: this.signStatu
-        // X_Token:this.$store.state.X_Token,
+        signStatus: this.signStatu,
+        X_Token: this.$store.state.X_Token
       })
       .then(res => {
         if (res.data.resultCode == 10000) {
@@ -103,30 +76,15 @@ export default {
     // console.log(this.signStatu)
   },
   methods: {
-    addLoading() {
-      this.isShowLoading = true;
-      this.loadingCount++;
-      if (this.loadingCount == 1) {
-        this.$loading();
-      }
-    },
-    isCloseLoading() {
-      this.loadingCount--;
-      if (this.loadingCount == 0) {
-        this.isShowLoading = false;
-        this.$toast.clear();
-      }
-    },
     get_datails() {
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+          `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
           {
             projectLan: this.$i18n.locale,
             projectId: this.projectId,
             signStatus: this.signStatu,
-            signId: this.signId,
-            X_Token: this.$store.state.X_Token
+            signId: this.signId
           }
         )
         .then(res => {
@@ -138,16 +96,16 @@ export default {
         });
     },
     get_contract() {
-      // this.$loading();
+      this.$loading();
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/bsl_web/projectSign/getSignAgreement`,
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/getSignAgreement`,
           {
             signId: this.signId
           }
         )
         .then(res => {
-          // this.$toast.clear();
+          this.$toast.clear();
           if (res.data.resultCode == 10000) {
             this.signStatu = res.data.data.signStatus;
             let str = JSON.parse(res.data.data.signAgreement);
@@ -162,14 +120,21 @@ export default {
     },
     // 上链
     contract_submit() {
+
+      // console.log(this.contract.agent_signdatethis.contract.owner_signdate);
+      // let agent_signdate = this.contract.agent_signdate
+      //   ? this.$global.stamptodate(this.contract.agent_signdate)
+      //   : "";
+      // let owner_signdate = this.contract.owner_signdate
+      //   ? this.$global.stamptodate(this.contract.owner_signdate)
+      //   : "";
       return new Promise((resolve, reject) => {
         let htmldata = document.createElement("html");
-        htmldata.setAttribute("lang", "en");
+        htmldata.setAttribute("lang","en")
         let body1 = document.createElement("body");
         let node = document.createElement("head");
-        var metautf8 = document.createElement("meta");
+        var metautf8= document.createElement("meta");
         metautf8.setAttribute("charset", "UTF-8");
-        // <meta charset="UTF-8">
         var oMeta = document.createElement("meta"),
           cssURL = "https://cdn.quilljs.com/1.0.0/quill.snow.css",
           linkTag = document.createElement("link"),
@@ -213,7 +178,7 @@ export default {
         list-style: none;
       }
       #contract_component {
-        width: 580px;
+        width: 680px;
         /*height: 100%;*/
         margin: 0 auto;
         padding: 50px 0;
@@ -309,7 +274,7 @@ export default {
         word-break: break-all;
         bottom: 0;
       }`;
-        linkTag.id = "dynamic-style";
+         linkTag.id = "dynamic-style";
         linkTag.href = cssURL;
         linkTag.setAttribute("rel", "stylesheet");
         linkTag.setAttribute("media", "all");
@@ -327,7 +292,6 @@ export default {
         resolve(htmldata);
       }).then(res => {
         let htmlstr = this.$global.nodeToString(res);
-        console.log(htmlstr);
         this.$toast.loading({
           loadingType: "spinner",
           message: this.$t("ContractWrods.UploadTakesAboutOneMinute"),
@@ -335,7 +299,7 @@ export default {
           duration: 0
         });
         this.$global
-          .post_encapsulation(`${this.$baseurl}/bsl_web/ipfs/update`, {
+          .post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/ipfs/update`, {
             signId: `${this.signId}`,
             projectId: this.projectId,
             signUserId1: this.signUserId1,
@@ -370,17 +334,6 @@ export default {
                 });
             }
           });
-        // .catch(err => {
-        //   this.$toast.clear();
-        //   this.$dialog
-        //     .alert({
-        //       title: this.$t("ContractWrods.UploadFailed"),
-        //       message: this.$t("projectOwner.BackToMyProject")
-        //     })
-        //     .then(() => {
-        //       this.$routerto("mysign");
-        //     });
-        // });
       });
     }
   }
@@ -390,26 +343,36 @@ export default {
 #a_uploadtoblock {
   height: 100%;
   width: 100%;
-  // nav {
-  //   position: relative;
-
-  // }
-  //  .van-dialog {
-  //     font-size: 0.42rem;
-  //   }
-  //   .van-dialog__message {
-  //     font-size: 0.42rem;
-  //   }
-  //   .van-button {
-  //     font-size: 0.3rem;
-  //   }
+  nav {
+    position: relative;
+    .van-icon-arrow-left {
+      position: absolute;
+      left: 0.6rem;
+      top: 50%;
+      transform: (translate(0, -50%));
+    }
+  }
 }
 </style>
 <style lang="scss" scoped>
 #a_uploadtoblock {
   width: 100%;
   height: 100%;
-  padding: 1.6rem 0 0 0;
+  padding: 1.5rem 0 0 0;
+
+  nav.a_uploadtoblock {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 1.5rem;
+    height: 1.5rem;
+    position: fixed;
+    top: 0;
+    z-index: 5;
+    font-size: 0.46rem;
+    background: white;
+    border-bottom: 0.1rem solid #b5b5b5;
+  }
   div.middle {
     /*margin: 0 0.5rem;*/
     box-sizing: border-box;
@@ -435,7 +398,7 @@ export default {
 
       width: 100%;
       > div {
-        height: 90%;
+        height: 85%;
       }
       footer {
         height: 10%;
@@ -446,13 +409,13 @@ export default {
         button {
           width: 8rem;
           border-radius: 5px;
-          background: #00adef;
+          background:#afafaf;
           line-height: 1rem;
           color: white;
           height: 1rem;
         }
         .blockchain {
-          background: orange;
+          // background: orange;
         }
       }
     }

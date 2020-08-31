@@ -26,7 +26,7 @@
                 <p class="row2">{{middlemen.userCompanyCh.response}}</p>
               </div>
             </li>
-            <li v-else-if="middlemen.Type==2 && $i18n.locale=='en_US'">
+            <li v-if="middlemen.Type==2 && $i18n.locale=='en_US'">
               <div>
                 <p class="row1">{{middlemen.userCompanyEn.name}}:</p>
                 <p class="row2">{{middlemen.userCompanyEn.response}}</p>
@@ -51,7 +51,6 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -136,14 +135,14 @@ export default {
           name: this.$t('common.ProjectDescription'),
           response: ""
         },
-        projectDetail:{
-          name: this.$t('common.ProjectDetails'),
+          projectDetail: {
+          name: this.$t("common.ProjectDetails"),
           response: ""
         },
-				potentialInvestorsTags:{
-					name: this.$t('common.potentialInvestors'),
-					response: ""
-				}	
+        potentialInvestorsTags: {
+          name: this.$t("common.potentialInvestors"),
+          response: ""
+        }
       },
       investor_infor: {
         investorsType: {
@@ -195,7 +194,7 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
           projectId:this.projectId,
@@ -233,7 +232,7 @@ export default {
         .then(() => {
           // on confirm
         this.$loading();
-       this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInvestorsData`,
+       this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/reviewInvestorsData`,
          {signId:this.signId,
            signStatus:num,
          })
@@ -280,7 +279,7 @@ export default {
           title: this.$t('investor.WhetherToDecline')
         })
         .then(() => {
-          this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,{
+          this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/reviewInterestedRequest`,{
                 projectId: this.projectId,
                 signId: this.signId,
                 signStatus: num

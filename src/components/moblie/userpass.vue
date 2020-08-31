@@ -66,7 +66,6 @@
         <li v-if="form.userIdentityType==2 && form.userCompanyPic" class="idcard_right">
           <p>{{$t('common.Certificate')}}</p>
           <div class="pic">
-
             <img :src="$baseurl+form.userCompanyPic" alt />
           </div>
         </li>
@@ -75,13 +74,11 @@
         <button @click="$routerto('usercheck')">{{$t('common.ApplyAgain')}}</button>
       </div>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
 export default {
   name: "userpass",
-  
   data() {
     return {
       dad_text:this.$t('common.Reveiw'),
@@ -108,7 +105,7 @@ export default {
   },
   created() {
     this.$loading();
-    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getAuthDetails`)
+    this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/getAuthDetails`)
       .then(res => {
         this.$toast.clear();
         console.log(res.data.data);
@@ -144,9 +141,8 @@ export default {
               this.switchon = false;
             }
           }
-		  
         }
-        // console.log(this.form);
+        console.log(this.form);
       })
       .catch(err => {
         console.log(err);

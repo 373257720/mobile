@@ -11,7 +11,6 @@
         <commondetails :toson="details_lists"></commondetails>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -74,13 +73,14 @@ export default {
           name: this.$t('common.ProjectDescription'),
           response: ""
         },
-		projectDetail:{
-		  name: this.$t('common.ProjectDetails'),
-		  response: ""
-		},	potentialInvestorsTags:{
-			name: this.$t('common.potentialInvestors'),
-			response: ""
-		}	
+             projectDetail: {
+          name: this.$t("common.ProjectDetails"),
+          response: ""
+        },
+        potentialInvestorsTags: {
+          name: this.$t("common.potentialInvestors"),
+          response: ""
+        }
       },
       investor_infor: {
         investorsType: {
@@ -108,7 +108,7 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
           projectId:details.projectId,

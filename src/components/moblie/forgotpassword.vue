@@ -100,7 +100,7 @@
         self.watch=true;
         // self.timeCounter = setTimeout(()=>{}, 100);
         this.$loading();
-        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/sendEmail.do`,
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/sendEmail.do`,
           {memberEmail:self.email}).then(res=>{
               if(res.data.resultCode==10000){
                 let obj=JSON.parse(res.data.data);
@@ -179,7 +179,7 @@
           })
           .then(() => {
             this.$loading();
-            this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/forgetPwd.do`,this.form).
+            this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/forgetPwd.do`,this.form).
             then(res => {
               this.$toast.clear();
               // this.form.verificationCodeToken="";
@@ -235,6 +235,7 @@
     .van-field__control{
       padding: 0.1rem 0.3rem;
       height: 1rem;
+      background: #f6f6f6;
       border: 1px solid #ababab;
       border-radius: 3px;
       line-height: 1rem;

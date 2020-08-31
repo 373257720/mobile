@@ -54,7 +54,6 @@ export default {
     // console.log(draw_stauts);
   },
   mounted() {
-      console.log(123);
     this.canvasBox = document.getElementById("canvasBox");
     this.domjiedian = document.querySelector("html");
     this.renderResize();
@@ -62,7 +61,6 @@ export default {
     this.$nextTick(() => {
       window.addEventListener("resize", this.renderResize, false);
     });
-  
     //  console.log(this.draw);
   },
   beforeDestroy() {

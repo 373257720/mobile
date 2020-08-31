@@ -11,19 +11,15 @@
 						<div class="content projectDetail" v-else-if="key=='projectDetail'">
 							<p class="row1">{{item.name}}:</p>
 							<p class="row2">
-								<span v-show="!switch1">{{item.response}}</span>
-								<span v-show="switch1">{{item.response.substr(0,[800])}}...</span>
-								<i :class={up:!switch1} @click="moreDetails" v-if="item.response.length>800"></i>
+                <span>{{moreDeatils==true?item.response.substr(0,[500])+"...":item.response}}</span>
+								<!-- <span v-show="!moreDeatils">{{item.response}}</span> -->
+								<i :class={up:!moreDeatils} @click="moreDetail" v-if="item.response.length>500"></i>
 							</p>
 						</div>
 						<div class="normal" v-else-if="key=='collectMoney'">
 							<p class="row1">{{item.name}}:</p>
 							<p class="row2"><span>{{item.collectMoneyMin}}</span><span style="margin: 0 0.2rem;">-</span><span>{{item.collectMoneyMax}}</span></p>
 						</div>
-						<!--            <div class="normal" v-else-if="key=='signStatus'">-->
-						<!--              <p class="row1">{{$t(item.name)}}:</p>-->
-						<!--              <p class="row2" :class="item.classname" >{{$t(item.response)}}</p>-->
-						<!--            </div>-->
 						<div class="normal" v-else>
 							<p class="row1">{{item.name}}:</p>
 							<p class="row2">{{item.response}}</p>
@@ -40,7 +36,7 @@
 		props: ["toson"],
 		data() {
 			return {
-				switch1: true,
+				moreDeatils: true,
 			};
 		},
 		created() {
@@ -48,8 +44,8 @@
 		},
 		mounted() {},
 		methods: {
-			moreDetails() {
-				this.switch1 = !this.switch1;
+			moreDetail() {
+				this.moreDeatils = !this.moreDeatils;
 			},
 			//     submitText(){
 			//     let arr = [];
@@ -124,6 +120,7 @@
 							.row2 {
 								color: #787878;
 								white-space: pre-wrap;
+								word-wrap:break-word;
 								/* css-3 */
 								white-space: -moz-pre-wrap;
 								/* Mozilla, since 1999 */

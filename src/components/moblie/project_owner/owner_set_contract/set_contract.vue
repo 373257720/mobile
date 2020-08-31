@@ -61,104 +61,25 @@
             <!-- <textarea v-model="contract.article"  :placeholder="$t('ContractWrods.pleaseEnter')"></textarea> -->
           </div>
         </div>
-        <div class="message-content">
-          <div class="mess-top">
-            <h3 class="title">留言</h3>
-            <!-- <p class="content">content</p> -->
-            <div class="sub_title">
-              <ul>
-                <li class="item" v-for="(item,idx) in comments" :key="idx">
-                  <p :class="item.name==1111?'fl':'fr'">{{item.name}}</p>
-                  <!-- <input type="textarea" autosize v-model="item.content"> -->
-                  <van-field v-model="item.content" :disabled="true" type="textarea" autosize />
-                </li>
-              </ul>
-            </div>
-            <div class="sub_title">
-              <div>
-                <p>输入</p>
-                <!-- <input maxlength="30" v-model="contract.owner_title"  placeholder="请输入"> -->
-                <van-field
-                  v-model="inputValue"
-                  type="textarea"
-                  rows="5"
-                  :autosize="{ maxHeight: 120 }"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="btn-group">
-            <!-- <p class="btn-default" @click="cancel" v-show="isShowCancelBtn">cancelBtnText</p> -->
-            <p class="btn-primary btn-confirm" @click="summit">Send</p>
-          </div>
-        </div>
-        <!-- <div class="sub_title comments">
-          <header>Comments:</header>
-          <div>
-            <van-field
-              v-model="contract.owner_name"
-              type="textarea"
-              rows="2"
-              :autosize="{ maxHeight: 100, minHeight: 50 }"
-              :placeholder="$t('ContractWrods.pleaseEnter')"
-            />
-          </div>
-        </div>-->
         <footer>
-          <!-- <button @click="summit">留言</button> -->
           <button @click="signature">{{$t('agent.Sign')}}</button>
         </footer>
       </article>
     </main>
-    <!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
-// const handlers = {
-//   shadeBox: null,
-//   sourceEditor: function() {
-//     //添加工具方法
-//     alert("我新添加的工具方法");
-//   }
-// };
-import { Quill, quillEditor } from "vue-quill-editor";
-// let BlockEmbed = Quill.import("blots/block/embed");
-// class DividerBlot extends BlockEmbed {}
-// DividerBlot.blotName = "divider";
-// DividerBlot.tagName = "hr";
-// Quill.register(DividerBlot);
-// console.log(Quill);
 // import VueUeditorWrap from "vue-ueditor-wrap";
+import { Quill, quillEditor } from "vue-quill-editor";
 export default {
   name: "goods_details",
   props: ["contract"],
   data() {
     return {
-      inputValue: "",
-      comments: [
-        { content: "jfkdsjfkdsjfldsjfl", name: 1111 },
-        { content: "jfkdsjfkdsjfldsjfl", name: 2222 },
-        { content: "jfkdsjfkdsjfldsjfl", name: 1111 },
-        { content: "jfkdsjfkdsjfldsjfl", name: 1111 }
-      ],
       editorOption: {
         placeholder: this.$t("ContractWrods.pleaseEnter"),
         theme: "snow",
         modules: {
-          // toolbar: [
-          //   ["bold", "underline"], // toggled buttons
-          //   [{ header: 1 }, { header: 2 }],
-          //   [{ size: ["small", false, "large", "huge"] }],
-          //   [{ list: "ordered" }, { list: "bullet" }], // superscript/subscript
-          //   // [{ 'indent': '-1'}, { 'indent': '+1' }],
-          //   [{ color: [] }, { background: [] }], //                 // text direction
-          //   [{ header: [1, 2, 3, 4, 5, 6, false] }],
-          //   // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown      // dropdown with defaults from theme
-          //   // [{ 'font': [] }],
-          //   [{ align: [] }],
-          //    ['sourceEditor']
-          //   // ['clean']
-          // ]
           toolbar: {
             container: [
               ["bold", "underline"], // toggled buttons
@@ -171,39 +92,40 @@ export default {
               // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown      // dropdown with defaults from theme
               // [{ 'font': [] }],
               [{ align: [] }],
-              ["sourceEditor"]
-              // ["divider"]
+              // ["sourceEditor"]
+
               // ['clean']
             ], // 工具栏选项
             // divider: {
             //   // See optional "config" below
             //   cssText: "border: none;border-bottom: 1px inset;"
             // },
-            divider: true,
-            handlers: {
-              shadeBox: null,
-              sourceEditor: e => {
-                //添加工具方法
-                console.log(e);
-                // ducument.created
-                const sourceEditorButton = document.querySelector(".ql-editor");
-                let shadeBox = document.createElement("hr");
-                // shadeBox.classList.add = "divider";
-                // shadeBox.setAttribute("class", "divider");
-                console.log(shadeBox);
-                // const sourceEditorButton = document.querySelector(
-                //   ".ql-sourceEditor"
-                // );
-                sourceEditorButton.appendChild(shadeBox);
-              }
-            } // 事件重写
+            // divider: true,
+            // handlers: {
+            //   shadeBox: null,
+            //   sourceEditor: e => {
+            //     //添加工具方法
+            //     console.log(e);
+            //     // ducument.created
+            //     const sourceEditorButton = document.querySelector(".ql-editor");
+            //     let shadeBox = document.createElement("hr");
+            //     shadeBox.className="divider";
+            //     // shadeBox.classList.add = "divider";
+            //     // shadeBox.setAttribute("class", "divider");
+            //     console.log(sourceEditorButton);
+            //     // const sourceEditorButton = document.querySelector(
+            //     //   ".ql-sourceEditor"
+            //     // );
+            //     sourceEditorButton.appendChild(shadeBox);
+            //   }
+            // } // 事件重写
           }
         },
         initButton: function() {
           //在使用的页面中初始化按钮样式
-          const sourceEditorButton = document.querySelector(".ql-sourceEditor");
-          sourceEditorButton.style.cssText = "width:50px;";
-          sourceEditorButton.innerText = "——";
+          // const sourceEditorButton = document.querySelector(".ql-sourceEditor");
+          // sourceEditorButton.style.cssText = "font-weight:550";
+          // sourceEditorButton.innerText = "—";
         },
         register(q) {
           //注册标签(因为在富文本编辑器中是没有div,table等标签的，需要自己去注册自己需要的标签)
@@ -266,8 +188,9 @@ export default {
     // }
   },
   mounted() {
-    this.editorOption.register(Quill);
-    this.editorOption.initButton();
+      
+    // this.editorOption.register(Quill);
+    // this.editorOption.initButton();
     // quillConfig.initButton();
   },
   watch: {
@@ -284,10 +207,6 @@ export default {
   },
   computed: {},
   methods: {
-    summit() {
-      this.comments.unshift({ content: this.inputValue, name: 1111 });
-    },
-    confirm() {},
     updateData(e = "") {
       this.contract.article = e;
       console.info(this.contract.article);
@@ -351,54 +270,13 @@ export default {
     box-sizing: border-box;
     border-radius: 3px;
     font-size: 0.38rem;
-    // line-height: 1rem;
+    line-height: 1rem;
     background: #f6f6f6;
     // color: rgba(0, 0, 0, 0.65);
     padding: 0.1rem 0.2rem;
     height: 1rem;
     width: 100%;
-    // border: 1px solid #a9a9a9;
-  }
-  .message-content {
-    .btn-group {
-      margin-top: 0.2rem;
-      display: flex;
-      flex-direction: row-reverse;
-      .btn-confirm {
-        display: flex;
-        justify-content: center;
-        color: white;
-        width: 1.2rem;
-        font-size: 14px;
-        border-radius: 2px;
-        background: #00adef;
-      }
-    }
-
-    ul {
-      overflow-y: auto;
-      height: 5rem;
-      border: 1px solid #ccc;
-    }
-    .item {
-      background: #f6f6f6;
-      margin-bottom: 0.3rem;
-      .van-field__control {
-        //  background:;
-      }
-    }
-    .van-field__control {
-      box-sizing: border-box;
-      border-radius: 3px;
-      font-size: 0.38rem;
-      // line-height: 1rem;
-      // background:none;
-      // color: rgba(0, 0, 0, 0.65);
-      padding: 0.1rem 0.2rem;
-      // height: 1rem;
-      width: 100%;
-      border: none;
-    }
+    border: 1px solid #a9a9a9;
   }
   .van-cell {
     padding: 0;
@@ -449,17 +327,6 @@ export default {
         box-sizing: border-box;
         font-size: 0.42rem;
         line-height: 1rem;
-        padding: 0.2rem;
-        height: 1rem;
-        width: 100%;
-        border: 1px solid rgb(169, 169, 169);
-      }
-    }
-    .comments {
-      input {
-        box-sizing: border-box;
-        font-size: 0.42rem;
-        line-height: initial;
         padding: 0.2rem;
         height: 1rem;
         width: 100%;

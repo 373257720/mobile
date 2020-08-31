@@ -9,6 +9,7 @@ import {
   DropdownItem,
   PullRefresh,
   List,
+  uploader,
   // Dialog,
   Tab,
   SwipeCell,
@@ -34,6 +35,7 @@ import {
 // 按需引入UI组件
 Vue.use(Cell);
 // Vue.use(Dialog);
+Vue.use(uploader);
 Vue.use(Pagination);
 Vue.use(Tab);
 Vue.use(Tabs);

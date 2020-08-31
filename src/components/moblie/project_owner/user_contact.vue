@@ -32,7 +32,7 @@
         </li>
       </ul>
     <div v-else-if="arr.length<1" class="nodata">{{$t('common.NoMore')}}</div>
-    <mbottom></mbottom>
+
   </div>
 </template>
 <script>
@@ -68,7 +68,7 @@ export default {
     },
     onLoad() {
       this.$loading();
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/user/getRelationUser`,{
+      this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/getRelationUser`,{
         searchKey:this.searchkey
       })
         .then(res => {

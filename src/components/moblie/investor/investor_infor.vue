@@ -22,7 +22,6 @@
         </ul>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -72,7 +71,7 @@ export default {
   },
   created() {
     this.$loading();
-      this.$global.get_encapsulation( `${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail`,
+      this.$global.get_encapsulation( `${this.$axios.defaults.baseURL}/bsl_web/projectSign/getInvestorsDetail`,
         {
           investorsId:this.$route.query.investorsId,
         })
@@ -121,13 +120,11 @@ export default {
 </script>
 <style lang="scss">
 #i_inverstor_infor {
-
 }
 </style>
 <style lang="scss" scoped>
 #i_inverstor_infor {
   width: 100%;
-
   main {
     padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;

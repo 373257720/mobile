@@ -15,7 +15,6 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -27,87 +26,87 @@ export default {
     return {
       title: "",
       details: {},
-      dad_text: this.$t('common.ToBeSigned'),
+      dad_text: this.$t("common.ToBeSigned"),
       nav_lists: {
         financingStage: {
-          name: this.$t('agent.FinancingStage'),
+          name: this.$t("agent.FinancingStage"),
           response: ""
         },
         committedCount: {
-          name: this.$t('agent.NumberOfinvestorsHaveSubmitted'),
+          name: this.$t("agent.NumberOfinvestorsHaveSubmitted"),
           response: ""
         },
         interestProjectCount: {
-          name: this.$t('agent.Numberofprojectsinterested'),
-          response: ""
-        },
-      },
-      details_lists: {
-        projectIndustry: {
-          name:this.$t('common.Industry'),
-          response: ""
-        },
-        projectArea: {
-          name: this.$t('common.region'),
-          response: ""
-        },
-        projectCompany: {
-          name: this.$t('common.CompanyName'),
-          response: ""
-        },
-        currencyType: {
-          name:this.$t('common.Currency'),
-          response: ""
-        },
-        collectMoney: {
-          name: this.$t('common.FundingAmount'),
-          collectMoneyMin:'',
-          collectMoneyMax: "",
-        },
-        projectMobile: {
-          name: this.$t('common.ContactNumber'),
-          response: ""
-        },
-        projectEmail: {
-          name: this.$t('common.Email'),
-          response: ""
-        },
-        signStatus: {
-          name: this.$t('common.ContractStatus'),
-          response: "",
-          classname:'red',
-        },
-        projectDescribe: {
-          name: this.$t('common.ProjectDescription'),
-          response: ""
-        },
-		projectDetail:{
-		  name: this.$t('common.ProjectDetails'),
-		  response: ""
-		},
-		potentialInvestorsTags:{
-			name: this.$t('common.potentialInvestors'),
-			response: ""
-		}
-      },
-      investor_infor: {
-        investorsType: {
-          name: this.$t('agent.InvestorType'),
-          response: ""
-        },
-        investorsCompany: {
-          name: this.$t('agent.InvestorCompany'),
-          response: ""
-        },
-        investorsName: {
-          name:this.$t('agent.InvestorName'),
-          response: ""
-        },
-        investorsArea: {
-          name: this.$t('agent.InvestorRegion'),
+          name: this.$t("agent.Numberofprojectsinterested"),
           response: ""
         }
       },
+      details_lists: {
+        projectIndustry: {
+          name: this.$t("common.Industry"),
+          response: ""
+        },
+        projectArea: {
+          name: this.$t("common.region"),
+          response: ""
+        },
+        projectCompany: {
+          name: this.$t("common.CompanyName"),
+          response: ""
+        },
+        currencyType: {
+          name: this.$t("common.Currency"),
+          response: ""
+        },
+        collectMoney: {
+          name: this.$t("common.FundingAmount"),
+          collectMoneyMin: "",
+          collectMoneyMax: ""
+        },
+        projectMobile: {
+          name: this.$t("common.ContactNumber"),
+          response: ""
+        },
+        projectEmail: {
+          name: this.$t("common.Email"),
+          response: ""
+        },
+        signStatus: {
+          name: this.$t("common.ContractStatus"),
+          response: "",
+          classname: "red"
+        },
+        projectDescribe: {
+          name: this.$t("common.ProjectDescription"),
+          response: ""
+        },
+        projectDetail: {
+          name: this.$t("common.ProjectDetails"),
+          response: ""
+        },
+        potentialInvestorsTags: {
+          name: this.$t("common.potentialInvestors"),
+          response: ""
+        }
+      },
+      investor_infor: {
+        investorsType: {
+          name: this.$t("agent.InvestorType"),
+          response: ""
+        },
+        investorsCompany: {
+          name: this.$t("agent.InvestorCompany"),
+          response: ""
+        },
+        investorsName: {
+          name: this.$t("agent.InvestorName"),
+          response: ""
+        },
+        investorsArea: {
+          name: this.$t("agent.InvestorRegion"),
+          response: ""
+        }
+      }
     };
   },
   created() {
@@ -115,12 +114,12 @@ export default {
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
-          projectId:this.details.projectId,
-          signStatus:this.details.signStatus,
-          signId:this.details.signId || -1
+          projectId: this.details.projectId,
+          signStatus: this.details.signStatus,
+          signId: this.details.signId || -1
         },
         this.details_lists,
         this.nav_lists,
@@ -130,26 +129,23 @@ export default {
       .then(res => {
         this.$toast.clear();
         this.title = res.title;
-        if(res.projectLifeCycle==-1){
+        if (res.projectLifeCycle == -1) {
           this.$dialog
             .alert({
-              title: this.$t('common.TheItemNoLongerExists'),
+              title: this.$t("common.TheItemNoLongerExists")
             })
             .then(() => {
-                this.$router.go(-1);
-            })
-          return
+              this.$router.go(-1);
+            });
+          return;
         }
         this.$store.dispatch(
           "contract_agentsign",
           JSON.parse(res.signAgreement)
         );
-
-
       });
   },
-  methods: {
-  }
+  methods: {}
 };
 </script>
 <style lang="scss">
@@ -196,7 +192,6 @@ export default {
         font-weight: 600;
         line-height: 0.68rem;
       }
-
     }
     article {
       footer {
@@ -213,11 +208,10 @@ export default {
             height: 1rem;
             color: #ffffff;
             width: 8rem;
-            border-radius:5px;
+            border-radius: 5px;
           }
           button:nth-of-type(1) {
             background: #00adef;
-
           }
           button:nth-of-type(2) {
             background: #ff7c2c;

@@ -8,8 +8,8 @@
           <p class="row2">{{investor_infor.investorsType.response}}</p>
         </div>
       </li>
-      <li v-if="investor_infor.Type==1">
-        <div >
+      <li>
+        <div v-if="investor_infor.Type==1">
           <p class="row1">{{investor_infor.investorsName.name}}:</p>
           <p class="row2">{{investor_infor.investorsName.response}}</p>
         </div>

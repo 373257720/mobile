@@ -20,7 +20,6 @@
         </footer> -->
 			</article>
 		</main>
-		<!--    <mbottom></mbottom>-->
 	</div>
 </template>
 <script>
@@ -70,7 +69,7 @@
 			this.$loading();
 			console.log(this.$route.query);
 
-			this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getInvestorsDetail`, {
+			this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getInvestorsDetail`, {
 					investorsId: this.$route.query.investorsId
 				})
 				.then(res => {

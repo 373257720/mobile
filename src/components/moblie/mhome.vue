@@ -76,9 +76,8 @@
                 </section>
                 <section>
                   <span>{{$t('common.ProjectDescription')}}:</span>
-                  <!-- <span v-html="goods.projectDescribe"></span> -->
                   <span
-                    v-html="goods.projectDescribe.length>200? goods.projectDescribe.substr(0, [200])+'...':goods.projectDescribe"
+                    v-html="goods.projectDescribe.length>90? goods.projectDescribe.substr(0, [90])+'...':goods.projectDescribe"
                   ></span>
                   <!-- <div class="van-multi-ellipsis--l3" v-html="goods.projectDescribe"></div> -->
                 </section>
@@ -101,10 +100,7 @@
                   v-if="usertype==1"
                   :class="[goods.signUserList['signUserList10'][0].signCount>0?'isactive':'']"
                   @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList10'][0].investorsIdList) })"
-                >
-                  {{$t('common.InformationOfContractedInvestors')}}
-                  ({{goods.signUserList['signUserList10'][0].signCount?goods.signUserList['signUserList10'][0].signCount:0}})
-                </button>
+                >{{$t('common.InformationOfContractedInvestors')}} ({{goods.signUserList['signUserList10'][0].signCount?goods.signUserList['signUserList10'][0].signCount:0}})</button>
                 <button
                   class="isactive"
                   v-else-if="usertype==3"
@@ -121,7 +117,6 @@
         </van-pull-refresh>
       </div>
     </div>
-    <mbottom></mbottom>
   </div>
 </template>
 <script>
@@ -180,7 +175,7 @@ export default {
           number: 0
         },
         signUserList3711: {
-          text: this.$t("common.InvestorHasRejected"),
+          text: this.$t("common.Rejected"),
           number: 0
         }
       },
@@ -214,10 +209,10 @@ export default {
     this.usertype = this.$store.state.currentUsertype;
     let axiosList = [
       this.$axios.get(
-        `${this.$baseurl}/bsl_web/base/getAllIndustry?X_Token=${this.$store.state.X_Token}`
+        `${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry?X_Token=${this.$store.state.X_Token}`
       ),
       this.$axios.get(
-        `${this.$baseurl}/bsl_web/base/countryList.do?X_Token=${this.$store.state.X_Token}`
+        `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do?X_Token=${this.$store.state.X_Token}`
       )
     ];
     this.$axios.all(axiosList).then(
@@ -271,7 +266,7 @@ export default {
       this.onLoad();
     },
     select_country(remark, eng, chinese, idx) {
-      // console.log(remark, eng, chinese)
+      console.log(remark, eng, chinese);
       if (this.$i18n.locale == "zh_CN") {
         this.region_title = chinese;
       } else {
@@ -287,8 +282,8 @@ export default {
       this.countrylist.forEach(item => {
         item.classname = "";
       });
-      this.countrylist[idx].classname = "country_isactive";
-      this.$refs.region.toggle();
+      (this.countrylist[idx].classname = "country_isactive"),
+        this.$refs.region.toggle();
     },
     search_region(val) {
       if (timeout) {
@@ -297,11 +292,11 @@ export default {
       }
       timeout = setTimeout(this.ulHtml(val), 300);
     },
-    // handleChange(value) {
-    // 	this.form.investorsArea = this.region[value.key].chinese;
-    // 	this.countrylist_fetching = false;
-    // 	// console.log(this.form)
-    // },
+    handleChange(value) {
+      this.form.investorsArea = this.region[value.key].chinese;
+      this.countrylist_fetching = false;
+      // console.log(this.form)
+    },
     ulHtml(val) {
       this.countrylist = [];
       let arr = [];
@@ -314,7 +309,7 @@ export default {
       });
       this.countrylist_fetching = true;
       this.$global
-        .get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`, {
+        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`, {
           searchKey: val
         })
         .then(res => {
@@ -331,7 +326,7 @@ export default {
             this.countrylist = arr;
           }
           this.countrylist_fetching = false;
-          // console.log(this.countrylist)
+          console.log(this.countrylist);
         });
     },
     router(name, obj) {
@@ -349,7 +344,7 @@ export default {
       return temp;
     },
     routerto(item) {
-      // console.log(item)
+      console.log(item);
 
       // this.$store.state.currentUsertype;
       if (this.$store.state.currentUsertype == 1) {
@@ -365,7 +360,7 @@ export default {
         if (item.signUserResp.length > 0) {
           this.$routerto("mysign", {
             projectId: item.projectId,
-            array: hash
+            array: JSON.stringify(hash)
           });
         } else if (item.signUserResp.length < 1) {
           let obj = {
@@ -449,7 +444,7 @@ export default {
         this.refreshing = false;
       }
       this.$global
-        .get_encapsulation(`${this.$baseurl}/bsl_web/project/getAllProject`, {
+        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/project/getAllProject`, {
           searchKey: this.searchkey,
           pageIndex: this.pageNum,
           pageSize: this.loadNumUp,
@@ -489,6 +484,8 @@ export default {
   }
 };
 </script>
+
+
 
 <style lang="scss">
 #mhome {
@@ -886,10 +883,6 @@ export default {
     }
   }
 
-  #moblie_bottom {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-  }
+
 }
 </style>

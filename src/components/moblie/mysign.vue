@@ -77,7 +77,6 @@
         </ul>
       </van-list>
     </van-pull-refresh>
-    <mbottom></mbottom>
   </div>
 </template>
 <script>
@@ -113,7 +112,7 @@ export default {
         {
           value: 4,
           text: this.$t("common.SignedForChain"),
-          pic: "../../../static/pic/waitsign.png"
+          pic: "../../../static/pic/waitinvestor.png"
         },
         {
           value: 5,
@@ -164,18 +163,16 @@ export default {
     };
   },
   beforeRouteLeave(to, from, next) {
-    // console.log(to, from);
+    console.log(to, from);
     if (to.name == "p_submit_contract" || to.name == "a_submit_contract") {
       next(false);
     } else if (to.name == "a_recommand_i") {
       next(false);
     } else if (to.name == "a_project_intro" && to.query.signStatus === "0") {
       next(false);
-    }
-    // else if (to.name =="uploadtoblock" &&  to.query.signStatus==="5") {
-    //      next(false);
-    //    }
-    else if (to.name == "a_wait_sendemail" && to.query.signStatus === "9") {
+    } else if (to.name == "uploadtoblock" && to.query.signStatus === "5") {
+      next(false);
+    } else if (to.name == "a_wait_sendemail" && to.query.signStatus === "9") {
       next(false);
     } else if (to.name == "i_wait_confirm" && to.query.signStatus === "11") {
       next(false);
@@ -192,11 +189,10 @@ export default {
     }
   },
   created() {
-    // console.log(this.num)
+    console.log(this.num);
     this.usertype = this.$store.state.currentUsertype;
     if (this.$route.query.projectId) {
-      let arr = this.$route.query.array;
-      // alert(arr);
+      let arr = JSON.parse(this.$route.query.array);
       if (arr.length > 0) {
         this.result = [...arr];
       }
@@ -334,7 +330,7 @@ export default {
   methods: {
     initial() {
       this.$refs.check.$el.style.height = 0;
-      // console.log(123)
+      console.log(123);
       if (window.orientation == 90 || window.orientation == -90) {
         document.querySelector(".choose_lists").style.maxHeight = 4 + "rem";
       } else {
@@ -485,8 +481,8 @@ export default {
       }
       // this.$axios({
       //   method: "post",
-      //   url: `${this.$baseurl}/bsl_web/projectSign/project`,
-      //   data:
+      //   url: `${this.$axios.defaults.baseURL}/bsl_web/projectSign/project`,
+      //   data: this.$qs.stringify(
       //     {
       //       projectId: this.$route.query.projectId,
       //       signStatusList: this.result,
@@ -494,18 +490,21 @@ export default {
       //       pageSize: this.loadNumUp,
       //       X_Token:this.$store.state.X_Token
       //     },
-      //     // { arrayFormat: "brackets" }
-      //   // ),
+      //     { arrayFormat: "brackets" }
+      //   ),
       //   headers: {
-      //     "Content-Type": 'application/json'
+      //     "Content-Type": "application/x-www-form-urlencoded"
       //   }
       // })
+      // console.log(result);
+
       this.$global
-        .post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/project`, {
+        .post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/project`, {
           projectId: this.$route.query.projectId,
           signStatusList: this.result,
           pageIndex: this.pageNum,
           pageSize: this.loadNumUp
+          // X_Token:this.$store.state.X_Token
         })
         .then(res => {
           if (res.data.resultCode == 10000) {
@@ -541,7 +540,10 @@ export default {
             this.loading = false;
             this.finished = true;
           }
-          // console.log(this.upGoodsInfo);
+          console.log(this.upGoodsInfo);
+        })
+        .catch(err => {
+          // this.loadText = "加载失败";
         });
     }
   }
@@ -603,7 +605,6 @@ export default {
 
   .van-pull-refresh {
     padding: 2.8rem 0 1.3rem 0;
-    // height: 100%;
   }
 
   .van-list {
@@ -669,12 +670,11 @@ export default {
 <style lang="scss" scoped>
 #mysign {
   width: 100%;
-  // height:100%;
   nav {
     width: 100%;
     position: fixed;
     z-index: 5;
-    // color: #333;
+    color: #333;
     text-align: center;
     top: 0;
     background: white;
@@ -682,7 +682,6 @@ export default {
       line-height: 1.6rem;
       font-size: 0.46rem;
       height: 1.6rem;
-      font-weight: bold;
       // font-size: 0.4rem;
       border-bottom: 0.1rem solid #d2d2d2;
     }

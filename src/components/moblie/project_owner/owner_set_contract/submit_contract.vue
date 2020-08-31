@@ -13,7 +13,6 @@
         </footer>
       </article>
     </main>
-    <!-- <mbottom></mbottom> -->
   </div>
 </template>
 <script>
@@ -36,77 +35,71 @@ export default {
   //     //     alert(vm.num)
   //     // })
   // },
+  computed: {
+  },
+  mounted() {
 
-  computed: {},
-  mounted() {},
+  },
   methods: {
     contract_submit() {
-      for (let i in this.contract) {
-        if (this.contract[i] == "") {
+      for(let i in this.contract){
+        if(this.contract[i]==''){
           this.$dialog
             .confirm({
-              title: this.$t("ContractWrods.PleaseReturnToCompleteInformation")
+              title: this.$t('ContractWrods.PleaseReturnToCompleteInformation')
               // message: "弹窗内容"
             })
             .then(() => {
-              this.$router.go(-2);
+                this.$router.go(-2);
             });
-          return;
+            return;
         }
-      }
-      let projectId = this.$route.query.projectId
-        ? this.$route.query.projectId * 1
-        : -1;
-      let signId = this.$route.query.signId ? this.$route.query.signId * 1 : -1;
-      console.log(projectId, signId);
+      };
+      let projectId=this.$route.query.projectId?this.$route.query.projectId*1:-1;
+      let signId=this.$route.query.signId?this.$route.query.signId*1:-1;
+      console.log(projectId,signId)
       console.log(this.contract);
       this.$loading();
-      if (projectId) {
-        this.$global
-          .post_encapsulation(
-            `${this.$baseurl}/bsl_web/projectSign/reviewInterestedRequest`,
-            {
-              projectId: projectId,
-              signId: signId,
-              signStatus: 2,
-              signAgreement: JSON.stringify(this.contract)
-            }
-          )
-          .then(res => {
-            console.log(res);
-            this.$toast.clear();
-            if (res.data.resultCode == 10000) {
-              this.$dialog
-                .alert({
-                  title: res.data.resultDesc,
-                  message: this.$t("projectOwner.BackToMyProject")
-                })
-                .then(() => {
-                  this.$routerto("mysign");
-                });
-            } else if (res.data.resultCode == 10051) {
-              this.$dialog
-                .alert({
-                  title: this.$t("common.Reminder"),
-                  message: this.$t(
-                    "projectOwner.YourRegistrationReviewDidNotPass"
-                  )
-                })
-                .then(() => {
-                  this.$routerto("mysign");
-                });
-            } else {
-              this.$dialog
-                .alert({
-                  title: res.data.resultDesc,
-                  message: this.$t("projectOwner.BackToMyProject")
-                })
-                .then(() => {
-                  this.$routerto("mysign");
-                });
-            }
-          });
-      } else {
+      if(projectId){
+      this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/reviewInterestedRequest`,{
+        projectId: projectId,
+        signId: signId,
+        signStatus: 2,
+        signAgreement: JSON.stringify(this.contract)
+      }).then(res => {
+          console.log(res)
+          this.$toast.clear();
+          if (res.data.resultCode == 10000) {
+            this.$dialog
+              .alert({
+                title: res.data.resultDesc,
+                message:this.$t('projectOwner.BackToMyProject')
+              })
+              .then(() => {
+                this.$routerto("mysign");
+              });
+          } else if(res.data.resultCode==10051) {
+            this.$dialog
+              .alert({
+                title: this.$t('common.Reminder'),
+                message: this.$t('projectOwner.YourRegistrationReviewDidNotPass')
+
+              })
+              .then(() => {
+                this.$routerto("mysign");
+              });
+          }else{
+            this.$dialog
+              .alert({
+                title: res.data.resultDesc,
+                message:this.$t('projectOwner.BackToMyProject')
+              })
+              .then(() => {
+                this.$routerto("mysign");
+              });
+          }
+        });
+      }else {
         // console.log('没有projectid')
       }
     }
@@ -154,9 +147,9 @@ export default {
       flex-direction: column;
       justify-content: space-between;
       width: 100%;
-      > div {
-        height: 85%;
-      }
+        >div{
+           height: 85%;
+        }
       footer {
         width: 100%;
         font-size: 0.42rem;
@@ -174,7 +167,9 @@ export default {
           background: orange;
         }
       }
+
+      }
+
     }
   }
-}
 </style>

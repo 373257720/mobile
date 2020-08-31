@@ -91,10 +91,6 @@ export default {
           name: this.$t('common.ProjectDetails'),
           response: ""
         },
-		potentialInvestorsTags:{
-			name: this.$t('common.potentialInvestors'),
-			response: ""
-		}	
       },
     };
   },
@@ -105,7 +101,7 @@ export default {
     this.$global
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
           projectId:details.projectId,
@@ -157,7 +153,6 @@ export default {
 #i_sign_failed {
   width: 100%;
   height:100%;
-
   main {
     padding: 1.5rem 0 1.3rem 0;
     background: #ffffff;

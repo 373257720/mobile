@@ -57,7 +57,6 @@
         </footer>
       </article>
     </main>
-    <!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>

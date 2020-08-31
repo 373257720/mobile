@@ -10,7 +10,6 @@
         </footer> -->
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -77,10 +76,10 @@ export default {
           name: this.$t('common.ProjectDetails'),
           response: ""
         },
-		potentialInvestorsTags:{
-			name: this.$t('common.potentialInvestors'),
-			response: ""
-		}	
+        potentialInvestorsTags: {
+          name: this.$t("common.potentialInvestors"),
+          response: ""
+        }
       },
       financingStage: {
         '0': this.$t('projectOwner.SeedRound'),
@@ -100,7 +99,7 @@ export default {
     if(details.signStatus && details.signId){
       this.$global
         .goods_deatails(
-          `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+          `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
           "get",
           {
             projectId:details.projectId,
@@ -119,7 +118,7 @@ export default {
           this.$toast.clear();
         });
     }else{
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/connected/getConnectedDetails`,
+      this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/connected/getConnectedDetails`,
       {
         projectId:details.projectId,
       }

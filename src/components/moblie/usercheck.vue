@@ -5,7 +5,7 @@
       <van-cell-group class="vanForm">
         <div class="usertype">
           <p>{{$t('common.Category')}}</p>
-         <van-dropdown-menu>
+          <van-dropdown-menu>
             <van-dropdown-item
               @change="function(params) {
                   return signer_submit(params, 'userType');
@@ -13,39 +13,21 @@
               "
               v-model="form.userType"
               :options="option1"
-            >
-            </van-dropdown-item>
+            ></van-dropdown-item>
           </van-dropdown-menu>
-		<!--  <a-select :default-value="1" @change="handleChange1">
-		  			<a-select-option v-for="item in option1" :value="item.value" :key='item.value'>
-		  				{{item.text}}
-		  			</a-select-option>
-		   </a-select> -->
           <footer>{{ form_err.userType }}</footer>
         </div>
         <div class="identity">
           <p>{{$t('common.Identity')}}</p>
-        <van-dropdown-menu>
+          <van-dropdown-menu>
             <van-dropdown-item
               v-if="form.userType == 1"
               disabled
               v-model="form.userIdentityType"
               :options="option2"
             />
-            <van-dropdown-item
-              v-else
-              v-model="form.userIdentityType"
-              :options="option2"
-            />
+            <van-dropdown-item v-else v-model="form.userIdentityType" :options="option2" />
           </van-dropdown-menu>
-	<!-- 	 <a-select :default-value="1" @change="handleChange1" >
-			  <a-select-option  :value="option2[0].value" v-show="form.userType == 1">
-				  {{option2[0].text }}
-				</a-select-option>
-				<a-select-option  :value="option2[1].value">
-				  {{option2[1].text }}
-				</a-select-option>
-		   </a-select> -->
           <footer>{{ form_err.userIdentityType }}</footer>
         </div>
         <div class="nationality">
@@ -63,33 +45,27 @@
               :notFoundContent="coutry_fetching ? undefined :$t('common.NotFound')"
             >
               <!-- :filterOption="filterOption" -->
-              <a-spin
-                v-if="coutry_fetching"
-                slot="notFoundContent"
-                size="small"
-              />
-              <a-select-option
-                v-for="d in countrylist"
-                :key="d.remark"
-                :value="d.value + 1"
-                >
-                <span style="margin-right: 0.1rem">{{d.eng}}</span><span>{{d.chinese}}</span>
-               </a-select-option>
-<!--              {{$i18n.locale=='zh_CN'?d.chinese:d.eng}}-->
+              <a-spin v-if="coutry_fetching" slot="notFoundContent" size="small" />
+              <a-select-option v-for="d in countrylist" :key="d.remark" :value="d.value + 1">
+                <span style="margin-right: 0.1rem">{{d.eng}}</span>
+                <span>{{d.chinese}}</span>
+              </a-select-option>
+              <!--              {{$i18n.locale=='zh_CN'?d.chinese:d.eng}}-->
             </a-select>
           </div>
           <!-- <van-dropdown-menu>
               <van-dropdown-item v-model="form.userCountry" @change="nation" :options="countrylist" />
-            </van-dropdown-menu> -->
+          </van-dropdown-menu>-->
           <footer>{{ form_err.userCountry }}</footer>
         </div>
-        <div
-          class="identy_check"
-          v-show="form.userIdentityType == 2 ? false : true"
-        >
+        <div class="identy_check" v-show="form.userIdentityType == 2 ? false : true">
           <div class="idcard_num">
             <p>{{$t('common.PersonalName')}}</p>
-            <van-field v-model="form.userName"   :placeholder="$t('ContractWrods.pleaseEnter')" clearable />
+            <van-field
+              v-model="form.userName"
+              :placeholder="$t('ContractWrods.pleaseEnter')"
+              clearable
+            />
             <footer>{{ form_err.userName }}</footer>
           </div>
           <!-- this.form.userCountry=this.countrylist[value].remark; -->
@@ -103,7 +79,7 @@
             <footer>{{ form_err.userIdentity }}</footer>
           </div>
           <div class="id_front">
-            <p>{{ switchon == true ?  $t('common.IDCardFront') : $t('common.passport')  }}</p>
+            <p>{{ switchon == true ? $t('common.IDCardFront') : $t('common.passport') }}</p>
             <van-uploader
               :before-read="function(params){return asyncBeforeRead(params, 1)}"
               @delete="(params)=> {return deletepic(params, 1)}"
@@ -127,11 +103,7 @@
         <div class="gongsi" v-show="form.userIdentityType == 2 ? true : false">
           <div class="companyname2">
             <p>公司名称</p>
-            <van-field
-              v-model="form.userCompanyCh"
-              placeholder="请输入公司名称"
-              clearable
-            />
+            <van-field v-model="form.userCompanyCh" placeholder="请输入公司名称" clearable />
           </div>
           <div class="companyname">
             <p>Company name</p>
@@ -144,11 +116,7 @@
           </div>
           <div class="company_address">
             <p>公司地址</p>
-            <van-field
-              v-model="form.userAddressCh"
-              placeholder="请输入公司地址"
-              clearable
-            />
+            <van-field v-model="form.userAddressCh" placeholder="请输入公司地址" clearable />
           </div>
           <div class="company_address_eng">
             <p>Company address</p>
@@ -176,7 +144,6 @@
         <button @click="submit">{{$t('common.Submit')}}</button>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -192,17 +159,17 @@ export default {
       switchon: false,
       countrylist: [],
       option1: [
-        { text: this.$t('common.ProjectParty'), value: 1 },
-        { text: this.$t('common.Middleman'),  value: 4 },
-        { text: this.$t('common.Investor'), value: 3 }
+        { text: this.$t("common.ProjectParty"), value: 1 },
+        { text: this.$t("common.Middleman"), value: 4 },
+        { text: this.$t("common.Investor"), value: 3 }
       ],
       option2: [
-        { text: this.$t('common.individual'), value: 1 },
-        { text:this.$t('common.company'), value: 2 }
+        { text: this.$t("common.individual"), value: 1 },
+        { text: this.$t("common.company"), value: 2 }
       ],
       fileList_front: [],
       fileList_back: [],
-      userCountry:undefined,
+      userCountry: undefined,
       fileList_company: [],
       form_err: {
         userCountry: "",
@@ -237,14 +204,14 @@ export default {
         userAddressCh: "",
         userAddressEn: "",
         userCompanyPic: "",
-        userType: null,
-        X_Token:this.$store.state.X_Token
+        userType: null
+        // X_Token: this.$store.state.X_Token
         // identity: ""
       },
       createTime: "", //注册时间
       email_pic: "",
       bslEmail: "",
-      value:null, //change region result in uploadpic change
+      value: null //change region result in uploadpic change
     };
   },
   created() {
@@ -252,7 +219,7 @@ export default {
     this.ulHtml("");
     this.$loading();
     this.$global
-      .get_encapsulation(`${this.$baseurl}/bsl_web/user/getUserDetail`)
+      .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/getUserDetail`)
       .then(res => {
         this.$toast.clear();
         if (res.data.resultCode == 10000) {
@@ -281,25 +248,22 @@ export default {
     }
   },
   methods: {
-	  handleChange1(value){
-		 this.form.userType=value;
-	  },
-    deletepic(file,index){
+    deletepic(file, index) {
       if (index == 1) {
-        this.form.identityPicOne = '';
+        this.form.identityPicOne = "";
       } else if (index == 2) {
-        this.form.identityPicTwo = '';
+        this.form.identityPicTwo = "";
       } else if (index == 3) {
-        this.form.userCompanyPic = '';
+        this.form.userCompanyPic = "";
       }
     },
     signer_submit(params, userType) {
-      this.fileList_front=[];
-      this.fileList_back=[];
-      this.fileList_company= [];
-      this.form.identityPicOne = '';
-      this.form.identityPicTwo = '';
-      this.form.userCompanyPic = '';
+      this.fileList_front = [];
+      this.fileList_back = [];
+      this.fileList_company = [];
+      this.form.identityPicOne = "";
+      this.form.identityPicTwo = "";
+      this.form.userCompanyPic = "";
     },
     search(val) {
       if (timeout) {
@@ -309,14 +273,14 @@ export default {
       timeout = setTimeout(this.ulHtml(val), 300);
     },
     handleChange(value) {
-      if(this.value!==value){
-        this.fileList_front=[];
-        this.fileList_back=[];
-        this.fileList_company= [];
-        this.form.identityPicOne = '';
-        this.form.identityPicTwo = '';
-        this.form.userCompanyPic = '';
-        this.value=value;
+      if (this.value !== value) {
+        this.fileList_front = [];
+        this.fileList_back = [];
+        this.fileList_company = [];
+        this.form.identityPicOne = "";
+        this.form.identityPicTwo = "";
+        this.form.userCompanyPic = "";
+        this.value = value;
       }
       if (this.countrylist[value - 1].remark === "CHN") {
         this.switchon = true;
@@ -325,7 +289,10 @@ export default {
         this.switchon = false;
         this.form.identityType = 2; //护照
       }
-      this.userCountry=this.$i18n.locale=='zh_CN'?this.countrylist[value - 1].chinese:this.countrylist[value - 1].eng;
+      this.userCountry =
+        this.$i18n.locale == "zh_CN"
+          ? this.countrylist[value - 1].chinese
+          : this.countrylist[value - 1].eng;
       this.form.userCountry = this.countrylist[value - 1].remark;
       this.form.userCountryEn = this.countrylist[value - 1].eng;
       this.form.userCountryCh = this.countrylist[value - 1].chinese;
@@ -336,10 +303,10 @@ export default {
       this.countrylist = [];
       let arr = [];
       this.coutry_fetching = true;
-        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`,
-          {
-            searchKey:val,
-          })
+      this.$global
+        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`, {
+          searchKey: val
+        })
         .then(res => {
           if (res.data.data.length > 0) {
             for (let i = 0; i < res.data.data.length; i++) {
@@ -378,13 +345,13 @@ export default {
     submit() {
       if (this.form.userIdentityType == 1) {
         if (this.form.userCountry == "") {
-          this.$toast( this.$t('common.PleaseNationality'));
+          this.$toast(this.$t("common.PleaseNationality"));
           return;
         } else if (this.form.userName == "") {
-          this.$toast( this.$t('common.PleasePersonalName'));
+          this.$toast(this.$t("common.PleasePersonalName"));
           return;
         } else if (this.form.userIdentity == "") {
-          this.$toast( this.$t('common.PleasePerCertificateNumber'));
+          this.$toast(this.$t("common.PleasePerCertificateNumber"));
           return;
         }
         // else if (this.form.userCountry == "CHN") {
@@ -403,7 +370,7 @@ export default {
         // }
       } else if (this.form.userIdentityType == 2) {
         if (this.form.userCountry == "") {
-          this.$toast( this.$t('common.PleaseNationality'));
+          this.$toast(this.$t("common.PleaseNationality"));
           return;
         } else if (this.form.userCompanyEn == "") {
           this.$toast("Please enter company name");
@@ -438,48 +405,54 @@ export default {
 
     asyncBeforeRead(file, index) {
       if (file.type !== "image/jpeg") {
-        this.$toast(this.$t('common.UploadJPG'));
+        this.$toast(this.$t("common.UploadJPG"));
         return false;
       }
       let formData = new FormData();
       formData.append("file", file);
+      formData.append("X_Token", this.$store.state.X_Token);
+      console.log(formData);
+
       this.$loading();
       return new Promise((resolve, reject) => {
         this.$axios({
           method: "post",
-          url: `${this.$baseurl}/bsl_web/upload/pic.do`,
+          url: `${this.$axios.defaults.baseURL}/bsl_web/upload/pic`,
           data: formData,
           headers: {
             "Content-Type": "multipart/form-data"
+            // "application/x-www-form-urlencoded"
           }
-        })
-          .then(res => {
-            this.$toast.clear();
-            if (res.data.resultCode == 10000) {
-              var imgurl = res.data.data.url;
-              console.log(imgurl);
-              if (index == 1) {
-                this.form.identityPicOne = imgurl;
-              } else if (index == 2) {
-                this.form.identityPicTwo = imgurl;
-              } else if (index == 3) {
-                this.form.userCompanyPic = imgurl;
-              }
-              resolve(true);
-            } else {
-              this.$toast(res.data.resultDesc);
-              reject(res.data.resultDesc);
+        }).then(res => {
+          this.$toast.clear();
+          if (res.data.resultCode == 10000) {
+            let imgurl = res.data.data.url;
+            let urlBase = res.data.data.urlBase;
+            // console.log(urlBase + imgurl);
+            if (index == 1) {
+              this.fileList_front = [];
+              this.form.identityPicOne = imgurl;
+              this.fileList_front.push({ url: urlBase + imgurl });
+            } else if (index == 2) {
+              this.fileList_back = [];
+              this.form.fileList_back = imgurl;
+              this.fileList_company.push({ url: urlBase + imgurl });
+            } else if (index == 3) {
+              this.fileList_company = [];
+              this.form.userCompanyPic = imgurl;
+              this.fileList_company.push({ url: urlBase + imgurl });
             }
-          })
-          .catch(err => {
-            this.$toast("系统异常");
-            reject(err);
-          });
+            // resolve(true);
+          } else {
+            this.$toast(res.data.resultDesc);
+            reject(res.data.resultDesc);
+          }
+        });
       });
       // return true;
       // this.$axios({
       //   method: "post",
-      //   url: `${this.$baseurl}/bsl_web/upload/pic.do`,
+      //   url: `${this.$axios.defaults.baseURL}/bsl_web/upload/pic.do`,
       //   data: formData,
       //   headers: {
       //     "Content-Type": "multipart/form-data"
@@ -508,10 +481,10 @@ export default {
       let userIdentityType;
       let userIdentityType_name;
       if (this.form.userIdentityType == 1) {
-        userIdentityType = this.$t('common.individual');
+        userIdentityType = this.$t("common.individual");
         userIdentityType_name = this.form.userName;
       } else if (this.form.userIdentityType == 2) {
-        userIdentityType =  this.$t('common.company');
+        userIdentityType = this.$t("common.company");
         userIdentityType_name = this.form.userCompanyEn;
       }
 
@@ -958,10 +931,13 @@ export default {
       </tbody>
     </table>
   </div>
-                   </div>`;
-      this.form.emailData =letter;
+  </div>`;
+      this.form.emailData = letter;
       this.$loading();
-        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/user/submitAuth`,this.form
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/submitAuth`,
+          this.form
         )
         .then(res => {
           this.$toast.clear();
@@ -999,7 +975,6 @@ export default {
     max-height: 4rem;
   }
   .ant-select {
-
     width: 100%;
     border: 1px solid #ababab;
     border-radius: 3px;
@@ -1024,7 +999,6 @@ export default {
     }
     .ant-select-selection {
       border: 0;
-
     }
   }
   // background: white;
@@ -1043,7 +1017,6 @@ export default {
     .van-field__body {
       border: 1px solid #ababab;
     }
-
   }
   .van-dropdown-menu__item {
     // display:inline;
@@ -1070,7 +1043,6 @@ export default {
   .issort {
     border-color: #ababab;
   }
-
 
   .van-field__body {
     //  width: 100%;
@@ -1120,10 +1092,10 @@ export default {
     display: block;
     margin-bottom: 0;
   }
- .van-uploader__wrapper{
-     width: 100%;
-     height: 100%;
-   }
+  .van-uploader__wrapper {
+    width: 100%;
+    height: 100%;
+  }
 
   .van-uploader__upload {
     width: 100%;
@@ -1153,7 +1125,6 @@ export default {
   }
 }
 </style>
-
 <style lang="scss" scoped>
 #usercheck {
   height: 100%;
@@ -1183,7 +1154,6 @@ export default {
           color: #ee0a24;
         }
       }
-
     }
     div.identy_check {
       > div {
@@ -1192,13 +1162,11 @@ export default {
           margin-bottom: 0.1rem;
           font-size: 0.38rem;
         }
-
       }
       .idcard_num p::before {
         content: "*";
         color: #f56c6c;
         margin-right: 0.1rem;
-
       }
     }
     div.gongsi {
@@ -1208,16 +1176,14 @@ export default {
           margin-bottom: 0.1rem;
           font-size: 0.38rem;
         }
-
       }
       .companyname,
-      .company_address_eng, {
+      .company_address_eng {
         > p::before {
           content: "*";
           color: #f56c6c;
           margin-right: 0.1rem;
         }
-
       }
     }
     header {
@@ -1241,7 +1207,6 @@ export default {
         background: #00adef;
       }
     }
-
   }
 }
 </style>

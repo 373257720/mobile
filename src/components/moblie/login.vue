@@ -1,32 +1,17 @@
 <template>
   <div id="login">
-    <h2 style="position:relative">
-      <img src="../../assets/indexLogo.png" alt />
-      <button
-        style="   
-       position:absolute;
-    padding: 0 12px;
-    color: #fff;
-    top:0.5rem;
-    right:0.8rem;
-    font-size: 14px;
-    line-height: 24px;
-    background:#c2c0c0;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 20px;
-    cursor: pointer;"
-        @click="switchLan(lan)"
-      >{{lantext}}</button>
-    </h2>
+    <div class="logo">
+      <img src="../../../static/pic/logo.png" alt />
+      <button class="switchLan" color="#0ce5b2" @click="switchLan(lan)">{{lantext}}</button>
+    </div>
     <div class="main">
-      <p>{{remind}}</p>
+      <p>请输入推荐码</p>
       <!-- <van-form> -->
       <!--      <div class="username common" v-if="$route.query.email">-->
       <!--        <van-field v-model.trim="username" placeholder="电子邮箱" disabled />-->
       <!--      </div>-->
       <!--      v-if="!$route.query.email"-->
-      <van-form>
+      <!-- <van-form>
         <div class="username common">
           <van-field v-model.trim="username" :placeholder="$t('common.Email')" clearable />
         </div>
@@ -41,13 +26,15 @@
         <div class="loginbtn common">
           <button @click="login">{{$t('common.LogIn')}}</button>
         </div>
-      </van-form>
+      </van-form>-->
       <div class="registerbtn common">
-        <button @click="$routerto('register',{email:username})">{{$t('common.Register')}}</button>
+        <!-- <button @click="$routerto('register',{email:username})">{{$t('common.Register')}}</button> -->
+        <mu-button color="#0ce5b2" @click="$routerto('register')">{{$t('common.Register')}}</mu-button>
       </div>
-      <div class="tologin">
+      <p class="login">{{$t('common.LogIn')}}</p>
+      <!-- <div class="tologin">
         <p class="tologin" @click="$routerto('forgotpassword')">{{$t('common.forgetpassword')}}</p>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -78,7 +65,6 @@ export default {
     if (this.$route.query.email) {
       this.username = this.$route.query.email ? this.$route.query.email : "";
     }
-
     this.lan = this.$i18n.locale;
     this.switchLan();
   },
@@ -92,32 +78,26 @@ export default {
   // },
   methods: {
     switchLan(lan) {
-      // console.log(lan);
       let language = this.lan;
       if (lan == "en_US") {
         language = "zh_CN";
       } else if (lan == "zh_CN") {
         language = "en_US";
       }
-      console.log(this.$store.state.X_Token);
-      
       this.$global
-        .get_encapsulation(`${this.$baseurl}/bsl_web/base/language.do`, {
-          lan: language
-        })
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/language.do`,
+          {
+            lan: language
+          }
+        )
         .then(res => {
           if (res.data.resultCode === 10000) {
-            // console.log(this.$i18n.locale);
-            console.log(JSON.parse(res.data.data).X_Token);
-            
             this.lan = language;
             localStorage.setItem("language", language);
             this.$Local(language);
             this.$i18n.locale = language;
-            this.$store.dispatch(
-              "X_Token_actions",
-              JSON.parse(res.data.data).X_Token
-            );
+            this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
           } else {
             this.$toast(res.data.resultDesc);
           }
@@ -128,10 +108,13 @@ export default {
       if (this.username && this.password) {
         this.$loading();
         this.$global
-          .post_encapsulation(`${this.$baseurl}/bsl_web/user/login.do`,  {
-            bslEmail: this.username,
-            bslPwd: this.password
-          })
+          .post_encapsulation(
+            `${this.$axios.defaults.baseURL}/bsl_web/user/login.do`,
+            {
+              bslEmail: this.username,
+              bslPwd: this.password
+            }
+          )
           .then(res => {
             this.$toast.clear();
             var rescode = res.data.resultCode;
@@ -164,57 +147,48 @@ export default {
 // 10014	账号或密码不正确
 // 10000	登录成功
 </script>
-<style lang='scss'>
-#login {
-  .van-field__body {
-    //  width: 100%;
-    height: 1rem;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    background: #f6f6f6;
-    padding: 0.1rem 0.3rem;
-    box-sizing: border-box;
-  }
 
-  .van-field__control {
-    font-size: 0.42rem;
-    // line-height: 0.7rem;
-  }
-
-  .van-field__clear {
-    // height: 0.1rem;
-    font-size: 0.38rem;
-  }
-
-  .username,
-  .password {
-    .van-field {
-      padding: 0;
-      width: 9.8rem;
-    }
-  }
-}
-</style>
 <style lang='scss' scoped>
 #login {
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
+  background: #2f36ac;
   display: flex;
   flex-direction: column;
-  // align-items: center;
-  // align-items: center;
-  // justify-content: center;
-
-  h2 {
-    height: 40%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  align-items: center;
+  overflow: hidden;
+  div.logo {
+    width: 57.33vw;
+    height: 14.92vh;
+    margin-top: 24.96vh;
+    // box-sizing: border-box;
+    margin-bottom: 33.96vh;
+    .switchLan {
+      height: 2.85vh;
+      position: absolute;
+      // padding:  3.34vh 0;
+      width: vw(76);
+      box-sizing: border-box;
+      color: #2f36ac;
+      top: 2.35vh;
+      background: #0ce5b2;
+      right: 6.27vw;
+      // font-size: vw(30);
+      line-height: 2.85vh;
+      text-align: center;
+      border-radius: 15px;
+      font-weight: 550;
+      cursor: pointer;
+      .mu-ripple-wrapper {
+      }
+    }
 
     img {
-      width: 4.8rem;
-      height: 2.6rem;
+      // width: 57.33vw;
+      width: 100%;
+      height: auto;
+
+      // height: 14.92vh;
       /*max-height: 100%;*/
       /*max-width: 100%;*/
     }
@@ -232,47 +206,32 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    p {
-      font-size: 0.38rem;
-      height: 0.84rem;
-      line-height: 0.84rem;
-      color: #f36c69;
+    > p {
+      font-size: 2.4vh;
+      // height: 0.84rem;
+      // line-height: 0.32em;
+      color: #0ce5b2;
+      border-bottom: 1px solid #0ce5b2;
+      margin-bottom: 3.3vh;
     }
-
-    div.tologin {
-      width: 9.8rem;
-      display: flex;
-      justify-content: flex-end;
-
-      p {
-        //  align-self:  flex-end;
-        color: #00adef;
-        text-decoration: underline;
-        cursor: pointer;
+    button {
+      color: #2f36ac;
+      border-radius: 15px;
+      width: 75.87vw;
+      font-weight: 550;
+      line-height: 5.62vh;
+      height: 5.62vh;
+      font-size: 2.4vh;
+    }
+    .registerbtn {
+      button {
+        background: #0ce5b2;
+        margin-bottom: 2.4vh;
       }
     }
-
-    div.common {
-      margin-bottom: 0.5rem;
-    }
-
-    button {
-      /*margin-bottom: 0.5rem;*/
-      color: white;
-      border-radius: 5px;
-      width: 9.8rem;
-      line-height: 1rem;
-      height: 1rem;
-      font-size: 0.42rem;
-    }
-
-    .loginbtn button {
-      background: #00adef;
-    }
-
-    .registerbtn button {
-      background: #ff7c2c;
+    p.login {
+      color: #fff;
+      border: none;
     }
   }
 }

@@ -3,7 +3,7 @@
 import Vue from "vue";
 import App from "./App";
 import router from "./router";
-// import 'vant/lib/index.css';
+import "vant/lib/index.css";
 import axios from "../node_modules/axios";
 import qs from "qs";
 import Promise from "es6-promise";
@@ -13,12 +13,17 @@ import store from "./store/store";
 import { i18n } from "./language";
 Vue.config.productionTip = false;
 Vue.prototype.$qs = qs;
-import "./vant.js";
-// console.log(vant)
-// import 'lib-flexible/flexible.js'
+// 富文本
+const url = process.env.BASE_API;
+axios.defaults.baseURL = url;
+// import "font-awesome/css/font-awesome.css";
+// import initRichText from "./editor";
+// initRichText();
+// import 'amfe-flexible/index.js'
 // vuex
 import Vuex from "vuex";
 Vue.use(Vuex);
+import "./vant";
 // import ant from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.less'
 // Vue.use(ant)
@@ -34,12 +39,13 @@ import Spin from "ant-design-vue/lib/spin";
 import "ant-design-vue/lib/spin/style/css";
 Vue.use(Spin);
 import "./css/base.css";
-
+import "./css/base.scss";
 import VueQuillEditor from "vue-quill-editor";
 // require styles
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
+
 Vue.use(VueQuillEditor /* { default global options } */);
 
 // import Vconsole from 'vconsole'
@@ -49,7 +55,14 @@ Vue.use(VueQuillEditor /* { default global options } */);
 Vue.prototype.$axios = axios;
 const restore_obj = global.deepCopy(store._modules.root.state);
 Vue.prototype.$restore_obj = restore_obj;
+// import AsyncValidator from "async-validator";
+// console.log(AsyncValidator);
 
+// Vue.prototype.$AsyncValidator=AsyncValidator;
+// Vue.use(AsyncValidator)
+import MuseUI from 'muse-ui';
+import 'muse-ui/dist/muse-ui.css';
+Vue.use(MuseUI);
 import { Dialog } from "vant";
 Vue.use(Dialog);
 import { Toast } from "vant";
@@ -76,6 +89,31 @@ i18n.locale = localStorage.getItem("language")
   ? localStorage.getItem("language")
   : "en_US";
 
+// import moment from 'moment'
+// Vue.prototype.$moment = moment
+// 引入公共组件
+
+// let isShowLoading =false;
+// function addLoading() {
+//   isShowLoading = true;
+//   loadingCount++;
+//   if(loadingCount==1){
+//     Vue.prototype.$toast.loading({
+//       loadingType: 'circular',
+//       overlay:true,
+//       className:'loading',
+//       duration: 0,
+//     });
+//   }
+// };
+
+// function isCloseLoading() {
+//   loadingCount--
+//   if (loadingCount == 0) {
+//      isShowLoading = false
+//      Vue.prototype.$toast.clear();
+//   }
+// };
 axios.defaults.withCredentials = true;
 let loadingCount = 0;
 let isShowLoading = true;
@@ -113,12 +151,7 @@ axios.interceptors.response.use(
           }).then(() => {
             store.dispatch("reset_actions", restore_obj);
             window.sessionStorage.clear();
-            // loadingCount=0;
-            // isShowLoading =true;
             router.push({ name: "login" });
-            // location.href=baseurl.api3;
-            // window.location=baseurl.api3+'/#/login';
-            // window.location.href = baseurl.api3+'/#/login';
           });
         }
       }
@@ -172,6 +205,7 @@ var baseurl = {
   // api3:'http://192.168.1.21:8080',
   api3: "http://47.90.62.114:8083", //(前段服务器端口)
   // api3:'http://localhost:8080',
+  
   api: "http://47.90.62.114:8086" //(后台正式服务器端口)
 };
 Vue.prototype.$baseurl3 = baseurl.api3;
@@ -181,6 +215,7 @@ Vue.prototype.$baseurl = baseurl.api;
 Vue.prototype.$global = global;
 import Router from "vue-router";
 // console.log(Router.prototype);
+
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err);

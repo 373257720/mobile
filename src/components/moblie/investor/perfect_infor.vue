@@ -126,7 +126,7 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
+
   </div>
 </template>
 <script>
@@ -187,7 +187,7 @@ export default {
     this.form.investorsCompanyEn=this.$store.state.inverstor.investorsCompanyEn;
     this.form.investorsName=this.$store.state.inverstor.investorsName;
     let a =this.$store.state.inverstor;
-    this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/getAllIndustry`,)
+    this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry`,)
       .then(res => {
         if(res.data.resultCode==10000){
           this.title = res.data.data.projectName;
@@ -254,7 +254,7 @@ export default {
       this.region=[];
       let arr=[];
       this.countrylist_fetching=true;
-      this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/base/countryList.do`,
+      this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
         {
           searchKey:val,
         })
@@ -315,7 +315,7 @@ export default {
       formtable.interestedIndustriesEn=interestedIndustriesEn;
       console.log(formtable);
       this.$loading();
-        this.$global.post_encapsulation(`${this.$baseurl}/bsl_web/projectSign/signProject3`,
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/signProject3`,
           formtable
         )
         .then(res => {
@@ -402,7 +402,6 @@ export default {
     width: 100%;
     // text-align: left;
   }
-
   .van-dropdown-menu__item{
     border: 1px solid #ababab;
     border-radius: 3px;

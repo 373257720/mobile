@@ -22,7 +22,6 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -112,10 +111,6 @@ export default {
           name: this.$t('common.ProjectDetails'),
           response: ""
         },
-				potentialInvestorsTags:{
-					name: this.$t('common.potentialInvestors'),
-					response: ""
-				}	
       },
     };
   },
@@ -127,7 +122,7 @@ export default {
 
     this.$global
       .get_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails.do`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails.do`,
         "get",
         {
           projectLan:this.$i18n.locale,
@@ -186,7 +181,7 @@ export default {
           // message: "弹窗内容"
         })
         .then(() => {
-          this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/rejectProject.do`,
+          this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/rejectProject.do`,
             {signId:this.$route.query.signId,
               investorsEmailSend:this.investorsEmailSend})
             .then(res => {

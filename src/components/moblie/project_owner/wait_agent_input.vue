@@ -26,7 +26,7 @@
                 <p class="row2">{{middlemen.userCompanyCh.response}}</p>
               </div>
             </li>
-            <li v-else-if="middlemen.Type==2 && $i18n.locale=='en_US'">
+            <li v-if="middlemen.Type==2 && $i18n.locale=='en_US'">
               <div>
                 <p class="row1">{{middlemen.userCompanyEn.name}}:</p>
                 <p class="row2">{{middlemen.userCompanyEn.response}}</p>
@@ -46,7 +46,6 @@
         </footer>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -127,14 +126,14 @@
             name: this.$t('common.ProjectDescription'),
             response: ""
           },
-          projectDetail:{
-            name: this.$t('common.ProjectDetails'),
-            response: ""
-          },
-		  potentialInvestorsTags:{
-		  	name: this.$t('common.potentialInvestors'),
-		  	response: ""
-		  }	
+           projectDetail: {
+          name: this.$t("common.ProjectDetails"),
+          response: ""
+        },
+        potentialInvestorsTags: {
+          name: this.$t("common.potentialInvestors"),
+          response: ""
+        }
         },
         investor_infor: {
           investorsType: {
@@ -177,7 +176,7 @@
       this.$loading();
       this.$global
         .goods_deatails(
-          `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+          `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
           "get",
           {
             projectId:details.projectId,
@@ -209,7 +208,7 @@
       check_contract() {
         this.$loading();
         var newWindow = window.open();
-        this.$global.get_encapsulation(`${this.$baseurl}/bsl_web/projectSign/getPdf`,
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getPdf`,
           {
             signId:this.$route.query.signId,
           })

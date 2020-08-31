@@ -11,7 +11,6 @@
         <commondetails :toson="details_lists"></commondetails>
       </article>
     </main>
-<!--    <mbottom></mbottom>-->
   </div>
 </template>
 <script>
@@ -23,110 +22,110 @@ export default {
       dad_text: "",
       nav_lists: {
         financingStage: {
-          name: this.$t('agent.FinancingStage'),
+          name: this.$t("agent.FinancingStage"),
           response: ""
         },
         committedCount: {
-          name: this.$t('agent.NumberOfinvestorsHaveSubmitted'),
+          name: this.$t("agent.NumberOfinvestorsHaveSubmitted"),
           response: ""
         },
         interestProjectCount: {
-          name: this.$t('agent.Numberofprojectsinterested'),
+          name: this.$t("agent.Numberofprojectsinterested"),
           response: ""
-        },
+        }
       },
       details_lists: {
         projectIndustry: {
-          name:this.$t('common.Industry'),
+          name: this.$t("common.Industry"),
           response: ""
         },
         projectArea: {
-          name: this.$t('common.region'),
+          name: this.$t("common.region"),
           response: ""
         },
         projectCompany: {
-          name: this.$t('common.CompanyName'),
+          name: this.$t("common.CompanyName"),
           response: ""
         },
         currencyType: {
-          name:this.$t('common.Currency'),
+          name: this.$t("common.Currency"),
           response: ""
         },
         collectMoney: {
-          name: this.$t('common.FundingAmount'),
-          collectMoneyMin:'',
-          collectMoneyMax: "",
+          name: this.$t("common.FundingAmount"),
+          collectMoneyMin: "",
+          collectMoneyMax: ""
         },
         projectMobile: {
-          name: this.$t('common.ContactNumber'),
+          name: this.$t("common.ContactNumber"),
           response: ""
         },
         projectEmail: {
-          name: this.$t('common.Email'),
+          name: this.$t("common.Email"),
           response: ""
         },
         signStatus: {
-          name: this.$t('common.ContractStatus'),
+          name: this.$t("common.ContractStatus"),
           response: "",
-          classname:'red',
+          classname: "red"
         },
         projectDescribe: {
-          name: this.$t('common.ProjectDescription'),
+          name: this.$t("common.ProjectDescription"),
           response: ""
         },
-        projectDetail:{
-          name: this.$t('common.ProjectDetails'),
+        projectDetail: {
+          name: this.$t("common.ProjectDetails"),
           response: ""
         },
-        potentialInvestorsTags:{
-          name: this.$t('common.potentialInvestors'),
+        potentialInvestorsTags: {
+          name: this.$t("common.potentialInvestors"),
           response: ""
         }
       },
       investor_infor: {
         investorsType: {
-          name: this.$t('agent.InvestorType'),
+          name: this.$t("agent.InvestorType"),
           response: ""
         },
         investorsCompany: {
-          name: this.$t('agent.InvestorCompany'),
+          name: this.$t("agent.InvestorCompany"),
           response: ""
         },
         investorsName: {
-          name:this.$t('agent.InvestorName'),
+          name: this.$t("agent.InvestorName"),
           response: ""
         },
         investorsArea: {
-          name: this.$t('agent.InvestorRegion'),
+          name: this.$t("agent.InvestorRegion"),
           response: ""
         }
-      },
+      }
     };
   },
-  beforeRouteLeave(to,from,next){
-    console.log(to,from)
-      if(to.name=='a_project_intro' || to.name=="a_recommand_i"){
-          next({path: '/mysign'});
-      }else{
-        next()
-      }
+  beforeRouteLeave(to, from, next) {
+    console.log(to, from);
+    if (to.name == "a_project_intro" || to.name == "a_recommand_i") {
+      next({ path: "/mysign" });
+    } else {
+      next();
+    }
   },
   created() {
     let details = this.$route.query;
-    if(this.$route.query.signStatus==6){
-      this.dad_text= this.$t('agent.InvestmentBankToReviewTheProject');
-    }else{
-      this.dad_text=this.$t('common.PendingItems');
+    if (this.$route.query.signStatus == 6) {
+      this.dad_text = this.$t("agent.InvestmentBankToReviewTheProject");
+    } else {
+      this.dad_text = this.$t("common.PendingItems");
     }
     this.$loading();
     this.$global
       .goods_deatails(
-        `${this.$baseurl}/bsl_web/project/getProjectDetails`,
+        `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
         "get",
         {
-          projectId:details.projectId,
-          signStatus:details.signStatus,
-          signId:details.signId || -1
+          projectId: details.projectId,
+          signStatus: details.signStatus,
+          signId: details.signId || -1
         },
         this.details_lists,
         this.nav_lists,
@@ -134,14 +133,12 @@ export default {
         {}
       )
       .then(res => {
-        // console.log(res);
+        console.log(res);
         this.title = res.title;
         this.$toast.clear();
       });
   },
-  methods: {
-
-  }
+  methods: {}
 };
 </script>
 <style lang="scss">
@@ -197,9 +194,7 @@ export default {
         font-weight: 600;
         line-height: 0.68rem;
       }
-
     }
-
   }
 }
 </style>

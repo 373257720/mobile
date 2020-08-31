@@ -164,7 +164,7 @@ export default new Vuex.Store({
 
     // },
     usertype(context, usertype) {
-      // console.log(context);
+      console.log(context);
       context.commit('userStatus', usertype)
     },
 
