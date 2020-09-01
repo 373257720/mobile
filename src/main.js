@@ -57,7 +57,7 @@ const restore_obj = global.deepCopy(store._modules.root.state);
 Vue.prototype.$restore_obj = restore_obj;
 // import AsyncValidator from "async-validator";
 // console.log(AsyncValidator);
-
+// import VeeValidate, { Validator } from 'vee-validate'
 // Vue.prototype.$AsyncValidator=AsyncValidator;
 // Vue.use(AsyncValidator)
 import MuseUI from 'muse-ui';

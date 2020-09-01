@@ -2,19 +2,64 @@
   <div id="register">
     <div class="main">
       <div class="box">
-        <input type="text" name="username" @blur="blur($event)" v-model="form.username" />
+        <form>
+          <label for="username">username</label>
+  <br />
+          <!-- <input
+            type="text"
+            id="username"
+            name="username"
+            @blur="blur($event)"
+            v-model="form.username"
+          />-->
+          <mu-text-field
+            v-model="form.username"
+            id="username"
+            name="username"
+            @blur="blur($event)"
+            placeholder="Please input......"
+          ></mu-text-field>
+          <br />
+          <span style="color:red;">{{ errors.username}}</span>
+          <br />
+          <label for="password">password</label>
+  <br />
+          <!-- <input type="password" name="password" @blur="blur($event)" v-model="form.password" /> -->
+          <mu-text-field
+            v-model="form.password"
+            id="password"
+            name="password"
+            @blur="blur($event)"
+            placeholder="Please input......"
+          ></mu-text-field>
+            <br />
+          <span style="color:red;">{{ errors.password}}</span>
+          <br />
+          <label for="password2">password2</label>
+  <br />
+          <mu-text-field
+            v-model="form.password2"
+            id="password2"
+            name="password2"
+            @blur="blur($event)"
+            placeholder="Please input......"
+          ></mu-text-field>
+          <!-- <input type="password" name="password2" @blur="blur($event)" v-model="form.password2" /> -->
+          <br />
+          <span style="color:red;">{{ errors.password2}}</span>
+          <br />
+          <mu-button color="#0ce5b2" @click="_click1">提交</mu-button>
+        </form>
+
         <!-- <span
           style="color:red;"
           v-if="errors.fields && errors.fields.username"
         >{{ errors.fields.username[0].message }}</span>-->
-        <input type="text" name="password" @blur="blur($event)" v-model="form.password" />
+
         <!-- <span
           style="color:red;"
           v-if="errors.fields && errors.fields.password"
         >{{ errors.fields.username1[0].message }}</span>-->
-        <input type="text" name="password2" @blur="blur($event)" v-model="form.password2" />
-        <span style="color:red;">{{ errors}}</span>
-        <mu-button color="#0ce5b2" @click="_click1">提交</mu-button>
       </div>
       <!-- <mu-container>
         <header>
@@ -45,10 +90,33 @@
 <script>
 import AsyncValidator from "async-validator";
 console.log(AsyncValidator);
-
+var reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
 export default {
   name: "register",
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        if (value !== "") {
+          value = value.trim();
+          if (!reg.test(value)) {
+            callback(new Error("密码格式不对"));
+          }
+          // this.$refs.ruleForm.validateField("checkPass");
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.form.password) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
       labelPosition: "top",
       form: {
@@ -56,56 +124,42 @@ export default {
         password: "",
         password2: ""
       },
-      errors: "",
+      errors: {
+        username: "",
+        password: "",
+        password2: ""
+      },
       rules: {
         username: [
           {
             type: "string",
             required: true,
-            message: "必须填写用户名",
+            message: "必须填写用户名"
           },
           {
-            validator(rule, value, callback, source, options) {
-              var errors = [];
-              // console.log(123);
-              
-              // test if email address already exists in a database
-              // and add a validation error to the errors array if it does
-              return errors;
-            }
+            type: "email",
+            message: "必须填写email"
           }
+          // {
+          //   validator(rule, value, callback, source, options) {
+          //     var errors = [];
+          //     console.log(123);
+
+          //     // test if email address already exists in a database
+          //     // and add a validation error to the errors array if it does
+          //     return errors;
+          //   }
+          // }
           //  { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ],
         password: [
           {
-            type: "string",
-            required: true,
-            message: "必须填写密码",
-            trigger: "blur"
-          },
-          {
-            validator(rule, value, callback, source, options) {
-              var errors = [];
-              // test if email address already exists in a database
-              // and add a validation error to the errors array if it does
-              return errors;
-            }
+            validator: validatePass
           }
         ],
         password2: [
           {
-            type: "string",
-            required: true,
-            message: "必须填写密码",
-            trigger: "blur"
-          },
-          {
-            validator(rule, value, callback, source, options) {
-              var errors = [];
-              // test if email address already exists in a database
-              // and add a validation error to the errors array if it does
-              return errors;
-            }
+            validator: validatePass2
           }
         ]
       }
@@ -121,28 +175,28 @@ export default {
 
     // },
     blur(event) {
-      console.log(event.target.name);
-      // let target = event.target.name;
-      // console.log(this.rules[event.target.name]);
       var validator = new AsyncValidator({
         [event.target.name]: this.rules[event.target.name]
       });
-      // console.log(validator);  
       validator
-        .validate(this.form[event.target.name])
+        .validate(
+          { [event.target.name]: this.form[event.target.name] },
+          { first: true }
+        )
         .then(() => {
+          this.errors[event.target.name] = "";
           // validation passed or without error message
         })
         .catch(({ errors, fields }) => {
-          console.log(errors,fields);
-          // this.errors = errors[0].message;
+          // console.log(this.errors[event.target.name]);
+          // console.log();
+          this.errors[event.target.name] = errors[0].message;
           // console.log(callback);
-
           // return handleErrors(errors, fields);
         });
     },
     async _click1() {
-      this.errors = "";
+      // this.errors = "";
       var validator = new AsyncValidator(this.rules);
       // this.errors = await new AsyncValidator(this.rules)
       //   .validate(this.form)
@@ -169,11 +223,17 @@ export default {
       validator
         .validate(this.form, { first: true })
         .then(() => {
+          for (var i in this.errors) {
+            this.errors[i] = "";
+          }
+          // this.errors[errors[0].field] = ""
           // validation passed or without error message
         })
         .catch(({ errors, fields }) => {
-          // console.log(errors);
-          this.errors = errors[0].message;
+          console.log(errors);
+          this.errors[errors[0].field] = errors[0].message;
+          // this.errors[errors[0].field] = errors[0].message;
+          // this.errors = errors[0].message;
           // console.log(callback);
 
           // return handleErrors(errors, fields);
@@ -300,7 +360,7 @@ export default {
 #register {
   min-height: 100vh;
   width: 100vw;
-  background: #2f36ac;
+  // background: #2f36ac;
   display: flex;
   flex-direction: column;
   align-items: center;
