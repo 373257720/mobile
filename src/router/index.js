@@ -17,6 +17,12 @@ const register = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/register");
 const login = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login");
+  const login1st = () =>
+  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login/login1st");
+  const login2nd = () =>
+  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login/login2nd");
+  const signin = () =>
+  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login/signin");
 const forgotpassword = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/forgotpassword"
@@ -404,7 +410,33 @@ const routes = [
       }
     ]
   },
-
+  {
+    path: "/signin",
+    name: "signin",
+    component: signin,
+    redirect: "/signin/login1st",
+    meta:{
+      isshowbottom:false,
+    },
+    children: [
+      {
+        path: "login1st",
+        name: "login1st",
+        component: login1st,
+        meta:{
+          isshowbottom:false,
+        },
+      },
+      {
+        path: "login2nd",
+        name: "login2nd",
+        component: login2nd,
+        meta:{
+          isshowbottom:false,
+        },
+      }
+    ]
+  },
   {
     path: "/p_wait_investor",
     name: "p_wait_investor",

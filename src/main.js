@@ -60,8 +60,8 @@ Vue.prototype.$restore_obj = restore_obj;
 // import VeeValidate, { Validator } from 'vee-validate'
 // Vue.prototype.$AsyncValidator=AsyncValidator;
 // Vue.use(AsyncValidator)
-import MuseUI from 'muse-ui';
-import 'muse-ui/dist/muse-ui.css';
+import MuseUI from "muse-ui";
+import "muse-ui/dist/muse-ui.css";
 Vue.use(MuseUI);
 import { Dialog } from "vant";
 Vue.use(Dialog);
@@ -205,7 +205,7 @@ var baseurl = {
   // api3:'http://192.168.1.21:8080',
   api3: "http://47.90.62.114:8083", //(前段服务器端口)
   // api3:'http://localhost:8080',
-  
+
   api: "http://47.90.62.114:8086" //(后台正式服务器端口)
 };
 Vue.prototype.$baseurl3 = baseurl.api3;

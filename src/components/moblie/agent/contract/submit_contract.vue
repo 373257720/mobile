@@ -6,7 +6,7 @@
     </nav>
     <main>
       <article>
-        <contractcomponent :htmlData.sync="htmlData"  :contract="contract"></contractcomponent>
+        <contractcomponent :htmlData.sync="htmlData" :contract="contract"></contractcomponent>
         <footer>
           <button @click="signproject4">{{$t('common.Submit')}}</button>
         </footer>
@@ -23,7 +23,7 @@ export default {
     return {
       signId: "",
       projectId: "",
-      htmlData:'',
+      htmlData: ""
     };
   },
   // beforeRouteEnter(to,from,next){
@@ -187,9 +187,9 @@ export default {
       #contract_component .contract_component ul li p {
         height: 30px;
       }
-
       #contract_component .contract_component ul li p.signature {
         text-align: center;
+        height:80px;
       }
       #contract_component .contract_component ul li p.signature img {
         width: auto;
@@ -232,7 +232,7 @@ export default {
         linkTag.setAttribute("type", "text/css");
         oMeta.content = "user-scalable=yes";
         oMeta.name = "viewport";
-        var newNode2 =this.htmlData.cloneNode(true);
+        var newNode2 = this.htmlData.cloneNode(true);
         node.appendChild(metautf8);
         node.appendChild(oMeta);
         node.appendChild(linkTag);
@@ -251,7 +251,7 @@ export default {
               signId: this.signId,
               projectId: this.projectId,
               signAgreement: JSON.stringify(this.contract),
-              htmlData: htmlstr 
+              htmlData: htmlstr
             }
           )
           .then(res => {

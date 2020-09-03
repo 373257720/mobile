@@ -9,10 +9,10 @@ module.exports = {
     "autoprefixer": {
       browsers: ['Android >= 4.0', 'iOS >= 7']
     },
-    "postcss-pxtorem": { 
-      "rootValue": 32,
-      "propList": ["*"]
-    }
+    // "postcss-pxtorem": { 
+    //   "rootValue": 37.5,
+    //   "propList": ["*"]
+    // }
 
   // "plugins": {
   //   "postcss-import": {},

@@ -15,6 +15,8 @@ import {
   SwipeCell,
   Tabs,
   Tabbar,
+  // Loading,
+  Overlay,
   // Toast,
   TreeSelect,
   Field,
@@ -33,8 +35,9 @@ import {
   Divider
 } from "vant";
 // 按需引入UI组件
+Vue.use(Overlay);
 Vue.use(Cell);
-// Vue.use(Dialog);
+// Vue.use(Loading);
 Vue.use(uploader);
 Vue.use(Pagination);
 Vue.use(Tab);

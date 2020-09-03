@@ -1,17 +1,10 @@
 <template>
-  <div id="register">
+  <div id="login1st">
     <commonnav :msg="dad_text"></commonnav>
     <main class="main">
       <form>
         <label class="label" for="username">{{$t('common.Email')}}</label>
         <br />
-        <!-- <input
-            type="text"
-            id="username"
-            name="username"
-            @blur="blur($event)"
-            v-model="form.username"
-        />-->
         <mu-text-field
           v-model="form.username"
           id="username"
@@ -19,37 +12,8 @@
           @blur="blur($event)"
           placeholder="Please input......"
         ></mu-text-field>
-
         <p class="error">
           <span>{{ errors.username}}</span>
-        </p>
-        <label class="label" for="password">{{$t('common.PassWord')}}</label>
-        <br />
-        <!-- <input type="password" name="password" @blur="blur($event)" v-model="form.password" /> -->
-        <mu-text-field
-          v-model="form.password"
-          id="password"
-          type="password"
-          name="password"
-          @blur="blur($event)"
-          placeholder="Please input......"
-        ></mu-text-field>
-        <p class="error">
-          <span>{{ errors.password}}</span>
-        </p>
-        <label class="label" for="password2">{{$t('common.PassWord')}}</label>
-        <br />
-        <mu-text-field
-          v-model="form.password2"
-          id="password2"
-          name="password2"
-          type="password"
-          @blur="blur($event)"
-          placeholder="Please input......"
-        ></mu-text-field>
-        <!-- <input type="password" name="password2" @blur="blur($event)" v-model="form.password2" /> -->
-        <p class="error">
-          <span>{{ errors.password2}}</span>
         </p>
         <div class="btn">
           <!-- <p class="reminder">reminder</p> -->
@@ -124,7 +88,7 @@ export default {
       }
     };
     return {
-      dad_text: this.$t("common.Register"),
+      dad_text: this.$t("common.LogIn"),
       visibility: false,
       labelPosition: "top",
       form: {
@@ -288,7 +252,7 @@ export default {
 
 
 <style lang='scss'>
-#register {
+#login1st {
   .mu-input-focus-line {
     // background-color: #0ce5b2;
     display: none;
@@ -317,7 +281,7 @@ export default {
 }
 </style>
 <style lang='scss' scoped>
-#register {
+#login1st {
   min-height: 100vh;
   width: 100vw;
   background: #2f36ac;
@@ -397,4 +361,3 @@ export default {
   }
 }
 </style>
-

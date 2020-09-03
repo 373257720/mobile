@@ -128,7 +128,7 @@ export default {
     InvestorName: "投资者名称",
     SigningTime: "签约时间",
     AlreadyHaveAnAccount: "已有账号,前往登录",
-    Register: "注 册",
+    Register: "注册",
     registrationSuccess: "注册成功",
     NextLogin: "下一步请登录",
     Identity: "身份",
