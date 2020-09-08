@@ -1,8 +1,7 @@
 <template>
   <div id="usercheck">
-    <div class="usercheck">
-      <header>{{$t('common.Reveiw')}}</header>
-      <van-cell-group class="vanForm">
+    <commonnav :msg="dad_text"></commonnav>
+    <!-- <van-cell-group class="vanForm">
         <div class="usertype">
           <p>{{$t('common.Category')}}</p>
           <van-dropdown-menu>
@@ -44,18 +43,13 @@
               @search="search"
               :notFoundContent="coutry_fetching ? undefined :$t('common.NotFound')"
             >
-              <!-- :filterOption="filterOption" -->
               <a-spin v-if="coutry_fetching" slot="notFoundContent" size="small" />
               <a-select-option v-for="d in countrylist" :key="d.remark" :value="d.value + 1">
                 <span style="margin-right: 0.1rem">{{d.eng}}</span>
                 <span>{{d.chinese}}</span>
               </a-select-option>
-              <!--              {{$i18n.locale=='zh_CN'?d.chinese:d.eng}}-->
             </a-select>
           </div>
-          <!-- <van-dropdown-menu>
-              <van-dropdown-item v-model="form.userCountry" @change="nation" :options="countrylist" />
-          </van-dropdown-menu>-->
           <footer>{{ form_err.userCountry }}</footer>
         </div>
         <div class="identy_check" v-show="form.userIdentityType == 2 ? false : true">
@@ -68,7 +62,6 @@
             />
             <footer>{{ form_err.userName }}</footer>
           </div>
-          <!-- this.form.userCountry=this.countrylist[value].remark; -->
           <div class="idcard_num">
             <p>{{ form.userCountry === "CHN" ? $t('common.IdentificationNumber'):$t('common.passport') }}</p>
             <van-field
@@ -118,7 +111,13 @@
             <p>公司地址</p>
             <van-field v-model="form.userAddressCh" placeholder="请输入公司地址" clearable />
           </div>
-          <div class="company_address_eng">
+          <div class="company_address_e
+          
+          
+          
+          
+          
+          ng">
             <p>Company address</p>
             <van-field
               v-model="form.userAddressEn"
@@ -138,12 +137,191 @@
             />
           </div>
         </div>
-        <!--        </vantForm>-->
       </van-cell-group>
       <div class="commit">
         <button @click="submit">{{$t('common.Submit')}}</button>
-      </div>
-    </div>
+    </div>-->
+    <main class="main">
+      <form id="userCheck">
+        <label class="label" for="z">{{$t('common.Category')}}</label>
+        <mu-select v-model="form.userType" full-width>
+          <mu-option
+            v-for="(item) in optionType"
+            :key="item.value"
+            :label="item.text"
+            :value="item"
+          ></mu-option>
+        </mu-select>
+        <p class="error">
+          <span>dfgfdgfdgdfg</span>
+        </p>
+        <label class="label">{{$t('common.Identity')}}</label>
+        <mu-select v-model="form.userIdentityType" full-width>
+          <mu-option
+            v-for="(option) in optionId"
+            :key="option.value"
+            :label="option.text"
+            :value="option.value"
+          ></mu-option>
+        </mu-select>
+        <p class="error">
+          <span></span>
+        </p>
+        <label class="label">{{$t('common.Nationality')}}</label>
+        <mu-select v-model="userCountry" filterable full-width>
+          <div v-if="coutry_fetching" style="padding: 0 16px;">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              width="30px"
+              height="30px"
+              viewBox="0 0 50 50"
+              style="enable-background:new 0 0 50 50"
+              xml:space="preserve"
+            >
+              <path
+                fill="#0ce5b2"
+                d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"
+                transform="rotate(275.098 25 25)"
+              >
+                <animateTransform
+                  attributeType="xml"
+                  attributeName="transform"
+                  type="rotate"
+                  from="0 25 25"
+                  to="360 25 25"
+                  dur="0.8s"
+                  repeatCount="indefinite"
+                />
+              </path>
+            </svg>
+          </div>
+          <!-- <a-select-option v-for="d in countrylist" :key="d.remark" :value="d.value + 1">
+            <span style="margin-right: 0.1rem">{{d.eng}}</span>
+            <span>{{d.chinese}}</span>
+          </a-select-option>-->
+          <mu-option
+            v-for="(option) in countrylist"
+            :key="option.remark"
+            :label="option.eng"
+            :value="option.value+1"
+          >
+            <!-- <span style="margin-right: 0.1rem">{{option.eng}}</span>
+            <span>{{option.chinese}}</span>-->
+          </mu-option>
+        </mu-select>
+        <p class="error">
+          <span></span>
+        </p>
+        <div v-show="form.userIdentityType == 2 ? false : true">
+          <label class="label" for="z">{{$t('common.PersonalName')}}</label>
+          <mu-text-field v-model="form.userName" id="username" name="username" @blur="blur($event)"></mu-text-field>
+          <p class="error">
+            <span>{{ errors.username}}</span>
+          </p>
+          <label
+            class="label"
+            for="z"
+          >{{ form.userCountry === "CHN" ? $t('common.IdentificationNumber'):$t('common.passport') }}</label>
+          <mu-text-field
+            v-model="form.userIdentity"
+            id="username"
+            name="username"
+            @blur="blur($event)"
+          ></mu-text-field>
+          <p class="error">
+            <span>{{ errors.username}}</span>
+          </p>
+          <label
+            class="label"
+            for="z"
+          >{{ switchon == true ? $t('common.IDCardFront') : $t('common.passport') }}</label>
+          <van-uploader
+            :before-read="function(params){return asyncBeforeRead(params, 1)}"
+            @delete="(params)=> {return deletepic(params, 1)}"
+            v-model="fileList_front"
+            multiple
+            :max-count="1"
+          />
+          <p class="error">
+            <span>{{ errors.username}}</span>
+          </p>
+          <div v-show="switchon">
+            >
+            <label class="label" for="z">{{$t('common.IDCardBack')}}</label>
+            <van-uploader
+              :before-read="function(params){return asyncBeforeRead(params, 1)}"
+              @delete="(params)=> {return deletepic(params, 1)}"
+              v-model="fileList_front"
+              multiple
+              :max-count="1"
+            />
+            <p class="error">
+              <span>{{ errors.username}}</span>
+            </p>
+          </div>
+        </div>
+
+        <div v-show="form.userIdentityType == 2 ? true : false">
+          <label class="label" for="z">Company name</label>
+          <mu-text-field
+            v-model="form.userCompanyEn"
+            id="username"
+            name="username"
+            @blur="blur($event)"
+          ></mu-text-field>
+          <p class="error">
+            <span>{{ errors.userCompanyEn}}</span>
+          </p>
+          <label class="label" for="z">公司名称</label>
+          <mu-text-field
+            v-model="form.userCompanyCh"
+            id="username"
+            name="username"
+            @blur="blur($event)"
+          ></mu-text-field>
+          <p class="error">
+            <span>{{ errors.username}}</span>
+          </p>
+          <label class="label" for="z">Company address</label>
+          <mu-text-field
+            v-model="form.userAddressEn"
+            id="username"
+            name="username"
+            @blur="blur($event)"
+          ></mu-text-field>
+          <p class="error">
+            <span>{{ errors.username}}</span>
+          </p>
+          <label class="label" for="z">公司地址</label>
+          <mu-text-field
+            v-model="form.userAddressCh"
+            id="username"
+            name="username"
+            @blur="blur($event)"
+          ></mu-text-field>
+          <p class="error">
+            <span>{{ errors.username}}</span>
+          </p>
+          <label class="label" for="z">{{$t('common.Certificate')}}</label>
+          <van-uploader
+            :before-read="function(params){return asyncBeforeRead(params, 1)}"
+            @delete="(params)=> {return deletepic(params, 1)}"
+            v-model="fileList_front"
+            multiple
+            :max-count="1"
+          />
+          <p class="error">
+            <span>{{ errors.username}}</span>
+          </p>
+        </div>
+
+        <div class="btn">
+          <p class="reminder">reminder</p>
+          <!-- <mu-button color="#0ce5b2" @click="register">{{$t('common.Submit')}}</mu-button> -->
+        </div>
+      </form>
+    </main>
   </div>
 </template>
 <script>
@@ -155,15 +333,46 @@ export default {
   },
   data() {
     return {
+      options: [
+        "Option 1",
+        "Option 2",
+        "Option 3",
+        "Option 4",
+        "Option 5",
+        "Option 6",
+        "Option 7",
+        "Option 8",
+        "Option 9",
+        "Option 10"
+      ],
+      normal: {
+        value1: "",
+        value2: "",
+        value3: "",
+        value4: "Option 1",
+        value5: "Option 2"
+      },
+      dad_text: this.$t("common.Reveiw"),
+      form: {
+        username: "",
+        password: "",
+        password2: ""
+      },
+      errors: {
+        username: "",
+        password: "",
+        password2: ""
+      },
+
       coutry_fetching: false,
       switchon: false,
       countrylist: [],
-      option1: [
+      optionType: [
         { text: this.$t("common.ProjectParty"), value: 1 },
         { text: this.$t("common.Middleman"), value: 4 },
         { text: this.$t("common.Investor"), value: 3 }
       ],
-      option2: [
+      optionId: [
         { text: this.$t("common.individual"), value: 1 },
         { text: this.$t("common.company"), value: 2 }
       ],
@@ -217,18 +426,17 @@ export default {
   created() {
     this.form.userType = 1;
     this.ulHtml("");
-    this.$loading();
-    this.$global
-      .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/getUserDetail`)
-      .then(res => {
-        this.$toast.clear();
-        if (res.data.resultCode == 10000) {
-          this.createTime = res.data.data.createTime;
-          this.email_pic = res.data.data.picUrl ? res.data.data.picUrl : "";
-          this.bslEmail = res.data.data.bslEmail ? res.data.data.bslEmail : "";
-        }
-      });
-
+    // this.$loading();
+    // this.$global
+    //   .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/getUserDetail`)
+    //   .then(res => {
+    //     this.$toast.clear();
+    //     if (res.data.resultCode == 10000) {
+    //       this.createTime = res.data.data.createTime;
+    //       this.email_pic = res.data.data.picUrl ? res.data.data.picUrl : "";
+    //       this.bslEmail = res.data.data.bslEmail ? res.data.data.bslEmail : "";
+    //     }
+    //   });
     // this.validator = validator(this.rules, this.form);
   },
   destroyed() {
@@ -304,9 +512,12 @@ export default {
       let arr = [];
       this.coutry_fetching = true;
       this.$global
-        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`, {
-          searchKey: val
-        })
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
+          {
+            searchKey: val
+          }
+        )
         .then(res => {
           if (res.data.data.length > 0) {
             for (let i = 0; i < res.data.data.length; i++) {
@@ -970,7 +1181,65 @@ export default {
 };
 </script>
 <style lang="scss">
+.mu-option.is-selected .mu-item {
+  color: #0ce5b2;
+}
+.mu-select-action {
+  .mu-select-icon {
+    width: vw(50);
+    height: vw(50);
+    color: #a8ace9;
+  }
+}
+.mu-select-content {
+  min-height: 0;
+}
+
+.mu-input-focus-line {
+  // background-color: #0ce5b2;
+  display: none;
+}
+.mu-input-line {
+  display: none;
+}
+
+.mu-list-dense .mu-item-title {
+  font-size: vw(30);
+}
+.mu-list-dense .mu-item {
+  height: vw(60);
+
+  //  padding: vw(10) 0;
+}
 #usercheck {
+  .mu-select-input {
+    color: #a8ace9;
+    font-size: vw(36);
+    height: vw(36);
+  }
+  .mu-input {
+    display: block;
+    margin-top: 0;
+    margin-top: vw(15);
+    margin-bottom: vw(15);
+    padding: 0;
+    min-height: 0;
+    font-size: vw(34);
+  }
+  .mu-input-label {
+    color: #fff;
+    font-size: vw(30);
+  }
+
+  .mu-input-label::before {
+    content: "*";
+    color: #0ce5b2;
+    margin-right: vw(8);
+  }
+  .mu-text-field-input {
+    color: #a8ace9;
+  }
+
   .ant-select-dropdown-menu {
     max-height: 4rem;
   }
@@ -978,11 +1247,11 @@ export default {
     width: 100%;
     border: 1px solid #ababab;
     border-radius: 3px;
-    font-size: 0.38rem;
+    // font-size: 0.38rem;
     color: #323233;
     .ant-select-selection__placeholder,
     .ant-select-search__field__placeholder {
-      color: #969799;
+      color: #a8ace9;
     }
 
     .ant-select-selection {
@@ -1131,8 +1400,79 @@ export default {
   // width: 80%;
   margin: 0 auto;
 
+  .label {
+    color: #fff;
+    font-size: vw(30);
+    &::before {
+      content: "*";
+      color: #0ce5b2;
+      margin-right: vw(8);
+      // line-height: 1;
+      vertical-align: middle;
+    }
+  }
+
+  .error {
+    // height: vw(24);
+
+    font-size: vw(24);
+    // font-weight: 400;
+    color: #0ce5b2;
+    margin-bottom: vw(18);
+    // line-height: vw(24);
+  }
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 vw(36);
+    padding-top: vw(146);
+    form {
+      width: 100%;
+    }
+    div.btn {
+      margin-top: vw(290);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .reminder {
+        color: #0ce5b2;
+        width: vw(569);
+        display: flex;
+        justify-content: center;
+        // height: vw(75);
+      }
+    }
+    @media (min-width: 768px) {
+      div.btn {
+        margin-top: vw(200);
+        // padding-bottom: vw(90);
+      }
+    }
+    @media all and (orientation: portrait) {
+      body {
+        // background-color: blue;
+      }
+    }
+
+    button {
+      text-align: center;
+      width: vw(569);
+      height: vw(75);
+      background: #0ce5b2;
+      border-radius: vw(20);
+      font-size: vw(30);
+      font-weight: bold;
+      color: #2f36ac;
+      line-height: vw(75);
+    }
+  }
+
   .usercheck {
     font-size: 0.38rem;
+
     .vanForm {
       div.nationality_position {
         position: relative;

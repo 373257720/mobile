@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{'ispaddingBottom':ispaddingBottom}">
     <!-- <van-overlay class="layer" :show="layerShow"></van-overlay>
     <van-loading color="#0ce5b2" :show="layerShow"/>-->
     <keep-alive include="mhome,mine,mysign,userpass">
@@ -24,13 +24,18 @@ export default {
   },
   watch: {
     $route: function(to, from) {
-      console.log(this.$route);
+      // console.log(this.$route);
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     }
   },
+  computed: {
+    ispaddingBottom() {
+      return this.$route.meta.ispaddingBottom;
+    }
+  },
   created() {
-    console.log(this);
+    // console.log(this);
     //在页面加载时读取sessionStorage里的状态信息
     if (sessionStorage.getItem("store")) {
       this.$store.replaceState(
@@ -61,11 +66,13 @@ body {
 //     padding-bottom: vw(90);
 //   }
 // }
-
+.ispaddingBottom {
+  padding-bottom: vw(90);
+}
 #app {
   // background: #2f36ac;
   position: relative;
-    padding-bottom: vw(90);
+
   // height: 100%;
   // width: 100%;
 

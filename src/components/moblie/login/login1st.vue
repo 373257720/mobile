@@ -64,29 +64,6 @@ var reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
 export default {
   name: "register",
   data() {
-    var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else {
-        if (value !== "") {
-          value = value.trim();
-          if (!reg.test(value)) {
-            callback(new Error("密码格式不对"));
-          }
-          // this.$refs.ruleForm.validateField("checkPass");
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.form.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
       dad_text: this.$t("common.LogIn"),
       visibility: false,
@@ -124,16 +101,6 @@ export default {
           // }
           //  { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ],
-        password: [
-          {
-            validator: validatePass
-          }
-        ],
-        password2: [
-          {
-            validator: validatePass2
-          }
-        ]
       }
     };
   },
@@ -165,46 +132,25 @@ export default {
     async register() {
       // this.errors = "";
       var validator = new AsyncValidator(this.rules);
-      // this.errors = await new AsyncValidator(this.rules)
-      //   .validate(this.form)
-      //   .catch(e => e);
-      // console.log(this.errors.fields);
-
-      // if (this.errors) return;
-      // this.errors = {};
+      this.$routerto("login2nd")
       // validator
-      //   .validate(this.form, (errors, fields) => {
-      //     if (errors) {
-      //       // validation failed, errors is an array of all errors
-      //       // fields is an object keyed by field name with an array of
-      //       // errors per field
-      //        console.log(errors);
-      //         this.errors=errors[0].message;
-      //       // 校验未通过的情况，errors 和 fields 同上
-      //       // return handleErrors(errors, fields);
+      //   .validate(this.form, { first: true })
+      //   .then(() => {
+      //     for (var i in this.errors) {
+      //       this.errors[i] = "";
       //     }
-      //     // validation passed
-      //     // 校验通过
+      //     // this.errors[errors[0].field] = ""
+      //     // validation passed or without error message
       //   })
+      //   .catch(({ errors, fields }) => {
+      //     console.log(errors);
+      //     this.errors[errors[0].field] = errors[0].message;
+      //     // this.errors[errors[0].field] = errors[0].message;
+      //     // this.errors = errors[0].message;
+      //     // console.log(callback);
 
-      validator
-        .validate(this.form, { first: true })
-        .then(() => {
-          for (var i in this.errors) {
-            this.errors[i] = "";
-          }
-          // this.errors[errors[0].field] = ""
-          // validation passed or without error message
-        })
-        .catch(({ errors, fields }) => {
-          console.log(errors);
-          this.errors[errors[0].field] = errors[0].message;
-          // this.errors[errors[0].field] = errors[0].message;
-          // this.errors = errors[0].message;
-          // console.log(callback);
-
-          // return handleErrors(errors, fields);
-        });
+      //     // return handleErrors(errors, fields);
+      //   });
       // .then(() => {
       //   // validation passed
       //   // 校验通过
@@ -221,30 +167,6 @@ export default {
         }
       });
     }
-    // register() {
-    //   this.$loading();
-    //   this.$global
-    //     .post_encapsulation(
-    //       `${this.$axios.defaults.baseURL}/bsl_web/user/register.do`,
-    //       { bslEmail: this.form.username, bslPwd: this.form.password }
-    //     )
-    //     .then(res => {
-    //       var rescode = res.data.resultCode;
-    //       this.$toast.clear();
-    //       if (rescode == 10000) {
-    //         this.$dialog
-    //           .alert({
-    //             title: this.$t("common.registrationSuccess"),
-    //             message: this.$t("common.NextLogin")
-    //           })
-    //           .then(() => {
-    //             this.$routerto("login");
-    //           });
-    //       } else {
-    //         this.remind = res.data.resultDesc;
-    //       }
-    //     });
-    // }
   }
 };
 </script>

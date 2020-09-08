@@ -4,21 +4,40 @@ import router from "../../router";
 import { i18n } from "../../language";
 import qs from "qs";
 import store from "../../store/store";
+import AsyncValidator from "async-validator";
 const global = {
-  nodeToString ( node ) {
-    var tmpNode = document.createElement( "div" );
-    tmpNode.appendChild( node.cloneNode( true ) );
+  nodeToString(node) {
+    var tmpNode = document.createElement("div");
+    tmpNode.appendChild(node.cloneNode(true));
     var str = tmpNode.innerHTML;
     tmpNode = node = null; // prevent memory leaks in IE
     return str;
- },
+  },
+  singerValitator(event, form, rules) {
+    let validator = new AsyncValidator({
+      [event.target.name]: rules[event.target.name]
+    });
+    return new Promise((resolve, reject) => {
+      validator
+        .validate(
+          { [event.target.name]: form[event.target.name] },
+          { first: true }
+        )
+        .then(res => {
+          resolve(res);
+        })
+        .catch(({ errors, fields }) => {
+          reject({ errors, fields });
+        });
+    });
+  },
   deepCopy(obj) {
     var result = Array.isArray(obj) ? [] : {};
     for (var key in obj) {
       if (obj.hasOwnProperty(key)) {
         // console.log(key);
-        
-        if (typeof obj[key] === 'object' && obj[key] !== null) {
+
+        if (typeof obj[key] === "object" && obj[key] !== null) {
           result[key] = this.deepCopy(obj[key]); //递归复制
         } else {
           result[key] = obj[key];
@@ -119,11 +138,11 @@ const global = {
     }
     return new Promise((resolve, reject) => {
       axios
-      .post(url, datas, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
+        .post(url, datas, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
         .then(res => {
           resolve(res);
         })
@@ -151,14 +170,25 @@ const global = {
     // console.log(datas)
     return new Promise((resolve, reject) => {
       axios({
-          url: url,
-          method: methods,
-          params: datas
-        })
-        .then((res) => {
-          let {projectLifeCycle,signAgreement,investorsEmailSend,
-            investorsId,projectName,investorsName,signUserId3,signUserId1,
-            investorsType,investorsCompany,signAgreementKey,projectLan}= res.data.data;
+        url: url,
+        method: methods,
+        params: datas
+      })
+        .then(res => {
+          let {
+            projectLifeCycle,
+            signAgreement,
+            investorsEmailSend,
+            investorsId,
+            projectName,
+            investorsName,
+            signUserId3,
+            signUserId1,
+            investorsType,
+            investorsCompany,
+            signAgreementKey,
+            projectLan
+          } = res.data.data;
           // let projectLifeCycle=res.data.data.projectLifeCycle;
           // let signAgreement = res.data.data.signAgreement;
           // let investorsEmailSend=res.data.data.investorsEmailSend;
@@ -191,49 +221,57 @@ const global = {
             }
             if (details_lists.hasOwnProperty(i)) {
               if (i == "signStatus") {
-                details_lists[i].response = i18n.t(this.pic_obj[res.data.data[i]]);
+                details_lists[i].response = i18n.t(
+                  this.pic_obj[res.data.data[i]]
+                );
               } else if (i == "publicCompany") {
-                details_lists[i].response = res.data.data[i] == false ? i18n.t('common.isno') : i18n.t('common.isyes')
+                details_lists[i].response =
+                  res.data.data[i] == false
+                    ? i18n.t("common.isno")
+                    : i18n.t("common.isyes");
               } else {
-                details_lists[i].response = res.data.data[i] || '-';
+                details_lists[i].response = res.data.data[i] || "-";
               }
             }
             if (nav_lists.hasOwnProperty(i)) {
               if (i == "financingStage") {
-                nav_lists[i].response =
-                i18n.t(this.financingStage[
-                  res.data.data[i]])
-                ;
+                nav_lists[i].response = i18n.t(
+                  this.financingStage[res.data.data[i]]
+                );
               } else {
                 nav_lists[i].response = res.data.data[i] || 0;
               }
             }
             if (middlemen.hasOwnProperty(i)) {
-              if(i=='userIdentityType'){
-                middlemen.Type=res.data.data[i];
+              if (i == "userIdentityType") {
+                middlemen.Type = res.data.data[i];
               }
-              middlemen[i].response = res.data.data[i] || '-';
+              middlemen[i].response = res.data.data[i] || "-";
             }
             if (investor_infor.hasOwnProperty(i)) {
-              if (i == 'investorsType') {
-                investor_infor.Type=res.data.data[i];
-                investor_infor[i].response = i18n.t(this.investorsType[res.data.data[i]]);
-              }else if(i == 'investorsArea'){
-                if(projectLan=='zh_CN'){
-                  investor_infor[i].response = res.data.data.investorsArea || '-';
-                }else{
-                  investor_infor[i].response = res.data.data.investorsAreaEn || '-';
+              if (i == "investorsType") {
+                investor_infor.Type = res.data.data[i];
+                investor_infor[i].response = i18n.t(
+                  this.investorsType[res.data.data[i]]
+                );
+              } else if (i == "investorsArea") {
+                if (projectLan == "zh_CN") {
+                  investor_infor[i].response =
+                    res.data.data.investorsArea || "-";
+                } else {
+                  investor_infor[i].response =
+                    res.data.data.investorsAreaEn || "-";
                 }
-              }else if(i=='investorsCompany'){
-                if(projectLan=='zh_CN'){
-                  investor_infor[i].response = res.data.data.investorsCompany || '-';
-                }else{
-                  investor_infor[i].response = res.data.data.investorsCompanyEn || '-';
+              } else if (i == "investorsCompany") {
+                if (projectLan == "zh_CN") {
+                  investor_infor[i].response =
+                    res.data.data.investorsCompany || "-";
+                } else {
+                  investor_infor[i].response =
+                    res.data.data.investorsCompanyEn || "-";
                 }
                 // console.log(investor_infor)
-              }
-              else {
-
+              } else {
                 investor_infor[i].response = res.data.data[i];
               }
             }
@@ -266,15 +304,21 @@ const global = {
   cleanall() {
     this.$routerto("login");
     sessionStorage.clear();
-
-
   },
-  get_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor,middlemen) {
-    if(!datas.projectLan){
-      datas.projectLan=i18n.locale;
+  get_deatails: function(
+    url,
+    methods,
+    datas,
+    details_lists,
+    nav_lists,
+    investor_infor,
+    middlemen
+  ) {
+    if (!datas.projectLan) {
+      datas.projectLan = i18n.locale;
     }
-    if(store.state.X_Token){
-      datas.X_Token=store.state.X_Token;
+    if (store.state.X_Token) {
+      datas.X_Token = store.state.X_Token;
     }
     return new Promise((resolve, reject) => {
       axios({
@@ -282,25 +326,44 @@ const global = {
         method: methods,
         params: datas
       })
-        .then((res) => {
-          let {projectLifeCycle,signAgreement,investorsEmailSend,
-            investorsId,projectName,userIdentityType3,investorsName,projectLan,userCompanyCh3,signUserId3,signUserId1,
-            investorsType,userCompanyEn3,userName3,userCountryCh3,userCountryEn3,investorsCompany,signAgreementKey}= res.data.data;
+        .then(res => {
+          let {
+            projectLifeCycle,
+            signAgreement,
+            investorsEmailSend,
+            investorsId,
+            projectName,
+            userIdentityType3,
+            investorsName,
+            projectLan,
+            userCompanyCh3,
+            signUserId3,
+            signUserId1,
+            investorsType,
+            userCompanyEn3,
+            userName3,
+            userCountryCh3,
+            userCountryEn3,
+            investorsCompany,
+            signAgreementKey
+          } = res.data.data;
           for (let i in res.data.data) {
-            if(details_lists.collectMoney.hasOwnProperty(i)){
-              if ( res.data.data[i]*1>0){
-                let value=Math.round(res.data.data[i]*100)/100;
-                var s=value.toString().split(".");
-                if(s.length==1){
-                  details_lists.collectMoney[i]= (value.toLocaleString()).toString()+".00"
+            if (details_lists.collectMoney.hasOwnProperty(i)) {
+              if (res.data.data[i] * 1 > 0) {
+                let value = Math.round(res.data.data[i] * 100) / 100;
+                var s = value.toString().split(".");
+                if (s.length == 1) {
+                  details_lists.collectMoney[i] =
+                    value.toLocaleString().toString() + ".00";
                 }
-                if(s.length>1){
-                  if(s[1].length<2){
-                    details_lists.collectMoney[i]= (value.toLocaleString()).toString()+"0"
+                if (s.length > 1) {
+                  if (s[1].length < 2) {
+                    details_lists.collectMoney[i] =
+                      value.toLocaleString().toString() + "0";
                   }
                 }
-              }else{
-                res.data.data[i]='';
+              } else {
+                res.data.data[i] = "";
               }
             }
             if (details_lists.hasOwnProperty(i)) {

@@ -859,6 +859,7 @@ const routes = [
     component: register,
     meta:{
       isshowbottom:false,
+      ispaddingBottom:false,
     },
   },
   {
@@ -867,6 +868,7 @@ const routes = [
     component: login,
     meta:{
       isshowbottom:false,
+      ispaddingBottom:false,
     },
   },
   {

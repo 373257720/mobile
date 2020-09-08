@@ -183,19 +183,13 @@ export default {
 
     // },
     blur(event) {
-      var validator = new AsyncValidator({
-        [event.target.name]: this.rules[event.target.name]
-      });
-      validator
-        .validate(
-          { [event.target.name]: this.form[event.target.name] },
-          { first: true }
-        )
-        .then(() => {
+      this.$global
+        .singerValitator(event, this.form, this.rules)
+        .then(res => {
           this.errors[event.target.name] = "";
         })
-        .catch(({ errors, fields }) => {
-          this.errors[event.target.name] = errors[0].message;
+        .catch(e => {
+          this.errors[event.target.name] = e.errors[0].message;
         });
     },
     async register() {
@@ -288,14 +282,15 @@ export default {
 
 
 <style lang='scss'>
-#register {
-  .mu-input-focus-line {
+ .mu-input-focus-line {
     // background-color: #0ce5b2;
     display: none;
   }
   .mu-input-line {
     display: none;
   }
+#register {
+ 
   .mu-text-field-input {
     color: #a8ace9;
   }
@@ -331,10 +326,10 @@ export default {
   .error {
     height: vw(24);
     font-size: vw(24);
-    font-weight: 400;
+    // font-weight: 400;
     color: #0ce5b2;
     margin-bottom: vw(18);
-    line-height: vw(34);
+    // line-height: vw(24);
   }
   main {
     display: flex;
