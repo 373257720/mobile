@@ -1,6 +1,6 @@
 <template>
   <div id="forgotpassword">
-    <!-- <div class="forgotpassword">
+    <div class="forgotpassword">
       <commonnav :msg="dad_text"></commonnav>
       <main>
         <form>
@@ -66,8 +66,8 @@
           </div>
         </form>
       </main>
-    </div>-->
-    <div class="success">
+    </div>
+    <!-- <div class="success">
       <main>
         <img src="../../assets/success.png" alt />
         <p>您的密码已修改成功</p>
@@ -75,7 +75,7 @@
           <mu-button color="#0ce5b2" @click="submit">{{$t('common.Submit')}}</mu-button>
         </div>
       </main>
-    </div>
+    </div>-->
 
     <!-- <img src="../../assets/success.png" alt />
           <div class="btn">
@@ -365,6 +365,9 @@ export default {
 </script>
 <style lang="scss">
 #forgotpassword {
+    .mu-raised-button.disabled{
+        background-color: #a8ace9;
+  }
   .mu-raised-button {
     width: vw(200);
     height: vw(78);
@@ -402,53 +405,6 @@ export default {
   .mu-input-line {
     display: none;
   }
-  // .van-cell {
-  //   font-size: 0.38rem;
-  //   padding: 0 1rem;
-  //   height: 100%;
-  // }
-  // .van-button--primary {
-  //   color: #fff;
-  //   background-color: #afafaf;
-  //   border: #00adef;
-  // }
-
-  // .van-field__body {
-  //   /*border: 1px solid #ababab;*/
-  // }
-  // .van-field__button {
-  //   button {
-  //     height: 1rem;
-  //     width: 4rem;
-  //     color: white;
-  //     border-radius: 2px;
-  //     cursor: pointer;
-  //   }
-  //   .isactive {
-  //     background: #00adef;
-  //   }
-  // }
-  // .van-field__control {
-  //   padding: 0.1rem 0.3rem;
-  //   height: 1rem;
-  //   background: #f6f6f6;
-  //   border: 1px solid #ababab;
-  //   border-radius: 3px;
-  //   line-height: 1rem;
-  // }
-  // // .van-icon-arrow-left {
-  // //   position: absolute;
-  // //   left: 0.6rem;
-  // //   top: 50%;
-  // //   -webkit-transform: translate(0, -50%);
-  // //   transform: translate(0, -50%);
-  // // }
-  // .van-field__clear {
-  //   font-size: 0.32rem;
-  // }
-  // .van-field {
-  //   padding: 0;
-  // }
 }
 </style>
 <style lang="scss" scoped>
@@ -458,30 +414,30 @@ export default {
   .Code {
     width: vw(179);
   }
-  .success {
-    main {
-      padding-top: 30.21vh;
-      display: flex;
-      flex-direction: column;
-      // justify-content: center;
-      align-items: center;
-      img {
-        width: vw(204);
-        height: vw(204);
-        margin-bottom: 4.05vh;
-      }
-      p {
-        font-size: vw(30);
-        font-weight: 400;
-        color: #ffffff;
-        margin-bottom: 4.05vh;
-      }
-      button {
-        width: vw(569);
-        height: vw(75);
-      }
-    }
-  }
+  // .success {
+  //   main {
+  //     padding-top: 30.21vh;
+  //     display: flex;
+  //     flex-direction: column;
+  //     // justify-content: center;
+  //     align-items: center;
+  //     img {
+  //       width: vw(204);
+  //       height: vw(204);
+  //       margin-bottom: 4.05vh;
+  //     }
+  //     p {
+  //       font-size: vw(30);
+  //       font-weight: 400;
+  //       color: #ffffff;
+  //       margin-bottom: 4.05vh;
+  //     }
+  //     button {
+  //       width: vw(569);
+  //       height: vw(75);
+  //     }
+  //   }
+  // }
   .forgotpassword {
     main {
       img {
@@ -525,6 +481,15 @@ export default {
       @media (min-width: 768px) {
         div.btn {
           margin-top: vw(200);
+          // padding-bottom: vw(90);
+        }
+      }
+    }
+    @media all and (orientation: landscape) {
+      main {
+        padding-top: vw(227);
+        div.btn {
+          margin-top: vw(90);
           // padding-bottom: vw(90);
         }
       }

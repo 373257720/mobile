@@ -100,7 +100,7 @@ export default {
           //   }
           // }
           //  { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-        ],
+        ]
       }
     };
   },
@@ -132,7 +132,7 @@ export default {
     async register() {
       // this.errors = "";
       var validator = new AsyncValidator(this.rules);
-      this.$routerto("login2nd")
+      this.$routerto("login2nd");
       // validator
       //   .validate(this.form, { first: true })
       //   .then(() => {
@@ -253,12 +253,6 @@ export default {
         // padding-bottom: vw(90);
       }
     }
-    @media all and (orientation: portrait) {
-      body {
-        // background-color: blue;
-      }
-    }
-
     button {
       text-align: center;
       width: vw(569);
@@ -276,9 +270,13 @@ export default {
       font-size: 0.42rem;
     }
   }
-  @media (min-width: 768px) {
+  @media all and (orientation: landscape) {
     main {
       padding-top: vw(227);
+      div.btn {
+        margin-top: vw(90);
+        // padding-bottom: vw(90);
+      }
     }
   }
 }

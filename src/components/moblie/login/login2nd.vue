@@ -17,7 +17,7 @@
         </p>
         <div class="btn">
           <!-- <p class="reminder">reminder</p> -->
-          <mu-button color="#0ce5b2" @click="register">{{$t('common.Submit')}}</mu-button>
+          <mu-button color="#0ce5b2" @click="login">{{$t('common.Submit')}}</mu-button>
         </div>
       </form>
 
@@ -58,6 +58,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
 import AsyncValidator from "async-validator";
 console.log(AsyncValidator);
 var reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
@@ -100,7 +101,7 @@ export default {
           //   }
           // }
           //  { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-        ],
+        ]
       }
     };
   },
@@ -109,10 +110,8 @@ export default {
     // console.log(this.$route.query.email);
   },
   methods: {
-    // callback(errors, fields){
-    //   console.log(errors);
+    ...mapActions(["reset_actions", "X_Token_actions", "usertype", "setUser"]),
 
-    // },
     blur(event) {
       var validator = new AsyncValidator({
         [event.target.name]: this.rules[event.target.name]
@@ -129,37 +128,72 @@ export default {
           this.errors[event.target.name] = errors[0].message;
         });
     },
-    async register() {
-      // this.errors = "";
-      var validator = new AsyncValidator(this.rules);
-      this.$routerto("login2nd")
-      // validator
-      //   .validate(this.form, { first: true })
-      //   .then(() => {
-      //     for (var i in this.errors) {
-      //       this.errors[i] = "";
-      //     }
-      //     // this.errors[errors[0].field] = ""
-      //     // validation passed or without error message
-      //   })
-      //   .catch(({ errors, fields }) => {
-      //     console.log(errors);
-      //     this.errors[errors[0].field] = errors[0].message;
-      //     // this.errors[errors[0].field] = errors[0].message;
-      //     // this.errors = errors[0].message;
-      //     // console.log(callback);
+    login() {
+      this.remind = "";
+      this.$loading();
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/login.do`,
+          {
+            bslEmail: "midtony@qq.com",
+            bslPwd: "123456"
+          }
+        )
+        .then(res => {
+          this.$toast.clear();
+          var rescode = res.data.resultCode;
+          if (rescode == 10000) {
+            window.sessionStorage.clear();
+            this.reset_actions(this.$restore_obj);
+            this.X_Token_actions(res.data.data.X_Token);
+            this.usertype(res.data.data.userType);
+            this.setUser(this.username);
 
-      //     // return handleErrors(errors, fields);
-      //   });
-      // .then(() => {
-      //   // validation passed
-      //   // 校验通过
-      // })
-      // .catch(({ errors, fields }) => {
-      //    console.log(errors);
-      //   // return handleErrors(errors, fields);
-      // });
+            // this.$store.dispatch("reset_actions", this.$restore_obj);
+            // this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
+            // this.$store.dispatch("usertype", res.data.data.userType);
+            // this.$store.dispatch("setUser", this.username);
+            // this.reload();
+            // if (res.data.data.isAuth == 1) {
+            //   this.$routerto("mhome");
+            // } else if (res.data.data.isAuth == 0) {
+            this.$routerto("usercheck");
+            // }
+          }
+          this.remind = res.data.resultDesc;
+        })
+        .catch(err => {});
     },
+    // async login() {
+    //   this.errors = "";
+    //   var validator = new AsyncValidator(this.rules);
+    //   validator
+    //     .validate(this.form, { first: true })
+    //     .then(() => {
+    //       for (var i in this.errors) {
+    //         this.errors[i] = "";
+    //       }
+    //       // this.errors[errors[0].field] = ""
+    //       // validation passed or without error message
+    //     })
+    //     .catch(({ errors, fields }) => {
+    //       console.log(errors);
+    //       this.errors[errors[0].field] = errors[0].message;
+    //       // this.errors[errors[0].field] = errors[0].message;
+    //       // this.errors = errors[0].message;
+    //       // console.log(callback);
+
+    //       // return handleErrors(errors, fields);
+    //     });
+    //   .then(() => {
+    //     // validation passed
+    //     // 校验通过
+    //   })
+    //   .catch(({ errors, fields }) => {
+    //      console.log(errors);
+    //     // return handleErrors(errors, fields);
+    //   });
+    // },
     submit() {
       this.$refs.form.validate().then(result => {
         if (result) {
@@ -175,6 +209,7 @@ export default {
 
 <style lang='scss'>
 #login2nd {
+
   .mu-input-focus-line {
     // background-color: #0ce5b2;
     display: none;
@@ -276,10 +311,14 @@ export default {
       font-size: 0.42rem;
     }
   }
-  @media (min-width: 768px) {
-    main {
-      padding-top: vw(227);
+    @media all and (orientation: landscape) {
+      main {
+        padding-top: vw(227);
+        div.btn {
+          margin-top: vw(90);
+          // padding-bottom: vw(90);
+        }
+      }
     }
-  }
 }
 </style>

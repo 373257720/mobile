@@ -39,7 +39,7 @@ nav.common_nav {
   position: fixed;
   top: 0;
   height: 100%;
-  z-index: 9999;
+  z-index: 200;
   background: #2f36ac;
   text-align: center;
   line-height: vw(98);

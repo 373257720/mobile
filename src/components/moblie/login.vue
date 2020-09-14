@@ -31,7 +31,7 @@
         <!-- <button @click="$routerto('register',{email:username})">{{$t('common.Register')}}</button> -->
         <mu-button color="#0ce5b2" @click="$routerto('register')">{{$t('common.Register')}}</mu-button>
       </div>
-      <p class="login">{{$t('common.LogIn')}}</p>
+      <p class="login" @click="$routerto('login1st')">{{$t('common.LogIn')}}</p>
       <!-- <div class="tologin">
         <p class="tologin" @click="$routerto('forgotpassword')">{{$t('common.forgetpassword')}}</p>
       </div>-->
@@ -103,42 +103,7 @@ export default {
           }
         });
     },
-    login() {
-      this.remind = "";
-      if (this.username && this.password) {
-        this.$loading();
-        this.$global
-          .post_encapsulation(
-            `${this.$axios.defaults.baseURL}/bsl_web/user/login.do`,
-            {
-              bslEmail: this.username,
-              bslPwd: this.password
-            }
-          )
-          .then(res => {
-            this.$toast.clear();
-            var rescode = res.data.resultCode;
-            if (rescode == 10000) {
-              window.sessionStorage.clear();
-              // window.sessionStorage.setItem('Xoken',res.data.data.X_Token)
-              this.$store.dispatch("reset_actions", this.$restore_obj);
-              this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
-              this.$store.dispatch("usertype", res.data.data.userType);
-              this.$store.dispatch("setUser", this.username);
-              // this.reload();
-              if (res.data.data.isAuth == 1) {
-                this.$routerto("mhome");
-              } else if (res.data.data.isAuth == 0) {
-                this.$routerto("usercheck");
-              }
-            }
-            this.remind = res.data.resultDesc;
-          })
-          .catch(err => {});
-      } else {
-        this.remind = this.$t("common.AccountAndPasswordCannotBeEmpty");
-      }
-    }
+ 
   }
 };
 // 10011	登录账号不能为空

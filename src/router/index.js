@@ -17,12 +17,18 @@ const register = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/register");
 const login = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login");
-  const login1st = () =>
-  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login/login1st");
-  const login2nd = () =>
-  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login/login2nd");
-  const signin = () =>
-  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login/signin");
+const login1st = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/login1st"
+  );
+const login2nd = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/login2nd"
+  );
+const signin = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/signin"
+  );
 const forgotpassword = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/forgotpassword"
@@ -346,41 +352,41 @@ const routes = [
     path: "/p_user_contact",
     name: "p_user_contact",
     component: p_user_contact,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/p_user_contact2",
     name: "p_user_contact2",
     component: p_user_contact2,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/p_goods_details",
     name: "p_goods_details",
     component: p_goods_details,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/p_investor_lists",
     name: "p_investor_lists",
     component: p_investor_lists,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/p_sign_failed",
     name: "p_sign_failed",
     component: p_sign_failed,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
 
   {
@@ -388,25 +394,25 @@ const routes = [
     name: "tobeSigned_roots",
     component: tobeSigned_roots,
     redirect: "/tobeSigned_roots/p_wait_agent_input",
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     },
     children: [
       {
         path: "p_wait_agent_input",
         name: "p_wait_agent_input",
         component: p_wait_agent_input,
-        meta:{
-          isshowbottom:false,
-        },
+        meta: {
+          isshowbottom: false
+        }
       },
       {
         path: "p_check_contract",
         name: "p_check_contract",
         component: p_check_contract,
-        meta:{
-          isshowbottom:false,
-        },
+        meta: {
+          isshowbottom: false
+        }
       }
     ]
   },
@@ -415,25 +421,25 @@ const routes = [
     name: "signin",
     component: signin,
     redirect: "/signin/login1st",
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     },
     children: [
       {
         path: "login1st",
         name: "login1st",
         component: login1st,
-        meta:{
-          isshowbottom:false,
-        },
+        meta: {
+          isshowbottom: false
+        }
       },
       {
         path: "login2nd",
         name: "login2nd",
         component: login2nd,
-        meta:{
-          isshowbottom:false,
-        },
+        meta: {
+          isshowbottom: false
+        }
       }
     ]
   },
@@ -441,58 +447,58 @@ const routes = [
     path: "/p_wait_investor",
     name: "p_wait_investor",
     component: p_wait_investor,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/p_investor_details",
     name: "p_investor_details",
     component: p_investor_details,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/connected_projects",
     name: "connected_projects",
     component: connected_projects,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/owner_roots",
     name: "owner_roots",
     component: owner_roots,
     redirect: "/owner_roots/p_sign_request",
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     },
     children: [
       {
         path: "p_sign_request",
         name: "p_sign_request",
         component: p_sign_request,
-        meta:{
-          isshowbottom:false,
-        },
+        meta: {
+          isshowbottom: false
+        }
       },
       {
         path: "owner_contract",
         name: "owner_contract",
         component: owner_contract,
         redirect: "/owner_roots/owner_contract/owner_set_contract",
-        meta:{
-          isshowbottom:false,
+        meta: {
+          isshowbottom: false
         },
         children: [
           {
             path: "owner_set_contract",
             name: "owner_set_contract",
             component: owner_set_contract,
-            meta:{
-              isshowbottom:false,
+            meta: {
+              isshowbottom: false
             },
             redirect:
               "/owner_roots/owner_contract/owner_set_contract/p_set_contract",
@@ -501,33 +507,33 @@ const routes = [
                 path: "p_set_contract",
                 name: "p_set_contract",
                 component: p_set_contract,
-                meta:{
-                  isshowbottom:false,
-                },
+                meta: {
+                  isshowbottom: false
+                }
               },
               {
                 path: "p_sign_contract",
                 name: "p_sign_contract",
                 component: p_sign_contract,
-                meta:{
-                  isshowbottom:false,
-                },
+                meta: {
+                  isshowbottom: false
+                }
               },
               {
                 path: "p_submit_contract",
                 name: "p_submit_contract",
                 component: p_submit_contract,
-                meta:{
-                  isshowbottom:false,
-                },
+                meta: {
+                  isshowbottom: false
+                }
               },
               {
                 path: "contract_items",
                 name: "contract_items",
                 component: contract_items,
-                meta:{
-                  isshowbottom:false,
-                },
+                meta: {
+                  isshowbottom: false
+                }
               }
             ]
           }
@@ -540,17 +546,17 @@ const routes = [
     path: "/p_sign_successful",
     name: "p_sign_successful",
     component: p_sign_successful,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/p_inverstor_details",
     name: "p_inverstor_details",
     component: p_inverstor_details,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
 
   // agent
@@ -558,50 +564,50 @@ const routes = [
     path: "/a_sign_successful",
     name: "a_sign_successful",
     component: a_sign_successful,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
 
   {
     path: "/uploadtoblock",
     name: "uploadtoblock",
     component: uploadtoblock,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/a_project_intro_roots",
     name: "a_project_intro_roots",
     component: a_project_intro_roots,
     redirect: "/a_project_intro_roots/a_check_contract",
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     },
     children: [
       {
         path: "a_project_intro",
         name: "a_project_intro",
         component: a_project_intro,
-        meta:{
-          isshowbottom:false,
+        meta: {
+          isshowbottom: false
         }
       },
       {
         path: "a_recommand_i",
         name: "a_recommand_i",
         component: a_recommand_i,
-        meta:{
-          isshowbottom:false,
+        meta: {
+          isshowbottom: false
         }
       },
       {
         path: "recent_recommand",
         name: "recent_recommand",
         component: recent_recommand,
-        meta:{
-          isshowbottom:false,
+        meta: {
+          isshowbottom: false
         }
       }
     ]
@@ -615,16 +621,16 @@ const routes = [
     path: "/a_sign_failed",
     name: "a_sign_failed",
     component: a_sign_failed,
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     }
   },
   {
     path: "/a_tobeSigned_roots",
     name: "a_tobeSigned_roots",
     component: a_tobeSigned_roots,
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     },
     redirect: "/a_tobeSigned_roots/a_wait_signed",
     children: [
@@ -632,8 +638,8 @@ const routes = [
         path: "a_wait_signed",
         name: "a_wait_signed",
         component: a_wait_signed,
-        meta:{
-          isshowbottom:false,
+        meta: {
+          isshowbottom: false
         }
       },
       {
@@ -641,32 +647,32 @@ const routes = [
         name: "agent_set_contract",
         component: agent_set_contract,
         redirect: "/a_tobeSigned_roots/agent_set_contract/a_check_contract",
-        meta:{
-          isshowbottom:false,
+        meta: {
+          isshowbottom: false
         },
         children: [
           {
             path: "a_check_contract",
             name: "a_check_contract",
             component: a_check_contract,
-            meta:{
-              isshowbottom:false,
+            meta: {
+              isshowbottom: false
             }
           },
           {
             path: "a_sign_contract",
             name: "a_sign_contract",
             component: a_sign_contract,
-            meta:{
-              isshowbottom:false,
+            meta: {
+              isshowbottom: false
             }
           },
           {
             path: "a_submit_contract",
             name: "a_submit_contract",
             component: a_submit_contract,
-            meta:{
-              isshowbottom:false,
+            meta: {
+              isshowbottom: false
             }
           }
         ]
@@ -677,24 +683,24 @@ const routes = [
     path: "/a_wait_investor_comfirm",
     name: "a_wait_investor_comfirm",
     component: a_wait_investor_comfirm,
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     }
   },
   {
     path: "/a_wait_review",
     name: "a_wait_review",
     component: a_wait_review,
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     }
   },
   {
     path: "/a_wait_sendemail",
     name: "a_wait_sendemail",
     component: a_wait_sendemail,
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     }
   },
 
@@ -703,8 +709,8 @@ const routes = [
     path: "/investor_roots",
     name: "investor_roots",
     component: investor_roots,
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     },
     redirect: "/investor_roots/i_conected_project",
     children: [
@@ -712,16 +718,16 @@ const routes = [
         path: "/i_conected_project",
         name: "i_conected_project",
         component: i_conected_project,
-        meta:{
-          isshowbottom:false,
+        meta: {
+          isshowbottom: false
         }
       },
       {
         path: "/i_inverstor_infor",
         name: "i_inverstor_infor",
         component: i_inverstor_infor,
-        meta:{
-          isshowbottom:false,
+        meta: {
+          isshowbottom: false
         }
       }
     ]
@@ -741,8 +747,8 @@ const routes = [
     path: "/i_sign_failed",
     name: "i_sign_failed",
     component: i_sign_failed,
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     }
   },
 
@@ -750,8 +756,8 @@ const routes = [
     path: "/i_emailto_confirm",
     name: "i_emailto_confirm",
     component: i_emailto_confirm,
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     }
   },
 
@@ -759,8 +765,8 @@ const routes = [
     path: "/wait_confirmRoot",
     name: "wait_confirmRoot",
     component: wait_confirmRoot,
-    meta:{
-      isshowbottom:false,
+    meta: {
+      isshowbottom: false
     },
     redirect: "/wait_confirmRoot/i_conected_project",
     children: [
@@ -768,18 +774,17 @@ const routes = [
         path: "i_wait_confirm",
         name: "i_wait_confirm",
         component: i_wait_confirm,
-        meta:{
-          isshowbottom:false,
+        meta: {
+          isshowbottom: false
         }
-        
       },
       {
         path: "i_perfect_infor",
         name: "i_perfect_infor",
         component: i_perfect_infor,
-        meta:{
-          isshowbottom:false,
-        },
+        meta: {
+          isshowbottom: false
+        }
       }
       // {
       //   path: '/i_conected_project',
@@ -798,94 +803,96 @@ const routes = [
     path: "/upload_contract",
     name: "upload_contract",
     component: upload_contract,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/common_details",
     name: "common_details",
     component: common_details,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/mhome",
     name: "mhome",
     component: mhome,
-    meta:{
-      isshowbottom:true,
-    },
+    meta: {
+      isshowbottom: true
+    }
   },
 
   {
     path: "/mine",
     name: "mine",
     component: mine,
-    meta:{
-      isshowbottom:true,
-    },
+    meta: {
+      isshowbottom: true
+    }
   },
 
   {
     path: "/userpass",
     name: "userpass",
     component: userpass,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/mysign",
     name: "mysign",
     component: mysign,
-    meta:{
-      isshowbottom:true,
-    },
+    meta: {
+      isshowbottom: true
+    }
   },
   {
     path: "/forgotpassword",
     name: "forgotpassword",
     component: forgotpassword,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false,
+      ispaddingBottom: true
+    }
   },
 
   {
     path: "/register",
     name: "register",
     component: register,
-    meta:{
-      isshowbottom:false,
-      ispaddingBottom:false,
-    },
+    meta: {
+      isshowbottom: false,
+      ispaddingBottom: false
+    }
   },
   {
     path: "/login",
     name: "login",
     component: login,
-    meta:{
-      isshowbottom:false,
-      ispaddingBottom:false,
-    },
+    meta: {
+      isshowbottom: false,
+      ispaddingBottom: false
+    }
   },
   {
     path: "/usercheck",
     name: "usercheck",
     component: usercheck,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false,
+      ispaddingBottom: true
+    }
   },
   {
     path: "/cavans",
     name: "cavans",
     component: cavans,
-    meta:{
-      isshowbottom:false,
-    },
+    meta: {
+      isshowbottom: false
+    }
   },
   // {
   //   path: '/testcavans',

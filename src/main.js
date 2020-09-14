@@ -61,6 +61,8 @@ Vue.prototype.$restore_obj = restore_obj;
 // Vue.prototype.$AsyncValidator=AsyncValidator;
 // Vue.use(AsyncValidator)
 import MuseUI from "muse-ui";
+console.log(MuseUI.Select);
+
 import "muse-ui/dist/muse-ui.css";
 Vue.use(MuseUI);
 import { Dialog } from "vant";
@@ -187,9 +189,9 @@ Vue.prototype.$loading = function loading() {
   this.$toast.loading({
     loadingType: "circular",
     overlay: true,
-    className: "loading",
+    className: "selfloading",
     // message: 'loading...',
-    // forbidClick:true,
+    forbidClick:true,
     duration: 0
   });
 };
@@ -235,6 +237,8 @@ import commoninvestors from "./components/moblie/common_investors";
 Vue.component("commoninvestors", commoninvestors);
 import contract from "./components/moblie/contract";
 Vue.component("contractcomponent", contract);
+import DialogMsg from "./components/dialog";
+Vue.component("DialogMsg", DialogMsg);
 // Vue.component('Vue-ueditor-wrap ',VueUeditorWrap )
 /* eslint-disable no-new */
 new Vue({

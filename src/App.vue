@@ -9,6 +9,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 // import {mapState} from 'vuex'
 
 // import "muse-ui-loading/dist/muse-ui-loading.css"; // load css
@@ -66,8 +67,16 @@ body {
 //     padding-bottom: vw(90);
 //   }
 // }
-.ispaddingBottom {
+.ispaddingBottom > div:nth-child(1) {
   padding-bottom: vw(90);
+}
+@media all and (orientation: landscape) {
+  .ispaddingBottom > div:nth-child(1) {
+    padding-bottom: 0;
+  }
+  #app > div:nth-child(1) {
+    padding-bottom: vw(90);
+  }
 }
 #app {
   // background: #2f36ac;
@@ -102,14 +111,25 @@ body {
   .van-dialog {
   }
 }
-// .van-toast {
-//   background: none;
-// }
-div.layer {
-  // background: white;
-  opacity: 0.4;
+
+div.selfloading {
+  background: none;
 }
-// .van-toast__loading{
-//   color: #1989fa;
-// }
+div.van-overlay {
+  opacity: 0.6;
+}
+.van-toast__loading {
+  color: #0ce5b2;
+}
+.van-toast {
+  font-size: vw(36);
+  line-height: vw(36);
+}
+.van-loading__circular circle {
+  stroke-width: 6px;
+}
+.van-toast--html,
+.van-toast--text {
+  padding: vw(20);
+}
 </style>
