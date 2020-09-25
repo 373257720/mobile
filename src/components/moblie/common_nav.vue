@@ -1,8 +1,13 @@
 <template>
-  <nav class="common_nav">
-    <van-icon name="arrow-left" @click="$global.previous()" />
-    <span>{{msg}}</span>
-  </nav>
+  <div class="common_nav">
+    <p></p>
+    <nav class="common_nav">
+      <van-icon name="arrow-left" @click="$global.previous()" />
+      <span>
+        <slot></slot>
+      </span>
+    </nav>
+  </div>
 </template>
 <script >
 export default {
@@ -13,40 +18,25 @@ export default {
 };
 </script>
 <style lang="scss">
-nav.common_nav {
-  // width: 100%;
-  // font-weight: bold;
-  // position: relative;
-  // height: 100%;
-  // text-align: center;
-  // line-height: 1.6rem;
-  // height: 1.6rem;
-  // position: fixed;
-  // top: 0;
-  // z-index: 5;
-  // font-size: 0.46rem;
-  // background: white;
-  // border-bottom: 0.1rem solid #b5b5b5;
-  // .van-icon-arrow-left {
-  //   position: absolute;
-  //   left: 0.6rem;
-  //   top: 50%;
-  //   transform: (translate(0, -50%));
-  // }
+.common_nav {
   width: 100%;
   font-weight: bold;
-  // position: relative;
   position: fixed;
   top: 0;
-  height: 100%;
   z-index: 200;
-  background: #2f36ac;
+  background: #fff;
   text-align: center;
-  line-height: vw(98);
-  height: vw(98);
-  color: #ffffff;
-  font-size: vw(30);
-  // margin-bottom: vw(199);
+  font-size: vw(40);
+  p {
+    height: vw(46);
+    width: 100%;
+  }
+}
+nav.common_nav {
+  // margin-top: vw(46);
+  position: relative;
+  line-height: vw(50);
+  height: vw(50);
   .van-icon-arrow-left {
     position: absolute;
     left: vw(36);

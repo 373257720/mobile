@@ -19,7 +19,10 @@ axios.defaults.baseURL = url;
 // import "font-awesome/css/font-awesome.css";
 // import initRichText from "./editor";
 // initRichText();
-// import 'amfe-flexible/index.js'
+import 'amfe-flexible/index.js'
+
+import Validator from 'vue-validator'
+Vue.use(Validator)
 // vuex
 import Vuex from "vuex";
 Vue.use(Vuex);
@@ -38,15 +41,14 @@ Vue.use(Select);
 import Spin from "ant-design-vue/lib/spin";
 import "ant-design-vue/lib/spin/style/css";
 Vue.use(Spin);
-import "./css/base.css";
-import "./css/base.scss";
-import VueQuillEditor from "vue-quill-editor";
-// require styles
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
 
-Vue.use(VueQuillEditor /* { default global options } */);
+// import VueQuillEditor from "vue-quill-editor";
+// // require styles
+// import "quill/dist/quill.core.css";
+// import "quill/dist/quill.snow.css";
+// import "quill/dist/quill.bubble.css";
+
+// Vue.use(VueQuillEditor /* { default global options } */);
 
 // import Vconsole from 'vconsole'
 // let vConsole = new Vconsole()
@@ -65,6 +67,8 @@ console.log(MuseUI.Select);
 
 import "muse-ui/dist/muse-ui.css";
 Vue.use(MuseUI);
+import "./css/base.css";
+import "./css/base.scss";
 import { Dialog } from "vant";
 Vue.use(Dialog);
 import { Toast } from "vant";

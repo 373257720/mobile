@@ -59,7 +59,7 @@ export default {
 
 <style lang="scss">
 body {
-  background: #2f36ac;
+  // background: #2f36ac;
 }
 
 // @media all and (orientation: landscape) {
@@ -81,6 +81,7 @@ body {
 #app {
   // background: #2f36ac;
   position: relative;
+      background: #fff;
 
   // height: 100%;
   // width: 100%;
@@ -116,7 +117,7 @@ div.selfloading {
   background: none;
 }
 div.van-overlay {
-  opacity: 0.6;
+  // opacity: 0.6;
 }
 .van-toast__loading {
   color: #0ce5b2;

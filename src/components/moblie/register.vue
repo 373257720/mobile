@@ -1,55 +1,28 @@
 <template>
   <div id="register">
-    <commonnav :msg="dad_text"></commonnav>
+    <commonnav>{{$t('common.Register')}}</commonnav>
     <main class="main">
-      <form>
-        <label class="label" for="username">{{$t('common.Email')}}</label>
-        <br />
-        <mu-text-field
-          v-model="form.username"
-          id="username"
-          name="username"
-          @blur="blur($event)"
-          placeholder="Please input......"
-        ></mu-text-field>
-
-        <p class="error">
-          <span>{{ errors.username}}</span>
-        </p>
-        <label class="label" for="password">{{$t('common.PassWord')}}</label>
-        <br />
-        <mu-text-field
-          v-model="form.password"
-          id="password"
-          type="password"
-          name="password"
-          @blur="blur($event)"
-          placeholder="Please input......"
-        ></mu-text-field>
-        <p class="error">
-          <span>{{ errors.password}}</span>
-        </p>
-        <label class="label" for="password2">{{$t('common.PassWord')}}</label>
-        <br />
-        <mu-text-field
-          v-model="form.password2"
-          id="password2"
-          name="password2"
-          type="password"
-          @blur="blur($event)"
-          placeholder="Please input......"
-        ></mu-text-field>
-        <p class="error">
-          <span>{{ errors.password2}}</span>
-        </p>
-        <div class="btn">
-          <mu-button
-            color="#0ce5b2"
-            :disabled="!Submitisactive"
-            @click="register"
-          >{{$t('common.Submit')}}</mu-button>
-        </div>
-      </form>
+      <mu-form ref="form" :model="validateForm" class="mu-demo-form">
+        <mu-form-item :label="$t('common.Email')" prop="username" :rules="usernameRules">
+          <mu-text-field v-model="validateForm.username"></mu-text-field>
+        </mu-form-item>
+        <mu-form-item :label="$t('common.PassWord')" prop="password" :rules="passwordRules">
+          <mu-text-field type="password" v-model="validateForm.password"></mu-text-field>
+        </mu-form-item>
+        <mu-form-item
+          :label="$t('common.ConfirmPassword')"
+          prop="confirmpassword"
+          :rules="confirmpassword"
+        >
+          <mu-text-field
+            type="password"
+            v-model="validateForm.confirmpassword"
+          ></mu-text-field>
+        </mu-form-item>
+        <mu-form-item>
+          <van-button @click="submit">{{$t('common.Register')}}</van-button>
+        </mu-form-item>
+      </mu-form>
       <DialogMsg
         :msg="content"
         :title.sync="title"
@@ -60,86 +33,44 @@
   </div>
 </template>
 <script>
-import AsyncValidator from "async-validator";
-var reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
+// import AsyncValidator from "async-validator";
+// var reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
 export default {
   name: "register",
   data() {
-    var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else {
-        if (value !== "") {
-          value = value.trim();
-          if (!reg.test(value)) {
-            callback(new Error("密码格式不对"));
-          }
-          // this.$refs.ruleForm.validateField("checkPass");
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.form.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
-      Submitisactive: false,
+      usernameRules: [
+        { validate: val => !!val, message: "Username must be filled in" },
+        {
+          validate: val => val.length >= 3,
+          message: "Username length greater than 3"
+        }
+      ],
+      passwordRules: [
+        { validate: val => !!val, message: "Password must be filled in" },
+        {
+          validate: val => val.length >= 3 && val.length <= 10,
+          message: "Password length must be greater than 3 and less than 10"
+        }
+      ],
+      confirmpassword: [
+        { validate: val => !!val, message: "Password must be filled in" },
+        {
+          validate: val => {
+            return val === this.validateForm.password;
+          },
+          message: "Password"
+        }
+      ],
+      validateForm: {
+        username: "",
+        password: "",
+        confirmpassword: ""
+      },
       remindervisible: false,
       content: "",
       title: "",
       successto: "",
-      dad_text: this.$t("common.Register"),
-      visibility: false,
-      labelPosition: "top",
-      form: {
-        username: "",
-        password: "",
-        password2: ""
-      },
-      errors: {
-        username: "",
-        password: "",
-        password2: ""
-      },
-      rules: {
-        username: [
-          {
-            type: "string",
-            required: true,
-            message: "必须填写用户名"
-          },
-          {
-            type: "email",
-            message: "必须填写email"
-          }
-          // {
-          //   validator(rule, value, callback, source, options) {
-          //     var errors = [];
-          //     console.log(123);
-          //     // test if email address already exists in a database
-          //     // and add a validation error to the errors array if it does
-          //     return errors;
-          //   }
-          // }
-          //  { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-        ],
-        password: [
-          {
-            validator: validatePass
-          }
-        ],
-        password2: [
-          {
-            validator: validatePass2
-          }
-        ]
-      }
     };
   },
   computed: {
@@ -152,6 +83,33 @@ export default {
     // console.log(this.$route.query.email);
   },
   methods: {
+    submit() {
+      this.$refs.form.validate().then(result => {
+        console.log("form valid: ", result);
+        this.$routerto("usercheck")
+        // if (result) {
+        //   this.$global
+        //     .post_encapsulation(
+        //       `${this.$axios.defaults.baseURL}/bsl_web/user/register.do`,
+        //       { bslEmail: this.validateForm.username, bslPwd: this.validateForm.password }
+        //     )
+        //     .then(res => {
+        //       var rescode = res.data.resultCode;
+        //       this.$toast.clear();
+        //       if (rescode == 10000) {
+        //         this.successto = "login";
+        //         // this.content = this.$t("common.NextLogin");
+        //         // this.title = this.$t("common.registrationSuccess");
+        //       } else {
+        //         // this.content = res.data.resultDesc;
+        //       }
+        //       // this.title = res.data.resultDesc;
+        //       this.content = res.data.resultDesc;
+        //       this.remindervisible = true;
+        //     });
+        // }
+      });
+    },
     blur(event) {
       this.$global
         .singerValitator(event, this.form, this.rules)
@@ -193,28 +151,6 @@ export default {
       //    console.log(errors);
       //   // return handleErrors(errors, fields);
       // });
-    },
-    submit() {
-      this.$loading();
-      this.$global
-        .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/user/register.do`,
-          { bslEmail: this.form.username, bslPwd: this.form.password }
-        )
-        .then(res => {
-          var rescode = res.data.resultCode;
-          this.$toast.clear();
-          if (rescode == 10000) {
-            this.successto = "login";
-            // this.content = this.$t("common.NextLogin");
-            // this.title = this.$t("common.registrationSuccess");
-          } else {
-            // this.content = res.data.resultDesc;
-          }
-          // this.title = res.data.resultDesc;
-          this.content = res.data.resultDesc;
-          this.remindervisible = true;
-        });
     }
   }
 };
@@ -223,39 +159,45 @@ export default {
 
 
 <style lang='scss'>
-.mu-input-focus-line {
-  // background-color: #0ce5b2;
-  display: none;
-}
-.mu-input-line {
-  display: none;
-}
 #register {
+  .mu-input-focus-line {
+    display: none;
+  }
+
+  .mu-form-item-label {
+    height: vw(30);
+    font-size: vw(30);
+    font-weight: bold;
+    line-height: vw(30);
+    color: #4f3dad;
+    opacity: 1;
+    margin-bottom: vw(64);
+  }
+  .mu-input__error {
+    // .mu-text-field-input {
+    //   color: #f44336;
+    // }
+    // .mu-input-line {
+    //   background: #f44336;
+    // }
+  }
+  .mu-input-line {
+    background: #4f3dad;
+  }
   .mu-text-field-input {
-    color: #a8ace9;
-  }
-  .mu-input__focus {
-    color: #0ce5b2;
-  }
-  .mu-input {
-    width: 100%;
-    margin-bottom: 0;
-    margin: vw(18) 0 vw(16) 0;
-    // height:vw(32);
-    min-height: 0;
-    padding: 0;
-  }
-  .mu-text-field-input {
-    height: vw(32);
+    color: #4f3dad;
     font-size: vw(32);
+  }
+  .mu-form-item__error .mu-form-item-help {
+    bottom: vw(-4);
   }
 }
 </style>
 <style lang='scss' scoped>
 #register {
+  color: #4f3dad;
   min-height: 100vh;
   width: 100vw;
-  background: #2f36ac;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -275,9 +217,9 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    padding: 0 vw(36);
-    padding-top: vw(327);
+    // width: 100%;
+    padding: 0 vw(94);
+    padding-top: vw(184);
     form {
       width: 100%;
     }
@@ -303,15 +245,14 @@ export default {
       }
     }
     button {
-      text-align: center;
-      width: vw(569);
-      height: vw(75);
-      background: #0ce5b2;
-      border-radius: vw(20);
-      font-size: vw(30);
+      color: #ffffff;
+      background: #4f3dad;
+      border-radius: vw(40);
+      width: vw(528);
       font-weight: bold;
-      color: #2f36ac;
-      line-height: vw(75);
+      line-height: vw(114);
+      height: vw(114);
+      font-size: vw(40);
     }
   }
   @media all and (orientation: landscape) {

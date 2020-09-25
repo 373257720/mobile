@@ -1,40 +1,14 @@
 <template>
   <div id="login">
     <div class="logo">
-      <img src="../../../static/pic/logo.png" alt />
+      <img src="../../../static/pic/image1.png" alt />
       <button class="switchLan" color="#0ce5b2" @click="switchLan(lan)">{{lantext}}</button>
     </div>
     <div class="main">
-      <p>请输入推荐码</p>
-      <!-- <van-form> -->
-      <!--      <div class="username common" v-if="$route.query.email">-->
-      <!--        <van-field v-model.trim="username" placeholder="电子邮箱" disabled />-->
-      <!--      </div>-->
-      <!--      v-if="!$route.query.email"-->
-      <!-- <van-form>
-        <div class="username common">
-          <van-field v-model.trim="username" :placeholder="$t('common.Email')" clearable />
-        </div>
-        <div class="password common">
-          <van-field
-            v-model.trim="password"
-            type="password"
-            :placeholder="$t('common.PassWord')"
-            clearable
-          />
-        </div>
-        <div class="loginbtn common">
-          <button @click="login">{{$t('common.LogIn')}}</button>
-        </div>
-      </van-form>-->
       <div class="registerbtn common">
-        <!-- <button @click="$routerto('register',{email:username})">{{$t('common.Register')}}</button> -->
-        <mu-button color="#0ce5b2" @click="$routerto('register')">{{$t('common.Register')}}</mu-button>
+        <van-button @click="$routerto('register')">{{$t('common.Register')}}</van-button>
       </div>
       <p class="login" @click="$routerto('login1st')">{{$t('common.LogIn')}}</p>
-      <!-- <div class="tologin">
-        <p class="tologin" @click="$routerto('forgotpassword')">{{$t('common.forgetpassword')}}</p>
-      </div>-->
     </div>
   </div>
 </template>
@@ -62,11 +36,16 @@ export default {
     }
   },
   created() {
-    if (this.$route.query.email) {
-      this.username = this.$route.query.email ? this.$route.query.email : "";
-    }
+
+
+    // if (this.$route.query.email) {
+    //   this.username = this.$route.query.email ? this.$route.query.email : "";
+    // }
     this.lan = this.$i18n.locale;
     this.switchLan();
+  },
+  mounted(){
+    // console.log(document.documentElement);
   },
   // beforeRouteLeave(to, from, next) {
   //   // console.log(to, from)
@@ -94,6 +73,7 @@ export default {
         .then(res => {
           if (res.data.resultCode === 10000) {
             this.lan = language;
+
             localStorage.setItem("language", language);
             this.$Local(language);
             this.$i18n.locale = language;
@@ -102,8 +82,7 @@ export default {
             this.$toast(res.data.resultDesc);
           }
         });
-    },
- 
+    }
   }
 };
 // 10011	登录账号不能为空
@@ -115,31 +94,24 @@ export default {
 
 <style lang='scss' scoped>
 #login {
-  height: 100vh;
-  width: 100vw;
-  background: #2f36ac;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
   div.logo {
-    width: 57.33vw;
-    height: 14.92vh;
-    margin-top: 24.96vh;
-    // box-sizing: border-box;
-    margin-bottom: 33.96vh;
+    width: vw(436);
+    height: vw(202);
+    margin-top: vw(384);
+    margin-bottom: vw(514);
     .switchLan {
-      height: 2.85vh;
+      // height: 2.85vh;
       position: absolute;
-      // padding:  3.34vh 0;
       width: vw(76);
       box-sizing: border-box;
       color: #2f36ac;
-      top: 2.35vh;
+      top: vw(53);
       background: #0ce5b2;
-      right: 6.27vw;
-      // font-size: vw(30);
-      line-height: 2.85vh;
+      right: vw(40);
       text-align: center;
       border-radius: 15px;
       font-weight: 550;
@@ -152,7 +124,6 @@ export default {
       // width: 57.33vw;
       width: 100%;
       height: auto;
-
       // height: 14.92vh;
       /*max-height: 100%;*/
       /*max-width: 100%;*/
@@ -172,30 +143,34 @@ export default {
     flex-direction: column;
     align-items: center;
     > p {
-      font-size: 2.4vh;
+      font-size: vw(40);
       // height: 0.84rem;
       // line-height: 0.32em;
-      color: #0ce5b2;
-      border-bottom: 1px solid #0ce5b2;
-      margin-bottom: 3.3vh;
+      color: #4f3dad;
+      margin-bottom: vw(234);
+      margin-top: vw(98);
+
+      font-weight: bold;
     }
     button {
-      color: #2f36ac;
-      border-radius: 15px;
-      width: 75.87vw;
-      font-weight: 550;
-      line-height: 5.62vh;
-      height: 5.62vh;
-      font-size: 2.4vh;
+      color: #ffffff;
+      background: #4f3dad;
+      border-radius: vw(40);
+      width: vw(528);
+
+      font-weight: bold;
+      line-height: vw(114);
+      height: vw(114);
+      font-size: vw(40);
     }
     .registerbtn {
       button {
-        background: #0ce5b2;
-        margin-bottom: 2.4vh;
+        // background: #0ce5b2;
+        // margin-bottom: 2.4vh;
       }
     }
     p.login {
-      color: #fff;
+      // color: #fff;
       border: none;
     }
   }

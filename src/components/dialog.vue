@@ -1,5 +1,10 @@
 <template>
-  <mu-dialog
+<van-dialog @confirm="closeSimple" v-model="remindervisible" :title="titleOne">
+  <div class="van-dialog__message">
+    {{msg}}
+  </div>
+</van-dialog>
+  <!-- <mu-dialog
     dialog-class="selfDialog"
     :overlay-close="false"
     :esc-press-close="false"
@@ -9,7 +14,7 @@
   >
     {{msg}}
     <mu-button slot="actions" flat color="primary" @click="closeSimple()">Close</mu-button>
-  </mu-dialog>
+  </mu-dialog> -->
 </template>
 <script>
 export default {
@@ -37,7 +42,27 @@ export default {
   }
 };
 </script>
-<style lang='scss' scoped>
+<style lang='scss'>
+.van-dialog{
+  background: #00E3A2;
+  color: #FFFFFF;
+}
+.van-button--default{
+   background: #00E3A2;
+   color: #FFFFFF;
+}
+.van-dialog__header{
+  font-size: vw(36)
+}
+.van-hairline--top::after{
+  border-top-width: 2px;
+
+
+
+
+
+
+}
 .selfDialog {
   // .mu-dialog-title {
   //   font-size: vw(50);

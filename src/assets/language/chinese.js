@@ -44,6 +44,7 @@ export default {
     // Projects to be confirmed by investors
   },
   common: {
+    Verify:"Verify",
     potentialInvestors: "潜在投资者要求",
     pleasegetcode: "请发送邮件获取验证码",
     NotFound: "没有找到",
@@ -59,7 +60,7 @@ export default {
     Investor: "投资者",
     Middleman: "中间人",
     ProjectParty: "项目方",
-    Category: "类型",
+    Genus: "类型",
     Reveiw: "审核",
     SwitchLanguage: "切换语言",
     isyes: "是",
@@ -128,7 +129,7 @@ export default {
     InvestorName: "投资者名称",
     SigningTime: "签约时间",
     AlreadyHaveAnAccount: "已有账号,前往登录",
-    Register: "注册",
+    Register: "注 册",
     registrationSuccess: "注册成功",
     NextLogin: "下一步请登录",
     Identity: "身份",
