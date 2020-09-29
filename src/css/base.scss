@@ -3,7 +3,7 @@ $vm_base: 750;
     @return ($px / 750) * 100vw;
 }
 @function vh($px) {
-    @return ($px / 750) * 100vh;
+    @return ($px / 1624) * 100vh;
 }
 $vm_fontsize: 75; // iPhone 6尺寸的根元素大小基准值
 @function pxtorem($px) {

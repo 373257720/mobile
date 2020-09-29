@@ -137,7 +137,7 @@ export default {
     Identity: "Identity",
     Nationality: "Nationality",
     PersonalName: "Name",
-    IdentificationNumber: "Identification Numbers",
+    IdentificationNumber: "Identity card Number",
     IDCardFront: "The front of IDCard",
     IDCardBack: "The Back of IDCard",
     passport: "Passport",
@@ -218,5 +218,8 @@ export default {
     PleaseConfirmTheOperation: "Please confirm the operation",
     CooperationIntentionHasBeenSent:
       "Cooperation intention has been sent,please wait"
+  },
+  Account:{
+      Account:"Account"
   }
 };

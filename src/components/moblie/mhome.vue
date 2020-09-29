@@ -1,6 +1,6 @@
 <template>
   <div id="mhome">
-    <header>
+    <!-- <header>
       <div>
         <img src="../../assets/f6055ec522305641848f75fcafc1e8e.jpg" alt />
       </div>
@@ -79,7 +79,6 @@
                   <span
                     v-html="goods.projectDescribe.length>90? goods.projectDescribe.substr(0, [90])+'...':goods.projectDescribe"
                   ></span>
-                  <!-- <div class="van-multi-ellipsis--l3" v-html="goods.projectDescribe"></div> -->
                 </section>
                 <div class="tag" v-if="usertype==1">
                   <ul>
@@ -116,11 +115,11 @@
           </van-list>
         </van-pull-refresh>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
-// import { i18n } from "../../language";
+
 
 let timeout;
 // import { log } from "util";
@@ -206,51 +205,51 @@ export default {
     };
   },
   created() {
-    this.usertype = this.$store.state.currentUsertype;
-    let axiosList = [
-      this.$axios.get(
-        `${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry?X_Token=${this.$store.state.X_Token}`
-      ),
-      this.$axios.get(
-        `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do?X_Token=${this.$store.state.X_Token}`
-      )
-    ];
-    this.$axios.all(axiosList).then(
-      this.$axios.spread((res1, res2) => {
-        if (res1) {
-          // console.log(this.$i18n.locale)
-          if (this.$i18n.locale == "zh_CN") {
-            for (let i = 0; i < res1.data.data.length; i++) {
-              this.items[0].children.push({
-                text: res1.data.data[i].industryNameCh,
-                id: res1.data.data[i].industryId,
-                num: i + 1
-              });
-            }
-          } else {
-            for (let i = 0; i < res1.data.data.length; i++) {
-              this.items[0].children.push({
-                text: res1.data.data[i].industryNameEn,
-                id: res1.data.data[i].industryId,
-                num: i + 1
-              });
-            }
-          }
-        }
-        if (res2) {
-          for (let i = 0; i < res2.data.data.length; i++) {
-            this.countrylist.push({
-              chinese: res2.data.data[i].countryZhname,
-              eng: res2.data.data[i].countryEnname,
-              value: i + 1,
-              remark: res2.data.data[i].countryCode,
-              classname: ""
-            });
-          }
-          // console.log(this.countrylist)
-        }
-      })
-    );
+    // this.usertype = this.$store.state.currentUsertype;
+    // let axiosList = [
+    //   this.$axios.get(
+    //     `${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry?X_Token=${this.$store.state.X_Token}`
+    //   ),
+    //   this.$axios.get(
+    //     `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do?X_Token=${this.$store.state.X_Token}`
+    //   )
+    // ];
+    // this.$axios.all(axiosList).then(
+    //   this.$axios.spread((res1, res2) => {
+    //     if (res1) {
+    //       // console.log(this.$i18n.locale)
+    //       if (this.$i18n.locale == "zh_CN") {
+    //         for (let i = 0; i < res1.data.data.length; i++) {
+    //           this.items[0].children.push({
+    //             text: res1.data.data[i].industryNameCh,
+    //             id: res1.data.data[i].industryId,
+    //             num: i + 1
+    //           });
+    //         }
+    //       } else {
+    //         for (let i = 0; i < res1.data.data.length; i++) {
+    //           this.items[0].children.push({
+    //             text: res1.data.data[i].industryNameEn,
+    //             id: res1.data.data[i].industryId,
+    //             num: i + 1
+    //           });
+    //         }
+    //       }
+    //     }
+    //     if (res2) {
+    //       for (let i = 0; i < res2.data.data.length; i++) {
+    //         this.countrylist.push({
+    //           chinese: res2.data.data[i].countryZhname,
+    //           eng: res2.data.data[i].countryEnname,
+    //           value: i + 1,
+    //           remark: res2.data.data[i].countryCode,
+    //           classname: ""
+    //         });
+    //       }
+    //       // console.log(this.countrylist)
+    //     }
+    //   })
+    // );
     // this.loading = true
     // this.onLoad();
   },

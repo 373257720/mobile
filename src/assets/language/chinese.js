@@ -44,7 +44,7 @@ export default {
     // Projects to be confirmed by investors
   },
   common: {
-    Verify:"Verify",
+    Verify:"验证",
     potentialInvestors: "潜在投资者要求",
     pleasegetcode: "请发送邮件获取验证码",
     NotFound: "没有找到",
@@ -216,5 +216,8 @@ export default {
     CooperationIntentionHasBeenSent:
       "已发送合作意向，等待中间人发送邀请邮件给投资者",
     Contacts: "联络人"
-  }
+  },
+  Account:{
+    Account:"账户"
+}
 };

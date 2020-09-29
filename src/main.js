@@ -11,6 +11,7 @@ Promise.polyfill();
 import global from "@/components/moblie/global.js";
 import store from "./store/store";
 import { i18n } from "./language";
+import "./icon/iconfont.css"
 Vue.config.productionTip = false;
 Vue.prototype.$qs = qs;
 // 富文本
@@ -241,7 +242,7 @@ import commoninvestors from "./components/moblie/common_investors";
 Vue.component("commoninvestors", commoninvestors);
 import contract from "./components/moblie/contract";
 Vue.component("contractcomponent", contract);
-import DialogMsg from "./components/dialog";
+import DialogMsg from "./components/moblie/dialog";
 Vue.component("DialogMsg", DialogMsg);
 // Vue.component('Vue-ueditor-wrap ',VueUeditorWrap )
 /* eslint-disable no-new */

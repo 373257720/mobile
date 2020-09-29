@@ -1,0 +1,37 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "17418707",
+      "name": "account",
+      "font_class": "account",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "17418708",
+      "name": "contact",
+      "font_class": "contact",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "17418709",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "17418710",
+      "name": "project",
+      "font_class": "project",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    }
+  ]
+}

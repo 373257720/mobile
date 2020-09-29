@@ -84,30 +84,31 @@ export default {
   },
   methods: {
     submit() {
+            //  this.$routerto("usercheck")
       this.$refs.form.validate().then(result => {
         console.log("form valid: ", result);
-        this.$routerto("usercheck")
-        // if (result) {
-        //   this.$global
-        //     .post_encapsulation(
-        //       `${this.$axios.defaults.baseURL}/bsl_web/user/register.do`,
-        //       { bslEmail: this.validateForm.username, bslPwd: this.validateForm.password }
-        //     )
-        //     .then(res => {
-        //       var rescode = res.data.resultCode;
-        //       this.$toast.clear();
-        //       if (rescode == 10000) {
-        //         this.successto = "login";
-        //         // this.content = this.$t("common.NextLogin");
-        //         // this.title = this.$t("common.registrationSuccess");
-        //       } else {
-        //         // this.content = res.data.resultDesc;
-        //       }
-        //       // this.title = res.data.resultDesc;
-        //       this.content = res.data.resultDesc;
-        //       this.remindervisible = true;
-        //     });
-        // }
+        // this.$routerto("usercheck")
+        if (result) {
+          this.$global
+            .post_encapsulation(
+              `${this.$axios.defaults.baseURL}/bsl_web/user/register.do`,
+              { bslEmail: this.validateForm.username, bslPwd: this.validateForm.password }
+            )
+            .then(res => {
+              var rescode = res.data.resultCode;
+              this.$toast.clear();
+              if (rescode == 10000) {
+                this.successto = "login";
+                // this.content = this.$t("common.NextLogin");
+                // this.title = this.$t("common.registrationSuccess");
+              } else {
+                // this.content = res.data.resultDesc;
+              }
+              // this.title = res.data.resultDesc;
+              this.content = res.data.resultDesc;
+              this.remindervisible = true;
+            });
+        }
       });
     },
     blur(event) {

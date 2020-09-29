@@ -10,6 +10,7 @@ import {
   PullRefresh,
   List,
   uploader,
+  Switch,
   // Dialog,
   Tab,
   SwipeCell,
@@ -37,7 +38,7 @@ import {
 // 按需引入UI组件
 Vue.use(Overlay);
 Vue.use(Cell);
-// Vue.use(Loading);
+Vue.use(Switch);
 Vue.use(uploader);
 Vue.use(Pagination);
 Vue.use(Tab);

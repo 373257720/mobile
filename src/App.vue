@@ -3,7 +3,9 @@
     <!-- <van-overlay class="layer" :show="layerShow"></van-overlay>
     <van-loading color="#0ce5b2" :show="layerShow"/>-->
     <keep-alive include="mhome,mine,mysign,userpass">
+
       <router-view></router-view>
+
     </keep-alive>
     <mbottom v-if="$route.meta.isshowbottom"></mbottom>
   </div>
@@ -59,7 +61,7 @@ export default {
 
 <style lang="scss">
 body {
-  // background: #2f36ac;
+  background: #fff;
 }
 
 // @media all and (orientation: landscape) {
@@ -68,7 +70,8 @@ body {
 //   }
 // }
 .ispaddingBottom > div:nth-child(1) {
-  padding-bottom: vw(90);
+  // padding-bottom: vw(90);
+  padding-bottom: vw(116)
 }
 @media all and (orientation: landscape) {
   .ispaddingBottom > div:nth-child(1) {
@@ -83,8 +86,8 @@ body {
   position: relative;
       background: #fff;
 
-  // height: 100%;
-  // width: 100%;
+  height: 100%;
+  width: 100%;
 
   // rem 单位换算：定为 75px 只是方便运算，750px-75px、640-64px、1080px-108px，如此类推
   .van-dropdown-menu__bar {

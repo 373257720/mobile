@@ -1,18 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-// import merge from 'webpack-merge';
-// import home from '@/components/moblie/home'
-// import register from "@/components/moblie/register";
-// import login from "@/components/moblie/login";
-// import forgotpassword from "../components/moblie/forgotpassword";
-// import usercheck from "@/components/moblie/usercheck";
-// import mysign from "@/components/moblie/mysign";
-// import userpass from "@/components/moblie/userpass";
-// import mhome from "@/components/moblie/mhome";
-// import mine from "@/components/moblie/mine";
-// import cavans from "@/components/moblie/cavans";
-// import common_details from "@/components/moblie/common_details";
-// import upload_contract from "@/components/moblie/upload_contract";
+
 const register = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/register");
 const login = () =>
@@ -36,7 +24,7 @@ const forgotpassword = () =>
 const usercheck = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/usercheck");
 const mysign = () =>
-  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/mysign");
+  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/projects/mysign");
 const userpass = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/userpass");
 const mhome = () =>
@@ -53,30 +41,6 @@ const upload_contract = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/upload_contract"
   );
-// import upload_contract1 from '@/components/moblie/upload_contract1'
-// import testcavans from '@/components/moblie/test_canvans'
-
-// project_owner/
-// import p_wait_agent_input from "@/components/moblie/project_owner/wait_agent_input";
-// import p_check_contract from "@/components/moblie/project_owner/check_contract";
-// import p_investor_lists from "@/components/moblie/project_owner/investor_lists";
-// import p_investor_details from "@/components/moblie/project_owner/inverstor_details";
-
-// import p_sign_failed from "@/components/moblie/project_owner/sign_failed";
-
-// import p_sign_request from "@/components/moblie/project_owner/sign_request";
-// import p_wait_investor from "@/components/moblie/project_owner/wait_investor";
-// import p_goods_details from "@/components/moblie/project_owner/goods_details";
-// import p_user_contact from "@/components/moblie/project_owner/user_contact";
-// import p_user_contact2 from "@/components/moblie/project_owner/user_contact2";
-// import p_sign_successful from "@/components/moblie/project_owner/sign_successful";
-// import p_inverstor_details from "@/components/moblie/project_owner/inverstor_details";
-// // import p_check_done_contract from'@/components/moblie/project_owner/check_done_contract'
-// import connected_projects from "../components/moblie/project_owner/connected_projects";
-// import p_submit_contract from "@/components/moblie/project_owner/owner_set_contract/submit_contract";
-// import p_set_contract from "@/components/moblie/project_owner/owner_set_contract/set_contract";
-// import owner_set_contract from "../components/moblie/project_owner/owner_set_contract/owner_set_contract";
-// import p_sign_contract from "@/components/moblie/project_owner/owner_set_contract/sign_contract";
 
 const p_wait_agent_input = () =>
   import(
@@ -181,31 +145,6 @@ const p_sign_contract = () =>
     "@/components/moblie/project_owner/owner_set_contract/sign_contract"
   );
 
-// const p_wait_agent_input = resolve => require(['@/components/moblie/project_owner/wait_agent_input'], resolve)
-// const p_check_contract = resolve => require(['@/components/moblie/project_owner/investor_lists'], resolve)
-// const p_investor_lists = resolve => require(['@/components/moblie/project_owner/investor_lists'], resolve)
-// const p_investor_details = resolve => require(['@/components/moblie/project_owner/inverstor_details'], resolve)
-// const p_sign_failed = resolve => require(['@/components/moblie/project_owner/sign_failed'], resolve)
-// const p_sign_request = resolve => require(['@/components/moblie/project_owner/sign_request'], resolve)
-// const p_wait_investor = resolve => require(['@/components/moblie/project_owner/wait_investor'], resolve)
-// const p_goods_details = resolve => require(['@/components/moblie/project_owner/goods_details'], resolve)
-// const p_user_contact = resolve => require(['@/components/moblie/project_owner/user_contact'], resolve)
-// const p_user_contact2 = resolve => require(['@/components/moblie/project_owner/user_contact2'], resolve)
-// const p_sign_successful = resolve => require(['@/components/moblie/project_owner/sign_successful'], resolve)
-// const p_inverstor_details = resolve => require(['@/components/moblie/project_owner/inverstor_details'], resolve)
-// const tobeSigned_roots = resolve => require(['@/components/moblie/project_owner/tobeSigned_roots'], resolve)
-// const connected_projects = resolve => require(['@/components/moblie/project_owner/connected_projects'], resolve)
-// const owner_roots = resolve => require(['@/components/moblie/project_owner/owner_set_contract/owner_roots'], resolve)
-// const p_submit_contract = resolve => require(['@/components/moblie/project_owner/owner_set_contract/submit_contract'],
-// 	resolve)
-// const p_set_contract = resolve => require(['@/components/moblie/project_owner/owner_set_contract/set_contract'],
-// 	resolve)
-// const owner_set_contract = resolve => require([
-// 	'@/components/moblie/project_owner/owner_set_contract/owner_set_contract'
-// ], resolve)
-// const p_sign_contract = resolve => require(['@/components/moblie/project_owner/owner_set_contract/sign_contract'],
-// 	resolve)
-
 // agent/
 const a_project_intro_roots = () =>
   import(
@@ -254,17 +193,6 @@ const recent_recommand = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/recent_recommand"
   );
-// const a_project_intro_roots = resolve => require(['@/components/moblie/agent/a_project_intro_roots'], resolve)
-// const a_project_intro = resolve => require(['@/components/moblie/agent/project_intro'], resolve)
-// const a_wait_review = resolve => require(['@/components/moblie/agent/wait_review'], resolve)
-// const a_recommand_i = resolve => require(['@/components/moblie/agent/recommand_i'], resolve)
-// const a_wait_investor_comfirm = resolve => require(['@/components/moblie/agent/wait_investor_comfirm'], resolve)
-// const a_wait_signed = resolve => require(['@/components/moblie/agent/wait_signed'], resolve)
-// const a_sign_failed = resolve => require(['@/components/moblie/agent/sign_failed'], resolve)
-// const a_sign_successful = resolve => require(['@/components/moblie/agent/sign_successful'], resolve)
-// const a_wait_sendemail = resolve => require(['@/components/moblie/agent/wait_sendemail'], resolve)
-// const a_sign_contract =resolve => require(['@/components/moblie/agent/contract/sign_contract'], resolve)
-// const recent_recommand = resolve => require(['@/components/moblie/agent/recent_recommand'], resolve)
 
 // agent_set_contract
 const a_tobeSigned_roots = () =>
@@ -292,11 +220,6 @@ const uploadtoblock = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/contract/uploadtoblock"
   );
-// const a_tobeSigned_roots = resolve => require(['@/components/moblie/agent/contract/tobeSigned_roots'], resolve)
-// const a_submit_contract = resolve => require(['@/components/moblie/agent/contract/submit_contract'], resolve)
-// const a_check_contract = resolve => require(['@/components/moblie/agent/contract/check_contract'], resolve)
-// const agent_set_contract = resolve => require(['@/components/moblie/agent/contract/agent_set_contract'], resolve)
-// const uploadtoblock = resolve => require(['@/components/moblie/agent/contract/uploadtoblock'], resolve)
 // investor/
 
 const investor_roots = () =>
@@ -335,17 +258,95 @@ const wait_confirmRoot = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/investor/wait_confirmRoot"
   );
-// const investor_roots = resolve => require(['@/components/moblie/investor/investor_roots'], resolve)
-// const i_conected_project = resolve => require(['@/components/moblie/investor/conected_project'], resolve)
-// const i_inverstor_infor = resolve => require(['@/components/moblie/investor/investor_infor'], resolve)
-// const i_perfect_infor = resolve => require(['@/components/moblie/investor/perfect_infor'], resolve)
-// const i_wait_confirm =resolve =>require(['@/components/moblie/investor/wait_comfirm'],resolve)
-// const i_sign_failed = resolve => require(['@/components/moblie/investor/sign_failed'], resolve)
-// const i_emailto_confirm = resolve => require(['@/components/moblie/investor/emailto_confirm'], resolve)
-// const wait_confirmRoot= resolve => require(['@/components/moblie/investor/wait_confirmRoot'], resolve)
+
+// Account
+const AccountMessage = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/account/accountMessage"
+  );
+  const MessageDetails = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/account/MessageDetails"
+  );
+  const  setNickname = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/account/setNickname"
+  );
+  const  vip = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/account/vip"
+  );
+  const  vipRules = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/account/vipRules"
+  );
+  const  personalReview = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/account/personalReview"
+  );
+// console.log(AccountMessage);
+
 Vue.use(Router);
 
 const routes = [
+  //  account
+  {
+    path: "/personalReview",
+    name: "personalReview",
+    component: personalReview,
+    meta: {
+      isshowbottom: false,
+      // ispaddingBottom: true
+    }
+  },
+  {
+    path: "/vipRules",
+    name: "vipRules",
+    component: vipRules,
+    meta: {
+      isshowbottom: false,
+      // ispaddingBottom: true
+    }
+  },
+  {
+    path: "/vip",
+    name: "vip",
+    component: vip,
+    meta: {
+      isshowbottom: false,
+      ispaddingBottom: true
+    }
+  },
+  {
+    path: "/AccountMessage",
+    name: "AccountMessage",
+    component: AccountMessage,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/setNickname",
+    name: "setNickname",
+    component: setNickname,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/MessageDetails",
+    name: "MessageDetails",
+    component: MessageDetails,
+    meta: {
+      isshowbottom: false
+    }
+  },
   // project/
 
   {

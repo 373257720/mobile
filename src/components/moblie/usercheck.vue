@@ -3,10 +3,8 @@
     <commonnav>{{$t("common.Verify")}}</commonnav>
     <main class="main">
       <mu-form ref="form" :model="validateForm" class="mu-demo-form">
-        <mu-form-item  prop="Genus" :rules="Genus">
-          <template slot="label" >
-            {{$t('common.Genus')}}
-        </template>
+        <mu-form-item prop="Genus" :rules="Genus">
+          <template slot="label">{{$t('common.Genus')}}</template>
           <mu-select name="Genus" v-model="validateForm.Genus" full-width>
             <mu-option
               v-for="(item) in optionType"
@@ -28,7 +26,7 @@
               :key="option.value"
               :label="option.text"
               :value="option.value"
-              :disabled="validateForm.Genus===1 && option.value===2"
+              :disabled="validateForm.Genus===1 && option.value===1"
             ></mu-option>
           </mu-select>
         </mu-form-item>
@@ -93,7 +91,7 @@
         >
           <mu-text-field v-model="validateForm.userCompanyCh"></mu-text-field>
         </mu-form-item>
-            <mu-form-item
+        <mu-form-item
           v-if="validateForm.Identity === 2"
           label="Company address(English)"
           prop="PersonalName"
@@ -101,8 +99,7 @@
         >
           <mu-text-field v-model="validateForm.userCompanyCh"></mu-text-field>
         </mu-form-item>
-         </mu-form-item>
-            <mu-form-item
+        <mu-form-item
           v-if="validateForm.Identity === 2"
           label="Company address(Chinese)"
           prop="PersonalName"
@@ -118,15 +115,13 @@
         >
           <mu-text-field v-model="validateForm.PersonalName"></mu-text-field>
         </mu-form-item>
-
-        <mu-form-item :label="$t('common.passport')" prop="passport" :rules="passport">
-          <van-uploader
-            upload-icon="plus"
-            name="passport"
-            v-model="validateForm.passport"
-            :after-read="afterRead"
-            max-count="1"
-          />
+        <mu-form-item
+          v-if="validateForm.Identity === 1"
+          :label="$t('common.IdentificationNumber')"
+          prop="PersonalName"
+          :rules="PersonalName"
+        >
+          <mu-text-field v-model="validateForm.PersonalName"></mu-text-field>
         </mu-form-item>
         <mu-form-item :label="$t('common.passport')" prop="passport" :rules="passport">
           <van-uploader
@@ -136,7 +131,23 @@
             :after-read="afterRead"
             max-count="1"
           />
+               <van-uploader
+            upload-icon="plus"
+            name="passport"
+            v-model="validateForm.passport"
+            :after-read="afterRead"
+            max-count="1"
+          />
         </mu-form-item>
+        <!-- <mu-form-item  prop="passport" :rules="passport">
+          <van-uploader
+            upload-icon="plus"
+            name="passport"
+            v-model="validateForm.passport"
+            :after-read="afterRead"
+            max-count="1"
+          />
+        </mu-form-item> -->
         <mu-form-item>
           <van-button @click="submit">{{$t('common.Register')}}</van-button>
         </mu-form-item>
@@ -366,12 +377,11 @@ export default {
     color: #4f3dad;
     opacity: 1;
     margin-bottom: vw(48);
-    &::after{
-        content:"*";
-        margin-left: vw(10);
-        // line-height: initial;
-        color:#00f0ab
-    }
+    // &::after {
+    //   content: "*";
+    //   margin-left: vw(10);
+    //   color: #00f0ab;
+    // }
   }
   .mu-input__error {
   }
