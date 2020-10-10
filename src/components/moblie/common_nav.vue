@@ -1,6 +1,6 @@
 <template>
   <div id="common_nav">
-    <p></p>
+    <!-- <p></p> -->
     <nav class="common_nav">
       <van-icon name="arrow-left" @click="$global.previous()" />
       <span>
@@ -29,18 +29,17 @@ export default {
   text-align: center;
   color: #4f3dad;
   font-size: vw(40);
-  // height: vw(50);
+  // height: vw(140);
  
-  p {
-    height: vw(46);
-    width: 100%;
-  }
-}
-nav.common_nav {
+  // p {
+  //   height: vw(46);
+  //   width: 100%;
+  // }
+  nav.common_nav {
   // margin-top: vw(46);
   position: relative;
-   line-height: vw(50);
-  height: vw(50);
+   line-height: vw(140);
+   height: vw(140);
   .van-icon-arrow-left {
     position: absolute;
     left: vw(36);
@@ -48,6 +47,8 @@ nav.common_nav {
     transform: (translate(0, -50%));
   }
 }
+}
+
 @media (min-width: 768px) {
   nav.common_nav {
     // margin-bottom: vw(100);

@@ -44,7 +44,7 @@ export default {
     // Projects to be confirmed by investors
   },
   common: {
-    Verify:"验证",
+    Verify: "验证",
     potentialInvestors: "潜在投资者要求",
     pleasegetcode: "请发送邮件获取验证码",
     NotFound: "没有找到",
@@ -217,7 +217,22 @@ export default {
       "已发送合作意向，等待中间人发送邀请邮件给投资者",
     Contacts: "联络人"
   },
-  Account:{
-    Account:"账户"
-}
+  Account: {
+    Message:"信息",
+    Comfirm:"确认",
+    Account: "账户",
+    PersonalReview:"个人查看",
+    Language:"语言",
+    Password:"密码",
+    Logout:"退出登录",
+    Nickname:"昵称",
+    EditInformation:"编辑信息",
+    WhethertoshowInvestors:"是否向投资者出示实名",
+    WhethertoshowMiddleman:"是否向中间人出示实名",
+  },
+  project:{
+    project:"项目",
+    Projectchain:"项目链",
+    projectStatus:"项目状态"
+  },
 };

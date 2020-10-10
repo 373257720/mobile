@@ -1,82 +1,60 @@
 <template>
   <div id="login1st">
-    <commonnav :msg="dad_text"></commonnav>
+    <commonnav>{{$t("common.LogIn")}}</commonnav>
     <main class="main">
-      <form>
-        <label class="label" for="username">{{$t('common.Email')}}</label>
-        <br />
-        <mu-text-field
-          v-model="form.username"
-          id="username"
-          name="username"
-          @blur="blur($event)"
-          placeholder="Please input......"
-        ></mu-text-field>
-        <p class="error">
-          <span>{{ errors.username}}</span>
+      <mu-form ref="form" :model="validateForm" class="mu-demo-form">
+        <mu-form-item :label="$t('common.Email')" prop="username" :rules="usernameRules">
+          <mu-text-field v-model="validateForm.username"></mu-text-field>
+        </mu-form-item>
+        <mu-form-item :label="$t('common.PassWord')" prop="password" :rules="passwordRules">
+          <mu-text-field type="password" v-model="validateForm.password"></mu-text-field>
+        </mu-form-item>
+        <p class="errorMsg">
+          The email or password you entered is
+          incorrect.
         </p>
-        <div class="btn">
-          <!-- <p class="reminder">reminder</p> -->
-          <mu-button color="#0ce5b2" @click="register">{{$t('common.Submit')}}</mu-button>
-        </div>
-      </form>
-
-      <!-- <span
-          style="color:red;"
-          v-if="errors.fields && errors.fields.username"
-      >{{ errors.fields.username[0].message }}</span>-->
-
-      <!-- <span
-          style="color:red;"
-          v-if="errors.fields && errors.fields.password"
-      >{{ errors.fields.username1[0].message }}</span>-->
-
-      <!-- <mu-container>
-        <header>
-          <van-icon name="arrow-left" @click="$global.previous()" />
-          <span>注册</span>
-        </header>
-        <mu-form ref="form" :model="form" class="mu-demo-form" label-position="top">
-          <mu-form-item label="请输入邮箱" prop="username" :rules="usernameRules">
-            <mu-text-field v-model="form.username" prop="username"></mu-text-field>
-          </mu-form-item>
-          <mu-form-item label="请输入密码" prop="password" :rules="passwordRules">
-            <mu-text-field type="password" v-model="form.password" prop="password"></mu-text-field>
-          </mu-form-item>
-          <mu-form-item prop="password2" label="再次确认密码" :rules="passwordRules2">
-            <mu-text-field type="password" v-model="form.password2"></mu-text-field>
-          </mu-form-item>
-          <mu-form-item>
-            <mu-button color="#0ce5b2"  @click="submit">提交</mu-button>
-          </mu-form-item>
-        </mu-form>
-      </mu-container>-->
-      <!-- <div class="tologin">
-         <p class="tologin" @click="$routerto('login')">{{$t('common.AlreadyHaveAnAccount')}}</p>
-      </div>-->
+        <p class="forget">
+          <span>
+             forget password
+          </span>
+       </p>
+        <mu-form-item>
+          <mu-button color="primary" @click="submit">{{$t('common.Register')}}</mu-button>
+          <!-- <van-button @click="submit">{{$t('common.Register')}}</van-button> -->
+        </mu-form-item>
+      </mu-form>
     </main>
   </div>
 </template>
 <script>
-import AsyncValidator from "async-validator";
-console.log(AsyncValidator);
+// import AsyncValidator from "async-validator";
+// console.log(AsyncValidator);
 var reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
 export default {
   name: "register",
   data() {
     return {
-      dad_text: this.$t("common.LogIn"),
-      visibility: false,
-      labelPosition: "top",
-      form: {
+      usernameRules: [
+        { validate: val => !!val, message: "Username must be filled in" },
+        {
+          validate: val => val.length >= 3,
+          message: "Username length greater than 3"
+        }
+      ],
+      passwordRules: [
+        { validate: val => !!val, message: "Password must be filled in" },
+        {
+          validate: val => val.length >= 3 && val.length <= 10,
+          message: "Password length must be greater than 3 and less than 10"
+        }
+      ],
+      validateForm: {
         username: "",
-        password: "",
-        password2: ""
+        password: ""
       },
       errors: {
         username: "",
-        password: "",
-        password2: ""
+        password: ""
       },
       rules: {
         username: [
@@ -176,29 +154,42 @@ export default {
 <style lang='scss'>
 #login1st {
   .mu-input-focus-line {
-    // background-color: #0ce5b2;
     display: none;
   }
-  .mu-input-line {
-    display: none;
+
+  .mu-form-item-label {
+    // height: vw(30);
+    font-size: vw(30);
+    font-weight: bold;
+    line-height: vw(30);
+    color: #4f3dad;
+    // margin-bottom: vw(64);
   }
-  .mu-text-field-input {
-    color: #a8ace9;
+  .mu-input__error {
+    // .mu-text-field-input {
+    //   color: #f44336;
+    // }
+    // .mu-input-line {
+    //   background: #f44336;
+    // }
   }
-  .mu-input__focus {
+  .mu-form-item__error .mu-form-item-help {
     color: #0ce5b2;
   }
-  .mu-input {
-    width: 100%;
-    margin-bottom: 0;
-    margin: vw(18) 0 vw(16) 0;
-    // height:vw(32);
-    min-height: 0;
-    padding: 0;
+  .mu-form-item-content {
+    min-height: vw(34);
+    margin-top: vw(62);
+  }
+  .mu-input-line {
+    background: #4f3dad;
   }
   .mu-text-field-input {
-    height: vw(32);
+    color: #4f3dad;
     font-size: vw(32);
+    height: vw(32);
+  }
+  .mu-form-item__error .mu-form-item-help {
+    bottom: vw(-4);
   }
 }
 </style>
@@ -206,7 +197,7 @@ export default {
 #login1st {
   min-height: 100vh;
   width: 100vw;
-  background: #2f36ac;
+  // background: #2f36ac;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -227,12 +218,31 @@ export default {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 0 vw(36);
-    padding-top: vw(327);
+    padding: 0 vw(94);
+    padding-top: vw(212);
+    .errorMsg {
+      // width: vw(536);
+
+      font-size: vw(30);
+
+      font-weight: bold;
+      line-height: vw(34);
+      color: #00e3a2;
+    }
+    .forget {
+      font-size: vw(30);
+      text-align: center;
+      font-weight: bold;
+      line-height: vw(34);
+
+      span{
+      border-bottom:2px solid #00e3a2;
+      }
+      color: #00e3a2;
+    }
     form {
       width: 100%;
     }
-
     div.btn {
       margin-top: vw(290);
       width: 100%;
@@ -247,27 +257,21 @@ export default {
         // height: vw(75);
       }
     }
-    @media (min-width: 768px) {
+    @media (min-width: 480px) {
       div.btn {
-        margin-top: vw(200);
+        margin-top: vw(100);
         // padding-bottom: vw(90);
       }
     }
     button {
-      text-align: center;
-      width: vw(569);
-      height: vw(75);
-      background: #0ce5b2;
-      border-radius: vw(20);
-      font-size: vw(30);
+      color: #ffffff;
+      background: #4f3dad;
+      border-radius: vw(40);
+      width: vw(528);
       font-weight: bold;
-      color: #2f36ac;
-      line-height: vw(75);
-    }
-    .registerbtn button {
-      background: #ff7c2c;
-      // font-size: 0.1rem;
-      font-size: 0.42rem;
+      line-height: vw(114);
+      height: vw(114);
+      font-size: vw(40);
     }
   }
   @media all and (orientation: landscape) {

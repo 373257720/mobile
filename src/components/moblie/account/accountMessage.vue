@@ -1,6 +1,6 @@
 <template>
   <div id="AccountMessage">
-    <commonnav>Message</commonnav>
+    <commonnav>{{$t('Account.Message')}}</commonnav>
     <mu-paper  class="demo-loadmore-wrap">
       <mu-container ref="container" class="demo-loadmore-content">
         <mu-load-more
@@ -45,9 +45,9 @@ export default {
     return { num: 10, refreshing: false, loading: false, text: "List" };
   },
   created() {},
-  components: {
-    loadmore
-  },
+  // components: {
+  //   loadmore
+  // },
   methods: {
     // handleleterClick() {},
     refresh() {
@@ -91,6 +91,9 @@ export default {
 }
 #AccountMessage {
   height: 100%;
+  .mu-list{
+    padding: vw(140) 0 0 0;
+  }
   .timestamp {
     padding: vw(40) 0 0 0;
     > p {
@@ -105,7 +108,7 @@ export default {
     }
   }
   .timestamp:nth-of-type(1) {
-    padding: vw(78) 0 0 0;
+    // padding: vw(128) 0 0 0;
   }
   .time {
     align-items: flex-end;
@@ -147,6 +150,7 @@ export default {
   .demo-loadmore-wrap {
     max-width: 100%;
     height: 100%;
+    // padding-top: vw(28)
     // padding-bottom: vw(116);
   }
   .container {
@@ -166,6 +170,6 @@ export default {
 </style>
 <style lang="scss" scoped>
 #AccountMessage {
-  padding-top: vw(96);
+  // padding-top: vw(96);
 }
 </style>

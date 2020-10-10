@@ -1,15 +1,14 @@
 <template>
-  <van-tabbar v-model="active" id="moblie_bottom" inactive-color="#fff" active-color="#00F0AB">
-    <van-tabbar-item name="mhome" @click="$routerto('mhome')">
+  <van-tabbar v-model="activeTag" id="moblie_bottom" inactive-color="#fff" active-color="#00F0AB">
+    <van-tabbar-item name="mhome" replace to="/mhome">
       <van-icon class="iconfont" class-prefix="icon" slot="icon" name="home"></van-icon>
       <span>{{$t('common.Home')}}</span>
     </van-tabbar-item>
-    <van-tabbar-item name="mysign"  @click="$routerto('mysign')">
+    <van-tabbar-item name="mysign" replace to="/mysign">
       <van-icon class="iconfont" class-prefix="icon" slot="icon" name="project"></van-icon>
       <span>{{$t('common.MyProjectS')}}</span>
     </van-tabbar-item>
-    <van-tabbar-item name="connected_projects">
-      <!-- v-if="this.$store.state.currentUsertype==1 || this.$store.state.currentUsertype==4" -->
+    <van-tabbar-item name="connected_projects" replace to="/contact">
       <van-icon class="iconfont" class-prefix="icon" slot="icon" name="contact"></van-icon>
       <span>{{$t('common.ConnectedItems')}}</span>
     </van-tabbar-item>
@@ -17,9 +16,10 @@
       name="p_user_contact"
       icon="friends-o"
       color="#fff"
+      replace to="/contact"
       v-if="this.$store.state.currentUsertype==1"
     >{{$t('common.Contacts')}}</van-tabbar-item>
-    <van-tabbar-item name="mine" @click="$routerto('mine')">
+    <van-tabbar-item name="mine"  replace to="/mine">
       <van-icon class="iconfont" class-prefix="icon" slot="icon" name="account"></van-icon>
       <span>{{$t('common.ME')}}</span>
     </van-tabbar-item>
@@ -30,15 +30,30 @@ export default {
   name: "moblie_bottom",
   data() {
     return {
-      // active: "mhome"
+      // activeTag: "mhome"
     };
   },
-  created() {
-    // this.active = this.$route.name;
-  },
+
+  // created() {
+  //   this.activeTag = this.$route.name;
+  // },
+  // watch: {
+  //   $route: function(to, from) {
+  //     console.log(to);
+
+  //     this.activeTag = to.name;
+  //   }
+  // },
   computed: {
-    active() {
-      return this.$route.name;
+    activeTag: {
+      get() {
+        // console.log(this.$route.name);
+        return this.$route.name;
+      },
+      set(value) {
+        // console.log(value);
+        // return value;
+      }
     }
   },
   activated() {

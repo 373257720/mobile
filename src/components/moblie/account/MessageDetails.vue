@@ -1,6 +1,6 @@
 <template>
   <div id="MessageDetails">
-    <commonnav>Message</commonnav>
+    <commonnav>{{$t('Account.Message')}}</commonnav>
     <main>
       <header>22/07/2020 15:08:52</header>
       <p>Invitation to register has been sent</p>

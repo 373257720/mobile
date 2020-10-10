@@ -2,18 +2,29 @@
   <div id="app" :class="{'ispaddingBottom':ispaddingBottom}">
     <!-- <van-overlay class="layer" :show="layerShow"></van-overlay>
     <van-loading color="#0ce5b2" :show="layerShow"/>-->
-    <keep-alive include="mhome,mine,mysign,userpass">
-
+    <!-- <transition name="Skright"> -->
+    <!-- <div
+      v-loading="true"
+      data-mu-loading-overlay-color="rgba(0, 0, 0, .6)"
+      style="position: relative; width: 500px; height: 400px;"
+    >-->
+    <keep-alive include="mhome,mine,mysign,userpass"
+    
+    
+    
+    
+    >
       <router-view></router-view>
-
     </keep-alive>
     <mbottom v-if="$route.meta.isshowbottom"></mbottom>
+    <!-- </div> -->
+
+    <!-- </transition> -->
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 // import {mapState} from 'vuex'
-
 // import "muse-ui-loading/dist/muse-ui-loading.css"; // load css
 // import Vue from "vue";
 // import Loading from "muse-ui-loading";
@@ -22,7 +33,8 @@ export default {
   name: "App",
   data() {
     return {
-      layerShow: true
+      layerShow: true,
+      SkipSwitchName: ""
     };
   },
   watch: {
@@ -64,6 +76,26 @@ body {
   background: #fff;
 }
 
+.Skright-enter-active,
+.Skright-leave-active,
+.Skleft-enter-active,
+.Sklef-leave-active {
+  transition: all 600ms;
+}
+//先给 所要用的上下层级跳转写一个过渡时间
+//然后你就可以发挥自己的想象力来写自己动画了 下面是一个例子
+.Skright-enter {
+  transform: translate3d(-100%, 0, 0);
+}
+.Skright-leave-to {
+  transform: translate3d(100%, 0, 0);
+}
+.Skleft-enter {
+  transform: translate3d(100%, 0, 0);
+}
+.Skleft-leave-to {
+  transform: translate3d(-100%, 0, 0);
+}
 // @media all and (orientation: landscape) {
 //   #app {
 //     padding-bottom: vw(90);
@@ -71,7 +103,7 @@ body {
 // }
 .ispaddingBottom > div:nth-child(1) {
   // padding-bottom: vw(90);
-  padding-bottom: vw(116)
+  padding-bottom: vw(116);
 }
 @media all and (orientation: landscape) {
   .ispaddingBottom > div:nth-child(1) {
@@ -84,7 +116,7 @@ body {
 #app {
   // background: #2f36ac;
   position: relative;
-      background: #fff;
+  background: #fff;
 
   height: 100%;
   width: 100%;

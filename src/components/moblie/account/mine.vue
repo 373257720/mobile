@@ -2,7 +2,7 @@
   <div id="mine">
     <header>
       <span class="iconfont icon-account" @click="$routerto('setNickname')"></span>
-      <span>{{$t('Account.Account')}}</span>
+      <span>Account</span>
       <span class="iconfont icon-account" @click="$routerto('AccountMessage')"></span>
     </header>
     <main>
@@ -12,30 +12,30 @@
     </main>
     <footer>
       <ul>
-        <li @click="$routerto('personalReview')">
+        <li @click="$routerto('personalReview')" >
           <div class="iconfont icon-account"></div>
-          <div>{{$t('Account.PersonalReview')}}</div>
+          <div>Personal review</div>
         </li>
         <li>
           <div class="iconfont icon-account"></div>
-          <div>{{$t('Account.Language')}}</div>
+          <div>Personal review</div>
         </li>
         <li>
           <div class="iconfont icon-account"></div>
-          <div>{{$t('Account.Password')}}</div>
+          <div>Personal review</div>
         </li>
         <li>
           <div class="iconfont icon-account"></div>
-          <div>{{$t('Account.Logout')}}</div>
+          <div>Personal review</div>
         </li>
       </ul>
     </footer>
-    <DialogMsg
-      :msg="content"
-      :title.sync="title"
-      :successto="successto"
-      :remindervisible.sync="remindervisible"
-    ></DialogMsg>
+        <DialogMsg
+        :msg="content"
+        :title.sync="title"
+        :successto="successto"
+        :remindervisible.sync="remindervisible"
+      ></DialogMsg>
   </div>
 </template>
 <script>
@@ -44,10 +44,9 @@ export default {
   data() {
     return {
       show: false,
-      content: "",
-      title: "",
-      successto:"",
-      remindervisible: false,
+      content:"",
+      title:"",
+      remindervisible:false,
       correct_password: false,
       password1: "",
       password2: "",

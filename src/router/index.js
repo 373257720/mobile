@@ -23,8 +23,28 @@ const forgotpassword = () =>
   );
 const usercheck = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/usercheck");
+
 const mysign = () =>
-  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/projects/mysign");
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/mysign"
+  );
+const projectStatus = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectStatus"
+  );
+const projectSubStatus = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectSubStatus"
+  );
+  const projectsDetails = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectsDetails"
+  );
+const projectList = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectList"
+  );
+
 const userpass = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/userpass");
 const mhome = () =>
@@ -265,27 +285,27 @@ const AccountMessage = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/accountMessage"
   );
-  const MessageDetails = () =>
+const MessageDetails = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/MessageDetails"
   );
-  const  setNickname = () =>
+const setNickname = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/setNickname"
   );
-  const  vip = () =>
+const vip = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/vip"
   );
-  const  vipRules = () =>
+const vipRules = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/vipRules"
   );
-  const  personalReview = () =>
+const personalReview = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/personalReview"
@@ -301,7 +321,7 @@ const routes = [
     name: "personalReview",
     component: personalReview,
     meta: {
-      isshowbottom: false,
+      isshowbottom: false
       // ispaddingBottom: true
     }
   },
@@ -310,7 +330,7 @@ const routes = [
     name: "vipRules",
     component: vipRules,
     meta: {
-      isshowbottom: false,
+      isshowbottom: false
       // ispaddingBottom: true
     }
   },
@@ -850,6 +870,41 @@ const routes = [
       isshowbottom: true
     }
   },
+  {
+    path: "/projectSubStatus",
+    name: "projectSubStatus",
+    component: projectSubStatus,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/projectList",
+    name: "projectList",
+    component: projectList,
+    meta: {
+      isshowbottom: false
+    }
+  },
+
+  {
+    path: "/projectStatus",
+    name: "projectStatus",
+    component: projectStatus,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/projectsDetails",
+    name: "projectsDetails",
+    component: projectsDetails,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  
+
   {
     path: "/forgotpassword",
     name: "forgotpassword",

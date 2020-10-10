@@ -11,7 +11,7 @@ Promise.polyfill();
 import global from "@/components/moblie/global.js";
 import store from "./store/store";
 import { i18n } from "./language";
-import "./icon/iconfont.css"
+import "./icon/iconfont.css";
 Vue.config.productionTip = false;
 Vue.prototype.$qs = qs;
 // 富文本
@@ -20,10 +20,10 @@ axios.defaults.baseURL = url;
 // import "font-awesome/css/font-awesome.css";
 // import initRichText from "./editor";
 // initRichText();
-import 'amfe-flexible/index.js'
+import "amfe-flexible/index.js";
 
-import Validator from 'vue-validator'
-Vue.use(Validator)
+import Validator from "vue-validator";
+Vue.use(Validator);
 // vuex
 import Vuex from "vuex";
 Vue.use(Vuex);
@@ -185,7 +185,7 @@ axios.interceptors.response.use(
 );
 
 Vue.prototype.$routerto = function routerTo(name, obj) {
-  this.$router.push({
+  router.push({
     name: name,
     query: obj
   });
@@ -196,7 +196,7 @@ Vue.prototype.$loading = function loading() {
     overlay: true,
     className: "selfloading",
     // message: 'loading...',
-    forbidClick:true,
+    forbidClick: true,
     duration: 0
   });
 };
@@ -223,10 +223,10 @@ Vue.prototype.$global = global;
 import Router from "vue-router";
 // console.log(Router.prototype);
 
-const originalPush = Router.prototype.push;
-Router.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err);
-};
+// const originalPush = Router.prototype.push;
+// Router.prototype.push = function push(location) {
+//   return originalPush.call(this, location).catch(err => err);
+// };
 
 import mbottom from "./components/moblie/bottom.vue";
 Vue.component("mbottom", mbottom);

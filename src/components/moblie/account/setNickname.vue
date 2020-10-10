@@ -1,10 +1,10 @@
 <template>
   <div id="setNickname">
-    <commonnav>Edit information</commonnav>
+    <commonnav>{{$t('Account.EditInformation')}}</commonnav>
     <main>
       <mu-form ref="form" :model="validateForm" class="mu-demo-form">
         <mu-form-item
-          :label="$t('common.PersonalName')"
+          :label="$t('Account.Nickname')"
           class="nickname"
           prop="PersonalName"
           :rules="nicknameRules"
@@ -12,21 +12,15 @@
           <mu-text-field v-model="validateForm.nickname"></mu-text-field>
         </mu-form-item>
         <mu-form-item prop="PersonalName" class="switch" :rules="usernameRules">
-          <div>
-            Whether to show the real name to the
-            investors
-          </div>
+          <div>{{$t('Account.WhethertoshowInvestors')}}</div>
           <van-switch active-color="#00F0AB" v-model="validateForm.checked" />
         </mu-form-item>
         <mu-form-item prop="PersonalName" class="switch" :rules="usernameRules">
-          <div>
-            Whether to show the real name to the
-            investors
-          </div>
+          <div>{{$t('Account.WhethertoshowMiddleman')}}</div>
           <van-switch active-color="#00F0AB" v-model="validateForm.checked" />
         </mu-form-item>
         <mu-form-item>
-          <van-button @click="submit">{{$t('common.Register')}}</van-button>
+          <van-button @click="submit">{{$t('Account.Comfirm')}}</van-button>
         </mu-form-item>
       </mu-form>
     </main>

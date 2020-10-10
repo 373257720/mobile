@@ -45,7 +45,7 @@ export default {
     // Projects to be confirmed by investors
   },
   common: {
-    Verify:"Verify",
+    Verify: "Verify",
     potentialInvestors: "Potential investors",
     pleasegetcode: "Please send email to get code",
     NotFound: "Not Found",
@@ -219,7 +219,22 @@ export default {
     CooperationIntentionHasBeenSent:
       "Cooperation intention has been sent,please wait"
   },
-  Account:{
-      Account:"Account"
-  }
+  Account: {
+    Message:"Message",
+    Comfirm:"Comfirm",
+    Account: "Account",
+    PersonalReview: "Personal review",
+    Language: "Language",
+    Password: "Password",
+    Logout: "Logout",
+    Nickname: "Nickname",
+    EditInformation: "Edit information",
+    WhethertoshowInvestors: "Whether to show the real name to the investors",
+    WhethertoshowMiddleman: "Whether to show the real name to the middleman"
+  },
+  project:{
+    project:"Project",
+    Projectchain:"Project chain",
+    projectStatus:"Project status"
+  },
 };

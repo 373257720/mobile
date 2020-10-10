@@ -1,21 +1,9 @@
+
+
 <template>
   <div id="mysign">
-    <div id="common_nav">
-      <!-- <p></p> -->
-      <nav class="common_nav">
-        <span>{{$t('project.project')}}</span>
-        <van-search
-          v-model="searchkey"
-          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-          shape="round"
-          left-icon
-        >
-          <div slot="right-icon" @click="onSearch">
-            <van-icon name="search" />
-          </div>
-        </van-search>
-      </nav>
-    </div>
+    <commonnav>project</commonnav>
+
     <mu-paper class="demo-loadmore-wrap">
       <mu-container ref="container" class="demo-loadmore-content">
         <mu-load-more
@@ -26,6 +14,7 @@
           @load="load"
         >
           <mu-list>
+            <div class="title">Project to be signed</div>
             <div class="timestamp">
               <div id="container" @click="$routerto('projectStatus')" v-for="i in num" :key="i">
                 <div class="item item-1">CDC Biodiversité – Biodiversity Offsetting</div>
@@ -48,7 +37,7 @@
                   <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
                 </div>
                 <div class="item item-8">
-                  <van-button>{{$t('project.Projectchain')}}</van-button>
+                  <van-button>Details</van-button>
                 </div>
               </div>
 
@@ -153,12 +142,11 @@
 <script>
 // console.log(timeout)
 export default {
-  name: "mysign",
+  name: "projectsDetails",
   data() {
     return {
       // visible: false,
       // text: "全部",
-      searchkey: "",
       loading: false,
       result: [],
       finished: false,
@@ -392,25 +380,17 @@ export default {
     }
   },
   mounted() {
-    // this.initial();
+    this.initial();
     // this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
-    // this.$nextTick(() => {
-    //   window.addEventListener("resize", this.initial, false);
-    // });
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.initial, false);
+    });
   },
   destroyed() {
     window.removeEventListener("resize", this.initial, false);
   },
 
   methods: {
-    onSearch() {
-      // console.log(this.searchkey);
-      // this.pageNum = 1;
-      // this.upGoodsInfo = [];
-      // this.loading = true; //下拉加载中
-      // this.finished = false; //下拉结
-      // this.onLoad();
-    },
     refresh() {
       //   console.log(123);
       this.refreshing = true;
@@ -661,13 +641,7 @@ export default {
 #mysign {
   // padding-top: vw(46);
   padding-bottom: vw(116);
-  .van-field__right-icon {
-    color: #3ab5cc;
-  }
-  .van-search__content {
-    background: #fff;
-    border: vw(2) solid #3ab5cc;
-  }
+
   #common_nav {
     width: 100%;
     font-weight: bold;
@@ -676,7 +650,7 @@ export default {
     z-index: 200;
     background: #fff;
     // padding-top: vw(46);
-    // height: vw(140);
+    height: vw(140);
     line-height: vw(140);
     text-align: center;
     color: #4f3dad;
@@ -684,7 +658,7 @@ export default {
     nav.common_nav {
       // margin-top: vw(46);
       line-height: vw(140);
-      // height: vw(140);
+      height: vw(140);
     }
     // p {
     //   height: vw(46);
@@ -694,9 +668,19 @@ export default {
   .mu-list {
     padding: 0;
   }
+  .title {
+    // width: vw(472);
+    // height: vw(40);
+    font-size: vw(38);
+    font-weight: bold;
+    line-height: vw(44);
+    text-align: center;
+    color: #3ab5cc;
+    margin-bottom: vw(100);
+  }
   .container {
     padding: 0 vw(70);
-    padding-top: vw(326);
+    padding-top: vw(226);
   }
   #container {
     display: grid;
@@ -762,4 +746,3 @@ export default {
   }
 }
 </style>
-
