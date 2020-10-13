@@ -14,7 +14,8 @@
 </template>
 <script>
 // import { i18n } from "../../language";
-
+import Vue from "vue";
+import VeeValidate, { Validator } from "vee-validate";
 export default {
   name: "login",
   // inject: ["reload"],
@@ -73,10 +74,14 @@ export default {
         .then(res => {
           if (res.data.resultCode === 10000) {
             this.lan = language;
-
             localStorage.setItem("language", language);
             this.$Local(language);
             this.$i18n.locale = language;
+            this.$validator.locale = language;
+            // this.$config.locale=language ;     
+            console.log(this.$validator);
+                   
+            // Vue.use(VeeValidate, this.$config);
             this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
           } else {
             this.$toast(res.data.resultDesc);

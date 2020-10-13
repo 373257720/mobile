@@ -17,13 +17,16 @@ Vue.prototype.$qs = qs;
 // 富文本
 const url = process.env.BASE_API;
 axios.defaults.baseURL = url;
+import "./components/moblie/vee-validate/validate"
+import { Validator } from '../src/components/moblie/validation';
+Vue.prototype.$Validator = Validator;
 // import "font-awesome/css/font-awesome.css";
 // import initRichText from "./editor";
 // initRichText();
 import "amfe-flexible/index.js";
 
-import Validator from "vue-validator";
-Vue.use(Validator);
+// import Validator from "vue-validator";
+// Vue.use(Validator);
 // vuex
 import Vuex from "vuex";
 Vue.use(Vuex);
@@ -58,9 +61,6 @@ Vue.use(Spin);
 Vue.prototype.$axios = axios;
 const restore_obj = global.deepCopy(store._modules.root.state);
 Vue.prototype.$restore_obj = restore_obj;
-// import AsyncValidator from "async-validator";
-// console.log(AsyncValidator);
-// import VeeValidate, { Validator } from 'vee-validate'
 // Vue.prototype.$AsyncValidator=AsyncValidator;
 // Vue.use(AsyncValidator)
 import MuseUI from "muse-ui";
@@ -96,6 +96,8 @@ i18n.locale = localStorage.getItem("language")
   ? localStorage.getItem("language")
   : "en_US";
 
+
+  
 // import moment from 'moment'
 // Vue.prototype.$moment = moment
 // 引入公共组件

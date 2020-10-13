@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-// import store from './store/store'
 Vue.use(VueI18n)
 import chinese from './assets/language/chinese';
 import english from './assets/language/english';
