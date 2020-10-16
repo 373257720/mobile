@@ -17,8 +17,8 @@ Vue.prototype.$qs = qs;
 // 富文本
 const url = process.env.BASE_API;
 axios.defaults.baseURL = url;
-import "./components/moblie/vee-validate/validate"
-import { Validator } from '../src/components/moblie/validation';
+import "./components/moblie/vee-validate/validate";
+import { Validator } from "../src/components/moblie/validation";
 Vue.prototype.$Validator = Validator;
 // import "font-awesome/css/font-awesome.css";
 // import initRichText from "./editor";
@@ -96,8 +96,15 @@ i18n.locale = localStorage.getItem("language")
   ? localStorage.getItem("language")
   : "en_US";
 
+window.addEventListener(
+  "popstate",
+  function(e) {
+    router.isBack = true;
+    console.log(router);
+  },
+  false
+);
 
-  
 // import moment from 'moment'
 // Vue.prototype.$moment = moment
 // 引入公共组件

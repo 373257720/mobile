@@ -1,8 +1,9 @@
 <template>
   <div id="usercheck">
-    <commonnav>{{$t("common.Verify")}}</commonnav>
-    <main class="main">
-      <mu-form ref="form" :model="validateForm" class="mu-demo-form">
+    <div class="usercheck" v-show="flag">
+      <commonnav>{{$t("common.Verify")}}</commonnav>
+      <main class="main">
+        <!-- <mu-form ref="form" :model="validateForm" class="mu-demo-form">
         <mu-form-item prop="Genus" :rules="Genus">
           <template slot="label">{{$t('common.Genus')}}</template>
           <mu-select name="Genus" v-model="validateForm.Genus" full-width>
@@ -41,32 +42,7 @@
             full-width
           >
             <div v-if="coutry_fetching" style="padding: 0 16px;">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                width="30px"
-                height="30px"
-                viewBox="0 0 50 50"
-                style="enable-background:new 0 0 50 50"
-                xml:space="preserve"
-              >
-                <path
-                  fill="#0ce5b2"
-                  d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"
-                  transform="rotate(275.098 25 25)"
-                >
-                  <animateTransform
-                    attributeType="xml"
-                    attributeName="transform"
-                    type="rotate"
-                    from="0 25 25"
-                    to="360 25 25"
-                    dur="0.8s"
-                    repeatCount="indefinite"
-                  />
-                </path>
-              </svg>
-            </div>
+      
             <mu-option
               v-for="(option) in countrylist"
               :key="option.remark"
@@ -139,26 +115,185 @@
             max-count="1"
           />
         </mu-form-item>
-        <!-- <mu-form-item  prop="passport" :rules="passport">
-          <van-uploader
-            upload-icon="plus"
-            name="passport"
-            v-model="validateForm.passport"
-            :after-read="afterRead"
-            max-count="1"
-          />
-        </mu-form-item> -->
         <mu-form-item>
           <van-button @click="submit">{{$t('common.Register')}}</van-button>
         </mu-form-item>
-      </mu-form>
-    </main>
+        </mu-form>-->
+        <form ref="form" @submit.prevent="submit_click">
+          <div class="mui-input-row input-row">
+            <p class="label">{{$t('common.Genus')}}</p>
+            <p class="select" @click="GenusSwitch=!GenusSwitch">{{validateFormLable}}</p>
+          </div>
+          <div class="mui-input-row input-row">
+            <p class="label">{{$t('common.Identity')}}</p>
+            <p class="select" @click="IdentitySwitch=!IdentitySwitch">{{IdentityLable}}</p>
+          </div>
+          <div class="mui-input-row input-row">
+            <p class="label">{{$t('common.Nationality')}}</p>
+            <p class="select" @click="NationalitySwitch=!NationalitySwitch">{{NationalityLable}}</p>
+          </div>
+          <div class="mui-input-row input-row">
+            <p class="label">Company name(English)</p>
+            <input name="confirmpassword" autocomplete="off" v-model="validateForm.confirmpassword" />
+          </div>
+          <div class="mui-input-row input-row">
+            <p class="label">Company name(Chinese)</p>
+            <input name="confirmpassword" autocomplete="off" v-model="validateForm.confirmpassword" />
+          </div>
+          <div class="mui-input-row input-row">
+            <p class="label">Company address(English)</p>
+            <input name="confirmpassword" autocomplete="off" v-model="validateForm.confirmpassword" />
+          </div>
+          <div class="mui-input-row input-row">
+            <p class="label">Company address(Chinese)</p>
+            <input name="confirmpassword" autocomplete="off" v-model="validateForm.confirmpassword" />
+          </div>
+          <div class="mui-input-row input-row">
+            <p class="label">{{$t('common.PersonalName')}}</p>
+            <input name="confirmpassword" autocomplete="off" v-model="validateForm.confirmpassword" />
+          </div>
+          <div class="mui-input-row input-row">
+            <p class="label">{{$t('common.IdentificationNumber')}}</p>
+            <input name="confirmpassword" autocomplete="off" v-model="validateForm.confirmpassword" />
+          </div>
+          <div class="mui-input-row input-row">
+            <p class="label">{{$t('common.passport')}}</p>
+            <input name="confirmpassword" autocomplete="off" v-model="validateForm.confirmpassword" />
+          </div>
+          <div class="mui-input-row input-row">
+            <p class="label">{{$t('common.passport')}}</p>
+            <van-uploader
+              upload-icon="plus"
+              name="passport"
+              v-model="validateForm.passport"
+              :after-read="afterRead"
+              max-count="1"
+            />
+          </div>
+          <p class="error">{{errorsMsg}}</p>
+          <!-- <p v-show="errors.has('userName')" class="error">{{ errors.first('userName') }}</p>
+          <p v-show="errors.has('Password')" class="error">{{ errors.first('Password') }}</p>-->
+          <!-- <p
+          v-show="errors.has('confirmpassword')"
+          class="error"
+          >{{ errors.first('confirmpassword') }}</p>-->
+          <!-- <button @click="submit">SUBMIT</button> -->
+          <button
+            :disabled="isdisabled"
+            :class="isdisabled?'passive':'active'"
+            class="button is-primary"
+            type="submit"
+          >Submit</button>
+        </form>
+      </main>
+    </div>
+    <!-- <transition v-on:after-leave="afterLeave"> -->
+    <div class="usercheck genus" v-show="GenusSwitch">
+      <div id="Nav">
+        <nav class="Nav">
+          <header>
+            <van-icon name="arrow-left" @click="GenusSwitch=!GenusSwitch" />
+            <span>{{$t('common.Nationality')}}</span>
+          </header>
+          <van-search
+            v-model="searchkey"
+            :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
+            shape="round"
+            left-icon
+          >
+            <div slot="right-icon" @click="getcountrylist">
+              <van-icon name="search" />
+            </div>
+          </van-search>
+        </nav>
+      </div>
+      <v-scroll :on-refresh="onRefresh" :loaded="loaded" :on-infinite="onInfinite">
+        <ul class="timestamp">
+          <li
+            id="itemGenus"
+            @click="pickcountry(item)"
+            v-for="item in countrylist  "
+            :key="item.remark"
+          >
+            <div class="item item-1">{{ item.lable}}</div>
+          </li>
+          <!-- <p v-if="loaded">加载完成</p> -->
+        </ul>
+      </v-scroll>
+    </div>
+    <div class="usercheck Identity" v-show="IdentitySwitch">
+      <div id="Nav">
+        <nav class="Nav">
+          <header>
+            <van-icon name="arrow-left" @click="IdentitySwitch=!IdentitySwitch" />
+            <span>{{$t('common.Nationality')}}</span>
+          </header>
+        </nav>
+      </div>
+      <mu-paper class="demo-loadmore-wrap">
+        <mu-container ref="container" class="demo-loadmore-content">
+          <div class="timestamp">
+            <div
+              @click="pickIdentity(item)"
+              id="itemGenus"
+              v-for="item in optionId"
+              :key="item.value"
+            >
+              <div class="item item-1">{{item.text}}</div>
+            </div>
+          </div>
+        </mu-container>
+      </mu-paper>
+    </div>
+    <div class="usercheck Nationality" v-show="NationalitySwitch">
+      <div id="Nav">
+        <nav class="Nav">
+          <header>
+            <van-icon name="arrow-left" @click="NationalitySwitch=!NationalitySwitch" />
+            <span>{{$t('common.Nationality')}}</span>
+          </header>
+        </nav>
+      </div>
+      <mu-paper class="demo-loadmore-wrap">
+        <mu-container ref="container" class="demo-loadmore-content">
+          <div class="timestamp">
+            <div
+              @click="pickNationality(item)"
+              id="itemGenus"
+              v-for="item in optionType"
+              :key="item.value"
+            >
+              <div class="item item-1">{{item.text}}</div>
+            </div>
+          </div>
+        </mu-container>
+      </mu-paper>
+    </div>
+
+    <!-- </transition> -->
   </div>
 </template>
 <script>
+import Scroll from "./loadmore";
 export default {
   data() {
     return {
+      validateForm: {
+        Genus: "",
+        Identity: "",
+        Nationality: ""
+      },
+      validateFormLable: "",
+      IdentityLable: "",
+      NationalityLable: "",
+      loaded: false,
+      // loading: false,
+      NationalitySwitch: false,
+      IdentitySwitch: false,
+      GenusSwitch: false,
+      // refreshing: false,
+      searchkey: "",
+      errorsMsg: "",
       fileList_company: [],
       countrylist: [],
       optionType: [
@@ -170,20 +305,6 @@ export default {
         { text: this.$t("common.individual"), value: 1 },
         { text: this.$t("common.company"), value: 2 }
       ],
-      dad_text: this.$t("common.Reveiw"),
-      usernameRules: [
-        { validate: val => !!val, message: "Username must be filled in" }
-      ],
-      passwordRules: [
-        { validate: val => !!val, message: "Password must be filled in" },
-        {
-          validate: val => val.length >= 3 && val.length <= 10,
-          message: "Password length must be greater than 3 and less than 10"
-        }
-      ],
-      argeeRules: [
-        { validate: val => !!val, message: "Must agree with user agreement" }
-      ],
       argeeRules2: [
         {
           validate: val => {
@@ -193,19 +314,90 @@ export default {
           trigger: "input",
           message: "Must upload"
         }
-      ],
-      validateForm: {
-        username: "",
-        password: "",
-        isAgree: false,
-        userCompanyPic: []
-      }
+      ]
     };
   },
+  components: {
+    "v-scroll": Scroll
+  },
+  computed: {
+    flag() {
+      if (this.GenusSwitch || this.IdentitySwitch || this.NationalitySwitch) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    isdisabled() {
+      if (this.validateForm.Genus && this.validateForm.Identity) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  },
   created() {
-    this.getcountrylist("");
+    // this.getcountrylist("");
+  },
+  mounted() {
+    // this.onRefresh();
   },
   methods: {
+    onRefresh(done) {
+      //   3. 在刷新方法内部进行自己的逻辑处理 此处调用了后台接口
+      // this.onRefreshPort(done);
+      this.getcountrylist();
+    },
+    onInfinite(done) {
+      if (!this.loaded) this.onInfinitePort(done);
+    },
+    /**
+     * 上拉加载接口
+     */
+    onInfinitePort(done) {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
+          {
+            searchKey: this.searchkey
+          }
+        )
+        .then(res => {
+          if (res.data.data.length > 0) {
+            for (let i = 0; i < res.data.data.length; i++) {
+              this.countrylist.push({
+                chinese: res.data.data[i].countryZhname,
+                eng: res.data.data[i].countryEnname,
+                lable:
+                  this.$i18n.locale === "zh_CN"
+                    ? res.data.data[i].countryZhname
+                    : res.data.data[i].countryEnname,
+                value: i,
+                remark: res.data.data[i].countryCode
+              });
+            }
+            // done();
+          }
+        });
+      // this.getcountrylist();
+    },
+    pickNationality(item) {
+      this.validateForm.Nationality = item.value;
+      this.NationalityLable = item.text;
+      this.NationalitySwitch = false;
+    },
+    pickIdentity(item) {
+      // console.log(item);
+      this.validateForm.Identity = item.value;
+      this.IdentityLable = item.text;
+      this.IdentitySwitch = false;
+    },
+    pickcountry(item) {
+      // console.log(item);
+      this.validateForm.Genus = item.value;
+      this.validateFormLable = item.lable;
+      this.GenusSwitch = false;
+    },
     identityChange(val) {
       // console.log(123);
       this.fileList_front = [];
@@ -232,20 +424,6 @@ export default {
       this.form.userCountryCh = this.countrylist[val].chinese;
       // console.log(this.form.userCountry);
     },
-    afterRead(file) {
-      file.status = "uploading";
-      file.message = "上传中...";
-
-      setTimeout(() => {
-        file.status = "done";
-        // console.log(this.$refs.form);
-        // for(let i =0;i<this.$refs.form.items.length;i++){
-        //   if(this.$refs.form.items[i].prop==="userCompanyPic"){
-        //       this.$refs.form.items[i].validate()
-        //   }
-        // }
-      }, 1000);
-    },
     asyncBeforeRead(file, index) {
       // console.log(file, index);
       if (file.type !== "image/jpeg" && file.type !== "image/png") {
@@ -256,12 +434,11 @@ export default {
     },
     getcountrylist(val) {
       this.countrylist = [];
-      this.coutry_fetching = true;
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
           {
-            searchKey: val
+            searchKey: this.searchkey
           }
         )
         .then(res => {
@@ -270,56 +447,109 @@ export default {
               this.countrylist.push({
                 chinese: res.data.data[i].countryZhname,
                 eng: res.data.data[i].countryEnname,
+                lable:
+                  this.$i18n.locale === "zh_CN"
+                    ? res.data.data[i].countryZhname
+                    : res.data.data[i].countryEnname,
                 value: i,
                 remark: res.data.data[i].countryCode
               });
             }
+            this.loaded = true;
           }
-          this.coutry_fetching = false;
-          // console.log(this.countrylist);
         });
     },
-    // async afterRead(file, index) {
-    //   console.log(index.name);
-    //   file.status = "uploading";
-    //   file.message = "上传中...";
-    //   let uploadImg = await this.upLoaderImg(file.file);
-    //   if (uploadImg.resultCode == 10000) {
-    //     file.status = "done";
-    //     file.message = "haole";
-    //     let imgurl = uploadImg.data.url;
-    //     let urlBase = uploadImg.data.urlBase;
-    //     if (index.name == "identityPicOne") {
-    //       this.fileList_front = [];
-    //       this.form.identityPicOne = imgurl;
-    //       this.fileList_front.push({ url: urlBase + imgurl });
-    //     } else if (index.name == "identityPicTwo") {
-    //       this.fileList_back = [];
-    //       this.form.fileList_back = imgurl;
-    //       this.fileList_back.push({ url: urlBase + imgurl });
-    //     } else if (index.name == "userCompanyPic") {
-    //       this.fileList_company = [];
-    //       this.form.userCompanyPic = imgurl;
-    //       this.fileList_company.push({ url: urlBase + imgurl });
-    //     }
-    //   } else {
-    //     file.status = "failed";
-    //     file.message = "haole";
-    //   }
-    // },
-    submit() {
-      this.$refs.form.validate().then(result => {
-        console.log("form valid: ", result);
-      });
+    async afterRead(file, index) {
+      // console.log(index.name);
+      file.status = "uploading";
+      file.message = "上传中...";
+      let uploadImg = await this.upLoaderImg(file.file);
+      // if (uploadImg.resultCode == 10000) {
+      //   file.status = "done";
+      //   file.message = "haole";
+      //   let imgurl = uploadImg.data.url;
+      //   let urlBase = uploadImg.data.urlBase;
+      //   if (index.name == "identityPicOne") {
+      //     this.fileList_front = [];
+      //     this.form.identityPicOne = imgurl;
+      //     this.fileList_front.push({ url: urlBase + imgurl });
+      //   } else if (index.name == "identityPicTwo") {
+      //     this.fileList_back = [];
+      //     this.form.fileList_back = imgurl;
+      //     this.fileList_back.push({ url: urlBase + imgurl });
+      //   } else if (index.name == "userCompanyPic") {
+      //     this.fileList_company = [];
+      //     this.form.userCompanyPic = imgurl;
+      //     this.fileList_company.push({ url: urlBase + imgurl });
+      //   }
+      // } else {
+      //   file.status = "failed";
+      //   file.message = "haole";
+      // }
     },
-    clear() {
-      this.$refs.form.clear();
-      this.validateForm = {
-        username: "",
-        password: "",
-        isAgree: false
-      };
-    }
+    upLoaderImg(file) {
+      // if (file.type !== "image/jpeg") {
+      //   this.$toast(this.$t("common.UploadJPG"));
+      //   return false;
+      // }
+      console.log(file);
+
+      let formData = new FormData();
+      formData.append("file", file);
+      formData.append("X_Token", this.$store.state.X_Token);
+      console.log(formData);
+      // this.$loading();
+
+      // return new Promise((resolve, reject) => {
+      //   this.$axios({
+      //     method: "post",
+      //     url: `${this.$axios.defaults.baseURL}/bsl_web/upload/pic`,
+      //     data: formData,
+      //     headers: {
+      //       "Content-Type": "multipart/form-data"
+      //       // "application/x-www-form-urlencoded"
+      //     }
+      //   }).then(res => {
+      //     console.log(res);
+
+      //     this.$toast.clear();
+      //     if (res.data.resultCode == 10000) {
+      //       let imgurl = res.data.data.url;
+      //       let urlBase = res.data.data.urlBase;
+      //       // console.log(urlBase + imgurl);
+      //       if (index == 1) {
+      //         this.fileList_front = [];
+      //         this.form.identityPicOne = imgurl;
+      //         this.fileList_front.push({ url: urlBase + imgurl });
+      //       } else if (index == 2) {
+      //         this.fileList_back = [];
+      //         this.form.fileList_back = imgurl;
+      //         this.fileList_company.push({ url: urlBase + imgurl });
+      //       } else if (index == 3) {
+      //         this.fileList_company = [];
+      //         this.form.userCompanyPic = imgurl;
+      //         this.fileList_company.push({ url: urlBase + imgurl });
+      //       }
+      //       // resolve(true);
+      //     } else {
+      //       this.$toast(res.data.resultDesc);
+      //       reject(res.data.resultDesc);
+      //     }
+      //   });
+      // });
+    } // submit() {
+    //   this.$refs.form.validate().then(result => {
+    //     console.log("form valid: ", result);
+    //   });
+    // },
+    // clear() {
+    //   this.$refs.form.clear();
+    //   this.validateForm = {
+    //     username: "",
+    //     password: "",
+    //     isAgree: false
+    //   };
+    // }
   }
 };
 </script>
@@ -332,6 +562,9 @@ export default {
 }
 .mu-item span {
   //  font-size: vw(32);
+}
+.mu-infinite-scroll-text {
+  margin: 0;
 }
 #usercheck {
   .van-icon-plus::before {
@@ -414,9 +647,97 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  .label {
-    color: #fff;
-    font-size: vw(30);
+  .usercheck {
+    width: 100vw;
+    z-index: 11;
+    #Nav {
+      width: 100%;
+      font-weight: bold;
+      position: fixed;
+      top: 0;
+      z-index: 200;
+      background: #fff;
+      line-height: vw(140);
+      text-align: center;
+      color: #4f3dad;
+      font-size: vw(40);
+      .van-search {
+        width: vw(598);
+        margin: 0 auto;
+        padding: 0;
+      }
+      .van-search__content {
+        border: vw(2) solid #3ab5cc;
+        background: #fff;
+        .van-icon-search,
+        .van-icon-clear {
+          color: #3ab5cc;
+        }
+      }
+      nav.Nav {
+        // margin-top: vw(46);
+        line-height: vw(140);
+        // height: vw(140);
+      }
+      // p {
+      //   height: vw(46);
+      //   width: 100%;
+      // }
+    }
+  }
+  .genus {
+    padding-top: vw(290);
+  }
+  .Identity,
+  .Nationality {
+    padding-top: vw(245);
+  }
+
+  .genus,
+  .Identity,
+  .Nationality {
+    nav.Nav {
+      line-height: vw(140);
+      header {
+        height: vw(140);
+        position: relative;
+        .van-icon-arrow-left {
+          position: absolute;
+          left: vw(36);
+          top: 50%;
+          transform: (translate(0, -50%));
+        }
+      }
+    }
+    .container {
+      padding: 0;
+      #itemGenus {
+        padding: 0 vw(40);
+        height: vw(112);
+        display: flex;
+        align-items: center;
+        border-bottom: vw(2) solid #4f3dad;
+        .item-1 {
+          font-size: vw(30);
+          font-weight: bold;
+          line-height: vw(34);
+          color: #4f3dad;
+        }
+      }
+    }
+  }
+  .v-enter,
+  .v-leave-to {
+    opacity: 0;
+    transform: translateX(vw(80));
+  }
+  /*
+      v-enter-active: 入场动画的时间段
+      v-leave-active：离场动画的时间段
+    */
+  .v-enter-active,
+  .v-leave-active {
+    transition: all 1s;
   }
   .error {
     height: vw(24);
@@ -428,13 +749,46 @@ export default {
   }
   main {
     display: flex;
-
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
     width: 100%;
     padding: 0 vw(94);
-    padding-top: vw(184);
-
+    color: #4f3dad;
+    padding-top: vw(212);
+    font-size: vw(30);
+    p.label {
+      margin-bottom: vw(62);
+      height: vw(34);
+      font-size: vw(30);
+      font-weight: bold;
+      line-height: vw(34);
+    }
+    .mui-input-row {
+      width: 100%;
+      margin-bottom: vw(60);
+      span {
+        display: inline-block;
+      }
+      input {
+        width: 100%;
+        font-size: vw(34);
+        height: vw(34);
+        border-bottom: vw(2) solid #4f3dad;
+      }
+      p.select {
+        width: 100%;
+        height: vw(48);
+        font-size: vw(34);
+        border-bottom: vw(2) solid #4f3dad;
+      }
+      p.helpText {
+        font-size: vw(30);
+        font-weight: bold;
+        line-height: vw(34);
+        color: #8277b9;
+        margin-top: vw(50);
+      }
+    }
     div.btn {
       margin-top: vw(290);
       width: 100%;
@@ -449,12 +803,6 @@ export default {
         // height: vw(75);
       }
     }
-    @media (min-width: 480px) {
-      div.btn {
-        margin-top: vw(100);
-        // padding-bottom: vw(90);
-      }
-    }
     button {
       color: #ffffff;
       background: #4f3dad;
@@ -465,6 +813,15 @@ export default {
       height: vw(114);
       font-size: vw(40);
     }
+    button.passive {
+      background: #828282;
+    }
+    button.active {
+      background: #4f3dad;
+    }
+    // button.active{
+
+    // }
   }
   @media all and (orientation: landscape) {
     main {

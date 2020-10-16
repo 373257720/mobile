@@ -1,129 +1,219 @@
-<template>
-  <div
-    class="weui-pull-refresh"
-    ref="scrollBox"
-    :style="style"
-    @touchstart="touchStart"
-    @touchmove="touchMove"
-    @touchend="touchEnd"
-  >
-    <div class="weui-pull-refreshing-box">
-      <div v-if="moveState < 2">{{ moveState === 0 ? '下拉即可刷新...' : '释放即可刷新...' }}</div>
-      <div v-else>
-        <i class="weui-loading" /> 加载中...
-      </div>
-    </div>
-    <div class="weui-pull-present-box">
-      <slot />
-    </div>
+<template lang="html">
+  <div class="yo-scroll"
+  :class="{'down':(state===0),'up':(state==1),refresh:(state===2),touch:touching}"
+  @touchstart="touchStart($event)"
+  @touchmove="touchMove($event)"
+  @touchend="touchEnd($event)"
+  @scroll="(onInfinite || infiniteLoading) ? onScroll($event) : undefined">
+    <section class="inner" :style="{ transform: 'translate3d(0, ' + top + 'px, 0)' }">
+      <header class="pull-refresh">
+        <slot name="pull-refresh">
+           <span class="down-tip">下拉更新</span>
+           <span class="up-tip">松开更新</span>
+           <span class="refresh-tip">
+           </span>
+        </slot>
+      </header>
+      <slot></slot>
+      <footer class="load-more">
+        <slot name="load-more">
+            <!-- <svg
+   
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                width="30px"
+                height="30px"
+                viewBox="0 0 50 50"
+                style="enable-background:new 0 0 50 50"
+                xml:space="preserve"
+              >
+                <path
+                  fill="#0ce5b2"
+                  d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"
+                  transform="rotate(275.098 25 25)"
+                >
+                  <animateTransform
+                    attributeType="xml"
+                    attributeName="transform"
+                    type="rotate"
+                    from="0 25 25"
+                    to="360 25 25"
+                    dur="0.8s"
+                    repeatCount="indefinite"
+                  />
+                </path>
+              </svg> -->
+        </slot>
+      </footer>
+    </section>
   </div>
 </template>
  
 <script>
-//如果你想直接拿来用，把create干掉
-// import { create } from '../../utils'
-//create()干掉
 export default {
-  name: "pull-refresh",
+  props: {
+    offset: {
+      type: Number,
+      default: 40
+    },
+    enableInfinite: {
+      type: Boolean,
+      default: true
+    },
+    enableRefresh: {
+      type: Boolean,
+      default: true
+    },
+    loaded: {
+      type: Boolean,
+      default: false
+    },
+    onRefresh: {
+      type: Function,
+      default: undefined,
+      required: false
+    },
+    onInfinite: {
+      type: Function,
+      default: undefined,
+      require: false
+    }
+  },
   data() {
     return {
-      startY: "", //保存touch时的Y坐标
-      moveDistance: 0, //保存向下滑动的距离
-      moveState: 0, //开始滑动到结束后状态的变化 0:下拉即可刷新 1:释放即可刷新 2:加载中
-      duration: 0 //动画持续时间，0就是没有动画
+      top: 0,
+      state: 0,
+      startY: 0,
+      touching: false,
+      infiniteLoading: false
     };
-  },
-
-  computed: {
-    style() {
-      return {
-        transition: `${this.duration}ms`,
-        transform: `translate3d(0,${this.moveDistance}px, 0)`
-      };
-    }
   },
   methods: {
     touchStart(e) {
-      this.duration = 0; // 关闭动画
-      this.moveDistance = 0; // 滑动距离归0
-      this.startY = e.targetTouches[0].clientY; // 获得开始Y坐标
+      this.startY = e.targetTouches[0].pageY;
+      this.startScroll = this.$el.scrollTop || 0;
+      this.touching = true;
     },
     touchMove(e) {
-      //这里是整个下拉刷新的核心
-      let scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop;
-      //首先判断我们有没有滚动条，如果有，我们下拉刷新就不能启用。
-      if (scrollTop > 0) return;
+      if (!this.enableRefresh || this.$el.scrollTop > 0 || !this.touching) {
+        return;
+      }
+      let diff = e.targetTouches[0].pageY - this.startY - this.startScroll;
+      if (diff > 0) e.preventDefault();
+      this.top = Math.pow(diff, 0.8) + (this.state === 2 ? this.offset : 0);
 
-      let move = e.targetTouches[0].clientY - this.startY;
-      //判断手指滑动的距离，只有为正数才代表用户下拉了。
-      if (move > 0) {
-        //阻止默认事件，在微信浏览器中尤为有用，至于为什么，你去试就知道了。
-        e.preventDefault();
-        //增加滑动阻力的感觉
-        this.moveDistance = Math.pow(move, 0.8);
-        if (this.moveDistance > 50) {
-          //如果滑动距离大于50 那我就告诉你，释放即可刷新
-          if (this.moveState === 1) return;
-          this.moveState = 1;
-        } else {
-          //否则 恢复原样
-          if (this.moveState === 0) return;
-          this.moveState = 0;
-        }
+      if (this.state === 2) {
+        // in refreshing
+        return;
+      }
+      if (this.top >= this.offset) {
+        this.state = 1;
+      } else {
+        this.state = 0;
       }
     },
     touchEnd(e) {
-      // 只要手指拿开，我都需要加上结束时的动画，这里为300ms
-      this.duration = 300;
-      if (this.moveDistance > 50) {
-        //这里逻辑跟touchMove一样，但是需要真的加载数据了，那moveState变为2 所以加载动画在这出现
-        this.moveState = 2;
-        //因为还没加载完，我得让加载动画显示着，所以这里移动距离为50
-        this.moveDistance = 50;
-        this.$emit("refresh", () => {
-          //这里就是成功后的回调了，如果该函数被调用，那就以为着加载数据完成，所以状态要回到0，当然需要在父组件调用。
-          this.moveState = 0;
-        });
+      if (!this.enableRefresh) return;
+      this.touching = false;
+      if (this.state === 2) {
+        // in refreshing
+        this.state = 2;
+        this.top = this.offset;
+        return;
+      }
+      if (this.top >= this.offset) {
+        // do refresh
+        this.refresh();
       } else {
-        //否则 给我老老实实恢复原样
-        this.moveDistance = 0;
+        // cancel refresh
+        this.state = 0;
+        this.top = 0;
       }
-    }
-  },
-  watch: {
-    //这里是给用户操作返回的核心
-    moveState(state) {
-      //我们监听moveState的状态，
-      //0意味着开始也意味着结束，这里是结束，并且只有动画生效我们才能 moveDistance 设为0，
-      //为什么动画生效才行，因为动画生效意味着手指离开了屏幕，如果不懂去看touchEnd方法，这时
-      //我们让距离变为0才会有动画效果。
-      if (state === 0 && this.duration === 300) {
-        this.moveDistance = 0;
+    },
+    refresh() {
+      this.state = 2;
+      this.top = this.offset;
+      this.onRefresh(this.refreshDone);
+    },
+    refreshDone() {
+      this.state = 0;
+      this.top = 0;
+    },
+
+    infinite() {
+      this.infiniteLoading = true;
+      this.onInfinite(this.infiniteDone);
+    },
+
+    infiniteDone() {
+      this.infiniteLoading = false;
+    },
+
+    onScroll(e) {
+      if (!this.enableInfinite || this.infiniteLoading) {
+        return;
       }
+      let outerHeight = this.$el.clientHeight;
+      let innerHeight = this.$el.querySelector(".inner").clientHeight;
+      let scrollTop = this.$el.scrollTop;
+      let ptrHeight = this.onRefresh
+        ? this.$el.querySelector(".pull-refresh").clientHeight
+        : 0;
+      let infiniteHeight = this.$el.querySelector(".load-more").clientHeight;
+      let bottom = innerHeight - outerHeight - scrollTop - ptrHeight;
+      console.log(this.loaded);
+      if (bottom < infiniteHeight) this.infinite();
     }
   }
 };
 </script>
-<!-- css我就不讲了，你肯定比我厉害 -->
-<style scoped lang="scss">
-.weui-pull-refresh {
-  position: relative;
-  display: flex;
-  height: calc(100vh - 50px);
-  flex-direction: column;
-  margin-top: -50px;
-  .weui-pull-refreshing-box {
-    position: absolute;
-    top: 0;
-    line-height: 50px;
-    height: 50px;
-    font-size: 14px;
-    color: rgba(69, 90, 100, 0.6);
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .weui-pull-present-box {
-    background-color: lighten(#fff, 10%);
-  }
+<style lang='scss'>
+.yo-scroll {
+  position: absolute;
+  top: vw(210);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
+.yo-scroll .inner {
+  position: absolute;
+  top: vw(-100);
+  width: 100%;
+  transition-duration: 300ms;
+}
+.yo-scroll .pull-refresh {
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: vw(100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.yo-scroll.touch .inner {
+  transition-duration: 0ms;
+}
+.yo-scroll.down .down-tip {
+  display: block;
+}
+.yo-scroll.up .up-tip {
+  display: block;
+}
+.yo-scroll.refresh .refresh-tip {
+  display: block;
+}
+.yo-scroll .down-tip,
+.yo-scroll .refresh-tip,
+.yo-scroll .up-tip {
+  display: none;
+}
+.yo-scroll .load-more {
+  height: vw(100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

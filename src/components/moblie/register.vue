@@ -2,24 +2,14 @@
   <div id="register">
     <commonnav>{{$t('common.Register')}}</commonnav>
     <main class="main">
-      <form ref="form" @submit.prevent="validateBeforeSubmit">
+      <form ref="form" @submit.prevent="submit_click">
         <div class="mui-input-row input-row">
           <p class="label">Email</p>
-          <input
-            v-validate="'required|name'"
-            name="userName"
-            type="text"
-            v-model="validateForm.username"
-          />
+          <input name="userName" type="text" v-model="validateForm.username" />
         </div>
         <div class="mui-input-row input-row">
           <p class="label">Password</p>
-          <input
-            v-validate="'required|name'"
-            name="Password"
-            type="text"
-            v-model="validateForm.password"
-          />
+          <input name="Password" type="password" autocomplete="off" v-model="validateForm.password" />
           <p
             class="helpText"
           >Minimum of 8 characters, have 1 upper case and 1 lower case letters, and at least 1 number.</p>
@@ -27,20 +17,26 @@
         <div class="mui-input-row input-row">
           <p class="label">Confirm password</p>
           <input
-            v-validate="'required|name'"
             name="confirmpassword"
-            type="text"
+            type="password"
+            autocomplete="off"
             v-model="validateForm.confirmpassword"
           />
         </div>
-        <p v-show="errors.has('userName')" class="error">{{ errors.first('userName') }}</p>
-        <p v-show="errors.has('Password')" class="error">{{ errors.first('Password') }}</p>
-        <p
+        <p class="error">{{errorsMsg}}</p>
+        <!-- <p v-show="errors.has('userName')" class="error">{{ errors.first('userName') }}</p>
+        <p v-show="errors.has('Password')" class="error">{{ errors.first('Password') }}</p>-->
+        <!-- <p
           v-show="errors.has('confirmpassword')"
           class="error"
-        >{{ errors.first('confirmpassword') }}</p>
+        >{{ errors.first('confirmpassword') }}</p>-->
         <!-- <button @click="submit">SUBMIT</button> -->
-        <button class="button is-primary" type="submit">Submit</button>
+        <button
+          :disabled="isdisabled"
+          :class="isdisabled?'passive':'active'"
+          class="button is-primary"
+          type="submit"
+        >Submit</button>
       </form>
 
       <DialogMsg
@@ -82,6 +78,7 @@ export default {
           message: "Password"
         }
       ],
+      errorsMsg: "",
       validateForm: {
         username: "",
         password: "",
@@ -93,19 +90,56 @@ export default {
       successto: ""
     };
   },
-
   computed: {
-    // Submitisactive(){
-    //     return
-    // },
+    isdisabled() {
+      if (
+        this.validateForm.username &&
+        this.validateForm.password &&
+        this.validateForm.confirmpassword
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    }
   },
+
   created() {
     // this.username = this.$route.query.email ? this.$route.query.email : "";
     // console.log(this.$route.query.email);
   },
   methods: {
+    validateFunc() {
+      let self = this;
+      let validator = new this.$Validator();
+      validator.add(self.validateForm.username, [
+        ["isNotEmpty", this.$t("common.isno")],
+        ["minLength|6", "不允许以空白字符命名"]
+      ]);
+      validator.add(self.validateForm.password, [
+        ["isNotEmpty", "用户名不可为空"]
+      ]);
+      validator.add(self.validateForm.confirmpassword, [
+        ["isNotEmpty", "用户名不可为空"],
+        [`confirmpasswrod|${self.validateForm.password}`, "密码不一样"]
+      ]);
+      var errorMsg = validator.start(); // 获得效验结果
+      return errorMsg; // 返回效验结果
+    },
+    submit_click() {
+      this.errorsMsg = "";
+      let errorMsg = this.validateFunc();
+      // console.log(errorMsg);
+
+      if (errorMsg) {
+        this.errorsMsg = errorMsg;
+        // console.log(errorMsg);
+        return false;
+      }
+      // this.$routerto("login");
+    },
     validateBeforeSubmit() {
-      // console.log(this.$validator.validateAll);    
+      // console.log(this.$validator.validateAll);
       this.$validator.validateAll().then(result => {
         if (result) {
           // eslint-disable-next-line
@@ -117,7 +151,6 @@ export default {
         // alert("Correct them errors!");
       });
     },
-    onSubmit() {},
     submit() {
       //  this.$routerto("usercheck")
       // console.log(this.$validator);
@@ -258,13 +291,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  .label {
-    height: vw(34);
-    font-size: vw(30);
-    font-weight: bold;
-    line-height: vw(34);
-    color: #4f3dad;
-  }
+
   .error {
     height: vw(24);
     font-size: vw(24);
@@ -279,10 +306,16 @@ export default {
     // align-items: center;
     width: 100%;
     padding: 0 vw(94);
+
+    color: #4f3dad;
     padding-top: vw(184);
     font-size: vw(30);
     p.label {
       margin-bottom: vw(62);
+      height: vw(34);
+      font-size: vw(30);
+      font-weight: bold;
+      line-height: vw(34);
     }
     .mui-input-row {
       width: 100%;
@@ -326,6 +359,12 @@ export default {
       line-height: vw(114);
       height: vw(114);
       font-size: vw(40);
+    }
+    button.passive {
+      background: #828282;
+    }
+    button.active {
+      background: #4f3dad;
     }
     // button.active{
 

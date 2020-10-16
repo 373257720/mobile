@@ -11,33 +11,14 @@
           <p class="label">Password</p>
           <input name="Password" type="text" v-model="validateForm.password" />
         </div>
-        <!-- <p v-show="errors.has('userName')" class="error">{{ errors.first('userName') }}</p>
-        <p v-show="errors.has('Password')" class="error">{{ errors.first('Password') }}</p>-->
-        <!-- <p class="error">{{ errorsMsg.username }}</p>
-        <p class="error">{{ errorsMsg.password }}</p>-->
-        <p class="error" v-for="item in errorsMsg" :key="item">{{item}}</p>
-        <button class="button is-primary" type="submit">Submit</button>
+        <p class="error">{{errorsMsg}}</p>
+        <button
+          :disabled="isdisabled"
+          :class="isdisabled?'passive':'active'"
+          class="button is-primary"
+          type="submit"
+        >Submit</button>
       </form>
-      <!-- <mu-form ref="form" :model="validateForm" class="mu-demo-form">
-        <mu-form-item :label="$t('common.Email')" prop="username" :rules="usernameRules">
-          <mu-text-field v-model="validateForm.username"></mu-text-field>
-        </mu-form-item>
-        <mu-form-item :label="$t('common.PassWord')" prop="password" :rules="passwordRules">
-          <mu-text-field type="password" v-model="validateForm.password"></mu-text-field>
-        </mu-form-item>
-        <p class="errorMsg">
-          The email or password you entered is
-          incorrect.
-        </p>
-        <p class="forget">
-          <span>
-             forget password
-          </span>
-       </p>
-        <mu-form-item>
-          <mu-button color="primary" @click="submit">{{$t('common.Register')}}</mu-button>
-        </mu-form-item>
-      </mu-form>-->
     </main>
   </div>
 </template>
@@ -50,6 +31,7 @@ export default {
   name: "register",
   data() {
     return {
+      submitDisabled: false,
       cache: [],
       // usernameRules: [
       //   { validate: val => !!val, message: "Username must be filled in" },
@@ -69,7 +51,7 @@ export default {
         username: "",
         password: ""
       },
-      errorsMsg: [],
+      errorsMsg: "",
       // errorsMsg: {
       //   username: "",
       //   password: ""
@@ -100,15 +82,27 @@ export default {
       }
     };
   },
+  computed: {
+    isdisabled() {
+      if (this.validateForm.username && this.validateForm.password) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  },
   created() {
     // this.username = this.$route.query.email ? this.$route.query.email : "";
     // console.log(this.$route.query.email);
   },
+
   methods: {
     submit_click() {
-      this.errorsMsg = [];
+      console.log(123);
+
+      this.errorsMsg = "";
       let errorMsg = this.validateFunc();
-      if (errorMsg.length > 0) {
+      if (errorMsg) {
         this.errorsMsg = errorMsg;
         // console.log(errorMsg);
         return false;
@@ -117,13 +111,13 @@ export default {
     validateFunc() {
       let self = this;
       let validator = new this.$Validator();
-      validator.add(self.validateForm.username, "isNotEmpty", "用户名不能为空");
-      validator.add(self.validateForm.username, "minLength|6", "密码长度不能小于6位");
-      validator.add(
-        self.validateForm.password,
-        "minLength|6",
-        "密码长度不能小于6位"
-      );
+      validator.add(self.validateForm.username, [
+        ["isNotEmpty", this.$t("common.isno")],
+        ["minLength|6", "不允许以空白字符命名"]
+      ]);
+      validator.add(self.validateForm.password, [
+        ["isNotEmpty", "用户名不可为空"]
+      ]);
       var errorMsg = validator.start(); // 获得效验结果
       return errorMsg; // 返回效验结果
     },
@@ -272,11 +266,6 @@ export default {
   flex-direction: column;
   align-items: center;
   .label {
-    height: vw(34);
-    font-size: vw(30);
-    font-weight: bold;
-    line-height: vw(34);
-    color: #4f3dad;
   }
   .error {
     height: vw(24);
@@ -294,8 +283,13 @@ export default {
     padding: 0 vw(94);
     padding-top: vw(184);
     font-size: vw(30);
+    color: #4f3dad;
     p.label {
       margin-bottom: vw(62);
+      height: vw(34);
+      font-size: vw(30);
+      font-weight: bold;
+      line-height: vw(34);
     }
     .mui-input-row {
       width: 100%;
@@ -316,29 +310,35 @@ export default {
         margin-top: vw(50);
       }
     }
-    div.btn {
-      margin-top: vw(290);
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .reminder {
-        color: #0ce5b2;
-        width: vw(569);
-        display: flex;
-        justify-content: center;
-        // height: vw(75);
-      }
-    }
+    // div.btn {
+    //   margin-top: vw(290);
+    //   width: 100%;
+    //   display: flex;
+    //   flex-direction: column;
+    //   align-items: center;
+    //   .reminder {
+    //     color: #0ce5b2;
+    //     width: vw(569);
+    //     display: flex;
+    //     justify-content: center;
+    //     // height: vw(75);
+    //   }
+    // }
     button {
       color: #ffffff;
-      background: #4f3dad;
+      // background: #4f3dad;
       border-radius: vw(40);
       width: vw(528);
       font-weight: bold;
       line-height: vw(114);
       height: vw(114);
       font-size: vw(40);
+    }
+    button.passive {
+      background: #828282;
+    }
+    button.active {
+      background: #4f3dad;
     }
     // button.active{
 

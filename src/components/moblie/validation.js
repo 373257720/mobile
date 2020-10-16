@@ -13,7 +13,7 @@
 //   return /^(\w){6,20}$/.test(val);
 // });
 
-let strategys = {
+let strategies = {
   isNotEmpty: (value, errorMsg) => {
     if (value === "") {
       return errorMsg;
@@ -21,6 +21,11 @@ let strategys = {
   },
   minLength: (value, length, errorMsg) => {
     if (value.length < length) {
+      return errorMsg;
+    }
+  },
+  confirmpasswrod: (value, value2, errorMsg) => {
+    if (value2 !== value) {
       return errorMsg;
     }
   },
@@ -35,28 +40,46 @@ export var Validator = function() {
   this.cache = []; // 保存效验规则
 };
 
-Validator.prototype.add = function(dom, rule, errorMsg) {
-  var str = rule.split("|");
-  this.cache.push(function() {
-    // str 返回的是 minLength:6
-    var strategy = str.shift();
-    // console.log(strategy);
-    str.unshift(dom); // value添加进参数列表.
-    // console.log(str);
-    str.push(errorMsg); // 把errorMsg添加进参数列表
-    // return  strategys[strategy](dom, str)
-    // console.log(dom, str);
-    
-    return strategys[strategy].apply(dom, str);
-  });
+Validator.prototype.add = function(dom, rules) {
+  var self = this;
+  for (var i = 0, rule; (rule = rules[i++]); ) {
+    (function(rule) {
+      var strategyAry = rule[0].split("|");
+      var errorMsg = rule[1];
+      self.cache.push(function() {
+        var strategy = strategyAry.shift();
+        strategyAry.unshift(dom);
+        strategyAry.push(errorMsg);
+        return strategies[strategy].apply(dom, strategyAry);
+      });
+    })(rule);
+  }
+  // var str = rule.split("|");
+  // this.cache.push(function() {
+  //   // str 返回的是 minLength:6
+  //   var strategy = str.shift();
+  //   // console.log(strategy);
+  //   str.unshift(dom); // value添加进参数列表.
+  //   // console.log(str);
+  //   str.push(errorMsg); // 把errorMsg添加进参数列表
+  //   // return  strategys[strategy](dom, str)
+  //   // console.log(dom, str);
+
+  //   return strategys[strategy].apply(dom, str);
 };
 Validator.prototype.start = function() {
-  let msg = [];
+  // let msg = [];
+  // for (var i = 0, validatorFunc; (validatorFunc = this.cache[i++]); ) {
+  //   var istrue = validatorFunc(); // 开始效验 并取得效验后的返回信息
+  //   if (istrue) {
+  //     msg.push(istrue);
+  //   }
+  // }
+  // return msg;
   for (var i = 0, validatorFunc; (validatorFunc = this.cache[i++]); ) {
-    var istrue = validatorFunc(); // 开始效验 并取得效验后的返回信息
-    if (istrue) {
-      msg.push(istrue);
+    var errorMsg = validatorFunc();
+    if (errorMsg) {
+      return errorMsg;
     }
   }
-  return msg;
 };
