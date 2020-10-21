@@ -1,6 +1,9 @@
 <template>
   <div id="a_sign_contract">
     <cavans :contract="contract"  @aimgurl="commit"></cavans>
+    <van-dialog v-model="show"  show-cancel-button>
+      <img :src="preview" />
+</van-dialog>
   </div>
 </template>
 <script>
@@ -9,6 +12,8 @@ export default {
   props:['contract'],
   data() {
     return {
+      preview:"",
+      show:false,
       // imgurl: ""
     };
   },
@@ -18,11 +23,13 @@ export default {
   },
   methods: {
     commit(data) {
+      this.preview = data;
+      this.show=true;
       let timestamp = new Date().getTime();
       this.contract.agent_sign=data;
       this.contract.agent_signdate=timestamp;
       //  this.$emit("update:contract")
-      this.$routerto('a_submit_contract',this.$route.query)
+      // this.$routerto('a_submit_contract',this.$route.query)
     },
   }
 };
@@ -38,6 +45,10 @@ export default {
       transform: (translate(0, -50%));
     }
   }
+}
+img{
+  weight:2rem;
+  height:2rem;
 }
 // .van-dialog {
 //   font-size: 0.3rem;

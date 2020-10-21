@@ -1,13 +1,13 @@
 <template>
   <div id="common_nav">
-    <!-- <p></p> -->
-    <nav class="common_nav">
-      <!-- <van-icon name="arrow-left"  @click="transitionToDad" /> -->
-      <van-icon name="arrow-left" @click="$global.previous()" />
+    <header>
+      <slot name="arrowLeft"></slot>
       <span>
         <slot></slot>
       </span>
-    </nav>
+      <slot name="arrowRight"></slot>
+    </header>
+    <slot name="search"></slot>
   </div>
 </template>
 <script >
@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     transitionToDad() {
-      this.$emit('update:transition',true)
+      this.$emit("update:transition", true);
       // this.$emit('update:transition',1234567);
     }
   }
@@ -40,22 +40,37 @@ export default {
   text-align: center;
   color: #4f3dad;
   font-size: vw(40);
-  // height: vw(140);
-
-  // p {
-  //   height: vw(46);
-  //   width: 100%;
-  // }
-  nav.common_nav {
-    // margin-top: vw(46);
+  header {
+    height: vw(140);
     position: relative;
     line-height: vw(140);
-    height: vw(140);
     .van-icon-arrow-left {
       position: absolute;
       left: vw(36);
       top: 50%;
       transform: (translate(0, -50%));
+    }
+    .van-icon-arrow {
+      position: absolute;
+      right: vw(36);
+      top: 50%;
+      transform: (translate(0, -50%));
+    }
+  }
+  .van-search {
+    height: vw(68);
+    width: vw(598);
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0;
+    // padding-top: 0;
+    .van-search__content {
+      border: vw(2) solid #3ab5cc;
+      background: #fff;
+      .van-icon-search,
+      .van-icon-clear {
+        color: #3ab5cc;
+      }
     }
   }
 }

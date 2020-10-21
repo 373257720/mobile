@@ -1,67 +1,74 @@
 <template>
-<van-dialog @confirm="closeSimple" v-model="remindervisible" :title="titleOne">
-  <div class="van-dialog__message">
-    {{msg}}
-  </div>
-</van-dialog>
-  <!-- <mu-dialog
-    dialog-class="selfDialog"
-    :overlay-close="false"
-    :esc-press-close="false"
-    :title="titleOne"
-    :open.sync="remindervisible"
-    width="80%"
-  >
-    {{msg}}
-    <mu-button slot="actions" flat color="primary" @click="closeSimple()">Close</mu-button>
-  </mu-dialog> -->
+  <van-dialog @confirm="closeSimple" v-model="remindervisible" :title="titleOne"
+   :show-cancel-button="showCancel">
+    <div class="van-dialog__message">{{msg}}</div>
+  </van-dialog>
 </template>
 <script>
 export default {
-  props: ["title", "msg", "isSuccess", "remindervisible"],
+  props: ["title", "msg", "isSuccess", "remindervisible", "showCancel"],
   data() {
     return {};
   },
   computed: {
     titleOne() {
-      return this.title || this.$t("common.Reminder");
+      return this.title;
     }
   },
   watch: {},
   methods: {
     closeSimple() {
       this.$emit("update:remindervisible", false);
-      if (this.issuccess) {
-        console.log(this.issuccess);
+      // if (this.issuccess) {
+      //   console.log(this.issuccess);
 
-        // this.$router.replace({
-        //   path: "/login" //跳转的路径
-        // });
-      }
+      //   this.$router.replace({
+      //     path: "/login" //跳转的路径
+      //   });
+      // }
     }
   }
 };
 </script>
+
 <style lang='scss'>
-.van-dialog{
-  background: #00E3A2;
-  color: #FFFFFF;
+.van-dialog {
+  background: #00e3a2;
+  color: #ffffff;
 }
-.van-button--default{
-   background: #00E3A2;
-   color: #FFFFFF;
+.van-button--default {
+  background: #00e3a2;
+  color: #ffffff;
 }
-.van-dialog__header{
-  font-size: vw(36)
+.van-dialog__header {
+  font-size: vw(36);
 }
-.van-hairline--top::after{
-  border-top-width: 2px;
+.van-hairline--top::after {
+  // border: 0 solid #fff;
+  border-top-width: vw(2);
+  border-top-color: #fff;
+}
+.van-hairline--left::after {
+  border-left-width: vw(2);
+  border-left-color: #fff;
+}
+.van-dialog__message {
+  padding: vw(184) vw(58) vw(120);
 
-
-
-
-
-
+  font-size: vw(30);
+  line-height: vw(34);
+  font-weight: bold;
+}
+.van-dialog__cancel,
+.van-dialog__confirm {
+  height: initial;
+}
+.van-button__content {
+  .van-button__text {
+    color: #ffffff;
+    font-size: vw(40);
+    padding: vw(42) 0;
+  }
 }
 .selfDialog {
   // .mu-dialog-title {

@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 
+
+
 const register = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/register");
 const login = () =>
@@ -40,6 +42,10 @@ const projectSubStatus = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectsDetails"
   );
+  const projectDetails = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectDetails"
+  );
 const projectList = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectList"
@@ -49,6 +55,10 @@ const userpass = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/userpass");
 const mhome = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/mhome");
+const fliter = () =>
+  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/home/fliter");
+  const mutilPick = () =>
+  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/home/mutilPick");
 const mine = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/mine");
 const cavans = () =>
@@ -166,6 +176,21 @@ const p_sign_contract = () =>
   );
 
 // agent/
+const bargin = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/bargin"
+  );
+const signContractStep1 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/signContractStep1"
+  );
+  const signContractStep2 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/signContractStep2"
+  );
 const a_project_intro_roots = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -632,11 +657,22 @@ const routes = [
       }
     ]
   },
-  // {
-  //   path: '/a_project_intro',
-  //   name: 'a_project_intro',
-  //   component: a_project_intro,
-  // },
+  {
+    path: '/signContractStep1',
+    name: 'signContractStep1',
+    component: signContractStep1,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: '/signContractStep2',
+    name: 'signContractStep2',
+    component: signContractStep2,
+    meta: {
+      isshowbottom: false
+    }
+  },
   {
     path: "/a_sign_failed",
     name: "a_sign_failed",
@@ -723,6 +759,15 @@ const routes = [
       isshowbottom: false
     }
   },
+  {
+    path: "/bargin",
+    name: "bargin",
+    component: bargin,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  
 
   // investor
   {
@@ -843,6 +888,22 @@ const routes = [
       isshowbottom: true
     }
   },
+  {
+    path: "/fliter",
+    name: "fliter",
+    component: fliter,
+    meta: {
+      isshowbottom: false
+    }
+  }, {
+    path: "/mutilPick",
+    name: "mutilPick",
+    component: mutilPick,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  
 
   {
     path: "/mine",
@@ -898,6 +959,14 @@ const routes = [
     path: "/projectsDetails",
     name: "projectsDetails",
     component: projectsDetails,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/projectDetails",
+    name: "projectDetails",
+    component: projectDetails,
     meta: {
       isshowbottom: false
     }

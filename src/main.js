@@ -66,7 +66,7 @@ Vue.prototype.$restore_obj = restore_obj;
 import MuseUI from "muse-ui";
 console.log(MuseUI.Select);
 
-import "muse-ui/dist/muse-ui.css";
+// import "muse-ui/dist/muse-ui.css";
 Vue.use(MuseUI);
 import "./css/base.css";
 import "./css/base.scss";
@@ -148,49 +148,49 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(
-  res => {
-    if (res.data && res.data.resultCode) {
-      let code = res.data.resultCode;
-      loadingCount--;
-      if (code == 10090) {
-        // 如果是未登录直接踢出去
-        if (isShowLoading) {
-          isShowLoading = false;
-          let mes;
-          if (i18n.locale == "en_US") {
-            mes = res.data.resultDesc.slice(11, -1);
-          } else {
-            mes = res.data.resultDesc.slice(0, 10);
-          }
-          Dialog.alert({
-            title: mes
-          }).then(() => {
-            store.dispatch("reset_actions", restore_obj);
-            window.sessionStorage.clear();
-            router.push({ name: "login" });
-          });
-        }
-      }
-      if (loadingCount == 0) {
-        isShowLoading = true;
-      }
-      return res;
-    }
-  },
-  error => {
-    Toast.clear();
-    if (isShowLoading) {
-      isShowLoading = false;
-      Dialog.alert({
-        title: i18n.t("common.network")
-      }).then(() => {
-        store.dispatch("reset_actions", restore_obj);
-        window.sessionStorage.clear();
-        router.push({ name: "login" });
-      });
-    }
-    return Promise.reject(error);
-  }
+  // res => {
+  //   if (res.data && res.data.resultCode) {
+  //     let code = res.data.resultCode;
+  //     loadingCount--;
+  //     if (code == 10090) {
+  //       // 如果是未登录直接踢出去
+  //       if (isShowLoading) {
+  //         isShowLoading = false;
+  //         let mes;
+  //         if (i18n.locale == "en_US") {
+  //           mes = res.data.resultDesc.slice(11, -1);
+  //         } else {
+  //           mes = res.data.resultDesc.slice(0, 10);
+  //         }
+  //         Dialog.alert({
+  //           title: mes
+  //         }).then(() => {
+  //           store.dispatch("reset_actions", restore_obj);
+  //           window.sessionStorage.clear();
+  //           router.push({ name: "login" });
+  //         });
+  //       }
+  //     }
+  //     if (loadingCount == 0) {
+  //       isShowLoading = true;
+  //     }
+  //     return res;
+  //   }
+  // },
+  // error => {
+  //   Toast.clear();
+  //   if (isShowLoading) {
+  //     isShowLoading = false;
+  //     Dialog.alert({
+  //       title: i18n.t("common.network")
+  //     }).then(() => {
+  //       store.dispatch("reset_actions", restore_obj);
+  //       window.sessionStorage.clear();
+  //       router.push({ name: "login" });
+  //     });
+  //   }
+  //   return Promise.reject(error);
+  // }
 );
 
 Vue.prototype.$routerto = function routerTo(name, obj) {
@@ -253,6 +253,8 @@ import contract from "./components/moblie/contract";
 Vue.component("contractcomponent", contract);
 import DialogMsg from "./components/moblie/dialog";
 Vue.component("DialogMsg", DialogMsg);
+import commonSearch from "./components/moblie/commonSearch";
+Vue.component("commonSearch", commonSearch);
 // Vue.component('Vue-ueditor-wrap ',VueUeditorWrap )
 /* eslint-disable no-new */
 new Vue({

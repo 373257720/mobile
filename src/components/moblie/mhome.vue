@@ -1,5 +1,118 @@
 <template>
   <div id="mhome">
+    <div id="Nav">
+      <nav class="Nav">
+        <header>
+          <!-- <van-icon name="arrow-left" /> -->
+          <span>{{$t('common.Home')}}</span>
+        </header>
+        <van-search
+          v-if="!isshowTag"
+          v-model="searchkey"
+          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
+          shape="round"
+          left-icon
+        >
+          <div slot="right-icon">
+            <van-icon name="search" />
+          </div>
+        </van-search>
+      </nav>
+    </div>
+    <main :class="{'topReduce':isshowTag}">
+      <div v-if="!isshowTag" class="mhome-tag">
+        <ul>
+          <li>
+            <aside>Industry</aside>
+            <div>
+              <p
+                :class="{'isactive':item.isactive}"
+                @click="tagClick(item)"
+                v-for="item in taglist"
+                :key="item.name"
+              >{{item.name}}</p>
+            </div>
+          </li>
+          <li>
+            <aside>Industry</aside>
+            <div>
+              <p
+                :class="{'isactive':item.isactive}"
+                @click="tagClick(item)"
+                v-for="item in taglist"
+                :key="item.name"
+              >{{item.name}}</p>
+            </div>
+          </li>
+          <li>
+            <aside>Industry</aside>
+            <div>
+              <p
+                :class="{'isactive':item.isactive}"
+                @click="tagClick(item)"
+                v-for="item in taglist"
+                :key="item.name"
+              >{{item.name}}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- <transition name="slide-fade"> -->
+      <div v-if="isshowTag" class="mhome-signTag">
+        <p></p>
+      </div>
+      <!-- </transition> -->
+      <v-scroll
+        class="mhome-article"
+        :on-refresh="onRefresh"
+        :loaded="loaded"
+        :on-infinite="onInfinite"
+        :class="{'top':isshowTag}"
+      >
+        <div class="timestamp">
+          <div
+            id="container"
+            @click="$routerto('projectStatus')"
+            v-for="i in taglist"
+            :key="i.name"
+          >
+            <div class="item item-1">CDC Biodiversité – Biodiversity Offsetting</div>
+            <div class="item item-2">
+              <p></p>
+            </div>
+            <div class="item item-3">
+              <p>Biodiversity offsets</p>
+            </div>
+            <div class="item item-4">
+              <p></p>
+            </div>
+            <div class="item item-5">
+              <p>#tag</p>
+            </div>
+            <div class="item item-6">
+              <p></p>
+            </div>
+            <div class="item item-7">
+              <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
+            </div>
+            <div class="item item-8">
+              <van-button>{{$t('project.Projectchain')}}</van-button>
+            </div>
+          </div>
+
+          <!-- <mu-list-item :ripple="false" button>
+                <mu-list-item-content>
+                  <mu-list-item-title>Invitation to register has been sent</mu-list-item-title>
+                  <mu-list-item-sub-title>
+                    Your invitation link has been sent, and the investor you recommended has received the email
+                  </mu-list-item-sub-title>
+                </mu-list-item-content>
+          </mu-list-item>-->
+        </div>
+        <!-- <p v-if="loaded">加载完成</p> -->
+      </v-scroll>
+    </main>
+
     <!-- <header>
       <div>
         <img src="../../assets/f6055ec522305641848f75fcafc1e8e.jpg" alt />
@@ -115,25 +228,47 @@
           </van-list>
         </van-pull-refresh>
       </div>
-    </div> -->
+    </div>-->
   </div>
 </template>
 <script>
-
-
-let timeout;
+// let timeout;
+import Scroll from "./loadmore";
 // import { log } from "util";
 export default {
   name: "mhome",
+  components: {
+    "v-scroll": Scroll
+  },
   data() {
     return {
+      isshowTag: false,
       text: "",
+      loaded: false,
       refreshing: false,
       countrylist_fetching: false,
       items: [
         {
           text: this.$t("common.Industry"),
           children: []
+        }
+      ],
+      taglist: [
+        {
+          name: "Biodiversity",
+          isactive: false
+        },
+        {
+          name: "Transport",
+          isactive: false
+        },
+        {
+          name: "Computer",
+          isactive: false
+        },
+        {
+          name: "InnovFin",
+          isactive: false
         }
       ],
       industry_title: this.$t("common.Industry"),
@@ -255,6 +390,56 @@ export default {
   },
 
   methods: {
+    onRefresh(done) {
+      //   3. 在刷新方法内部进行自己的逻辑处理 此处调用了后台接口
+      // this.onRefreshPort(done);
+      // this.$global
+      //   .get_encapsulation(
+      //     `${this.$axios.defaults.baseURL}/bsl_web/project/getAllProject`,
+      //     {
+      //       searchKey: this.searchkey,
+      //       pageIndex: this.pageNum,
+      //       pageSize: this.loadNumUp,
+      //       bslAreaCode: this.region_name,
+      //       industryId: this.activeIds
+      //     }
+      //   )
+      //   .then(res => {
+      //     console.log(res);
+      //     if (res.status === 200) {
+      //       let re = res.data.data.lists;
+      //       if (re.length > 0) {
+      //         this.upGoodsInfo = this.upGoodsInfo.concat(re);
+      //         this.loading = false;
+      //       }
+      //       if (
+      //         this.upGoodsInfo.length >= res.data.data.pageTotal ||
+      //         this.upGoodsInfo.length == 0
+      //       ) {
+      //         this.finished = true;
+      //       }
+      //       this.pageNum++;
+      //     } else {
+      //       this.loading = false;
+      //       this.finished = true;
+      //     }
+      //     // console.log(this.upGoodsInfo);
+      //   });
+    },
+    onInfinite(done) {
+      if (!this.loaded) this.onInfinitePort(done);
+    },
+    /**
+     * 上拉加载接口
+     */
+    onInfinitePort(done) {
+      // this.getcountrylist();
+    },
+    tagClick(item) {
+      console.log(item);
+      item.isactive = !item.isactive;
+      this.isshowTag = true;
+    },
     onRefresh() {
       this.finished = false;
       // 重新加载数据
@@ -308,9 +493,12 @@ export default {
       });
       this.countrylist_fetching = true;
       this.$global
-        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`, {
-          searchKey: val
-        })
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
+          {
+            searchKey: val
+          }
+        )
         .then(res => {
           if (res.data.data.length > 0) {
             for (let i = 0; i < res.data.data.length; i++) {
@@ -443,13 +631,16 @@ export default {
         this.refreshing = false;
       }
       this.$global
-        .get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/project/getAllProject`, {
-          searchKey: this.searchkey,
-          pageIndex: this.pageNum,
-          pageSize: this.loadNumUp,
-          bslAreaCode: this.region_name,
-          industryId: this.activeIds
-        })
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/project/getAllProject`,
+          {
+            searchKey: this.searchkey,
+            pageIndex: this.pageNum,
+            pageSize: this.loadNumUp,
+            bslAreaCode: this.region_name,
+            industryId: this.activeIds
+          }
+        )
         .then(res => {
           if (res.status === 200) {
             let re = res.data.data.lists;
@@ -488,216 +679,16 @@ export default {
 
 <style lang="scss">
 #mhome {
-  .van-pull-refresh {
-    // height: 100%;
-    // padding: 2.8rem 0 2rem 0;
+  .slide-fade-enter-active {
+    transition: all 1s ease;
   }
-
-  .van-overlay {
-    opacity: 0.7;
-    background-color: rgba(0, 0, 0, 0.7);
-    /*background-color: black;*/
+  .slide-fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
   }
-
-  .van-fade-leave-active {
-    /*webkit-animation:none;*/
-    animation: none;
-  }
-
-  .van-fade-enter-active {
-    /*webkit-animation:none;*/
-    animation: none;
-  }
-
-  .ant-select {
-    width: 100%;
-    font-size: 0.38rem;
-    color: #323233;
-
-    .ant-select-selection__placeholder,
-    .ant-select-search__field__placeholder {
-      color: #969799;
-    }
-
-    .ant-select-selection {
-      padding: 0 0.5rem;
-      background: #f6f6f6;
-      box-shadow: none;
-    }
-
-    .ant-select-selection--single {
-      height: 100%;
-    }
-
-    .ant-select-selection__rendered {
-      margin: 0;
-    }
-
-    .ant-select-selection {
-      border: 0;
-    }
-  }
-
-  header {
-    .van-hairline--top-bottom::after {
-      border: 0;
-    }
-    // .van-search{
-    // 	height: 1.6rem;
-    // }
-    .van-search--show-action {
-      height: 1.6rem;
-    }
-    .van-search__content--round {
-      border: 1px solid #ccc;
-    }
-
-    .van-search__action {
-      // font-size: 4rem;
-      div {
-        display: flex;
-        align-items: center;
-
-        .van-icon-search {
-          background: #ffc303;
-          border-radius: 50%;
-          width: 0.8rem;
-          height: 0.8rem;
-          font-weight: 600;
-          color: #282407;
-          text-align: center;
-          line-height: 0.8rem;
-          font-size: 0.44rem;
-        }
-      }
-    }
-
-    .region_class {
-      .van-search {
-        padding-top: 0.1rem;
-        padding-bottom: 0.1rem;
-      }
-
-      .van-icon-clear {
-        padding-right: 0.5rem;
-      }
-
-      .van-popup {
-        // overflow-y: visible;
-        overflow: hidden;
-      }
-
-      .country_isactive {
-        color: #1989fa;
-      }
-
-      .ant-spin-spinning {
-        padding: 0 0.5rem;
-      }
-
-      .van-popup {
-        //  height: 6.2rem;
-        ul {
-          max-height: 6rem;
-          // overflow: hidden;
-        }
-      }
-
-      .van-cell {
-        padding: 0;
-        line-height: 1rem;
-      }
-
-      ul {
-        overflow-y: auto;
-        padding: 0 0.5rem;
-
-        li {
-          min-height: 1rem;
-          cursor: pointer;
-          font-size: 0.38rem;
-          display: flex;
-          align-items: center;
-
-          span:nth-of-type(1) {
-            margin-right: 0.2rem;
-          }
-        }
-      }
-    }
-
-    .van-popup {
-      max-height: 62%;
-    }
-
-    .van-cell {
-      font-size: 0.32rem;
-      line-height: 0.5rem;
-      // height: 0.76rem;
-      padding: 0 0.25rem 0 0;
-    }
-
-    .van-field__left-icon .van-icon,
-    .van-field__right-icon .van-icon {
-      font-size: 0.3rem;
-    }
-
-    .van-tree-select__nav-item {
-      line-height: 1rem;
-    }
-
-    .van-tree-select__item {
-      line-height: 1rem;
-      font-weight: 400;
-    }
-
-    .van-tree-select__nav-item--active {
-      border-color: rgb(25, 137, 250);
-    }
-
-    .van-tree-select__item--active {
-      color: rgb(25, 137, 250);
-    }
-
-    .van-tree-select__selected {
-      //  line-height: 1rem;
-      margin-top: -0.2rem;
-    }
-
-    .van-field__control {
-      height: 1rem;
-      line-height: 1rem;
-      font-size: 0.38rem;
-      // font-size: 0.36rem;
-    }
-
-    .van-field__clear {
-      // height: 0.1rem;
-      font-size: 0.4rem;
-    }
-
-    .van-cell--clickable {
-      padding: 0.2rem 0.3rem;
-    }
-
-    .van-dropdown-menu {
-      height: 1rem;
-
-      // line-height: 1rem;
-      .van-dropdown-menu__bar {
-        box-shadow: none;
-        height: 1rem;
-      }
-      .van-dropdown-menu__title {
-        font-size: 0.38rem;
-      }
-
-      .van-dropdown-item--down {
-        .van-tree-select {
-          font-size: 0.38rem;
-        }
-      }
-    }
+  .slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
   }
 }
 </style>
@@ -707,181 +698,176 @@ export default {
   display: flex;
   height: 100%;
   flex-direction: column;
-
-  > header {
+  #Nav {
     width: 100%;
-    z-index: 5;
-    height: 4.7rem;
+    font-weight: bold;
     position: fixed;
     top: 0;
-    background: white;
-    border-bottom: 1px solid #ccc;
-    h3 {
-      text-align: center;
-      font-size: 0.4rem;
-      margin: 0.3rem 0;
+    z-index: 200;
+    background: #fff;
+    line-height: vw(140);
+    text-align: center;
+    color: #4f3dad;
+    font-size: vw(40);
+    .van-search {
+      width: vw(598);
+      margin: 0 auto;
+      padding: 0;
     }
-
-    > div {
-      /*width: 100%;*/
-      /*height:  2rem;*/
-      img {
-        /*width: auto;*/
-        /*height: auto;*/
-        /*display: block;*/
-        // display: inline-block;
-        width: 100%;
-        /*width: auto;*/
-        /*height: auto;*/
-        /*max-width: 100%;*/
-        /*max-height: 100%;*/
-        height: 2rem;
+    .van-search__content {
+      border: vw(2) solid #3ab5cc;
+      background: #fff;
+      .van-icon-search,
+      .van-icon-clear {
+        color: #3ab5cc;
       }
     }
-  }
-
-  #main {
-    background: #eeeeee;
-    height: 100%;
-  }
-
-  /*.van-pull-refresh{*/
-  /*  height: 100%;*/
-  /*}*/
-  .main {
-    padding: 4.8rem 0 1.3rem 0;
-    /*height: 100%;*/
-    overflow-y: auto;
-    // margin-bottom: 5rem;
-    height: 100%;
-    background: #eeeeee;
-    box-sizing: border-box;
-
-    .goodlists {
-      margin: 0 0.1rem 0.1rem;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid #ccc;
-
-      article {
-        padding: 0.27rem 0.46rem 0.27rem 0.46rem;
-        border-bottom: 1px solid #ccc;
-
-        nav {
-          // width: 6.3rem;
-          font-size: 0.5rem;
-          color: #0f6ebe;
-          font-weight: 600;
-          line-height: 0.7rem;
-          margin-bottom: 0.7rem;
-          box-sizing: border-box;
-        }
-
-        ul {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          font-size: 0.34rem;
-          flex-wrap: wrap;
-
-          /*justify-content: space-between;*/
-          div {
-            display: flex;
-            /*width: 6rem;*/
-            /*padding: 0 0.2rem;*/
-            color: #fdfffe;
-            height: 0.6rem;
-            align-items: center;
-            /*line-height: 0.6rem;*/
-            margin-right: 0.2rem;
-
-            margin-bottom: 0.12rem;
-            background: url(../../assets/1b8b7a9c6657be15ae60708495f9da3.png)
-              no-repeat;
-            /*background-origin:content-box;*/
-            background-size: cover;
-
-            span:nth-of-type(1) {
-              height: 0.2rem;
-              width: 0.2rem;
-              border-radius: 50%;
-              margin: 0 0.12rem;
-              background: white;
-            }
-
-            span:nth-of-type(2) {
-            }
-
-            span:nth-of-type(3) {
-              margin: 0 0.12rem;
-            }
-          }
-
-          /*foot*/
-        }
-
-        section {
-          font-size: 0.38rem;
-          margin-bottom: 0.1rem;
-          color: #747474;
-
-          // display: flex;
-          span:nth-of-type(1) {
-            // display: block;
-            vertical-align: top;
-            // line-height: 0.2rem;
-            // width: 2.5rem;
-            line-height: 0.4rem;
-            // flex:
-          }
-
-          span:nth-of-type(2) {
-            // display: inline-block;
-            vertical-align: top;
-            // width: 8.3rem;
-            word-break: break-all;
-            // flex: 1;
-            line-height: 0.4rem;
-          }
-        }
-
-        div.tag {
-          min-height: 0rem;
-          // max-height: 1.2rem;
-        }
-      }
-
-      footer {
-        height: 1.2rem;
+    nav.Nav {
+      line-height: vw(140);
+      header {
+        height: vw(140);
         position: relative;
-        display: flex;
-        align-items: center;
-
-        button {
-          min-width: 45%;
-          padding: 0 0.2rem;
-          box-sizing: border-box;
-          text-align: center;
+        .van-icon-arrow-left {
           position: absolute;
-          right: 0.25rem;
-          border-radius: 0.125rem;
-          height: 0.88rem;
-          background: #afafaf;
-          /*background: #747474;;*/
-          color: white;
-          font-size: 0.38rem;
-          // top: 50%;
-          // transform: translateY(-50%);
-        }
-
-        .isactive {
-          background: #00adef;
+          left: vw(36);
+          top: 50%;
+          transform: (translate(0, -50%));
         }
       }
     }
   }
+  main {
+    padding-top: vw(212);
+    .yo-scroll {
+      top: vw(550);
+    }
+    .top {
+      top: vw(332);
+    }
+    .mhome-tag {
+      padding-top: vw(62);
 
+      li {
+        display: flex;
+        padding-left: vw(40);
 
+        align-items: center;
+        aside {
+          width: vw(118);
+          height: vw(34);
+          font-size: vw(30);
+          font-weight: bold;
+          line-height: vw(34);
+          color: #4f3dad;
+          margin-right: vw(29);
+        }
+        div {
+          display: flex;
+          overflow-x: auto;
+          flex: 1;
+          margin-right: vw(20);
+          color: #3ab5cc;
+          p {
+            height: vw(54);
+            margin-right: vw(20);
+            line-height: vw(54);
+            border: vw(2) solid #3ab5cc;
+            border-radius: vw(52);
+            font-size: vw(26);
+            font-weight: bold;
+            padding: 0 vw(26);
+          }
+          p.isactive {
+            background: #3ab5cc;
+            color: #fff;
+          }
+        }
+        div::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      li:nth-of-type(2) {
+        margin: vw(40) 0;
+      }
+    }
+    .mhome-signTag {
+      // padding: vw(62) 0;
+      padding-left: vw(70);
+      p {
+        width: vw(124);
+        height: vw(54);
+        border: vw(2) solid #4f3dad;
+        border-radius: vw(52);
+      }
+    }
+    .mhome-article {
+      #container {
+        padding: 0 vw(70);
+        display: grid;
+        color: #4f3dad;
+        grid-row: 4;
+        grid-template-columns: auto auto;
+        grid-template-rows: repeat(auto);
+        grid-column: 2;
+        grid-auto-flow: row;
+        .item {
+          // text-align: center;
+          // align-self: center;
+        }
+        .item-1 {
+          grid-area: 1 / 1 / 2 / 3;
+          font-size: vw(30);
+          line-height: vw(34);
+          // height: vw(34);
+          font-size: vw(30);
+          font-weight: bold;
+          line-height: vw(34);
+          margin-bottom: vw(22);
+        }
+        .item-8 {
+          grid-area: 5/ 1 / 6 / 3;
+          font-size: vw(30);
+          line-height: vw(34);
+          // height: vw(34);
+          font-size: vw(30);
+          font-weight: bold;
+          line-height: vw(34);
+          margin-bottom: vw(22);
+          justify-self: flex-end;
+          .van-button {
+            width: vw(232);
+            height: vw(72);
+            background: #00f0ab;
+            border-radius: vw(16);
+            color: #fff;
+          }
+        }
+        .item-2,
+        .item-4,
+        .item-6 p {
+          width: vw(30);
+          height: vw(30);
+          margin-right: vw(33);
+          background: #4f3dad;
+          align-self: flex-start;
+          justify-self: center;
+        }
+        .item-3,
+        .item-5,
+        .item-7 p {
+          // width: 542px;
+          margin-bottom: vw(22);
+          // height: vw(74);
+          font-size: vw(24);
+          align-self: flex-start;
+          font-weight: bold;
+          line-height: vw(30);
+        }
+      }
+    }
+  }
+  .topReduce {
+    padding-top: vw(140);
+  }
 }
 </style>

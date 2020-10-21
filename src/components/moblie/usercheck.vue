@@ -557,12 +557,6 @@ export default {
 .usercheckPop {
   max-height: vw(300);
 }
-.mu-option.is-selected .mu-item {
-  color: #4f3dad;
-}
-.mu-item span {
-  //  font-size: vw(32);
-}
 .mu-infinite-scroll-text {
   margin: 0;
 }
@@ -598,45 +592,7 @@ export default {
     width: 100%;
     height: 100%;
   }
-  .mu-input-focus-line {
-    display: none;
-  }
 
-  .mu-form-item-label {
-    height: vw(30);
-    font-size: vw(30);
-    font-weight: bold;
-    line-height: vw(30);
-    color: #4f3dad;
-    opacity: 1;
-    margin-bottom: vw(48);
-    // &::after {
-    //   content: "*";
-    //   margin-left: vw(10);
-    //   color: #00f0ab;
-    // }
-  }
-  .mu-input__error {
-  }
-  .mu-input__focus {
-    color: #4f3dad;
-  }
-  .mu-select-input {
-    color: #4f3dad;
-    font-size: vw(32);
-  }
-  .mu-input-line {
-    background: #4f3dad;
-    height: 2px;
-  }
-  .mu-text-field-input {
-    color: #4f3dad;
-    font-size: vw(32);
-  }
-
-  .mu-form-item__error .mu-form-item-help {
-    bottom: vw(-4);
-  }
 }
 </style>
 <style lang='scss' scoped>
@@ -674,15 +630,6 @@ export default {
           color: #3ab5cc;
         }
       }
-      nav.Nav {
-        // margin-top: vw(46);
-        line-height: vw(140);
-        // height: vw(140);
-      }
-      // p {
-      //   height: vw(46);
-      //   width: 100%;
-      // }
     }
   }
   .genus {

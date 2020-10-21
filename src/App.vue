@@ -106,14 +106,14 @@ body {
   // padding-bottom: vw(90);
   padding-bottom: vw(116);
 }
-@media all and (orientation: landscape) {
-  .ispaddingBottom > div:nth-child(1) {
-    padding-bottom: 0;
-  }
-  #app > div:nth-child(1) {
-    padding-bottom: vw(90);
-  }
-}
+// @media all and (orientation: landscape) {
+//   .ispaddingBottom > div:nth-child(1) {
+//     padding-bottom: 0;
+//   }
+//   #app > div:nth-child(1) {
+//     padding-bottom: vw(90);
+//   }
+// }
 #app {
   // background: #2f36ac;
   position: relative;
