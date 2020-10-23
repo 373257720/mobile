@@ -136,7 +136,8 @@ export default {
         // console.log(errorMsg);
         return false;
       }
-      // this.$routerto("login");
+
+      this.$routerto("login");
     },
     validateBeforeSubmit() {
       // console.log(this.$validator.validateAll);

@@ -1,5 +1,6 @@
 export default {
   agent: {
+    Whorecommendme: "谁推荐我",
     SignTheContract: "签署合约",
     Sign: "签署",
     RecommendInvestors: "推荐投资者",
@@ -218,21 +219,21 @@ export default {
     Contacts: "联络人"
   },
   Account: {
-    Message:"信息",
-    Comfirm:"确认",
+    Message: "信息",
+    Comfirm: "确认",
     Account: "账户",
-    PersonalReview:"个人查看",
-    Language:"语言",
-    Password:"密码",
-    Logout:"退出登录",
-    Nickname:"昵称",
-    EditInformation:"编辑信息",
-    WhethertoshowInvestors:"是否向投资者出示实名",
-    WhethertoshowMiddleman:"是否向中间人出示实名",
+    PersonalReview: "个人查看",
+    Language: "语言",
+    Password: "密码",
+    Logout: "退出登录",
+    Nickname: "昵称",
+    EditInformation: "编辑信息",
+    WhethertoshowInvestors: "是否向投资者出示实名",
+    WhethertoshowMiddleman: "是否向中间人出示实名"
   },
-  project:{
-    project:"项目",
-    Projectchain:"项目链",
-    projectStatus:"项目状态"
-  },
+  project: {
+    project: "项目",
+    Projectchain: "项目链",
+    projectStatus: "项目状态"
+  }
 };

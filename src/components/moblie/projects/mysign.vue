@@ -48,7 +48,7 @@
                   <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
                 </div>
                 <div class="item item-8">
-                  <van-button>{{$t('project.Projectchain')}}</van-button>
+                  <van-button></van-button>
                 </div>
               </div>
 
@@ -459,7 +459,7 @@ export default {
       this.onLoad();
     },
     mysignto(item) {
-      let signStatus = item.signStatus;
+      let signStatus = item.signStatus; 
       let obj = {
         projectId: item.projectId,
         signStatus: item.signStatus,

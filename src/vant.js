@@ -11,6 +11,8 @@ import {
   List,
   uploader,
   Switch,
+  Swipe,
+   SwipeItem ,
   // Dialog,
   Tab,
   SwipeCell,
@@ -36,6 +38,8 @@ import {
   Divider
 } from "vant";
 // 按需引入UI组件
+Vue.use(Swipe);
+Vue.use(SwipeItem);
 Vue.use(Overlay);
 Vue.use(Cell);
 Vue.use(Switch);

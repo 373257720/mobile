@@ -1,23 +1,44 @@
 <template>
   <div id="login1st">
-    <commonnav>{{$t("common.LogIn")}}</commonnav>
+    <commonnav>
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" />
+      </template>
+      NDS clause
+    </commonnav>
     <main class="main">
       <form ref="form" @submit.prevent="submit_click">
         <div class="mui-input-row input-row">
-          <p class="label">Email</p>
+          <p class="label">For and on behalf of</p>
           <input name="userName" type="text" v-model="validateForm.username" />
         </div>
         <div class="mui-input-row input-row">
-          <p class="label">Password</p>
+          <p class="label">Name</p>
           <input name="Password" type="text" v-model="validateForm.password" />
         </div>
+        <div class="mui-input-row input-row">
+          <p class="label">Position</p>
+          <input name="Password" type="text" v-model="validateForm.password" />
+        </div>
+        <div class="mui-input-row input-row">
+          <p class="label">NDA Terms</p>
+          <div>Employee shall not use for Employee’s personal benefit, or disclose, communicate or divulge to, or use for the direct or indirect benefit of any person, firm, association or company other than Company, any “Confidential Information,” which term shall mean any information regarding the business methods, business policies, policies, procedures, techniques, research or development projects or results, historical or projected financial information, budgets, trade secrets, or other knowledge or processes of, or developed by, Company or any other confidential information relating to or dealing with the business operations of Company, made known to Employee or learned or acquired by Employee while in the employ of Company, but Confidential Information shall not include information otherwise lawfully known generally by or readily accessible to the general public. The foregoing provisions of this subsection shall apply during and after the period when the Employee is an employee of the Company and shall be in addition to (and not a limitation of) any legally applicable protections of Company interest in confidential information, trade secrets, and the like.</div>
+          <!-- <input name="Password" type="text" v-model="validateForm.password" /> -->
+        </div>
         <p class="error">{{errorsMsg}}</p>
-        <button
-          :disabled="isdisabled"
-          :class="isdisabled?'passive':'active'"
-          class="button is-primary"
-          type="submit"
-        >Submit</button>
+        <footer>
+          <button
+            :disabled="isdisabled"
+            :class="isdisabled?'passive':'active'"
+            class="button is-primary"
+            type="submit"
+          >Sign</button>
+          <button
+            :disabled="isdisabled"
+            :class="isdisabled?'passive':'active'"
+            class="button is-primary"
+          >Download</button>
+        </footer>
       </form>
     </main>
   </div>
@@ -98,7 +119,7 @@ export default {
 
   methods: {
     submit_click() {
-      // console.log(123);
+      console.log(123);
 
       this.errorsMsg = "";
       let errorMsg = this.validateFunc();
@@ -107,7 +128,6 @@ export default {
         // console.log(errorMsg);
         return false;
       }
-      this.$routerto("mhome")
     },
     validateFunc() {
       let self = this;
@@ -281,8 +301,8 @@ export default {
     flex-direction: column;
     // align-items: center;
     width: 100%;
-    padding: 0 vw(94);
-    padding-top: vw(184);
+    padding: vw(184) vw(94) vw(116);
+    // padding-top: vw(184);
     font-size: vw(30);
     color: #4f3dad;
     p.label {
@@ -295,6 +315,12 @@ export default {
     .mui-input-row {
       width: 100%;
       margin-bottom: vw(60);
+      div {
+        height: vw(404);
+        overflow: auto;
+        padding: vw(30) vw(24);
+        border: vw(2) solid #4f3dad;
+      }
       span {
         display: inline-block;
       }
@@ -302,6 +328,13 @@ export default {
         width: 100%;
         font-size: vw(34);
         border-bottom: vw(2) solid #4f3dad;
+      }
+      p.helpText {
+        font-size: vw(30);
+        font-weight: bold;
+        line-height: vw(34);
+        color: #8277b9;
+        margin-top: vw(50);
       }
     }
     // div.btn {
@@ -318,22 +351,28 @@ export default {
     //     // height: vw(75);
     //   }
     // }
-    button {
-      color: #ffffff;
-      // background: #4f3dad;
-      border-radius: vw(40);
-      width: vw(528);
-      font-weight: bold;
-      line-height: vw(114);
-      height: vw(114);
-      font-size: vw(40);
+    footer {
+      display: flex;
+     justify-content: space-around;
+      button {
+        color: #ffffff;
+        // background: #4f3dad;
+        border-radius: vw(16);
+        width: vw(226);
+        font-weight: bold;
+        line-height: vw(72);
+        height: vw(72);
+        font-size: vw(24);
+        // background: #00f0ab;
+      }
+      button.passive {
+        background: #828282;
+      }
+      button.active {
+        background:  #00f0ab;
+      }
     }
-    button.passive {
-      background: #828282;
-    }
-    button.active {
-      background: #4f3dad;
-    }
+
     // button.active{
 
     // }

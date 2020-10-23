@@ -27,7 +27,7 @@ height: 27px;background:#00F0AB"></div>
                 </mu-list-item-content>
                 <mu-list-item-action class="time">
                   <!-- <mu-list-item-after-text>22/07/2020</mu-list-item-after-text> -->
-                  <mu-list-item-after-text>1</mu-list-item-after-text>
+                  <!-- <mu-list-item-after-text>1</mu-list-item-after-text> -->
                 </mu-list-item-action>
               </mu-list-item>
             </div>

@@ -1,5 +1,6 @@
 export default {
   agent: {
+    Whorecommendme:"Who<br/>recommend<br/>me",
     SignTheContract: "Sign the contract",
     Sign: "Sign",
     RecommendInvestors: "Recommend Investors",

@@ -1,9 +1,9 @@
 <template lang="html">
   <div class="yo-scroll"
   :class="{'down':(state===0),'up':(state==1),refresh:(state===2),touch:touching}"
-  @touchstart="touchStart($event)"
-  @touchmove="touchMove($event)"
-  @touchend="touchEnd($event)"
+  @touchstart.preventDefault="touchStart($event)"
+  @touchmove.preventDefault="touchMove($event)"
+  @touchend.preventDefault="touchEnd($event)"
   @scroll="(onInfinite || infiniteLoading) ? onScroll($event) : undefined">
     <section class="inner" :style="{ transform: 'translate3d(0, ' + top + 'px, 0)' }">
       <header class="pull-refresh">
@@ -17,8 +17,8 @@
       <slot></slot>
       <footer class="load-more">
         <slot name="load-more">
-            <!-- <svg
-   
+            <svg
+  
                 xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 width="30px"
@@ -42,7 +42,7 @@
                     repeatCount="indefinite"
                   />
                 </path>
-              </svg> -->
+              </svg>
         </slot>
       </footer>
     </section>
@@ -176,6 +176,7 @@ export default {
   left: 0;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+   touch-action: none;
 }
 .yo-scroll .inner {
   position: absolute;

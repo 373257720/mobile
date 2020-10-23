@@ -36,7 +36,7 @@
                   <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
                 </div>
                 <div class="item item-8">
-                  <van-button>Details</van-button>
+                  <van-button @click="$routerto('projectDetails')">Details</van-button>
                 </div>
               </div>
 
@@ -275,26 +275,26 @@ export default {
     }
   },
   activated() {
-    if (this.$route.query.projectId) {
-      let arr = JSON.parse(this.$route.query.array);
-      if (arr.length > 0) {
-        this.result = [...arr];
-      }
-    } else {
-      if (this.$store.state.genre.length > 0) {
-        this.result = [...this.$store.state.genre];
-      } else {
-        // 1投行（项目方），3投资者，4投资中间人
-        // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
-        // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
-        // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
-        if (this.usertype == 1 || this.usertype == 4) {
-          this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
-        } else if (this.usertype == 3) {
-          this.result = [9, 10, 11];
-        }
-      }
-    }
+    // if (this.$route.query.projectId) {
+    //   let arr = JSON.parse(this.$route.query.array);
+    //   if (arr.length > 0) {
+    //     this.result = [...arr];
+    //   }
+    // } else {
+    //   if (this.$store.state.genre.length > 0) {
+    //     this.result = [...this.$store.state.genre];
+    //   } else {
+    //     // 1投行（项目方），3投资者，4投资中间人
+    //     // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
+    //     // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
+    //     // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
+    //     if (this.usertype == 1 || this.usertype == 4) {
+    //       this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
+    //     } else if (this.usertype == 3) {
+    //       this.result = [9, 10, 11];
+    //     }
+    //   }
+    // }
   },
   computed: {
     already_check: function() {
