@@ -31,12 +31,12 @@
         // this.get_contract()
       },
       get_contract(){
-        this.$loading();
+        // this.$loading();
         this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/projectSign/getSignAgreement`,{
           signId:this.$route.query.signId,X_Token:this.$store.state.X_Token,
         })
           .then(res => {
-          this.$toast.clear();
+          // this.$toast.clear();
           if(res.data.resultCode==10000){
             let str = JSON.parse(res.data.data.signAgreement);
             for(let i in this.contract){

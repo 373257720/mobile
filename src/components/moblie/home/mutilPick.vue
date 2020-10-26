@@ -35,7 +35,7 @@
         </van-cell-group>
       </van-checkbox-group>
       <footer>
-        <button>Interested</button>
+        <button @click="$routerto('mhome')">Interested</button>
       </footer>
     </main>
   </div>
@@ -99,7 +99,7 @@ export default {
     width: 100%;
     padding: vw(270) 0 vw(116);
     footer {
-      margin-top:vw(70); 
+      margin-top: vw(70);
       font-weight: bold;
       display: flex;
       justify-content: center;

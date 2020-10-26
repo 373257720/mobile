@@ -4,10 +4,10 @@
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" />
       </template>
-      NDS clause
+      NDa clause
     </commonnav>
     <main class="main">
-      <form ref="form" @submit.prevent="submit_click">
+      <form ref="form">
         <div class="mui-input-row input-row">
           <p class="label">For and on behalf of</p>
           <input name="userName" type="text" v-model="validateForm.username" />
@@ -31,12 +31,13 @@
             :disabled="isdisabled"
             :class="isdisabled?'passive':'active'"
             class="button is-primary"
-            type="submit"
+           @click.prevent="submit_click"
           >Sign</button>
           <button
             :disabled="isdisabled"
             :class="isdisabled?'passive':'active'"
             class="button is-primary"
+             @click.prevent="submit_click"
           >Download</button>
         </footer>
       </form>
@@ -128,6 +129,7 @@ export default {
         // console.log(errorMsg);
         return false;
       }
+      this.$routerto('a_sign_contract')
     },
     validateFunc() {
       let self = this;

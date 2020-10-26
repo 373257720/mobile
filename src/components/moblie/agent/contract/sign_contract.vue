@@ -1,9 +1,9 @@
 <template>
   <div id="a_sign_contract">
     <cavans :contract="contract"  @aimgurl="commit"></cavans>
-    <van-dialog v-model="show"  show-cancel-button>
+    <van-dialog v-model="show"  show-cancel-button :style={"background":#ddd}>
       <img :src="preview" />
-</van-dialog>
+    </van-dialog>
   </div>
 </template>
 <script>
@@ -63,6 +63,7 @@ img{
 <style lang="scss" scoped>
 #a_sign_contract {
   width: 100%;
+  height:100%;
   nav {
     width: 100%;
     text-align: center;

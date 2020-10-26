@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     submit_click() {
-      console.log(123);
+      // console.log(123);
 
       this.errorsMsg = "";
       let errorMsg = this.validateFunc();
@@ -62,6 +62,7 @@ export default {
         // console.log(errorMsg);
         return false;
       }
+      this.$routerto('signContractStep2')
     },
     validateFunc() {
       let self = this;

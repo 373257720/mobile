@@ -13,6 +13,7 @@
         <van-radio-group v-model="radio">
           <van-radio
             name="1"
+            label-disabled
             checked-color="#00f0ab"
           >Percentage of total funds raised by intermediaries</van-radio>
           <div class="count">
@@ -27,6 +28,7 @@
           </div>
           <van-radio
             name="2"
+            label-disabled
             checked-color="#00f0ab"
           >Percentage of commission income from project party</van-radio>
           <div class="count">
@@ -49,10 +51,10 @@
         </footer>
         <ul>
           <li>
-            <button>Accept</button>
+            <button @click="()=>remindervisible=true">Accept</button>
           </li>
           <li>
-            <button>Accept</button>
+            <button @click="$routerto('bargin')">Suggest</button>
           </li>
           <li>
             <button>Reject</button>
@@ -60,7 +62,7 @@
         </ul>
       </div>
     </main>
-    <DialogMsg :remindervisible.sync="remindervisible" :showCancel="true" :msg="msg"></DialogMsg>
+    <DialogMsg :remindervisible.sync="remindervisible"   :showCancel="true" :msg="msg"></DialogMsg>
   </div>
 </template>
 <script>
@@ -69,9 +71,11 @@ export default {
   name: "mhome",
   data() {
     return {
-      msg: "",
+      msg: `Are you sure to accept this commission sharing mechanism from the project side?
+Once confirmed, it cannot be undone or changed
+And sign the contract with the project party`,
       radio: "",
-      remindervisible:true,
+      remindervisible:false,
       isactive: false,
       intermediaries: 0,
       projectParty: 0,
@@ -110,6 +114,9 @@ export default {
   },
 
   methods: {
+    dosome(){
+      this.remindervisible=false;
+    },
     max(value) {
       if (value.target.value * 1 < 0) {
         this.projectParty = 0;

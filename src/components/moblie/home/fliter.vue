@@ -9,7 +9,7 @@
     <main>
       <div class="mhome-tag">
         <ul>
-          <li v-for="(item,idx) in taglist" :key="item.name">
+          <li  v-for="(item,idx) in taglist" :key="item.name">
             <p>
               {{item.name}}
               <span @click="delectTag(item,idx)">+</span>
@@ -35,7 +35,7 @@
                 <span>Biodiversity</span>
                 <span>Biodiversity</span>
               </p>
-              <van-icon name="arrow" />
+              <van-icon name="arrow" @click="$routerto('mutilPick')"/>
             </div>
           </div>
           <div>
@@ -46,7 +46,7 @@
                 <span>Biodiversity</span>
               </p>
 
-              <van-icon name="arrow" />
+              <van-icon name="arrow" @click="$routerto('mutilPick')" />
             </div>
           </div>
         </article>

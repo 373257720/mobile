@@ -59,7 +59,7 @@
       </div>
       <!-- <transition name="slide-fade"> -->
       <div v-if="isshowTag" class="mhome-signTag">
-        <p></p>
+        <p @click="$routerto('fliter')"></p>
       </div>
       <!-- </transition> -->
       <v-scroll

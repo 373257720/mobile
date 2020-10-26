@@ -1,24 +1,35 @@
 <template>
-  <van-dialog @confirm="closeSimple" v-model="remindervisible" :title="titleOne"
+  <van-dialog @cancel="closeSimple" @confirm="closeSimple"  v-model="ishow"   :title="title"
    :show-cancel-button="showCancel">
     <div class="van-dialog__message">{{msg}}</div>
   </van-dialog>
 </template>
 <script>
 export default {
-  props: ["title", "msg", "isSuccess", "remindervisible", "showCancel"],
+  props:{
+    remindervisible:Boolean,
+    showCancel:Boolean,
+    title:String,
+    msg:String
+  },
   data() {
-    return {};
+    return {
+      ishow: this.remindervisible
+    };
   },
   computed: {
-    titleOne() {
-      return this.title;
+
+  },
+  watch: {
+    remindervisible:function(neww,old){
+          this.ishow=neww;
     }
   },
-  watch: {},
   methods: {
     closeSimple() {
+      // console.log(1)
       this.$emit("update:remindervisible", false);
+
       // if (this.issuccess) {
       //   console.log(this.issuccess);
 
@@ -53,7 +64,7 @@ export default {
   border-left-color: #fff;
 }
 .van-dialog__message {
-  padding: vw(184) vw(58) vw(120);
+  padding: vw(72) vw(58) vw(72);
 
   font-size: vw(30);
   line-height: vw(34);

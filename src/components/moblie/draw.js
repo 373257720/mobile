@@ -33,7 +33,7 @@ function Draw(canvas, degree, config = {}) {
     canvas.height = height;
   }
 
-  context.lineWidth = 5;
+  context.lineWidth = 4;
   context.strokeStyle = "#4F3DAD";
   context.lineCap = 'round';
   context.lineJoin = 'round';
@@ -86,7 +86,7 @@ function Draw(canvas, degree, config = {}) {
       point.y = e.clientY - top;
       paint(signal);
         if(signal==2){
-          console.log(draw_stauts);
+          // console.log(draw_stauts);
 
           draw_stauts=1;
         }

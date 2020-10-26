@@ -12,44 +12,42 @@
           :loading="loading"
           @load="load"
         >
-          <mu-list>
-            <div class="title">Project to be signed</div>
-            <div class="timestamp">
-              <div id="container" @click="$routerto('projectStatus')" v-for="i in num" :key="i">
-                <div class="item item-1">CDC Biodiversité – Biodiversity Offsetting</div>
-                <div class="item item-2">
-                  <p></p>
-                </div>
-                <div class="item item-3">
-                  <p>Biodiversity offsets</p>
-                </div>
-                <div class="item item-4">
-                  <p></p>
-                </div>
-                <div class="item item-5">
-                  <p>#tag</p>
-                </div>
-                <div class="item item-6">
-                  <p></p>
-                </div>
-                <div class="item item-7">
-                  <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
-                </div>
-                <div class="item item-8">
-                  <van-button @click="$routerto('projectDetails')">Details</van-button>
-                </div>
+          <div class="title">Project to be signed</div>
+          <div class="timestamp">
+            <div id="container" v-for="i in num" :key="i">
+              <div class="item item-1">CDC Biodiversité – Biodiversity Offsetting</div>
+              <div class="item item-2">
+                <p></p>
               </div>
+              <div class="item item-3">
+                <p>Biodiversity offsets</p>
+              </div>
+              <div class="item item-4">
+                <p></p>
+              </div>
+              <div class="item item-5">
+                <p>#tag</p>
+              </div>
+              <div class="item item-6">
+                <p></p>
+              </div>
+              <div class="item item-7">
+                <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
+              </div>
+              <div class="item item-8">
+                <van-button @click.prevent="$routerto('projectDetails')">Details</van-button>
+              </div>
+            </div>
 
-              <!-- <mu-list-item :ripple="false" button>
+            <!-- <mu-list-item :ripple="false" button>
                 <mu-list-item-content>
                   <mu-list-item-title>Invitation to register has been sent</mu-list-item-title>
                   <mu-list-item-sub-title>
                     Your invitation link has been sent, and the investor you recommended has received the email
                   </mu-list-item-sub-title>
                 </mu-list-item-content>
-              </mu-list-item>-->
-            </div>
-          </mu-list>
+            </mu-list-item>-->
+          </div>
         </mu-load-more>
       </mu-container>
     </mu-paper>

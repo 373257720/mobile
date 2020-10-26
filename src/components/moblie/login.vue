@@ -2,7 +2,8 @@
   <div id="login">
     <div class="logo">
       <img src="../../../static/pic/image1.png" alt />
-      <button class="switchLan" color="#0ce5b2" @click="switchLan(lan)">{{lantext}}</button>
+      <div class="iconfont icon-language switchLan" @click="switchLan(lan)"></div>
+      <!-- <button class="switchLan" color="#0ce5b2" @click="switchLan(lan)">{{lantext}}</button> -->
     </div>
     <div class="main">
       <div class="registerbtn common">
@@ -37,15 +38,13 @@ export default {
     }
   },
   created() {
-
-
     // if (this.$route.query.email) {
     //   this.username = this.$route.query.email ? this.$route.query.email : "";
     // }
     this.lan = this.$i18n.locale;
     this.switchLan();
   },
-  mounted(){
+  mounted() {
     // console.log(document.documentElement);
   },
   // beforeRouteLeave(to, from, next) {
@@ -78,9 +77,9 @@ export default {
             this.$Local(language);
             this.$i18n.locale = language;
             this.$validator.locale = language;
-            // this.$config.locale=language ;     
+            // this.$config.locale=language ;
             console.log(this.$validator);
-                   
+
             // Vue.use(VeeValidate, this.$config);
             this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
           } else {
@@ -111,11 +110,13 @@ export default {
     .switchLan {
       // height: 2.85vh;
       position: absolute;
-      width: vw(76);
+      // width: vw(50);
+      // height: vw(50);
+      font-size: vw(50);
       box-sizing: border-box;
       color: #2f36ac;
       top: vw(53);
-      background: #0ce5b2;
+      // background: #0ce5b2;
       right: vw(40);
       text-align: center;
       border-radius: 15px;

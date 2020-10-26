@@ -20,7 +20,7 @@
         <div class="projectDetail">
           <aside></aside>
           <div>
-            <article ref="article" :style="{height:articleHight}">
+            <article ref="article" :style="{height:articleHeight+'px'}">
               <p ref="articleOrign">
                 This is the first NCFF operation that supports
                 a Biodiversity Offseting scheme. The operation
@@ -43,8 +43,10 @@
               </p>
             </article>
             <p class="drop">
-              <van-icon @click="dropdown" :class="{'rotate1':articleHight}" name="arrow-down" />
+              <van-icon @click="dropdown" 
+              name="arrow-down"  :class="{'rotate1':articleHeight}" />
             </p>
+           
           </div>
         </div>
         <ul>
@@ -79,8 +81,8 @@
           </li>
         </ul>
         <footer>
-          <p>Sign NDA terms</p>
-          <button>Interested</button>
+          <p @click="$routerto('ndaClause')">Sign NDA terms</p>
+          <button @click="$routerto('signContractStep1')">Interested</button>
         </footer>
       </div>
     </main>
@@ -91,7 +93,8 @@ export default {
   name: "mhome",
   data() {
     return {
-      articleHight: null,
+      baseHeight:null,
+      articleHeight: null,
       taglist: [
         {
           name: "Biodiversity",
@@ -121,14 +124,17 @@ export default {
     };
   },
   created() {},
-
+  mounted(){
+    this.baseHeight= this.$refs.article.clientHeight;
+  },
   methods: {
     dropdown() {
-      if (this.articleHight) {
-        this.articleHight = null;
-        return;
+      if (this.articleHeight>this.baseHeight) {
+        this.articleHeight = this.baseHeight;
+      }else{
+        this.articleHeight = this.$refs.articleOrign.clientHeight;
       }
-      this.articleHight = this.$refs.article.clientHeight + "px";
+      
     }
   }
 };
@@ -191,7 +197,7 @@ export default {
         font-weight: bold;
 
         article {
-          height: vw(210);  
+          height: vw(210);
           overflow: hidden;
           line-height: vw(30);
           transition: all 1s ease-out;
