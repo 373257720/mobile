@@ -29,14 +29,11 @@ const projectSubStatus = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectSubStatus"
   );
-const projectsDetails = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectsDetails"
-  );
-const projectDetails = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectDetails"
-  );
+// const projectDetail = () =>
+//   import(
+//     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectDetail"
+//   );
+
 const projectList = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectList"
@@ -247,22 +244,22 @@ const routes = [
       isshowbottom: false
     }
   },
-  {
-    path: "/projectsDetails",
-    name: "projectsDetails",
-    component: projectsDetails,
-    meta: {
-      isshowbottom: false
-    }
-  },
-  {
-    path: "/projectDetails",
-    name: "projectDetails",
-    component: projectDetails,
-    meta: {
-      isshowbottom: false
-    }
-  },
+  // {
+  //   path: "/projectDetail",
+  //   name: "projectDetail",
+  //   component: projectDetail,
+  //   meta: {
+  //     isshowbottom: false
+  //   }
+  // },
+  // {
+  //   path: "/projecstList",
+  //   name: "projecstList",
+  //   component: projecstList,
+  //   meta: {
+  //     isshowbottom: false
+  //   }
+  // },
 
   {
     path: "/forgotpassword",

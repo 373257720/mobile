@@ -12,6 +12,10 @@
     </main>
     <footer>
       <ul>
+         <li @click="$routerto('vip')" >
+          <div class="iconfont icon-account"></div>
+          <div>Membership</div>
+        </li>
         <li @click="$routerto('personalReview')">
           <div class="iconfont icon-account"></div>
           <div>{{$t('Account.PersonalReview')}}</div>
@@ -242,6 +246,7 @@ export default {
   }
   main {
     margin-top: vw(28);
+    margin-bottom: vw(84);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -273,7 +278,7 @@ export default {
     }
   }
   footer {
-    margin-top: vw(150);
+    // margin-top: vw(150);
     ul {
       display: flex;
       flex-direction: column;

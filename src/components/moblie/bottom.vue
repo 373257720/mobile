@@ -8,7 +8,7 @@
       <van-icon class="iconfont" class-prefix="icon" slot="icon" name="project"></van-icon>
       <span>{{$t('common.MyProjectS')}}</span>
     </van-tabbar-item>
-    <van-tabbar-item name="connected_projects" replace>
+    <van-tabbar-item name="connected_projects" replace to="/recommandHistory">
       <van-icon class="iconfont" class-prefix="icon" slot="icon" name="contact"></van-icon>
       <span>{{$t('common.ConnectedItems')}}</span>
     </van-tabbar-item>

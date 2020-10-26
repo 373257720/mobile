@@ -3,15 +3,19 @@
     <div id="canvasBox" :style="getHorizontalStyle">
       <div class="greet">
         <nav class="visaDetailTop">
-          <van-icon name="arrow-left" @click="$global.previous()" />{{$t('common.ElectronicSignature')}}
+          <van-icon name="arrow-left" @click="$global.previous()" />
+          {{$t('common.ElectronicSignature')}}
         </nav>
-      </div>  
-       <p>Please draw signature below</p>
+      </div>
+      <p>Please draw signature below</p>
       <canvas></canvas>
       <div class="btnBox">
         <button @mousedown="clear">{{$t('common.Rewrite')}}</button>
         <button @mousedown="commit">{{$t('common.Submit')}}</button>
       </div>
+      <van-dialog v-model="show" show-cancel-button>
+        <img :src="preview" />
+      </van-dialog>
       <!-- <van-dialog v-model="show" :title="$t('common.PleaseSignInTheBox')"></van-dialog> -->
     </div>
     <!-- <img :src="url" alt=""> -->
@@ -29,17 +33,16 @@
 import { Draw, draw_stauts } from "./draw";
 export default {
   name: "canvans",
-  props:['contract'],
+  props: ["contract"],
   // inject:['app'],
   data() {
     return {
-      msg: this.$t('common.PleaseSignInTheBox'),
+      msg: this.$t("common.PleaseSignInTheBox"),
       degree: 90,
-      signImage: null,
-      showBox: false,
       imgurl: "",
-      show: false,
-      domjiedian: ""
+      domjiedian: "",
+      preview: null,
+      show: false
     };
   },
   components: {
@@ -94,7 +97,7 @@ export default {
         default:
           length = 0;
       }
-      console.log(length)
+      // console.log(length);
       if (this.canvasBox) {
         this.canvasBox.removeChild(document.querySelector("canvas"));
         this.canvasBox.insertBefore(
@@ -105,7 +108,7 @@ export default {
           this.initCanvas();
         }, 1000);
       }
-      console.log(width, length);
+      // console.log(width, length);
       return {
         transform: `rotate(${this.degree}deg) translate(${length}px,${length}px)`,
         width: `${width}px`,
@@ -133,29 +136,27 @@ export default {
       this.draw = new Draw(canvas, -this.degree);
     },
     commit() {
-    
       // var aa = this.draw.scale(100, 50, this.draw.canvas);
       this.imgurl = this.draw.getPNGImage(this.draw.canvas);
-      if(draw_stauts == 0){
+      if (draw_stauts == 0) {
         this.show = true;
-      }else{
+      } else {
         this.draw.commit();
+        this.show = true;
+        this.preview = this.imgurl;
         if (this.$route.name == "a_sign_contract") {
           this.$emit("aimgurl", this.imgurl);
-        } else if (this.$route.name == "p_sign_contract"){
+        } else if (this.$route.name == "p_sign_contract") {
           this.$emit("imgurl", this.imgurl);
         }
-
       }
-
-
     },
 
     clear() {
       if (this.$route.name == "a_sign_contract") {
-        this.contract.agent_sign='';
-      } else if (this.$route.name == "p_sign_contract"){
-        this.contract.owner_sign='';
+        this.contract.agent_sign = "";
+      } else if (this.$route.name == "p_sign_contract") {
+        this.contract.owner_sign = "";
       }
       this.draw.clear();
     }
@@ -194,11 +195,11 @@ nav.visaDetailTop {
   // border-bottom: 0.02rem dashed #b3b3b3;
   text-align: center;
   line-height: 1rem;
-  color:#4F3DAD;
+  color: #4f3dad;
   padding: 0.2rem 0;
   font-size: 0.4rem;
-  
-font-weight: bold;
+
+  font-weight: bold;
 }
 
 .container {
@@ -216,14 +217,14 @@ font-weight: bold;
   display: flex;
   flex-direction: column;
   height: 100%;
-  p{
+  p {
     font-size: 0.3rem;
     font-weight: bold;
-    padding:0.2rem 0;
-     margin: 0 10%;
+    padding: 0.2rem 0;
+    margin: 0 10%;
     // line-height:vw(34);
-    color: #4F3DAD;
-    }
+    color: #4f3dad;
+  }
 }
 
 /* .greet {
@@ -244,10 +245,10 @@ input {
 canvas {
   margin: 0 10%;
   // flex: 1;
-  height:10rem;
+  height: 10rem;
   /* width: 100%; */
   cursor: crosshair;
-  border: 2px solid #4F3DAD;
+  border: 2px solid #4f3dad;
 }
 /* .image-box {
   width: 100%;
@@ -267,12 +268,12 @@ canvas {
   font-size: 0.46rem;
   /* height: 2rem; */
   text-align: center;
-  padding: 0.5rem 0  1rem;
+  padding: 0.5rem 0 1rem;
   // margin: 0.3rem 0;
 }
 .btnBox > button {
   /* border: 1px solid #00adef; */
-  background: #00F0AB;
+  background: #00f0ab;
   border-radius: 4px;
   color: #fff;
   padding: 0 10px;

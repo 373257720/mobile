@@ -1,19 +1,16 @@
 <template>
   <div id="a_sign_contract">
-    <cavans :contract="contract"  @aimgurl="commit"></cavans>
-    <van-dialog v-model="show"  show-cancel-button :style={"background":#ddd}>
-      <img :src="preview" />
-    </van-dialog>
+    <cavans :contract="contract" @imgurl="commit"></cavans>
   </div>
 </template>
 <script>
 export default {
   name: "goods_details",
-  props:['contract'],
+  props: ["contract"],
   data() {
     return {
-      preview:"",
-      show:false,
+      preview: "",
+      show: false
       // imgurl: ""
     };
   },
@@ -23,14 +20,15 @@ export default {
   },
   methods: {
     commit(data) {
-      this.preview = data;
-      this.show=true;
-      let timestamp = new Date().getTime();
-      this.contract.agent_sign=data;
-      this.contract.agent_signdate=timestamp;
+      this.$routerto("projectdetails");
+      // this.preview = data;
+      // this.show = true;
+      // let timestamp = new Date().getTime();
+      // this.contract.agent_sign = data;
+      // this.contract.agent_signdate = timestamp;
       //  this.$emit("update:contract")
       // this.$routerto('a_submit_contract',this.$route.query)
-    },
+    }
   }
 };
 </script>
@@ -46,13 +44,14 @@ export default {
     }
   }
 }
-img{
-  weight:2rem;
-  height:2rem;
+img {
+  weight: 2rem;
+  height: 2rem;
 }
-// .van-dialog {
-//   font-size: 0.3rem;
-// }
+.van-dialog {
+  // font-size: 0.3rem;
+  // transform-origin:0 center;
+}
 // .van-dialog__message {
 //   font-size: 0.3rem;
 // }
@@ -63,7 +62,8 @@ img{
 <style lang="scss" scoped>
 #a_sign_contract {
   width: 100%;
-  height:100%;
+  height: 100%;
+  position: relative;
   nav {
     width: 100%;
     text-align: center;

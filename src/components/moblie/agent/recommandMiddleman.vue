@@ -38,7 +38,7 @@
           <van-icon @click="additem" :class="{'rotate1':rotate1}" name="arrow-down" />
         </p>
         <div class="comfirm">
-          <button @click="submit_click">comfirm</button>
+          <button @click="submit_click" >comfirm</button>
         </div>
       </footer>
     </main>
@@ -78,13 +78,14 @@ export default {
   },
   methods: {
     submit_click() {
-      this.errorsMsg = "";
-      let errorMsg = this.validateFunc();
-      if (errorMsg) {
-        this.errorsMsg = errorMsg;
-        // console.log(errorMsg);
-        return false;
-      }
+      // this.errorsMsg = "";
+      // let errorMsg = this.validateFunc();
+      // if (errorMsg) {
+      //   this.errorsMsg = errorMsg;
+      //   // console.log(errorMsg);
+      //   return false;
+      // }
+      this.$routerto('a_recommand_i')
     },
     validateFunc() {
       let self = this;

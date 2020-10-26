@@ -3,7 +3,7 @@
     <commonnav>{{$t('project.projectStatus')}}</commonnav>
     <main>
       <ul>
-        <li @click="$routerto('projectsDetails')">
+        <li @click="$routerto('projectList')">
           <div>
             <p>Has agreed to wait for the project party to sign the contract</p>
             <aside>1</aside>

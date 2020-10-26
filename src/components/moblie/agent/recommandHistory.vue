@@ -4,9 +4,9 @@
     <main>
       <header>
         <div v-html="$t('agent.Whorecommendme')">
-          <!-- Who
+          Who
           <br />recommend
-          <br />me-->
+          <br />me
         </div>
         <div>
           My
@@ -96,6 +96,25 @@ export default {
           time: "2020-06-07",
           content: "CDC Biodiversité – Biodiversity Offsetting(success)",
           name: "Jason Chan"
+        },      {
+          time: "2020-06-07",
+          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+          name: "Jason Chan"
+        },
+        {
+          time: "2020-06-07",
+          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+          name: "Jason Chan"
+        },
+        {
+          time: "2020-06-07",
+          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+          name: "Jason Chan"
+        },
+        {
+          time: "2020-06-07",
+          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+          name: "Jason Chan"
         }
       ]
     };
@@ -115,15 +134,15 @@ export default {
     // this.articleHight = this.$refs.box.clientHeight * 2;
   },
   methods: {
-        fetchData() {
-        // this.axios.get('/api/testData').then((response) => {
-        //   this.listdata = response.data.data.list;
-        //   // 获取总页数
-        //   this.pageEnd = response.data.data.totalPage;
-        //   // 还原
-        //   this.pageStart = 0;
-        // })
-      },
+    fetchData() {
+      // this.axios.get('/api/testData').then((response) => {
+      //   this.listdata = response.data.data.list;
+      //   // 获取总页数
+      //   this.pageEnd = response.data.data.totalPage;
+      //   // 还原
+      //   this.pageStart = 0;
+      // })
+    },
     onRefresh(done) {
       this.fetchData();
       done(); // call don
@@ -203,15 +222,18 @@ export default {
 </style>
 <style lang="scss"  scoped>
 #recommandHistory {
+  height: 100%;
   main {
     //   background: #fff;
+    height: 100%;
     .yo-scroll {
-      top: vw(300);
+      top: vw(348);
     }
     .top {
       top: vw(332);
     }
-    padding: vw(200) 0 vw(116);
+    padding: vw(140) 0 vw(116);
+    position: relative;
     header {
       padding: 0 vw(30);
       display: flex;

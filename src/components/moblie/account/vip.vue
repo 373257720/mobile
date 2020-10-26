@@ -4,17 +4,46 @@
     <main>
       <div class="iconfont icon-account"></div>
       <p @click="$routerto('vip')">Peter parker</p>
-      <p>Peter parker</p>
-      <p>Membership is valid until December 12, 2020</p>
+      <p>Points: 8320</p>
+      <!-- <p>Membership is valid until December 12, 2020</p> -->
       <van-button class="renewal">VIP&nbsp;renewal</van-button>
     </main>
     <nav>
       <header>My achievements</header>
-      <article></article>
+      <article>
+        <div class="item item-1">
+          <span>10</span>
+          <p>
+            Recommended number
+            of intermediaries
+          </p>
+        </div>
+        <div class="item item-2">
+          <span>10</span>
+          <p>
+            Recommended number
+            of investors
+          </p>
+        </div>
+        <div class="item item-3">
+          <span>10</span>
+          <p>
+            Number of successfully
+            connected items
+          </p>
+        </div>
+        <div class="item item-4">
+          <span>10</span>
+          <p>
+            Amount of
+            completed project
+          </p>
+        </div>
+      </article>
       <p>Membership is valid until December 12, 2020</p>
       <p>Membership is valid until December 12, 2020</p>
       <van-button class="renewal" @click="$routerto('vipRules')">VIP&nbsp;renewal</van-button>
-      <footer>
+      <!-- <footer>
         <ul>
           <li>
             <div></div>
@@ -29,7 +58,7 @@
             <p>More recommended items</p>
           </li>
         </ul>
-      </footer>
+      </footer>-->
     </nav>
   </div>
 </template>
@@ -48,12 +77,10 @@ export default {
 
 <style lang="scss" scoped>
 #vip {
-  padding-top: vw(96);
   nav {
     // width: 332px;
-    margin-top: vw(36);
+    // margin-top: vw(36);
     padding: 0 vw(60);
-
     color: #4f3dad;
     header {
       height: vw(44);
@@ -63,64 +90,66 @@ export default {
       margin-bottom: vw(52);
     }
     article {
-      height: vw(400);
-      background: #00f0ab;
-      margin-bottom: vw(74);
-    }
-    p {
-      // width: 298px;
-      height: vw(28);
-      font-size: vw(24);
-      margin-bottom: vw(16);
-      line-height: vw(28);
-    }
-    footer {
-      margin-top: vw(200);
-      ul {
-        display: flex;
-        justify-content: space-evenly;
-
-        li {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          div {
-            width: vw(88);
-            height: vw(88);
-            background: #00f0ab;
-          }
-          p {
-            // width: vw(132);
-            height: vw(18);
-            font-size: vw(18);
-            line-height: vw(18);
-            color: #4f3dad;
-          }
+      // height: vw(400);
+      // background: #00f0ab;
+      margin-bottom: vw(52);
+      display: grid;
+      grid-row: 2;
+      grid-column: 2;
+      gap: vw(40) vw(60);
+      // justify-items: center;
+      grid-template-columns: repeat(2, auto);
+      // grid-template-rows: repeat(auto);
+      grid-auto-flow: row;
+      .item {
+        font-weight: bold;
+        text-align: center;
+        span {
+          display: inline-block;
+          width: vw(108);
+          height: vw(108);
+          font-size: vw(24);
+          color: #fff;
+          background: #4f3dad;
+          border-radius: 50%;
+          line-height: vw(108);
+          margin-bottom: vw(16);
+        }
+        p {
+          font-size: vw(20);
+          line-height: vw(24);
         }
       }
     }
+    > p {
+      font-size: vw(24);
+      font-weight: 400;
+      line-height: vw(28);
+      color: #4f3dad;
+    }
+  }
+  .renewal {
+    width: vw(168);
+    margin-top: vw(14);
+    height: vw(44);
+    background: #00f0ab;
+    border-radius: vw(8);
+    .van-button__text {
+      // width:vw(128);
+      // height: vw(28);
+      font-size: vw(24);
+      line-height: vw(44);
+      color: #faf9f9;
+      opacity: 1;
+    }
   }
   main {
-    margin-top: vw(28);
+    margin-bottom: vw(36);
+    padding-top: vw(140);
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #4f3dad;
-    .renewal {
-      width: vw(168);
-      margin-top: vw(14);
-      height: vw(44);
-      background: #00f0ab;
-      border-radius: vw(8);
-      .van-button__text {
-        // width:vw(128);
-        height: vw(28);
-        font-size: vw(24);
-        line-height: vw(28);
-        color: #faf9f9;
-        opacity: 1;
-      }
-    }
 
     .icon-account {
       height: vw(162);

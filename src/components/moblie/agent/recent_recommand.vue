@@ -3,15 +3,15 @@
     <commonnav>
       project detail
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" />
+        <van-icon name="arrow-left" @click="$router.go(-1)"/>
       </template>
     </commonnav>
     <main>
       <div>
-        <span>Recommended to middleman</span>
+        <span @click="$routerto('a_recommand_i')">Recommended to middleman</span>
       </div>
       <div>
-        <span>Recommend to investors</span>
+        <span  @click="$routerto('a_recommand_i')">Recommend to investors</span>
       </div>
     </main>
   </div>

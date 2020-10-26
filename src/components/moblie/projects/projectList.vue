@@ -17,7 +17,7 @@
         >
           <mu-list>
             <div class="timestamp">
-              <div id="container" @click="$routerto('projectStatus')" v-for="i in num" :key="i">
+              <div id="container"  v-for="i in num" :key="i">
                 <div class="item item-1">CDC Biodiversité – Biodiversity Offsetting</div>
                 <div class="item item-2">
                   <p></p>
@@ -38,7 +38,7 @@
                   <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
                 </div>
                 <div class="item item-8">
-                  <van-button>Details</van-button>
+                  <van-button @click="$routerto('projectDetail')">Details</van-button>
                 </div>
               </div>
 

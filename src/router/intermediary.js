@@ -203,7 +203,7 @@ export default [
   {
     path: "/projectDetail",
     name: "projectDetail",
-    component: a_sign_successful,
+    component: projectDetail,
     meta: {
       isshowbottom: false
     }

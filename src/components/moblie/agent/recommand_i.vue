@@ -4,7 +4,7 @@
       Recommended
       investors
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" />
+        <van-icon name="arrow-left" @click="$router.go(-1)"/>
       </template>
     </commonnav>
     <main>
@@ -46,17 +46,16 @@
           </van-cell>
         </van-cell-group>
       </van-checkbox-group>
-
       <footer>
         <p class="drop">
           <van-icon @click="dropdown" :class="{'rotate1':rotate1}" name="arrow-down" />
         </p>
         <div class>
-          <span>Recommend new investors</span>
-          <span>+</span>
+          <span >Recommend new investors</span>
+          <span @click="$routerto('recommandMiddleman')">+</span>
         </div>
         <div class="comfirm">
-          <button>comfirm</button>
+          <button @click="$routerto('projectDetail')">comfirm</button>
         </div>
       </footer>
     </main>

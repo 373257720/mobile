@@ -1,5 +1,5 @@
 <template>
-  <div id="projectsDetails">
+  <div id="projectDetails">
     <commonnav>
       project detail
       <template v-slot:arrowRight>
@@ -63,10 +63,10 @@
                 </template>-->
               </van-swipe>
             </div>
-            <p>See all</p>
+            <p @click="$routerto('a_recommand_i')">See all</p>
             <van-icon name="arrow" @click="next" />
           </div>
-          <div>Recommend More</div>
+          <div @click="$routerto('recent_recommand')">Recommend More</div>
         </div>
         <div class="projectDetail">
           <aside></aside>
@@ -210,7 +210,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#projectsDetails {
+#projectDetails {
   main {
     // padding-top: vw(212);
     padding: vw(192) vw(70) vw(80);
