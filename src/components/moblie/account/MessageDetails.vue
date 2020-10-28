@@ -1,6 +1,11 @@
 <template>
   <div id="MessageDetails">
-    <commonnav>{{$t('Account.Message')}}</commonnav>
+      <commonnav>
+     {{$t('Account.Message')}}
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()" />
+      </template>
+    </commonnav>
     <main>
       <header>22/07/2020 15:08:52</header>
       <p>Invitation to register has been sent</p>

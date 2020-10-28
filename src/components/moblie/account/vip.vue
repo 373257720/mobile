@@ -1,12 +1,17 @@
 <template>
   <div id="vip">
-    <commonnav>Vip</commonnav>
+      <commonnav>
+      Vip
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()" />
+      </template>
+    </commonnav>
     <main>
       <div class="iconfont icon-account"></div>
       <p @click="$routerto('vip')">Peter parker</p>
       <p>Points: 8320</p>
       <!-- <p>Membership is valid until December 12, 2020</p> -->
-      <van-button class="renewal">VIP&nbsp;renewal</van-button>
+      <van-button @click="$routerto('vipGrade')" class="renewal">VIP&nbsp;renewal</van-button>
     </main>
     <nav>
       <header>My achievements</header>
@@ -42,7 +47,11 @@
       </article>
       <p>Membership is valid until December 12, 2020</p>
       <p>Membership is valid until December 12, 2020</p>
-      <van-button class="renewal" @click="$routerto('vipRules')">VIP&nbsp;renewal</van-button>
+      <footer>
+        <button @click="$routerto('vipRules')">Specific check points rules</button>
+        <button @click="$routerto('pointsHistory')">Points history</button>
+      </footer>
+
       <!-- <footer>
         <ul>
           <li>
@@ -127,6 +136,27 @@ export default {
       line-height: vw(28);
       color: #4f3dad;
     }
+    >p:nth-of-type(1){
+      margin-bottom: vw(16);
+    }
+    footer{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    button {
+      width: vw(338);
+      height: vw(80);
+      background: #00f0ab;
+      opacity: 1;
+      border-radius: vw(8);
+      font-size: vw(24);
+      // line-height: vw(80);
+      color: #faf9f9;
+      margin-top: vw(36);
+    }
+    .van-button--normal {
+    }
   }
   .renewal {
     width: vw(168);
@@ -134,6 +164,7 @@ export default {
     height: vw(44);
     background: #00f0ab;
     border-radius: vw(8);
+    border: none;
     .van-button__text {
       // width:vw(128);
       // height: vw(28);

@@ -1,6 +1,11 @@
 <template>
   <div id="setNickname">
-    <commonnav>{{$t('Account.EditInformation')}}</commonnav>
+    <commonnav>
+      {{$t('Account.EditInformation')}}
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()" />
+      </template>
+    </commonnav>
     <main>
       <mu-form ref="form" :model="validateForm" class="mu-demo-form">
         <mu-form-item

@@ -1,6 +1,11 @@
 <template>
   <div id="vipRules">
-    <commonnav>Vip</commonnav>
+       <commonnav>
+      Vip
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()" />
+      </template>
+    </commonnav>
     <main>
       <header>Points rules</header>
       <article>

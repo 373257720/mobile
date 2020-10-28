@@ -67,7 +67,7 @@
   </div>
 </template>
 <script>
-  import loginVue from './login.vue';
+  // import loginVue from './login.vue';
   export default {
     name: "contract_component",
     props:['contract',"htmlData"],

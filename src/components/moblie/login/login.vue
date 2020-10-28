@@ -1,6 +1,11 @@
 <template>
   <div id="login1st">
-    <commonnav>{{$t("common.LogIn")}}</commonnav>
+    <commonnav>
+      {{$t("common.LogIn")}}
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()" />
+      </template>
+    </commonnav>
     <main class="main">
       <form ref="form" @submit.prevent="submit_click">
         <div class="mui-input-row input-row">
@@ -12,12 +17,15 @@
           <input name="Password" type="text" v-model="validateForm.password" />
         </div>
         <p class="error">{{errorsMsg}}</p>
-        <button
-          :disabled="isdisabled"
-          :class="isdisabled?'passive':'active'"
-          class="button is-primary"
-          type="submit"
-        >Submit</button>
+        <p class="forget" @click="$routerto('forgotpassword')">forget password</p>
+        <footer>
+          <button
+            :disabled="isdisabled"
+            :class="isdisabled?'passive':'active'"
+            class="button is-primary"
+            type="submit"
+          >Submit</button>
+        </footer>
       </form>
     </main>
   </div>
@@ -107,7 +115,7 @@ export default {
         // console.log(errorMsg);
         return false;
       }
-      this.$routerto("mhome")
+      this.$routerto("mhome");
     },
     validateFunc() {
       let self = this;
@@ -266,23 +274,29 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  .label {
-  }
   .error {
-    height: vw(24);
-    font-size: vw(24);
-    // font-weight: 400;
+    font-size: vw(30);
+    height: vw(34);
+    font-weight: bold;
     color: #0ce5b2;
-    margin-bottom: vw(18);
-    // line-height: vw(24);
+    margin-bottom: vw(400);
+    line-height: vw(34);
+  }
+  .forget {
+    font-size: vw(30);
+    margin-bottom: vw(70);
+    font-weight: bold;
+    text-align: center;
+    color: #00e3a2;
+    text-decoration: underline;
   }
   main {
     display: flex;
     flex-direction: column;
     // align-items: center;
     width: 100%;
-    padding: 0 vw(94);
-    padding-top: vw(184);
+    padding: vw(178) vw(94) vw(116);
+    // padding-top: vw(184);
     font-size: vw(30);
     color: #4f3dad;
     p.label {
@@ -304,48 +318,26 @@ export default {
         border-bottom: vw(2) solid #4f3dad;
       }
     }
-    // div.btn {
-    //   margin-top: vw(290);
-    //   width: 100%;
-    //   display: flex;
-    //   flex-direction: column;
-    //   align-items: center;
-    //   .reminder {
-    //     color: #0ce5b2;
-    //     width: vw(569);
-    //     display: flex;
-    //     justify-content: center;
-    //     // height: vw(75);
-    //   }
-    // }
-    button {
-      color: #ffffff;
-      // background: #4f3dad;
-      border-radius: vw(40);
-      width: vw(528);
-      font-weight: bold;
-      line-height: vw(114);
-      height: vw(114);
-      font-size: vw(40);
+    footer {
+      display: flex;
+      justify-content: center;
+      button {
+        color: #ffffff;
+        // background: #4f3dad;
+        border-radius: vw(40);
+        width: vw(528);
+        font-weight: bold;
+        line-height: vw(114);
+        height: vw(114);
+        font-size: vw(40);
+      }
+      button.passive {
+        background: #828282;
+      }
+      button.active {
+        background: #4f3dad;
+      }
     }
-    button.passive {
-      background: #828282;
-    }
-    button.active {
-      background: #4f3dad;
-    }
-    // button.active{
-
-    // }
   }
-  // @media all and (orientation: landscape) {
-  //   main {
-  //     padding-top: vw(227);
-  //     div.btn {
-  //       margin-top: vw(90);
-  //       // padding-bottom: vw(90);
-  //     }
-  //   }
-  // }
 }
 </style>

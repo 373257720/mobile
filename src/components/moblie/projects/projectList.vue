@@ -3,7 +3,6 @@
     <div id="common_nav">
       <nav class="common_nav">
         <span>project</span>
-         
       </nav>
     </div>
     <mu-paper class="demo-loadmore-wrap">
@@ -17,7 +16,7 @@
         >
           <mu-list>
             <div class="timestamp">
-              <div id="container"  v-for="i in num" :key="i">
+              <div id="container" v-for="i in num" :key="i">
                 <div class="item item-1">CDC Biodiversité – Biodiversity Offsetting</div>
                 <div class="item item-2">
                   <p></p>

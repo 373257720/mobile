@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas
+      id="myCanvas"
+      width="500"
+      height="200"
+      style="border:1px solid #d3d3d3;"
+    >
+      Your browser does not support the HTML5 canvas tag.
+    </canvas>
+    <img
+      id="tulip"
+      style="width: 20px;height: 20px; transform: translate(-50%,-50%);"
+      src="https://img-operation.csdnimg.cn/csdn/silkroad/img/1603716431414.png"
+      alt="The Tulip"
+    />
+    <script type="text/javascript">
+      document.getElementById("tulip").onload = function() {
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        var img = document.getElementById("tulip");
+        // console.log();
+        img.style.transform=  "translate(-50%,-50%)";
+        
+        ctx.drawImage(img, 0, 180, 20, 20);
+        ctx.drawImage(img, 250, 90, 20, 20);
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#d3d3d3";
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.moveTo(0, 200);
+        //   //   ctx.lineTo(200, 10);
+        //   //   ctx.lineTo(287, 87);
+        //   //   ctx.lineTo(287, 150);
+        //   //   ctx.lineTo(143.5, 300);
+        //   //   ctx.lineTo(0, 150);
+        //   //   ctx.lineTo(0, 87);
+
+        //   //   ctx.closePath();
+
+        ctx.quadraticCurveTo(250, 0, 500, 200);
+        //   // //   ctx.bezierCurveTo(0,0,400,0,400,100);
+        ctx.stroke();
+      };
+
+      //   ctx.textAlign = "center";
+      //   ctx.clip();
+      //   ctx.fillStyle="green";
+      //   ctx.fillRect(0,0,287,300);
+      //   ctx.fillText("w3school.com.cn", 10, 90);
+    </script>
+  </body>
+</html>

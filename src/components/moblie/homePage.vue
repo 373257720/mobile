@@ -1,24 +1,24 @@
 <template>
-  <div id="login">
-    <div class="logo">
-      <img src="../../../static/pic/image1.png" alt />
+  <div id="homePage">
+    <header class="logo">
+      <img src="../../../static/pic/newlogo.png" alt />
       <div class="iconfont icon-language switchLan" @click="switchLan(lan)"></div>
       <!-- <button class="switchLan" color="#0ce5b2" @click="switchLan(lan)">{{lantext}}</button> -->
-    </div>
+    </header>
     <div class="main">
       <div class="registerbtn common">
         <van-button @click="$routerto('register')">{{$t('common.Register')}}</van-button>
       </div>
-      <p class="login" @click="$routerto('login1st')">{{$t('common.LogIn')}}</p>
+      <p class="login" @click="$routerto('login')">{{$t('common.LogIn')}}</p>
     </div>
   </div>
 </template>
 <script>
 // import { i18n } from "../../language";
-import Vue from "vue";
-import VeeValidate, { Validator } from "vee-validate";
+// import Vue from "vue";
+// import VeeValidate, { Validator } from "vee-validate";
 export default {
-  name: "login",
+  name: "homePage",
   // inject: ["reload"],
   data() {
     return {
@@ -38,15 +38,10 @@ export default {
     }
   },
   created() {
-    // if (this.$route.query.email) {
-    //   this.username = this.$route.query.email ? this.$route.query.email : "";
-    // }
     this.lan = this.$i18n.locale;
     this.switchLan();
   },
-  mounted() {
-    // console.log(document.documentElement);
-  },
+  mounted() {},
   // beforeRouteLeave(to, from, next) {
   //   // console.log(to, from)
   //   if (to.name == 'i_emailto_confirm') {
@@ -76,14 +71,9 @@ export default {
             localStorage.setItem("language", language);
             this.$Local(language);
             this.$i18n.locale = language;
-            this.$validator.locale = language;
-            // this.$config.locale=language ;
-            console.log(this.$validator);
-
-            // Vue.use(VeeValidate, this.$config);
             this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
           } else {
-            this.$toast(res.data.resultDesc);
+            // this.$toast(res.data.resultDesc);
           }
         });
     }
@@ -97,65 +87,37 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-#login {
+#homePage {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
-  div.logo {
-    width: vw(436);
-    height: vw(202);
-    margin-top: vw(384);
-    margin-bottom: vw(514);
+  header.logo {
+    padding: vw(384) 0 vw(514);
     .switchLan {
-      // height: 2.85vh;
       position: absolute;
-      // width: vw(50);
-      // height: vw(50);
       font-size: vw(50);
       box-sizing: border-box;
       color: #2f36ac;
       top: vw(53);
-      // background: #0ce5b2;
       right: vw(40);
       text-align: center;
-      border-radius: 15px;
       font-weight: 550;
       cursor: pointer;
-      .mu-ripple-wrapper {
-      }
     }
-
     img {
-      // width: 57.33vw;
-      width: 100%;
-      height: auto;
-      // height: 14.92vh;
-      /*max-height: 100%;*/
-      /*max-width: 100%;*/
+      width: vw(436);
+      height: vw(202);
     }
   }
-
-  @media screen and (min-width: 1024px) {
-    h2 {
-      /* height: 50%; */
-    }
-  }
-
   .main {
-    /*flex: 1;*/
-    /* // width: 100%; */
     display: flex;
     flex-direction: column;
     align-items: center;
     > p {
       font-size: vw(40);
-      // height: 0.84rem;
-      // line-height: 0.32em;
       color: #4f3dad;
       margin-bottom: vw(234);
       margin-top: vw(98);
-
       font-weight: bold;
     }
     button {
@@ -168,16 +130,6 @@ export default {
       line-height: vw(114);
       height: vw(114);
       font-size: vw(40);
-    }
-    .registerbtn {
-      button {
-        // background: #0ce5b2;
-        // margin-bottom: 2.4vh;
-      }
-    }
-    p.login {
-      // color: #fff;
-      border: none;
     }
   }
 }

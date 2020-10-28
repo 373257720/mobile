@@ -1,7 +1,12 @@
 <template>
   <div id="AccountMessage">
-    <commonnav>{{$t('Account.Message')}}</commonnav>
-    <mu-paper  class="demo-loadmore-wrap">
+    <commonnav>
+      {{$t('Account.Message')}}
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()" />
+      </template>
+    </commonnav>
+    <mu-paper class="demo-loadmore-wrap">
       <mu-container ref="container" class="demo-loadmore-content">
         <mu-load-more
           @refresh="refresh"
@@ -13,7 +18,7 @@
           <mu-list>
             <div class="timestamp" v-for="i in num" :key="i" @click="$routerto('MessageDetails')">
               <p>22/07/2020</p>
-              <mu-list-item  :ripple="false" button>
+              <mu-list-item :ripple="false" button>
                 <mu-list-item-action>
                   <div style="width: 35px;
 height: 27px;background:#00F0AB"></div>
@@ -91,7 +96,7 @@ export default {
 }
 #AccountMessage {
   height: 100%;
-  .mu-list{
+  .mu-list {
     padding: vw(140) 0 0 0;
   }
   .timestamp {

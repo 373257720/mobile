@@ -1,6 +1,11 @@
 <template>
   <div id="register">
-    <commonnav>{{$t('common.Register')}}</commonnav>
+    <commonnav>
+      {{$t('common.Register')}}
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()" />
+      </template>
+    </commonnav>
     <main class="main">
       <form ref="form" @submit.prevent="submit_click">
         <div class="mui-input-row input-row">
@@ -31,20 +36,17 @@
           class="error"
         >{{ errors.first('confirmpassword') }}</p>-->
         <!-- <button @click="submit">SUBMIT</button> -->
-        <button
-          :disabled="isdisabled"
-          :class="isdisabled?'passive':'active'"
-          class="button is-primary"
-          type="submit"
-        >Submit</button>
+        <footer>
+          <button
+            :disabled="isdisabled"
+            :class="isdisabled?'passive':'active'"
+            class="button is-primary"
+            type="submit"
+          >Submit</button>
+        </footer>
       </form>
-
-      <DialogMsg
-        :msg="content"
-        :title.sync="title"
-        :successto="successto"
-        :remindervisible.sync="remindervisible"
-      ></DialogMsg>
+      <DialogMsg @comfirmFromDialog="comfirmFromDialog" 
+       :remindervisible.sync="remindervisible" :showCancel="false" :msg="errorsMsg"></DialogMsg>
     </main>
   </div>
 </template>
@@ -55,29 +57,6 @@ export default {
   name: "register",
   data() {
     return {
-      usernameRules: [
-        { validate: val => !!val, message: "Username must be filled in" },
-        {
-          validate: val => val.length >= 3,
-          message: "Username length greater than 3"
-        }
-      ],
-      passwordRules: [
-        { validate: val => !!val, message: "Password must be filled in" },
-        {
-          validate: val => val.length >= 3 && val.length <= 10,
-          message: "Password length must be greater than 3 and less than 10"
-        }
-      ],
-      confirmpassword: [
-        { validate: val => !!val, message: "Password must be filled in" },
-        {
-          validate: val => {
-            return val === this.validateForm.password;
-          },
-          message: "Password"
-        }
-      ],
       errorsMsg: "",
       validateForm: {
         username: "",
@@ -127,6 +106,8 @@ export default {
       return errorMsg; // 返回效验结果
     },
     submit_click() {
+      // console.log(123);
+      
       this.errorsMsg = "";
       let errorMsg = this.validateFunc();
       // console.log(errorMsg);
@@ -136,8 +117,10 @@ export default {
         // console.log(errorMsg);
         return false;
       }
-
-      this.$routerto("login");
+      this.remindervisible = true;
+      // console.log(this.remindervisible);
+      
+      //
     },
     validateBeforeSubmit() {
       // console.log(this.$validator.validateAll);
@@ -201,6 +184,11 @@ export default {
       //   }
       // });
     },
+    comfirmFromDialog(data){
+      //  console.log(data);
+       this.remindervisible=data;
+        this.$routerto("login");
+    },
     blur(event) {
       this.$global
         .singerValitator(event, this.form, this.rules)
@@ -251,37 +239,6 @@ export default {
 
 <style lang='scss'>
 #register {
-  // .mu-input-focus-line {
-  //   display: none;
-  // }
-
-  // .mu-form-item-label {
-  //   height: vw(30);
-  //   font-size: vw(30);
-  //   font-weight: bold;
-  //   line-height: vw(30);
-  //   color: #4f3dad;
-  //   opacity: 1;
-  //   margin-bottom: vw(64);
-  // }
-  // .mu-input__error {
-  //   // .mu-text-field-input {
-  //   //   color: #f44336;
-  //   // }
-  //   // .mu-input-line {
-  //   //   background: #f44336;
-  //   // }
-  // }
-  // .mu-input-line {
-  //   background: #4f3dad;
-  // }
-  // .mu-text-field-input {
-  //   color: #4f3dad;
-  //   font-size: vw(32);
-  // }
-  // .mu-form-item__error .mu-form-item-help {
-  //   bottom: vw(-4);
-  // }
 }
 </style>
 <style lang='scss' scoped>
@@ -294,11 +251,12 @@ export default {
   align-items: center;
 
   .error {
-    height: vw(24);
-    font-size: vw(24);
-    // font-weight: 400;
+    font-size: vw(30);
+    height: vw(34);
+    font-weight: bold;
     color: #0ce5b2;
-    margin-bottom: vw(18);
+    margin-bottom: vw(108);
+    line-height: vw(34);
     // line-height: vw(24);
   }
   main {
@@ -309,7 +267,7 @@ export default {
     padding: 0 vw(94);
 
     color: #4f3dad;
-    padding-top: vw(184);
+    padding-top: vw(178);
     font-size: vw(30);
     p.label {
       margin-bottom: vw(62);
@@ -351,22 +309,27 @@ export default {
         // height: vw(75);
       }
     }
-    button {
-      color: #ffffff;
-      background: #4f3dad;
-      border-radius: vw(40);
-      width: vw(528);
-      font-weight: bold;
-      line-height: vw(114);
-      height: vw(114);
-      font-size: vw(40);
+    footer {
+      display: flex;
+      justify-content: center;
+      button {
+        color: #ffffff;
+        background: #4f3dad;
+        border-radius: vw(40);
+        width: vw(528);
+        font-weight: bold;
+        line-height: vw(114);
+        height: vw(114);
+        font-size: vw(40);
+      }
+      button.passive {
+        background: #828282;
+      }
+      button.active {
+        background: #4f3dad;
+      }
     }
-    button.passive {
-      background: #828282;
-    }
-    button.active {
-      background: #4f3dad;
-    }
+
     // button.active{
 
     // }

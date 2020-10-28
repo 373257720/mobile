@@ -1,31 +1,39 @@
 <template>
-  <van-dialog @cancel="closeSimple" @confirm="closeSimple"  v-model="ishow"   :title="title"
-   :show-cancel-button="showCancel">
+  <van-dialog
+    @cancel="closeSimple"
+    @confirm="comfirm"
+    v-model="ishow"
+    :title="title"
+    :show-cancel-button="showCancel"
+  >
     <div class="van-dialog__message">{{msg}}</div>
   </van-dialog>
 </template>
 <script>
 export default {
-  props:{
-    remindervisible:Boolean,
-    showCancel:Boolean,
-    title:String,
-    msg:String
+  props: {
+    remindervisible: Boolean,
+    showCancel: Boolean,
+    title: String,
+    msg: String
   },
   data() {
     return {
       ishow: this.remindervisible
     };
   },
-  computed: {
-
-  },
+  computed: {},
   watch: {
-    remindervisible:function(neww,old){
-          this.ishow=neww;
+    remindervisible: function(neww, old) {
+      this.ishow = neww;
+      console.log(neww);
+      
     }
   },
   methods: {
+    comfirm() {
+      this.$emit("comfirmFromDialog", false);
+    },
     closeSimple() {
       // console.log(1)
       this.$emit("update:remindervisible", false);

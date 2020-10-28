@@ -17,21 +17,20 @@
       <slot></slot>
       <footer class="load-more">
         <slot name="load-more">
-            <svg
-  
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                width="30px"
-                height="30px"
-                viewBox="0 0 50 50"
-                style="enable-background:new 0 0 50 50"
-                xml:space="preserve"
-              >
-                <path
-                  fill="#0ce5b2"
-                  d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"
-                  transform="rotate(275.098 25 25)"
+              <span v-if="loaded">完成</span>
+              <svg 
+              v-else-if="!loaded"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 50 50"
+                  style="enable-background:new 0 0 50 50"
+                  xml:space="preserve"
                 >
+          <path
+                    fill="#0ce5b2"
+              d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"
+              transform="rotate(275.098 25 25)"
+            >
                   <animateTransform
                     attributeType="xml"
                     attributeName="transform"
@@ -41,8 +40,8 @@
                     dur="0.8s"
                     repeatCount="indefinite"
                   />
-                </path>
-              </svg>
+      </path>
+    </svg>
         </slot>
       </footer>
     </section>
@@ -161,7 +160,7 @@ export default {
         : 0;
       let infiniteHeight = this.$el.querySelector(".load-more").clientHeight;
       let bottom = innerHeight - outerHeight - scrollTop - ptrHeight;
-      console.log(this.loaded);
+      // console.log(this.loaded);
       if (bottom < infiniteHeight) this.infinite();
     }
   }
@@ -176,7 +175,7 @@ export default {
   left: 0;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-   touch-action: none;
+  touch-action: none;
 }
 .yo-scroll .inner {
   position: absolute;
