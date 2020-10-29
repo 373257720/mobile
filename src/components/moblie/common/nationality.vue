@@ -29,7 +29,6 @@
           >
             <div class="item item-1">{{ item.lable}}</div>
           </li>
-          <!-- <p v-if="loaded">加载完成</p> -->
         </ul>
       </v-scroll>
     </main>
@@ -41,6 +40,7 @@ import Scroll from "../loadmore";
 import layer from "./layer";
 export default {
   name: "Nationality",
+  props: ["usercheck"],
   data() {
     return {
       optionType: [
@@ -61,10 +61,17 @@ export default {
     this.getcountrylist();
   },
   methods: {
+    pickcountry(item) {
+      // console.log(item);
+      // this.$store.commit("pickNation", item);
+      this.usercheck.nation=item;
+      this.$global.previous();
+      // this.$emit("pickNation",item)
+    },
     onRefresh(done) {
       //   3. 在刷新方法内部进行自己的逻辑处理 此处调用了后台接口
       // console.log(done);
-      this.loaded=false;
+      this.loaded = false;
       this.getcountrylist(done);
     },
     onInfinite(done) {

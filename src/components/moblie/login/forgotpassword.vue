@@ -18,12 +18,14 @@
             <input name="userName" type="text" v-model="validateForm.username" />
           </div>
           <p class="error">{{errorsMsg}}</p>
-          <button
-            :disabled="isdisabled"
-            :class="isdisabled?'passive':'active'"
-            class="button is-primary"
-            type="submit"
-          >Submit</button>
+          <footer>
+            <button
+              :disabled="isdisabled"
+              :class="isdisabled?'passive':'active'"
+              class="button is-primary"
+              type="submit"
+            >Submit</button>
+          </footer>
         </form>
       </main>
     </div>
@@ -194,11 +196,12 @@ export default {
   flex-direction: column;
   align-items: center;
   .error {
-    height: vw(24);
-    font-size: vw(24);
-    // font-weight: 400;
+    font-size: vw(30);
+    height: vw(34);
+    font-weight: bold;
     color: #0ce5b2;
-    margin-bottom: vw(18);
+    margin-bottom: vw(108);
+    line-height: vw(34);
     // line-height: vw(24);
   }
   main {
@@ -238,21 +241,25 @@ export default {
         border-bottom: vw(2) solid #4f3dad;
       }
     }
-    button {
-      color: #ffffff;
-      // background: #4f3dad;
-      border-radius: vw(40);
-      width: vw(528);
-      font-weight: bold;
-      line-height: vw(114);
-      height: vw(114);
-      font-size: vw(40);
-    }
-    button.passive {
-      background: #828282;
-    }
-    button.active {
-      background: #4f3dad;
+    footer {
+      display: flex;
+      justify-content: center;
+      button {
+        color: #ffffff;
+        // background: #4f3dad;
+        border-radius: vw(40);
+        width: vw(528);
+        font-weight: bold;
+        line-height: vw(114);
+        height: vw(114);
+        font-size: vw(40);
+      }
+      button.passive {
+        background: #828282;
+      }
+      button.active {
+        background: #4f3dad;
+      }
     }
   }
 }

@@ -7,7 +7,12 @@
     </header>
     <div class="main">
       <div class="registerbtn common">
-        <van-button @click="$routerto('register')">{{$t('common.Register')}}</van-button>
+        <van-button
+          @click="()=>{
+          $routerto('register')
+          
+          }"
+        >{{$t('common.Register')}}</van-button>
       </div>
       <p class="login" @click="$routerto('login')">{{$t('common.LogIn')}}</p>
     </div>

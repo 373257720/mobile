@@ -18,7 +18,7 @@ export default {
     transition: Boolean
   },
   created() {
-    console.log(this.transition);
+    // console.log(this.transition);
   },
   methods: {
     transitionToDad() {
