@@ -1,9 +1,9 @@
 <template>
-  <div class="Nationality">
+  <div class="genus">
     <commonnav>
       {{$t('common.genus')}}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$global.previous()" />
+        <van-icon name="arrow-left" @click="pickgenus" />
       </template>
     </commonnav>
     <main>
@@ -20,8 +20,8 @@
 // import Scroll from "../loadmore";
 // import layer from "./layer";
 export default {
-  name: "Nationality",
-   props: ["usercheck"],
+  name: "genus",
+  props: ["usercheck"],
   data() {
     return {
       optionType: [
@@ -35,16 +35,16 @@ export default {
   created() {},
   methods: {
     pickgenus(item) {
-        this.usercheck.genus=item;
-        this.$emit("fromto","Verify")
-        // this.$global.previous();
+      if (item) this.usercheck.genus = item;
+      this.$emit("fromKids", "genus");
+      // this.$global.previous();
       // this.$emit("pickNation",item)
     }
   }
 };
 </script>
 <style lang='scss' scoped>
-.Nationality {
+.genus {
   main {
     display: flex;
     flex-direction: column;

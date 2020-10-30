@@ -3,7 +3,7 @@
     <commonnav>
       {{$t('common.genus')}}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$global.previous()" />
+        <van-icon name="arrow-left" @click="pickgenus" />
       </template>
     </commonnav>
     <main>
@@ -20,24 +20,31 @@
 // import Scroll from "../loadmore";
 // import layer from "./layer";
 export default {
-  name: "Nationality",
-     props: ["usercheck"],
+  name: "identity",
+  props: ["usercheck"],
   data() {
     return {
-      optionId: [
-        { text: this.$t("common.individual"), value: 1 },
-        { text: this.$t("common.company"), value: 2 }
-      ]
+      optionId: []
     };
   },
   components: {},
-  created() {},
+  created() {
+    console.log(this.usercheck);
+    if (this.usercheck.genus &&  this.usercheck.genus.value === 1) {
+      this.optionId = [{ text: this.$t("common.company"), value: 2 }];
+    } else {
+      this.optionId = [
+        { text: this.$t("common.individual"), value: 1 },
+        { text: this.$t("common.company"), value: 2 }
+      ];
+    }
+  },
   methods: {
     pickgenus(item) {
       // console.log(item);
       // this.$store.commit("pickIdentity", item);
-      this.usercheck.identity=item;
-      this.$global.previous();
+      if (item) this.usercheck.identity = item;
+      this.$emit("fromKids", 'identity');
       // this.$emit("pickNation",item)
     }
   }

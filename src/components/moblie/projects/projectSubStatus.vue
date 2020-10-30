@@ -11,7 +11,7 @@
         </li>
         <li @click="$routerto('projectList')">
           <div>
-            <p>Has agreed to wait for the project party to sign the contract</p>
+            <p>Has agreed to wait for the project partywait for the project party to sign th to sign the contract</p>
             <aside>1</aside>
           </div>
         </li>
@@ -121,34 +121,31 @@ export default {
 #projectSubStatus {
   // padding-top: vw(96);
   main {
-    padding: vw(228) vw(100) 0;
+    padding: vw(228) 0 vw(114);
     ul {
       li {
         display: flex;
         // height: vw(92);
         justify-content: center;
-
         // padding: vw(30) 0;
-
         margin-bottom: vw(60);
         div {
           display: flex;
           align-items: center;
           width: vw(522);
           background: #4f3dad;
-          padding: vw(20);
+          padding: vw(20) vw(20);
           border-radius: vw(16);
-
           color: #ffffff;
           p {
-            width: vw(472);
+            width: vw(400);
             // height: vw(92);
             font-size: vw(26);
             font-weight: bold;
             text-align: center;
-            // line-height: vw(42);
+            line-height: vw(30);
             // padding-left: vw(76);
-            // margin-right: vw(10);
+            margin-right: vw(10);
           }
           aside {
             width: vw(52);

@@ -8,7 +8,7 @@
       data-mu-loading-overlay-color="rgba(0, 0, 0, .6)"
       style="position: relative; width: 500px; height: 400px;"
     >-->
-    <keep-alive include="mhome,mine,mysign,userpass"
+    <keep-alive include="mine,mysign,userpass"
     
     
     

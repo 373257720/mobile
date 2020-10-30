@@ -26,13 +26,14 @@ export default {
   watch: {
     remindervisible: function(neww, old) {
       this.ishow = neww;
-      console.log(neww);
+      // console.log(neww);
       
     }
   },
   methods: {
     comfirm() {
       this.$emit("comfirmFromDialog", false);
+      //  this.$emit("update:remindervisible", false);
     },
     closeSimple() {
       // console.log(1)

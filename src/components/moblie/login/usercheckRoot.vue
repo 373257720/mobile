@@ -1,9 +1,9 @@
 <template>
-  <div id="usercheckRoot">
-    <!-- <transition :name="transitionName"> -->
-    <!-- <router-view :usercheck="usercheck"></router-view> -->
-    <div @fromto="goto" :usercheck="usercheck" :is="currentView"></div>
-    <!-- </transition> -->
+  <div id="example-1">
+    <button @click="show = !show">Toggle render</button>
+    <transition name="slide-fade">
+      <p @click="show = !show" v-show="!show">hello</p>
+    </transition>
   </div>
 </template>
 <script>
@@ -23,12 +23,7 @@ export default {
   data() {
     return {
       currentView: "Verify",
-      transitionName: "",
-      usercheck: {
-        nation: {},
-        genus: {},
-        identity: {}
-      }
+      show: true
     };
   },
   methods: {
@@ -53,27 +48,25 @@ export default {
 </script>
 <style lang="scss">
 //转场动画
-.slide-right-enter-active,
-.slide-right-leave-active,
-.slide-left-enter-active,
-.slide-left-leave-active {
-  // 启用硬件加速
-  will-change: transform;
-  transition: all 3000ms;
-  position: fixed;
+#example-1 {
+  position: relative;
 }
-.slide-left-enter {
-  transform: translate(100%, 0);
-  transition-timing-function: ease-in;
+p{
+   position: fixed;
+     top: 0;
+     background: #fff;
 }
-.slide-left-enter-to {
-  transform: translate(0, 0);
+.slide-fade-enter-active {
+  transition: all 1s ease;
+  // position: fixed;
+
 }
-.slide-right-enter {
-  transform: translate(-100%, 0);
-  transition-timing-function: ease-in;
+.slide-fade-leave-active {
+  transition: all 1s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-right-enter-to {
-  transform: translate(0, 0);
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateX(100%);
+  opacity: 0;
 }
 </style>

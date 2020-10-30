@@ -62,7 +62,7 @@ export default {
         // console.log(errorMsg);
         return false;
       }
-      this.$routerto('signContractStep2')
+      this.$routerto("signContractStep2");
     },
     validateFunc() {
       let self = this;

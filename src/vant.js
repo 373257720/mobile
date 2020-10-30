@@ -23,6 +23,7 @@ import {
   // Toast,
   TreeSelect,
   Field,
+  Progress,
   // Locale,
   Cell,
   CellGroup,
@@ -39,6 +40,7 @@ import {
 } from "vant";
 // 按需引入UI组件
 Vue.use(Swipe);
+Vue.use(Progress);
 Vue.use(SwipeItem);
 Vue.use(Overlay);
 Vue.use(Cell);

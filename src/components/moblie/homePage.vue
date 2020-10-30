@@ -5,6 +5,7 @@
       <div class="iconfont icon-language switchLan" @click="switchLan(lan)"></div>
       <!-- <button class="switchLan" color="#0ce5b2" @click="switchLan(lan)">{{lantext}}</button> -->
     </header>
+ 
     <div class="main">
       <div class="registerbtn common">
         <van-button

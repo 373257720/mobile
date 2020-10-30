@@ -15,7 +15,7 @@
 
 let strategies = {
   isNotEmpty: (value, errorMsg) => {
-    if (value === "") {
+    if (value === "" || value === null) {
       return errorMsg;
     }
   },

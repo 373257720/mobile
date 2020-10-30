@@ -1,9 +1,8 @@
 <template>
   <div id="mhome">
-    <div id="Nav">
+    <!-- <div id="Nav">
       <nav class="Nav">
         <header>
-          <!-- <van-icon name="arrow-left" /> -->
           <span>{{$t('common.Home')}}</span>
         </header>
         <van-search
@@ -18,8 +17,25 @@
           </div>
         </van-search>
       </nav>
-    </div>
+    </div>-->
+    <commonnav>
+      {{$t('common.Home')}}
+      <template v-slot:arrowRight>
+        <van-icon name="arrow" />
+      </template>
+    </commonnav>
     <main :class="{'topReduce':isshowTag}">
+      <van-search
+        v-if="!isshowTag"
+        v-model="searchkey"
+        :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
+        shape="round"
+        left-icon
+      >
+        <div slot="right-icon">
+          <van-icon name="search" @click="()=>{isshowTag=true}" />
+        </div>
+      </van-search>
       <div v-if="!isshowTag" class="mhome-tag">
         <ul>
           <li>
@@ -61,20 +77,20 @@
       <div v-if="isshowTag" class="mhome-signTag">
         <p @click="$routerto('fliter')"></p>
       </div>
-      <!-- </transition> -->
+      <!-- <transition name="Totop"> -->
       <v-scroll
         class="mhome-article"
         :on-refresh="onRefresh"
         :loaded="loaded"
         :on-infinite="onInfinite"
-        :class="{'top':isshowTag}"
+        :class="{'yo-scrollTop':isshowTag}"
       >
         <div class="timestamp">
           <div
             id="container"
             @click="$routerto('projectStatus')"
-            v-for="i in taglist"
-            :key="i.name"
+            v-for="i in countrylist"
+            :key="i.remark"
           >
             <div class="item item-1">CDC Biodiversité – Biodiversity Offsetting</div>
             <div class="item item-2">
@@ -99,136 +115,10 @@
               <van-button></van-button>
             </div>
           </div>
-
-          <!-- <mu-list-item :ripple="false" button>
-                <mu-list-item-content>
-                  <mu-list-item-title>Invitation to register has been sent</mu-list-item-title>
-                  <mu-list-item-sub-title>
-                    Your invitation link has been sent, and the investor you recommended has received the email
-                  </mu-list-item-sub-title>
-                </mu-list-item-content>
-          </mu-list-item>-->
         </div>
-        <!-- <p v-if="loaded">加载完成</p> -->
       </v-scroll>
+      <!-- </transition> -->
     </main>
-
-    <!-- <header>
-      <div>
-        <img src="../../assets/f6055ec522305641848f75fcafc1e8e.jpg" alt />
-      </div>
-      <van-search
-        v-model="searchkey"
-        :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-        show-action
-        shape="round"
-        left-icon
-        @search="onSearch"
-      >
-        <div slot="action" @click="onSearch">
-          <van-icon name="search" />
-        </div>
-      </van-search>
-      <van-dropdown-menu>
-        <van-dropdown-item :title="industry_title" v-model="industry_value" ref="item">
-          <van-tree-select
-            :items="items"
-            :active-id="activeIds"
-            :main-active-index="mainActiveIndex"
-            @click-nav="onClickNav"
-            @click-item="onClickItem"
-          />
-        </van-dropdown-item>
-        <van-dropdown-item class="region_class" :title="region_title" ref="region">
-          <van-search
-            v-model="text"
-            @input="search_region"
-            :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-          />
-          <a-spin v-if="countrylist_fetching" size="small" />
-          <ul v-if="!countrylist_fetching && countrylist.length>0">
-            <li
-              v-for="d in countrylist"
-              :class="d.classname"
-              :key="d.remark"
-              :value="d.value"
-              @click="select_country(d.remark,d.eng,d.chinese,d.value)"
-            >
-              <span>{{d.eng}}</span>
-              <span>{{d.chinese}}</span>
-            </li>
-          </ul>
-          <ul style="max-height:200px" v-else-if="!countrylist_fetching &&  countrylist.length<1">
-            <li>{{$t('common.NoMore')}}</li>
-          </ul>
-        </van-dropdown-item>
-      </van-dropdown-menu>
-    </header>
-    <div id="main">
-      <div class="main">
-        <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-          <van-list
-            v-model="loading"
-            :finished="finished"
-            @load="onLoad"
-            :loading-text="loadText"
-            :finished-text="$t('common.NoMore')"
-            :error-text="$t('common.RequestFailed')"
-            :offset="300"
-          >
-            <div v-for="(goods,idx) in  upGoodsInfo" :key="idx" class="goodlists">
-              <article @click="routerto(goods)">
-                <nav>{{goods.projectName}}</nav>
-                <section>
-                  <span>{{$t('common.Industry')}}:</span>
-                  <span>{{goods.projectIndustry}}</span>
-                </section>
-                <section>
-                  <span>{{$t('common.region')}}:</span>
-                  <span>{{goods.projectArea}}</span>
-                </section>
-                <section>
-                  <span>{{$t('common.ProjectDescription')}}:</span>
-                  <span
-                    v-html="goods.projectDescribe.length>90? goods.projectDescribe.substr(0, [90])+'...':goods.projectDescribe"
-                  ></span>
-                </section>
-                <div class="tag" v-if="usertype==1">
-                  <ul>
-                    <li v-for="(item,key) in  tags" :key="item.text">
-                      <div
-                        v-if="goods.signUserList[key].length>0 && goods.signUserList[key][0].signCount"
-                      >
-                        <span class="spot"></span>
-                        <span>{{item.text}}</span>
-                        <span>({{goods.signUserList[key][0].signCount}})</span>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </article>
-              <footer>
-                <button
-                  v-if="usertype==1"
-                  :class="[goods.signUserList['signUserList10'][0].signCount>0?'isactive':'']"
-                  @click="router('p_investor_lists',{arr: JSON.stringify(goods.signUserList['signUserList10'][0].investorsIdList) })"
-                >{{$t('common.InformationOfContractedInvestors')}} ({{goods.signUserList['signUserList10'][0].signCount?goods.signUserList['signUserList10'][0].signCount:0}})</button>
-                <button
-                  class="isactive"
-                  v-else-if="usertype==3"
-                  @click="$routerto('i_conected_project',{projectId:goods.projectId,signStatus:goods.signUserResp[0].signStatus,signId:goods.signUserResp[0].signId})"
-                >{{$t('common.ConnectedItems')}}</button>
-                <button
-                  class="isactive"
-                  v-else-if="usertype==4"
-                  @click="routerto(goods)"
-                >{{$t('common.ItemsOfInterest')}}</button>
-              </footer>
-            </div>
-          </van-list>
-        </van-pull-refresh>
-      </div>
-    </div>-->
   </div>
 </template>
 <script>
@@ -246,7 +136,6 @@ export default {
       text: "",
       loaded: false,
       refreshing: false,
-      countrylist_fetching: false,
       items: [
         {
           text: this.$t("common.Industry"),
@@ -268,6 +157,14 @@ export default {
         },
         {
           name: "InnovFin",
+          isactive: false
+        },
+        {
+          name: "Comdputer",
+          isactive: false
+        },
+        {
+          name: "InnodvFin",
           isactive: false
         }
       ],
@@ -328,18 +225,11 @@ export default {
       region_name: "",
       region_nametitle: "",
       region_title: this.$t("common.AllAreas"),
-      countrylist: [
-        {
-          chinese: "全部地区",
-          eng: "All",
-          value: 0,
-          remark: "",
-          classname: ""
-        }
-      ]
+      countrylist: []
     };
   },
   created() {
+    this.getcountrylist();
     // this.usertype = this.$store.state.currentUsertype;
     // let axiosList = [
     //   this.$axios.get(
@@ -390,7 +280,37 @@ export default {
   },
 
   methods: {
+    getcountrylist(done) {
+      this.countrylist = [];
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
+          {
+            searchKey: this.searchkey
+          }
+        )
+        .then(res => {
+          if (res.data.data.length > 0) {
+            for (let i = 0; i < res.data.data.length; i++) {
+              this.countrylist.push({
+                chinese: res.data.data[i].countryZhname,
+                eng: res.data.data[i].countryEnname,
+                lable:
+                  this.$i18n.locale === "zh_CN"
+                    ? res.data.data[i].countryZhname
+                    : res.data.data[i].countryEnname,
+                value: i,
+                remark: res.data.data[i].countryCode
+              });
+            }
+            this.loaded = true;
+            if (done) done();
+          }
+        });
+    },
     onRefresh(done) {
+      this.loaded = false;
+      this.getcountrylist(done);
       //   3. 在刷新方法内部进行自己的逻辑处理 此处调用了后台接口
       // this.onRefreshPort(done);
       // this.$global
@@ -434,21 +354,44 @@ export default {
      */
     onInfinitePort(done) {
       // this.getcountrylist();
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
+          {
+            searchKey: this.searchkey
+          }
+        )
+        .then(res => {
+          if (res.data.data instanceof Array) {
+            for (let i = 0; i < res.data.data.length; i++) {
+              this.countrylist.push({
+                chinese: res.data.data[i].countryZhname,
+                eng: res.data.data[i].countryEnname,
+                lable:
+                  this.$i18n.locale === "zh_CN"
+                    ? res.data.data[i].countryZhname
+                    : res.data.data[i].countryEnname,
+                value: i,
+                remark: res.data.data[i].countryCode
+              });
+            }
+            done();
+          }
+        });
     },
     tagClick(item) {
       console.log(item);
       item.isactive = !item.isactive;
-      this.isshowTag = true;
     },
-    onRefresh() {
-      this.finished = false;
-      // 重新加载数据
-      // 将 loading 设置为 true，表示处于加载状态
-      this.loading = true;
-      this.upGoodsInfo = [];
-      this.pageNum = 1;
-      this.onLoad();
-    },
+    // onRefresh() {
+    //   this.finished = false;
+    //   // 重新加载数据
+    //   // 将 loading 设置为 true，表示处于加载状态
+    //   this.loading = true;
+    //   this.upGoodsInfo = [];
+    //   this.pageNum = 1;
+    //   this.onLoad();
+    // },
     select_country(remark, eng, chinese, idx) {
       console.log(remark, eng, chinese);
       if (this.$i18n.locale == "zh_CN") {
@@ -679,16 +622,16 @@ export default {
 
 <style lang="scss">
 #mhome {
-  .slide-fade-enter-active {
-    transition: all 1s ease;
+  .Totop-enter-active,
+  .Totop-leave-active {
+    transition: all 10s ease;
+    // position: fixed;
   }
-  .slide-fade-leave-active {
-    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-  }
-  .slide-fade-enter, .slide-fade-leave-to
+
+  .Totop-enter, .Totop-leave-to
 /* .slide-fade-leave-active for below version 2.1.8 */ {
-    transform: translateX(10px);
-    opacity: 0;
+    transform: translateY(100%);
+    // opacity: 0;
   }
 }
 </style>
@@ -709,10 +652,14 @@ export default {
     text-align: center;
     color: #4f3dad;
     font-size: vw(40);
+  }
+  main {
+    padding-top: vw(140);
     .van-search {
       width: vw(598);
       margin: 0 auto;
       padding: 0;
+      margin-bottom: vw(48);
     }
     .van-search__content {
       border: vw(2) solid #3ab5cc;
@@ -722,31 +669,17 @@ export default {
         color: #3ab5cc;
       }
     }
-    nav.Nav {
-      line-height: vw(140);
-      header {
-        height: vw(140);
-        position: relative;
-        .van-icon-arrow-left {
-          position: absolute;
-          left: vw(36);
-          top: 50%;
-          transform: (translate(0, -50%));
-        }
-      }
-    }
-  }
-  main {
-    padding-top: vw(212);
     .yo-scroll {
       top: vw(550);
+      transition: all 1s ease;
+      bottom: vw(114);
+    -webkit-overflow-scrolling: touch;
     }
-    .top {
+    .yo-scrollTop {
       top: vw(332);
     }
     .mhome-tag {
-      padding-top: vw(62);
-
+      // padding-top: vw(62);
       li {
         display: flex;
         padding-left: vw(40);
@@ -793,6 +726,7 @@ export default {
     .mhome-signTag {
       // padding: vw(62) 0;
       padding-left: vw(70);
+      padding-top: vw(24);
       p {
         width: vw(124);
         height: vw(54);

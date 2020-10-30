@@ -1,21 +1,43 @@
 import Vue from "vue";
 import Router from "vue-router";
 import intermediary from "./intermediary";
-import investors from "./investors"
-import  projectOwner from "./projectOwner"
+import investors from "./investors";
+import projectOwner from "./projectOwner";
+// const nationality = () =>
+//   import(
+//     /* webpackChunkName: "group-foo" */ "@/components/moblie/common/nationality"
+//   );
+// const identity = () =>
+//   import(
+//     /* webpackChunkName: "group-foo" */ "@/components/moblie/common/identity"
+//   );
 
+// const genus = () =>
+//   import(
+//     /* webpackChunkName: "group-foo" */ "@/components/moblie/common/genus"
+//   );
 const register = () =>
-  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/register");
-const login = () =>
-  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login");
-
-
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/register"
+  );
+const homePage = () =>
+  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/homePage");
+const forgetpassword = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/forgetPassword"
+  );
 const forgotpassword = () =>
   import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/forgotpassword"
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/forgotpassword"
   );
-const usercheck = () =>
-  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/usercheck");
+const usercheckroot = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/usercheckroot"
+  );
+const verify = () =>
+import(
+  /* webpackChunkName: "group-foo" */ "@/components/moblie/login/Verify"
+);
 
 const mysign = () =>
   import(
@@ -55,7 +77,7 @@ const cavans = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/cavans");
 const common_details = () =>
   import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/common_details"
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/common/common_details"
   );
 const upload_contract = () =>
   import(
@@ -68,6 +90,17 @@ const AccountMessage = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/accountMessage"
   );
+const vipGrade = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/account/vipGrade"
+  );
+vipGrade;
+const pointsHistory = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/account/pointsHistory"
+  );
+
 const MessageDetails = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -101,6 +134,15 @@ const routes = [
   ...investors,
   ...projectOwner,
   //  account
+  {
+    path: "/vipGrade",
+    name: "vipGrade",
+    component: vipGrade,
+    meta: {
+      isshowbottom: false
+      // ispaddingBottom: true
+    }
+  },
   {
     path: "/personalReview",
     name: "personalReview",
@@ -148,6 +190,14 @@ const routes = [
     path: "/MessageDetails",
     name: "MessageDetails",
     component: MessageDetails,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/pointsHistory",
+    name: "pointsHistory",
+    component: pointsHistory,
     meta: {
       isshowbottom: false
     }
@@ -260,7 +310,15 @@ const routes = [
   //     isshowbottom: false
   //   }
   // },
-
+  {
+    path: "/forgetpassword",
+    name: "forgetpassword",
+    component: forgetpassword,
+    meta: {
+      isshowbottom: false,
+      ispaddingBottom: true
+    }
+  },
   {
     path: "/forgotpassword",
     name: "forgotpassword",
@@ -281,23 +339,74 @@ const routes = [
     }
   },
   {
-    path: "/login",
-    name: "login",
-    component: login,
+    path: "/homePage",
+    name: "homePage",
+    component: homePage,
     meta: {
       isshowbottom: false,
       ispaddingBottom: false
     }
   },
   {
-    path: "/usercheck",
-    name: "usercheck",
-    component: usercheck,
+    path: "/usercheckroot",
+    name: "usercheckroot",
+    component: usercheckroot,
+    // redirect: "/usercheckroot/usercheck",
     meta: {
       isshowbottom: false,
       ispaddingBottom: true
-    }
+    },
   },
+  {
+    path: "/verify",
+    name: "verify",
+    component: verify,
+    // redirect: "/usercheckroot/usercheck",
+    meta: {
+      isshowbottom: false,
+      ispaddingBottom: true
+    },
+    // children: [
+    //   {
+    //     path: "usercheck",
+    //     name: "usercheck",
+    //     component: usercheck,
+    //     meta: {
+    //       isshowbottom: false,
+    //       ispaddingBottom: true,
+    //       index: 1
+    //     }
+    //   },
+    //   {
+    //     path: "nationality",
+    //     name: "nationality",
+    //     component: nationality,
+    //     meta: {
+    //       isshowbottom: false,
+    //       index: 2
+    //     }
+    //   },
+    //   {
+    //     path: "identity",
+    //     name: "identity",
+    //     component: identity,
+    //     meta: {
+    //       isshowbottom: false,
+    //       index: 2
+    //     }
+    //   },
+    //   {
+    //     path: "genus",
+    //     name: "genus",
+    //     component: genus,
+    //     meta: {
+    //       isshowbottom: false,
+    //       index: 2
+    //     }
+    //   }
+    // ]
+  },
+
   {
     path: "/cavans",
     name: "cavans",
@@ -314,18 +423,19 @@ const routes = [
   {
     path: "*",
     // name: 'login',
-    component: login
+    component: homePage
   },
   {
     path: "/",
     redirect: {
-      name: "login"
+      name: "homePage"
     }
   }
 ];
 
 let router = new Router({
   // mode:'history',
+  base: process.env.BASE_URL,
   routes
 });
 // 全局路由守卫

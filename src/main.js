@@ -147,7 +147,8 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use(
+axios.interceptors.response
+  .use
   // res => {
   //   if (res.data && res.data.resultCode) {
   //     let code = res.data.resultCode;
@@ -191,7 +192,7 @@ axios.interceptors.response.use(
   //   }
   //   return Promise.reject(error);
   // }
-);
+  ();
 
 Vue.prototype.$routerto = function routerTo(name, obj) {
   router.push({
@@ -241,19 +242,19 @@ import mbottom from "./components/moblie/bottom.vue";
 Vue.component("mbottom", mbottom);
 import cavans from "./components/moblie/cavans.vue";
 Vue.component("cavans", cavans);
-import common_nav from "./components/moblie/common_nav.vue";
+import common_nav from "./components/moblie/common/common_nav.vue";
 Vue.component("commonnav", common_nav);
 import box from "./components/moblie/3box";
 Vue.component("boxx", box);
-import commondetails from "./components/moblie/common_details";
+import commondetails from "./components/moblie/common/common_details";
 Vue.component("commondetails", commondetails);
-import commoninvestors from "./components/moblie/common_investors";
+import commoninvestors from "./components/moblie/common/common_investors";
 Vue.component("commoninvestors", commoninvestors);
 import contract from "./components/moblie/contract";
 Vue.component("contractcomponent", contract);
 import DialogMsg from "./components/moblie/dialog";
 Vue.component("DialogMsg", DialogMsg);
-import commonSearch from "./components/moblie/commonSearch";
+import commonSearch from "./components/moblie/common/commonSearch";
 Vue.component("commonSearch", commonSearch);
 // Vue.component('Vue-ueditor-wrap ',VueUeditorWrap )
 /* eslint-disable no-new */

@@ -3,7 +3,7 @@
     <commonnav>
       {{$t('common.Nationality')}}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$global.previous()" />
+        <van-icon name="arrow-left" @click="pickcountry" />
       </template>
     </commonnav>
     <main>
@@ -58,14 +58,15 @@ export default {
     "v-scroll": Scroll
   },
   created() {
+    
     this.getcountrylist();
   },
   methods: {
     pickcountry(item) {
+      if (item) this.usercheck.nation = item;
       // console.log(item);
-      // this.$store.commit("pickNation", item);
-      this.usercheck.nation=item;
-      this.$global.previous();
+      
+      this.$emit("fromKids", "nation");
       // this.$emit("pickNation",item)
     },
     onRefresh(done) {

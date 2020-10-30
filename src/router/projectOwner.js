@@ -3,14 +3,9 @@ const p_wait_agent_input = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/wait_agent_input"
   );
-const login1st = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/login1st"
-  );
-const signin = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/signin"
-  );
+const login = () =>
+  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login/login");
+
 const p_check_contract = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -179,23 +174,12 @@ export default [
     ]
   },
   {
-    path: "/signin",
-    name: "signin",
-    component: signin,
-    redirect: "/signin/login1st",
+    path: "/login",
+    name: "login",
+    component: login,
     meta: {
       isshowbottom: false
-    },
-    children: [
-      {
-        path: "login1st",
-        name: "login1st",
-        component: login1st,
-        meta: {
-          isshowbottom: false
-        }
-      }
-    ]
+    }
   },
   {
     path: "/p_wait_investor",
