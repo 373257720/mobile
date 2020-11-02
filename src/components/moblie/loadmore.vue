@@ -18,8 +18,8 @@
       <footer class="load-more">
         <slot name="load-more">
               <span v-if="loaded">完成</span>
-              <svg 
-              v-else-if="!loaded"
+              <svg  class="loading"
+                  v-else-if="!loaded"
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                   viewBox="0 0 50 50"
@@ -40,8 +40,8 @@
                     dur="0.8s"
                     repeatCount="indefinite"
                   />
-      </path>
-    </svg>
+            </path>
+          </svg>
         </slot>
       </footer>
     </section>
@@ -89,11 +89,14 @@ export default {
   },
   methods: {
     touchStart(e) {
+      // console.log(1);
+
       this.startY = e.targetTouches[0].pageY;
       this.startScroll = this.$el.scrollTop || 0;
       this.touching = true;
     },
     touchMove(e) {
+      // console.log(2);
       if (!this.enableRefresh || this.$el.scrollTop > 0 || !this.touching) {
         return;
       }
@@ -112,6 +115,7 @@ export default {
       }
     },
     touchEnd(e) {
+      // console.log(3);
       if (!this.enableRefresh) return;
       this.touching = false;
       if (this.state === 2) {
@@ -173,9 +177,16 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
+   font-size: vw(26);
+      color: #4f3dad;
+        font-weight: bold;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  touch-action: none;
+  .loading {
+    width: vw(80);
+    height: vw(80);
+  }
+  // touch-action: none;
 }
 .yo-scroll .inner {
   position: absolute;

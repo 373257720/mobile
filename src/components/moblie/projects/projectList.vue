@@ -1,153 +1,68 @@
 <template>
   <div id="mysign">
-    <div id="common_nav">
-      <nav class="common_nav">
-        <span>project</span>
-      </nav>
-    </div>
-    <mu-paper class="demo-loadmore-wrap">
-      <mu-container ref="container" class="demo-loadmore-content">
-        <mu-load-more
-          @refresh="refresh"
-          loading-text="loading"
-          :refreshing="refreshing"
-          :loading="loading"
-          @load="load"
-        >
-          <mu-list>
-            <div class="timestamp">
-              <div id="container" v-for="i in num" :key="i">
-                <div class="item item-1">CDC Biodiversité – Biodiversity Offsetting</div>
+    <commonnav>
+      {{$t('project.projectStatus')}}
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()"  />
+      </template>
+      <template v-slot:arrowRight>
+        <i class="icon iconRight iconfont icon-message"></i>
+      </template>
+    </commonnav>
+    <main>
+      <nav>Project to be signed</nav>
+      <v-scroll
+        class="mhome-article"
+        :on-refresh="onRefresh"
+        :loaded="loaded"
+        :on-infinite="onInfinite"
+      >
+        <div class="timestamp">
+          <ul>
+            <li @click="$routerto('projectDetail')" v-for="i in piclists" :key="i.remark">
+              <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
+              <section id="container">
+                <div class="item item-1">
+                  <p class="icon iconRight iconfont icon-5day"></p>
+                  <!-- <i class="icon iconRight iconfont icon-message"></i> -->
+                </div>
                 <div class="item item-2">
-                  <p></p>
+                  <p>2020-06-06 14:00:00</p>
                 </div>
                 <div class="item item-3">
-                  <p>Biodiversity offsets</p>
+                  <p class="icon iconRight iconfont icon-5day"></p>
                 </div>
                 <div class="item item-4">
-                  <p></p>
+                  <p>2020-06-06 14:00:00</p>
                 </div>
                 <div class="item item-5">
-                  <p>#tag</p>
+                  <p class="icon iconRight iconfont icon-3"></p>
                 </div>
                 <div class="item item-6">
-                  <p></p>
-                </div>
-                <div class="item item-7">
                   <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
                 </div>
-                <div class="item item-8">
-                  <van-button @click="$routerto('projectDetail')">Details</van-button>
-                </div>
+              </section>
+              <div class="btn">
+                <van-button>Detail</van-button>
               </div>
-
-              <!-- <mu-list-item :ripple="false" button>
-                <mu-list-item-content>
-                  <mu-list-item-title>Invitation to register has been sent</mu-list-item-title>
-                  <mu-list-item-sub-title>
-                    Your invitation link has been sent, and the investor you recommended has received the email
-                  </mu-list-item-sub-title>
-                </mu-list-item-content>
-              </mu-list-item>-->
-            </div>
-          </mu-list>
-        </mu-load-more>
-      </mu-container>
-    </mu-paper>
-    <!-- <nav>
-      <header>{{$t('common.MyProjectS')}}</header>
-      <van-overlay z-index='-666' :show="visible" @click="visible= false"/>
-      <main>
-        <div class="sort_box" @click="fliter" v-if="usertype">
-          {{$t('common.ProjectScreening')}}
-          <van-icon name="arrow-down" />
+            </li>
+          </ul>
         </div>
-        <van-checkbox-group ref="check" v-model="result">
-          <van-cell-group>
-            <div
-              class="all_select"
-              :class="num==2?'isactive':'isorigin'"
-              @click="toggleAll"
-            >{{$t('common.SelectAll')}}</div>
-            <div class="choose_lists">
-              <van-cell
-                v-for="(item, index) in list"
-                clickable
-                :key="item.text"
-                :title="`${item.text}`"
-                @click="toggle(index)"
-              >
-                <van-checkbox :name="item.value" ref="checkboxes" slot="right-icon" />
-              </van-cell>
-            </div>
-            <div class="confirm" @click="confirm_lists">{{$t('common.Determine')}}</div>
-          </van-cell-group>
-        </van-checkbox-group>
-      </main>
-    </nav>-->
-    <!-- <div id="common_nav">
-      <p></p>
-      <nav class="common_nav">
-        <span>{{$t('common.MyProjectS')}}</span>
-      </nav>
-    </div>-->
-    <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <van-list
-        v-model="loading"
-        :finished="finished"
-        @load="onLoad"
-        :loading-text="loadText"
-        :finished-text="already_check"
-        :error-text="$t('common.RequestFailed')"
-        :offset="300"
-      >
-        <ul>
-          <li v-for="item in upGoodsInfo" :key="item.signId" @click="mysignto(item)">
-            <div>
-              <p>
-                <span>{{$t('common.ApplicationTime')}}:</span>
-                <span>{{item.signTime4Submit}}</span>
-              </p>
-              <p>
-                <span>{{$t('common.ApplicationProject')}}:</span>
-                <span>{{item.projectName || '-'}}</span>
-              </p>
-              <p>
-                <span>{{$t('common.ApplicationMiddleman')}}:</span>
-                <span>
-                  {{item.userIdentityType==1?item.userName:
-                  item.userCompany}}
-                </span>
-              </p>
-
-              <p v-if="usertype==1 && item.signStatus>5">
-                <span>{{$t('common.InvestorName')}}:</span>
-                <span>{{item.investorsName}}</span>
-              </p>
-              <p v-if="item.signStatus">
-                <span>{{$t('common.SigningTime')}}:</span>
-                <span>{{item.signTime}}</span>
-              </p>
-            </div>
-            <aside>
-              <img :src="item.pic" alt />
-              <span>{{item.signStatustext}}</span>
-            </aside>
-          </li>
-        </ul>
-      </van-list>
-    </van-pull-refresh>-->
+      </v-scroll>
+    </main>
   </div>
 </template>
 <script>
 // console.log(timeout)
+import Scroll from "../loadmore";
 export default {
   name: "mysign",
+  components: {
+    "v-scroll": Scroll
+  },
   data() {
     return {
-      // visible: false,
-      // text: "全部",
-      loading: false,
+      loaded: false,
       result: [],
       finished: false,
       refreshing: false,
@@ -391,33 +306,48 @@ export default {
   },
 
   methods: {
-    refresh() {
-      //   console.log(123);
-      this.refreshing = true;
-      this.$refs.container.scrollTop = 0;
-      setTimeout(() => {
-        this.refreshing = false;
-        this.text = this.text === "List" ? "Menu" : "List";
-        this.num = 10;
-      }, 2000);
+    onRefresh(done) {
+      this.loaded = false;
+      this.getcountrylist(done);
     },
-    load() {
-      console.log(123);
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-        this.num += 10;
-        console.log(this.num);
-      }, 2000);
+    onInfinite(done) {
+      if (!this.loaded) this.onInfinitePort(done);
+    },
+    onInfinitePort(done) {
+      // this.getcountrylist();
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
+          {
+            searchKey: this.searchkey
+          }
+        )
+        .then(res => {
+          if (res.data.data instanceof Array) {
+            for (let i = 0; i < res.data.data.length; i++) {
+              this.countrylist.push({
+                chinese: res.data.data[i].countryZhname,
+                eng: res.data.data[i].countryEnname,
+                lable:
+                  this.$i18n.locale === "zh_CN"
+                    ? res.data.data[i].countryZhname
+                    : res.data.data[i].countryEnname,
+                value: i,
+                remark: res.data.data[i].countryCode
+              });
+            }
+            done();
+          }
+        });
     },
     initial() {
-      this.$refs.check.$el.style.height = 0;
-      console.log(123);
-      if (window.orientation == 90 || window.orientation == -90) {
-        document.querySelector(".choose_lists").style.maxHeight = 4 + "rem";
-      } else {
-        document.querySelector(".choose_lists").style.maxHeight = "initial";
-      }
+      // this.$refs.check.$el.style.height = 0;
+      // console.log(123);
+      // if (window.orientation == 90 || window.orientation == -90) {
+      //   document.querySelector(".choose_lists").style.maxHeight = 4 + "rem";
+      // } else {
+      //   document.querySelector(".choose_lists").style.maxHeight = "initial";
+      // }
     },
     toggleAll() {
       // console.log(this.num)
@@ -428,15 +358,6 @@ export default {
         this.$refs.check.toggleAll(false);
         this.num = 1;
       }
-    },
-    onRefresh() {
-      this.finished = false;
-      // 重新加载数据
-      // 将 loading 设置为 true，表示处于加载状态
-      this.loading = true;
-      this.upGoodsInfo = [];
-      this.pageNum = 1;
-      this.onLoad();
     },
     mysignto(item) {
       let signStatus = item.signStatus;
@@ -639,98 +560,86 @@ export default {
 </style>
 <style lang="scss" scoped>
 #mysign {
-  // padding-top: vw(46);
-  padding-bottom: vw(116);
-  #common_nav {
-    width: 100%;
-    font-weight: bold;
-    position: fixed;
-    top: 0;
-    z-index: 200;
-    background: #fff;
-    // padding-top: vw(46);
-    height: vw(140);
-    line-height: vw(140);
-    text-align: center;
-    color: #4f3dad;
-    font-size: vw(40);
-    nav.common_nav {
-      // margin-top: vw(46);
-      line-height: vw(140);
-      height: vw(140);
-    }
-    // p {
-    //   height: vw(46);
-    //   width: 100%;
-    // }
-  }
-  .mu-list {
-    padding: 0;
-  }
-  .container {
+  main {
     padding: 0 vw(70);
-    padding-top: vw(226);
+    padding-top: vw(140);
+    // position: relative;
+    > nav {
+      padding-top: vw(48);
+      padding-bottom: vw(106);
+      font-size: vw(38);
+      font-weight: bold;
+      line-height: vw(44);
+      text-align: center;
+      color: #3ab5cc;
+      opacity: 1;
+    }
   }
+  .yo-scroll {
+    top: vw(338);
+  }
+
+  .timestamp {
+    // padding: 0 vw(70);
+    ul {
+      li {
+        margin-bottom: vw(50);
+        font-weight: bold;
+        padding: 0 vw(70);
+        nav {
+          // width: 600px;
+          // height: vw(34);
+          font-size: vw(30);
+          line-height: vw(34);
+          color: #4f3dad;
+          margin-bottom: vw(22);
+          // opacity: 1;
+        }
+      }
+    }
+  }
+
   #container {
     display: grid;
     color: #4f3dad;
-    grid-row: 4;
+    grid-row: 3;
+    margin-bottom: vw(22);
+    grid-gap: vw(28) vw(30);
     grid-template-columns: auto auto;
     grid-template-rows: repeat(auto);
     grid-column: 2;
     grid-auto-flow: row;
-    .item {
-      // text-align: center;
-      // align-self: center;
-    }
+    font-size: vw(24);
+    font-weight: bold;
+    align-items: start;
+    line-height: vw(28);
     .item-1 {
-      grid-area: 1 / 1 / 2 / 3;
-      font-size: vw(30);
-      line-height: vw(34);
-      // height: vw(34);
-      font-size: vw(30);
-      font-weight: bold;
-      line-height: vw(34);
-      margin-bottom: vw(22);
-    }
-    .item-8 {
-      grid-area: 5/ 1 / 6 / 3;
-      font-size: vw(30);
-      line-height: vw(34);
-      // height: vw(34);
-      font-size: vw(30);
-      font-weight: bold;
-      line-height: vw(34);
-      margin-bottom: vw(22);
-      justify-self: flex-end;
-      .van-button {
-        width: vw(232);
-        height: vw(72);
-        background: #00f0ab;
-        border-radius: vw(16);
-        color: #fff;
+      p.iconRight {
+        font-size: vw(29);
       }
     }
-    .item-2,
-    .item-4,
-    .item-6 p {
-      width: vw(30);
-      height: vw(30);
-      margin-right: vw(33);
-      background: #4f3dad;
-      align-self: flex-start;
-      justify-self: center;
+    .item-3 {
+      p.iconRight {
+        font-size: vw(28);
+      }
     }
-    .item-3,
-    .item-5,
-    .item-7 p {
-      // width: 542px;
-      margin-bottom: vw(22);
-      // height: vw(74);
-      font-size: vw(24);
-      align-self: flex-start;
-      font-weight: bold;
-      line-height: vw(30);
+    .item-5 {
+      p.iconRight {
+        font-size: vw(28);
+        line-height: vw(28);
+      }
+    }
+  }
+  div.btn {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      width: vw(232);
+      height: vw(72);
+      background: #00f0ab;
+      border-radius: vw(16);
+      color: #fff;
+      border: none;
     }
   }
 }

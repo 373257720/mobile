@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container signbox">
     <div id="canvasBox" :style="getHorizontalStyle">
       <div class="greet">
         <nav class="visaDetailTop">
@@ -183,47 +183,76 @@ export default {
 };
 </script>
 
-<style lang="scss">
-nav.visaDetailTop .van-icon-arrow-left {
-  line-height: 1rem;
-  position: absolute;
-  left: 0.6rem;
-}
-
-nav.visaDetailTop {
-  /* width: 100%; */
-  // border-bottom: 0.02rem dashed #b3b3b3;
-  text-align: center;
-  line-height: 1rem;
-  color: #4f3dad;
-  padding: 0.2rem 0;
-  font-size: 0.4rem;
-
-  font-weight: bold;
-}
-
-.container {
+<style lang="scss" >
+.signbox {
   width: 100%;
   height: 100%;
   .van-dialog {
     width: 50%;
     font-size: 0.38rem;
+    .van-dialog__content {
+      padding: 0.6rem;
+      display: flex;
+      justify-content: center;
+    }
     .van-button {
       font-size: 0.36rem;
     }
   }
-}
-#canvasBox {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  p {
-    font-size: 0.3rem;
-    font-weight: bold;
-    padding: 0.2rem 0;
-    margin: 0 10%;
-    // line-height:vw(34);
+  nav.visaDetailTop .van-icon-arrow-left {
+    line-height: 1rem;
+    position: absolute;
+    left: 0.6rem;
+  }
+
+  nav.visaDetailTop {
+    /* width: 100%; */
+    // border-bottom: 0.02rem dashed #b3b3b3;
+    text-align: center;
+    line-height: 1rem;
     color: #4f3dad;
+    padding: 0.2rem 0;
+    font-size: 0.4rem;
+
+    font-weight: bold;
+  }
+  #canvasBox {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    p {
+      font-size: 0.3rem;
+      font-weight: bold;
+      padding: 0.2rem 0;
+      margin: 0 10%;
+      // line-height:vw(34);
+      color: #4f3dad;
+    }
+  }
+  canvas {
+    margin: 0 6%;
+    // flex: 1;
+    height: 10rem;
+    /* width: 100%; */
+    cursor: crosshair;
+    border: 2px solid #4f3dad;
+  }
+  .btnBox {
+    line-height: 1rem;
+    font-size: 0.46rem;
+    /* height: 2rem; */
+    text-align: center;
+    padding: 0.5rem 0 1rem;
+    // margin: 0.3rem 0;
+  }
+  .btnBox > button {
+    /* border: 1px solid #00adef; */
+    background: #00f0ab;
+    border-radius: 4px;
+    color: #fff;
+    padding: 0 10px;
+    width: 3rem;
+    /* height: 1rem;   */
   }
 }
 
@@ -242,14 +271,7 @@ input {
   justify-content: center;
   align-items: center;
 } */
-canvas {
-  margin: 0 10%;
-  // flex: 1;
-  height: 10rem;
-  /* width: 100%; */
-  cursor: crosshair;
-  border: 2px solid #4f3dad;
-}
+
 /* .image-box {
   width: 100%;
   height: 100%;
@@ -263,21 +285,4 @@ canvas {
   margin-top: 0.5rem;
   border: 0.01rem solid gray;
 } */
-.btnBox {
-  line-height: 1rem;
-  font-size: 0.46rem;
-  /* height: 2rem; */
-  text-align: center;
-  padding: 0.5rem 0 1rem;
-  // margin: 0.3rem 0;
-}
-.btnBox > button {
-  /* border: 1px solid #00adef; */
-  background: #00f0ab;
-  border-radius: 4px;
-  color: #fff;
-  padding: 0 10px;
-  width: 3rem;
-  /* height: 1rem;   */
-}
 </style>

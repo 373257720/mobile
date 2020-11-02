@@ -1,6 +1,11 @@
 <template>
   <div id="recommandHistory">
-    <commonnav>Recommend</commonnav>
+    <commonnav>
+      recommand
+      <template v-slot:arrowRight>
+        <i class="icon iconRight iconfont icon-message"></i>
+      </template>
+    </commonnav>
     <main>
       <header>
         <div v-html="$t('agent.Whorecommendme')">
@@ -29,17 +34,17 @@
           <table class="title">
             <tr class="tr-first">
               <th>
-                <i></i>
+                <i class="icon iconRight iconfont icon-5day"></i>
                 <span>Time</span>
               </th>
               <th>
-                <i></i>
+                <i class="icon iconRight iconfont icon-project"></i>
                 <span>Project</span>
               </th>
               <th>
-                <i></i>
+                <i class="icon iconRight iconfont icon-account"></i>
                 <span>
-                  Recommended
+                  Recommended 
                   middleman
                 </span>
               </th>
@@ -64,108 +69,112 @@ export default {
   },
   data() {
     return {
-      isshowTag: false,
       loaded: false,
-      content: [
-        {
-          time: "2020-06-07",
-          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-          name: "Jason Chan"
-        },
-        {
-          time: "2020-06-07",
-          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-          name: "Jason Chan"
-        },
-        {
-          time: "2020-06-07",
-          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-          name: "Jason Chan"
-        },
-        {
-          time: "2020-06-07",
-          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-          name: "Jason Chan"
-        },
-        {
-          time: "2020-06-07",
-          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-          name: "Jason Chan"
-        },
-        {
-          time: "2020-06-07",
-          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-          name: "Jason Chan"
-        },      {
-          time: "2020-06-07",
-          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-          name: "Jason Chan"
-        },
-        {
-          time: "2020-06-07",
-          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-          name: "Jason Chan"
-        },
-        {
-          time: "2020-06-07",
-          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-          name: "Jason Chan"
-        },
-        {
-          time: "2020-06-07",
-          content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-          name: "Jason Chan"
-        }
-      ]
+      refreshing: false,
+      content: []
     };
   },
-  computed: {
-    rotate1() {
-      if (this.articleHight > this.boxHeight * 2) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+  computed: {},
+  created() {
+    this.load();
   },
-  created() {},
   mounted() {
     // this.boxHeight = this.$refs.box.clientHeight;
     // this.articleHight = this.$refs.box.clientHeight * 2;
   },
   methods: {
-    fetchData() {
-      // this.axios.get('/api/testData').then((response) => {
-      //   this.listdata = response.data.data.list;
-      //   // 获取总页数
-      //   this.pageEnd = response.data.data.totalPage;
-      //   // 还原
-      //   this.pageStart = 0;
-      // })
+    load(done) {
+      this.content = [];
+      setTimeout(() => {
+        this.content = [
+          {
+            time: "2020-06-07",
+            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+            name: "Jason Chan"
+          },
+          {
+            time: "2020-06-07",
+            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+            name: "Jason Chan"
+          },
+          {
+            time: "2020-06-07",
+            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+            name: "Jason Chan"
+          },
+          {
+            time: "2020-06-07",
+            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+            name: "Jason Chan"
+          },
+          {
+            time: "2020-06-07",
+            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+            name: "Jason Chan"
+          },
+          {
+            time: "2020-06-07",
+            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+            name: "Jason Chan"
+          },
+          {
+            time: "2020-06-07",
+            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+            name: "Jason Chan"
+          },
+          {
+            time: "2020-06-07",
+            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+            name: "Jason Chan"
+          },
+          {
+            time: "2020-06-07",
+            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+            name: "Jason Chan"
+          },
+          {
+            time: "2020-06-07",
+            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
+            name: "Jason Chan"
+          }
+        ];
+        this.loaded = true;
+        if (done) done();
+      }, 1000);
     },
     onRefresh(done) {
-      this.fetchData();
-      done(); // call don
+      this.loaded = false;
+      this.load(done);
     },
     onInfinite(done) {
-      this.pageStart++;
-      // 加载条
-      let more = this.$el.querySelector(".load-more");
-      // 判断是否显示加载条
-      if (this.pageStart > this.pageEnd) {
-        //走完数据调用方法
-        this.scrollData.noFlag = true;
-      } else {
-        let _this = this;
-        // this.axios.get("/api/testData").then(response => {
-        //   _this.listdata = _this.listdata.concat(response.data.data.list);
-        //   // 获取总页数
-        //   _this.pageEnd = response.data.data.totalPage;
-        // });
-      }
-      // 隐藏加载条
-      more.style.display = "none";
-      done();
+      if (!this.loaded) this.onInfinitePort(done);
+    },
+    onInfinitePort(done) {
+      // this.getcountrylist();
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
+          {
+            searchKey: this.searchkey
+          }
+        )
+        .then(res => {
+          if (res.data.data instanceof Array) {
+            for (let i = 0; i < res.data.data.length; i++) {
+              this.countrylist.push({
+                chinese: res.data.data[i].countryZhname,
+                eng: res.data.data[i].countryEnname,
+                lable:
+                  this.$i18n.locale === "zh_CN"
+                    ? res.data.data[i].countryZhname
+                    : res.data.data[i].countryEnname,
+                value: i,
+                remark: res.data.data[i].countryCode
+              });
+            }
+            done();
+          }
+        });
     },
 
     dropdown() {
@@ -228,6 +237,7 @@ export default {
     height: 100%;
     .yo-scroll {
       top: vw(348);
+      bottom: vw(114);
     }
     .top {
       top: vw(332);
@@ -264,29 +274,35 @@ export default {
         text-align: center;
         color: #4f3dad;
         font-weight: bold;
+        position: relative;
         td {
           padding: vw(60) 0;
           line-height: vw(30);
           font-size: vw(26);
         }
         .tr-first {
+            // display: flex;
           th:nth-of-type(1) {
-            width: vw(216);
+            width: vw(220);
           }
           th:nth-of-type(2) {
-            // width: vw(216);
             width: vw(220);
           }
           th:nth-of-type(3) {
-            width: vw(260);
+            // width: vw(260);
           }
-          th {
-            // display: flex;
+       
+          th:nth-of-type(3) {
+              display: flex;
+              align-items: center;
+            // display: table-cell;
+            // vertical-align: middle;
             i {
-              display: inline-block;
-              height: vw(36);
-              width: vw(36);
-              background: #4f3dad;
+              // display: inline-block;
+              // height: vw(36);
+              // width: vw(36);
+
+              // background: #4f3dad;
             }
           }
         }

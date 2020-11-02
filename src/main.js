@@ -54,8 +54,8 @@ Vue.use(Spin);
 
 // Vue.use(VueQuillEditor /* { default global options } */);
 
-// import Vconsole from 'vconsole'
-// let vConsole = new Vconsole()
+// import Vconsole from "vconsole";
+// let vConsole = new Vconsole();
 // Vue.use(vConsole);
 
 Vue.prototype.$axios = axios;

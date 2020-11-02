@@ -1,11 +1,15 @@
 <template>
-  <div id="projectsDetails">
+  <div id="projectDetails">
     <commonnav>
       project detail
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()" />
+      </template>
       <template v-slot:arrowRight>
-        <van-icon name="arrow" />
+        <i class="icon iconRight iconfont icon-message"></i>
       </template>
     </commonnav>
+
     <main>
       <div class="mhome-tag">
         <h2>CDC Biodiversité – Biodiversity Offsetting</h2>
@@ -17,10 +21,61 @@
             <span>$ 600,000,000,000</span>
           </p>
         </div>
+        <div class="projectsDetails-recommand">
+          <!-- <div>
+            You have not recommend
+            any investors before.
+          </div>-->
+          <div class="project-swipe">
+            <van-icon name="arrow-left" @click="privous" />
+            <p>
+              Investors you recommend
+              before
+            </p>
+            <div class="project-swipe-plugin">
+              <van-swipe ref="swipe" :autoplay="3000" :show-indicators="false" @change="onChange">
+                <template #default>
+                  <van-swipe-item>
+                    <h3>
+                      Investors you recommend
+                      before
+                    </h3>
+                    <ul>
+                      <li>
+                        <aside></aside>
+                        <article>Recommended countdown: 5 days</article>
+                      </li>
+                      <li>
+                        <aside></aside>
+                        <article>Recommended countdown: 5 days</article>
+                      </li>
+                      <li>
+                        <aside></aside>
+                        <article>Recommended countdown: 5 days</article>
+                      </li>
+                      <li>
+                        <aside></aside>
+                        <article>Recommended countdown: 5 days</article>
+                      </li>
+                    </ul>
+                  </van-swipe-item>
+                  <van-swipe-item>2</van-swipe-item>
+                  <van-swipe-item>3</van-swipe-item>
+                </template>
+                <!-- <template #indicator>
+                  <div class="custom-indicator">{{ current + 1 }}/4</div>
+                </template>-->
+              </van-swipe>
+            </div>
+            <p @click="$routerto('a_recommand_i')">See all</p>
+            <van-icon name="arrow" @click="next" />
+          </div>
+          <div @click="$routerto('recent_recommand')">Recommend More</div>
+        </div>
         <div class="projectDetail">
           <aside></aside>
           <div>
-            <article ref="article" :style="{height:articleHeight+'px'}">
+            <article ref="article" :style="{height:articleHight}">
               <p ref="articleOrign">
                 This is the first NCFF operation that supports
                 a Biodiversity Offseting scheme. The operation
@@ -43,10 +98,8 @@
               </p>
             </article>
             <p class="drop">
-              <van-icon @click="dropdown" 
-              name="arrow-down"  :class="{'rotate1':articleHeight}" />
+              <van-icon @click="dropdown" :class="{'rotate1':articleHight}" name="arrow-down" />
             </p>
-           
           </div>
         </div>
         <ul>
@@ -81,11 +134,30 @@
           </li>
         </ul>
         <footer>
-          <p @click="$routerto('ndaClause')">Sign NDA terms</p>
-          <button @click="$routerto('signContractStep1')">Interested</button>
+          <p @click="signNDA">Sign NDA terms</p>
+          <button>Interested</button>
+          <button @click="$routerto('signContractStep1')">Sign Contract</button>
         </footer>
       </div>
     </main>
+    <DialogMsg
+      :remindervisible.sync="remindervisible"
+      :confirmButtonText="confirmButtonText"
+      :cancelButtonText="cancelButtonText"
+      @comfirmFromDialog="comfirmFromDialog"
+      :title="title"
+      :showCancel="true"
+      :msg="msg"
+    ></DialogMsg>
+    <DialogMsg
+      :remindervisible.sync="remindervisible2"
+      :confirmButtonText="confirmButtonText"
+      :cancelButtonText="cancelButtonText"
+      @comfirmFromDialog="gotoNDA"
+      :title="title"
+      :showCancel="true"
+      :msg="msg"
+    ></DialogMsg>
   </div>
 </template>
 <script>
@@ -93,8 +165,14 @@ export default {
   name: "mhome",
   data() {
     return {
-      baseHeight:null,
-      articleHeight: null,
+      current: 0,
+      msg: "",
+      remindervisible2: false,
+      confirmButtonText: "",
+      cancelButtonText: "",
+      title: "",
+      remindervisible: false,
+      articleHight: null,
       taglist: [
         {
           name: "Biodiversity",
@@ -124,27 +202,132 @@ export default {
     };
   },
   created() {},
-  mounted(){
-    this.baseHeight= this.$refs.article.clientHeight;
-  },
+
   methods: {
+    gotoNDA() {
+      this.remindervisible = false;
+      this.$routerto("ndaClause");
+    },
+    comfirmFromDialog(data) {
+      this.remindervisible = false;
+      setTimeout(() => {
+        this.title = "Sign NDA";
+        this.msg = "Please sign the NDA to get more information";
+        this.confirmButtonText = "Yes";
+        this.cancelButtonText = "No";
+        this.remindervisible2 = true;
+      }, 300);
+    },
+    signNDA() {
+      this.title = "Request project details";
+      this.msg = "You can sign the NDA to get more information";
+      this.confirmButtonText = "Yes";
+      this.cancelButtonText = "No";
+      this.remindervisible = true;
+    },
+    privous() {
+      this.$refs.swipe.prev();
+    },
+    next() {
+      this.$refs.swipe.next();
+    },
+    onChange(index) {
+      this.current = index;
+    },
     dropdown() {
-      if (this.articleHeight>this.baseHeight) {
-        this.articleHeight = this.baseHeight;
-      }else{
-        this.articleHeight = this.$refs.articleOrign.clientHeight;
+      if (this.articleHight) {
+        this.articleHight = null;
+        return;
       }
-      
+      this.articleHight = this.$refs.articleOrign.clientHeight + "px";
     }
   }
 };
 </script>
+<style lang="scss" >
+/* .custom-indicator {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    padding: 2px 5px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.1);
+  } */
+.van-swipe {
+  // &:before{
+  //     content: "\e630"
+  // }
+}
+</style>
 <style lang="scss" scoped>
-#projectsDetails {
+#projectDetails {
   main {
     // padding-top: vw(212);
     padding: vw(192) vw(70) vw(80);
     color: #4f3dad;
+    .project-swipe {
+      padding: vw(38) vw(80) vw(76);
+      p:nth-of-type(1) {
+        font-size: vw(36);
+        font-weight: bold;
+        line-height: vw(42);
+        color: #ffffff;
+        margin-bottom: vw(52);
+      }
+
+      p:nth-of-type(2) {
+        margin-top: vw(62);
+        font-size: vw(24);
+        text-align: center;
+        font-weight: bold;
+        color: #ffffff;
+        text-decoration: underline;
+      }
+      .project-swipe-plugin {
+        width: vw(458);
+        margin: 0 auto;
+        h3 {
+          font-size: vw(30);
+          font-weight: bold;
+          color: #ffffff;
+        }
+        li {
+          display: flex;
+          margin-bottom: vw(30);
+          aside {
+            width: vw(29);
+            height: vw(29);
+            background: #fff;
+          }
+          article {
+            font-size: vw(24);
+            font-weight: bold;
+            line-height: vw(28);
+            color: #ffffff;
+          }
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+
+        // background: red;
+      }
+      position: relative;
+      .van-icon-arrow-left {
+        position: absolute;
+        top: 50%;
+        font-size: vw(27);
+        transform: translate(0, -50%);
+        left: vw(24);
+      }
+      .van-icon-arrow {
+        position: absolute;
+        top: 50%;
+        font-size: vw(27);
+        transform: translate(0, -50%);
+        right: vw(24);
+      }
+    }
     h2 {
       font-size: vw(50);
       font-weight: bold;
@@ -179,6 +362,26 @@ export default {
           font-weight: bold;
           //   line-height: 29px;
         }
+      }
+    }
+    .projectsDetails-recommand {
+      color: #ffffff;
+      > div:nth-of-type(1) {
+        width: 100%;
+        // height: vw(594);
+        background: #3ab5cc;
+        border-radius: vw(30);
+        margin-bottom: vw(36);
+      }
+      > div:nth-of-type(2) {
+        width: vw(602);
+        height: vw(72);
+        line-height: vw(72);
+        text-align: center;
+        background: #00f0ab;
+        font-size: vw(26);
+        border-radius: vw(16);
+        margin-bottom: vw(104);
       }
     }
     .projectDetail {
@@ -268,4 +471,3 @@ export default {
   }
 }
 </style>
-

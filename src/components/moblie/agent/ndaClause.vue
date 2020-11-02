@@ -1,24 +1,24 @@
 <template>
   <div id="login1st">
     <commonnav>
-      <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" />
-      </template>
       NDa clause
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()" />
+      </template>
     </commonnav>
     <main class="main">
       <form ref="form">
         <div class="mui-input-row input-row">
           <p class="label">For and on behalf of</p>
-          <input name="userName" type="text" v-model="validateForm.username" />
+          <input name="userName" type="text" v-model="validateForm.behalf" />
         </div>
         <div class="mui-input-row input-row">
           <p class="label">Name</p>
-          <input name="Password" type="text" v-model="validateForm.password" />
+          <input name="Password" type="text" v-model="validateForm.name" />
         </div>
         <div class="mui-input-row input-row">
           <p class="label">Position</p>
-          <input name="Password" type="text" v-model="validateForm.password" />
+          <input name="Password" type="text" v-model="validateForm.title" />
         </div>
         <div class="mui-input-row input-row">
           <p class="label">NDA Terms</p>
@@ -31,13 +31,11 @@
             :disabled="isdisabled"
             :class="isdisabled?'passive':'active'"
             class="button is-primary"
-           @click.prevent="submit_click"
+            @click.prevent="submit_click"
           >Sign</button>
           <button
-            :disabled="isdisabled"
-            :class="isdisabled?'passive':'active'"
-            class="button is-primary"
-             @click.prevent="submit_click"
+            class="button is-primary active"
+            @click.prevent="submit_click"
           >Download</button>
         </footer>
       </form>
@@ -70,8 +68,9 @@ export default {
       //   }
       // ],
       validateForm: {
-        username: "",
-        password: ""
+        behalf: "",
+        name: "",
+        title: ""
       },
       errorsMsg: "",
       // errorsMsg: {
@@ -106,7 +105,7 @@ export default {
   },
   computed: {
     isdisabled() {
-      if (this.validateForm.username && this.validateForm.password) {
+      if (this.validateForm.behalf && this.validateForm.name && this.validateForm.title) {
         return false;
       } else {
         return true;
@@ -129,16 +128,16 @@ export default {
         // console.log(errorMsg);
         return false;
       }
-      this.$routerto('a_sign_contract')
+      this.$routerto("a_sign_contract");
     },
     validateFunc() {
       let self = this;
       let validator = new this.$Validator();
-      validator.add(self.validateForm.username, [
+      validator.add(self.validateForm.name, [
         ["isNotEmpty", this.$t("common.isno")],
         ["minLength|6", "不允许以空白字符命名"]
       ]);
-      validator.add(self.validateForm.password, [
+      validator.add(self.validateForm.title, [
         ["isNotEmpty", "用户名不可为空"]
       ]);
       var errorMsg = validator.start(); // 获得效验结果
@@ -355,7 +354,7 @@ export default {
     // }
     footer {
       display: flex;
-     justify-content: space-around;
+      justify-content: space-around;
       button {
         color: #ffffff;
         // background: #4f3dad;
@@ -371,7 +370,7 @@ export default {
         background: #828282;
       }
       button.active {
-        background:  #00f0ab;
+        background: #00f0ab;
       }
     }
 

@@ -2,8 +2,11 @@
   <div id="mhome">
     <commonnav>
       mutilPick
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" />
+      </template>
       <template v-slot:arrowRight>
-        <van-icon name="arrow" />
+        <i class="icon iconRight iconfont icon-message"></i>
       </template>
       <template v-slot:search>
         <van-search

@@ -51,10 +51,10 @@ const projectSubStatus = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectSubStatus"
   );
-// const projectDetail = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectDetail"
-//   );
+const projectDetail = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectDetail"
+  );
 
 const projectList = () =>
   import(
@@ -294,14 +294,14 @@ const routes = [
       isshowbottom: false
     }
   },
-  // {
-  //   path: "/projectDetail",
-  //   name: "projectDetail",
-  //   component: projectDetail,
-  //   meta: {
-  //     isshowbottom: false
-  //   }
-  // },
+  {
+    path: "/projectDetail",
+    name: "projectDetail",
+    component: projectDetail,
+    meta: {
+      isshowbottom: false
+    }
+  },
   // {
   //   path: "/projecstList",
   //   name: "projecstList",

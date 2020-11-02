@@ -3,6 +3,8 @@
     @cancel="closeSimple"
     @confirm="comfirm"
     v-model="ishow"
+    :confirmButtonText="confirmButtonText"
+    :cancelButtonText="cancelButtonText"
     :title="title"
     :show-cancel-button="showCancel"
   >
@@ -12,6 +14,15 @@
 <script>
 export default {
   props: {
+    cancelButtonText:{
+      default:"",
+      type:String,
+    },
+    confirmButtonText:{
+      default:"",
+      type:String,
+    },
+    msgtype:String,
     remindervisible: Boolean,
     showCancel: Boolean,
     title: String,
@@ -32,7 +43,7 @@ export default {
   },
   methods: {
     comfirm() {
-      this.$emit("comfirmFromDialog", false);
+      this.$emit("comfirmFromDialog", this.msgtype);
       //  this.$emit("update:remindervisible", false);
     },
     closeSimple() {
@@ -62,6 +73,7 @@ export default {
 }
 .van-dialog__header {
   font-size: vw(36);
+    font-weight: bold;
 }
 .van-hairline--top::after {
   // border: 0 solid #fff;

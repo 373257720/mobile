@@ -50,10 +50,11 @@ export default {
       top: 50%;
       transform: (translate(0, -50%));
     }
-    .van-icon-arrow {
+   .iconRight {
       position: absolute;
       right: vw(36);
       top: 50%;
+      font-size: vw(42);
       transform: (translate(0, -50%));
     }
   }

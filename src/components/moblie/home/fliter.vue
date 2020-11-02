@@ -2,17 +2,20 @@
   <div id="mhome">
     <commonnav>
       Fliter
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" />
+      </template>
       <template v-slot:arrowRight>
-        <van-icon name="arrow" />
+        <i class="icon iconRight iconfont icon-message"></i>
       </template>
     </commonnav>
     <main>
       <div class="mhome-tag">
         <ul>
-          <li  v-for="(item,idx) in taglist" :key="item.name">
+          <li v-for="(item,idx) in taglist" :key="item.name">
             <p>
               {{item.name}}
-              <span @click="delectTag(item,idx)">+</span>
+              <span @click="delectTag(item,idx)"></span>
             </p>
           </li>
         </ul>
@@ -25,7 +28,7 @@
                 <span>,</span>
                 <span>Biodiversity</span>
               </p>
-              <van-icon name="arrow" @click="$routerto('mutilPick')"  />
+              <van-icon name="arrow" @click="$routerto('mutilPick')" />
             </div>
           </div>
           <div>
@@ -35,7 +38,7 @@
                 <span>Biodiversity</span>
                 <span>Biodiversity</span>
               </p>
-              <van-icon name="arrow" @click="$routerto('mutilPick')"/>
+              <van-icon name="arrow" @click="$routerto('mutilPick')" />
             </div>
           </div>
           <div>
@@ -123,6 +126,26 @@ export default {
           font-size: vw(26);
           line-height: vw(53);
           span {
+            // transform: rotate(90deg);
+            display: inline-block;
+            position: relative;
+            width: vw(18);
+            height: vw(18);
+            &:before,
+            &:after {
+              position: absolute;
+              content: " ";
+              background-color: #3ab5cc;
+              left: vw(8);
+              width: vw(2);
+              height: vw(18);
+            }
+            &:before {
+              transform: rotate(45deg);
+            }
+            &:after {
+              transform: rotate(-45deg);
+            }
           }
           // &::after {
           //   content: "+";

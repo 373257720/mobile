@@ -5,7 +5,7 @@
       <div class="iconfont icon-language switchLan" @click="switchLan(lan)"></div>
       <!-- <button class="switchLan" color="#0ce5b2" @click="switchLan(lan)">{{lantext}}</button> -->
     </header>
- 
+
     <div class="main">
       <div class="registerbtn common">
         <van-button
@@ -98,7 +98,7 @@ export default {
   flex-direction: column;
   align-items: center;
   header.logo {
-    padding: vw(384) 0 vw(514);
+    padding: vh(384) 0 vh(514);
     .switchLan {
       position: absolute;
       font-size: vw(50);
@@ -112,7 +112,7 @@ export default {
     }
     img {
       width: vw(436);
-      height: vw(202);
+      height: vh(202);
     }
   }
   .main {
@@ -122,8 +122,8 @@ export default {
     > p {
       font-size: vw(40);
       color: #4f3dad;
-      margin-bottom: vw(234);
-      margin-top: vw(98);
+      // margin-bottom: vw(234);
+      margin-top: vh(98);
       font-weight: bold;
     }
     button {
@@ -134,7 +134,7 @@ export default {
 
       font-weight: bold;
       line-height: vw(114);
-      height: vw(114);
+      height: vh(114);
       font-size: vw(40);
     }
   }

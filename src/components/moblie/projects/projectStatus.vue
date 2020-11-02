@@ -1,6 +1,15 @@
 <template>
   <div id="projectStatus">
-    <commonnav>{{$t('project.projectStatus')}}</commonnav>
+    <!-- <commonnav>{{$t('project.projectStatus')}}</commonnav> -->
+    <commonnav>
+      {{$t('project.projectStatus')}}
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()"  />
+      </template>
+      <template v-slot:arrowRight>
+        <i class="icon iconRight iconfont icon-message"></i>
+      </template>
+    </commonnav>
     <main>
       <ul>
         <li @click="$routerto('projectSubStatus')">
@@ -9,19 +18,19 @@
             <aside>1</aside>
           </div>
         </li>
-         <li>
+        <li>
           <div>
             <p>You (the middleman) and the project party</p>
             <aside>1</aside>
           </div>
         </li>
-         <li>
+        <li>
           <div>
             <p>You (the middleman) and the project party</p>
             <aside>1</aside>
           </div>
         </li>
-         <li>
+        <li>
           <div>
             <p>You (the middleman) and the project party</p>
             <aside>1</aside>

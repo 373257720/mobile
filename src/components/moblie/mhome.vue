@@ -1,27 +1,11 @@
 <template>
   <div id="mhome">
-    <!-- <div id="Nav">
-      <nav class="Nav">
-        <header>
-          <span>{{$t('common.Home')}}</span>
-        </header>
-        <van-search
-          v-if="!isshowTag"
-          v-model="searchkey"
-          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-          shape="round"
-          left-icon
-        >
-          <div slot="right-icon">
-            <van-icon name="search" />
-          </div>
-        </van-search>
-      </nav>
-    </div>-->
     <commonnav>
       {{$t('common.Home')}}
       <template v-slot:arrowRight>
-        <van-icon name="arrow" />
+        <!-- <van-icon name="arrow" /> -->
+        <i class="icon iconRight iconfont icon-message"></i>
+        <!-- <span class="icon iconfont icon-project"></span> -->
       </template>
     </commonnav>
     <main :class="{'topReduce':isshowTag}">
@@ -50,7 +34,7 @@
             </div>
           </li>
           <li>
-            <aside>Industry</aside>
+            <aside>Region</aside>
             <div>
               <p
                 :class="{'isactive':item.isactive}"
@@ -61,7 +45,7 @@
             </div>
           </li>
           <li>
-            <aside>Industry</aside>
+            <aside>Tag</aside>
             <div>
               <p
                 :class="{'isactive':item.isactive}"
@@ -75,7 +59,10 @@
       </div>
       <!-- <transition name="slide-fade"> -->
       <div v-if="isshowTag" class="mhome-signTag">
-        <p @click="$routerto('fliter')"></p>
+        <p @click="$routerto('fliter')">
+          <i></i>
+          <span>10</span>
+        </p>
       </div>
       <!-- <transition name="Totop"> -->
       <v-scroll
@@ -86,35 +73,35 @@
         :class="{'yo-scrollTop':isshowTag}"
       >
         <div class="timestamp">
-          <div
-            id="container"
-            @click="$routerto('projectStatus')"
-            v-for="i in countrylist"
-            :key="i.remark"
-          >
-            <div class="item item-1">CDC Biodiversité – Biodiversity Offsetting</div>
-            <div class="item item-2">
-              <p></p>
-            </div>
-            <div class="item item-3">
-              <p>Biodiversity offsets</p>
-            </div>
-            <div class="item item-4">
-              <p></p>
-            </div>
-            <div class="item item-5">
-              <p>#tag</p>
-            </div>
-            <div class="item item-6">
-              <p></p>
-            </div>
-            <div class="item item-7">
-              <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
-            </div>
-            <div class="item item-8">
-              <van-button></van-button>
-            </div>
-          </div>
+          <ul>
+            <li @click="$routerto('projectStatus')" v-for="i in countrylist" :key="i.remark">
+              <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
+              <section id="container">
+                <div class="item item-1">
+                  <p class="icon iconRight iconfont icon-1"></p>
+                  <!-- <i class="icon iconRight iconfont icon-message"></i> -->
+                </div>
+                <div class="item item-2">
+                  <p>Biodiversity offsets</p>
+                </div>
+                <div class="item item-3">
+                  <p class="icon iconRight iconfont icon-2_1"></p>
+                </div>
+                <div class="item item-4">
+                  <p>#tag</p>
+                </div>
+                <div class="item item-5">
+                  <p class="icon iconRight iconfont icon-3"></p>
+                </div>
+                <div class="item item-6">
+                  <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
+                </div>
+              </section>
+              <div class="btn">
+                <van-button>Interested</van-button>
+              </div>
+            </li>
+          </ul>
         </div>
       </v-scroll>
       <!-- </transition> -->
@@ -673,7 +660,7 @@ export default {
       top: vw(550);
       transition: all 1s ease;
       bottom: vw(114);
-    -webkit-overflow-scrolling: touch;
+      -webkit-overflow-scrolling: touch;
     }
     .yo-scrollTop {
       top: vw(332);
@@ -729,73 +716,151 @@ export default {
       padding-top: vw(24);
       p {
         width: vw(124);
+        display: flex;
+        align-items: center;
         height: vw(54);
+        justify-content: space-evenly;
         border: vw(2) solid #4f3dad;
         border-radius: vw(52);
+        i {
+          display: inline-block;
+          width: vw(38);
+          height: vw(38);
+          background: #4f3dad;
+          // margin-left: vw(26);
+          // margin-right: vw(10);
+        }
+        span {
+          // display: inline-block;
+          width: vw(32);
+          height: vw(32);
+          align-self: center;
+          font-weight: bold;
+          text-align: center;
+          // justify-self: center;
+          background: #00f0ab;
+          border-radius: 50%;
+          color: #fff;
+          font-size: vw(10);
+        }
       }
     }
     .mhome-article {
+      .timestamp {
+        ul {
+          li {
+            margin-bottom: vw(40);
+            font-weight: bold;
+            padding: 0 vw(70);
+            nav {
+              // width: 600px;
+              // height: vw(34);
+              font-size: vw(30);
+              line-height: vw(34);
+              color: #4f3dad;
+              margin-bottom: vw(22);
+              // opacity: 1;
+            }
+          }
+        }
+      }
       #container {
-        padding: 0 vw(70);
         display: grid;
         color: #4f3dad;
-        grid-row: 4;
+        grid-row: 3;
+        margin-bottom: vw(22);
+        grid-gap: vw(28) vw(30);
         grid-template-columns: auto auto;
         grid-template-rows: repeat(auto);
         grid-column: 2;
         grid-auto-flow: row;
-        .item {
-          // text-align: center;
-          // align-self: center;
-        }
+        font-size: vw(24);
+        font-weight: bold;
+        align-items: start;
+        line-height: vw(28);
         .item-1 {
-          grid-area: 1 / 1 / 2 / 3;
-          font-size: vw(30);
-          line-height: vw(34);
-          // height: vw(34);
-          font-size: vw(30);
-          font-weight: bold;
-          line-height: vw(34);
-          margin-bottom: vw(22);
-        }
-        .item-8 {
-          grid-area: 5/ 1 / 6 / 3;
-          font-size: vw(30);
-          line-height: vw(34);
-          // height: vw(34);
-          font-size: vw(30);
-          font-weight: bold;
-          line-height: vw(34);
-          margin-bottom: vw(22);
-          justify-self: flex-end;
-          .van-button {
-            width: vw(232);
-            height: vw(72);
-            background: #00f0ab;
-            border-radius: vw(16);
-            color: #fff;
+          p.iconRight {
+            font-size: vw(29);
           }
         }
-        .item-2,
-        .item-4,
-        .item-6 p {
-          width: vw(30);
-          height: vw(30);
-          margin-right: vw(33);
-          background: #4f3dad;
-          align-self: flex-start;
-          justify-self: center;
+        .item-3 {
+          p.iconRight {
+            font-size: vw(28);
+          }
         }
-        .item-3,
-        .item-5,
-        .item-7 p {
-          // width: 542px;
-          margin-bottom: vw(22);
-          // height: vw(74);
-          font-size: vw(24);
-          align-self: flex-start;
-          font-weight: bold;
-          line-height: vw(30);
+        .item-5 {
+          p.iconRight {
+            font-size: vw(28);
+            line-height: vw(28);
+          }
+        }
+
+        // .item {
+        //   // text-align: center;
+        //   // align-self: center;
+        // }
+        // .item-1 {
+        //   grid-area: 1 / 1 / 2 / 3;
+        //   font-size: vw(30);
+        //   line-height: vw(34);
+        //   // height: vw(34);
+        //   grid-row-gap: vw(20);
+        //   font-size: vw(30);
+        //   font-weight: bold;
+        //   line-height: vw(34);
+        //   // margin-bottom: vw(22);
+        // }
+        // .item-8 {
+        //   grid-area: 5/ 1 / 6 / 3;
+        //   font-size: vw(30);
+        //   line-height: vw(34);
+        //   // height: vw(34);
+        //   font-size: vw(30);
+        //   font-weight: bold;
+        //   line-height: vw(34);
+        //   // margin-bottom: vw(22);
+        //   justify-self: flex-end;
+        //   .van-button {
+        //     width: vw(232);
+        //     height: vw(72);
+        //     background: #00f0ab;
+        //     border-radius: vw(16);
+        //     color: #fff;
+        //   }
+        // }
+        // .item-2,
+        // .item-4,
+        // .item-6 .iconfont {
+        //   // width: vw(30);
+        //   // height: vw(30);
+        //   font-size: vw(29);
+        //   // margin-right: vw(33);
+        //   // background: #4f3dad;
+        //   align-self: flex-start;
+        //   justify-self: center;
+        // }
+        // .item-3,
+        // .item-5,
+        // .item-7 p {
+        //   // width: 542px;
+        //   margin-bottom: vw(22);
+        //   // height: vw(74);
+        //   font-size: vw(24);
+        //   align-self: flex-start;
+        //   font-weight: bold;
+        //   line-height: vw(30);
+        // }
+      }
+      div.btn {
+        display: flex;
+        justify-content: flex-end;
+        button {
+          width: vw(232);
+          height: vw(72);
+          background: #00f0ab;
+          border-radius: vw(16);
+          color: #fff;
+          border: none;
         }
       }
     }

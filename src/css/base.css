@@ -71,7 +71,8 @@ body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  font-family: proxima nova;
+
+  font-family: Helvetica Neue;
 }
 /*2.添加公共样式*/
 

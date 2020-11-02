@@ -21,11 +21,11 @@ const bargin = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/contract/bargin"
   );
-const projectDetail = () =>
-  import(
-    /* webpackChunkName: "group-foo" */
-    "@/components/moblie/agent/projectDetail"
-  );
+// const projectDetail = () =>
+//   import(
+//     /* webpackChunkName: "group-foo" */
+//     "@/components/moblie/agent/projectDetail"
+//   );
 const signContractStep1 = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -189,7 +189,7 @@ export default [
     name: "recommandHistory",
     component: recommandHistory,
     meta: {
-      isshowbottom: false
+      isshowbottom: true
     }
   },
   {
@@ -200,14 +200,14 @@ export default [
       isshowbottom: false
     }
   },
-  {
-    path: "/projectDetail",
-    name: "projectDetail",
-    component: projectDetail,
-    meta: {
-      isshowbottom: false
-    }
-  },
+  // {
+  //   path: "/projectDetail",
+  //   name: "projectDetail",
+  //   component: projectDetail,
+  //   meta: {
+  //     isshowbottom: false
+  //   }
+  // },
   {
     path: "/uploadtoblock",
     name: "uploadtoblock",
