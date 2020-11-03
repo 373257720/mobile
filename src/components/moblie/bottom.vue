@@ -8,18 +8,19 @@
       <van-icon class="iconfont" class-prefix="icon" slot="icon" name="project"></van-icon>
       <span>{{$t('common.MyProjectS')}}</span>
     </van-tabbar-item>
-    <van-tabbar-item name="connected_projects" replace to="/recommandHistory">
+    <van-tabbar-item name="recommandHistory" replace to="/recommandHistory">
       <van-icon class="iconfont" class-prefix="icon" slot="icon" name="contact"></van-icon>
-      <span>{{$t('common.ConnectedItems')}}</span>
+      <span>Recommand</span>
     </van-tabbar-item>
     <van-tabbar-item
       name="p_user_contact"
       icon="friends-o"
       color="#fff"
-      replace to="/contact"
+      replace
+      to="/contact"
       v-if="this.$store.state.currentUsertype==1"
     >{{$t('common.Contacts')}}</van-tabbar-item>
-    <van-tabbar-item name="mine"  replace to="/mine">
+    <van-tabbar-item name="mine" replace to="/mine">
       <van-icon class="iconfont" class-prefix="icon" slot="icon" name="account"></van-icon>
       <span>{{$t('common.ME')}}</span>
     </van-tabbar-item>
@@ -47,7 +48,7 @@ export default {
   computed: {
     activeTag: {
       get() {
-        // console.log(this.$route.name);
+        console.log(this.$route.name);
         return this.$route.name;
       },
       set(value) {

@@ -7,7 +7,20 @@
       </template>
     </commonnav>
     <main>
-      <mu-form ref="form" :model="validateForm" class="mu-demo-form">
+      <form ref="form" @submit.prevent="submit_click">
+        <div class="mui-input-row input-row nickname">
+          <p class="label">Email</p>
+          <input name="userName" type="text" v-model="validateForm.username" />
+        </div>
+        <div class="mui-input-row input-row select">
+          <p>{{$t('Account.WhethertoshowMiddleman')}}</p>
+          <van-switch active-color="#00F0AB" v-model="validateForm.checked" />
+        </div>
+        <!-- <footer>
+          <button class="button is-primary" type="submit">Submit</button>
+        </footer>-->
+      </form>
+      <!-- <mu-form ref="form" :model="validateForm" class="mu-demo-form">
         <mu-form-item
           :label="$t('Account.Nickname')"
           class="nickname"
@@ -27,7 +40,7 @@
         <mu-form-item>
           <van-button @click="submit">{{$t('Account.Comfirm')}}</van-button>
         </mu-form-item>
-      </mu-form>
+      </mu-form>-->
     </main>
   </div>
 </template>
@@ -92,12 +105,12 @@ export default {
     border-radius: vw(16);
   }
   .nickname {
-    height: vw(30);
-    font-size: vw(30);
-    font-weight: bold;
-    line-height: vw(30);
-    color: #4f3dad;
-    margin-bottom: vw(48);
+    // height: vw(30);
+    // font-size: vw(30);
+    // font-weight: bold;
+    // line-height: vw(30);
+    // color: #4f3dad;
+    // margin-bottom: vw(48);
   }
   .mu-input__error {
   }
@@ -120,14 +133,50 @@ export default {
 </style>
 <style lang="scss" scoped>
 #setNickname {
-  padding-top: vw(96);
   main {
-    margin-top: vw(76);
     color: #4f3dad;
     padding: 0 vw(94);
+    padding-top: vw(222);
     display: flex;
     flex-direction: column;
     align-items: center;
+    form {
+      width: 100%;
+    }
+    .mui-input-row {
+      display: flex;
+      flex-direction: column;
+    
+      p.label {
+        margin-bottom: vw(62);
+        height: vw(34);
+        font-size: vw(30);
+        font-weight: bold;
+        line-height: vw(34);
+      }
+      width: 100%;
+      margin-bottom: vw(60);
+      span {
+        display: inline-block;
+      }
+      input {
+        width: 100%;
+        font-size: vw(34);
+        border-bottom: vw(2) solid #4f3dad;
+      }
+    }
+    .select {
+      // display: flex;
+      // margin-bottom: vw(0);
+        p {
+        // width: vw(462);
+        // font-size: vw(26);
+        // font-weight: bold;
+        // line-height: vw(30);
+        // color: #4f3dad;
+        // opacity: 1;
+      }
+    }
   }
 }
 </style>

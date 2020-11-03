@@ -44,12 +44,12 @@
               <th>
                 <i class="icon iconRight iconfont icon-account"></i>
                 <span>
-                  Recommended 
+                  Recommended
                   middleman
                 </span>
               </th>
             </tr>
-            <tr v-for="(item,idx) in content" :key="idx">
+            <tr @click="$routerto('projectDetail')" v-for="(item,idx) in content" :key="idx">
               <td valign="top">{{item.time}}</td>
               <td valign="top">{{item.content}}</td>
               <td valign="top">{{item.name}}</td>
@@ -281,7 +281,7 @@ export default {
           font-size: vw(26);
         }
         .tr-first {
-            // display: flex;
+          // display: flex;
           th:nth-of-type(1) {
             width: vw(220);
           }
@@ -291,10 +291,10 @@ export default {
           th:nth-of-type(3) {
             // width: vw(260);
           }
-       
+
           th:nth-of-type(3) {
-              display: flex;
-              align-items: center;
+            display: flex;
+            align-items: center;
             // display: table-cell;
             // vertical-align: middle;
             i {

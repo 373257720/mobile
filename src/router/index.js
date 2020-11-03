@@ -90,6 +90,18 @@ const AccountMessage = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/accountMessage"
   );
+  const pointsRedemption = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/account/pointsRedemption"
+  );
+  
+  const leaderboard = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/account/leaderboard"
+  );
+   
 const vipGrade = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -143,6 +155,16 @@ const routes = [
       // ispaddingBottom: true
     }
   },
+  {
+    path: "/pointsRedemption",
+    name: "pointsRedemption",
+    component:   pointsRedemption,
+    meta: {
+      isshowbottom: false
+      // ispaddingBottom: true
+    }
+  },
+
   {
     path: "/personalReview",
     name: "personalReview",
@@ -357,6 +379,17 @@ const routes = [
       ispaddingBottom: true
     },
   },
+  {
+    path: "/leaderboard",
+    name: "leaderboard",
+    component: leaderboard,
+    // redirect: "/usercheckroot/usercheck",
+    meta: {
+      isshowbottom: false,
+      ispaddingBottom: true
+    },
+  },
+  
   {
     path: "/verify",
     name: "verify",

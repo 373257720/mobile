@@ -7,8 +7,20 @@
       </template>
     </commonnav>
     <main>
+      <div>
+        <p>8320</p>
+        <p>Points</p>
+      </div>
       <div class="iconfont icon-account"></div>
+      <div>
+        <p>8320</p>
+        <p>Days</p>
+      </div>
     </main>
+    <div class="vip-leaderboard">
+      <van-button @click="$routerto('leaderboard')" type="primary" size="mini" color="#00F0AB">leaderboard</van-button>
+    </div>
+
     <div class="vipGrade">
       <header>Current</header>
       <p>Today's growth value: 0</p>
@@ -94,7 +106,7 @@ export default {
 </style>
 <style lang="scss" scoped>
 #vip {
-  .vipGrade{
+  .vipGrade {
     // width: 332px;
     // margin-top: vw(36);
     padding: 0 vw(54);
@@ -179,13 +191,12 @@ export default {
     }
   }
   main {
-    margin-bottom: vw(36);
     padding-top: vw(140);
     display: flex;
-    flex-direction: column;
+
+    justify-content: space-evenly;
     align-items: center;
     color: #4f3dad;
-
     .icon-account {
       height: vw(162);
       width: vw(162);
@@ -196,20 +207,36 @@ export default {
       background: #00f0ab;
       border-radius: 50%;
     }
-    p:nth-of-type(1) {
-      font-size: vw(40);
-      margin-top: vw(18);
-      height: vw(44);
-      line-height: vw(44);
-      font-weight: bold;
+    div {
+      text-align: center;
+      // position: relative;
+
+      p:nth-of-type(1) {
+        font-size: vw(66);
+        font-weight: bold;
+        line-height: vw(68);
+      }
+      p:nth-of-type(2) {
+        font-size: vw(30);
+        font-weight: bold;
+        line-height: vw(34);
+      }
     }
-    p:nth-of-type(2),
-    p:nth-of-type(3) {
-      color: #4f3dad;
-      font-size: vw(24);
-      margin-top: vw(16);
-      height: vw(28);
-      line-height: vw(28);
+  }
+  .vip-leaderboard {
+    display: flex;
+    margin-left: vw(70);
+    margin-bottom: vw(36);
+    text-align: center;
+    button {
+      border-radius: vw(8);
+      width: vw(154);
+      .van-button__text {
+        font-size: vw(20);
+
+        line-height: vw(22);
+        color: #faf9f9;
+      }
     }
   }
 }
