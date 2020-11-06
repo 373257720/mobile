@@ -11,6 +11,7 @@
         <div>
           A link to reset your password will now be
           sent to your mailbox, please check.
+          
         </div>
         <form ref="form" @submit.prevent="submit_click">
           <div class="mui-input-row input-row">

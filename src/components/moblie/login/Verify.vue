@@ -31,19 +31,19 @@
             </p>
           </div>
           <div v-if="validateForm.identity.value===2" class="mui-input-row input-row">
-            <p class="label need">Company name(English)</p>
+            <p class="label need">{{$t('common.CompanyName')}} (English)</p>
             <input name="confirmpassword" autocomplete="off" v-model="formdata.userCompanyEn" />
           </div>
           <div v-if="validateForm.identity.value===2" class="mui-input-row input-row">
-            <p class="label">Company name(Chinese)</p>
+            <p class="label">{{$t('common.CompanyName')}}(Chinese)</p>
             <input name="confirmpassword" autocomplete="off" v-model="formdata.userCompanyCh" />
           </div>
           <div v-if="validateForm.identity.value===2" class="mui-input-row input-row">
-            <p class="label need">Company address(English)</p>
+            <p class="label need">{{$t('common.CompanyAddress')}}(English)</p>
             <input name="confirmpassword" autocomplete="off" v-model="formdata.userAddressEn" />
           </div>
           <div v-if="validateForm.identity.value===2" class="mui-input-row input-row">
-            <p class="label">Company address(Chinese)</p>
+            <p class="label">{{$t('common.CompanyAddress')}}(Chinese)</p>
             <input name="confirmpassword" autocomplete="off" v-model="formdata.userAddressCh" />
           </div>
           <div v-if="validateForm.identity.value===1" class="mui-input-row input-row">
@@ -110,7 +110,7 @@
           </div>
           <!-- <p class="error">{{errorsMsg}}</p> -->
           <footer>
-            <button class="button is-primary" type="submit">Submit</button>
+            <button class="button is-primary" type="submit">{{$t("common.Submit")}}</button>
           </footer>
         </form>
       </main>
@@ -265,19 +265,28 @@ export default {
       let self = this;
       let validator = new this.$Validator();
       validator.add(self.formdata.userType, [
-        ["isNotEmpty", self.$t("common.Genus") + self.$t("common.isno")]
+        [
+          "isNotEmpty",
+          self.$t("common.Genus") + this.$t("VerifyMsg.isnotempty")
+        ]
       ]);
       validator.add(self.formdata.userIdentityType, [
-        ["isNotEmpty", this.$t("common.Identity") + this.$t("common.isno")]
+        [
+          "isNotEmpty",
+          this.$t("common.Identity") + this.$t("VerifyMsg.isnotempty")
+        ]
       ]);
       validator.add(self.formdata.userCountry, [
-        ["isNotEmpty", this.$t("common.Nationality") + this.$t("common.isno")]
+        [
+          "isNotEmpty",
+          this.$t("common.Nationality") + this.$t("VerifyMsg.isnotempty")
+        ]
       ]);
       if (self.validateForm.identity.value === 1) {
         validator.add(self.formdata.userName, [
           [
             "isNotEmpty",
-            this.$t("common.PersonalName") + this.$t("common.isno")
+            this.$t("common.PersonalName") + this.$t("VerifyMsg.isnotempty")
           ]
         ]);
         if (
@@ -287,7 +296,8 @@ export default {
           validator.add(self.formdata.userIdentity, [
             [
               "isNotEmpty",
-              this.$t("common.IdentificationNumber") + this.$t("common.isno")
+              this.$t("common.IdentificationNumber") +
+                +this.$t("VerifyMsg.isnotempty")
             ]
           ]);
         } else if (
@@ -295,15 +305,24 @@ export default {
           self.validateForm.nation.remark !== "CHN"
         ) {
           validator.add(self.formdata.userIdentity, [
-            ["isNotEmpty", this.$t("common.passport") + this.$t("common.isno")]
+            [
+              "isNotEmpty",
+              this.$t("common.passport") + this.$t("VerifyMsg.isnotempty")
+            ]
           ]);
         }
       } else if (self.validateForm.identity.value === 2) {
         validator.add(self.formdata.userCompanyEn, [
-          ["isNotEmpty", "userCompanyEn" + this.$t("common.isno")]
+          [
+            "isNotEmpty",
+            this.$t("common.CompanyName") + this.$t("VerifyMsg.isnotempty")
+          ]
         ]);
         validator.add(self.formdata.userAddressEn, [
-          ["isNotEmpty", "userAddressEn" + this.$t("common.isno")]
+          [
+            "isNotEmpty",
+            this.$t("common.CompanyAddress") + this.$t("VerifyMsg.isnotempty")
+          ]
         ]);
       }
       var errorMsg = validator.start(); // 获得效验结果

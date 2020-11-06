@@ -23,7 +23,7 @@
       <div v-if="!isshowTag" class="mhome-tag">
         <ul>
           <li>
-            <aside>Industry</aside>
+            <aside>{{$t('common.Industry')}}</aside>
             <div>
               <p
                 :class="{'isactive':item.isactive}"
@@ -34,7 +34,7 @@
             </div>
           </li>
           <li>
-            <aside>Region</aside>
+            <aside>{{$t('common.region')}}</aside>
             <div>
               <p
                 :class="{'isactive':item.isactive}"
@@ -98,7 +98,7 @@
                 </div>
               </section>
               <div class="btn">
-                <van-button>Interested</van-button>
+                <van-button>{{$t('projectOwner.Interested')}}</van-button>
               </div>
             </li>
           </ul>
@@ -215,7 +215,7 @@ export default {
       countrylist: []
     };
   },
-  created() {
+  activated() {
     this.getcountrylist();
     // this.usertype = this.$store.state.currentUsertype;
     // let axiosList = [

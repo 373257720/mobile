@@ -1,31 +1,68 @@
 <template>
   <div id="mhome">
     <commonnav>
-      mutilPick
+      {{GoToname}}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" />
+        <van-icon name="arrow-left" @click="pickgenus" />
       </template>
       <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
       </template>
-      <template v-slot:search>
-        <van-search
-          v-model="searchkey"
-          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-          shape="round"
-          left-icon
-        >
-          <div slot="right-icon">
-            <van-icon name="search" />
-          </div>
-        </van-search>
-      </template>
     </commonnav>
     <main>
-      <van-checkbox-group checked-color="#00F0AB" v-model="result">
+      <van-search
+        v-model="searchkey"
+        :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
+        shape="round"
+        left-icon
+      >
+        <div slot="right-icon">
+          <van-icon name="search" />
+        </div>
+      </van-search>
+      <van-checkbox-group
+        v-if="GoToname==='Industry'"
+        checked-color="#00F0AB"
+        v-model="result.industryList"
+        @change="change"
+      >
         <van-cell-group>
           <van-cell
-            v-for="(item, index) in list"
+            v-for="(item, index) in List.industryList"
+            clickable
+            :key="item.value"
+            :title="`${item.label}`"
+            @click="toggle(index)"
+          >
+            <template #right-icon>
+              <van-checkbox :name="item.value" ref="checkboxes" />
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </van-checkbox-group>
+      <van-checkbox-group
+        v-if="GoToname==='Region'"
+        checked-color="#00F0AB"
+        v-model="result.regionList"
+      >
+        <van-cell-group>
+          <van-cell
+            v-for="(item, index) in List.regionList"
+            clickable
+            :key="item"
+            :title="`${item}`"
+            @click="toggle(index)"
+          >
+            <template #right-icon>
+              <van-checkbox :name="item" ref="checkboxes" />
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </van-checkbox-group>
+      <van-checkbox-group v-if="GoToname==='Tag'" checked-color="#00F0AB" v-model="result.taglist">
+        <van-cell-group>
+          <van-cell
+            v-for="(item, index) in List.taglist"
             clickable
             :key="item"
             :title="`${item}`"
@@ -38,7 +75,7 @@
         </van-cell-group>
       </van-checkbox-group>
       <footer>
-        <button @click="$routerto('mhome')">Interested</button>
+        <button @click="pickgenus">Interested</button>
       </footer>
     </main>
   </div>
@@ -46,16 +83,94 @@
 <script>
 export default {
   name: "mhome",
+  props: ["GoToname", "result", "List", "electedList"],
   data() {
     return {
-      list: ["a", "b", "dsf", "sd", "fsf", "hfghfh", "fdgfd", "iuouio"],
-      result: [],
+      list: [],
+      IndustryResult: [],
+      // RegionResult: [],
+      // TagResult: [],
       searchkey: ""
     };
   },
-  created() {},
-
+  created() {
+  
+  },
+  activated() {
+    console.log(this.GoToname);
+    switch (this.GoToname) {
+      case "Industry":
+        this.List.industryList = [
+          {
+            label: "a",
+            value: 1
+          },
+          {
+            label: "b",
+            value: 2
+          },
+          {
+            label: "c",
+            value: 3
+          },
+          {
+            label: "d",
+            value: 4
+          }
+        ];
+        break;
+      case "Region":
+        this.List.regionList = ["a", "b", "c", "d", "e", "f"];
+        break;
+      case "Tag":
+        this.List.taglist = [1, 2, 3, 4, 5, 6];
+        break;
+      default:
+      // 默认代码块;
+    }
+    console.log(this.List.regionList);
+  },
   methods: {
+    change(any) {
+      // console.log(any);
+      // this.IndustryResult = [];
+      // this.electedList.industryList= any.map(item => {
+      //   let obj;
+      //   this.List.industryList.forEach(it => {
+      //     if (item === it.value) {
+      //       obj = it;
+      //     }
+      //   });
+      //   return obj;
+      // });
+      // console.log(arr);
+    },
+    pickgenus() {
+      // this.$nextTick(() => {
+      console.log(this.result);
+
+      // });
+      // let result;
+      // switch (this.GoToname) {
+      //   case "Industry":
+      //     result = this.IndustryResult;
+      //     break;
+      //   case "Region":
+      //     result = this.RegionResult;
+      //     break;
+      //   case "Tag":
+      //     result = this.TagResult;
+      //     break;
+      //   default:
+      //   // 默认代码块;
+      // }
+      this.$emit("fromKids");
+
+      // if (item) this.usercheck.genus = item;
+
+      // this.$global.previous();
+      // this.$emit("pickNation",item)
+    },
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
     },
@@ -97,10 +212,25 @@ export default {
 </style>
 <style lang="scss"  scoped>
 #mhome {
+  .van-search {
+    width: vw(598);
+    margin: 0 auto;
+    padding: 0;
+    margin-bottom: vw(48);
+    .van-search__content {
+      border: vw(2) solid #3ab5cc;
+      background: #fff;
+      .van-icon-search,
+      .van-icon-clear {
+        color: #3ab5cc;
+      }
+    }
+  }
+
   main {
     // padding-top: vw(212);
     width: 100%;
-    padding: vw(270) 0 vw(116);
+    padding: vw(140) 0 vw(116);
     footer {
       margin-top: vw(70);
       font-weight: bold;

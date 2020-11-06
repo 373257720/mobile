@@ -8,13 +8,10 @@
         </template>
       </commonnav>
       <main class="main">
-        <div>
-          A link to reset your password will now be
-          sent to your mailbox, please check.
-        </div>
+        <div>{{$t('common.LinktoResetPassword')}}</div>
         <form ref="form" @submit.prevent="submit_click">
           <div class="mui-input-row input-row">
-            <p class="label">Email</p>
+            <p class="label">{{$t('common.Email')}}</p>
             <input name="userName" type="text" v-model="validateForm.username" />
           </div>
           <p class="error">{{errorsMsg}}</p>
@@ -24,7 +21,7 @@
               :class="isdisabled?'passive':'active'"
               class="button is-primary"
               type="submit"
-            >Submit</button>
+            >{{$t('common.Submit')}}</button>
           </footer>
         </form>
       </main>
@@ -43,8 +40,7 @@ export default {
       submitDisabled: false,
       cache: [],
       validateForm: {
-        username: "",
-        password: ""
+        username: ""
       },
       errorsMsg: ""
     };
@@ -80,11 +76,14 @@ export default {
       let self = this;
       let validator = new this.$Validator();
       validator.add(self.validateForm.username, [
-        ["isNotEmpty", this.$t("common.isno")],
-        ["minLength|6", "不允许以空白字符命名"]
-      ]);
-      validator.add(self.validateForm.password, [
-        ["isNotEmpty", "用户名不可为空"]
+        [
+          "isNotEmpty",
+          this.$t("common.Email") + this.$t("VerifyMsg.isnotempty")
+        ],
+        [
+          "emailFormat",
+          this.$t("common.Email") + this.$t("VerifyMsg.FormatError")
+        ]
       ]);
       var errorMsg = validator.start(); // 获得效验结果
       return errorMsg; // 返回效验结果

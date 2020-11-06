@@ -2,8 +2,9 @@
   <div id="homePage">
     <header class="logo">
       <img src="../../../static/pic/newlogo.png" alt />
-      <div class="iconfont icon-language switchLan" @click="switchLan(lan)"></div>
-      <!-- <button class="switchLan" color="#0ce5b2" @click="switchLan(lan)">{{lantext}}</button> -->
+      <a href="javascript:void(0);" @click="switchLan(lan)">
+        <div class="iconfont icon-language switchLan"></div>
+      </a>
     </header>
 
     <div class="main">
@@ -11,7 +12,6 @@
         <van-button
           @click="()=>{
           $routerto('register')
-          
           }"
         >{{$t('common.Register')}}</van-button>
       </div>
@@ -98,7 +98,7 @@ export default {
   flex-direction: column;
   align-items: center;
   header.logo {
-    padding: vh(384) 0 vh(514);
+    padding: vw(384) 0 vw(414);
     .switchLan {
       position: absolute;
       font-size: vw(50);
@@ -112,7 +112,7 @@ export default {
     }
     img {
       width: vw(436);
-      height: vh(202);
+      height: vw(202);
     }
   }
   .main {
@@ -122,8 +122,8 @@ export default {
     > p {
       font-size: vw(40);
       color: #4f3dad;
-      // margin-bottom: vw(234);
-      margin-top: vh(98);
+      margin-bottom: vw(234);
+      margin-top: vw(98);
       font-weight: bold;
     }
     button {
@@ -131,10 +131,8 @@ export default {
       background: #4f3dad;
       border-radius: vw(40);
       width: vw(528);
-
       font-weight: bold;
-      line-height: vw(114);
-      height: vh(114);
+      height: vw(114);
       font-size: vw(40);
     }
   }

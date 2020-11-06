@@ -9,38 +9,26 @@
     <main>
       <form ref="form" @submit.prevent="submit_click">
         <div class="mui-input-row input-row nickname">
-          <p class="label">Email</p>
+          <p class="label">Nickname</p>
           <input name="userName" type="text" v-model="validateForm.username" />
         </div>
         <div class="mui-input-row input-row select">
           <p>{{$t('Account.WhethertoshowMiddleman')}}</p>
           <van-switch active-color="#00F0AB" v-model="validateForm.checked" />
         </div>
-        <!-- <footer>
-          <button class="button is-primary" type="submit">Submit</button>
-        </footer>-->
+        <div class="mui-input-row input-row select">
+          <p>{{$t('Account.WhethertoshowMiddleman')}}</p>
+          <van-switch active-color="#00F0AB" v-model="validateForm.checked" />
+        </div>
+        <div class="mui-input-row input-row select">
+          <p>{{$t('Account.WhethertoshowMiddleman')}}</p>
+          <van-switch active-color="#00F0AB" v-model="validateForm.checked" />
+        </div>
+        <footer>
+          <van-button type="primary" native-type="submit" color="#00F0AB">Submit</van-button>
+          <!-- <button class="button is-primary" type="submit">Submit</button> -->
+        </footer>
       </form>
-      <!-- <mu-form ref="form" :model="validateForm" class="mu-demo-form">
-        <mu-form-item
-          :label="$t('Account.Nickname')"
-          class="nickname"
-          prop="PersonalName"
-          :rules="nicknameRules"
-        >
-          <mu-text-field v-model="validateForm.nickname"></mu-text-field>
-        </mu-form-item>
-        <mu-form-item prop="PersonalName" class="switch" :rules="usernameRules">
-          <div>{{$t('Account.WhethertoshowInvestors')}}</div>
-          <van-switch active-color="#00F0AB" v-model="validateForm.checked" />
-        </mu-form-item>
-        <mu-form-item prop="PersonalName" class="switch" :rules="usernameRules">
-          <div>{{$t('Account.WhethertoshowMiddleman')}}</div>
-          <van-switch active-color="#00F0AB" v-model="validateForm.checked" />
-        </mu-form-item>
-        <mu-form-item>
-          <van-button @click="submit">{{$t('Account.Comfirm')}}</van-button>
-        </mu-form-item>
-      </mu-form>-->
     </main>
   </div>
 </template>
@@ -60,6 +48,7 @@ export default {
   },
   created() {},
   methods: {
+    submit_click() {}
     // handleleterClick() {},
   }
 };
@@ -112,23 +101,6 @@ export default {
     // color: #4f3dad;
     // margin-bottom: vw(48);
   }
-  .mu-input__error {
-  }
-  .mu-input__focus {
-    color: #4f3dad;
-  }
-
-  .mu-input-line {
-    background: #4f3dad;
-    height: 2px;
-  }
-  .mu-text-field-input {
-    color: #4f3dad;
-    font-size: vw(32);
-  }
-  .mu-form-item__error .mu-form-item-help {
-    bottom: vw(-4);
-  }
 }
 </style>
 <style lang="scss" scoped>
@@ -146,7 +118,7 @@ export default {
     .mui-input-row {
       display: flex;
       flex-direction: column;
-    
+
       p.label {
         margin-bottom: vw(62);
         height: vw(34);
@@ -167,15 +139,22 @@ export default {
     }
     .select {
       // display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
       // margin-bottom: vw(0);
-        p {
-        // width: vw(462);
-        // font-size: vw(26);
-        // font-weight: bold;
-        // line-height: vw(30);
-        // color: #4f3dad;
-        // opacity: 1;
+      p {
+        width: vw(462);
+        font-size: vw(26);
+        font-weight: bold;
+        line-height: vw(30);
+        color: #4f3dad;
+        opacity: 1;
       }
+    }
+    footer {
+      display: flex;
+      justify-content: center;
     }
   }
 }

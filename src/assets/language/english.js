@@ -46,6 +46,11 @@ export default {
     // Projects to be confirmed by investors
   },
   common: {
+    Search:"Search",
+    Fliter:"Fliter",
+    LinktoResetPassword:"A link to reset your password will now send to your mailbox, please check.",
+    CompanyAddress:"Company address",
+    passwordRule: "Minimum of 8 characters, have 1 upper case and 1 lower case letters, and at least 1 number.",
     Verify: "Verify",
     potentialInvestors: "Potential investors",
     pleasegetcode: "Please send email to get code",

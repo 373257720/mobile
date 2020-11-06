@@ -1,7 +1,7 @@
 <template>
   <div class="Nationality">
     <commonnav>
-      {{$t('common.genus')}}
+      {{$t('common.Identity')}}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="pickgenus" />
       </template>

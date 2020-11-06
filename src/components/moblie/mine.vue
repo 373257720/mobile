@@ -1,10 +1,14 @@
 <template>
   <div id="mine">
-    <header>
-      <span class="iconfont icon-account" @click="$routerto('setNickname')"></span>
-      <span>{{$t('Account.Account')}}</span>
-      <span class="iconfont icon-account" @click="$routerto('AccountMessage')"></span>
-    </header>
+    <commonnav>
+      {{$t('Account.Account')}}
+      <template v-slot:arrowLeft>
+        <span class="iconfont icon-account iconLeft" @click="$routerto('setNickname')"></span>
+      </template>
+      <template v-slot:arrowRight>
+        <span class="iconfont icon-account iconRight" @click="$routerto('AccountMessage')"></span>
+      </template>
+    </commonnav>
     <main>
       <div class="iconfont icon-account"></div>
       <p @click="$routerto('vip')">Peter parker</p>
@@ -12,7 +16,7 @@
     </main>
     <footer>
       <ul>
-         <li @click="$routerto('vip')" >
+        <li @click="$routerto('vip')">
           <div class="iconfont icon-account"></div>
           <div>Membership</div>
         </li>
@@ -50,7 +54,7 @@ export default {
       show: false,
       content: "",
       title: "",
-      successto:"",
+      successto: "",
       remindervisible: false,
       correct_password: false,
       password1: "",
@@ -227,8 +231,8 @@ export default {
 </style>
 <style lang="scss" scoped>
 #mine {
-  padding-top: vw(46);
-  padding-bottom: vw(116);
+  // padding-top: vw(46);
+  // padding-bottom: vw(116);
   header {
     height: vw(56);
     box-sizing: initial;
@@ -245,8 +249,8 @@ export default {
     }
   }
   main {
-    margin-top: vw(28);
-    margin-bottom: vw(84);
+    margin-top: vw(140);
+    // margin-bottom: vw(84);
     display: flex;
     flex-direction: column;
     align-items: center;

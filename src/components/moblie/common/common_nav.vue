@@ -36,7 +36,6 @@ export default {
   top: 0;
   z-index: 200;
   background: #fff;
-  // padding-top: vw(46);
   text-align: center;
   color: #4f3dad;
   font-size: vw(40);
@@ -50,7 +49,13 @@ export default {
       top: 50%;
       transform: (translate(0, -50%));
     }
-   .iconRight {
+    .iconLeft {
+      position: absolute;
+      left: vw(36);
+      top: 50%;
+      transform: (translate(0, -50%));
+    }
+    .iconRight {
       position: absolute;
       right: vw(36);
       top: 50%;

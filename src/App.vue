@@ -8,12 +8,7 @@
       data-mu-loading-overlay-color="rgba(0, 0, 0, .6)"
       style="position: relative; width: 500px; height: 400px;"
     >-->
-    <keep-alive include="mine,mysign,userpass"
-    
-    
-    
-    
-    >
+    <keep-alive include="mhome,mine,mysign,userpass">
       <router-view></router-view>
     </keep-alive>
     <mbottom v-if="$route.meta.isshowbottom"></mbottom>
@@ -67,6 +62,7 @@ export default {
     });
   },
   mounted() {
+    //  plus.screen.lockOrientation( 'portrait-primary')
     // console.log("7-13更新");
   }
 };

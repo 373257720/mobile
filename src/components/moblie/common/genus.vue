@@ -1,7 +1,7 @@
 <template>
   <div class="genus">
     <commonnav>
-      {{$t('common.genus')}}
+    {{$t('common.Genus')}}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="pickgenus" />
       </template>

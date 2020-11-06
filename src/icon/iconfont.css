@@ -7,6 +7,7 @@
   url('iconfont.svg?t=1603175172198#iconfont') format('svg'); /* iOS 4.1- */
 }
 
+
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 16px;
@@ -18,6 +19,9 @@
 .icon-language:before {
   content: "\e61a";
 }
+/* .icon-yanjing_huaban1:before {
+  content: "\e663";
+} */
 
 .icon-account:before {
   content: "\e626";

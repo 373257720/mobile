@@ -48,7 +48,7 @@ export default {
   computed: {
     activeTag: {
       get() {
-        console.log(this.$route.name);
+        // console.log(this.$route.name);
         return this.$route.name;
       },
       set(value) {
@@ -69,7 +69,7 @@ export default {
     background: none;
   }
   background: #4f3dad;
-  height: vw(116);
+  height: vw(114);
   .van-icon {
     font-size: vw(45);
   }

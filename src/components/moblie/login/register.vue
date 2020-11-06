@@ -9,29 +9,35 @@
     <main class="main">
       <form ref="form" @submit.prevent="submit_click">
         <div class="mui-input-row input-row">
-          <p class="label">Email</p>
-          <input name="userName" type="text" v-model="validateForm.username" />
+          <p class="label">{{$t('common.Email')}}</p>
+          <input @blur="check($event)" name="userName" type="text" v-model="validateForm.username" />
         </div>
         <div class="mui-input-row input-row">
-          <p class="label">Password</p>
-          <input name="Password" type="password" autocomplete="off" v-model="validateForm.password" />
-          <p
-            class="helpText"
-          >Minimum of 8 characters, have 1 upper case and 1 lower case letters, and at least 1 number.</p>
-        </div>
-        <div class="mui-input-row input-row">
-          <p class="label">Confirm password</p>
+          <p class="label">{{$t('common.PassWord')}}</p>
           <input
+            @blur="check($event)"
+            name="Password"
+            type="password"
+            autocomplete="off"
+            v-model="validateForm.password"
+          />
+          <p class="helpText">{{$t('common.passwordRule')}}</p>
+        </div>
+        <div class="mui-input-row input-row">
+          <p class="label">{{$t('common.ConfirmPassword')}}</p>
+          <input
+            @blur="check($event)"
             name="confirmpassword"
             type="password"
             autocomplete="off"
             v-model="validateForm.confirmpassword"
           />
+          <!-- <i class="icon-language" id="togglePassword"></i> -->
         </div>
         <p class="error">{{errorsMsg}}</p>
         <!-- <p v-show="errors.has('userName')" class="error">{{ errors.first('userName') }}</p>
-        <p v-show="errors.has('Password')" class="error">{{ errors.first('Password') }}</p>-->
-        <!-- <p
+        <p v-show="errors.has('Password')" class="error">{{ errors.first('Password') }}</p>
+        <p
           v-show="errors.has('confirmpassword')"
           class="error"
         >{{ errors.first('confirmpassword') }}</p>-->
@@ -42,11 +48,15 @@
             :class="isdisabled?'passive':'active'"
             class="button is-primary"
             type="submit"
-          >Submit</button>
+          >{{$t('common.Submit')}}</button>
         </footer>
       </form>
-      <DialogMsg @comfirmFromDialog="comfirmFromDialog" 
-       :remindervisible.sync="remindervisible" :showCancel="false" :msg="errorsMsg"></DialogMsg>
+      <DialogMsg
+        @comfirmFromDialog="comfirmFromDialog"
+        :remindervisible.sync="remindervisible"
+        :showCancel="false"
+        :msg="errorsMsg"
+      ></DialogMsg>
     </main>
   </div>
 </template>
@@ -62,6 +72,32 @@ export default {
         username: "",
         password: "",
         confirmpassword: ""
+      },
+      rules: {
+        userName: [
+          [
+            ("isNotEmpty",
+            this.$t("common.Email") + this.$t("VerifyMsg.isnotempty"))
+          ],
+          [
+            "emailFormat",
+            this.$t("common.Email") + this.$t("VerifyMsg.FormatError")
+          ]
+        ],
+        Password: [
+          [
+            "isNotEmpty",
+            this.$t("common.PassWord") + this.$t("VerifyMsg.isnotempty")
+          ],
+          [
+            "password",
+            this.$t("common.PassWord") + this.$t("VerifyMsg.FormatError")
+          ]
+        ]
+        // confirmpassword: [
+        //   ["isNotEmpty", "用户名不可为空"],
+        //   [`confirmpasswrod|${this.password}`, "密码不一样"]
+        // ]
       },
       remindervisible: false,
       content: "",
@@ -87,27 +123,67 @@ export default {
     // this.username = this.$route.query.email ? this.$route.query.email : "";
     // console.log(this.$route.query.email);
   },
+
   methods: {
+    check(e) {
+      // this.errorsMsg = "";
+      // let validator = new this.$Validator();
+      // if (e.target.name == "confirmpassword") {
+      //   validator.add(e.target.value, [
+      //     ["isNotEmpty", "用户名不可为空"],
+      //     [`confirmpasswrod|${this.validateForm.password}`, "密码不一样"]
+      //   ]);
+      // } else {
+      //   validator.add(e.target.value, this.rules[e.target.name]);
+      // }
+      // var errorMsg = validator.start(); // 获得效验结果
+      // if (errorMsg) {
+      //   this.errorsMsg = errorMsg;
+      //   // console.log(errorMsg);
+      //   return false;
+      // }
+      // }
+    },
     validateFunc() {
       let self = this;
       let validator = new this.$Validator();
       validator.add(self.validateForm.username, [
-        ["isNotEmpty", this.$t("common.isno")],
-        ["minLength|6", "不允许以空白字符命名"]
+        [
+          "isNotEmpty",
+          this.$t("common.Email") + this.$t("VerifyMsg.isnotempty")
+        ],
+        [
+          "emailFormat",
+          this.$t("common.Email") + this.$t("VerifyMsg.FormatError")
+        ]
       ]);
       validator.add(self.validateForm.password, [
-        ["isNotEmpty", "用户名不可为空"]
+        [
+          "isNotEmpty",
+          this.$t("common.PassWord") + this.$t("VerifyMsg.isnotempty")
+        ],
+        [
+          "password",
+          this.$t("common.PassWord") + this.$t("VerifyMsg.FormatError")
+        ]
       ]);
       validator.add(self.validateForm.confirmpassword, [
-        ["isNotEmpty", "用户名不可为空"],
-        [`confirmpasswrod|${self.validateForm.password}`, "密码不一样"]
+        [
+          "isNotEmpty",
+          this.$t("common.ConfirmPassword") + this.$t("VerifyMsg.isnotempty")
+        ],
+        [
+          "password",
+          this.$t("common.Password") + this.$t("VerifyMsg.inconsistent")
+        ]
+        // [`confirmpasswrod|${self.validateForm.password}`, "密码不一样"]
       ]);
       var errorMsg = validator.start(); // 获得效验结果
       return errorMsg; // 返回效验结果
     },
     submit_click() {
       // console.log(123);
-      
+
       this.errorsMsg = "";
       let errorMsg = this.validateFunc();
       // console.log(errorMsg);
@@ -119,7 +195,7 @@ export default {
       }
       this.remindervisible = true;
       // console.log(this.remindervisible);
-      
+
       //
     },
     validateBeforeSubmit() {
@@ -184,10 +260,10 @@ export default {
       //   }
       // });
     },
-    comfirmFromDialog(data){
+    comfirmFromDialog(data) {
       //  console.log(data);
-       this.remindervisible=data;
-        this.$routerto("login");
+      this.remindervisible = data;
+      this.$routerto("login");
     },
     blur(event) {
       this.$global

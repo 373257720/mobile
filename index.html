@@ -22,8 +22,35 @@
 
     <title>bit-bro.biz</title>
   </head>
-  <link rel="stylesheet" href="./src/css/iconfont.css">
+  <link rel="stylesheet" href="./src/css/iconfont.css" />
   <body>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <script>
+      function orient() {
+        // alert('gete');
+        console.log(window.orientation);
+        
+        if (window.orientation == 0 || window.orientation == 180) {
+          $("body").attr("class", "portrait");
+          orientation = "portrait";
+          return false;
+        } else if (window.orientation == 90 || window.orientation == -90) {
+          $("body").attr("class", "portrait");
+          orientation = "portrait";
+
+          return false;
+        }
+      }
+      $(function() {
+        orient();
+      });
+
+      $(window).bind("orientationchange", function(e) {
+   
+        
+        orient();
+      });
+    </script>
     <!-- <script type="text/javascript">
       (function(designWidth, maxWidth) {
         var doc = document,

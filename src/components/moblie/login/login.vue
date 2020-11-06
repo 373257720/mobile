@@ -9,22 +9,22 @@
     <main class="main">
       <form ref="form" @submit.prevent="submit_click">
         <div class="mui-input-row input-row">
-          <p class="label">Email</p>
+          <p class="label">{{$t("common.Email")}}</p>
           <input name="userName" type="text" v-model="validateForm.username" />
         </div>
         <div class="mui-input-row input-row">
-          <p class="label">Password</p>
+          <p class="label">{{$t("common.PassWord")}}</p>
           <input name="Password" type="text" v-model="validateForm.password" />
         </div>
         <p class="error">{{errorsMsg}}</p>
-        <p class="forget" @click="$routerto('forgotpassword')">forget password</p>
+        <p class="forget" @click="$routerto('forgotpassword')">{{$t("common.forgetpassword")}}</p>
         <footer>
           <button
             :disabled="isdisabled"
             :class="isdisabled?'passive':'active'"
             class="button is-primary"
             type="submit"
-          >Submit</button>
+          >{{$t("common.Submit")}}</button>
         </footer>
       </form>
     </main>
@@ -69,7 +69,7 @@ export default {
           {
             type: "string",
             required: true,
-            message: "必须填写用户名"
+            message: this.errorsMsg
           },
           {
             type: "email",
@@ -121,11 +121,20 @@ export default {
       let self = this;
       let validator = new this.$Validator();
       validator.add(self.validateForm.username, [
-        ["isNotEmpty", this.$t("common.isno")],
-        ["minLength|6", "不允许以空白字符命名"]
+        [
+          "isNotEmpty",
+          this.$t("common.Email") + this.$t("VerifyMsg.isnotempty")
+        ],
+        [
+          "emailFormat",
+          this.$t("common.Email") + this.$t("VerifyMsg.FormatError")
+        ]
       ]);
       validator.add(self.validateForm.password, [
-        ["isNotEmpty", "用户名不可为空"]
+        [
+          "isNotEmpty",
+          this.$t("common.PassWord") + this.$t("VerifyMsg.isnotempty")
+        ]
       ]);
       var errorMsg = validator.start(); // 获得效验结果
       return errorMsg; // 返回效验结果

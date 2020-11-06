@@ -19,16 +19,32 @@ let strategies = {
       return errorMsg;
     }
   },
+  emailFormat: (value, errorMsg) => {
+    let ruleReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+    if (!ruleReg.test(value)) {
+      return errorMsg;
+    }
+  },
+  password: (value, errorMsg) => {
+    // 最少8个字符，有1个大写字母和1个小写字母，以及至少1个数字。
+    let ruleReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    if (!ruleReg.test(value)) {
+      return errorMsg;
+    }
+  },
+  confirmpasswrod: (value, value2, errorMsg) => {
+    // console.log(value, value2);
+    
+    if (value2 !== value) {
+      return errorMsg;
+    }
+  },
   minLength: (value, length, errorMsg) => {
     if (value.length < length) {
       return errorMsg;
     }
   },
-  confirmpasswrod: (value, value2, errorMsg) => {
-    if (value2 !== value) {
-      return errorMsg;
-    }
-  },
+
   mobileFormat: (value, errorMsg) => {
     if (!/(^1[3|5|8][0-9]{9}$)/.test(value)) {
       return errorMsg;
@@ -49,7 +65,7 @@ Validator.prototype.add = function(dom, rules) {
       self.cache.push(function() {
         var strategy = strategyAry.shift();
         strategyAry.unshift(dom);
-        strategyAry.push(errorMsg);
+        strategyAry.push(errorMsg);  
         return strategies[strategy].apply(dom, strategyAry);
       });
     })(rule);
