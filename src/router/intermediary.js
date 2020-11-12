@@ -41,9 +41,9 @@ const a_project_intro_roots = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/a_project_intro_roots"
   );
-const a_project_intro = () =>
+const agentProjectDetail = () =>
   import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/project_intro"
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/agentProjectDetail"
   );
 const a_wait_review = () =>
   import(
@@ -110,70 +110,7 @@ const uploadtoblock = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/contract/uploadtoblock"
   );
-// // agent_set_contract
-// const a_tobeSigned_roots = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */
-//     "@/components/moblie/agent/contract/tobeSigned_roots"
-//   );
-// const a_submit_contract = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */
-//     "@/components/moblie/agent/contract/submit_contract"
-//   );
-// const a_check_contract = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */
-//     "@/components/moblie/agent/contract/check_contract"
-//   );
-// const agent_set_contract = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */
-//     "@/components/moblie/agent/contract/agent_set_contract"
-//   );
-// const uploadtoblock = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */
-//     "@/components/moblie/agent/contract/uploadtoblock"
-//   );
-// // investor/
 
-// const investor_roots = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */ "@/components/moblie/investor/investor_roots"
-//   );
-// const i_conected_project = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */
-//     "@/components/moblie/investor/conected_project"
-//   );
-// const i_inverstor_infor = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */
-//     "@/components/moblie/investor/investor_infor"
-//   );
-// const i_perfect_infor = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */ "@/components/moblie/investor/perfect_infor"
-//   );
-// const i_wait_confirm = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */ "@/components/moblie/investor/wait_comfirm"
-//   );
-// const i_sign_failed = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */ "@/components/moblie/investor/sign_failed"
-//   );
-// const i_emailto_confirm = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */
-//     "@/components/moblie/investor/emailto_confirm"
-//   );
-// const wait_confirmRoot = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */
-//     "@/components/moblie/investor/wait_confirmRoot"
-//   );
 export default [
   // agent
   {
@@ -209,6 +146,14 @@ export default [
   //   }
   // },
   {
+    path: "/agentProjectDetail",
+    name: "agentProjectDetail",
+    component: agentProjectDetail,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
     path: "/uploadtoblock",
     name: "uploadtoblock",
     component: uploadtoblock,
@@ -225,14 +170,14 @@ export default [
       isshowbottom: false
     },
     children: [
-      {
-        path: "a_project_intro",
-        name: "a_project_intro",
-        component: a_project_intro,
-        meta: {
-          isshowbottom: false
-        }
-      },
+      // {
+      //   path: "/a_project_intro",
+      //   name: "a_project_intro",
+      //   component: a_project_intro,
+      //   meta: {
+      //     isshowbottom: false
+      //   }
+      // },
       {
         path: "a_recommand_i",
         name: "a_recommand_i",

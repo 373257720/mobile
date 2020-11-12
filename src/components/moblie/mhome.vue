@@ -3,68 +3,12 @@
     <commonnav>
       {{$t('common.Home')}}
       <template v-slot:arrowRight>
-        <!-- <van-icon name="arrow" /> -->
         <i class="icon iconRight iconfont icon-message"></i>
-        <!-- <span class="icon iconfont icon-project"></span> -->
       </template>
     </commonnav>
     <main :class="{'topReduce':isshowTag}">
-      <van-search
-        v-if="!isshowTag"
-        v-model="searchkey"
-        :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-        shape="round"
-        left-icon
-      >
-        <div slot="right-icon">
-          <van-icon name="search" @click="()=>{isshowTag=true}" />
-        </div>
-      </van-search>
-      <div v-if="!isshowTag" class="mhome-tag">
-        <ul>
-          <li>
-            <aside>{{$t('common.Industry')}}</aside>
-            <div>
-              <p
-                :class="{'isactive':item.isactive}"
-                @click="tagClick(item)"
-                v-for="item in taglist"
-                :key="item.name"
-              >{{item.name}}</p>
-            </div>
-          </li>
-          <li>
-            <aside>{{$t('common.region')}}</aside>
-            <div>
-              <p
-                :class="{'isactive':item.isactive}"
-                @click="tagClick(item)"
-                v-for="item in taglist"
-                :key="item.name"
-              >{{item.name}}</p>
-            </div>
-          </li>
-          <li>
-            <aside>Tag</aside>
-            <div>
-              <p
-                :class="{'isactive':item.isactive}"
-                @click="tagClick(item)"
-                v-for="item in taglist"
-                :key="item.name"
-              >{{item.name}}</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <!-- <transition name="slide-fade"> -->
-      <div v-if="isshowTag" class="mhome-signTag">
-        <p @click="$routerto('fliter')">
-          <i></i>
-          <span>10</span>
-        </p>
-      </div>
       <!-- <transition name="Totop"> -->
+
       <v-scroll
         class="mhome-article"
         :on-refresh="onRefresh"
@@ -72,6 +16,61 @@
         :on-infinite="onInfinite"
         :class="{'yo-scrollTop':isshowTag}"
       >
+        <van-search
+          v-if="!isshowTag"
+          v-model="searchkey"
+          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
+          shape="round"
+          left-icon
+        >
+          <div slot="right-icon">
+            <van-icon name="search" @click="()=>{isshowTag=true}" />
+          </div>
+        </van-search>
+        <div v-if="!isshowTag" class="mhome-tag">
+          <ul>
+            <li>
+              <aside>{{$t('common.Industry')}}</aside>
+              <div>
+                <p
+                  :class="{'isactive':item.isactive}"
+                  @click="tagClick(item)"
+                  v-for="item in taglist"
+                  :key="item.name"
+                >{{item.name}}</p>
+              </div>
+            </li>
+            <li>
+              <aside>{{$t('common.region')}}</aside>
+              <div>
+                <p
+                  :class="{'isactive':item.isactive}"
+                  @click="tagClick(item)"
+                  v-for="item in taglist"
+                  :key="item.name"
+                >{{item.name}}</p>
+              </div>
+            </li>
+            <li>
+              <aside>Tag</aside>
+              <div>
+                <p
+                  :class="{'isactive':item.isactive}"
+                  @click="tagClick(item)"
+                  v-for="item in taglist"
+                  :key="item.name"
+                >{{item.name}}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- <transition name="slide-fade"> -->
+        <div v-if="isshowTag" class="mhome-signTag">
+          <p @click="$routerto('fliter')">
+            <i></i>
+            <span>10</span>
+          </p>
+        </div>
         <div class="timestamp">
           <ul>
             <li @click="$routerto('projectStatus')" v-for="i in countrylist" :key="i.remark">
@@ -104,18 +103,23 @@
           </ul>
         </div>
       </v-scroll>
+
       <!-- </transition> -->
     </main>
+    <scroll-top />
   </div>
 </template>
 <script>
 // let timeout;
 import Scroll from "./loadmore";
+
+import ScrollTop from "@/components/moblie/common/toTop";
 // import { log } from "util";
 export default {
   name: "mhome",
   components: {
-    "v-scroll": Scroll
+    "v-scroll": Scroll,
+    ScrollTop
   },
   data() {
     return {
@@ -215,8 +219,11 @@ export default {
       countrylist: []
     };
   },
+  created(){
+this.getcountrylist();
+  },
   activated() {
-    this.getcountrylist();
+    
     // this.usertype = this.$store.state.currentUsertype;
     // let axiosList = [
     //   this.$axios.get(
@@ -624,6 +631,9 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+section.inner {
+  position: absolute;
+}
 #mhome {
   display: flex;
   height: 100%;
@@ -641,7 +651,10 @@ export default {
     font-size: vw(40);
   }
   main {
-    padding-top: vw(140);
+    padding-top: 50px;
+    padding-bottom: 50px;
+    height: 100%;
+    // overflow: auto;
     .van-search {
       width: vw(598);
       margin: 0 auto;
@@ -656,14 +669,22 @@ export default {
         color: #3ab5cc;
       }
     }
+    .container {
+      // position: relative;
+      // flex: 1;
+    }
     .yo-scroll {
-      top: vw(550);
+      position: absolute;
+      top: 50px;
       transition: all 1s ease;
-      bottom: vw(114);
+      bottom: 50px;
       -webkit-overflow-scrolling: touch;
     }
+    // .yo-scroll .inner {
+    //   position: initial;
+    // }
     .yo-scrollTop {
-      top: vw(332);
+      top: 50px;
     }
     .mhome-tag {
       // padding-top: vw(62);
@@ -747,6 +768,7 @@ export default {
     }
     .mhome-article {
       .timestamp {
+        margin-top: 50px;
         ul {
           li {
             margin-bottom: vw(40);

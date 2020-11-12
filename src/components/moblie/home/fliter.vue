@@ -12,9 +12,9 @@
     <main>
       <div class="fliter-tag">
         <ul>
-          <li v-for="(item,idx) in result.industryList" :key="item.name">
+          <li v-for="(item,idx) in totalResults" :key="item.name">
             <p>
-              {{item}}
+              {{item.label}}
               <span @click="delectTag(item,idx)"></span>
             </p>
           </li>
@@ -24,9 +24,9 @@
             <p class="label">{{$t('common.Industry')}}</p>
             <div class="item">
               <p>
-                <span v-for="(item) in result.industryList" :key="item.name">
+                <span v-for="(item) in electedList.industryList" :key="item.value">
                   {{
-                  item
+                  item.label
                   }},
                 </span>
               </p>
@@ -37,7 +37,7 @@
             <p class="label">{{$t('common.region')}}</p>
             <div class="item">
               <p>
-                <span v-for="(item) in result.regionList" :key="item.name">{{ item}},</span>
+                <span v-for="(item) in electedList.regionList" :key="item.name">{{ item.label}},</span>
               </p>
               <van-icon name="arrow" @click="goto('Region')" />
             </div>
@@ -46,7 +46,7 @@
             <p class="label">Tag</p>
             <div class="item">
               <p>
-                <span v-for="(item) in result.taglist" :key="item.name">{{ item}}，</span>
+                <span v-for="(item) in electedList.taglist" :key="item.name">{{ item.label}},</span>
               </p>
 
               <van-icon name="arrow" @click="goto('Tag')" />
@@ -84,6 +84,7 @@ export default {
     return {
       name: "",
       currentView: "",
+
       List: {
         industryList: [],
         regionList: [],
@@ -93,47 +94,57 @@ export default {
         industryList: [],
         regionList: [],
         taglist: []
+      },
+
+      electedList: {
+        industryList: [],
+        regionList: [],
+        taglist: []
       }
-      // electedList: {
-      //   industryList: [],
-      //   regionList: [],
-      //   taglist: []
-      // }
     };
   },
   created() {},
   computed: {
     totalResults: {
       get: function() {
-        return this.result.industryList.push.appluy;
+        return [
+          ...this.electedList.industryList,
+          ...this.electedList.regionList,
+          ...this.electedList.taglist
+        ];
       },
-      set: function(newValue) {}
+      set: function(newValue) {
+        console.log(newValue);
+      }
     }
   },
   methods: {
     pick(data) {
-      // console.log(data);
-      // console.log();
-
-      // if (this.name == "Industry") {
-      //   for (let i = 0; i < data.length; i++) {
-      //     this.result.industryList.push({
-      //       name: data[i]
-      //     });
-      //   }
-      // } else if (this.name == "Region") {
-      //   for (let i = 0; i < data.length; i++) {
-      //     this.result.regionList.push({
-      //       name: data[i]
-      //     });
-      //   }
-      // } else if (this.name == "Tag") {
-      //   for (let i = 0; i < data.length; i++) {
-      //     this.result.taglist.push({
-      //       name: data[i]
-      //     });
-      //   }
-      // }
+      if (this.name == "Industry") {
+        this.electedList.industryList = this.List.industryList.filter(item => {
+          for (let i = 0; i < data.industryList.length; i++) {
+            if (item.value === data.industryList[i]) {
+              return item;
+            }
+          }
+        });
+      } else if (this.name == "Region") {
+        this.electedList.regionList = this.List.regionList.filter(item => {
+          for (let i = 0; i < data.regionList.length; i++) {
+            if (item.value === data.regionList[i]) {
+              return item;
+            }
+          }
+        });
+      } else if (this.name == "Tag") {
+        this.electedList.taglist = this.List.taglist.filter(item => {
+          for (let i = 0; i < data.taglist.length; i++) {
+            if (item.value === data.taglist[i]) {
+              return item;
+            }
+          }
+        });
+      }
 
       this.currentView = "";
     },
@@ -142,12 +153,28 @@ export default {
       this.currentView = "mutil-Pick";
     },
     delectTag(item, idx) {
-      if (this.name == "Industry") {
-        this.result.industryList.splice(idx, 1);
-      } else if (this.name == "Region") {
-        this.result.regionList.splice(idx, 1);
-      } else if (this.name == "Tag") {
-        this.result.taglist.splice(idx, 1);
+      console.log(item);
+      if (item.key === "industry") {
+        for (let i = 0; i < this.result.industryList.length; i++) {
+          if (this.result.industryList[i] === item.value) {
+            this.electedList.industryList.splice(i, 1);
+            this.result.industryList.splice(i, 1);
+          }
+        }
+      } else if (item.key === "region") {
+        for (let i = 0; i < this.result.regionList.length; i++) {
+          if (this.result.regionList[i] === item.value) {
+            this.electedList.regionList.splice(i, 1);
+            this.result.regionList.splice(i, 1);
+          }
+        }
+      } else if (item.key === "tag") {
+        for (let i = 0; i < this.result.taglist.length; i++) {
+          if (this.result.taglist[i] === item.value) {
+            this.electedList.taglist.splice(i, 1);
+            this.result.taglist.splice(i, 1);
+          }
+        }
       }
     }
   }

@@ -60,6 +60,11 @@ const projectList = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectList"
   );
+  const projectChain = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectChain"
+  );
+  
 
 const userpass = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/userpass");
@@ -83,7 +88,8 @@ const upload_contract = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/upload_contract"
   );
-
+  
+ 
 // Account
 const AccountMessage = () =>
   import(
@@ -307,6 +313,15 @@ const routes = [
       isshowbottom: false
     }
   },
+  {
+    path: "/projectChain",
+    name: "projectChain",
+    component:  projectChain,
+    meta: {
+      isshowbottom: false
+    }
+  },
+ 
 
   {
     path: "/projectStatus",

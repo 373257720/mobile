@@ -14,7 +14,13 @@
         </div>
         <div class="mui-input-row input-row">
           <p class="label">{{$t("common.PassWord")}}</p>
-          <input name="Password" type="text" v-model="validateForm.password" />
+          <section>
+            <input name="Password" :type="isshowpassword" v-model="validateForm.password" />
+            <i
+              @click="passwordshow(isshowpassword,'isshowpassword')"
+              class="iconfont icon-yanjing_huaban1"
+            ></i>
+          </section>
         </div>
         <p class="error">{{errorsMsg}}</p>
         <p class="forget" @click="$routerto('forgotpassword')">{{$t("common.forgetpassword")}}</p>
@@ -55,6 +61,7 @@ export default {
       //     message: "Password length must be greater than 3 and less than 10"
       //   }
       // ],
+      isshowpassword: "password",
       validateForm: {
         username: "",
         password: ""
@@ -105,6 +112,13 @@ export default {
   },
 
   methods: {
+    passwordshow(is, name) {
+      if (is == "password") {
+        this[name] = "text";
+      } else if (is == "text") {
+        this[name] = "password";
+      }
+    },
     submit_click() {
       // console.log(123);
 
@@ -317,6 +331,8 @@ export default {
     }
     .mui-input-row {
       width: 100%;
+      display: flex;
+      flex-direction: column;
       margin-bottom: vw(60);
       span {
         display: inline-block;
@@ -325,6 +341,17 @@ export default {
         width: 100%;
         font-size: vw(34);
         border-bottom: vw(2) solid #4f3dad;
+      }
+      section {
+        position: relative;
+        input {
+          padding-right: vw(42);
+        }
+        .icon-yanjing_huaban1 {
+          position: absolute;
+          right: 0;
+          font-size: vw(34);
+        }
       }
     }
     footer {

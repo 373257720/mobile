@@ -28,11 +28,11 @@
           <div class="iconfont icon-account"></div>
           <div>{{$t('Account.Language')}}</div>
         </li>
-        <li>
+        <li @click="$routerto('forgotpassword')">
           <div class="iconfont icon-account"></div>
           <div>{{$t('Account.Password')}}</div>
         </li>
-        <li>
+        <li @click="()=>remindervisible=true">
           <div class="iconfont icon-account"></div>
           <div>{{$t('Account.Logout')}}</div>
         </li>

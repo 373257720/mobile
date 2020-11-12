@@ -3,7 +3,7 @@
     <commonnav>
       {{$t('project.projectStatus')}}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$global.previous()"  />
+        <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
       <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
@@ -19,7 +19,7 @@
       >
         <div class="timestamp">
           <ul>
-            <li @click="$routerto('projectDetail')" v-for="i in piclists" :key="i.remark">
+            <li v-for="i in piclists" :key="i.remark">
               <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
               <section id="container">
                 <div class="item item-1">
@@ -43,7 +43,8 @@
                 </div>
               </section>
               <div class="btn">
-                <van-button>Detail</van-button>
+                <van-button @click="$routerto('agentProjectDetail')">Detail</van-button>
+                <van-button @click="$routerto('projectChain')">project chain</van-button>
               </div>
             </li>
           </ul>

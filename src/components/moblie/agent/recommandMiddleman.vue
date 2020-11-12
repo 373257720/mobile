@@ -4,7 +4,7 @@
       Recommended
       middleman
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" />
+        <van-icon name="arrow-left" @click="$global.previous()"/>
       </template>
     </commonnav>
     <main>

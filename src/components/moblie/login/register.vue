@@ -14,24 +14,37 @@
         </div>
         <div class="mui-input-row input-row">
           <p class="label">{{$t('common.PassWord')}}</p>
-          <input
-            @blur="check($event)"
-            name="Password"
-            type="password"
-            autocomplete="off"
-            v-model="validateForm.password"
-          />
+
+          <section>
+            <input
+              @blur="check($event)"
+              name="Password"
+              :type="isshowpassword"
+              autocomplete="off"
+              v-model="validateForm.password"
+            />
+            <i
+              @click="passwordshow(isshowpassword,'isshowpassword')"
+              class="iconfont icon-yanjing_huaban1"
+            ></i>
+          </section>
           <p class="helpText">{{$t('common.passwordRule')}}</p>
         </div>
         <div class="mui-input-row input-row">
           <p class="label">{{$t('common.ConfirmPassword')}}</p>
-          <input
-            @blur="check($event)"
-            name="confirmpassword"
-            type="password"
-            autocomplete="off"
-            v-model="validateForm.confirmpassword"
-          />
+          <section>
+            <input
+              @blur="check($event)"
+              name="confirmpassword"
+              :type="isconfirmpassword"
+              autocomplete="off"
+              v-model="validateForm.confirmpassword"
+            />
+            <i
+              @click="passwordshow(isconfirmpassword,'isconfirmpassword')"
+              class="iconfont icon-yanjing_huaban1"
+            ></i>
+          </section>
           <!-- <i class="icon-language" id="togglePassword"></i> -->
         </div>
         <p class="error">{{errorsMsg}}</p>
@@ -43,12 +56,12 @@
         >{{ errors.first('confirmpassword') }}</p>-->
         <!-- <button @click="submit">SUBMIT</button> -->
         <footer>
-          <button
+          <van-button
             :disabled="isdisabled"
             :class="isdisabled?'passive':'active'"
-            class="button is-primary"
-            type="submit"
-          >{{$t('common.Submit')}}</button>
+            type="primary"
+            native-type="submit"
+          >{{$t('common.Submit')}}</van-button>
         </footer>
       </form>
       <DialogMsg
@@ -73,6 +86,8 @@ export default {
         password: "",
         confirmpassword: ""
       },
+      isshowpassword: "password",
+      isconfirmpassword: "password",
       rules: {
         userName: [
           [
@@ -125,6 +140,15 @@ export default {
   },
 
   methods: {
+    passwordshow(is, name) {
+      console.log(is, name);
+
+      if (is == "password") {
+        this[name] = "text";
+      } else if (is == "text") {
+        this[name] = "password";
+      }
+    },
     check(e) {
       // this.errorsMsg = "";
       // let validator = new this.$Validator();
@@ -182,21 +206,13 @@ export default {
       return errorMsg; // 返回效验结果
     },
     submit_click() {
-      // console.log(123);
-
       this.errorsMsg = "";
       let errorMsg = this.validateFunc();
-      // console.log(errorMsg);
-
       if (errorMsg) {
         this.errorsMsg = errorMsg;
-        // console.log(errorMsg);
         return false;
       }
       this.remindervisible = true;
-      // console.log(this.remindervisible);
-
-      //
     },
     validateBeforeSubmit() {
       // console.log(this.$validator.validateAll);
@@ -355,6 +371,8 @@ export default {
     .mui-input-row {
       width: 100%;
       margin-bottom: vw(60);
+      display: flex;
+      flex-direction: column;
       span {
         display: inline-block;
       }
@@ -369,6 +387,17 @@ export default {
         line-height: vw(34);
         color: #8277b9;
         margin-top: vw(50);
+      }
+      section {
+        position: relative;
+        input {
+          padding-right: vw(42);
+        }
+        .icon-yanjing_huaban1 {
+          position: absolute;
+          right: 0;
+          font-size: vw(34);
+        }
       }
     }
     div.btn {

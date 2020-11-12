@@ -11,15 +11,13 @@
            <span class="down-tip">下拉更新</span>
            <span class="up-tip">松开更新</span>
            <span class="refresh-tip">
+             
            </span>
         </slot>
       </header>
-      <slot></slot>
-      <footer class="load-more">
-        <slot name="load-more">
-              <span v-if="loaded">完成</span>
-              <svg  class="loading"
-                  v-else-if="!loaded"
+      <nav>  
+         <svg  class="loading"
+                  v-if="!loaded"
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                   viewBox="0 0 50 50"
@@ -41,7 +39,13 @@
                     repeatCount="indefinite"
                   />
             </path>
-          </svg>
+          </svg></nav>
+      
+      <slot></slot>
+      <footer class="load-more">
+        <slot name="load-more">
+              <span v-if="loaded">完成</span>
+              
         </slot>
       </footer>
     </section>
@@ -87,27 +91,34 @@ export default {
       infiniteLoading: false
     };
   },
+  //  mounted() {
+  //   window.addEventListener("scroll", alert(123));
+  // },
   methods: {
     touchStart(e) {
-      // console.log(1);
+      //  console.log(this.state);
 
       this.startY = e.targetTouches[0].pageY;
       this.startScroll = this.$el.scrollTop || 0;
       this.touching = true;
     },
     touchMove(e) {
-      // console.log(2);
+      //  console.log(this.state);
       if (!this.enableRefresh || this.$el.scrollTop > 0 || !this.touching) {
         return;
       }
+      // console.log(this.startScroll);
+
       let diff = e.targetTouches[0].pageY - this.startY - this.startScroll;
-      if (diff > 0) e.preventDefault();
+
+      if (diff > 0 && e.cancelable) e.preventDefault();
       this.top = Math.pow(diff, 0.8) + (this.state === 2 ? this.offset : 0);
 
       if (this.state === 2) {
         // in refreshing
         return;
       }
+
       if (this.top >= this.offset) {
         this.state = 1;
       } else {
@@ -115,7 +126,7 @@ export default {
       }
     },
     touchEnd(e) {
-      // console.log(3);
+      // console.log(this.state);
       if (!this.enableRefresh) return;
       this.touching = false;
       if (this.state === 2) {
@@ -124,6 +135,8 @@ export default {
         this.top = this.offset;
         return;
       }
+      // console.log(this.top, this.offset);
+
       if (this.top >= this.offset) {
         // do refresh
         this.refresh();
@@ -177,14 +190,20 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-   font-size: vw(26);
-      color: #4f3dad;
-        font-weight: bold;
+  font-size: vw(26);
+  color: #4f3dad;
+  font-weight: bold;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  // touch-action: none;
   .loading {
     width: vw(80);
     height: vw(80);
+  }
+  nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   // touch-action: none;
 }
@@ -194,6 +213,7 @@ export default {
   width: 100%;
   transition-duration: 300ms;
 }
+
 .yo-scroll .pull-refresh {
   position: relative;
   left: 0;

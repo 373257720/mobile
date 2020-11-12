@@ -38,11 +38,11 @@ export default {
   background: #fff;
   text-align: center;
   color: #4f3dad;
-  font-size: vw(40);
+  font-size: 28px;
   header {
-    height: vw(140);
+    height: 50px;
     position: relative;
-    line-height: vw(140);
+    line-height: 50px;
     .van-icon-arrow-left {
       position: absolute;
       left: vw(36);
@@ -59,7 +59,7 @@ export default {
       position: absolute;
       right: vw(36);
       top: 50%;
-      font-size: vw(42);
+      font-size: 28px;
       transform: (translate(0, -50%));
     }
   }
