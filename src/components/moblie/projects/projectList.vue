@@ -1,7 +1,7 @@
 <template>
   <div id="mysign">
     <commonnav>
-      {{$t('project.projectStatus')}}
+      {{$t('project.project')}}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -43,8 +43,8 @@
                 </div>
               </section>
               <div class="btn">
-                <van-button @click="$routerto('agentProjectDetail')">Detail</van-button>
-                <van-button @click="$routerto('projectChain')">project chain</van-button>
+                <van-button @click="$routerto('agentProjectDetail')">{{$t('project.Detail')}}</van-button>
+                <van-button @click="$routerto('projectChain')">{{$t('project.projectChain')}}</van-button>
               </div>
             </li>
           </ul>

@@ -1,6 +1,6 @@
 export default {
   agent: {
-    Whorecommendme:"Who<br/>recommend<br/>me",
+    Whorecommendme: "Who<br/>recommend<br/>me",
     SignTheContract: "Sign the contract",
     Sign: "Sign",
     RecommendInvestors: "Recommend Investors",
@@ -46,11 +46,13 @@ export default {
     // Projects to be confirmed by investors
   },
   common: {
-    Search:"Search",
-    Fliter:"Fliter",
-    LinktoResetPassword:"A link to reset your password will now send to your mailbox, please check.",
-    CompanyAddress:"Company address",
-    passwordRule: "Minimum of 8 characters, have 1 upper case and 1 lower case letters, and at least 1 number.",
+    Search: "Search",
+    Fliter: "Fliter",
+    LinktoResetPassword:
+      "A link to reset your password will now send to your mailbox, please check.",
+    CompanyAddress: "Company address",
+    passwordRule:
+      "Minimum of 8 characters, have 1 upper case and 1 lower case letters, and at least 1 number.",
     Verify: "Verify",
     potentialInvestors: "Potential investors",
     pleasegetcode: "Please send email to get code",
@@ -226,8 +228,8 @@ export default {
       "Cooperation intention has been sent,please wait"
   },
   Account: {
-    Message:"Message",
-    Comfirm:"Comfirm",
+    Message: "Message",
+    Comfirm: "Comfirm",
     Account: "Account",
     PersonalReview: "Personal review",
     Language: "Language",
@@ -238,9 +240,36 @@ export default {
     WhethertoshowInvestors: "Whether to show the real name to the investors",
     WhethertoshowMiddleman: "Whether to show the real name to the middleman"
   },
-  project:{
-    project:"Project",
-    Projectchain:"Project chain",
-    projectStatus:"Project status"
-  },
+  project: {
+    Step1Pleaseaddcompletecontractdetails:"Step 1 Please add complete contract details",
+    Contract:"Contract",
+    FinderCompanyName:"Finder Company Name",
+    FinderAddress:"Finder Address",
+    Contractwithibank: "Contract with ibank",
+    SignContract: "Sign Contract",
+    Interested: "Interested",
+    NDAcontract: "NDA contract",
+    SignNDAterms: "Sign NDA terms",
+    RecommendMore: "Recommend More",
+    SeeAll: "See all",
+    Detail: "Detail",
+    projectChain: "project chain",
+    YouAndProjectparty: "You (the middleman) and the project party",
+    YouRecommandMiddleman: "You (the middleman) recommend the middleman",
+    YouAndInverstor: "You (the middleman) and the investor",
+    MiddlemanRecommandYou: "The middleman recommends you (the middleman)",
+    project: "Project",
+    Projectchain: "Project chain",
+    projectStatus: "Project status",
+    PendingItems: "Pending items",
+    NDArequestitem: "NDA request item",
+    Projecttobesigned: "Project to be signed",
+    NDAprojecttobesigned: "NDA project to be signed",
+    SignedNDAtobelisted: "Signed NDA to be listed",
+    SignedNDAsuccessfulproject: "Signed NDA successful project",
+    Hasagreedtowaitfortheprojectpartytosignthecontract:
+      "Has agreed to wait for the project party to sign the contract",
+    Waitingforyoutosignthecontract: "Waiting for you to sign the contract",
+    Failedtocompletethesigningprocess: "Failed to complete the signing process"
+  }
 };

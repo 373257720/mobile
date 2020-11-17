@@ -1,21 +1,20 @@
 <template>
   <div id="signContract">
     <commonnav>
-      Contract
+      {{$t('project.Contract')}}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>
-      <h1>Step 1 Please add complete contract details</h1>
+      <h1>{{$t('project.Step1Pleaseaddcompletecontractdetails')}}</h1>
       <form ref="form" @submit.prevent="submit_click">
         <div class="mui-input-row input-row">
-          <p class="label">Finder Company Name</p>
+          <p class="label">{{$t('project.FinderCompanyName')}}</p>
           <input name="userName" type="text" v-model="validateForm.username" />
         </div>
         <div class="mui-input-row input-row">
-          <p class="label">Finder Address</p>
-
+          <p class="label">{{$t('project.FinderAddress')}}</p>
           <input name="Password" type="text" v-model="validateForm.password" />
         </div>
         <p class="error">{{errorsMsg}}</p>
@@ -24,7 +23,7 @@
           :class="isdisabled?'passive':'active'"
           class="button is-primary"
           type="submit"
-        >Submit</button>
+        >{{$t('common.Submit')}}</button>
       </form>
     </main>
   </div>

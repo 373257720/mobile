@@ -69,7 +69,7 @@ export default {
     background: none;
   }
   background: #4f3dad;
-  height: 50px;
+  height:50px;
   .van-icon {
     font-size: vw(45);
   }

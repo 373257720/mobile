@@ -14,68 +14,62 @@
       <ul>
         <li @click="$routerto('projectList')">
           <div>
-            <p>Has agreed to wait for the project party to sign the contract</p>
+            <p>{{$t('project.PendingItems')}}</p>
             <aside>1</aside>
           </div>
         </li>
         <li @click="$routerto('projectList')">
           <div>
-            <p>Has agreed to wait for the project partywait for the project party to sign th to sign the contract</p>
+            <p>{{$t('project.NDArequestitem')}}</p>
             <aside>1</aside>
           </div>
         </li>
         <li @click="$routerto('projectList')">
           <div>
-            <p>Has agreed to wait for the project party to sign the contract</p>
+            <p>{{$t('project.Projecttobesigned')}}</p>
             <aside>1</aside>
           </div>
         </li>
         <li @click="$routerto('projectList')">
           <div>
-            <p>Has agreed to wait for the project party to sign the contract</p>
+            <p>{{$t('project.NDAprojecttobesigned')}}</p>
             <aside>1</aside>
           </div>
         </li>
         <li @click="$routerto('projectList')">
           <div>
-            <p>Has agreed to wait for the project party to sign the contract</p>
+            <p>{{$t('project.SignedNDAtobelisted')}}</p>
             <aside>1</aside>
           </div>
         </li>
         <li @click="$routerto('projectList')">
           <div>
-            <p>Has agreed to wait for the project party to sign the contract</p>
+            <p>{{$t('project.SignedNDAsuccessfulproject')}}</p>
             <aside>1</aside>
           </div>
         </li>
         <li @click="$routerto('projectList')">
           <div>
-            <p>Has agreed to wait for the project party to sign the contract</p>
+            <p>{{$t('project.SignedNDAsuccessfulproject')}}</p>
             <aside>1</aside>
           </div>
         </li>
         <li @click="$routerto('projectList')">
           <div>
-            <p>Has agreed to wait for the project party to sign the contract</p>
+            <p>{{$t('project.Hasagreedtowaitfortheprojectpartytosignthecontract')}}</p>
             <aside>1</aside>
           </div>
         </li>
 
         <li @click="$routerto('projectList')">
           <div>
-            <p>Has agreed to wait for the project party to sign the contract</p>
+            <p>{{$t('project.Waitingforyoutosignthecontract')}}</p>
             <aside>1</aside>
           </div>
         </li>
         <li @click="$routerto('projectList')">
           <div>
-            <p>Has agreed to wait for the project party to sign the contract</p>
-            <aside>1</aside>
-          </div>
-        </li>
-        <li @click="$routerto('projectList')">
-          <div>
-            <p>Has agreed to wait for the project party to sign the contract</p>
+              <p>{{$t('project.Failedtocompletethesigningprocess')}}</p>
             <aside>1</aside>
           </div>
         </li>
@@ -143,7 +137,7 @@ export default {
           align-items: center;
           width: vw(522);
           background: #4f3dad;
-          padding: vw(20) vw(20);
+          padding: vw(30) vw(20);
           border-radius: vw(16);
           color: #ffffff;
           p {

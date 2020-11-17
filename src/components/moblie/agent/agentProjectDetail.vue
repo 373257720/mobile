@@ -1,7 +1,7 @@
 <template>
   <div id="agentProjectDetail">
     <commonnav>
-      project detail
+      {{$t('common.ProjectDetails')}}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -21,11 +21,12 @@
             <span>$ 600,000,000,000</span>
           </p>
         </div>
-        <div  class="projectsDetails-recommand">
+
+        <div class="projectsDetails-recommand">
           <!-- <div>
             You have not recommend
             any investors before.
-          </div> -->
+          </div>-->
           <div class="project-swipe">
             <van-icon name="arrow-left" @click="privous" />
             <p>
@@ -67,10 +68,10 @@
                 </template>-->
               </van-swipe>
             </div>
-            <p @click="$routerto('a_recommand_i')">See all</p>
+            <p @click="$routerto('a_recommand_i')">{{$t('project.SeeAll')}}</p>
             <van-icon name="arrow" @click="next" />
           </div>
-          <div @click="$routerto('recent_recommand')">Recommend More</div>
+          <div @click="$routerto('recent_recommand')">{{$t('project.RecommendMore')}}</div>
         </div>
         <div class="projectDetail">
           <aside class="iconfont icon-3"></aside>
@@ -134,11 +135,11 @@
           </li>
         </ul>
         <footer>
-          <p @click="signNDA">Sign NDA terms</p>
-          <p @click="signNDA">NDA contract</p>
-          <button>Interested</button>
-          <button @click="$routerto('signContractStep1')">Sign Contract</button>
-          <button @click="$routerto('signContractStep1')">Contract with ibank</button>
+          <p @click="signNDA">{{$t("project.SignNDAterms")}}</p>
+          <p @click="signNDA">{{$t("project.NDAcontract")}}</p>
+          <button>{{$t('project.Interested')}}</button>
+          <button @click="$routerto('signContractStep1')">{{$t('project.SignContract')}}</button>
+          <button @click="$routerto('signContractStep1')">{{$t('project.Contractwithibank')}}</button>
         </footer>
       </div>
     </main>

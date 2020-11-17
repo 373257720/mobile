@@ -6,7 +6,7 @@
         <i class="icon iconRight iconfont icon-message"></i>
       </template>
     </commonnav>
-    <main :class="{'topReduce':isshowTag}">
+    <main class="main" :class="{'topReduce':isshowTag}">
       <!-- <transition name="Totop"> -->
 
       <v-scroll
@@ -14,19 +14,22 @@
         :on-refresh="onRefresh"
         :loaded="loaded"
         :on-infinite="onInfinite"
-        :class="{'yo-scrollTop':isshowTag}"
+        :class="{'yo-scrollTop':isshowTag,'Fixed':isFixed}"
       >
-        <van-search
-          v-if="!isshowTag"
-          v-model="searchkey"
-          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-          shape="round"
-          left-icon
-        >
-          <div slot="right-icon">
-            <van-icon name="search" @click="()=>{isshowTag=true}" />
-          </div>
-        </van-search>
+        <div class="searchContainer" :class="{'isFixed':isFixed}">
+          <van-search
+            v-if="!isshowTag"
+            v-model="searchkey"
+            :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
+            shape="round"
+            left-icon
+          >
+            <div slot="right-icon">
+              <van-icon name="search" @click="()=>{isshowTag=true}" />
+            </div>
+          </van-search>
+        </div>
+
         <div v-if="!isshowTag" class="mhome-tag">
           <ul>
             <li>
@@ -111,7 +114,7 @@
 </template>
 <script>
 // let timeout;
-import Scroll from "./loadmore";
+import Scroll from "@/components/moblie/loadmore";
 
 import ScrollTop from "@/components/moblie/common/toTop";
 // import { log } from "util";
@@ -159,6 +162,8 @@ export default {
           isactive: false
         }
       ],
+      isFixed: false,
+      scrollHeight: 0,
       industry_title: this.$t("common.Industry"),
       usertype: "",
       activenum: 0, //行业下标
@@ -219,11 +224,18 @@ export default {
       countrylist: []
     };
   },
-  created(){
-this.getcountrylist();
+  created() {
+    this.getcountrylist();
+  },
+  mounted() {
+    window.addEventListener("scroll", this.initHeight, true);
+    this.scrollHeight = document.querySelector(
+      ".van-search__content"
+    ).offsetTop;
+    console.log(this.scrollHeight);
+    // document.querySelector.van-search__content
   },
   activated() {
-    
     // this.usertype = this.$store.state.currentUsertype;
     // let axiosList = [
     //   this.$axios.get(
@@ -272,8 +284,23 @@ this.getcountrylist();
     // this.loading = true
     // this.onLoad();
   },
-
+  destroyed() {
+    window.removeEventListener("scroll", this.initHeight, true);
+  },
   methods: {
+    initHeight() {
+      // console.log(document.querySelector(".main"));
+
+      let scrollTop = document.querySelector(".yo-scroll").scrollTop;
+      console.log(scrollTop);
+      
+      // window.pageYOffset ||
+      // document.documentElement.scrollTop ||
+      // document.body.scrollTop;
+      // console.log(scrollTop);
+
+      this.isFixed = scrollTop > this.scrollHeight ? true : false;
+    },
     getcountrylist(done) {
       this.countrylist = [];
       this.$global
@@ -616,49 +643,36 @@ this.getcountrylist();
 
 <style lang="scss">
 #mhome {
-  .Totop-enter-active,
-  .Totop-leave-active {
-    transition: all 10s ease;
-    // position: fixed;
-  }
-
-  .Totop-enter, .Totop-leave-to
-/* .slide-fade-leave-active for below version 2.1.8 */ {
-    transform: translateY(100%);
-    // opacity: 0;
+  .van-button--normal {
+    font-size: vw(26);
   }
 }
 </style>
 
 <style lang="scss" scoped>
-section.inner {
-  position: absolute;
-}
 #mhome {
   display: flex;
   height: 100%;
   flex-direction: column;
-  #Nav {
-    width: 100%;
-    font-weight: bold;
-    position: fixed;
-    top: 0;
-    z-index: 200;
-    background: #fff;
-    line-height: vw(140);
-    text-align: center;
-    color: #4f3dad;
-    font-size: vw(40);
-  }
+
   main {
-    padding-top: 50px;
-    padding-bottom: 50px;
+    // padding-bottom: 50px;
     height: 100%;
+    position: relative;
+    //  z-index: 200;
     // overflow: auto;
+    .isFixed {
+      position: -webkit-sticky; /* Safari */
+      position: sticky;
+      top: 0;
+    }
     .van-search {
       width: vw(598);
+      background: #fff;
       margin: 0 auto;
       padding: 0;
+      // padding: vw(10);
+      z-index: 666;
       margin-bottom: vw(48);
     }
     .van-search__content {
@@ -669,22 +683,21 @@ section.inner {
         color: #3ab5cc;
       }
     }
-    .container {
-      // position: relative;
-      // flex: 1;
+    .searchContainer {
+      z-index: 1;
+      background: #fff;
     }
     .yo-scroll {
       position: absolute;
       top: 50px;
-      transition: all 1s ease;
       bottom: 50px;
       -webkit-overflow-scrolling: touch;
     }
-    // .yo-scroll .inner {
-    //   position: initial;
-    // }
+    .yo-scroll.Fixed {
+      top: 0;
+    }
     .yo-scrollTop {
-      top: 50px;
+      // top: 50px;
     }
     .mhome-tag {
       // padding-top: vw(62);
@@ -768,7 +781,8 @@ section.inner {
     }
     .mhome-article {
       .timestamp {
-        margin-top: 50px;
+        margin-top: vw(50);
+        z-index: 180;
         ul {
           li {
             margin-bottom: vw(40);
@@ -784,6 +798,10 @@ section.inner {
               // opacity: 1;
             }
           }
+          li:nth-last-of-type(1){
+             margin-bottom: vw(0);
+          }
+          
         }
       }
       #container {
@@ -886,6 +904,9 @@ section.inner {
         }
       }
     }
+  }
+  #common_nav {
+    // z-index: 200;
   }
   .topReduce {
     padding-top: vw(140);

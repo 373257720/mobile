@@ -7,22 +7,27 @@
       </template>
     </commonnav>
     <main>
-      <van-search
-        v-model="searchkey"
-        :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-        shape="round"
-        left-icon
-      >
-        <div slot="right-icon">
-          <van-icon name="search" />
-        </div>
-      </van-search>
+     
+
       <v-scroll
         class="mhome-article"
         :on-refresh="onRefresh"
         :loaded="loaded"
         :on-infinite="onInfinite"
       >
+       <div class="searchContainer" :class="{'isFixed':isFixed}">
+        <van-search
+          :class="{'is_fixed' : isFixed}"
+          v-model="searchkey"
+          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
+          shape="round"
+          left-icon
+        >
+          <div slot="right-icon">
+            <van-icon name="search" />
+          </div>
+        </van-search>
+      </div>
         <div class="timestamp">
           <ul>
             <li @click="$routerto('projectStatus')" v-for="i in countrylist" :key="i.remark">
@@ -49,7 +54,7 @@
                 </div>
               </section>
               <div class="btn">
-                <van-button>Interested</van-button>
+                <van-button>{{$t('projectOwner.Interested')}}</van-button>
               </div>
             </li>
           </ul>
@@ -57,21 +62,25 @@
       </v-scroll>
       <!-- </transition> -->
     </main>
-  
+       <scroll-top />
   </div>
 </template>
 <script>
 // console.log(timeout)
 import Scroll from "@/components/moblie/loadmore";
+import ScrollTop from "@/components/moblie/common/toTop";
 export default {
   name: "mysign",
   components: {
-    "v-scroll": Scroll
+    "v-scroll": Scroll,
+       ScrollTop
   },
   data() {
     return {
       searchkey: "",
       result: [],
+      isFixed: false,
+      offsetTop: 0,
       loaded: false,
       refreshing: false,
       loadText: "Loading…",
@@ -79,7 +88,6 @@ export default {
       loadNumUp: 20,
       countrylist: [],
       usertype: "",
-      upGoodsInfo: [],
       // 1投行（项目方），3投资者，4投资中间人
       // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4    已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8   待确认项目->9  签约成功项目->10 拒绝签约项目->11
       piclists: [
@@ -305,17 +313,20 @@ export default {
     }
   },
   mounted() {
-    // this.initial();
-    // this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
+    // window.addEventListener("scroll", this.initHeight, true);
     // this.$nextTick(() => {
-    //   window.addEventListener("resize", this.initial, false);
+    //   this.offsetTop = document.querySelector(".van-search__content").offsetTop;
     // });
   },
   destroyed() {
-    window.removeEventListener("resize", this.initial, false);
+    // window.removeEventListener("scroll", this.initHeight, true);
   },
 
   methods: {
+    initHeight() {
+      let scrollTop = document.querySelector(".yo-scroll").scrollTop;
+      this.isFixed = scrollTop > this.offsetTop ? true : false;
+    },
     getcountrylist(done) {
       this.countrylist = [];
       this.$global
@@ -378,25 +389,6 @@ export default {
           }
         });
     },
-    initial() {
-      this.$refs.check.$el.style.height = 0;
-      console.log(123);
-      if (window.orientation == 90 || window.orientation == -90) {
-        document.querySelector(".choose_lists").style.maxHeight = 4 + "rem";
-      } else {
-        document.querySelector(".choose_lists").style.maxHeight = "initial";
-      }
-    },
-    toggleAll() {
-      // console.log(this.num)
-      if (this.num == 1) {
-        this.$refs.check.toggleAll(true);
-        this.num = 2;
-      } else if (this.num == 2) {
-        this.$refs.check.toggleAll(false);
-        this.num = 1;
-      }
-    },
     mysignto(item) {
       let signStatus = item.signStatus;
       let obj = {
@@ -457,138 +449,6 @@ export default {
           this.$routerto("i_sign_failed", obj);
         }
       }
-    },
-    confirm_lists() {
-      function unique(arr) {
-        if (!Array.isArray(arr)) {
-          console.log("type error!");
-          return;
-        }
-        arr = arr.sort();
-        var arrry = [arr[0]];
-        for (var i = 1; i < arr.length; i++) {
-          if (arr[i] !== arr[i - 1]) {
-            arrry.push(arr[i]);
-          }
-        }
-        return arrry;
-      }
-      this.result = unique(this.result);
-      // this.result = [...new Set(this.result)];
-      if (this.usertype == 1 || this.usertype == 4) {
-        if (this.result.indexOf(3) >= 0) {
-          if (this.result.indexOf(7) <= 0) {
-            this.result.push(7);
-          }
-          if (this.result.indexOf(11) <= 0) {
-            this.result.push(11);
-          }
-        } else if (this.result.indexOf(3) < 0) {
-          if (this.result.indexOf(7) >= 0) {
-            this.result.splice(this.result.indexOf(7), 1);
-          }
-          if (this.result.indexOf(11) >= 0) {
-            this.result.splice(this.result.indexOf(11), 1);
-          }
-        }
-      }
-      this.$store.commit("genre_array", this.result);
-      console.log(this.$store.state);
-      this.finished = false;
-      this.loading = true;
-      this.upGoodsInfo = [];
-      this.pageNum = 1;
-      this.fliter();
-      this.onLoad();
-    },
-    fliter() {
-      this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
-      if (
-        this.$refs.check.$el.style.height == 0 ||
-        this.$refs.check.$el.style.height == 0 + "px"
-      ) {
-        this.$refs.check.$el.style.height = this.checklist_height + "px";
-      } else {
-        this.$refs.check.$el.style.height = 0;
-      }
-    },
-    toggle(index) {
-      this.$refs.checkboxes[index].toggle();
-    },
-    onLoad() {
-      if (this.refreshing) {
-        this.upGoodsInfo = [];
-        this.refreshing = false;
-      }
-      // this.$axios({
-      //   method: "post",
-      //   url: `${this.$axios.defaults.baseURL}/bsl_web/projectSign/project`,
-      //   data: this.$qs.stringify(
-      //     {
-      //       projectId: this.$route.query.projectId,
-      //       signStatusList: this.result,
-      //       pageIndex: this.pageNum,
-      //       pageSize: this.loadNumUp,
-      //       X_Token:this.$store.state.X_Token
-      //     },
-      //     { arrayFormat: "brackets" }
-      //   ),
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded"
-      //   }
-      // })
-      // console.log(result);
-
-      this.$global
-        .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/project`,
-          {
-            projectId: this.$route.query.projectId,
-            signStatusList: this.result,
-            pageIndex: this.pageNum,
-            pageSize: this.loadNumUp
-            // X_Token:this.$store.state.X_Token
-          }
-        )
-        .then(res => {
-          if (res.data.resultCode == 10000) {
-            let re = [...res.data.data.lists];
-            for (let i = 0; i < re.length; i++) {
-              re[i].signTime4Submit = re[i].signTime4Submit
-                ? this.$global.timestampToTime(re[i].signTime4Submit)
-                : "";
-              re[i].signTime = re[i].signTime
-                ? this.$global.timestampToTime(re[i].signTime)
-                : "";
-            }
-            if (re.length > 0) {
-              re.forEach(item => {
-                this.piclists.forEach(each => {
-                  if (item.signStatus == each.value) {
-                    item.signStatustext = each.text;
-                    item.pic = each.pic;
-                  }
-                });
-              });
-              this.upGoodsInfo = this.upGoodsInfo.concat(re);
-              this.loading = false;
-            }
-            if (
-              this.upGoodsInfo.length >= res.data.data.pageTotal ||
-              this.upGoodsInfo.length == 0
-            ) {
-              this.finished = true;
-            }
-            this.pageNum++;
-          } else {
-            this.loading = false;
-            this.finished = true;
-          }
-          console.log(this.upGoodsInfo);
-        })
-        .catch(err => {
-          // this.loadText = "加载失败";
-        });
     }
   }
 };
@@ -599,7 +459,9 @@ export default {
 <style lang="scss" scoped>
 #mysign {
   main {
-    padding-top: vw(140);
+    padding-top: 50px;
+    // position: relative;
+    // height: 100%;
     .van-search {
       width: vw(598);
       margin: 0 auto;
@@ -615,9 +477,9 @@ export default {
       }
     }
     .yo-scroll {
-      top: vw(292);
+      top: 50px;
       transition: all 1s ease;
-      bottom: vw(114);
+      bottom: 50px;
       -webkit-overflow-scrolling: touch;
     }
     .yo-scrollTop {
@@ -640,6 +502,9 @@ export default {
               margin-bottom: vw(22);
               // opacity: 1;
             }
+          }
+            li:nth-last-of-type(1){
+             margin-bottom: vw(0);
           }
         }
       }

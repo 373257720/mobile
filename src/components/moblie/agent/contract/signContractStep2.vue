@@ -1,7 +1,7 @@
 <template>
   <div id="signContractStep2">
     <commonnav>
-      Contract
+      {{$t('project.Contract')}}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -31,6 +31,40 @@
             label-disabled
             checked-color="#00f0ab"
           >Percentage of commission income from project party</van-radio>
+          <div class="count">
+            <input
+              type="text"
+              name="projectParty"
+              @input="$global.amountKeyupFunn($event)"
+              v-model="projectParty"
+            />
+            <span>%</span>
+            <p>
+              <span
+                :class="{'isactive':isactive}"
+                @click="up('projectParty')"
+                class="iconfont icon-arrow_on projectParty"
+              ></span>
+              <span class="iconfont icon-arrow_under projectParty" @click="down('projectParty')"></span>
+              <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
+              <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
+            </p>
+          </div>
+        </van-radio-group>
+        <h3>Recommend locking date</h3>
+        <van-radio-group v-model="radio">
+          <van-radio name="1" label-disabled checked-color="#00f0ab">Recommendation time</van-radio>
+          <div class="count">
+            <input type="number" v-model="intermediaries" />
+            <span>%</span>
+            <p>
+              <span class="iconfont icon-arrow_on" @click="up('intermediaries')"></span>
+              <span class="iconfont icon-arrow_under" @click="down('intermediaries')"></span>
+              <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
+              <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
+            </p>
+          </div>
+          <van-radio name="2" label-disabled checked-color="#00f0ab">Recommended countdown</van-radio>
           <div class="count">
             <input type="number" name="projectParty" v-model="projectParty" />
             <span>%</span>
@@ -62,7 +96,7 @@
         </ul>
       </div>
     </main>
-    <DialogMsg :remindervisible.sync="remindervisible"   :showCancel="true" :msg="msg"></DialogMsg>
+    <DialogMsg :remindervisible.sync="remindervisible" :showCancel="true" :msg="msg"></DialogMsg>
   </div>
 </template>
 <script>
@@ -75,10 +109,10 @@ export default {
 Once confirmed, it cannot be undone or changed
 And sign the contract with the project party`,
       radio: "",
-      remindervisible:false,
+      remindervisible: false,
       isactive: false,
-      intermediaries: 0,
-      projectParty: 0,
+      intermediaries: 0.00,
+      projectParty: "0.00",
       timeout: null
       //   setTime:null,
     };
@@ -89,33 +123,33 @@ And sign the contract with the project party`,
     projectParty(newvalue, oldvalue) {
       //  let reg= /^([1-9][0-9]*)+(.[0-9]{1,2})?$/;
       let newvalue_ = newvalue;
-      console.log(newvalue_);
-      if (newvalue_) {
-        if (/\./i.test(newvalue_)) {
-          //判断处理含有.的情况下
-          if (newvalue_.split(".").length - 1 > 1) {
-            this.projectParty = oldvalue;
-            return;
-          }
-          if (/\.\d\d\d$/.test(newvalue_)) {
-            this.projectParty = oldvalue; //限制只能输入2位小数点
-          }
-          // else {
-          //   this.projectParty = newvalue_.replace(/[^\d\.\,]/gi, "");
-          //   //开始输入小数点之后，只能输入数字
-          // }
-        }
-      } else {
-        this.projectParty = oldvalue;
+      // console.log(newvalue_);
+      // if (newvalue_) {
+      //   if (/\./i.test(newvalue_)) {
+      //     //判断处理含有.的情况下
+      //     if (newvalue_.split(".").length - 1 > 1) {
+      //       this.projectParty = oldvalue;
+      //       return;
+      //     }
+      //     if (/\.\d\d\d$/.test(newvalue_)) {
+      //       this.projectParty = oldvalue; //限制只能输入2位小数点
+      //     }
+      //     // else {
+      //     //   this.projectParty = newvalue_.replace(/[^\d\.\,]/gi, "");
+      //     //   //开始输入小数点之后，只能输入数字
+      //     // }
+      //   }
+      // } else {
+      //   this.projectParty = oldvalue;
 
-        return;
-      }
+      //   return;
+      // }
     }
   },
 
   methods: {
-    dosome(){
-      this.remindervisible=false;
+    dosome() {
+      this.remindervisible = false;
     },
     max(value) {
       if (value.target.value * 1 < 0) {
@@ -199,7 +233,7 @@ And sign the contract with the project party`,
         margin-bottom: vw(60);
       }
       footer {
-        padding-top: vw(250);
+        // padding-top: vw(250);
         display: flex;
         justify-content: flex-end;
         margin-bottom: vw(76);

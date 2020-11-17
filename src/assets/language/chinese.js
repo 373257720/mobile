@@ -44,16 +44,16 @@ export default {
     EmailFormatIsIncorrect: "邮箱格式不正确"
     // Projects to be confirmed by investors
   },
-  VerifyMsg:{
-    isnotempty:"不能为空",
-    FormatError:"格式不正确",
-    inconsistent:"不一致",
- },
+  VerifyMsg: {
+    isnotempty: "不能为空",
+    FormatError: "格式不正确",
+    inconsistent: "不一致"
+  },
   common: {
-    Search:"搜索",
-    Fliter:"筛选",
-    LinktoResetPassword:"一个重置密码的链接将发送到您的邮箱，请检查",
-    CompanyAddress:"公司地址",
+    Search: "搜索",
+    Fliter: "筛选",
+    LinktoResetPassword: "一个重置密码的链接将发送到您的邮箱，请检查",
+    CompanyAddress: "公司地址",
     passwordRule: "最少8个字符，有1个大写字母和1个小写字母，以及至少1个数字。",
     Verify: "验证",
     potentialInvestors: "潜在投资者要求",
@@ -242,8 +242,35 @@ export default {
     WhethertoshowMiddleman: "是否向中间人出示实名"
   },
   project: {
+    Step1Pleaseaddcompletecontractdetails:"第一步请补充完整的合约细节内容",
+    Contract:"合约",
+    FinderCompanyName:"公司名称",
+    FinderAddress:"公司地址",
+    Contractwithibank: "Contract with ibank",
+    SignContract:"签约",
+    Interested: "感兴趣",
+    NDAcontract:"NDA合约",
+    SignNDAterms:"签约NDA条款",
+    RecommendMore:"推荐更多",
+    SeeAll:"查看全部",
+    Detail: "详情",
+    projectChain: "项目链",
+    YouAndProjectparty: "你(中间人)和项目方",
+    YouRecommandMiddleman: "你(中间人)推荐中间人",
+    YouAndInverstor: "你(中间人)投资者",
+    MiddlemanRecommandYou: "中间人推荐你(中间人)",
     project: "项目",
     Projectchain: "项目链",
-    projectStatus: "项目状态"
+    projectStatus: "项目状态",
+    PendingItems: "待处理项目",
+    NDArequestitem: "NDA请求项目",
+    Projecttobesigned: "待签约项目",
+    NDAprojecttobesigned: "待签约NDA项目",
+    SignedNDAtobelisted: "已签约NDA待上传",
+    SignedNDAsuccessfulproject: "签约NDA成功项目",
+    Hasagreedtowaitfortheprojectpartytosignthecontract:
+      "已同意带项目方签约合同",
+    Waitingforyoutosignthecontract: "等待您签约合同",
+    Failedtocompletethesigningprocess: "未能签约合同"
   }
 };

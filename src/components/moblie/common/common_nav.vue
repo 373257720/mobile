@@ -38,7 +38,7 @@ export default {
   background: #fff;
   text-align: center;
   color: #4f3dad;
-  font-size: 28px;
+  font-size: 20px;
   header {
     height: 50px;
     position: relative;

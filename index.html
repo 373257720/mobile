@@ -26,30 +26,29 @@
   <body>
     <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
     <script>
-      function orient() {
-        // alert('gete');
-        console.log(window.orientation);
+      // function orient() {
+      //   console.log(window.orientation);
         
-        if (window.orientation == 0 || window.orientation == 180) {
-          $("body").attr("class", "portrait");
-          orientation = "portrait";
-          return false;
-        } else if (window.orientation == 90 || window.orientation == -90) {
-          $("body").attr("class", "portrait");
-          orientation = "portrait";
+      //   if (window.orientation == 0 || window.orientation == 180) {
+      //     $("body").attr("class", "portrait");
+      //     orientation = "portrait";
+      //     return false;
+      //   } else if (window.orientation == 90 || window.orientation == -90) {
+      //     $("body").attr("class", "portrait");
+      //     orientation = "portrait";
 
-          return false;
-        }
-      }
-      $(function() {
-        orient();
-      });
+      //     return false;
+      //   }
+      // }
+      // $(function() {
+      //   orient();
+      // });
 
-      $(window).bind("orientationchange", function(e) {
+      // $(window).bind("orientationchange", function(e) {
    
         
-        orient();
-      });
+      //   orient();
+      // });
     </script>
     <!-- <script type="text/javascript">
       (function(designWidth, maxWidth) {

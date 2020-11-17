@@ -14,25 +14,25 @@
       <ul>
         <li @click="$routerto('projectSubStatus')">
           <div>
-            <p>You (the middleman) and the project party</p>
+            <p>{{$t('project.YouAndProjectparty')}}</p>
             <aside>1</aside>
           </div>
         </li>
         <li>
           <div>
-            <p>You (the middleman) and the project party</p>
+            <p>{{$t('project.YouRecommandMiddleman')}}</p>
             <aside>1</aside>
           </div>
         </li>
         <li>
           <div>
-            <p>You (the middleman) and the project party</p>
+            <p>{{$t('project.YouAndInverstor')}}</p>
             <aside>1</aside>
           </div>
         </li>
         <li>
           <div>
-            <p>You (the middleman) and the project party</p>
+            <p>{{$t('project.MiddlemanRecommandYou')}}</p>
             <aside>1</aside>
           </div>
         </li>
@@ -91,20 +91,23 @@ export default {
     ul {
       li {
         width: vw(622);
-        height: vw(152);
+        // height: vw(152);
         background: #4f3dad;
-        padding: vw(30) 0;
+          padding: vw(30) 0;
         border-radius: vw(16);
         margin-bottom: vw(60);
         div {
           display: flex;
+        
           //   justify-content: center;
           align-items: center;
           color: #ffffff;
           p {
             width: vw(472);
-            height: vw(92);
+            // height: vw(92);
             font-size: vw(36);
+            display: flex;
+            align-items: center;
             font-weight: bold;
             line-height: vw(42);
             padding-left: vw(76);
