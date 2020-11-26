@@ -8,7 +8,6 @@
     </commonnav>
     <main class="main" :class="{'topReduce':isshowTag}">
       <!-- <transition name="Totop"> -->
-
       <v-scroll
         class="mhome-article"
         :on-refresh="onRefresh"
@@ -293,7 +292,7 @@ export default {
 
       let scrollTop = document.querySelector(".yo-scroll").scrollTop;
       console.log(scrollTop);
-      
+
       // window.pageYOffset ||
       // document.documentElement.scrollTop ||
       // document.body.scrollTop;
@@ -798,10 +797,9 @@ export default {
               // opacity: 1;
             }
           }
-          li:nth-last-of-type(1){
-             margin-bottom: vw(0);
+          li:nth-last-of-type(1) {
+            margin-bottom: vw(0);
           }
-          
         }
       }
       #container {

@@ -239,7 +239,8 @@ export default {
     Nickname: "昵称",
     EditInformation: "编辑信息",
     WhethertoshowInvestors: "是否向投资者出示实名",
-    WhethertoshowMiddleman: "是否向中间人出示实名"
+    WhethertoshowMiddleman: "是否向中间人出示实名",
+    Whethertoshowleaderboard: "Whethertoshowleaderboard",
   },
   project: {
     Step1Pleaseaddcompletecontractdetails:"第一步请补充完整的合约细节内容",

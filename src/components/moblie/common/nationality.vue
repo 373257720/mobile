@@ -32,12 +32,14 @@
         </ul>
       </v-scroll>
     </main>
+    <to-Top></to-Top>
     <!-- <layer :loaded.sync="loaded"></layer> -->
   </div>
 </template>  
 <script >
 import Scroll from "../loadmore";
 import layer from "./layer";
+import toTop from "./toTop";
 export default {
   name: "Nationality",
   props: ["usercheck"],
@@ -55,17 +57,17 @@ export default {
   },
   components: {
     layer: layer,
-    "v-scroll": Scroll
+    "v-scroll": Scroll,
+    "to-Top": toTop
   },
   created() {
-    
     this.getcountrylist();
   },
   methods: {
     pickcountry(item) {
       if (item) this.usercheck.nation = item;
       // console.log(item);
-      
+
       this.$emit("fromKids", "nation");
       // this.$emit("pickNation",item)
     },

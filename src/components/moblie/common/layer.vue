@@ -1,5 +1,5 @@
 <template>
-  <div id="layer" v-if="loaded">
+  <div id="layer" class="loading" v-show="this.$store.state.loading">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -28,10 +28,13 @@
 <script>
 export default {
   props: {
-    loaded: Boolean,
+    // loaded: Boolean,
     showCancel: Boolean,
     title: String,
     msg: String
+  },
+  created() {
+    console.log(this.$store.state);
   },
   data() {
     return {
@@ -67,19 +70,21 @@ export default {
 
 <style lang='scss'>
 #layer {
-  width: 100%;
-  height: 100%;
+  z-index: 201;
   background: #fff;
   opacity: 0.5;
-  position: absolute;
-  top: 0;
-  z-index: 201;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
   svg:not(:root) {
+    position: fixed;
+    top: 50%;
+    left: 50%;
     width: vw(100);
     height: vw(100);
+    transform: translate(-50%, -50%);
   }
+}
+.loading {
 }
 </style>

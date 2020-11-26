@@ -70,6 +70,19 @@ export default {
         // console.log(errorMsg);
         return false;
       }
+     this.$store.commit("isloading", true);
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/sendForgetPwdEmailCode.do`,
+          {
+            email: this.validateForm.username
+          }
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+          console.log(res);
+        });
+
       // this.$routerto("mhome");
     },
     validateFunc() {

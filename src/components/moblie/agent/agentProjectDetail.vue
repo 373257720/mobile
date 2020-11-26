@@ -21,6 +21,50 @@
             <span>$ 600,000,000,000</span>
           </p>
         </div>
+        <div class="richtext" style="word-wrap:break-word;font-size: 3.2vw;">
+          <p>
+            <img
+              src="http://atm.wearetechman.com/static/ueditor/php/upload/20200820/15978932833894.png"
+              title="ix邮箱logo.png"
+              width="80"
+              height="34"
+              _src="http://atm.wearetechman.com/static/ueditor/php/upload/20200820/15978932833894.png"
+            />
+          </p>
+          <p>
+            <br />
+          </p>
+          <p>
+            感谢您使用数码资产交易站!&nbsp; 以下是你的收据：
+            <br />
+          </p>
+          <p>
+            <br />
+          </p>
+          <p>
+            <strong>{coin_type} {trade_type}</strong>
+            <br />
+          </p>
+          <p>日期：{create_time}</p>
+          <p>交易ID：{trade_id}</p>
+          <p>{trade_type}价格：{price}</p>
+          <p>{trade_type}金额：{money}</p>
+          <p>{trade_type}数量：{coin_number}</p>
+          <p>赎回码：{redeem_code}</p>
+          <p>
+            <br />
+          </p>
+          <p>
+            <strong>联络我们</strong>
+          </p>
+          <p>电话:&nbsp;{customer_service_phone}</p>
+          <p>电邮: &nbsp;{customer_service_email}</p>
+          <p>网页:{customer_service_website}</p>
+          <p>
+            <br />
+          </p>
+          <p>请下载手机专用程式ixWallet管理货币（IOS 及Android适用)</p>
+        </div>
 
         <div class="projectsDetails-recommand">
           <!-- <div>

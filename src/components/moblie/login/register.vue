@@ -68,7 +68,7 @@
         @comfirmFromDialog="comfirmFromDialog"
         :remindervisible.sync="remindervisible"
         :showCancel="false"
-        :msg="errorsMsg"
+        :msg="msg"
       ></DialogMsg>
     </main>
   </div>
@@ -86,6 +86,7 @@ export default {
         password: "",
         confirmpassword: ""
       },
+      msg: "",
       isshowpassword: "password",
       isconfirmpassword: "password",
       rules: {
@@ -212,74 +213,35 @@ export default {
         this.errorsMsg = errorMsg;
         return false;
       }
-      this.remindervisible = true;
-    },
-    validateBeforeSubmit() {
-      // console.log(this.$validator.validateAll);
-      this.$validator.validateAll().then(result => {
-        if (result) {
-          // eslint-disable-next-line
-          alert("Form Submitted!");
-          return;
-        }
-        console.log(result);
-
-        // alert("Correct them errors!");
-      });
-    },
-    submit() {
-      //  this.$routerto("usercheck")
-      // console.log(this.$validator);
-      // console.log(this.$refs.form.validate());
-      this.$refs.form.validate().then(success => {
-        if (!success) {
-          return;
-        }
-
-        alert("Form has been submitted!");
-
-        // Resetting Values
-        this.firstName = this.lastName = this.email = "";
-
-        // Wait until the models are updated in the UI
-        this.$nextTick(() => {
-          this.$refs.form.reset();
+      this.$store.commit("isloading", true);
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/register.do`,
+          {
+            bslEmail: this.validateForm.username,
+            bslPwd: this.validateForm.password
+          }
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+          this.rescode = res.data.resultCode;
+          this.msg = res.data.resultDesc;
+          this.remindervisible = true;
+          if (this.rescode == 10000) {
+            // this.$routerto("login");
+            // this.content = this.$t("common.NextLogin");
+            // this.title = this.$t("common.registrationSuccess");
+          } else {
+            // this.content = res.data.resultDesc;
+          }
+          // this.title = res.data.resultDesc;
         });
-      });
-
-      // this.$refs.form.validate().then(result => {
-      //   console.log("form valid: ", result);
-      //   // this.$routerto("usercheck")
-      //   if (result) {
-      //     this.$global
-      //       .post_encapsulation(
-      //         `${this.$axios.defaults.baseURL}/bsl_web/user/register.do`,
-      //         {
-      //           bslEmail: this.validateForm.username,
-      //           bslPwd: this.validateForm.password
-      //         }
-      //       )
-      //       .then(res => {
-      //         var rescode = res.data.resultCode;
-      //         this.$toast.clear();
-      //         if (rescode == 10000) {
-      //           this.successto = "login";
-      //           // this.content = this.$t("common.NextLogin");
-      //           // this.title = this.$t("common.registrationSuccess");
-      //         } else {
-      //           // this.content = res.data.resultDesc;
-      //         }
-      //         // this.title = res.data.resultDesc;
-      //         this.content = res.data.resultDesc;
-      //         this.remindervisible = true;
-      //       });
-      //   }
-      // });
     },
     comfirmFromDialog(data) {
-      //  console.log(data);
-      this.remindervisible = data;
-      this.$routerto("login");
+      this.remindervisible = false;
+      if (this.rescode == 10000) {
+        this.$routerto("login");
+      }
     },
     blur(event) {
       this.$global

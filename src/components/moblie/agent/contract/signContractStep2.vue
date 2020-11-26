@@ -17,11 +17,19 @@
             checked-color="#00f0ab"
           >Percentage of total funds raised by intermediaries</van-radio>
           <div class="count">
-            <input type="number" v-model="intermediaries" />
+            <MyNumberInput
+              :point="2"
+              :max="100"
+              name="projectParty"
+              placeholder
+              v-model.number="intermediaries"
+            ></MyNumberInput>
             <span>%</span>
             <p>
-              <span class="iconfont icon-arrow_on" @click="up('intermediaries')"></span>
-              <span class="iconfont icon-arrow_under" @click="down('intermediaries')"></span>
+              <span
+                class="iconfont icon-arrow_on"
+              ></span>
+              <span class="iconfont icon-arrow_under" ></span>
               <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
               <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
             </p>
@@ -32,20 +40,19 @@
             checked-color="#00f0ab"
           >Percentage of commission income from project party</van-radio>
           <div class="count">
-            <input
-              type="text"
+            <MyNumberInput
+              :point="2"
+              :max="100"
               name="projectParty"
-              @input="$global.amountKeyupFunn($event)"
-              v-model="projectParty"
-            />
+              placeholder
+              v-model.number="projectParty"
+            ></MyNumberInput>
             <span>%</span>
             <p>
               <span
-                :class="{'isactive':isactive}"
-                @click="up('projectParty')"
                 class="iconfont icon-arrow_on projectParty"
               ></span>
-              <span class="iconfont icon-arrow_under projectParty" @click="down('projectParty')"></span>
+              <span class="iconfont icon-arrow_under projectParty" ></span>
               <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
               <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
             </p>
@@ -55,26 +62,38 @@
         <van-radio-group v-model="radio">
           <van-radio name="1" label-disabled checked-color="#00f0ab">Recommendation time</van-radio>
           <div class="count">
-            <input type="number" v-model="intermediaries" />
+            <MyNumberInput
+              :point="0"
+              name="projectParty"
+              placeholder
+              v-model.number="projectParty"
+            ></MyNumberInput>
             <span>%</span>
             <p>
-              <span class="iconfont icon-arrow_on" @click="up('intermediaries')"></span>
-              <span class="iconfont icon-arrow_under" @click="down('intermediaries')"></span>
+              <span class="iconfont icon-arrow_on" @click="calculate($event,'projectParty','add')"></span>
+              <span
+                class="iconfont icon-arrow_under"
+                @click="calculate($event,'projectParty','subtract')"
+              ></span>
               <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
               <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
             </p>
           </div>
           <van-radio name="2" label-disabled checked-color="#00f0ab">Recommended countdown</van-radio>
           <div class="count">
-            <input type="number" name="projectParty" v-model="projectParty" />
+            <MyNumberInput
+              :point="0"
+              name="projectParty"
+              placeholder
+              v-model.number="projectParty"
+            ></MyNumberInput>
             <span>%</span>
             <p>
               <span
                 :class="{'isactive':isactive}"
-                @click="up('projectParty')"
                 class="iconfont icon-arrow_on projectParty"
               ></span>
-              <span class="iconfont icon-arrow_under projectParty" @click="down('projectParty')"></span>
+              <span class="iconfont icon-arrow_under projectParty" ></span>
               <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
               <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
             </p>
@@ -101,8 +120,12 @@
 </template>
 <script>
 // let setTime=null;
+import MyNumberInput from "@/components/moblie/common/input";
 export default {
   name: "mhome",
+  components: {
+    MyNumberInput //注册
+  },
   data() {
     return {
       msg: `Are you sure to accept this commission sharing mechanism from the project side?
@@ -111,41 +134,17 @@ And sign the contract with the project party`,
       radio: "",
       remindervisible: false,
       isactive: false,
-      intermediaries: 0.00,
-      projectParty: "0.00",
-      timeout: null
+      intermediaries: 0.0,
+      projectParty: 0,
+      timeout: null,
       //   setTime:null,
     };
   },
   created() {},
   computed: {},
-  watch: {
-    projectParty(newvalue, oldvalue) {
-      //  let reg= /^([1-9][0-9]*)+(.[0-9]{1,2})?$/;
-      let newvalue_ = newvalue;
-      // console.log(newvalue_);
-      // if (newvalue_) {
-      //   if (/\./i.test(newvalue_)) {
-      //     //判断处理含有.的情况下
-      //     if (newvalue_.split(".").length - 1 > 1) {
-      //       this.projectParty = oldvalue;
-      //       return;
-      //     }
-      //     if (/\.\d\d\d$/.test(newvalue_)) {
-      //       this.projectParty = oldvalue; //限制只能输入2位小数点
-      //     }
-      //     // else {
-      //     //   this.projectParty = newvalue_.replace(/[^\d\.\,]/gi, "");
-      //     //   //开始输入小数点之后，只能输入数字
-      //     // }
-      //   }
-      // } else {
-      //   this.projectParty = oldvalue;
+  watch: {},
 
-      //   return;
-      // }
-    }
-  },
+
 
   methods: {
     dosome() {
@@ -158,24 +157,20 @@ And sign the contract with the project party`,
         value.target.value = 100;
       }
     },
-    up(e) {
-      this[e]++;
-      this.isactive = true;
-      // console.log(setTime)
-      // if(setTime){
-
-      // }else{
-      //       setTime=setTimeout(()=>this.isactive=false,200);
+    calculate(e, name, type) {
+      // e.target.style.color = "#fff";
+      // let setTime = null;
+      // setTime = setTimeout(() => {
+      //   e.target.style.color = "#00e3a2";
+      //   clearTimeout(setTime);
+      // }, 30);
+      // if (type == "add") {
+      //   this[name]++;
+      // } else if (type == "subtract") {
+      //   if (this[name] > 0) {
+      //     this[name]--;
+      //   }
       // }
-
-      // if(e==="projectParty"){
-      //     this.projectParty++;
-      // }else if(e==="intermediaries"){
-      //    this.intermediaries++;
-      // }
-    },
-    down(e) {
-      this[e]--;
     },
     toggle(index) {
       this.$refs.checkboxes[index].toggle();

@@ -45,6 +45,11 @@ export default {
     EmailFormatIsIncorrect: "Email Format Is Incorrect"
     // Projects to be confirmed by investors
   },
+  VerifyMsg: {
+    isnotempty: "不能为空",
+    FormatError: "格式不正确",
+    inconsistent: "不一致"
+  },
   common: {
     Search: "Search",
     Fliter: "Fliter",
@@ -238,7 +243,8 @@ export default {
     Nickname: "Nickname",
     EditInformation: "Edit information",
     WhethertoshowInvestors: "Whether to show the real name to the investors",
-    WhethertoshowMiddleman: "Whether to show the real name to the middleman"
+    WhethertoshowMiddleman: "Whether to show the real name to the middleman",
+    Whethertoshowleaderboard: "Whether to show the real name to the leaderboard"
   },
   project: {
     Step1Pleaseaddcompletecontractdetails:"Step 1 Please add complete contract details",

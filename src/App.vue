@@ -8,7 +8,8 @@
       data-mu-loading-overlay-color="rgba(0, 0, 0, .6)"
       style="position: relative; width: 500px; height: 400px;"
     >-->
-    <keep-alive include="mine,userpass">
+    <layer></layer>
+    <keep-alive include="mine,userpass,AccountMessage">
       <router-view></router-view>
     </keep-alive>
     <mbottom v-if="$route.meta.isshowbottom"></mbottom>
@@ -19,7 +20,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-
+import layer from "@/components/moblie/common/layer";
 // import {mapState} from 'vuex'
 // import "muse-ui-loading/dist/muse-ui-loading.css"; // load css
 // import Vue from "vue";
@@ -32,6 +33,9 @@ export default {
       layerShow: true,
       SkipSwitchName: ""
     };
+  },
+  components: {
+    layer: layer
   },
   watch: {
     $route: function(to, from) {
@@ -47,6 +51,7 @@ export default {
   },
   created() {
     // console.log(this);
+    // console.log(this.$store.state.loaded);
     //在页面加载时读取sessionStorage里的状态信息
     if (sessionStorage.getItem("store")) {
       this.$store.replaceState(
@@ -71,8 +76,23 @@ export default {
 <style lang="scss">
 body {
   background: #fff;
+  position: relative;
 }
-.van-button--primary{
+// .van-dialog {
+//   color: #fff;
+//   background-color: #0ce5b2;
+//   .van-dialog__footer {
+//     &::after {
+//       border-top-width: vw(3);
+//       border-color: #fff;
+//     }
+//   }
+//   .van-button--default {
+//     background-color: #0ce5b2;
+//     color: #fff;
+//   }
+// }
+.van-button--primary {
   border: none;
 }
 .Skright-enter-active,
@@ -102,15 +122,15 @@ body {
 // }
 .ispaddingBottom > div:nth-child(1) {
   // padding-bottom: vw(90);
-  padding-bottom: vw(116);
+  // padding-bottom: vw(116);
 }
 // @media all and (orientation: landscape) {
 //   .ispaddingBottom > div:nth-child(1) {
 //     padding-bottom: 0;
 //   }
-//   #app > div:nth-child(1) {
-//     padding-bottom: vw(90);
-//   }
+// #app > div:nth-child(1)>div:nth-child(1) {
+//   padding-bottom: vw(90);
+// }
 // }
 #app {
   // background: #2f36ac;

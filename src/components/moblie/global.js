@@ -14,22 +14,21 @@ const global = {
     return str;
   },
   amountKeyupFunn(e) {
-    var reg = /^0\.d{0,2}$/;
+    var reg = /^[0-9]{1,2}\.[0-9]{2}$/;
     //  /(^[1-9]d?\.[0-9]{0,2}$)|(^0\.[0-9]{0,2}$)/;
     // /(^[1-9]\d?\.d{0,2}$)|(^0\.d{0,2}$)/;
 
     var event = e || window.event;
     var target = event.target || event.srcElement;
     console.log(target.value);
-
-    let b = target.value.match(reg) ? target.value.match(reg) : "";
+    // let b = target.value.match(reg) ? target.value.match(reg) : "";
     // if (target.value.length == 1) {
     //   e.target.value = target.value.replace(/[^1-9]/g, "");
     // } else {
 
     //   b = target.value.replace(/\D/g, "");
     // }
-    console.log(b);
+    // console.log(b);
   },
   singerValitator(event, form, rules) {
     let validator = new AsyncValidator({

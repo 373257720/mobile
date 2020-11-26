@@ -129,7 +129,35 @@ export default {
         // console.log(errorMsg);
         return false;
       }
-      this.$routerto("mhome");
+      this.$store.commit("isloading", true);
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user//login.do`,
+          {
+            bslEmail: this.validateForm.username,
+            bslPwd: this.validateForm.password
+          }
+        )
+        .then(res => {
+          var rescode = res.status;
+          this.$store.commit("isloading", false);
+          console.log(res);
+
+          if (rescode == 200) {
+            this.$store.dispatch("reset_actions", this.$restore_obj);
+            this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
+            this.$store.dispatch("usertype", res.data.data.userType);
+            this.$store.dispatch("setUser", this.username);
+            console.log(res.data.data.isAuth);
+
+            if (res.data.data.isAuth === 1) {
+              this.$routerto("mhome");
+            } else if (res.data.data.isAuth === 0) {
+              this.$routerto("verify");
+            }
+          }
+          this.errorsMsg = res.data.resultDesc;
+        });
     },
     validateFunc() {
       let self = this;
@@ -165,44 +193,7 @@ export default {
         return false;
       }
     },
-    PasswordReg(pass) {
-      // console.log(pass);
-      if (/^(?=.*?[A-Za-z]+)(?=.*?[0-9]+)(?=.*?[A-Z]).*$/.test(pass)) {
-        this.errorsMsg.username = "";
-        return true;
-      } else {
-        this.errorsMsg.username =
-          "Minimum of 8 characters, have 1 upper case and 1 lower case letters, and at least 1 number.";
-        return false;
-      }
-    },
-    validateBeforeSubmit() {
-      // console.log(this.$validator);
-      this.$validator.validateAll().then(result => {
-        if (result) {
-          // eslint-disable-next-line
-          alert("Form Submitted!");
-          return;
-        }
-        console.log(result);
-      });
-    },
-    blur(event) {
-      var validator = new AsyncValidator({
-        [event.target.name]: this.rules[event.target.name]
-      });
-      validator
-        .validate(
-          { [event.target.name]: this.form[event.target.name] },
-          { first: true }
-        )
-        .then(() => {
-          this.errors[event.target.name] = "";
-        })
-        .catch(({ errors, fields }) => {
-          this.errors[event.target.name] = errors[0].message;
-        });
-    },
+
     async register() {
       // this.errors = "";
       var validator = new AsyncValidator(this.rules);

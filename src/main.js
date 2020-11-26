@@ -29,10 +29,10 @@ import "amfe-flexible/index.js";
 // Vue.use(Validator);
 
 // import Vue from 'vue'
-import VueDraggableResizable from 'vue-draggable-resizable'
+import VueDraggableResizable from "vue-draggable-resizable";
 // 可选择导入默认样式
-import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
-Vue.component('vue-draggable-resizable', VueDraggableResizable)
+import "vue-draggable-resizable/dist/VueDraggableResizable.css";
+Vue.component("vue-draggable-resizable", VueDraggableResizable);
 // vuex
 import Vuex from "vuex";
 Vue.use(Vuex);
@@ -69,15 +69,17 @@ const restore_obj = global.deepCopy(store._modules.root.state);
 Vue.prototype.$restore_obj = restore_obj;
 // Vue.prototype.$AsyncValidator=AsyncValidator;
 // Vue.use(AsyncValidator)
-import MuseUI from "muse-ui";
-console.log(MuseUI.Select);
+// import MuseUI from "muse-ui";
+// console.log(MuseUI.Select);
 
 // import "muse-ui/dist/muse-ui.css";
-Vue.use(MuseUI);
+// Vue.use(MuseUI);
 import "./css/base.css";
 import "./css/base.scss";
 import { Dialog } from "vant";
 Vue.use(Dialog);
+
+
 import { Toast } from "vant";
 Vue.use(Toast);
 import { Locale } from "vant";
@@ -199,7 +201,9 @@ axios.interceptors.response
   //   return Promise.reject(error);
   // }
   ();
-
+// import "muse-ui-loading/dist/muse-ui-loading.css"; // load css
+// import Loading from "muse-ui-loading";
+// Vue.use(Loading);
 Vue.prototype.$routerto = function routerTo(name, obj) {
   router.push({
     name: name,

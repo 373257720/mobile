@@ -1,10 +1,11 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { connect } from "echarts";
 
 Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
-    
+    loading: false,
     usercheck: {
       nation: {},
       genus: "",
@@ -31,8 +32,13 @@ export default new Vuex.Store({
     },
     genre: []
   },
-  getters: {},
+  getters: {
+
+  },
   mutations: {
+    isloading(state,content){
+      state.loading=content;
+    },
     pickIdentity(state, content) {
       // console.log(state, content);
       state.usercheck.identity = Object.assign({}, content);

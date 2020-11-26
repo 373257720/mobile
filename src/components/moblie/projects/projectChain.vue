@@ -154,13 +154,19 @@ export default {
         trigger: "item",
         triggerOn: "mousemove"
       },
+      // dataZoom: {
+      //   show: true,
+      //   realtime: true,
+      //   start: 0,
+      //   end: 50
+      // },
       series: [
         {
           type: "tree",
           id: 0,
           name: "tree1",
           data: [data],
-
+          // leafDepth:1,
           top: "10%",
           left: "20%",
           bottom: "22%",
@@ -168,20 +174,17 @@ export default {
           roam: true,
           symbol:
             "image://http://demo.sc.chinaz.com/Files/pic/icons/7903/w1.png",
-          symbolSize: 30,
+          symbolSize: 25,
+          symbolOffset: [0, "40%"],
+          symbolKeepAspect: true,
           scaleLimit: {
-            min: 1,
-            max: 3
+            min: 1
           },
           layout: "orthogonal",
-
           // nodeClick: "zoomToNode",
-          zoomToNodeRatio: 0.32 * 0.32,
+          zoomToNodeRatio: 1,
           orient: "TB",
-          edgeShape: "polyline",
-          edgeForkPosition: "50%",
-          initialTreeDepth: 3,
-
+          edgeShape: "curve",
           lineStyle: {
             width: 2
           },
@@ -191,27 +194,34 @@ export default {
           },
           lineStyle: {
             color: "#00F0AB",
-            width: 3
+            width: 2,
+            curveness: 0.5
           },
           label: {
+            show: true,
             backgroundColor: "#fff",
             position: "top",
+            rotate: -90,
             verticalAlign: "middle",
-            align: "center",
-            distance: 20,
+            align: "right",
+            fontSize: 9,
             color: "#4F3DAD"
             // rotate: -90
           },
 
           leaves: {
             label: {
+              show: true,
               position: "bottom",
+              rotate: -90,
               verticalAlign: "middle",
-              distance: 20,
-              align: "center"
+              align: "left"
+              // distance: 20,
+              // align: "center",
+              // width: "50px"
             }
           },
-initialTreeDepth :1,
+          initialTreeDepth: 2,
           expandAndCollapse: true,
           animationDuration: 550,
           animationDurationUpdate: 750

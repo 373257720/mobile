@@ -6,64 +6,144 @@
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
-    <mu-paper class="demo-loadmore-wrap">
-      <mu-container ref="container" class="demo-loadmore-content">
-        <mu-load-more
-          @refresh="refresh"
-          loading-text="loading"
-          :refreshing="refreshing"
-          :loading="loading"
-          @load="load"
-        >
-          <mu-list>
-            <div class="timestamp" v-for="i in num" :key="i" @click="$routerto('MessageDetails')">
-              <p>22/07/2020</p>
-              <mu-list-item :ripple="false" button>
-                <mu-list-item-action>
-                  <div style="width: 35px;
-height: 27px;background:#00F0AB"></div>
-                </mu-list-item-action>
-                <mu-list-item-content>
-                  <mu-list-item-title>Invitation to register has been sent</mu-list-item-title>
-                  <mu-list-item-sub-title>
-                    <!-- <span style="color: rgba(0, 0, 0, .87)">Myron Liu -</span> -->
-                    Your invitation link has been sent, and the investor you recommended has received the email
-                  </mu-list-item-sub-title>
-                </mu-list-item-content>
-                <mu-list-item-action class="time">
-                  <!-- <mu-list-item-after-text>22/07/2020</mu-list-item-after-text> -->
-                  <!-- <mu-list-item-after-text>1</mu-list-item-after-text> -->
-                </mu-list-item-action>
-              </mu-list-item>
-            </div>
-          </mu-list>
-        </mu-load-more>
-      </mu-container>
-    </mu-paper>
+    <main>
+      <v-scroll
+        class="mhome-article"
+        :on-refresh="onRefresh"
+        :loaded="loaded"
+        :on-infinite="onInfinite"
+      >
+        <div class="timestamp">
+          <ul>
+            <li @click="$routerto('MessageDetails')">
+              <nav>22/07/2020</nav>
+              <section id="container">
+                <div class="item item-1">
+                  <p class="icon iconRight iconfont icon-1"></p>
+                </div>
+                <div class="item item-2">
+                  <p>Invitation to register has been sent</p>
+                  <article>
+                    Your invitation link has been sent, and the investor
+                    you recommended has received the email...
+                  </article>
+                </div>
+                <div class="item item-3">
+                  <p class="spot"></p>
+                </div>
+              </section>
+            </li>
+            <li @click="$routerto('MessageDetails')">
+              <nav>22/07/2020</nav>
+              <section id="container">
+                <div class="item item-1">
+                  <p class="icon iconRight iconfont icon-1"></p>
+                </div>
+                <div class="item item-2">
+                  <p>Invitation to register has been sent</p>
+                  <article>
+                    Your invitation link has been sent, and the investor
+                    you recommended has received the email...
+                  </article>
+                </div>
+                <div class="item item-3">
+                  <p class="spot"></p>
+                </div>
+              </section>
+            </li>
+            <li @click="$routerto('MessageDetails')">
+              <nav>22/07/2020</nav>
+              <section id="container">
+                <div class="item item-1">
+                  <p class="icon iconRight iconfont icon-1"></p>
+                </div>
+                <div class="item item-2">
+                  <p>Invitation to register has been sent</p>
+                  <article>
+                    Your invitation link has been sent, and the investor
+                    you recommended has received the email...
+                  </article>
+                </div>
+                <div class="item item-3">
+                  <p class="spot"></p>
+                </div>
+              </section>
+            </li>
+          </ul>
+        </div>
+      </v-scroll>
+    </main>
   </div>
 </template>
 <script>
-import loadmore from "../loadmore";
+import Scroll from "@/components/moblie/loadmore";
+import ScrollTop from "@/components/moblie/common/toTop";
+// import loadmore from "../loadmore";
 export default {
   name: "AccountMessage",
   data() {
-    return { num: 10, refreshing: false, loading: false, text: "List" };
+    return {
+      num: 10,
+      loaded: false,
+      refreshing: false,
+      loading: false,
+      text: "List",
+      inforlist: []
+    };
   },
-  created() {},
-  // components: {
-  //   loadmore
-  // },
+  components: {
+    "v-scroll": Scroll,
+    ScrollTop
+  },
+  created() {
+    this.getinfolist();
+  },
+
   methods: {
-    // handleleterClick() {},
-    refresh() {
-      //   console.log(123);
-      this.refreshing = true;
-      this.$refs.container.scrollTop = 0;
-      setTimeout(() => {
-        this.refreshing = false;
-        this.text = this.text === "List" ? "Menu" : "List";
-        this.num = 10;
-      }, 2000);
+    getinfolist(done) {
+      this.inforlist = [];
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/getUserMessageList`
+        )
+        .then(res => {
+          console.log(res);
+          this.loaded = true;
+          if (done) done();
+        });
+    },
+    onInfinite(done) {
+      if (!this.loaded) this.onInfinitePort(done);
+    },
+    onInfinitePort(done) {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
+          {
+            searchKey: this.searchkey
+          }
+        )
+        .then(res => {
+          if (res.data.data instanceof Array) {
+            for (let i = 0; i < res.data.data.length; i++) {
+              this.countrylist.push({
+                chinese: res.data.data[i].countryZhname,
+                eng: res.data.data[i].countryEnname,
+                lable:
+                  this.$i18n.locale === "zh_CN"
+                    ? res.data.data[i].countryZhname
+                    : res.data.data[i].countryEnname,
+                value: i,
+                remark: res.data.data[i].countryCode
+              });
+            }
+            done();
+          }
+        });
+    },
+    onRefresh(done) {
+      this.loaded = false;
+      this.getinfolist(done);
     },
     load() {
       console.log(123);
@@ -80,101 +160,189 @@ export default {
 <style lang="scss">
 /*van-fade-enter-active*/
 /*van-fade-enter-to*/
-.demo-loadmore-wrap {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  .mu-appbar {
-    width: 100%;
-  }
-}
 
-.demo-loadmore-content {
-  flex: 1;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
 #AccountMessage {
   height: 100%;
-  .mu-list {
-    padding: vw(140) 0 0 0;
-  }
-  .timestamp {
-    padding: vw(40) 0 0 0;
-    > p {
-      //   width: 100px;
-      height: vw(22);
-      font-size: vw(20);
-      line-height: vw(22);
-      color: #4f3dad;
-      text-align: right;
-      padding-right: vw(20);
-      margin-bottom: vw(22);
-    }
-  }
-  .timestamp:nth-of-type(1) {
-    // padding: vw(128) 0 0 0;
-  }
-  .time {
-    align-items: flex-end;
-  }
-  .mu-item-after-text {
-    width: vw(52);
-    height: vw(52);
-    background: #00f0ab;
-    border-radius: 50%;
-    color: #fff;
-    text-align: center;
-    line-height: vw(52);
-  }
-  .demo-loadmore-content {
-    //  height: 100%;
-  }
-  .mu-item {
-    padding: 0 vw(46);
-  }
-  .mu-item-title {
-    //   width: 215px;
-    height: vw(30);
-    font-size: vw(26);
-    font-weight: bold;
-    line-height: vw(30);
-    color: #4f3dad;
-    margin-bottom: vw(18);
-  }
-  .mu-item-sub-title {
-    font-size: vw(20);
-    white-space: normal;
-    line-height: vw(22);
-    color: #4f3dad;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-  }
-  .demo-loadmore-wrap {
-    max-width: 100%;
-    height: 100%;
-    // padding-top: vw(28)
-    // padding-bottom: vw(116);
-  }
-  .container {
-    padding: 0;
-  }
-  .mu-item-wrapper {
-    border-bottom: 1px solid #4f3dad;
-    padding: 0 0 vw(54) 0;
-  }
-
-  .van-overlay {
-    // opacity: 0.5;
-    background-color: rgba(0, 0, 0, 0.7);
-    /*background-color: black;*/
-  }
 }
 </style>
 <style lang="scss" scoped>
 #AccountMessage {
   // padding-top: vw(96);
+  main {
+    // padding-bottom: 50px;
+    height: 100%;
+    position: relative;
+    //  z-index: 200;
+    // overflow: auto;
+    .isFixed {
+      position: -webkit-sticky; /* Safari */
+      position: sticky;
+      top: 0;
+    }
+    .yo-scroll {
+      position: absolute;
+      top: 50px;
+      bottom: 50px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .yo-scroll.Fixed {
+      top: 0;
+    }
+    .yo-scrollTop {
+      // top: 50px;
+    }
+    .mhome-tag {
+      // padding-top: vw(62);
+      li {
+        display: flex;
+        padding-left: vw(40);
+
+        align-items: center;
+        aside {
+          width: vw(118);
+          height: vw(34);
+          font-size: vw(30);
+          font-weight: bold;
+          line-height: vw(34);
+          color: #4f3dad;
+          margin-right: vw(29);
+        }
+        div {
+          display: flex;
+          overflow-x: auto;
+          flex: 1;
+          margin-right: vw(20);
+          color: #3ab5cc;
+          p {
+            height: vw(54);
+            margin-right: vw(20);
+            line-height: vw(54);
+            border: vw(2) solid #3ab5cc;
+            border-radius: vw(52);
+            font-size: vw(26);
+            font-weight: bold;
+            padding: 0 vw(26);
+          }
+          p.isactive {
+            background: #3ab5cc;
+            color: #fff;
+          }
+        }
+        div::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      li:nth-of-type(2) {
+        margin: vw(40) 0;
+      }
+    }
+    .mhome-signTag {
+      // padding: vw(62) 0;
+      padding-left: vw(70);
+      padding-top: vw(24);
+      p {
+        width: vw(124);
+        display: flex;
+        align-items: center;
+        height: vw(54);
+        justify-content: space-evenly;
+        border: vw(2) solid #4f3dad;
+        border-radius: vw(52);
+        i {
+          display: inline-block;
+          width: vw(38);
+          height: vw(38);
+          background: #4f3dad;
+          // margin-left: vw(26);
+          // margin-right: vw(10);
+        }
+        span {
+          // display: inline-block;
+          width: vw(32);
+          height: vw(32);
+          align-self: center;
+          font-weight: bold;
+          text-align: center;
+          // justify-self: center;
+          background: #00f0ab;
+          border-radius: 50%;
+          color: #fff;
+          font-size: vw(10);
+        }
+      }
+    }
+    .mhome-article {
+      .timestamp {
+        // margin-top: vw(50);
+        // z-index: 180;
+        ul {
+          li {
+            // margin-bottom: vw(40);
+            padding: vw(40) vw(44) vw(40) vw(54);
+            border-bottom: vw(2) solid #4f3dad;
+            nav {
+              // height: 22px;
+              font-size: vw(20);
+              font-weight: 400;
+              // line-height: vw(22);
+              margin-bottom: vw(22);
+              display: flex;
+              justify-content: flex-end;
+
+              // opacity: 1;
+            }
+          }
+          li:nth-last-of-type(1) {
+            margin-bottom: vw(0);
+          }
+        }
+      }
+      #container {
+        display: flex;
+        align-items: center;
+        // justify-content: space-between;
+        .item-1 {
+          margin-right: vw(40);
+        }
+        .item-2 {
+          width: vw(500);
+          margin-right: vw(40);
+          p {
+            font-size: vw(26);
+            line-height: vw(30);
+            font-weight: bold;
+            margin-bottom: vw(18);
+          }
+          article {
+            font-size: vw(20);
+            line-height: vw(22);
+            color: #4f3dad;
+            font-weight: 400;
+          }
+        }
+        .item-3 {
+          .spot {
+            width: vw(24);
+            height: vw(24);
+            background: #00f0ab;
+            border-radius: 50%;
+            opacity: 1;
+          }
+        }
+      }
+      div.btn {
+        display: flex;
+        justify-content: flex-end;
+        button {
+          width: vw(232);
+          height: vw(72);
+          background: #00f0ab;
+          border-radius: vw(16);
+          color: #fff;
+          border: none;
+        }
+      }
+    }
+  }
 }
 </style>
