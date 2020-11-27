@@ -15,57 +15,18 @@
       >
         <div class="timestamp">
           <ul>
-            <li @click="$routerto('MessageDetails')">
-              <nav>22/07/2020</nav>
+            <li @click="$routerto('MessageDetails',{id:item.id})" v-for="item in inforlist" :key="item.id">
+              <nav>{{item.sendTime}}</nav>
               <section id="container">
                 <div class="item item-1">
                   <p class="icon iconRight iconfont icon-1"></p>
                 </div>
                 <div class="item item-2">
-                  <p>Invitation to register has been sent</p>
-                  <article>
-                    Your invitation link has been sent, and the investor
-                    you recommended has received the email...
-                  </article>
+                  <p>{{item.messageTitle}}</p>
+                  <article>{{item.messageContent}}</article>
                 </div>
                 <div class="item item-3">
-                  <p class="spot"></p>
-                </div>
-              </section>
-            </li>
-            <li @click="$routerto('MessageDetails')">
-              <nav>22/07/2020</nav>
-              <section id="container">
-                <div class="item item-1">
-                  <p class="icon iconRight iconfont icon-1"></p>
-                </div>
-                <div class="item item-2">
-                  <p>Invitation to register has been sent</p>
-                  <article>
-                    Your invitation link has been sent, and the investor
-                    you recommended has received the email...
-                  </article>
-                </div>
-                <div class="item item-3">
-                  <p class="spot"></p>
-                </div>
-              </section>
-            </li>
-            <li @click="$routerto('MessageDetails')">
-              <nav>22/07/2020</nav>
-              <section id="container">
-                <div class="item item-1">
-                  <p class="icon iconRight iconfont icon-1"></p>
-                </div>
-                <div class="item item-2">
-                  <p>Invitation to register has been sent</p>
-                  <article>
-                    Your invitation link has been sent, and the investor
-                    you recommended has received the email...
-                  </article>
-                </div>
-                <div class="item item-3">
-                  <p class="spot"></p>
+                  <p class="spot" v-if="item.isCheck"></p>
                 </div>
               </section>
             </li>
@@ -107,9 +68,12 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/user/getUserMessageList`
         )
         .then(res => {
-          console.log(res);
-          this.loaded = true;
-          if (done) done();
+          console.log(res.data.data.lists);
+          if (res.data.data.lists instanceof Array) {
+            this.inforlist = res.data.data.lists;
+            this.loaded = true;
+            if (done) done();
+          }
         });
     },
     onInfinite(done) {

@@ -9,37 +9,16 @@
     <main>
       <div>
         <p>points</p>
-        <h3>8320</h3>
+        <h3>{{bslMemberLog.memberIntegral}}</h3>
       </div>
       <article>
         <p>Recent points history</p>
         <ul>
-          <li>
-            <p>22/07/2020</p>
+          <li v-for="item in bslMemberLog.bslMemberLog" :key="item.id">
+            <p>{{$global.stamptodate(item.optTime) }}</p>
             <div>
-              <span>You earned 60 points</span>
-              <span>+60</span>
-            </div>
-          </li>
-            <li>
-            <p>22/07/2020</p>
-            <div>
-              <span>You earned 60 points</span>
-              <span>+60</span>
-            </div>
-          </li>
-            <li>
-            <p>22/07/2020</p>
-            <div>
-              <span>You earned 60 points</span>
-              <span>+60</span>
-            </div>
-          </li>
-            <li>
-            <p>22/07/2020</p>
-            <div>
-              <span>You earned 60 points</span>
-              <span>+60</span>
+              <span>You earned {{item.integral}} points</span>
+              <span>{{optType[item.optType]}}{{item.integral}}</span>
             </div>
           </li>
         </ul>
@@ -52,14 +31,34 @@ import loadmore from "../loadmore";
 export default {
   name: "AccountMessage",
   data() {
-    return { num: 10, refreshing: false, loading: false, text: "List" };
+    return { bslMemberLog: [],
+     optType:{
+       1:"+",
+       2:"-",
+     }};
   },
-  created() {},
+  created() {
+    this.getlist();
+  },
   // components: {
   //   loadmore
   // },
   methods: {
-    // handleleterClick() {},
+    getlist() {
+      this.$store.commit("isloading", true);
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/member/getUserBslMemberLog`
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+          this.bslMemberLog = res.data.data;
+          console.log(this.bslMemberLog);
+          // this.lists = res.data.data.lists;
+
+          // console.log(res);
+        });
+    },
     refresh() {
       //   console.log(123);
       this.refreshing = true;

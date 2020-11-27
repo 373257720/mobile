@@ -1,7 +1,7 @@
 <template>
   <div id="MessageDetails">
-      <commonnav>
-     {{$t('Account.Message')}}
+    <commonnav>
+      {{$t('Account.Message')}}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -22,10 +22,34 @@
 export default {
   name: "MessageDetails",
   data() {
-    return {};
+    return { id: null };
   },
-  created() {},
+  created() {
+    this.id = this.$route.query.id || null;
+    this.getinfoDetails();
+  },
   methods: {
+    haveRead() {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/updateUserMessage`,
+          { messageId: this.id }
+        )
+        .then(res => {
+          console.log(res);
+        });
+    },
+    getinfoDetails() {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/getUserMessage`,
+          { messageId: this.id }
+        )
+        .then(res => {
+          console.log(res);
+          this.haveRead();
+        });
+    }
     // handleleterClick() {},
   }
 };

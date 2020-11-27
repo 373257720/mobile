@@ -10,37 +10,15 @@
       <h3>TOP 10</h3>
       <aside>this week</aside>
       <table>
-        <tr>
+        <tr v-for="item in lists" :key="item.bslName">
           <td>
-            <span>1</span>
+            <span>{{item.topId}}</span>
           </td>
           <td>
-            <span>Amg</span>
+            <span>{{item.bslName}}</span>
           </td>
           <td>
-            <span>86500points</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>10</span>
-          </td>
-          <td>
-            <span>Amy Wong</span>
-          </td>
-          <td>
-            <span>86500points</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>10</span>
-          </td>
-          <td>
-            <span>Amy Wong</span>
-          </td>
-          <td>
-            <span>86500points</span>
+            <span>{{item.sumIntegral}}points</span>
           </td>
         </tr>
       </table>
@@ -59,10 +37,32 @@
 export default {
   name: "vip",
   data() {
-    return {};
+    return {
+      lists: []
+    };
   },
-  created() {},
+  created() {
+    this.getlist();
+  },
   methods: {
+    getlist() {
+      this.$store.commit("isloading", true);
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/member/getUserRanking`,
+          {
+            pageIndex: 1,
+            pageSize: 10
+          }
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+
+          this.lists = res.data.data.lists;
+
+          // console.log(res);
+        });
+    }
     // handleleterClick() {},
   }
 };
@@ -74,7 +74,7 @@ export default {
 <style lang="scss" scoped>
 #vip {
   main {
-    padding: 0 vw(108);
+    padding: 0 vw(50);
     padding-top: vw(140);
     h3 {
       text-align: center;

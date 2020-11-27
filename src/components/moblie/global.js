@@ -68,7 +68,7 @@ const global = {
     //   return '';
     // }
     if (stamp) {
-      var date = new Date(stamp);
+      var date = new Date(stamp * 1000);
       var Y = date.getFullYear() + "-";
       var M =
         (date.getMonth() + 1 < 10

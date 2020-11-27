@@ -37,10 +37,32 @@
 export default {
   name: "vip",
   data() {
-    return {};
+    return {
+      
+    };
   },
-  created() {},
+  created() {
+      this.getlist();
+  },
   methods: {
+     getlist() {
+      this.$store.commit("isloading", true);
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/member/getBslExchangeIntegralList`
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+        res.data.data.lists
+          console.log(res);
+          
+          // this.bslMemberLog = res.data.data;
+          // console.log(this.bslMemberLog);
+          // this.lists = res.data.data.lists;
+
+          // console.log(res);
+        });
+    },
     // handleleterClick() {},
   }
 };

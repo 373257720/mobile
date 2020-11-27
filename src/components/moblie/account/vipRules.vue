@@ -1,6 +1,6 @@
 <template>
   <div id="vipRules">
-       <commonnav>
+    <commonnav>
       Vip
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
@@ -10,22 +10,14 @@
       <header>Points rules</header>
       <article>
         <ul>
-          <li>
-            <p>Recommend an intermediary to succeed</p>
-            <p>10 points</p>
+          <li v-for="item in result" :key="item.integralType">
+            <p>{{str[item.integralType]}}</p>
+            <p>{{item.integral}}points</p>
           </li>
-          <li>
-            <p>Recommend an intermediary to succeed</p>
+          <!-- <li>
+            <p>Recommend an investor successfully</p>
             <p>10 points</p>
-          </li>
-          <li>
-            <p>Recommend an intermediary to succeed</p>
-            <p>10 points</p>
-          </li>
-          <li>
-            <p>Recommend an intermediary to succeed</p>
-            <p>10 points</p>
-          </li>
+          </li>-->
         </ul>
       </article>
     </main>
@@ -35,10 +27,29 @@
 export default {
   name: "vipRules",
   data() {
-    return {};
+    return {
+      str: {
+        "0": "Recommend an intermediary to succeed",
+        "1": "Recommend an investor successfully"
+      },
+      result: []
+    };
   },
-  created() {},
+  created() {
+    this.getMemberInfo();
+  },
   methods: {
+    getMemberInfo() {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/member/getBslCustomIntegralList`
+        )
+        .then(res => {
+          // console.log(res);
+          this.result = res.data.data.lists;
+          console.log(this.result);
+        });
+    }
     // handleleterClick() {},
   }
 };
@@ -71,7 +82,7 @@ export default {
             font-size: vw(24);
           }
           p:nth-of-type(1) {
-            width: vw(496);
+            width: vw(480);
           }
           p:nth-of-type(2) {
             flex: 1;

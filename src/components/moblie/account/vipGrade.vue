@@ -7,31 +7,35 @@
       </template>
     </commonnav>
     <main>
-      <div>
-        <p>8320</p>
+      <div class="item-1">
+        <p>{{memberDetails.exchangeIntegral}}</p>
         <p>Points</p>
       </div>
       <div class="iconfont icon-account"></div>
-      <div>
-        <p>8320</p>
+      <div class="item-2">
+        <p>{{memberDetails.days}}</p>
         <p>Days</p>
       </div>
     </main>
     <div class="vip-leaderboard">
-      <van-button @click="$routerto('leaderboard')" type="primary" size="mini" color="#00F0AB">leaderboard</van-button>
+      <van-button
+        @click="$routerto('leaderboard')"
+        type="primary"
+        size="mini"
+        color="#00F0AB"
+      >leaderboard</van-button>
     </div>
-
     <div class="vipGrade">
       <header>Current</header>
-      <p>Today's growth value: 0</p>
+      <p>Today's growth value: {{memberDetails.todayIntegral}}</p>
       <nav>
-        <div>
-          <p></p>
+        <div class="percent">
+          <p :style="{width:CurrentbarWidth}"></p>
         </div>
         <ul>
           <li>Glod</li>
           <li>
-            still need 7600 points
+            still need {{memberDetails.differIntegral}} points
             to level up
           </li>
           <li>Platinum</li>
@@ -41,48 +45,30 @@
       <article>
         <div class="item item-1">
           <span></span>
-          <p>
-            Recommended number
-            of intermediaries
-          </p>
+          <p>{{memberDetails.rights && memberDetails.rights.memberRecommendCount}}recommended items</p>
         </div>
         <div class="item item-2">
           <span></span>
-          <p>
-            Recommended number
-            of investors
-          </p>
+          <p>{{memberDetails.rights && memberDetails.rights.recommendInvestorTime}}referral limits</p>
         </div>
         <div class="item item-3">
           <span></span>
-          <p>
-            Number of successfully
-            connected items
-          </p>
+          <p>{{memberDetails.rights && memberDetails.rights.recommendMiddlemanTime}}Priority recommendation time</p>
         </div>
       </article>
       <header>Platinnum exclusive rights</header>
       <article>
         <div class="item item-1">
           <span></span>
-          <p>
-            Recommended number
-            of intermediaries
-          </p>
+          <p>{{memberDetails.nextRights && memberDetails.nextRights.memberRecommendCount}}recommended items</p>
         </div>
         <div class="item item-2">
           <span></span>
-          <p>
-            Recommended number
-            of investors
-          </p>
+          <p>{{memberDetails.nextRights && memberDetails.nextRights.recommendInvestorTime}}referral limits</p>
         </div>
         <div class="item item-3">
           <span></span>
-          <p>
-            Number of successfully
-            connected items
-          </p>
+          <p>{{memberDetails.nextRights && memberDetails.nextRights.recommendMiddlemanTime}}Priority recommendation time</p>
         </div>
       </article>
     </div>
@@ -92,9 +78,56 @@
 export default {
   name: "vip",
   data() {
-    return {};
+    return {
+      CurrentbarWidth: 0,
+      memberDetails: {
+        createTime: null,
+        days: null,
+        differIntegral: null,
+        exchangeIntegral: null,
+        memberId: "",
+        memberIntegral: null,
+        memberLevel: null,
+        membershipValidity: null,
+        nextRights: {
+          memberRecommendCount: null,
+          recommendInvestorTime: null,
+          recommendMiddlemanTime: null
+        },
+        percentageNumber: null,
+        rights: {
+          memberRecommendCount: null,
+          recommendInvestorTime: null,
+          recommendMiddlemanTime: null
+        },
+
+        todayIntegral: null
+      }
+    };
   },
-  created() {},
+  created() {
+    this.$global
+      .get_encapsulation(
+        `${this.$axios.defaults.baseURL}/bsl_web/member/getMemberDetails`
+      )
+      .then(res => {
+        this.memberDetails = Object.assign(
+          this.memberDetails,
+          res.data.data.memberDetails
+        );
+        // this.memberDetails = res.data.data.memberDetails;
+        this.CurrentbarWidth =
+          Math.round(this.memberDetails.percentageNumber) + "%";
+        // console.log(res);
+      });
+  },
+  mounted() {
+    //  console.log();
+    // let progressbarWidth=document.querySelector('.percent').clientWidth;
+    // let timer = setTimeout(() => {
+    // clearTimeout(timer);
+    // }, 1000);
+  },
   methods: {
     // handleleterClick() {},
   }
@@ -118,14 +151,18 @@ export default {
       div {
         width: vw(570);
         height: vw(42);
+        position: relative;
         overflow: hidden;
         border: vw(6) solid #4f3dad;
         border-radius: vw(22);
         margin-bottom: vw(34);
         p {
+          transition: all 0.5s ease-out;
+          position: absolute;
+          left: 0;
+          top: 0;
           background: #00f0ab;
           height: 100%;
-          width: vw(100);
           border-radius: vw(22);
         }
       }
@@ -173,11 +210,17 @@ export default {
       grid-auto-flow: row;
       .item {
         text-align: center;
+        //  display: flex;
+        //  flex-direction: column;
+        //  align-items: center;
+        //  justify-items: center;
         span {
           display: inline-block;
           width: vw(88);
           height: vw(88);
           font-size: vw(24);
+          // line-height: vw(88);
+
           color: #fff;
           background: #4f3dad;
           border-radius: 50%;
@@ -194,9 +237,14 @@ export default {
     padding-top: vw(140);
     display: flex;
 
-    justify-content: space-evenly;
+    // justify-content: space-evenly;
     align-items: center;
     color: #4f3dad;
+    .item-1,
+    .item-2 {
+      flex: 1;
+    }
+
     .icon-account {
       height: vw(162);
       width: vw(162);

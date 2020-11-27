@@ -1,6 +1,6 @@
 <template>
   <div id="vip">
-      <commonnav>
+    <commonnav>
       Vip
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
@@ -9,7 +9,7 @@
     <main>
       <div class="iconfont icon-account"></div>
       <p @click="$routerto('vip')">Peter parker</p>
-      <p>Points: 8320</p>
+      <p>Points: {{MemberInfo.exchangeIntegral}}</p>
       <!-- <p>Membership is valid until December 12, 2020</p> -->
       <van-button @click="$routerto('vipGrade')" class="renewal">VIP&nbsp;renewal</van-button>
     </main>
@@ -17,57 +17,40 @@
       <header>My achievements</header>
       <article>
         <div class="item item-1">
-          <span>10</span>
+          <span>{{MemberInfo.middlemanNumber}}</span>
           <p>
             Recommended number
             of intermediaries
           </p>
         </div>
         <div class="item item-2">
-          <span>10</span>
+          <span>{{MemberInfo.investorNumber}}</span>
           <p>
             Recommended number
             of investors
           </p>
         </div>
         <div class="item item-3">
-          <span>10</span>
+          <span>{{MemberInfo.itemsNumber}}</span>
           <p>
             Number of successfully
             connected items
           </p>
         </div>
         <div class="item item-4">
-          <span>10</span>
+          <span>{{MemberInfo.investmentAmountTotal}}</span>
           <p>
             Amount of
             completed project
           </p>
         </div>
       </article>
-      <p>Membership is valid until December 12, 2020</p>
-      <p>Membership is valid until December 12, 2020</p>
+      <p>Recommended middleman:{{MemberInfo.sumMiddlemanIntegral}} points</p>
+      <p>Refer investors: {{MemberInfo.sumInvestorIntegral}} points</p>
       <footer>
         <button @click="$routerto('vipRules')">Specific check points rules</button>
         <button @click="$routerto('pointsHistory')">Points history</button>
       </footer>
-
-      <!-- <footer>
-        <ul>
-          <li>
-            <div></div>
-            <p>More recommended items</p>
-          </li>
-          <li>
-            <div></div>
-            <p>More recommended items</p>
-          </li>
-          <li>
-            <div></div>
-            <p>More recommended items</p>
-          </li>
-        </ul>
-      </footer>-->
     </nav>
   </div>
 </template>
@@ -75,10 +58,24 @@
 export default {
   name: "vip",
   data() {
-    return {};
+    return {
+      MemberInfo: {}
+    };
   },
-  created() {},
+  created() {
+    this.getMemberInfo();
+  },
   methods: {
+    getMemberInfo() {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/member/getMemberInfo`
+        )
+        .then(res => {
+          this.MemberInfo = res.data.data.memberInfo;
+          console.log(this.MemberInfo);
+        });
+    }
     // handleleterClick() {},
   }
 };
@@ -90,6 +87,7 @@ export default {
     // width: 332px;
     // margin-top: vw(36);
     padding: 0 vw(60);
+    padding-bottom: vw(114);
     color: #4f3dad;
     header {
       height: vw(44);
@@ -136,22 +134,22 @@ export default {
       line-height: vw(28);
       color: #4f3dad;
     }
-    >p:nth-of-type(1){
+    > p:nth-of-type(1) {
       margin-bottom: vw(16);
     }
-    footer{
+    footer {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
     button {
-      width: vw(338);
+      width: vw(400);
       height: vw(80);
       background: #00f0ab;
       opacity: 1;
       border-radius: vw(8);
       font-size: vw(24);
-      // line-height: vw(80);
+      line-height: vw(28);
       color: #faf9f9;
       margin-top: vw(36);
     }
