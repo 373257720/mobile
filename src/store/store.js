@@ -30,14 +30,38 @@ export default new Vuex.Store({
       investorsCompany: "",
       investorsName: ""
     },
+    electedList: {
+      industryList: [],
+      regionList: [],
+      taglist: []
+    },
     genre: []
   },
   getters: {
-
+    totalResults: state => {
+      return [
+        ...state.electedList.industryList,
+        ...state.electedList.regionList,
+        ...state.electedList.taglist
+      ];
+    }
   },
   mutations: {
-    isloading(state,content){
-      state.loading=content;
+    electedList(state, content) {
+      if (content.name) {
+        state.electedList[content.name] = content.arr;
+      }
+      // state.electedList = content;
+    },
+    delect(state, content) {
+      if (content.name) {
+        console.log(content);
+        
+        state.electedList[content.name].splice(content.index, 1);
+      }
+    },
+    isloading(state, content) {
+      state.loading = content;
     },
     pickIdentity(state, content) {
       // console.log(state, content);

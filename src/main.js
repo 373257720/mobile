@@ -11,12 +11,13 @@ Promise.polyfill();
 import global from "@/components/moblie/global.js";
 import store from "./store/store";
 import { i18n } from "./language";
-import "./icon/iconfont.css";
+import "../static/icon/iconfont.css";
 Vue.config.productionTip = false;
 Vue.prototype.$qs = qs;
 // 富文本
 const url = process.env.BASE_API;
 axios.defaults.baseURL = url;
+axios.default.timeout = 5000;
 import "./components/moblie/vee-validate/validate";
 import { Validator } from "../src/components/moblie/validation";
 Vue.prototype.$Validator = Validator;
@@ -78,7 +79,6 @@ import "./css/base.css";
 import "./css/base.scss";
 import { Dialog } from "vant";
 Vue.use(Dialog);
-
 
 import { Toast } from "vant";
 Vue.use(Toast);
@@ -155,52 +155,56 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response
-  .use
-  // res => {
-  //   if (res.data && res.data.resultCode) {
-  //     let code = res.data.resultCode;
-  //     loadingCount--;
-  //     if (code == 10090) {
-  //       // 如果是未登录直接踢出去
-  //       if (isShowLoading) {
-  //         isShowLoading = false;
-  //         let mes;
-  //         if (i18n.locale == "en_US") {
-  //           mes = res.data.resultDesc.slice(11, -1);
-  //         } else {
-  //           mes = res.data.resultDesc.slice(0, 10);
-  //         }
-  //         Dialog.alert({
-  //           title: mes
-  //         }).then(() => {
-  //           store.dispatch("reset_actions", restore_obj);
-  //           window.sessionStorage.clear();
-  //           router.push({ name: "login" });
-  //         });
-  //       }
-  //     }
-  //     if (loadingCount == 0) {
-  //       isShowLoading = true;
-  //     }
-  //     return res;
-  //   }
-  // },
-  // error => {
-  //   Toast.clear();
-  //   if (isShowLoading) {
-  //     isShowLoading = false;
-  //     Dialog.alert({
-  //       title: i18n.t("common.network")
-  //     }).then(() => {
-  //       store.dispatch("reset_actions", restore_obj);
-  //       window.sessionStorage.clear();
-  //       router.push({ name: "login" });
-  //     });
-  //   }
-  //   return Promise.reject(error);
-  // }
-  ();
+axios.interceptors.response.use(
+  res => {
+    if (res.data && res.data.resultCode) {
+      let code = res.data.resultCode;
+      loadingCount--;
+      // 如果是未登录直接踢出去
+      if (code == 10090) {
+        // if (isShowLoading) {
+        //   isShowLoading = false;
+        let mes;
+        if (i18n.locale == "en_US") {
+          mes = res.data.resultDesc.slice(11, -1);
+        } else {
+          mes = res.data.resultDesc.slice(0, 10);
+        }
+        Dialog.alert({
+          title: mes
+        }).then(() => {
+          store.dispatch("reset_actions", restore_obj);
+          window.sessionStorage.clear();
+          router.push({ name: "login" });
+          // location.href = process.env.WEB_API;
+        });
+        // }
+      }
+      // if (loadingCount == 0) {
+      //   isShowLoading = true;
+      // }
+      return res;
+    }
+  },
+  error => {
+    loadingCount--;
+    store.commit("isloading", false);
+    // if (isShowLoading) {
+    //   isShowLoading = false;
+    Dialog.alert({
+      title: i18n.t("common.network")
+    }).then(() => {
+      store.dispatch("reset_actions", restore_obj);
+      window.sessionStorage.clear();
+      router.push({ name: "login" });
+      // location.href = process.env.WEB_API;
+    });
+    // }
+    return Promise.reject(error);
+  }
+);
+// console.log(process.env);
+
 // import "muse-ui-loading/dist/muse-ui-loading.css"; // load css
 // import Loading from "muse-ui-loading";
 // Vue.use(Loading);
@@ -226,6 +230,7 @@ Vue.prototype.$loadingfail = function loadingfail() {
     message: "failed"
   });
 };
+Array.prototype.$TONY=111;
 var baseurl = {
   // api: "http://192.168.1.37:8085",
   api2: "http://47.90.62.114:8081", //(后台管理)

@@ -111,7 +111,7 @@ export default {
   },
   created() {},
   activated() {
-    // console.log(this.GoToname);
+
     this.initial();
   },
   methods: {

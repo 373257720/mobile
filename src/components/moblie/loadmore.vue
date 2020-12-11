@@ -15,7 +15,12 @@
            </span>
         </slot>
       </header>
-      <nav>  
+    
+      
+      <slot></slot>
+      <footer class="load-more">
+        <slot name="load-more">
+            <nav>  
          <svg  class="loading"
                   v-if="!loaded"
                   xmlns="http://www.w3.org/2000/svg"
@@ -40,10 +45,6 @@
                   />
             </path>
           </svg></nav>
-      
-      <slot></slot>
-      <footer class="load-more">
-        <slot name="load-more">
               <span v-if="loaded">完成</span>
               
         </slot>

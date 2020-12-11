@@ -107,6 +107,9 @@ export default {
     }
   },
   created() {
+
+      
+    
     // this.username = this.$route.query.email ? this.$route.query.email : "";
     // console.log(this.$route.query.email);
   },
@@ -149,7 +152,7 @@ export default {
             this.$store.dispatch("usertype", res.data.data.userType);
             this.$store.dispatch("setUser", this.username);
             console.log(res.data.data.isAuth);
-
+          //1 verified 0 unverified
             if (res.data.data.isAuth === 1) {
               this.$routerto("mhome");
             } else if (res.data.data.isAuth === 0) {

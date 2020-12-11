@@ -21,56 +21,85 @@
             <span>$ 600,000,000,000</span>
           </p>
         </div>
-        <div class="richtext" style="word-wrap:break-word;font-size: 3.2vw;">
-          <p>
-            <img
-              src="http://atm.wearetechman.com/static/ueditor/php/upload/20200820/15978932833894.png"
-              title="ix邮箱logo.png"
-              width="80"
-              height="34"
-              _src="http://atm.wearetechman.com/static/ueditor/php/upload/20200820/15978932833894.png"
-            />
-          </p>
-          <p>
-            <br />
-          </p>
-          <p>
-            感谢您使用数码资产交易站!&nbsp; 以下是你的收据：
-            <br />
-          </p>
-          <p>
-            <br />
-          </p>
-          <p>
-            <strong>{coin_type} {trade_type}</strong>
-            <br />
-          </p>
-          <p>日期：{create_time}</p>
-          <p>交易ID：{trade_id}</p>
-          <p>{trade_type}价格：{price}</p>
-          <p>{trade_type}金额：{money}</p>
-          <p>{trade_type}数量：{coin_number}</p>
-          <p>赎回码：{redeem_code}</p>
-          <p>
-            <br />
-          </p>
-          <p>
-            <strong>联络我们</strong>
-          </p>
-          <p>电话:&nbsp;{customer_service_phone}</p>
-          <p>电邮: &nbsp;{customer_service_email}</p>
-          <p>网页:{customer_service_website}</p>
-          <p>
-            <br />
-          </p>
-          <p>请下载手机专用程式ixWallet管理货币（IOS 及Android适用)</p>
+        <div class="isSuccessful">
+          <header>
+            <span>5%</span>
+            <span>of total funds raised by intermediaries</span>
+          </header>
+          <nav>
+            <p></p>
+          </nav>
+          <section>
+            <span>A(Name)</span>
+            <span>B(Name)</span>
+          </section>
+          <footer>
+            <button>View Contract</button>
+          </footer>
+          <div class="Bname">
+            <p>B(Name) Information</p>
+            <ul class="Binformation">
+              <li>
+                <aside></aside>
+                <p>Biodiversity offsets</p>
+              </li>
+              <li>
+                <aside></aside>
+                <p>Biodiversity offsets</p>
+              </li>
+              <li>
+                <aside></aside>
+                <p>Biodiversity offsets</p>
+              </li>
+              <li>
+                <aside></aside>
+                <p>Biodiversity offsets</p>
+              </li>
+            </ul>
+          </div>
         </div>
-
+        <div class="isFailed">
+          <header>
+            <span>Corporate next time!</span>
+          </header>
+          <nav>
+            <p></p>
+          </nav>
+          <section>
+            <span>A(Name)</span>
+            <span>B(Name)</span>
+          </section>
+          <footer>
+            <article>Reject Reason: I am writing to thank you for your email and to inform you that we gave our careful consideration to your proposal. Unfortunately, we have to turn down the sales offer. We want you to know that it does not reflect our unwillingness to work with you. Our company is moving in another direction at the moment and, therefore, cannot consider your offer. We would appreciate it if you could remove our email address from the mailing list.</article>
+          </footer>
+          <div class="Bname">
+            <p>B(Name) Information</p>
+            <ul class="Binformation">
+              <li>
+                <aside></aside>
+                <p>Biodiversity offsets</p>
+              </li>
+              <li>
+                <aside></aside>
+                <p>Biodiversity offsets</p>
+              </li>
+              <li>
+                <aside></aside>
+                <p>Biodiversity offsets</p>
+              </li>
+              <li>
+                <aside></aside>
+                <p>Biodiversity offsets</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
         <div class="projectsDetails-recommand">
           <!-- <div>
             You have not recommend
             any investors before.
-          </div>-->
+          </div> -->
           <div class="project-swipe">
             <van-icon name="arrow-left" @click="privous" />
             <p>
@@ -107,15 +136,12 @@
                   <van-swipe-item>2</van-swipe-item>
                   <van-swipe-item>3</van-swipe-item>
                 </template>
-                <!-- <template #indicator>
-                  <div class="custom-indicator">{{ current + 1 }}/4</div>
-                </template>-->
               </van-swipe>
             </div>
             <p @click="$routerto('a_recommand_i')">{{$t('project.SeeAll')}}</p>
             <van-icon name="arrow" @click="next" />
           </div>
-          <div @click="$routerto('recent_recommand')">{{$t('project.RecommendMore')}}</div>
+          <div class="recommand" @click="$routerto('recent_recommand')">{{$t('project.RecommendMore')}}</div>
         </div>
         <div class="projectDetail">
           <aside class="iconfont icon-3"></aside>
@@ -415,16 +441,100 @@ export default {
         }
       }
     }
+
+    div.isSuccessful,
+    div.isFailed {
+      nav {
+        display: flex;
+        justify-content: center;
+        p {
+          width: vw(332);
+          height: vw(193);
+          background: #3ab5cc;
+          opacity: 1;
+        }
+      }
+      section {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: vw(70);
+        span {
+          font-size: vw(30);
+          font-family: Helvetica Neue;
+          font-weight: bold;
+          line-height: vw(34);
+          color: #3ab5cc;
+        }
+      }
+
+      .Bname {
+        > p {
+          margin-bottom: vw(34);
+          font-size: vw(30);
+          font-weight: bold;
+        }
+      }
+    }
+    div.isSuccessful {
+      header {
+        color: #3ab5cc;
+        font-weight: bold;
+        margin-bottom: vw(60);
+        span {
+          font-size: vw(24);
+          line-height: vw(28);
+        }
+        span:first-of-type {
+          font-size: vw(60);
+          font-weight: bold;
+        }
+      }
+      footer {
+        margin-bottom: vw(156);
+        button {
+          width: vw(250);
+          height: vw(72);
+          background: #00f0ab;
+          opacity: 1;
+          border-radius: vw(16);
+        }
+      }
+    }
+    div.isFailed {
+      header {
+        color: #3ab5cc;
+        font-weight: bold;
+        margin-bottom: vw(60);
+        text-align: center;
+        span {
+          font-size: vw(24);
+          font-weight: bold;
+          color: #3ab5cc;
+          opacity: 1;
+        }
+      }
+      footer {
+        margin-bottom: vw(156);
+        article {
+          width: vw(542);
+          font-size: vw(20);
+          font-family: Helvetica Neue;
+          font-weight: bold;
+          line-height: vw(22);
+          color: #3ab5cc;
+        }
+      }
+    }
     .projectsDetails-recommand {
       color: #ffffff;
-      > div:nth-of-type(1) {
+      .project-swipe {
         width: 100%;
         // height: vw(594);
         background: #3ab5cc;
         border-radius: vw(30);
         margin-bottom: vw(36);
       }
-      > div:nth-of-type(2) {
+      .recommand {
         width: vw(602);
         height: vw(72);
         line-height: vw(72);

@@ -24,7 +24,7 @@
       </table>
       <div class="vip-leaderboard">
         <van-button
-          @click="$routerto('pointsRedemption')"
+          @click="$routerto('pointsRedemptionList')"
           type="primary"
           size="mini"
           color="#00F0AB"

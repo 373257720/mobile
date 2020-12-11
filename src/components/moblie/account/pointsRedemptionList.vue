@@ -7,58 +7,67 @@
       </template>
     </commonnav>
     <main>
-      <h3>100 points = 10 HKD</h3>
-      <article>
-        <h4>Rules</h4>
-        <div class="content">{{redemptionInfo[0] && redemptionInfo[0].exchangeDetails}}</div>
-        <div class="points">
-          <header>points redemption</header>
-          <p>
-            Now you have {{redemptionInfo[0] && redemptionInfo[0].integralAmount}} points, please enter
-            points you would like to trade.
-          </p>
-          <section>
-            <input type="number" />
-            <span>Points</span>
-          </section>
-        </div>
-        <footer>expiry date: {{redemptionInfo[0] && redemptionInfo[0].exchangeEndTime}}</footer>
-        <van-button @click="$routerto('pointsRedemption')" type="primary" color="#00F0AB">Trade</van-button>
-      </article>
+      <v-scroll
+        class="mhome-article"
+        :on-refresh="onRefresh"
+        :loaded="loaded"
+        :on-infinite="onInfinite"
+      >
+        <ul>
+          <li v-for="(element,idx) in redemptionInfo" :key="idx">{{idx}}</li>
+        </ul>
+      </v-scroll>
     </main>
   </div>
 </template>
 <script>
+import Scroll from "@/components/moblie/loadmore";
 export default {
   name: "vip",
   data() {
     return {
-      redemptionInfo: []
+      redemptionInfo: [],
+      loaded: false,
+      pageIndex: 1,
+      pageSize: 10
     };
+  },
+  components: {
+    "v-scroll": Scroll
   },
   created() {
     this.getlist();
   },
   methods: {
-    getlist() {
-      this.$store.commit("isloading", true);
+    onRefresh(done) {
+      this.loaded = false;
+      this.getlist(done);
+    },
+    onInfinite(done) {
+      if (!this.loaded) this.onInfinitePort(done);
+    },
+    /**
+     * 上拉加载接口
+     */
+    onInfinitePort(done) {
+      this.getlist(done);
+    },
+    getlist(done) {
       this.$global
         .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/member/getBslExchangeIntegralList`
+          `${this.$axios.defaults.baseURL}/bsl_web/member/getBslExchangeIntegralList`,
+          {
+            pageIndex: this.pageIndex,
+            pageSize: this.pageSize,
+          }
         )
         .then(res => {
-          this.$store.commit("isloading", false);
           this.redemptionInfo = res.data.data.lists;
-          if (this.redemptionInfo[0]) {
-            this.redemptionInfo[0].exchangeEndTime = this.$global.stamptodate(
-              this.redemptionInfo[0].exchangeEndTime
-            );
-          }
-          // this.bslMemberLog = res.data.data;
-          // console.log(this.bslMemberLog);
-          // this.lists = res.data.data.lists;
-
-          // console.log(res);
+          this.loaded = true;
+          if (done) done();
+        })
+        .catch(err => {
+          this.loaded = true;
         });
     }
     // handleleterClick() {},

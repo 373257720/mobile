@@ -64,7 +64,6 @@ export default {
     line-height: 1.5rem;
     height: 1.5rem;
     position: fixed;
-    top: 0;
     font-size: 0.46rem;
     background: white;
     border-bottom: 0.1rem solid #b5b5b5;

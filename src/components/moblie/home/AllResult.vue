@@ -1,7 +1,10 @@
 <template>
   <div id="mhome">
     <commonnav>
-      {{$t('common.Home')}}
+      ALL result
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()" />
+      </template>
       <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
       </template>
@@ -15,70 +18,20 @@
         :on-infinite="onInfinite"
         :class="{'yo-scrollTop':isshowTag,'Fixed':isFixed}"
       >
-        <div class="searchContainer" :class="{'isFixed':isFixed}">
-          <van-search
-            v-if="!isshowTag"
-            v-model="searchkey"
-            :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-            shape="round"
-            left-icon
-          >
-            <div slot="right-icon">
-              <van-icon name="search" />
-            </div>
-          </van-search>
-          <div>
-            <p @click="$routerto('fliter')" style="width:20px;height:20px;background:#555"></p>
-          </div>
-        </div>
-        <div v-if="!isshowTag" class="mhome-tag">
-          <ul>
+        <div class="mhome-signTag">
+          <ul class="totalResults">
             <li>
-              <aside>{{$t('common.Industry')}}</aside>
-              <div>
-                <p
-                  :class="{'isactive':item.isactive}"
-                  @click="tagClick(item)"
-                  v-for="item in taglist"
-                  :key="item.name"
-                >{{item.name}}</p>
-              </div>
+              <!-- <p class="numbers" @click="$routerto('fliter')">
+              <i></i>-->
+              <p
+                @click="$routerto('fliter')"
+              >{{$store.getters.totalResults && $store.getters.totalResults.length}}</p>
+              <!-- </p> -->
             </li>
-            <li>
-              <aside>{{$t('common.region')}}</aside>
-              <div>
-                <p
-                  :class="{'isactive':item.isactive}"
-                  @click="tagClick(item)"
-                  v-for="item in countrylist"
-                  :key="item.remark"
-                >{{item.lable}}</p>
-              </div>
-            </li>
-            <li>
-              <aside>Tag</aside>
-              <div>
-                <p
-                  :class="{'isactive':item.isactive}"
-                  @click="tagClick(item)"
-                  v-for="item in taglist"
-                  :key="item.name"
-                >{{item.name}}</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <!-- <transition name="slide-fade"> -->
-        <div v-if="isshowTag" class="mhome-signTag">
-          <p @click="$routerto('fliter')">
-            <i></i>
-            <span>10</span>
-          </p>
-          <ul>
-            <li v-for="(item,idx) in totalResults" :key="item.name">
+            <li v-for="(item) in $store.getters.totalResults" :key="item.name">
               <p>
                 {{item.label}}
-                <span @click="delectTag(item,idx)"></span>
+                <!-- <span @click="delectTag(item,idx)"></span> -->
               </p>
             </li>
           </ul>
@@ -232,14 +185,22 @@ export default {
       countrylist: []
     };
   },
+  computed: {
+    // totalResults: {
+    //   get() {
+    //     // return this.$store.state.Root.value;
+    //   },
+    //   set(newVal) {
+    //     // this.$store.commit("handleVal", newVal);
+    //   }
+    // }
+  },
   created() {
     this.getcountrylist();
   },
   mounted() {
     window.addEventListener("scroll", this.initHeight, true);
-    this.scrollHeight = document.querySelector(
-      ".van-search__content"
-    ).offsetTop;
+    this.scrollHeight = document.querySelector(".mhome-signTag").offsetTop;
     // console.log(this.scrollHeight);
     // document.querySelector.van-search__content
   },
@@ -706,7 +667,7 @@ export default {
     .yo-scroll {
       position: absolute;
       top: 50px;
-      bottom: 50px;
+      // bottom: 50px;
       -webkit-overflow-scrolling: touch;
     }
     .yo-scroll.Fixed {
@@ -717,6 +678,7 @@ export default {
     }
     .mhome-tag {
       // padding-top: vw(62);
+
       li {
         display: flex;
         padding-left: vw(40);
@@ -762,9 +724,56 @@ export default {
     }
     .mhome-signTag {
       // padding: vw(62) 0;
-      padding-left: vw(70);
+      padding: 0 vw(70);
       padding-top: vw(24);
-      p {
+
+      .totalResults {
+        display: flex;
+        // flex-wrap: wrap;
+        flex-flow: row wrap;
+        margin-bottom: vw(60);
+        // padding-top: vw(10);
+        li {
+          color: #3ab5cc;
+          height: vw(53);
+          border: vw(2) solid #3ab5cc;
+          border-radius: vw(52);
+          padding: 0 vw(26);
+          margin-right: vw(20);
+          margin-bottom: vw(10);
+          p {
+            font-size: vw(26);
+            line-height: vw(53);
+            span {
+              // transform: rotate(90deg);
+              display: inline-block;
+              position: relative;
+              width: vw(18);
+              height: vw(18);
+              &:before,
+              &:after {
+                position: absolute;
+                content: " ";
+                background-color: #3ab5cc;
+                left: vw(8);
+                width: vw(2);
+                height: vw(18);
+              }
+              &:before {
+                transform: rotate(45deg);
+              }
+              &:after {
+                transform: rotate(-45deg);
+              }
+            }
+            // &::after {
+            //   content: "+";
+            //   margin-left: vw(10);
+            // }
+          }
+        }
+      }
+      p.numbers {
         width: vw(124);
         display: flex;
         align-items: center;

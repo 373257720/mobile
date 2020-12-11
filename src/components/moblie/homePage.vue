@@ -6,7 +6,6 @@
         <div class="iconfont icon-language switchLan"></div>
       </a>
     </header>
-
     <div class="main">
       <div class="registerbtn common">
         <van-button
@@ -15,7 +14,7 @@
           }"
         >{{$t('common.Register')}}</van-button>
       </div>
-      <p class="login" @click="$routerto('login')">{{$t('common.LogIn')}}</p>
+      <div class="login" @click="$routerto('login')">{{$t('common.LogIn')}}</div>
     </div>
   </div>
 </template>
@@ -119,7 +118,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    > p {
+    div.login{
       font-size: vw(40);
       color: #4f3dad;
       margin-bottom: vw(234);

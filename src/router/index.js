@@ -35,9 +35,9 @@ const usercheckroot = () =>
     /* webpackChunkName: "group-foo" */ "@/components/moblie/login/usercheckroot"
   );
 const verify = () =>
-import(
-  /* webpackChunkName: "group-foo" */ "@/components/moblie/login/Verify"
-);
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/Verify"
+  );
 
 const mysign = () =>
   import(
@@ -60,16 +60,18 @@ const projectList = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectList"
   );
-  const projectChain = () =>
+const projectChain = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectChain"
   );
-  
 
 const userpass = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/userpass");
 const mhome = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/mhome");
+const AllResult = () =>
+  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/home/AllResult");
+
 const fliter = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/home/fliter");
 const mutilPick = () =>
@@ -88,26 +90,30 @@ const upload_contract = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/upload_contract"
   );
-  
- 
+
 // Account
 const AccountMessage = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/accountMessage"
   );
-  const pointsRedemption = () =>
+const pointsRedemption = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/pointsRedemption"
   );
-  
-  const leaderboard = () =>
+const pointsRedemptionList = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/account/pointsRedemptionList"
+  );
+
+const leaderboard = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/leaderboard"
   );
-   
+
 const vipGrade = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -164,10 +170,19 @@ const routes = [
   {
     path: "/pointsRedemption",
     name: "pointsRedemption",
-    component:   pointsRedemption,
+    component: pointsRedemption,
     meta: {
-      isshowbottom: false
-      // ispaddingBottom: true
+      isshowbottom: false,
+      ispaddingBottom: true
+    }
+  },
+  {
+    path: "/pointsRedemptionList",
+    name: "pointsRedemptionList",
+    component: pointsRedemptionList,
+    meta: {
+      isshowbottom: false,
+      ispaddingBottom: true
     }
   },
 
@@ -256,6 +271,16 @@ const routes = [
     }
   },
   {
+    path: "/AllResult",
+    name: "AllResult",
+    component: AllResult,
+    meta: {
+      isshowbottom: false,
+    
+    }
+  },
+
+  {
     path: "/fliter",
     name: "fliter",
     component: fliter,
@@ -316,12 +341,11 @@ const routes = [
   {
     path: "/projectChain",
     name: "projectChain",
-    component:  projectChain,
+    component: projectChain,
     meta: {
       isshowbottom: false
     }
   },
- 
 
   {
     path: "/projectStatus",
@@ -392,7 +416,7 @@ const routes = [
     meta: {
       isshowbottom: false,
       ispaddingBottom: true
-    },
+    }
   },
   {
     path: "/leaderboard",
@@ -402,9 +426,9 @@ const routes = [
     meta: {
       isshowbottom: false,
       ispaddingBottom: true
-    },
+    }
   },
-  
+
   {
     path: "/verify",
     name: "verify",
@@ -413,7 +437,7 @@ const routes = [
     meta: {
       isshowbottom: false,
       ispaddingBottom: true
-    },
+    }
     // children: [
     //   {
     //     path: "usercheck",

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{'ispaddingBottom':ispaddingBottom}">
+  <div id="app">
     <!-- <van-overlay class="layer" :show="layerShow"></van-overlay>
     <van-loading color="#0ce5b2" :show="layerShow"/>-->
     <!-- <transition name="Skright"> -->
@@ -10,7 +10,7 @@
     >-->
     <layer></layer>
     <keep-alive include="mine,userpass,AccountMessage">
-      <router-view></router-view>
+      <router-view :class="{'ispaddingBottom':ispaddingBottom}"></router-view>
     </keep-alive>
     <mbottom v-if="$route.meta.isshowbottom"></mbottom>
     <!-- </div> -->
@@ -120,9 +120,9 @@ body {
 //     padding-bottom: vw(90);
 //   }
 // }
-.ispaddingBottom > div:nth-child(1) {
+.ispaddingBottom {
   // padding-bottom: vw(90);
-  // padding-bottom: vw(116);
+  padding-bottom: 50px;
 }
 // @media all and (orientation: landscape) {
 //   .ispaddingBottom > div:nth-child(1) {

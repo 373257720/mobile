@@ -11,8 +11,9 @@
     </commonnav>
     <main>
       <div class="fliter-tag">
-        <ul>
-          <li v-for="(item,idx) in totalResults" :key="item.name">
+        <ul class="totalResults">
+          <!-- {{$store.getters.totalResults}} -->
+          <li v-for="(item,idx) in $store.getters.totalResults" :key="item.name">
             <p>
               {{item.label}}
               <span @click="delectTag(item,idx)"></span>
@@ -24,7 +25,7 @@
             <p class="label">{{$t('common.Industry')}}</p>
             <div class="item">
               <p>
-                <span v-for="(item) in electedList.industryList" :key="item.value">
+                <span v-for="(item) in $store.state.electedList.industryList" :key="item.value">
                   {{
                   item.label
                   }},
@@ -37,7 +38,10 @@
             <p class="label">{{$t('common.region')}}</p>
             <div class="item">
               <p>
-                <span v-for="(item) in electedList.regionList" :key="item.name">{{ item.label}},</span>
+                <span
+                  v-for="(item) in $store.state.electedList.regionList"
+                  :key="item.name"
+                >{{ item.label}},</span>
               </p>
               <van-icon name="arrow" @click="goto('Region')" />
             </div>
@@ -46,7 +50,10 @@
             <p class="label">Tag</p>
             <div class="item">
               <p>
-                <span v-for="(item) in electedList.taglist" :key="item.name">{{ item.label}},</span>
+                <span
+                  v-for="(item) in $store.state.electedList.taglist"
+                  :key="item.name"
+                >{{ item.label}},</span>
               </p>
 
               <van-icon name="arrow" @click="goto('Tag')" />
@@ -56,7 +63,7 @@
       </div>
       <footer>
         <!-- <button>{{$t('common.Search')}}</button> -->
-        <van-button @click="$routerto('mhome')">{{$t('common.Search')}}</van-button>
+        <van-button @click="$routerto('AllResult')">{{$t('common.Search')}}</van-button>
       </footer>
     </main>
     <transition name="slide-fade">
@@ -84,7 +91,6 @@ export default {
     return {
       name: "",
       currentView: "",
-
       List: {
         industryList: [],
         regionList: [],
@@ -94,56 +100,72 @@ export default {
         industryList: [],
         regionList: [],
         taglist: []
-      },
-
-      electedList: {
-        industryList: [],
-        regionList: [],
-        taglist: []
       }
     };
   },
-  created() {},
-  computed: {
-    totalResults: {
-      get: function() {
-        return [
-          ...this.electedList.industryList,
-          ...this.electedList.regionList,
-          ...this.electedList.taglist
-        ];
-      },
-      set: function(newValue) {
-        console.log(newValue);
+  created() {
+    for (let key in this.$store.state.electedList) {
+      if (key == "industryList") {
+        this.result.industryList = this.$store.state.electedList[key].map(
+          element => {
+            return element.value;
+          }
+        );
+      } else if (key == "regionList") {
+        this.result.regionList = this.$store.state.electedList[key].map(
+          element => {
+            return element.value;
+          }
+        );
+      } else if (key == "taglist") {
+        this.result.taglist = this.$store.state.electedList[key].map(
+          element => {
+            return element.value;
+          }
+        );
       }
     }
+    // console.log(this.result);
+
+    // this.$store.state.electedList.industryList.map(element => {
+    //   console.log(element);
+    // });
   },
+  computed: {},
   methods: {
     pick(data) {
       if (this.name == "Industry") {
-        this.electedList.industryList = this.List.industryList.filter(item => {
+        let a;
+        a = this.List.industryList.filter(item => {
           for (let i = 0; i < data.industryList.length; i++) {
             if (item.value === data.industryList[i]) {
               return item;
             }
           }
         });
+        this.$store.commit("electedList", { arr: a, name: "industryList" });
+        console.log(this.$store.getters);
       } else if (this.name == "Region") {
-        this.electedList.regionList = this.List.regionList.filter(item => {
+        let a;
+        a = this.List.regionList.filter(item => {
           for (let i = 0; i < data.regionList.length; i++) {
             if (item.value === data.regionList[i]) {
               return item;
             }
           }
         });
+        this.$store.commit("electedList", { arr: a, name: "regionList" });
+        console.log(this.$store.state);
       } else if (this.name == "Tag") {
-        this.electedList.taglist = this.List.taglist.filter(item => {
+        let a;
+        a = this.List.taglist.filter(item => {
           for (let i = 0; i < data.taglist.length; i++) {
             if (item.value === data.taglist[i]) {
               return item;
             }
           }
         });
+        this.$store.commit("electedList", { arr: a, name: "taglist" });
       }
 
       this.currentView = "";
@@ -153,25 +175,34 @@ export default {
       this.currentView = "mutil-Pick";
     },
     delectTag(item, idx) {
-      console.log(item);
+      let arr;
       if (item.key === "industry") {
         for (let i = 0; i < this.result.industryList.length; i++) {
           if (this.result.industryList[i] === item.value) {
-            this.electedList.industryList.splice(i, 1);
+            this.$store.commit("delect", {
+              index: i,
+              name: "industryList"
+            });
             this.result.industryList.splice(i, 1);
           }
         }
       } else if (item.key === "region") {
         for (let i = 0; i < this.result.regionList.length; i++) {
           if (this.result.regionList[i] === item.value) {
-            this.electedList.regionList.splice(i, 1);
+            this.$store.commit("delect", {
+              index: i,
+              name: "regionList"
+            });
             this.result.regionList.splice(i, 1);
           }
         }
       } else if (item.key === "tag") {
         for (let i = 0; i < this.result.taglist.length; i++) {
           if (this.result.taglist[i] === item.value) {
-            this.electedList.taglist.splice(i, 1);
+            this.$store.commit("delect", {
+              index: i,
+              name: "taglist"
+            });
             this.result.taglist.splice(i, 1);
           }
         }
@@ -205,7 +236,7 @@ export default {
     // padding-top: vw(212);
     width: 100%;
     padding: vw(140) vw(60) vw(116) vw(60);
-    ul {
+    .totalResults {
       display: flex;
       // flex-wrap: wrap;
       flex-flow: row wrap;

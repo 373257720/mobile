@@ -61,8 +61,6 @@ export default {
 
   methods: {
     submit_click() {
-      // console.log(123);
-
       this.errorsMsg = "";
       let errorMsg = this.validateFunc();
       if (errorMsg) {

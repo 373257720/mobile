@@ -42,6 +42,8 @@
       :msg="content"
       :title.sync="title"
       :successto="successto"
+      @comfirmFromDialog="loginout"
+      :showCancel="true"
       :remindervisible.sync="remindervisible"
     ></DialogMsg>
   </div>
@@ -52,7 +54,7 @@ export default {
   data() {
     return {
       show: false,
-      content: "",
+      content: this.$t("common.YouChooseToLogOut"),
       title: "",
       successto: "",
       remindervisible: false,
@@ -152,25 +154,20 @@ export default {
     switch_language() {
       this.show = true;
     },
-    loginout(num) {
-      // console.log(this.$dialog);
-      this.logout = !this.logout;
-      if (num == 1) {
-        this.$global
-          .get_encapsulation(
-            `${this.$axios.defaults.baseURL}/bsl_web/user/logOut`
-          )
-          .then(res => {
-            console.log(res);
-            if (res.data.resultCode == 10000) {
-              this.$store.dispatch("reset_actions", this.$restore_obj);
-              sessionStorage.clear();
-              this.$routerto("login");
-            }
-          });
-      } else if (num == 2) {
-        this.logout = false;
-      }
+    loginout() {
+      this.remindervisible = false;
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/logOut`
+        )
+        .then(res => {
+          console.log(res);
+          if (res.data.resultCode == 10000) {
+            this.$store.dispatch("reset_actions", this.$restore_obj);
+            sessionStorage.clear();
+            this.$routerto("homePage");
+          }
+        });
     }
   }
 };
@@ -250,7 +247,7 @@ export default {
   }
   main {
     margin-top: vw(140);
-    // margin-bottom: vw(84);
+    margin-bottom: vw(84);
     display: flex;
     flex-direction: column;
     align-items: center;

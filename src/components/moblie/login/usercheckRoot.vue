@@ -48,25 +48,24 @@ export default {
 </script>
 <style lang="scss">
 //转场动画
-#example-1 {
-  position: relative;
-}
-p{
-   position: fixed;
-     top: 0;
-     background: #fff;
-}
-.slide-fade-enter-active {
-  transition: all 1s ease;
-  // position: fixed;
-
-}
-.slide-fade-leave-active {
-  transition: all 1s cubic-bezier(1, 0.5, 0.8, 1);
-}
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active for below version 2.1.8 */ {
-  transform: translateX(100%);
-  opacity: 0;
-}
+// #example-1 {
+//   position: relative;
+// }
+// // p {
+// //   position: fixed;
+// //   top: 0;
+// //   background: #fff;
+// // }
+// .slide-fade-enter-active {
+//   transition: all 1s ease;
+//   // position: fixed;
+// }
+// .slide-fade-leave-active {
+//   transition: all 1s cubic-bezier(1, 0.5, 0.8, 1);
+// }
+// .slide-fade-enter, .slide-fade-leave-to
+// /* .slide-fade-leave-active for below version 2.1.8 */ {
+//   transform: translateX(100%);
+//   opacity: 0;
+// }
 </style>
