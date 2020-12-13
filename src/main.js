@@ -10,16 +10,21 @@ import Promise from "es6-promise";
 Promise.polyfill();
 import global from "@/components/moblie/global.js";
 import store from "./store/store";
-import { i18n } from "./language";
+import {
+  i18n
+} from "./language";
 import "../static/icon/iconfont.css";
 Vue.config.productionTip = false;
 Vue.prototype.$qs = qs;
-// 富文本
+
+// 富文本tony
 const url = process.env.BASE_API;
 axios.defaults.baseURL = url;
 axios.default.timeout = 5000;
 import "./components/moblie/vee-validate/validate";
-import { Validator } from "../src/components/moblie/validation";
+import {
+  Validator
+} from "../src/components/moblie/validation";
 Vue.prototype.$Validator = Validator;
 // import "font-awesome/css/font-awesome.css";
 // import initRichText from "./editor";
@@ -77,12 +82,18 @@ Vue.prototype.$restore_obj = restore_obj;
 // Vue.use(MuseUI);
 import "./css/base.css";
 import "./css/base.scss";
-import { Dialog } from "vant";
+import {
+  Dialog
+} from "vant";
 Vue.use(Dialog);
 
-import { Toast } from "vant";
+import {
+  Toast
+} from "vant";
 Vue.use(Toast);
-import { Locale } from "vant";
+import {
+  Locale
+} from "vant";
 import en_US from "vant/lib/locale/lang/en-US";
 import zh_CN from "vant/lib/locale/lang/zh-CN";
 // zh-CN
@@ -96,17 +107,17 @@ function locales(a) {
 }
 Vue.prototype.$Local = locales;
 // 多语言设置
-let z = localStorage.getItem("language")
-  ? localStorage.getItem("language")
-  : "en_US";
+let z = localStorage.getItem("language") ?
+  localStorage.getItem("language") :
+  "en_US";
 locales(z);
-i18n.locale = localStorage.getItem("language")
-  ? localStorage.getItem("language")
-  : "en_US";
+i18n.locale = localStorage.getItem("language") ?
+  localStorage.getItem("language") :
+  "en_US";
 
 window.addEventListener(
   "popstate",
-  function(e) {
+  function (e) {
     router.isBack = true;
     console.log(router);
   },
@@ -144,12 +155,12 @@ let isShowLoading = true;
 Vue.prototype.$isShowLoading = isShowLoading;
 // const exceptUrls = [ '/bsl_web/base/sendEmail.do','/bsl_web/user/forgetPwd.do'];
 axios.interceptors.request.use(
-  function(config) {
+  function (config) {
     // 在发送请求之前做些什么
     loadingCount++;
     return config;
   },
-  function(error) {
+  function (error) {
     // 对请求错误做些什么
     return Promise.reject(error);
   }
@@ -170,14 +181,17 @@ axios.interceptors.response.use(
         } else {
           mes = res.data.resultDesc.slice(0, 10);
         }
-        Dialog.alert({
-          title: mes
-        }).then(() => {
-          store.dispatch("reset_actions", restore_obj);
-          window.sessionStorage.clear();
-          router.push({ name: "login" });
-          // location.href = process.env.WEB_API;
-        });
+
+        // Dialog.alert({
+        //   title: mes
+        // }).then(() => {
+        //   store.dispatch("reset_actions", restore_obj);
+        //   window.sessionStorage.clear();
+        //   router.push({
+        //     name: "login"
+        //   });
+        //   // location.href = process.env.WEB_API;
+        // });
         // }
       }
       // if (loadingCount == 0) {
@@ -190,15 +204,19 @@ axios.interceptors.response.use(
     loadingCount--;
     store.commit("isloading", false);
     // if (isShowLoading) {
-    //   isShowLoading = false;
-    Dialog.alert({
-      title: i18n.t("common.network")
-    }).then(() => {
-      store.dispatch("reset_actions", restore_obj);
-      window.sessionStorage.clear();
-      router.push({ name: "login" });
-      // location.href = process.env.WEB_API;
-    });
+    //   isShowLoading = false; 
+
+    // Dialog.alert({
+    //   title: i18n.t("common.network")
+    // }).then(() => {
+    //   console.log(123);
+    //   store.dispatch("reset_actions", restore_obj);
+    //   window.sessionStorage.clear();
+    //   router.push({
+    //     name: "login"
+    //   });
+    //   // location.href = process.env.WEB_API;
+    // });
     // }
     return Promise.reject(error);
   }
@@ -209,6 +227,7 @@ axios.interceptors.response.use(
 // import Loading from "muse-ui-loading";
 // Vue.use(Loading);
 Vue.prototype.$routerto = function routerTo(name, obj) {
+  console.log('1');
   router.push({
     name: name,
     query: obj
@@ -230,7 +249,6 @@ Vue.prototype.$loadingfail = function loadingfail() {
     message: "failed"
   });
 };
-Array.prototype.$TONY=111;
 var baseurl = {
   // api: "http://192.168.1.37:8085",
   api2: "http://47.90.62.114:8081", //(后台管理)
@@ -270,6 +288,9 @@ Vue.component("contractcomponent", contract);
 import DialogMsg from "./components/moblie/dialog";
 Vue.component("DialogMsg", DialogMsg);
 import commonSearch from "./components/moblie/common/commonSearch";
+import {
+  log
+} from "util";
 Vue.component("commonSearch", commonSearch);
 // Vue.component('Vue-ueditor-wrap ',VueUeditorWrap )
 /* eslint-disable no-new */

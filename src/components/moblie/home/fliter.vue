@@ -62,8 +62,7 @@
         </article>
       </div>
       <footer>
-        <!-- <button>{{$t('common.Search')}}</button> -->
-        <van-button @click="$routerto('AllResult')">{{$t('common.Search')}}</van-button>
+        <van-button @click="searchFun">{{$t('common.Search')}}</van-button>
       </footer>
     </main>
     <transition name="slide-fade">
@@ -133,6 +132,10 @@ export default {
   },
   computed: {},
   methods: {
+    searchFun(){
+      console.log(123);
+      
+    },
     pick(data) {
       if (this.name == "Industry") {
         let a;

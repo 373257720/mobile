@@ -158,7 +158,7 @@ export default {
     };
   },
   beforeRouteLeave(to, from, next) {
-    console.log(to, from);
+    // console.log(to, from);
     if (to.name == "p_submit_contract" || to.name == "a_submit_contract") {
       next(false);
     } else if (to.name == "a_recommand_i") {
