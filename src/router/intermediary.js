@@ -1,8 +1,17 @@
 // agent/
+const Interested = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/Interested"
+  );
+const ndaRoot = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/nda/ndaRoot"
+  );
 const ndaClause = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/ndaClause"
   );
+
 const recommand = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/recommand"
@@ -137,14 +146,14 @@ export default [
       isshowbottom: false
     }
   },
-  // {
-  //   path: "/projectDetail",
-  //   name: "projectDetail",
-  //   component: projectDetail,
-  //   meta: {
-  //     isshowbottom: false
-  //   }
-  // },
+  {
+    path: "/Interested",
+    name: "Interested",
+    component: Interested,
+    meta: {
+      isshowbottom: false
+    }
+  },
   {
     path: "/agentProjectDetail",
     name: "agentProjectDetail",
@@ -230,13 +239,33 @@ export default [
   },
 
   {
-    path: "/ndaClause",
-    name: "ndaClause",
-    component: ndaClause,
+    path: "/ndaRoot",
+    name: "ndaRoot",
+    component: ndaRoot,
     meta: {
       isshowbottom: false
-    }
+    },
+    redirect: "/ndaRoot/ndaClause",
+    children: [
+      {
+        path: "ndaClause",
+        name: "ndaClause",
+        component: ndaClause,
+        meta: {
+          isshowbottom: false
+        }
+      },
+      {
+        path: "a_sign_contract",
+        name: "a_sign_contract",
+        component: a_sign_contract,
+        meta: {
+          isshowbottom: false
+        }
+      }
+    ]
   },
+
   {
     path: "/a_tobeSigned_roots",
     name: "a_tobeSigned_roots",

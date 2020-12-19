@@ -43,6 +43,9 @@ import "./vant";
 // Vue.use(ant)
 // import Antd from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.css'
+
+
+// Vue.component(Button.name, Button);
 import input from "ant-design-vue/lib/input";
 import "ant-design-vue/lib/input/style/css";
 Vue.use(input);
@@ -230,7 +233,6 @@ Vue.prototype.$loadingfail = function loadingfail() {
     message: "failed"
   });
 };
-Array.prototype.$TONY=111;
 var baseurl = {
   // api: "http://192.168.1.37:8085",
   api2: "http://47.90.62.114:8081", //(后台管理)

@@ -78,6 +78,9 @@ body {
   background: #fff;
   position: relative;
 }
+.van-button--default{
+  border: none;
+}
 // .van-dialog {
 //   color: #fff;
 //   background-color: #0ce5b2;

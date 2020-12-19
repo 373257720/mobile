@@ -1,5 +1,5 @@
 <template>
-  <div id="agentProjectDetail">
+  <div id="p_projectdetail">
     <commonnav>
       {{$t('common.ProjectDetails')}}
       <template v-slot:arrowLeft>
@@ -12,16 +12,16 @@
 
     <main>
       <div class="mhome-tag">
-       <h2>{{ProjectDetail.projectName}}</h2>
-        <h3>Signed intermediary({{ProjectDetail.committedCount}})/Signed investor({{ProjectDetail.interestProjectCount}})</h3>
+        <h2>CDC Biodiversité – Biodiversity Offsetting</h2>
+        <h3>Signed intermediary(99)/Signed investor(99)</h3>
         <div class="projectMoney">
           <aside class="iconfont icon-1"></aside>
           <p>
-            <span>{{ProjectDetail.committedCount}}</span>
-            <span>${{ProjectDetail.collectMoneyMin}}-{{ProjectDetail.collectMoneyMax}}</span>
+            <span>Biodiversity offsets</span>
+            <span>$ 600,000,000,000</span>
           </p>
         </div>
-        <div class="isSuccessful">
+        <!-- <div class="isSuccessful">
           <header>
             <span>5%</span>
             <span>of total funds raised by intermediaries</span>
@@ -93,13 +93,9 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div>-->
 
-        <div class="projectsDetails-recommand">
-          <!-- <div>
-            You have not recommend
-            any investors before.
-          </div>-->
+        <!-- <div class="projectsDetails-recommand">
           <div class="project-swipe">
             <van-icon name="arrow-left" @click="privous" />
             <p>
@@ -141,16 +137,32 @@
             <p @click="$routerto('a_recommand_i')">{{$t('project.SeeAll')}}</p>
             <van-icon name="arrow" @click="next" />
           </div>
-          <div
-            class="recommand"
-            @click="$routerto('recent_recommand')"
-          >{{$t('project.RecommendMore')}}</div>
-        </div>
-           <div class="projectDetail">
+          <div class="recommand" @click="$routerto('recent_recommand')">{{$t('project.RecommendMore')}}</div>
+        </div>-->
+        <div class="projectDetail">
           <aside class="iconfont icon-3"></aside>
           <div>
             <article ref="article" :style="{height:articleHight}">
-              <p ref="articleOrign">{{ProjectDetail.projectDescribe}}</p>
+              <p ref="articleOrign">
+                This is the first NCFF operation that supports
+                a Biodiversity Offseting scheme. The operation
+                consists of a EUR 5 million loan to the French
+                CDC Biodiversité, a subsidiary of the Caisse
+                des Dépots, who will use the loan for the
+                rehabilitation and management of conservation
+                sites around France. The rehabilitation and
+                management of conservation sites will allow
+                CDC Biodiversité to generate offset credits
+                (Unités de Compensation) for clients which
+                are required to offset their impacts on
+                certain habitats and species as a condition
+                of a planning permission. This EIB loan will enable
+                CDC Biodiversité to support investment in new sites,
+                while keeping its existing sites,
+                some of which have high ecological value, and make the necessary
+                investments to register and market the credits of those sites
+                to comply with regulatory requirements in France.
+              </p>
             </article>
             <p class="drop">
               <van-icon @click="dropdown" :class="{'rotate1':articleHight}" name="arrow-down" />
@@ -189,11 +201,12 @@
           </li>
         </ul>
         <footer>
-          <p @click="signNDA">{{$t("project.SignNDAterms")}}</p>
-          <p @click="signNDA">{{$t("project.NDAcontract")}}</p>
-          <button>{{$t('project.Interested')}}</button>
-          <button @click="$routerto('signContractStep1')">{{$t('project.SignContract')}}</button>
-          <button @click="$routerto('signContractStep1')">{{$t('project.Contractwithibank')}}</button>
+          <!-- <p @click="signNDA">{{$t("project.SignNDAterms")}}</p> -->
+          <!-- <p @click="signNDA">{{$t("project.NDAcontract")}}</p> -->
+          <button @click="$routerto('P_signContractStep1')">{{$t('project.Interested')}}</button>
+          <button>拒绝</button>
+          <!-- <button @click="$routerto('P_signContractStep1')">{{$t('project.SignContract')}}</button> -->
+          <!-- <button @click="$routerto('signContractStep1')">{{$t('project.Contractwithibank')}}</button> -->
         </footer>
       </div>
     </main>
@@ -219,7 +232,7 @@
 </template>
 <script>
 export default {
-  name: "agentProjectDetail",
+  name: "p_projectdetail",
   data() {
     return {
       current: 0,
@@ -230,14 +243,6 @@ export default {
       title: "",
       remindervisible: false,
       articleHight: null,
-      ProjectDetail: {
-        projectName: "",
-        committedCount: 0,
-        interestProjectCount: 0,
-        collectMoneyMin: "",
-        collectMoneyMax: "",
-        projectDescribe: ""
-      },
       taglist: [
         {
           name: "Biodiversity",
@@ -263,36 +268,13 @@ export default {
           name: "InnosdfdsfvFin",
           isactive: false
         }
-      ]
+      ],
+     
     };
   },
-  created() {
-    this.getProjectDetails();
-  },
+  created() {},
 
   methods: {
-    getProjectDetails() {
-      this.$store.commit("isloading", true);
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
-          { projectId: 130439808 }
-        )
-        .then(res => {
-          this.$store.commit("isloading", false);
-          for (let key in this.ProjectDetail) {
-            for (let i in res.data.data.data) {
-              if (key === i) {
-                if (key == "projectName") {
-                  //   this.ProjectDetail[key] = res.data.data.data[projectNameEn];
-                }
-              }
-            }
-          }
-          // this.ProjectDetail=res.data.data.data
-          // console.log(this.ProjectDetail);
-        });
-    },
     gotoNDA() {
       this.remindervisible = false;
       this.$routerto("ndaClause");
@@ -350,7 +332,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-#agentProjectDetail {
+#p_projectdetail {
   main {
     // padding-top: vw(212);
     padding: vw(192) vw(70) vw(80);

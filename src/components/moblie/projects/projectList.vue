@@ -10,46 +10,71 @@
       </template>
     </commonnav>
     <main>
-      <nav>Project to be signed</nav>
-      <v-scroll
-        class="mhome-article"
-        :on-refresh="onRefresh"
-        :loaded="loaded"
-        :on-infinite="onInfinite"
-      >
-        <div class="timestamp">
-          <ul>
-            <li v-for="i in piclists" :key="i.remark">
-              <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
-              <section id="container">
-                <div class="item item-1">
-                  <p class="icon iconRight iconfont icon-5day"></p>
-                  <!-- <i class="icon iconRight iconfont icon-message"></i> -->
-                </div>
-                <div class="item item-2">
-                  <p>2020-06-06 14:00:00</p>
-                </div>
-                <div class="item item-3">
-                  <p class="icon iconRight iconfont icon-5day"></p>
-                </div>
-                <div class="item item-4">
-                  <p>2020-06-06 14:00:00</p>
-                </div>
-                <div class="item item-5">
-                  <p class="icon iconRight iconfont icon-3"></p>
-                </div>
-                <div class="item item-6">
-                  <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
-                </div>
-              </section>
-              <div class="btn">
-                <van-button @click="$routerto('agentProjectDetail')">{{$t('project.Detail')}}</van-button>
-                <van-button @click="$routerto('projectChain')">{{$t('project.projectChain')}}</van-button>
+      <nav>{{$store.state.selectedItem.text}}</nav>
+      <div v-if="$store.state.currentUsertype===1" class="timestamp">
+        <ul>
+          <li v-for="(i) in $store.state.selectedItem.arr" :key="i.text">
+            <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
+            <section id="container">
+              <div class="item item-1">
+                <p class="icon iconRight iconfont icon-5day"></p>
+                <!-- <i class="icon iconRight iconfont icon-message"></i> -->
               </div>
-            </li>
-          </ul>
-        </div>
-      </v-scroll>
+              <div class="item item-2">
+                <p>2020-06-06 14:00:00</p>
+              </div>
+              <div class="item item-3">
+                <p class="icon iconRight iconfont icon-5day"></p>
+              </div>
+              <div class="item item-4">
+                <p>2020-06-06 14:00:00</p>
+              </div>
+              <div class="item item-5">
+                <p class="icon iconRight iconfont icon-3"></p>
+              </div>
+              <div class="item item-6">
+                <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
+              </div>
+            </section>
+            <div class="btn">
+              <van-button @click="$routerto('p_projectdetail')">{{$t('project.Detail')}}</van-button>
+              <van-button @click="$routerto('projectChain')">{{$t('project.projectChain')}}</van-button>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div v-if="$store.state.currentUsertype===4" class="timestamp">
+        <ul>
+          <li v-for="i in piclists" :key="i.remark">
+            <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
+            <section id="container">
+              <div class="item item-1">
+                <p class="icon iconRight iconfont icon-5day"></p>
+                <!-- <i class="icon iconRight iconfont icon-message"></i> -->
+              </div>
+              <div class="item item-2">
+                <p>2020-06-06 14:00:00</p>
+              </div>
+              <div class="item item-3">
+                <p class="icon iconRight iconfont icon-5day"></p>
+              </div>
+              <div class="item item-4">
+                <p>2020-06-06 14:00:00</p>
+              </div>
+              <div class="item item-5">
+                <p class="icon iconRight iconfont icon-3"></p>
+              </div>
+              <div class="item item-6">
+                <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
+              </div>
+            </section>
+            <div class="btn">
+              <van-button @click="$routerto('agentProjectDetail')">{{$t('project.Detail')}}</van-button>
+              <van-button @click="$routerto('projectChain')">{{$t('project.projectChain')}}</van-button>
+            </div>
+          </li>
+        </ul>
+      </div>
     </main>
   </div>
 </template>
@@ -61,6 +86,11 @@ export default {
   components: {
     "v-scroll": Scroll
   },
+  // props: {
+  //   selectedItem: {
+  //     type: Object
+  //   }
+  // },
   data() {
     return {
       loaded: false,
@@ -167,7 +197,11 @@ export default {
       next();
     }
   },
+  beforeDestroy(){
+  //  this.$store.commit("selectedItemMutations", {});
+  },
   created() {
+    console.log(this.$store.state.selectedItem); 
     console.log(this.num);
     this.usertype = this.$store.state.currentUsertype;
     if (this.$route.query.projectId) {
@@ -586,7 +620,7 @@ export default {
       li {
         margin-bottom: vw(50);
         font-weight: bold;
-        padding: 0 vw(70);
+        // padding: 0 vw(70);
         nav {
           // width: 600px;
           // height: vw(34);

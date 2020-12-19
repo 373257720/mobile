@@ -139,6 +139,7 @@ const global = {
         })
         .then(res => {
           resolve(res);
+          
         })
         .catch(function(error) {
           reject(error);

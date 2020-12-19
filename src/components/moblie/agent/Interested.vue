@@ -12,7 +12,7 @@
 
     <main>
       <div class="mhome-tag">
-       <h2>{{ProjectDetail.projectName}}</h2>
+        <h2>{{ProjectDetail.projectName}}</h2>
         <h3>Signed intermediary({{ProjectDetail.committedCount}})/Signed investor({{ProjectDetail.interestProjectCount}})</h3>
         <div class="projectMoney">
           <aside class="iconfont icon-1"></aside>
@@ -21,132 +21,7 @@
             <span>${{ProjectDetail.collectMoneyMin}}-{{ProjectDetail.collectMoneyMax}}</span>
           </p>
         </div>
-        <div class="isSuccessful">
-          <header>
-            <span>5%</span>
-            <span>of total funds raised by intermediaries</span>
-          </header>
-          <nav>
-            <p></p>
-          </nav>
-          <section>
-            <span>A(Name)</span>
-            <span>B(Name)</span>
-          </section>
-          <footer>
-            <button>View Contract</button>
-          </footer>
-          <div class="Bname">
-            <p>B(Name) Information</p>
-            <ul class="Binformation">
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="isFailed">
-          <header>
-            <span>Corporate next time!</span>
-          </header>
-          <nav>
-            <p></p>
-          </nav>
-          <section>
-            <span>A(Name)</span>
-            <span>B(Name)</span>
-          </section>
-          <footer>
-            <article>Reject Reason: I am writing to thank you for your email and to inform you that we gave our careful consideration to your proposal. Unfortunately, we have to turn down the sales offer. We want you to know that it does not reflect our unwillingness to work with you. Our company is moving in another direction at the moment and, therefore, cannot consider your offer. We would appreciate it if you could remove our email address from the mailing list.</article>
-          </footer>
-          <div class="Bname">
-            <p>B(Name) Information</p>
-            <ul class="Binformation">
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="projectsDetails-recommand">
-          <!-- <div>
-            You have not recommend
-            any investors before.
-          </div>-->
-          <div class="project-swipe">
-            <van-icon name="arrow-left" @click="privous" />
-            <p>
-              Investors you recommend
-              before
-            </p>
-            <div class="project-swipe-plugin">
-              <van-swipe ref="swipe" :autoplay="3000" :show-indicators="false" @change="onChange">
-                <template #default>
-                  <van-swipe-item>
-                    <h3>
-                      Investors you recommend
-                      before
-                    </h3>
-                    <ul>
-                      <li>
-                        <aside></aside>
-                        <article>Recommended countdown: 5 days</article>
-                      </li>
-                      <li>
-                        <aside></aside>
-                        <article>Recommended countdown: 5 days</article>
-                      </li>
-                      <li>
-                        <aside></aside>
-                        <article>Recommended countdown: 5 days</article>
-                      </li>
-                      <li>
-                        <aside></aside>
-                        <article>Recommended countdown: 5 days</article>
-                      </li>
-                    </ul>
-                  </van-swipe-item>
-                  <van-swipe-item>2</van-swipe-item>
-                  <van-swipe-item>3</van-swipe-item>
-                </template>
-              </van-swipe>
-            </div>
-            <p @click="$routerto('a_recommand_i')">{{$t('project.SeeAll')}}</p>
-            <van-icon name="arrow" @click="next" />
-          </div>
-          <div
-            class="recommand"
-            @click="$routerto('recent_recommand')"
-          >{{$t('project.RecommendMore')}}</div>
-        </div>
-           <div class="projectDetail">
+        <div class="projectDetail">
           <aside class="iconfont icon-3"></aside>
           <div>
             <article ref="article" :style="{height:articleHight}">
@@ -190,10 +65,10 @@
         </ul>
         <footer>
           <p @click="signNDA">{{$t("project.SignNDAterms")}}</p>
-          <p @click="signNDA">{{$t("project.NDAcontract")}}</p>
-          <button>{{$t('project.Interested')}}</button>
-          <button @click="$routerto('signContractStep1')">{{$t('project.SignContract')}}</button>
-          <button @click="$routerto('signContractStep1')">{{$t('project.Contractwithibank')}}</button>
+          <!-- <p @click="signNDA">{{$t("project.NDAcontract")}}</p> -->
+          <button @click="clickInterested">{{$t('project.Interested')}}</button>
+          <!-- <button @click="$routerto('signContractStep1')">{{$t('project.SignContract')}}</button>
+          <button @click="$routerto('signContractStep1')">{{$t('project.Contractwithibank')}}</button>-->
         </footer>
       </div>
     </main>
@@ -203,6 +78,7 @@
       :cancelButtonText="cancelButtonText"
       @comfirmFromDialog="comfirmFromDialog"
       :title="title"
+      :msgtype="msgtype"
       :showCancel="true"
       :msg="msg"
     ></DialogMsg>
@@ -224,6 +100,7 @@ export default {
     return {
       current: 0,
       msg: "",
+      msgtype: "",
       remindervisible2: false,
       confirmButtonText: "",
       cancelButtonText: "",
@@ -267,24 +144,25 @@ export default {
     };
   },
   created() {
+    this.projectId = this.$route.query.projectId;
     this.getProjectDetails();
   },
-
   methods: {
     getProjectDetails() {
       this.$store.commit("isloading", true);
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
-          { projectId: 130439808 }
+          { projectId: this.projectId }
         )
         .then(res => {
-          this.$store.commit("isloading", false);
+         this.$store.commit("isloading", false);
           for (let key in this.ProjectDetail) {
             for (let i in res.data.data.data) {
               if (key === i) {
+                  
                 if (key == "projectName") {
-                  //   this.ProjectDetail[key] = res.data.data.data[projectNameEn];
+                //   this.ProjectDetail[key] = res.data.data.data[projectNameEn];
                 }
               }
             }
@@ -293,20 +171,39 @@ export default {
           // console.log(this.ProjectDetail);
         });
     },
+    clickInterested() {
+      this.$store.commit("isloading", true);
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/interested`,
+          { projectId: this.projectId, projectUserId: "263" }
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+          this.remindervisible = true;
+          this.msgtype = "interested";
+          this.msg = "您还可以签署NDA来获取该项目更多的资讯";
+        });
+    },
     gotoNDA() {
       this.remindervisible = false;
       this.$routerto("ndaClause");
     },
     comfirmFromDialog(data) {
+      console.log(data);
       this.remindervisible = false;
-      setTimeout(() => {
-        // this.title = "Sign NDA";
-        // this.msg = "Please sign the NDA to get more information";
-        // this.confirmButtonText = "Yes";
-        // this.cancelButtonText = "No";\
-        this.$routerto("ndaClause");
-        // this.remindervisible2 = true;
-      }, 300);
+      //   if (data == "interested") {
+      //     this.$routerto("ndaClause");
+      //   }
+      this.$routerto("ndaClause");
+      //   setTimeout(() => {
+      //     // this.title = "Sign NDA";
+      //     // this.msg = "Please sign the NDA to get more information";
+      //     // this.confirmButtonText = "Yes";
+      //     // this.cancelButtonText = "No";\
+      //     this.$routerto("ndaClause");
+      //     // this.remindervisible2 = true;
+      //   }, 300);
     },
     signNDA() {
       this.title = "Request project details";

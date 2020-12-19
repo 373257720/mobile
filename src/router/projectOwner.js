@@ -3,6 +3,32 @@ const p_wait_agent_input = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/wait_agent_input"
   );
+const p_bargin = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contract/bargin"
+  );
+const p_projectdetail = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/p_projectdetail"
+  );
+const P_signContractStep1 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contract/signContractStep1"
+  );
+const P_signContractStep2 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contract/signContractStep2"
+  );
+  const P_signContractStep3  = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contract/signContractStep3"
+  );
+  
 const login = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login/login");
 
@@ -139,9 +165,50 @@ export default [
     }
   },
   {
+    path: "/p_projectdetail",
+    name: "p_projectdetail",
+    component: p_projectdetail,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/P_signContractStep1",
+    name: "P_signContractStep1",
+    component: P_signContractStep1,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/P_signContractStep2",
+    name: "P_signContractStep2",
+    component: P_signContractStep2,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/P_signContractStep3",
+    name: "P_signContractStep3",
+    component: P_signContractStep3,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  
+  {
     path: "/p_sign_failed",
     name: "p_sign_failed",
     component: p_sign_failed,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/p_bargin",
+    name: "p_bargin",
+    component: p_bargin,
     meta: {
       isshowbottom: false
     }

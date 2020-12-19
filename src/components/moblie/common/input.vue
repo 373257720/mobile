@@ -1,4 +1,6 @@
 <template>
+
+
   <input
     class="my-number-input"
     type="number"
@@ -16,7 +18,7 @@ export default {
     max: Number,
     placeholder: String,
     value: {
-      default: null
+      default: 0
     }
   },
   data() {
@@ -32,7 +34,7 @@ export default {
       },
       set: function(value) {
         // 子组件==>父组件 发消息
-        console.log(this.keyDownDel);
+        // console.log(this.keyDownDel);
         let val = this.$el.value;
         let len = val.length;
         // console.log(val, value);
@@ -40,17 +42,19 @@ export default {
         if (len == 2 && val.charAt(0) == 0 && val.charAt(1) != ".") {
           this.$el.value = val.charAt(1);
           this.setParentModeVal(this.$el.value);
+
           return;
         }
         // 解决数字键盘可以输入输入多个小数点问题
         if (Math.abs(this.value) > 0 && val === "" && value === "") {
-          if (this.keyDownDel) {
-            this.$el.value = ""; // 正常删除
-            console.log("---正常删除---" + this.value);
-          } else {
-            this.$el.value = this.value; // 多次输入小数点时
-            console.log("---多次输入小数点---" + this.value);
-          }
+          this.$el.value = "";
+          // if (this.keyDownDel) {
+          //   this.$el.value = ""; // 正常删除
+          //   console.log("---正常删除---" + this.value);
+          // } else {
+          //   this.$el.value = this.value; // 多次输入小数点时
+          //   console.log("---多次输入小数点---" + this.value);
+          // }
           this.setParentModeVal(this.$el.value);
           return;
         }
@@ -65,8 +69,9 @@ export default {
 
         // 解决保留两位小数问题
         if (val) {
+               console.log(val, pointIndex);
           let pointIndex = val.indexOf(".");
-          //   console.log(val, pointIndex);
+       
 
           if (this.point == 0 && len == 2 && val.charAt(pointIndex) == ".") {
             console.log("只能输入整数");
@@ -109,6 +114,9 @@ export default {
     };
   },
   methods: {
+    removeDot(){
+      
+    },
     setParentModeVal(value) {
       this.$emit("input", value);
     }

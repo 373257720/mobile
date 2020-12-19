@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     loading: false,
+    selectedItem: {},
     usercheck: {
       nation: {},
       genus: "",
@@ -47,6 +48,12 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    selectedItemMutations(state, content) {
+      // if (content.name) {
+      state.selectedItem = content;
+      // }
+      // state.electedList = content;
+    },
     electedList(state, content) {
       if (content.name) {
         state.electedList[content.name] = content.arr;
@@ -56,7 +63,7 @@ export default new Vuex.Store({
     delect(state, content) {
       if (content.name) {
         console.log(content);
-        
+
         state.electedList[content.name].splice(content.index, 1);
       }
     },

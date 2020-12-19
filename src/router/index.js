@@ -43,6 +43,11 @@ const mysign = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/mysign"
   );
+
+const projectRoot = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectRoot"
+  );
 const projectStatus = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectStatus"
@@ -70,7 +75,9 @@ const userpass = () =>
 const mhome = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/mhome");
 const AllResult = () =>
-  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/home/AllResult");
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/home/AllResult"
+  );
 
 const fliter = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/home/fliter");
@@ -275,8 +282,7 @@ const routes = [
     name: "AllResult",
     component: AllResult,
     meta: {
-      isshowbottom: false,
-    
+      isshowbottom: false
     }
   },
 
@@ -322,6 +328,23 @@ const routes = [
       isshowbottom: true
     }
   },
+
+  {
+    path: "/projectChain",
+    name: "projectChain",
+    component: projectChain,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/projectStatus",
+    name: "projectStatus",
+    component: projectStatus,
+    meta: {
+      isshowbottom: false
+    }
+  },
   {
     path: "/projectSubStatus",
     name: "projectSubStatus",
@@ -338,23 +361,19 @@ const routes = [
       isshowbottom: false
     }
   },
-  {
-    path: "/projectChain",
-    name: "projectChain",
-    component: projectChain,
-    meta: {
-      isshowbottom: false
-    }
-  },
+  // {
+  //   path: "/projectRoot",
+  //   name: "projectRoot",
+  //   component: projectRoot,
+  //   redirect: "/projectRoot/projectStatus",
+  //   meta: {
+  //     isshowbottom: false
+  //   },
+  //   children: [
+     
+  //   ]
+  // },
 
-  {
-    path: "/projectStatus",
-    name: "projectStatus",
-    component: projectStatus,
-    meta: {
-      isshowbottom: false
-    }
-  },
   {
     path: "/projectDetail",
     name: "projectDetail",

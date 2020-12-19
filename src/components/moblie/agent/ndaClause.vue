@@ -33,10 +33,7 @@
             class="button is-primary"
             @click.prevent="submit_click"
           >Sign</button>
-          <button
-            class="button is-primary active"
-            @click.prevent="submit_click"
-          >Download</button>
+          <button class="button is-primary active" @click.prevent="submit_click">Download</button>
         </footer>
       </form>
     </main>
@@ -105,7 +102,11 @@ export default {
   },
   computed: {
     isdisabled() {
-      if (this.validateForm.behalf && this.validateForm.name && this.validateForm.title) {
+      if (
+        this.validateForm.behalf &&
+        this.validateForm.name &&
+        this.validateForm.title
+      ) {
         return false;
       } else {
         return true;

@@ -7,28 +7,88 @@
       </template>
     </commonnav>
     <main>
-     
-
       <v-scroll
         class="mhome-article"
         :on-refresh="onRefresh"
         :loaded="loaded"
         :on-infinite="onInfinite"
       >
-       <div class="searchContainer" :class="{'isFixed':isFixed}">
-        <van-search
-          :class="{'is_fixed' : isFixed}"
-          v-model="searchkey"
-          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-          shape="round"
-          left-icon
-        >
-          <div slot="right-icon">
-            <van-icon name="search" />
-          </div>
-        </van-search>
-      </div>
-        <div class="timestamp">
+        <div class="searchContainer" :class="{'isFixed':isFixed}">
+          <van-search
+            :class="{'is_fixed' : isFixed}"
+            v-model="searchkey"
+            :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
+            shape="round"
+            left-icon
+          >
+            <div slot="right-icon">
+              <van-icon name="search" />
+            </div>
+          </van-search>
+        </div>
+        <div v-if="$store.state.currentUsertype===1" class="timestamp">
+          <ul>
+            <li @click="$routerto('projectSubStatus')" v-for="i in countrylist" :key="i.remark">
+              <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
+              <section id="container">
+                <div class="item item-1">
+                  <p class="icon iconRight iconfont icon-1"></p>
+                  <!-- <i class="icon iconRight iconfont icon-message"></i> -->
+                </div>
+                <div class="item item-2">
+                  <p>Biodiversity offsets</p>
+                </div>
+                <div class="item item-3">
+                  <p class="icon iconRight iconfont icon-2_1"></p>
+                </div>
+                <div class="item item-4">
+                  <p>#tag</p>
+                </div>
+                <div class="item item-5">
+                  <p class="icon iconRight iconfont icon-3"></p>
+                </div>
+                <div class="item item-6">
+                  <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
+                </div>
+              </section>
+              <div class="btn">
+                <van-button>{{$t('projectOwner.chain')}}</van-button>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div v-if="$store.state.currentUsertype===3" class="timestamp">
+          <ul>
+            <li @click="$routerto('projectStatus')" v-for="i in countrylist" :key="i.remark">
+              <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
+              <section id="container">
+                <div class="item item-1">
+                  <p class="icon iconRight iconfont icon-1"></p>
+                  <!-- <i class="icon iconRight iconfont icon-message"></i> -->
+                </div>
+                <div class="item item-2">
+                  <p>Biodiversity offsets</p>
+                </div>
+                <div class="item item-3">
+                  <p class="icon iconRight iconfont icon-2_1"></p>
+                </div>
+                <div class="item item-4">
+                  <p>#tag</p>
+                </div>
+                <div class="item item-5">
+                  <p class="icon iconRight iconfont icon-3"></p>
+                </div>
+                <div class="item item-6">
+                  <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
+                </div>
+              </section>
+              <div class="btn">
+                <van-button>{{$t('projectOwner.Interested')}}</van-button>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div v-if="$store.state.currentUsertype===4" class="timestamp">
           <ul>
             <li @click="$routerto('projectStatus')" v-for="i in countrylist" :key="i.remark">
               <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
@@ -62,7 +122,7 @@
       </v-scroll>
       <!-- </transition> -->
     </main>
-       <scroll-top />
+    <scroll-top />
   </div>
 </template>
 <script>
@@ -73,7 +133,7 @@ export default {
   name: "mysign",
   components: {
     "v-scroll": Scroll,
-       ScrollTop
+    ScrollTop
   },
   data() {
     return {
@@ -184,7 +244,7 @@ export default {
     }
   },
   created() {
-    console.log(this.num);
+    console.log(this.$store.state.currentUsertype);
     this.usertype = this.$store.state.currentUsertype;
     if (this.$route.query.projectId) {
       let arr = JSON.parse(this.$route.query.array);
@@ -503,8 +563,8 @@ export default {
               // opacity: 1;
             }
           }
-            li:nth-last-of-type(1){
-             margin-bottom: vw(0);
+          li:nth-last-of-type(1) {
+            margin-bottom: vw(0);
           }
         }
       }
@@ -543,7 +603,7 @@ export default {
         display: flex;
         justify-content: flex-end;
         button {
-          width: vw(232);
+          // width: vw(232);
           height: vw(72);
           background: #00f0ab;
           border-radius: vw(16);

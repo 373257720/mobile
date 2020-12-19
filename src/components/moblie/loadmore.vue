@@ -58,7 +58,7 @@ export default {
   props: {
     offset: {
       type: Number,
-      default: 40
+      default: 50
     },
     enableInfinite: {
       type: Boolean,
@@ -134,15 +134,15 @@ export default {
         // in refreshing
         this.state = 2;
         this.top = this.offset;
+  
         return;
       }
-      // console.log(this.top, this.offset);
-
       if (this.top >= this.offset) {
-        // do refresh
+        // console.log(this.top);
+        
         this.refresh();
       } else {
-        // cancel refresh
+
         this.state = 0;
         this.top = 0;
       }
@@ -153,6 +153,7 @@ export default {
       this.onRefresh(this.refreshDone);
     },
     refreshDone() {
+      //  console.log( this.top);
       this.state = 0;
       this.top = 0;
     },

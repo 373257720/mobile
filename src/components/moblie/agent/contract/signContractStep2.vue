@@ -8,12 +8,11 @@
     </commonnav>
     <main>
       <h1>Step 2 please choose suitable commission sharing mechanism</h1>
-      <div>
+      <div class="box">
         <h3>Project proposal</h3>
-        <van-radio-group v-model="radio">
+        <van-radio-group v-model="sharingMechanismType">
           <van-radio
-            name="1"
-            label-disabled
+            :name="0"
             checked-color="#00f0ab"
           >Percentage of total funds raised by intermediaries</van-radio>
           <div class="count">
@@ -22,21 +21,24 @@
               :max="100"
               name="projectParty"
               placeholder
-              v-model.number="intermediaries"
+              v-model.number="sharingMechanism0"
             ></MyNumberInput>
-            <span>%</span>
+            <span class="persent">%</span>
             <p>
               <span
                 class="iconfont icon-arrow_on"
+                @click="calculate($event,'sharingMechanism0','add')"
               ></span>
-              <span class="iconfont icon-arrow_under" ></span>
+              <span
+                class="iconfont icon-arrow_under"
+                @click="calculate($event,'sharingMechanism0','subtract')"
+              ></span>
               <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
               <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
             </p>
           </div>
           <van-radio
-            name="2"
-            label-disabled
+            :name="1"
             checked-color="#00f0ab"
           >Percentage of commission income from project party</van-radio>
           <div class="count">
@@ -45,77 +47,101 @@
               :max="100"
               name="projectParty"
               placeholder
-              v-model.number="projectParty"
+              v-model.number="sharingMechanism1"
             ></MyNumberInput>
-            <span>%</span>
+            <span class="persent">%</span>
             <p>
+              <!-- <span class="iconfont icon-arrow_on projectParty"></span>
+              <span class="iconfont icon-arrow_under projectParty"></span>-->
               <span
-                class="iconfont icon-arrow_on projectParty"
+                class="iconfont icon-arrow_on"
+                @click="calculate($event,'sharingMechanism1','add')"
               ></span>
-              <span class="iconfont icon-arrow_under projectParty" ></span>
+              <span
+                class="iconfont icon-arrow_under"
+                @click="calculate($event,'sharingMechanism1','subtract')"
+              ></span>
               <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
               <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
             </p>
           </div>
         </van-radio-group>
         <h3>Recommend locking date</h3>
-        <van-radio-group v-model="radio">
-          <van-radio name="1" label-disabled checked-color="#00f0ab">Recommendation time</van-radio>
-          <div class="count">
-            <MyNumberInput
-              :point="0"
-              name="projectParty"
-              placeholder
-              v-model.number="projectParty"
-            ></MyNumberInput>
-            <span>%</span>
-            <p>
-              <span class="iconfont icon-arrow_on" @click="calculate($event,'projectParty','add')"></span>
-              <span
-                class="iconfont icon-arrow_under"
-                @click="calculate($event,'projectParty','subtract')"
-              ></span>
-              <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
-              <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
-            </p>
-          </div>
-          <van-radio name="2" label-disabled checked-color="#00f0ab">Recommended countdown</van-radio>
-          <div class="count">
-            <MyNumberInput
-              :point="0"
-              name="projectParty"
-              placeholder
-              v-model.number="projectParty"
-            ></MyNumberInput>
-            <span>%</span>
-            <p>
-              <span
-                :class="{'isactive':isactive}"
-                class="iconfont icon-arrow_on projectParty"
-              ></span>
-              <span class="iconfont icon-arrow_under projectParty" ></span>
-              <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
-              <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
-            </p>
-          </div>
-        </van-radio-group>
+        <p class="subtitle">Recommendation time</p>
+        <div class="count">
+          <MyNumberInput
+            :point="0"
+            name="projectParty"
+            placeholder
+            v-model.number="memberRecommendCount"
+          ></MyNumberInput>
+          <span class="unit">times</span>
+          <p>
+            <span
+              class="iconfont icon-arrow_on"
+              @click="calculate($event,'memberRecommendCount','add')"
+            ></span>
+            <span
+              class="iconfont icon-arrow_under"
+              @click="calculate($event,'memberRecommendCount','subtract')"
+            ></span>
+            <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
+            <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
+          </p>
+        </div>
+        <p class="subtitle">Recommended countdown</p>
+        <div class="count">
+          <MyNumberInput
+            :point="0"
+            name="projectParty"
+            placeholder
+            v-model.number="recommendMiddlemanTime"
+          ></MyNumberInput>
+          <span class="unit">month</span>
+          <p>
+            <span
+              class="iconfont icon-arrow_on"
+              @click="calculate($event,'recommendMiddlemanTime','add')"
+            ></span>
+            <span
+              class="iconfont icon-arrow_under"
+              @click="calculate($event,'recommendMiddlemanTime','subtract')"
+            ></span>
+            <!-- <span :class="{'isactive':isactive}" class="iconfont icon-arrow_on projectParty"></span>
+            <span class="iconfont icon-arrow_under projectParty"></span>-->
+            <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
+            <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
+          </p>
+        </div>
         <footer>
           <button>Preview Contract</button>
         </footer>
         <ul>
           <li>
-            <button @click="()=>remindervisible=true">Accept</button>
+            <van-button @click="$routerto('vipGrade')" class="renewal">Accept</van-button>
+            <button @click="acceptOrRejectCommission(0)">Accept</button>
           </li>
           <li>
-            <button @click="$routerto('bargin')">Suggest</button>
+            <button @click="acceptOrRejectCommission(1)">Suggest</button>
           </li>
           <li>
-            <button>Reject</button>
+            <button @click="acceptOrRejectCommission(2)">Reject</button>
           </li>
         </ul>
       </div>
     </main>
-    <DialogMsg :remindervisible.sync="remindervisible" :showCancel="true" :msg="msg"></DialogMsg>
+    <DialogMsg
+      :remindervisible.sync="remindervisibleBefore"
+      @comfirmFromDialog="comfirmFromDialog"
+      :showCancel="true"
+      :msg="msg"
+    ></DialogMsg>
+    <DialogMsg
+      :remindervisible.sync="remindervisibleBeforeAfter"
+      @comfirmFromDialog="comfirmFromDialog1"
+      :showCancel="false"
+      :msg="resultDesc"
+    ></DialogMsg>
   </div>
 </template>
 <script>
@@ -131,24 +157,93 @@ export default {
       msg: `Are you sure to accept this commission sharing mechanism from the project side?
 Once confirmed, it cannot be undone or changed
 And sign the contract with the project party`,
-      radio: "",
-      remindervisible: false,
+      sharingMechanismType: 0,
+      memberRecommendCount: 0,
+      recommendMiddlemanTime: 0,
+      remindervisibleBefore: false,
+      remindervisibleBeforeAfter: false,
+      resultDesc: "",
       isactive: false,
-      intermediaries: 0.0,
-      projectParty: 0,
-      timeout: null,
+      sharingMechanism0: 0.0,
+      sharingMechanism1: 0,
+      alterType: null
       //   setTime:null,
     };
   },
-  created() {},
+  created() {
+    this.middlemanGetCommissionMechanism();
+  },
   computed: {},
   watch: {},
 
-
-
   methods: {
+    comfirmFromDialog1(data) {
+      this.remindervisibleBeforeAfter = false;
+      if (this.resultDesc === 10000) {
+        if (this.alterType === 0 || this.alterType === 1) {
+          this.$routerto("projectSubStatus");
+        }
+      }
+    },
+    comfirmFromDialog(data) {
+      this.remindervisibleBefore = false;
+      this.$store.commit("isloading", true);
+      let obj = {
+        optType: this.alterType,
+        middlemanId: "128961768000",
+        sharingMechanism0: this.sharingMechanism0,
+        sharingMechanism1: this.sharingMechanism1,
+        sharingMechanismType: this.sharingMechanismType,
+        signId: "128967618000",
+        middlemanId: "128961768000"
+      };
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/acceptOrRejectCommission`,
+          obj
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+          this.resultDesc = res.data.resultDesc;
+          this.remindervisibleBeforeAfter = true;
+        });
+      // setTimeout(() => {
+      //   // this.title = "Sign NDA";
+      //   // this.msg = "Please sign the NDA to get more information";
+      //   // this.confirmButtonText = "Yes";
+      //   // this.cancelButtonText = "No";\
+      //   this.$routerto("ndaClause");
+      //   // this.remindervisibleBefore2 = true;
+      // }, 300);
+    },
+    acceptOrRejectCommission(num) {
+      this.remindervisibleBefore = true;
+      this.alterType = num;
+    },
+    middlemanGetCommissionMechanism() {
+      this.$store.commit("isloading", true);
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanGetCommissionMechanism`,
+          {
+            signId: "128967618000",
+            middlemanId: "128961768000"
+          }
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+          if (res.data.resultCode === 10000) {
+            this.radio = res.data.data.sharingMechanismType;
+            this.memberRecommendCount = res.data.data.memberRecommendCount || 0;
+            this.recommendMiddlemanTime =
+              res.data.data.recommendMiddlemanTime || 0;
+            this.sharingMechanism0 = res.data.data.sharingMechanism0;
+            this.sharingMechanism1 = res.data.data.sharingMechanism1;
+          }
+        });
+    },
     dosome() {
-      this.remindervisible = false;
+      this.remindervisibleBefore = false;
     },
     max(value) {
       if (value.target.value * 1 < 0) {
@@ -158,19 +253,19 @@ And sign the contract with the project party`,
       }
     },
     calculate(e, name, type) {
-      // e.target.style.color = "#fff";
-      // let setTime = null;
-      // setTime = setTimeout(() => {
-      //   e.target.style.color = "#00e3a2";
-      //   clearTimeout(setTime);
-      // }, 30);
-      // if (type == "add") {
-      //   this[name]++;
-      // } else if (type == "subtract") {
-      //   if (this[name] > 0) {
-      //     this[name]--;
-      //   }
-      // }
+      e.target.style.color = "#fff";
+      let setTime = null;
+      setTime = setTimeout(() => {
+        e.target.style.color = "#00e3a2";
+        clearTimeout(setTime);
+      }, 30);
+      if (type == "add") {
+        this[name]++;
+      } else if (type == "subtract") {
+        if (this[name] > 0) {
+          this[name]--;
+        }
+      }
     },
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
@@ -212,7 +307,7 @@ And sign the contract with the project party`,
       line-height: vw(34);
       color: #4f3dad;
     }
-    > div {
+    div.box {
       padding: vw(42) vw(58) vw(48);
       width: vw(630);
 
@@ -220,7 +315,11 @@ And sign the contract with the project party`,
       background: #4f3dad;
       border-radius: vw(50);
       color: #ffffff;
-
+      .subtitle {
+        font-size: vw(20);
+        color: #fff;
+        line-height: vw(26);
+      }
       h3 {
         font-size: vw(26);
         font-weight: bold;
@@ -231,6 +330,7 @@ And sign the contract with the project party`,
         // padding-top: vw(250);
         display: flex;
         justify-content: flex-end;
+        margin-top: vw(76);
         margin-bottom: vw(76);
         button {
           width: vw(262);
@@ -271,6 +371,11 @@ And sign the contract with the project party`,
         margin-top: vw(32);
         color: #00e3a2;
         font-weight: bold;
+        .unit {
+          display: inline-block;
+          width: vw(80);
+          margin: 0 vw(20);
+        }
         input {
           text-align: center;
           width: vw(100);
@@ -282,7 +387,7 @@ And sign the contract with the project party`,
           opacity: 1;
           border-radius: vw(5);
         }
-        > span {
+        span.persent {
           margin: 0 vw(8);
         }
         .isactive {
@@ -296,7 +401,7 @@ And sign the contract with the project party`,
             line-height: vw(27);
           }
           .icon-arrow_on {
-            margin-bottom: vw(8);
+            // margin-bottom: vw(8);
           }
         }
       }
