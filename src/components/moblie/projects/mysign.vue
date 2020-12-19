@@ -90,7 +90,7 @@
         </div>
         <div v-if="$store.state.currentUsertype===4" class="timestamp">
           <ul>
-            <li @click="$routerto('projectStatus')" v-for="i in countrylist" :key="i.remark">
+            <li  v-for="i in countrylist" :key="i.remark">
               <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
               <section id="container">
                 <div class="item item-1">
