@@ -44,7 +44,6 @@ import "./vant";
 // import Antd from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.css'
 
-
 // Vue.component(Button.name, Button);
 import input from "ant-design-vue/lib/input";
 import "ant-design-vue/lib/input/style/css";
@@ -165,23 +164,24 @@ axios.interceptors.response.use(
       loadingCount--;
       // 如果是未登录直接踢出去
       if (code == 10090) {
-        // if (isShowLoading) {
-        //   isShowLoading = false;
-        let mes;
-        if (i18n.locale == "en_US") {
-          mes = res.data.resultDesc.slice(11, -1);
-        } else {
-          mes = res.data.resultDesc.slice(0, 10);
+        if (isShowLoading) {
+          isShowLoading = false;
+          let mes;
+          if (i18n.locale == "en_US") {
+            mes = res.data.resultDesc.slice(11, -1);
+          } else {
+            mes = res.data.resultDesc.slice(0, 10);
+          }
+          Dialog.alert({
+            title: mes
+          }).then(() => {
+            store.dispatch("reset_actions", restore_obj);
+            window.sessionStorage.clear();
+            // location.href = process.env.WEB_API;
+            router.push({ name: "login" });
+            // location.href = process.env.WEB_API;
+          });
         }
-        Dialog.alert({
-          title: mes
-        }).then(() => {
-          store.dispatch("reset_actions", restore_obj);
-          window.sessionStorage.clear();
-          router.push({ name: "login" });
-          // location.href = process.env.WEB_API;
-        });
-        // }
       }
       // if (loadingCount == 0) {
       //   isShowLoading = true;
@@ -192,17 +192,22 @@ axios.interceptors.response.use(
   error => {
     loadingCount--;
     store.commit("isloading", false);
-    // if (isShowLoading) {
-    //   isShowLoading = false;
-    Dialog.alert({
-      title: i18n.t("common.network")
-    }).then(() => {
-      store.dispatch("reset_actions", restore_obj);
-      window.sessionStorage.clear();
-      router.push({ name: "login" });
-      // location.href = process.env.WEB_API;
-    });
-    // }
+    if (error.message == "interrupt") {
+      console.log("已中断请求");
+      // return;
+    } else {
+      if (isShowLoading) {
+        isShowLoading = false;
+        Dialog.alert({
+          title: i18n.t("common.network")
+        }).then(() => {
+          store.dispatch("reset_actions", restore_obj);
+          window.sessionStorage.clear();
+          router.push({ name: "login" });
+          // location.href = process.env.WEB_API;
+        });
+      }
+    }
     return Promise.reject(error);
   }
 );

@@ -23,7 +23,7 @@
         <article>
           <div>
             <p class="label">{{$t('common.Industry')}}</p>
-            <div class="item">
+            <div class="item" @click="goto('Industry')">
               <p>
                 <span v-for="(item) in $store.state.electedList.industryList" :key="item.value">
                   {{
@@ -31,32 +31,31 @@
                   }},
                 </span>
               </p>
-              <van-icon name="arrow" @click="goto('Industry')" />
+              <van-icon name="arrow" />
             </div>
           </div>
           <div>
             <p class="label">{{$t('common.region')}}</p>
-            <div class="item">
+            <div class="item" @click="goto('Region')">
               <p>
                 <span
                   v-for="(item) in $store.state.electedList.regionList"
                   :key="item.name"
                 >{{ item.label}},</span>
               </p>
-              <van-icon name="arrow" @click="goto('Region')" />
+              <van-icon name="arrow" />
             </div>
           </div>
           <div>
             <p class="label">Tag</p>
-            <div class="item">
+            <div class="item" @click="goto('Tag')">
               <p>
                 <span
                   v-for="(item) in $store.state.electedList.taglist"
                   :key="item.name"
                 >{{ item.label}},</span>
               </p>
-
-              <van-icon name="arrow" @click="goto('Tag')" />
+              <van-icon name="arrow" />
             </div>
           </div>
         </article>
@@ -298,6 +297,7 @@ export default {
         color: #4f3dad;
         p {
           display: flex;
+          flex-wrap: wrap;
           align-items: center;
         }
         span {

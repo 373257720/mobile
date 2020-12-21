@@ -111,7 +111,6 @@ export default {
   },
   created() {},
   activated() {
-
     this.initial();
   },
   methods: {
@@ -121,104 +120,19 @@ export default {
           if (this.List.industryList.length === 0) {
             this.loaded = false;
           }
-          setTimeout(() => {
-            this.List.industryList = [
-              {
-                label: "a",
-                value: 1,
-                key: "industry"
-              },
-              {
-                label: "b",
-                value: 2,
-                key: "industry"
-              },
-              {
-                label: "c",
-                value: 3,
-                key: "industry"
-              },
-              {
-                label: "d",
-                value: 4,
-                key: "industry"
-              },
-              {
-                label: "c",
-                value: 5,
-                key: "industry"
-              },
-              {
-                label: "d",
-                value: 6,
-                key: "industry"
-              }
-            ];
-            this.loaded = true;
-            if (done) done();
-          }, 2000);
+          this.getIndustryList(done);
           break;
         case "Region":
           if (this.List.regionList.length === 0) {
             this.loaded = false;
           }
-          setTimeout(() => {
-            this.List.regionList = [
-              {
-                label: "e",
-                value: 1,
-                key: "region"
-              },
-              {
-                label: "f",
-                value: 2,
-                key: "region"
-              },
-              {
-                label: "g",
-                value: 3,
-                key: "region"
-              },
-              {
-                label: "h",
-                value: 4,
-                key: "region"
-              }
-            ];
-            this.loaded = true;
-            if (done) done();
-          }, 2000);
+          this.getCountryList(done);
           break;
         case "Tag":
           if (this.List.taglist.length === 0) {
             this.loaded = false;
           }
-          setTimeout(() => {
-            this.List.taglist = [
-              {
-                label: "p",
-                value: 1,
-                key: "tag"
-              },
-              {
-                label: "o",
-                value: 2,
-                key: "tag"
-              },
-              {
-                label: "i",
-                value: 3,
-                key: "tag"
-              },
-              {
-                label: "t",
-                value: 4,
-                key: "tag"
-              }
-            ];
-            this.loaded = true;
-            if (done) done();
-          }, 2000);
+          this.getAllProjectTags();
           break;
         default:
         // 默认代码块;
@@ -227,40 +141,74 @@ export default {
     onRefresh(done) {
       this.loaded = false;
       this.initial(done);
-      //   3. 在刷新方法内部进行自己的逻辑处理 此处调用了后台接口
-      // this.onRefreshPort(done);
-      // this.$global
-      //   .get_encapsulation(
-      //     `${this.$axios.defaults.baseURL}/bsl_web/project/getAllProject`,
-      //     {
-      //       searchKey: this.searchkey,
-      //       pageIndex: this.pageNum,
-      //       pageSize: this.loadNumUp,
-      //       bslAreaCode: this.region_name,
-      //       industryId: this.activeIds
-      //     }
-      //   )
-      //   .then(res => {
-      //     console.log(res);
-      //     if (res.status === 200) {
-      //       let re = res.data.data.lists;
-      //       if (re.length > 0) {
-      //         this.upGoodsInfo = this.upGoodsInfo.concat(re);
-      //         this.loading = false;
-      //       }
-      //       if (
-      //         this.upGoodsInfo.length >= res.data.data.pageTotal ||
-      //         this.upGoodsInfo.length == 0
-      //       ) {
-      //         this.finished = true;
-      //       }
-      //       this.pageNum++;
-      //     } else {
-      //       this.loading = false;
-      //       this.finished = true;
-      //     }
-      //     // console.log(this.upGoodsInfo);
-      //   });
+    },
+    getCountryList(done) {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/index/getCountryList`
+        )
+        .then(res => {
+          if (res.data.resultCode === 10000) {
+            if (res.data.data.allCountryList.length > 0) {
+              this.List.regionList = res.data.data.allCountryList.map(
+                (self, idx) => {
+                  return {
+                    label:
+                      this.$i18n.locale === "zh_CN"
+                        ? self.countryZhname
+                        : self.countryEnname,
+                    value: self.countryCode,
+                    key: "region"
+                  };
+                }
+              );
+            }
+          }
+          this.loaded = true;
+          if (done) done();
+        });
+    },
+    getIndustryList(done) {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/index/getIndustryList`
+        )
+        .then(res => {
+          let lan = this.$i18n.locale;
+          this.List.industryList = res.data.data.allIndustryList.map(item => {
+            return {
+              label:
+                lan === "zh_CN" ? item.industryNameCh : item.industryNameEn,
+              value:
+                lan === "zh_CN" ? item.industryNameCh : item.industryNameEn,
+              key: "industry"
+            };
+          });
+          this.loaded = true;
+          if (done) done();
+          // console.log(this.Industrylist);
+        });
+    },
+    getAllProjectTags(done) {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/index/getAllProjectTags`
+        )
+        .then(res => {
+          let lan = this.$i18n.locale;
+          this.List.taglist = res.data.data.projectTagsList.map(item => {
+            return {
+              label: lan === "zh_CN" ? item.tagsName : item.tagsNameEn,
+              value: lan === "zh_CN" ? item.tagsName : item.tagsNameEn,
+              key: "tag"
+            };
+          });
+          console.log(this.List.taglist);
+
+          this.loaded = true;
+          if (done) done();
+          // console.log(this.Industrylist);
+        });
     },
     onInfinite(done) {
       if (!this.loaded) this.onInfinitePort(done);

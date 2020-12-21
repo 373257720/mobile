@@ -113,7 +113,7 @@
         </div>
       </v-scroll>
     </main>
-    <scroll-top />
+    <scroll-top></scroll-top>
   </div>
 </template>
 <script>
@@ -129,48 +129,12 @@ export default {
   },
   data() {
     return {
-      isshowTag: false,
       text: "",
       loaded: false,
-      refreshing: false,
-      items: [
-        {
-          text: this.$t("common.Industry"),
-          children: []
-        }
-      ],
-      taglist: [
-        {
-          name: "Biodiversity",
-          isactive: false
-        },
-        {
-          name: "Transport",
-          isactive: false
-        },
-        {
-          name: "Computer",
-          isactive: false
-        },
-        {
-          name: "InnovFin",
-          isactive: false
-        },
-        {
-          name: "Comdputer",
-          isactive: false
-        },
-        {
-          name: "InnodvFin",
-          isactive: false
-        }
-      ],
       isFixed: false,
       scrollHeight: 0,
-      industry_title: this.$t("common.Industry"),
       usertype: "",
-      activenum: 0, //行业下标
-      activeIds: "", //行业id
+      Refreshing: false,
       tags: {
         signUserList1: {
           text: this.$t("common.Pending"),
@@ -209,27 +173,19 @@ export default {
           number: 0
         }
       },
-      // 左侧高亮元素的index
-      mainActiveIndex: 0,
-      // 被选中元素的id
-      // activeId: 1,
       searchkey: "",
-      loading: false,
-      finished: false,
-      loadText: "Loading…",
       pageNum: 1,
       loadNumUp: 20,
-      industry_value: "", //行业value
-      region_name: "",
-      region_nametitle: "",
-      region_title: this.$t("common.AllAreas"),
       countrylist: [],
       Projectlist: [],
+      Industrylist: [],
+      ProjectTags: [],
+      source: null,
       selectedCountrylist: [],
       selectedIndustrylist: [],
       selectedIndustrylistEn: [],
-      Industrylist: [],
-      ProjectTags: []
+      selectedtagsNamelist: [],
+      selectedtagsNamelistEn: []
     };
   },
   created() {
@@ -243,8 +199,6 @@ export default {
     this.scrollHeight = document.querySelector(
       ".van-search__content"
     ).offsetTop;
-    // console.log(this.scrollHeight);
-    // document.querySelector.van-search__content
   },
   activated() {
     // this.usertype = this.$store.state.currentUsertype;
@@ -295,10 +249,13 @@ export default {
     // this.loading = true
     // this.onLoad();
   },
-  destroyed() {
+  beforeDestroy() {
     window.removeEventListener("scroll", this.initHeight, true);
   },
   methods: {
+    cancelAxios() {
+      this.source.cancel("interrupt");
+    },
     getAllProjectTags() {
       this.$global
         .get_encapsulation(
@@ -322,86 +279,130 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/index/getCountryList`
         )
         .then(res => {
-          if (res.data.data.allCountryList.length > 0) {
-            res.data.data.allCountryList.forEach((self, idx) => {
-              this.countrylist.push({
-                chinese: self.countryZhname,
-                eng: self.countryEnname,
-                label:
-                  this.$i18n.locale === "zh_CN"
-                    ? self.countryZhname
-                    : self.countryEnname,
-                value: idx,
-                isactive: false,
-                remark: self.countryCode
+          if (res.data.resultCode === 10000) {
+            if (res.data.data.allCountryList.length > 0) {
+              res.data.data.allCountryList.forEach((self, idx) => {
+                this.countrylist.push({
+                  chinese: self.countryZhname,
+                  eng: self.countryEnname,
+                  label:
+                    this.$i18n.locale === "zh_CN"
+                      ? self.countryZhname
+                      : self.countryEnname,
+                  value: idx,
+                  isactive: false,
+                  remark: self.countryCode
+                });
               });
-            });
+            }
           }
         });
     },
     saveProjectTagsOfHits(item) {
-      item.isactive = !item.isactive;
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/index/saveProjectTagsOfHits`,
-          { projectTagsId: item.id }
-        )
-        .then(res => {});
+      if (!this.Refreshing) {
+        if (item.isactive) {
+          item.isactive = false;
+          if (this.$i18n.locale === "zh_CN") {
+            this.selectedtagsNamelist.forEach((self, idx) => {
+              if (self == item.label) {
+                this.selectedtagsNamelist.splice(idx, 1);
+              }
+            });
+          } else {
+            this.selectedtagsNamelistEn.forEach((self, idx) => {
+              if (self == item.label) {
+                this.selectedtagsNamelistEn.splice(idx, 1);
+              }
+            });
+          }
+          this.cancelAxios();
+          this.getAllProjectlist();
+        } else {
+          this.$global
+            .get_encapsulation(
+              `${this.$axios.defaults.baseURL}/bsl_web/index/saveProjectTagsOfHits`,
+              { projectTagsId: item.id }
+            )
+            .then(res => {
+              if (this.$i18n.locale === "zh_CN") {
+                this.selectedtagsNamelist.push(item.label);
+              } else {
+                this.selectedtagsNamelistEn.push(item.label);
+              }
+              item.isactive = true;
+              this.cancelAxios();
+              this.getAllProjectlist();
+            });
+        }
+      }
+      // item.isactive = !item.isactive;
     },
     saveCountryOfHits(item) {
-      item.isactive = !item.isactive;
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/index/saveCountryOfHits`,
-          { countryCode: item.remark }
-        )
-        .then(res => {});
+      if (!this.Refreshing) {
+        if (item.isactive) {
+          item.isactive = false;
+          this.selectedCountrylist.forEach((self, idx) => {
+            if (self == item.remark) {
+              this.selectedCountrylist.splice(idx, 1);
+            }
+          });
+          this.cancelAxios();
+          this.getAllProjectlist();
+        } else {
+          this.$global
+            .get_encapsulation(
+              `${this.$axios.defaults.baseURL}/bsl_web/index/saveCountryOfHits`,
+              { countryCode: item.remark }
+            )
+            .then(res => {
+              if (res.data.resultCode === 10000) {
+                this.selectedCountrylist.push(item.remark);
+              }
+              item.isactive = true;
+              this.cancelAxios();
+              this.getAllProjectlist();
+            });
+        }
+      }
+      // item.isactive = !item.isactive;
     },
     saveIndustryOfHits(item) {
       // item.isactive = true;
-      if (!item.isactive) {
-        this.$global
-          .get_encapsulation(
-            `${this.$axios.defaults.baseURL}/bsl_web/index/saveCountryOfHits`,
-            { industryId: item.industryId }
-          )
-          .then(res => {
-            if (this.$i18n.locale === "zh_CN") {
-              this.selectedIndustrylist.push(item.label);
-            } else {
-              this.selectedIndustrylistEn.push(item.label);
-            }
-            item.isactive = true;
-            this.getAllProjectlist();
-          });
-      } else {
-        item.isactive = false;
-        if (this.$i18n.locale === "zh_CN") {
-          this.selectedIndustrylist.forEach((self, idx) => {
-            if (self == item.label) {
-              this.selectedIndustrylist.splice(idx, 1);
-            }
-          });
+      if (!this.Refreshing) {
+        if (!item.isactive) {
+          this.$global
+            .get_encapsulation(
+              `${this.$axios.defaults.baseURL}/bsl_web/index/saveIndustryOfHits`,
+              { industryId: item.industryId }
+            )
+            .then(res => {
+              if (this.$i18n.locale === "zh_CN") {
+                this.selectedIndustrylist.push(item.label);
+              } else {
+                this.selectedIndustrylistEn.push(item.label);
+              }
+              item.isactive = true;
+              this.cancelAxios();
+              this.getAllProjectlist();
+            });
         } else {
-          this.selectedIndustrylistEn.forEach((self, idx) => {
-            if (self == item.label) {
-              this.selectedIndustrylistEn.splice(idx, 1);
-            }
-          });
+          item.isactive = false;
+          if (this.$i18n.locale === "zh_CN") {
+            this.selectedIndustrylist.forEach((self, idx) => {
+              if (self == item.label) {
+                this.selectedIndustrylist.splice(idx, 1);
+              }
+            });
+          } else {
+            this.selectedIndustrylistEn.forEach((self, idx) => {
+              if (self == item.label) {
+                this.selectedIndustrylistEn.splice(idx, 1);
+              }
+            });
+          }
+          this.cancelAxios();
+          this.getAllProjectlist();
         }
-        this.getAllProjectlist();
-        // this.selectedCountrylist.forEach((self, idx) => {
-        //   if (self == item.label) {
-        //     if (this.$i18n.locale === "zh_CN") {
-        //       console.log(idx);
-        //       this.selectedIndustrylist.splice(idx, 1);
-        //     } else {
-
-        //       this.selectedIndustrylistEn.splice(idx, 1);
-        //     }
-        //   }
-        // });
-        // console.log(this.selectedIndustrylistEn);
       }
     },
     getIndustryList() {
@@ -423,82 +424,78 @@ export default {
         });
     },
     initHeight() {
-      // console.log(document.querySelector(".main"));
-
       let scrollTop = document.querySelector(".yo-scroll").scrollTop;
-      // console.log(scrollTop);
-      // window.pageYOffset ||
-      // document.documentElement.scrollTop ||
-      // document.body.scrollTop;
-      // console.log(scrollTop);
-
       this.isFixed = scrollTop > this.scrollHeight ? true : false;
     },
     getAllProjectlist(done) {
       this.loaded = false;
       this.Projectlist = [];
+      this.source = this.$axios.CancelToken.source();
       this.$global
         .post_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/project/getAllProject`,
           {
-            bslAreaCode: [],
+            bslAreaCode: this.selectedCountrylist,
             projectIndustry: this.selectedIndustrylist,
             projectIndustryEn: this.selectedIndustrylistEn,
-            tagsName: [],
-            tagsNameEn: [],
+            tagsName: this.selectedtagsNamelist,
+            tagsNameEn: this.selectedtagsNamelistEn,
             searchKey: this.searchkey
+          },
+          {
+            cancelToken: this.source.token
           }
         )
         .then(res => {
           this.loaded = true;
-          if (done) done();
-          if (res.data.resultCode === 10000) {
-            this.Projectlist = res.data.data.data;
-            if (this.$i18n.locale === "zh_CN") {
-              this.Projectlist.forEach(item => {
-                let label = {
-                  projectIndustry: eval(
-                    "(" + item.record.projectIndustry + ")"
-                  ).join(","),
-                  projectTags: eval("(" + item.record.projectTags + ")").join(
-                    ","
-                  ),
-                  projectDescribe: item.record.projectDescribe
-                };
+          if (done) {
+            done();
+            this.Refreshing = false;
+          }
+          this.Projectlist = res.data.data.data;
+          if (this.$i18n.locale === "zh_CN") {
+            this.Projectlist.forEach(item => {
+              let label = {
+                projectIndustry: eval(
+                  "(" + item.record.projectIndustry + ")"
+                ).join(","),
+                projectTags: eval("(" + item.record.projectTags + ")").join(
+                  ","
+                ),
+                projectDescribe: item.record.projectDescribe
+              };
 
-                this.$set(item, "label", label);
-              });
-            } else {
-              this.Projectlist.record.forEach(item => {
-                let label = {
-                  projectIndustry: eval(
-                    "(" + item.record.projectIndustryEn + ")"
-                  ).join(","),
-                  projectName: item.record.projectNameEn,
-                  projectTags: eval("(" + item.record.projectTagsEn + ")").join(
-                    ","
-                  ),
-                  projectDescribe: item.record.projectDescribeEn
-                };
-                this.$set(item, "label", label);
-              });
-            }
+              this.$set(item, "label", label);
+            });
+          } else {
+            this.Projectlist.record.forEach(item => {
+              let label = {
+                projectIndustry: eval(
+                  "(" + item.record.projectIndustryEn + ")"
+                ).join(","),
+                projectName: item.record.projectNameEn,
+                projectTags: eval("(" + item.record.projectTagsEn + ")").join(
+                  ","
+                ),
+                projectDescribe: item.record.projectDescribeEn
+              };
+              this.$set(item, "label", label);
+            });
           }
         })
         .catch(err => {
-          this.loaded = true;
+          // this.Refreshing = false;
+          console.log(err);
         });
     },
     onRefresh(done) {
-      // console.log(done);
-
-      // this.getAllProjectlist(done);
+      this.Refreshing = true;
+      this.cancelAxios();
       this.getAllProjectlist(done);
     },
     onInfinite(done) {
       if (!this.loaded) this.onInfinitePort(done);
     },
-
     /**
      * 上拉加载接口
      */
@@ -527,87 +524,6 @@ export default {
             }
             done();
           }
-        });
-    },
-    tagClick(item, type) {
-      console.log(item);
-      item.isactive = !item.isactive;
-    },
-
-    // onRefresh() {
-    //   this.finished = false;
-    //   // 重新加载数据
-    //   // 将 loading 设置为 true，表示处于加载状态
-    //   this.loading = true;
-    //   this.upGoodsInfo = [];
-    //   this.pageNum = 1;
-    //   this.onLoad();
-    // },
-    select_country(remark, eng, chinese, idx) {
-      console.log(remark, eng, chinese);
-      if (this.$i18n.locale == "zh_CN") {
-        this.region_title = chinese;
-      } else {
-        this.region_title = eng;
-      }
-      this.region_name = remark;
-      this.countrylist_fetching = false;
-      this.pageNum = 1;
-      this.upGoodsInfo = [];
-      this.loading = true; //下拉加载中
-      this.finished = false; //下拉结
-      this.onLoad();
-      this.countrylist.forEach(item => {
-        item.classname = "";
-      });
-      (this.countrylist[idx].classname = "country_isactive"),
-        this.$refs.region.toggle();
-    },
-    search_region(val) {
-      if (timeout) {
-        clearTimeout(timeout);
-        timeout = null;
-      }
-      timeout = setTimeout(this.ulHtml(val), 300);
-    },
-    handleChange(value) {
-      this.form.investorsArea = this.region[value.key].chinese;
-      this.countrylist_fetching = false;
-      // console.log(this.form)
-    },
-    ulHtml(val) {
-      this.countrylist = [];
-      let arr = [];
-      arr.push({
-        chinese: "全部地区",
-        eng: "All",
-        value: 0,
-        remark: "",
-        classname: ""
-      });
-      this.countrylist_fetching = true;
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
-          {
-            searchKey: val
-          }
-        )
-        .then(res => {
-          if (res.data.data.length > 0) {
-            for (let i = 0; i < res.data.data.length; i++) {
-              arr.push({
-                chinese: res.data.data[i].countryZhname,
-                eng: res.data.data[i].countryEnname,
-                value: i + 1,
-                remark: res.data.data[i].countryCode,
-                classname: ""
-              });
-            }
-            this.countrylist = arr;
-          }
-          this.countrylist_fetching = false;
-          console.log(this.countrylist);
         });
     },
     router(name, obj) {
@@ -688,82 +604,6 @@ export default {
           });
         }
       }
-    },
-
-    onSearch() {
-      // console.log(this.searchkey);
-      this.pageNum = 1;
-      this.upGoodsInfo = [];
-      this.loading = true; //下拉加载中
-      this.finished = false; //下拉结
-      this.onLoad();
-    },
-    onClickNav(index) {
-      this.mainActiveIndex = index;
-    },
-    onClickItem(data) {
-      // console.log(data)
-      if (this.activenum == data.num) {
-        this.activenum = 0;
-        this.activeIds = "";
-        this.industry_title = this.$t("common.Industry");
-      } else {
-        this.activenum = data.num;
-        this.activeIds = data.id;
-        this.industry_title = this.items[0].children[this.activenum - 1].text;
-      }
-      this.pageNum = 1;
-      this.upGoodsInfo = [];
-      this.loading = true; //下拉加载中
-      this.finished = false; //下拉结
-      this.onLoad();
-    },
-    onLoad() {
-      // this.loading = true;
-      if (this.refreshing) {
-        this.upGoodsInfo = [];
-        this.refreshing = false;
-      }
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/project/getAllProject`,
-          {
-            searchKey: this.searchkey,
-            pageIndex: this.pageNum,
-            pageSize: this.loadNumUp,
-            bslAreaCode: this.region_name,
-            industryId: this.activeIds
-          }
-        )
-        .then(res => {
-          if (res.status === 200) {
-            let re = res.data.data.lists;
-            if (re.length > 0) {
-              this.upGoodsInfo = this.upGoodsInfo.concat(re);
-              this.loading = false;
-            }
-            if (
-              this.upGoodsInfo.length >= res.data.data.pageTotal ||
-              this.upGoodsInfo.length == 0
-            ) {
-              this.finished = true;
-            }
-            this.pageNum++;
-          } else {
-            this.loading = false;
-            this.finished = true;
-          }
-          // console.log(this.upGoodsInfo);
-        })
-        .catch(err => {
-          // this.loadText = "加载失败";
-          // document.querySelector(
-          //   "#mhome .van-loading__circular"
-          // ).style.display = "none";
-          // let a = (document.querySelector("#mhome .van-loading__text").style =
-          //   "margin-left:0");
-          // console.log(a);
-        });
     }
   }
 };

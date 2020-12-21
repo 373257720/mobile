@@ -132,6 +132,7 @@ const global = {
     if (store.state.X_Token) {
       datas.X_Token = store.state.X_Token;
     }
+
     return new Promise((resolve, reject) => {
       axios
         .get(url, {
@@ -139,7 +140,6 @@ const global = {
         })
         .then(res => {
           resolve(res);
-          
         })
         .catch(function(error) {
           reject(error);
@@ -147,16 +147,20 @@ const global = {
         });
     });
   },
-  post_encapsulation: function(url, datas) {
+  post_encapsulation: function(url, datas, cancel) {
     if (Object.prototype.toString.call(datas) !== "[object Object]") {
       datas = {};
     }
+    if (Object.prototype.toString.call(cancel) !== "[object Object]") {
+      cancel = {};
+    }
+
     if (store.state.X_Token) {
       datas.X_Token = store.state.X_Token;
     }
     return new Promise((resolve, reject) => {
       axios
-        .post(url, datas, {
+        .post(url, datas, cancel, {
           headers: {
             "Content-Type": "application/json"
           }
