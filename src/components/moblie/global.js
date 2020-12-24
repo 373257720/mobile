@@ -13,6 +13,20 @@ const global = {
     tmpNode = node = null; // prevent memory leaks in IE
     return str;
   },
+  // format num add comma
+  formatNum: function(num) {
+    let value = Math.round(num * 100) / 100;
+    let s = value.toString().split(".");
+    let format_num;
+    if (s.length == 1) {
+      format_num = value.toLocaleString().toString() + ".00";
+    } else if (s.length > 1) {
+      if (s[1].length < 2) {
+        format_num = value.toLocaleString().toString() + "0";
+      }
+    }
+    return format_num;
+  },
   amountKeyupFunn(e) {
     var reg = /^[0-9]{1,2}\.[0-9]{2}$/;
     //  /(^[1-9]d?\.[0-9]{0,2}$)|(^0\.[0-9]{0,2}$)/;
@@ -30,6 +44,7 @@ const global = {
     // }
     // console.log(b);
   },
+
   singerValitator(event, form, rules) {
     let validator = new AsyncValidator({
       [event.target.name]: rules[event.target.name]
@@ -99,26 +114,33 @@ const global = {
     return Y + M + D + h + m + s;
   },
   pic_obj: {
-    "1": "common.Pending",
-    "2": "common.ToBeSigned",
-    "3": "common.InvestmentBankHasRejected",
-    "4": "common.SignedForChain",
-    "5": "common.ChainedForRecommendation",
-    "6": "common.PendingReview",
-    "7": "common.InvestmentBankHasRejected",
-    "8": "common.ReviewedPending",
-    "9": "common.ToBeConfirmedByInvestors",
-    "10": "common.SignedContract",
-    "11": "common.InvestorHasRejected"
+    "1": i18n.t("project.PendingItems"),
+    "2": i18n.t("project.Projecttobesigned"),
+    "3": i18n.t("project.failedSigned"),
+    "4": i18n.t("project.MiddleAgreeContract"),
+    "5": i18n.t("project.failedSigned"),
+    "6": i18n.t("project.failedSigned"),
+    "7": i18n.t("project.waitMiddleSigned"),
+    "8": i18n.t("project.unfinishedSignContract"),
+    "9": i18n.t("project.chainedToRecommand")
+    // "10": "common.SignedContract",
+    // "11": "common.InvestorHasRejected"
   },
   financingStage: {
-    "0": "projectOwner.SeedRound",
-    "1": "projectOwner.AngelWheel",
-    "2": "projectOwner.ARound",
-    "3": "projectOwner.BRound",
-    "4": "projectOwner.CRound",
-    "5": "common.PREIPO",
-    "6": "common.IPO"
+    // 0: "projectOwner.SeedRound",
+    0: i18n.t("projectOwner.AngelWheel"),
+    1: i18n.t("projectOwner.ARound"),
+    2: i18n.t("projectOwner.BRound"),
+    3: i18n.t("projectOwner.CRound"),
+    4: i18n.t("projectOwner.PreIPO"),
+    5: i18n.t("projectOwner.DebtFinancing")
+  },
+  // 0初步接洽；1在物色投資者；2已完成部份融；3完成融資
+  projectStatus: {
+    0: "初步接洽",
+    1: "在物色投資者",
+    2: "已完成部份融资",
+    3: "完成融資"
   },
   // 投资者身份类型：1个人，2公司
   investorsType: {

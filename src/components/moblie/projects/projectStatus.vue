@@ -4,7 +4,7 @@
     <commonnav>
       {{$t('project.projectStatus')}}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$global.previous()"  />
+        <van-icon name="arrow-left" @click="$routerto('mysign')" />
       </template>
       <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
@@ -12,28 +12,15 @@
     </commonnav>
     <main>
       <ul>
-        <li @click="$routerto('projectSubStatus')">
+        <li
+          @click="clickItem(value)"
+          v-for="(value,key) in multipleList"
+          :key="key"
+          v-if="value.arr.length>0"
+        >
           <div>
-            <p>{{$t('project.YouAndProjectparty')}}</p>
-            <aside>1</aside>
-          </div>
-        </li>
-        <li>
-          <div>
-            <p>{{$t('project.YouRecommandMiddleman')}}</p>
-            <aside>1</aside>
-          </div>
-        </li>
-        <li>
-          <div>
-            <p>{{$t('project.YouAndInverstor')}}</p>
-            <aside>1</aside>
-          </div>
-        </li>
-        <li>
-          <div>
-            <p>{{$t('project.MiddlemanRecommandYou')}}</p>
-            <aside>1</aside>
+            <p>{{value.text}}</p>
+            <aside>{{value.arr.length}}</aside>
           </div>
         </li>
       </ul>
@@ -45,32 +32,110 @@ import loadmore from "../loadmore";
 export default {
   name: "projectStatus",
   data() {
-    return { num: 10, refreshing: false, loading: false, text: "List" };
+    return {
+      multipleList: {
+        PendingItems: {
+          arr: [],
+          text: this.$t("project.YouAndProjectparty"),
+          type: 1
+          //signStatus4小于10
+        },
+        NDArequestitem: {
+          arr: [],
+          text: this.$t("project.YouRecommandMiddleman"),
+          type: 2
+          //signStatus4小于26大于11
+        },
+        NDAprojecttobesigned: {
+          arr: [],
+          text: this.$t("project.YouAndInverstor"),
+          type: 3
+          //signStatus4小于42大于29
+        },
+        SignedNDAtobelisted: {
+          arr: [],
+          text: this.$t("project.MiddlemanRecommandYou"),
+          type: 4
+          //signStatus4大于49
+        }
+      }
+    };
   },
-  created() {},
-  // components: {
-  //   loadmore
-  // },
+  created() {
+    this.getMyProjectStatusList();
+  },
   methods: {
-    // handleleterClick() {},
-    refresh() {
-      //   console.log(123);
-      this.refreshing = true;
-      this.$refs.container.scrollTop = 0;
-      setTimeout(() => {
-        this.refreshing = false;
-        this.text = this.text === "List" ? "Menu" : "List";
-        this.num = 10;
-      }, 2000);
+    clickItem(item) {
+      this.$store.commit("selectedProjectStatusMutations", item);
+      this.$routerto("projectSubStatus", { type: item.type });
     },
-    load() {
-      console.log(123);
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-        this.num += 10;
-        console.log(this.num);
-      }, 2000);
+    getMyProjectStatusList(done) {
+      this.$store.commit("isloading", true);
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectStatusList`
+        )
+        
+        .then(res => {
+          this.$store.commit("isloading", false);
+          if (res.data.resultCode == 10000) {
+            let data = res.data.data;
+            for (let key in data) {
+              if (key == "signList") {
+                data[key].forEach(item => {
+                  //  [3,5,6,14,17,20,22,32]已拒绝项目（中间人感兴趣，拒绝；中间人推荐下家或者投资人被拒绝；磋商拒绝）
+                  if (item.signStatus4 < 10) {
+                    if (
+                      item.signStatus4 !== 3 &&
+                      item.signStatus4 !== 5 &&
+                      item.signStatus4 !== 6
+                    ) {
+                      this.multipleList.PendingItems.arr.push(item);
+                    }
+                  } else if (11 < item.signStatus4 < 26) {
+                    if (
+                      item.signStatus4 !== 14 &&
+                      item.signStatus4 !== 17 &&
+                      item.signStatus4 !== 20 &&
+                      item.signStatus4 !== 22
+                    ) {
+                      this.multipleList.NDArequestitem.arr.push(item);
+                    }
+                  } else if (29 < item.signStatus4 < 42) {
+                    if (item.signStatus4 !== 32) {
+                      this.multipleList.NDAprojecttobesigned.arr.push(item);
+                    }
+                  } else if (item.signStatus4 > 49) {
+                    this.multipleList.SignedNDAtobelisted.arr.push(item);
+                  }
+                });
+                data.signList.forEach(item => {
+                  if (
+                    item.signStatus4 == 3 ||
+                    item.signStatus4 == 5 ||
+                    item.signStatus4 == 6 ||
+                    item.signStatus4 == 14 ||
+                    item.signStatus4 == 17 ||
+                    item.signStatus4 == 20 ||
+                    item.signStatus4 == 22 ||
+                    item.signStatus4 == 32
+                  ) {
+                    this.multipleList.PendingItems.arr.push(item);
+                    this.multipleList.NDArequestitem.arr.push(item);
+                    this.multipleList.NDAprojecttobesigned.arr.push(item);
+                    this.multipleList.SignedNDAtobelisted.arr.push(item);
+                  }
+                });
+              } else if (key == "ndaList") {
+                data[key].forEach(item => {
+                  if (item.signNdaStatus) {
+                    this.multipleList.PendingItems.arr.push(item);
+                  }
+                });
+              }
+            }
+          }
+        });
     }
   }
 };
@@ -93,12 +158,12 @@ export default {
         width: vw(622);
         // height: vw(152);
         background: #4f3dad;
-          padding: vw(30) 0;
+        padding: vw(30) 0;
         border-radius: vw(16);
         margin-bottom: vw(60);
         div {
           display: flex;
-        
+
           //   justify-content: center;
           align-items: center;
           color: #ffffff;

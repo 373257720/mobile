@@ -215,6 +215,8 @@ export default {
     ARound: "A轮",
     BRound: "B轮",
     CRound: "C轮",
+    PreIPO:"上市前私募",
+    DebtFinancing: "债务融资",
     SigningTime: "签约成功时间",
     IntermediaryInformation: "中间人资料",
     ConfirmInvestor: "确认投资人",

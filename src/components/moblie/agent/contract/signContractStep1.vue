@@ -122,9 +122,9 @@ export default {
     comfirmFromDialog(data) {
       this.remindervisible = false;
       if (this.resultCode === 10000) {
-        this.$routerto("signContractStep2");
+        this.$routerto("signContractStep2",this.$route.query);
       }
-      
+
       // setTimeout(() => {
       //   // this.title = "Sign NDA";
       //   // this.msg = "Please sign the NDA to get more information";
@@ -144,8 +144,8 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanGetContractItems`,
           {
-            signId: "128967618000",
-            middlemanId: "128961768000"
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId
           }
         )
         .then(res => {
@@ -186,8 +186,8 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanSaveContractItems`,
           {
             importListStr: this.validateForm.datalist,
-            signId: "128967618000",
-            middlemanId: "128961768000"
+            signId: this.$route.query.signId,
+            middlemanId:this.$route.query.middlemanId,
           }
         )
         .then(res => {

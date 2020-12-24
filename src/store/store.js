@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     loading: false,
     selectedItem: {},
+    selectedProjectStatus:{},
     usercheck: {
       nation: {},
       genus: "",
@@ -48,6 +49,12 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    selectedProjectStatusMutations(state, content) {
+      // if (content.name) {
+      state.selectedProjectStatus = content;
+      // }
+      // state.electedList = content;
+    },
     selectedItemMutations(state, content) {
       // if (content.name) {
       state.selectedItem = content;

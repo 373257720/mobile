@@ -16,13 +16,7 @@
             <input name="userName" type="text" v-model="i.listCell[idx]" />
           </section>
         </div>
-        <!-- <div class="mui-input-row input-row">
-          <p class="label">{{$t('project.FinderAddress')}}</p>
-          <input name="Password" type="text" v-model="validateForm.password" />
-        </div>-->
         <p class="error">{{errorsMsg}}</p>
-        <!-- :disabled="isdisabled"
-        :class="isdisabled?'passive':'active'"-->
         <button class="button is-primary active" type="submit">{{$t('common.Submit')}}</button>
       </form>
     </main>
@@ -42,6 +36,7 @@ export default {
   },
   created() {
     this.fileId = this.$route.query.fileId || null;
+    // this.query=this.$route.query
     this.getExcel();
   },
   computed: {
@@ -55,36 +50,45 @@ export default {
   },
   methods: {
     getExcel() {
+      this.$store.commit("isloading", true);
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackGetContractItems`,
           { fileId: this.fileId }
         )
         .then(res => {
+          this.$store.commit("isloading", false);
           this.dataList = res.data.data.list;
           // console.log(res.data.data.list);
         });
     },
     submit_click() {
       this.errorsMsg = "";
-      // let errorMsg = this.validateFunc();
-      //   if (errorMsg) {
-      //     this.errorsMsg = errorMsg;
-      //     return false;
-      //   }
-        this.$routerto("P_signContractStep3");
-        // this.iBackSaveContractItems()
+      let errorMsg = this.validateFunc();
+      if (errorMsg) {
+        this.errorsMsg = errorMsg;
+        return false;
+      }
+      this.iBackSaveContractItems();
     },
     iBackSaveContractItems() {
-      this.$global.post_encapsulation(
-        `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackSaveContractItems`,
-        {
-          fileId: this.fileId,
-          importListStr: this.dataList,
-          signId: "128967618000",
-          middlemanId: "128961768000"
-        }
-      );
+      this.$store.commit("isloading", true);
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackSaveContractItems`,
+          {
+            fileId: this.fileId,
+            importListStr: this.dataList,
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId
+          }
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+          if (res.data.resultCode == 10000) {
+            this.$routerto("P_signContractStep3", this.$route.query);
+          }
+        });
     },
     validateFunc() {
       let self = this;

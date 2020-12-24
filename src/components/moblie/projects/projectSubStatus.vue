@@ -46,108 +46,388 @@ export default {
           total: 0
         }
       },
-      multipleList: {
-        PendingItems: {
-          arr: [],
-          text: this.$t("project.PendingItems"),
-          total: 0
-          //1
-        },
-        NDArequestitem: {
-          arr: [],
-          text: this.$t("project.NDArequestitem"),
-          total: 0
-          //nda-1
-        },
-        NDAprojecttobesigned: {
-          arr: [],
-          text: this.$t("project.NDAprojecttobesigned"),
-          total: 0
-          //nda-2
-        },
-        SignedNDAtobelisted: {
-          arr: [],
-          text: this.$t("project.SignedNDAtobelisted"),
-          total: 0
-          //nda-3
-        },
-        NDAhasChained: {
-          arr: [],
-          text: this.$t("project.NDAhasChained"),
-          total: 0
-          //nda-4
-        },
-        Projecttobesigned: {
-          arr: [],
-          text: this.$t("project.Projecttobesigned"),
-          total: 0
-          //2
-        },
-        MiddleAgreeContract: {
-          arr: [],
-          text: this.$t("project.MiddleAgreeContract"),
-          total: 0
-          //4
-        },
-        waitMiddleSigned: {
-          arr: [],
-          text: this.$t("project.waitMiddleSigned"),
-          total: 0
-          //7
-        },
-        unfinishedSignContract: {
-          arr: [],
-          text: this.$t("project.unfinishedSignContract"),
-          total: 0
-          //8
-        },
-        chainedToRecommand: {
-          arr: [],
-          text: this.$t("project.chainedToRecommand"),
-          total: 0
-          //9
-        },
-        waitChecked: {
-          arr: [],
-          text: this.$t("project.waitChecked"),
-          total: 0
-          //50,12
-        },
-        CheckedTosend: {
-          arr: [],
-          text: this.$t("project.CheckedTosend"),
-          total: 0
-          //51,13
-        },
-        waitComfirm: {
-          arr: [],
-          text: this.$t("project.waitComfirm"),
-          total: 0
-          //52,15
-        },
-        waitreadyContract: {
-          arr: [],
-          text: this.$t("project.waitreadyContract"),
-          total: 0
-          //16
-        },
-        successfulSigned: {
-          arr: [],
-          text: this.$t("project.successfulSigned"),
-          total: 0
-          //53,24
-        },
-        failedSigned: {
-          arr: [],
-          text: this.$t("project.failedSigned"),
-          total: 0
-          //3,5,6,54
-        }
-      }
+      multipleList: []
     };
   },
   created() {
-    this.acceptOrRejectCommission();
+    console.log(this.$store.state.selectedProjectStatus);
+    if (this.$store.state.currentUsertype == 4) {
+      let type;
+      if (this.$route.query && this.$route.query.type) {
+        type = parseInt(this.$route.query.type);
+      }
+      switch (type) {
+        case 1:
+          this.multipleList = [
+            {
+              arr: [],
+              text: this.$t("project.PendingItems"),
+              type: [1],
+              nda: null
+              //1
+            },
+            {
+              arr: [],
+              text: this.$t("project.NDArequestitem"),
+              type: null,
+              nda: 1
+              //nda-1
+            },
+            {
+              arr: [],
+              text: this.$t("project.NDAprojecttobesigned"),
+              type: null,
+              nda: 2
+              //nda-2
+            },
+            {
+              arr: [],
+              text: this.$t("project.SignedNDAtobelisted"),
+              type: null,
+              nda: 3
+              //nda-3
+            },
+            {
+              arr: [],
+              text: this.$t("project.NDAhasChained"),
+              type: null,
+              nda: 4
+              //nda-4
+            },
+            {
+              arr: [],
+              text: this.$t("project.Projecttobesigned"),
+              type: [2],
+              nda: null
+              //2
+            },
+            {
+              arr: [],
+              text: this.$t("project.MiddleAgreeContract"),
+              type: [4],
+              nda: null
+              //4
+            },
+            {
+              arr: [],
+              text: this.$t("project.waitMiddleSigned"),
+              type: [7],
+              nda: null
+              //7
+            },
+            {
+              arr: [],
+              text: this.$t("project.unfinishedSignContract"),
+              type: [7],
+              nda: null
+              //8
+            },
+            {
+              arr: [],
+              text: this.$t("project.chainedToRecommand"),
+              type: [9],
+              nda: null
+              //9
+            },
+            {
+              arr: [],
+              text: this.$t("project.failedSigned"),
+              total: [3, 5, 6, 14, 17, 20, 22, 32],
+              nda: null
+              //3, 5, 6, 14, 17, 20, 22, 32
+            }
+          ];
+          break;
+        case 2:
+          this.multipleList = [
+            {
+              arr: [],
+              text: this.$t("project.PendingItems"),
+              type: [12]
+            },
+            {
+              arr: [],
+              text: this.$t("project.NDArequestitem"),
+              type: [13]
+            },
+            {
+              arr: [],
+              text: this.$t("project.SignedNDAtobelisted"),
+              type: [15]
+            },
+            {
+              arr: [],
+              text: this.$t("project.NDAhasChained"),
+              type: [16]
+            },
+            {
+              arr: [],
+              text: this.$t("project.MiddleAgreeContract"),
+              type: [18]
+            },
+            {
+              arr: [],
+              text: this.$t("project.waitMiddleSigned"),
+              type: [19]
+            },
+            {
+              arr: [],
+              text: this.$t("project.chainedToRecommand"),
+              type: [21]
+            },
+            {
+              arr: [],
+              text: this.$t("project.chainedToRecommand"),
+              type: [23]
+            },
+            {
+              arr: [],
+              text: this.$t("project.chainedToRecommand"),
+              type: [24]
+            },
+            {
+              arr: [],
+              text: this.$t("project.chainedToRecommand"),
+              type: [25]
+            },
+            {
+              arr: [],
+              text: this.$t("project.failedSigned"),
+              total: [3, 5, 6, 14, 17, 20, 22, 32]
+            }
+          ];
+          break;
+        case 3:
+          this.multipleList = [
+            {
+              arr: [],
+              text: this.$t("project.PendingItems"),
+              type: [50]
+            },
+            {
+              arr: [],
+              text: this.$t("project.NDArequestitem"),
+              type: [51]
+            },
+            {
+              arr: [],
+              text: this.$t("project.SignedNDAtobelisted"),
+              type: [52]
+            },
+            {
+              arr: [],
+              text: this.$t("project.NDAhasChained"),
+              type: [53]
+            },
+            {
+              arr: [],
+              text: this.$t("project.MiddleAgreeContract"),
+              type: [54]
+            },
+            {
+              arr: [],
+              text: this.$t("project.failedSigned"),
+              total: [3, 5, 6, 14, 17, 20, 22, 32]
+            }
+          ];
+          break;
+        case 4:
+          this.multipleList = [
+            {
+              arr: [],
+              text: this.$t("project.PendingItems"),
+              type: [30]
+            },
+            {
+              arr: [],
+              text: this.$t("project.NDArequestitem"),
+              type: [31]
+            },
+            {
+              arr: [],
+              text: this.$t("project.NDAhasChained"),
+              type: [33]
+            },
+            {
+              arr: [],
+              text: this.$t("project.MiddleAgreeContract"),
+              type: [34]
+            },
+            {
+              arr: [],
+              text: this.$t("project.MiddleAgreeContract"),
+              type: [35]
+            },
+            {
+              arr: [],
+              text: this.$t("project.MiddleAgreeContract"),
+              type: [36]
+            },
+            {
+              arr: [],
+              text: this.$t("project.MiddleAgreeContract"),
+              type: [37]
+            },
+            {
+              arr: [],
+              text: this.$t("project.MiddleAgreeContract"),
+              type: [38]
+            },
+            {
+              arr: [],
+              text: this.$t("project.MiddleAgreeContract"),
+              type: [39]
+            },
+            {
+              arr: [],
+              text: this.$t("project.MiddleAgreeContract"),
+              type: [40]
+            },
+            {
+              arr: [],
+              text: this.$t("project.MiddleAgreeContract"),
+              type: [41]
+            },
+            {
+              arr: [],
+              text: this.$t("project.failedSigned"),
+              total: [3, 5, 6, 14, 17, 20, 22, 32]
+            }
+          ];
+          break;
+      }
+      this.$store.state.selectedProjectStatus.arr.forEach(item => {
+        this.multipleList.forEach(self => {
+          if (item.signStatus4) {
+            // console.log(item.signStatus4);
+            if (self.type instanceof Array) {
+              for (let j = 0; j < self.type.length; j++) {
+                // console.log(self.type[j], item.signStatus4);
+                if (self.type[j] == item.signStatus4) {
+                  self.arr.push(item);
+                }
+              }
+            }
+          }
+          if (item.signNdaStatus) {
+            if (self.nda) {
+              if (self.nda == item.signNdaStatus) {
+                self.arr.push(item);
+              }
+            }
+          }
+        });
+      });
+      console.log(this.multipleList);
+    }
+
+    if (this.$store.state.currentUsertype == 1) {
+      this.multipleList = [
+        {
+          arr: [],
+          text: this.$t("project.PendingItems"),
+          type: [1],
+          nda: null
+          //1
+        },
+        {
+          arr: [],
+          text: this.$t("project.NDArequestitem"),
+          type: null,
+          nda: 1
+          //nda-1
+        },
+        {
+          arr: [],
+          text: this.$t("project.NDAprojecttobesigned"),
+          type: null,
+          nda: 2
+          //nda-2
+        },
+        {
+          arr: [],
+          text: this.$t("project.SignedNDAtobelisted"),
+          type: null,
+          nda: 3
+          //nda-3
+        },
+        {
+          arr: [],
+          text: this.$t("project.NDAhasChained"),
+          type: null,
+          nda: 4
+          //nda-4
+        },
+        {
+          arr: [],
+          text: this.$t("project.Projecttobesigned"),
+          type: [2],
+          nda: null
+          //2
+        },
+        {
+          arr: [],
+          text: this.$t("project.MiddleAgreeContract"),
+          type: [4],
+          nda: null
+          //4
+        },
+        {
+          arr: [],
+          text: this.$t("project.waitMiddleSigned"),
+          type: [7],
+          nda: null
+          //7
+        },
+        {
+          arr: [],
+          text: this.$t("project.unfinishedSignContract"),
+          type: [8],
+          nda: null
+          //8
+        },
+        {
+          arr: [],
+          text: this.$t("project.chainedToRecommand"),
+          type: [9],
+          nda: null
+          //9
+        },
+        {
+          arr: [],
+          text: this.$t("project.waitChecked"),
+          type: [50, 12]
+        },
+        {
+          arr: [],
+          text: this.$t("project.CheckedTosend"),
+          type: [51, 13]
+        },
+        {
+          arr: [],
+          text: this.$t("project.waitComfirm"),
+          type: [52, 15]
+        },
+        {
+          arr: [],
+          text: this.$t("project.waitreadyContract"),
+          type: [16]
+        },
+        {
+          arr: [],
+          text: this.$t("project.successfulSigned"),
+          type: [53, 24]
+        },
+        {
+          arr: [],
+          text: this.$t("project.failedSigned"),
+          total: [3, 5, 6, 54]
+        }
+      ];
+      // console.log(this.multipleList);
+
+      this.acceptOrRejectCommission();
+    }
   },
   // components: {
   //   loadmore
@@ -167,106 +447,44 @@ export default {
         )
         .then(res => {
           this.$store.commit("isloading", false);
-          this.signList = res.data.data.signList;
-          // this.statusList = [
-          //   ...res.data.data.ndaList,
-          //   ...res.data.data.signList
-          // ];
-          // var len = this.statusList.length;
-          this.signList.forEach(item => {
-            switch (item.signStatus4) {
-              case 1:
-                this.multipleList.PendingItems.arr.push(item);
-                break;
-              case 2:
-                this.multipleList.Projecttobesigned.arr.push(item);
-                break;
-              case 4:
-                this.multipleList.MiddleAgreeContract.arr.push(item);
-                break;
-
-              case 7:
-                this.multipleList.waitMiddleSigned.arr.push(item);
-                break;
-              case 8:
-                this.multipleList.unfinishedSignContract.arr.push(item);
-                break;
-              case 9:
-                this.multipleList.chainedToRecommand.arr.push(item);
-                break;
-              case 16:
-                this.multipleList.waitreadyContract.arr.push(item);
-                break;
-              // waitChecked
-              case 50:
-                this.multipleList.waitChecked.arr.push(item);
-                break;
-              case 12:
-                this.multipleList.waitChecked.arr.push(item);
-                break;
-
-                waitreadyContract;
-              // CheckedTosend
-              case 51:
-                this.multipleList.CheckedTosend.arr.push(item);
-                break;
-              case 13:
-                this.multipleList.CheckedTosend.arr.push(item);
-                break;
-              // waitComfirm
-              case 52:
-                this.multipleList.waitComfirm.arr.push(item);
-                break;
-              case 15:
-                this.multipleList.waitComfirm.arr.push(item);
-                break;
-              // successfulSigned
-              case 53:
-                this.list[24].arr.push(item);
-                this.multipleList.successfulSigned.arr.push(item);
-                break;
-              case 24:
-                this.list[24].arr.push(item);
-                this.multipleList.successfulSigned.arr.push(item);
-                break;
-              // failedSigned
-              case 3:
-                this.multipleList.failedSigned.arr.push(item);
-                break;
-              case 5:
-                this.multipleList.failedSigned.arr.push(item);
-                break;
-              case 6:
-                this.multipleList.failedSigned.arr.push(item);
-                break;
-              case 54:
-                this.multipleList.failedSigned.arr.push(item);
-                break;
+          if (res.data.resultCode == 10000) {
+            let data = res.data.data;
+            for (let key in data) {
+              if (key == "signList") {
+                data[key].forEach(item => {
+                  //  [3,5,6,14,17,20,22,32]已拒绝项目（中间人感兴趣，拒绝；中间人推荐下家或者投资人被拒绝；磋商拒绝）
+                  this.multipleList.forEach(self => {
+                    if (self.type instanceof Array) {
+                      self.type.forEach(j => {
+                        if (j == item.signStatus4) {
+                          self.arr.push(item);
+                        }
+                      });
+                    }
+                  });
+                });
+              } else if (key == "ndaList") {
+                data[key].forEach(item => {
+                  this.multipleList.forEach(self => {
+                    if (self.nda && self.nda == item.signNdaStatus) {
+                      self.arr.push(item);
+                    }
+                  });
+                });
+              }
             }
-          });
-
-          console.log(this.multipleList);
+          }
         });
-    },
-    // handleleterClick() {},
-    refresh() {
-      //   console.log(123);
-      this.refreshing = true;
-      this.$refs.container.scrollTop = 0;
-      setTimeout(() => {
-        this.refreshing = false;
-        this.text = this.text === "List" ? "Menu" : "List";
-        this.num = 10;
-      }, 2000);
-    },
-    load() {
-      console.log(123);
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-        this.num += 10;
-        console.log(this.num);
-      }, 2000);
+
+      // let data = res.data.data;
+
+      // this.$global
+      //   .post_encapsulation(
+      //     `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectStatusList`
+      //   )
+      //   .then(res => {
+
+      //   });
     }
   }
 };

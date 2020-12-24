@@ -17,7 +17,10 @@ Vue.prototype.$qs = qs;
 // 富文本
 const url = process.env.BASE_API;
 axios.defaults.baseURL = url;
-axios.default.timeout = 5000;
+axios.defaults.timeout = 60000;
+// store.commit("isloading", false);
+// console.log(store.state);
+
 import "./components/moblie/vee-validate/validate";
 import { Validator } from "../src/components/moblie/validation";
 Vue.prototype.$Validator = Validator;

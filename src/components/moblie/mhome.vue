@@ -94,15 +94,12 @@
                   v-if="$store.state.currentUsertype==4"
                   @click="$routerto('Interested',{projectId:i.id})"
                 >{{$t('projectOwner.Interested')}}</van-button>
-                <van-button
-                  v-if="$store.state.currentUsertype==1"
-                  @click="$routerto('Interested',{projectId:i.id})"
-                >
+                <van-button v-if="$store.state.currentUsertype==1">
                   <div class="investorProfile">
                     <nav>investor profile</nav>
                     <p style="display:flex;">
                       <span class="ellipse ellipse-left"></span>
-                      <span class="investors">{{1>99?99+'+':5}}</span>
+                      <span class="investors">{{0}}</span>
                       <span class="ellipse ellipse-right"></span>
                     </p>
                   </div>
@@ -420,7 +417,7 @@ export default {
               isactive: false
             };
           });
-          console.log(this.Industrylist);
+          // console.log(this.Industrylist);
         });
     },
     initHeight() {
@@ -453,6 +450,7 @@ export default {
             this.Refreshing = false;
           }
           this.Projectlist = res.data.data.data;
+
           if (this.$i18n.locale === "zh_CN") {
             this.Projectlist.forEach(item => {
               let label = {
@@ -468,15 +466,16 @@ export default {
               this.$set(item, "label", label);
             });
           } else {
-            this.Projectlist.record.forEach(item => {
+            console.log(this.Projectlist);
+            this.Projectlist.forEach(item => {
               let label = {
-                projectIndustry: eval(
-                  "(" + item.record.projectIndustryEn + ")"
-                ).join(","),
+                projectIndustry:
+                  eval("(" + item.record.projectIndustryEn + ")").join(",") ||
+                  item.record.projectIndustryEn,
                 projectName: item.record.projectNameEn,
-                projectTags: eval("(" + item.record.projectTagsEn + ")").join(
-                  ","
-                ),
+                projectTags:
+                  eval("(" + item.record.projectTagsEn + ")").join(",") ||
+                  item.record.projectTagsEn,
                 projectDescribe: item.record.projectDescribeEn
               };
               this.$set(item, "label", label);

@@ -12,199 +12,54 @@
 
     <main>
       <div class="mhome-tag">
-        <h2>CDC Biodiversité – Biodiversity Offsetting</h2>
-        <h3>Signed intermediary(99)/Signed investor(99)</h3>
+    <h2>{{ProjectDetail.projectName}}</h2>
+        <h3>Signed intermediary({{ProjectDetail.committedCount}})/Signed investor({{ProjectDetail.interestProjectCount}})</h3>
         <div class="projectMoney">
-          <aside class="iconfont icon-1"></aside>
           <p>
-            <span>Biodiversity offsets</span>
-            <span>$ 600,000,000,000</span>
+            <span class="icon">
+              <i class="iconfont icon-1"></i>
+            </span>
+            <span>{{ProjectDetail.projectIndustry}}</span>
+          </p>
+          <p>
+            <span class="currencyType">{{ProjectDetail.currencyType}}</span>
+            <span>{{ProjectDetail.collectMoneyMin}}</span>
+            <span>-</span>
+            <span>{{ProjectDetail.collectMoneyMax}}</span>
           </p>
         </div>
-        <!-- <div class="isSuccessful">
-          <header>
-            <span>5%</span>
-            <span>of total funds raised by intermediaries</span>
-          </header>
-          <nav>
-            <p></p>
-          </nav>
-          <section>
-            <span>A(Name)</span>
-            <span>B(Name)</span>
-          </section>
-          <footer>
-            <button>View Contract</button>
-          </footer>
-          <div class="Bname">
-            <p>B(Name) Information</p>
-            <ul class="Binformation">
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="isFailed">
-          <header>
-            <span>Corporate next time!</span>
-          </header>
-          <nav>
-            <p></p>
-          </nav>
-          <section>
-            <span>A(Name)</span>
-            <span>B(Name)</span>
-          </section>
-          <footer>
-            <article>Reject Reason: I am writing to thank you for your email and to inform you that we gave our careful consideration to your proposal. Unfortunately, we have to turn down the sales offer. We want you to know that it does not reflect our unwillingness to work with you. Our company is moving in another direction at the moment and, therefore, cannot consider your offer. We would appreciate it if you could remove our email address from the mailing list.</article>
-          </footer>
-          <div class="Bname">
-            <p>B(Name) Information</p>
-            <ul class="Binformation">
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-              <li>
-                <aside></aside>
-                <p>Biodiversity offsets</p>
-              </li>
-            </ul>
-          </div>
-        </div>-->
-
-        <!-- <div class="projectsDetails-recommand">
-          <div class="project-swipe">
-            <van-icon name="arrow-left" @click="privous" />
-            <p>
-              Investors you recommend
-              before
-            </p>
-            <div class="project-swipe-plugin">
-              <van-swipe ref="swipe" :autoplay="3000" :show-indicators="false" @change="onChange">
-                <template #default>
-                  <van-swipe-item>
-                    <h3>
-                      Investors you recommend
-                      before
-                    </h3>
-                    <ul>
-                      <li>
-                        <aside></aside>
-                        <article>Recommended countdown: 5 days</article>
-                      </li>
-                      <li>
-                        <aside></aside>
-                        <article>Recommended countdown: 5 days</article>
-                      </li>
-                      <li>
-                        <aside></aside>
-                        <article>Recommended countdown: 5 days</article>
-                      </li>
-                      <li>
-                        <aside></aside>
-                        <article>Recommended countdown: 5 days</article>
-                      </li>
-                    </ul>
-                  </van-swipe-item>
-                  <van-swipe-item>2</van-swipe-item>
-                  <van-swipe-item>3</van-swipe-item>
-                </template>
-              </van-swipe>
-            </div>
-            <p @click="$routerto('a_recommand_i')">{{$t('project.SeeAll')}}</p>
-            <van-icon name="arrow" @click="next" />
-          </div>
-          <div class="recommand" @click="$routerto('recent_recommand')">{{$t('project.RecommendMore')}}</div>
-        </div>-->
         <div class="projectDetail">
           <aside class="iconfont icon-3"></aside>
           <div>
             <article ref="article" :style="{height:articleHight}">
-              <p ref="articleOrign">
-                This is the first NCFF operation that supports
-                a Biodiversity Offseting scheme. The operation
-                consists of a EUR 5 million loan to the French
-                CDC Biodiversité, a subsidiary of the Caisse
-                des Dépots, who will use the loan for the
-                rehabilitation and management of conservation
-                sites around France. The rehabilitation and
-                management of conservation sites will allow
-                CDC Biodiversité to generate offset credits
-                (Unités de Compensation) for clients which
-                are required to offset their impacts on
-                certain habitats and species as a condition
-                of a planning permission. This EIB loan will enable
-                CDC Biodiversité to support investment in new sites,
-                while keeping its existing sites,
-                some of which have high ecological value, and make the necessary
-                investments to register and market the credits of those sites
-                to comply with regulatory requirements in France.
-              </p>
+              <p
+                class="projectDescribe"
+                v-html="ProjectDetail.projectDescribe"
+                ref="projectDescribe"
+              ></p>
             </article>
-            <p class="drop">
+            <p class="drop" v-if="isshowDropdown">
               <van-icon @click="dropdown" :class="{'rotate1':articleHight}" name="arrow-down" />
             </p>
           </div>
         </div>
         <ul>
-          <li>
+          <li v-for="(value,key) in projectItem">
             <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
+            <p v-if="key=='potentialInvestorsTags'">
+              <section v-for="(item,idx) in value" :key="idx">
+                <span>{{idx+1}}.</span>
+                <span>{{item}}</span>
+              </section>
+            </p>
+            <p v-else>{{value}}</p>
           </li>
         </ul>
-        <footer>
+        <footer v-if="signStatus4==1">
           <!-- <p @click="signNDA">{{$t("project.SignNDAterms")}}</p> -->
           <!-- <p @click="signNDA">{{$t("project.NDAcontract")}}</p> -->
-          <button @click="$routerto('P_signContractStep1')">{{$t('project.Interested')}}</button>
-          <button>拒绝</button>
+          <button @click="clickInterested">{{$t('project.Interested')}}</button>
+          <button @click="refuse">{{$t('investor.Refuse')}}</button>
           <!-- <button @click="$routerto('P_signContractStep1')">{{$t('project.SignContract')}}</button> -->
           <!-- <button @click="$routerto('signContractStep1')">{{$t('project.Contractwithibank')}}</button> -->
         </footer>
@@ -218,16 +73,17 @@
       :title="title"
       :showCancel="true"
       :msg="msg"
+      :msgtype="msgtype"
     ></DialogMsg>
-    <!-- <DialogMsg
+    
+    <DialogMsg
       :remindervisible.sync="remindervisible2"
       :confirmButtonText="confirmButtonText"
-      :cancelButtonText="cancelButtonText"
-      @comfirmFromDialog="gotoNDA"
+      @comfirmFromDialog="confirmrefuse"
       :title="title"
-      :showCancel="true"
+      :showCancel="false"
       :msg="msg"
-    ></DialogMsg>-->
+    ></DialogMsg>
   </div>
 </template>
 <script>
@@ -237,59 +93,206 @@ export default {
     return {
       current: 0,
       msg: "",
+      msgtype: "",
       remindervisible2: false,
       confirmButtonText: "",
       cancelButtonText: "",
       title: "",
       remindervisible: false,
       articleHight: null,
-      taglist: [
-        {
-          name: "Biodiversity",
-          isactive: false
-        },
-        {
-          name: "Transport",
-          isactive: false
-        },
-        {
-          name: "Computer",
-          isactive: false
-        },
-        {
-          name: "InnovFin",
-          isactive: false
-        },
-        {
-          name: "Comsdfdsputer",
-          isactive: false
-        },
-        {
-          name: "InnosdfdsfvFin",
-          isactive: false
-        }
-      ],
-     
+      isshowDropdown: false,
+      ProjectDetail: {
+        projectName: "",
+        currencyType: "",
+        committedCount: 0,
+        projectIndustry: "",
+        interestProjectCount: 0,
+        collectMoneyMin: "",
+        collectMoneyMax: "",
+        projectDescribe: ""
+      },
+      projectItem: {
+        projectStatus: null,
+        projectCompany: "",
+        projectMobile: "",
+        projectEmail: "",
+        financingStage: "",
+        potentialInvestorsTags: []
+      },
+      articleoffsetHeight: 0,
+      projectDescribeHeight: 0
     };
   },
-  created() {},
-
+  created() {
+    this.projectId = this.$route.query.projectId;
+    this.signStatus4 = this.$route.query.signStatus4;
+    this.signId = this.$route.query.signId;
+    this.middlemanId = this.$route.query.middlemanId;
+  },
+  mounted() {
+    this.getProjectDetails();
+  },
   methods: {
+    getProjectDetails() {
+      this.$store.commit("isloading", true);
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
+          {
+            projectId: this.projectId,
+            signId: this.signId,
+            middlemanId: this.middlemanId
+          }
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+          if (res.data.resultCode == 10000) {
+            let data = res.data.data.data;
+            for (let i in data) {
+              for (let key in this.ProjectDetail) {
+                if (key === i) {
+                  if (key == "projectName") {
+                    if (this.$i18n.locale == "zh_CN") {
+                      this.ProjectDetail[key] = data[i];
+                    } else {
+                      this.ProjectDetail[key] = data.projectNameEn;
+                    }
+                  } else if (
+                    key == "collectMoneyMin" ||
+                    key == "collectMoneyMax"
+                  ) {
+                    this.ProjectDetail[key] = this.$global.formatNum(data[key]);
+                  } else if (key == "projectIndustry") {
+                    if (this.$i18n.locale == "zh_CN") {
+                      this.ProjectDetail[key] = eval(
+                        "(" + data[key] + ")"
+                      ).join(",");
+                    } else {
+                      this.ProjectDetail[key] = eval(
+                        "(" + data.projectIndustryEn + ")"
+                      ).join(",");
+                    }
+                  } else if (key == "projectDescribe") {
+                    if (this.$i18n.locale == "zh_CN") {
+                      this.ProjectDetail[key] = data.projectDescribe.replace(
+                        /[\n\r]/g,
+                        "<br>"
+                      );
+                    } else {
+                      this.ProjectDetail[key] = data.projectDescribeEn.replace(
+                        /[\n\r]/g,
+                        "<br>"
+                      );
+                    }
+                  } else {
+                    this.ProjectDetail[key] = res.data.data.data[i];
+                  }
+                }
+              }
+              for (let key in this.projectItem) {
+                if (key === i) {
+                  if (key == "projectCompany") {
+                    if (this.$i18n.locale == "zh_CN") {
+                      this.projectItem[key] = data[i];
+                    } else {
+                      this.projectItem[key] = data.projectCompanyEn;
+                    }
+                  } else if (key == "potentialInvestorsTags") {
+                    if (this.$i18n.locale == "zh_CN") {
+                      this.projectItem[key] = eval("(" + data[i] + ")");
+                    } else {
+                      this.projectItem[key] = eval(
+                        "(" + data.potentialInvestorsTagsEn + ")"
+                      );
+                    }
+                  } else if (key == "financingStage") {
+                    this.projectItem[key] = this.$global.financingStage[
+                      data[i]
+                    ];
+                  } else if (key == "projectStatus") {
+                    this.projectItem[key] = this.$global.projectStatus[data[i]];
+                  } else {
+                    this.projectItem[key] = data[i];
+                  }
+                }
+              }
+            }
+
+            this.$nextTick(() => {
+              this.articleoffsetHeight = this.$refs.article.offsetHeight;
+              this.projectDescribeHeight = this.$refs.projectDescribe.offsetHeight;
+              if (this.projectDescribeHeight > this.articleoffsetHeight) {
+                this.isshowDropdown = true;
+              }
+            });
+          }
+
+          // this.ProjectDetail=res.data.data.data
+          // console.log(this.ProjectDetail);
+        });
+    },
+    refuse() {
+      this.title = "Request project details";
+      this.msg = this.$t("investor.Refuse");
+      this.msgtype="No";
+      this.confirmButtonText = "Yes";
+      this.cancelButtonText = "No";
+      this.remindervisible = true;
+    },
+      comfirmFromDialog(data) {
+          this.remindervisible = false;
+        if(data=="No"){
+       this.$store.commit("isloading", true);
+       this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/draftContractOrReject`,
+          {
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
+            signStatus: 3,
+          }
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+          if (res.data.resultCode == 10000) {
+                this.remindervisible2 = true;
+                this.msg=res.data.resultDesc
+              
+            }
+          });
+        }
+
+    
+    },
+    confirmrefuse(){
+      this.$routerto("projectSubStatus");
+    },
+    clickInterested() {
+      // this.$routerto("P_signContractStep1", { projectId: this.projectId });
+      this.$routerto("P_signContractStep1", {
+        projectId: this.projectId,
+        signStatus4: this.signStatus4,
+        signId: this.signId,
+        middlemanId: this.middlemanId
+      });
+      // this.$store.commit("isloading", true);
+      // this.$global
+      //   .get_encapsulation(
+      //     `${this.$axios.defaults.baseURL}/bsl_web/projectSign/interested`,
+      //     { projectId: this.projectId, projectUserId: "263" }
+      //   )
+      //   .then(res => {
+      //     this.$store.commit("isloading", false);
+      //     this.remindervisible = true;
+      //     this.msgtype = "interested";
+      //     this.msg = "您还可以签署NDA来获取该项目更多的资讯";
+      //   });
+    },
     gotoNDA() {
       this.remindervisible = false;
       this.$routerto("ndaClause");
     },
-    comfirmFromDialog(data) {
-      this.remindervisible = false;
-      setTimeout(() => {
-        // this.title = "Sign NDA";
-        // this.msg = "Please sign the NDA to get more information";
-        // this.confirmButtonText = "Yes";
-        // this.cancelButtonText = "No";\
-        this.$routerto("ndaClause");
-        // this.remindervisible2 = true;
-      }, 300);
-    },
+  
     signNDA() {
       this.title = "Request project details";
       this.msg = "You can sign the NDA to get more information";
@@ -311,25 +314,12 @@ export default {
         this.articleHight = null;
         return;
       }
-      this.articleHight = this.$refs.articleOrign.clientHeight + "px";
+      this.articleHight = this.$refs.projectDescribe.clientHeight + "px";
     }
   }
 };
 </script>
 <style lang="scss" >
-/* .custom-indicator {
-    position: absolute;
-    right: 5px;
-    bottom: 5px;
-    padding: 2px 5px;
-    font-size: 12px;
-    background: rgba(0, 0, 0, 0.1);
-  } */
-.van-swipe {
-  // &:before{
-  //     content: "\e630"
-  // }
-}
 </style>
 <style lang="scss" scoped>
 #p_projectdetail {
@@ -418,24 +408,23 @@ export default {
     .projectMoney {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       margin-bottom: vw(53);
-      aside {
-        // height: vw(30);
-
+      span.icon {
+        align-self: center;
         margin-right: vw(20);
         font-size: vw(29);
-        // width: vw(30);
-        // background: #4f3dad;
-        // margin-right: vw(26);
       }
+
       p {
-        flex: 1;
+        // flex: 1;
         display: flex;
-        justify-content: space-between;
+        span.currencyType {
+          margin-right: vw(20);
+        }
         span {
           font-size: vw(24);
           font-weight: bold;
-          //   line-height: 29px;
         }
       }
     }
@@ -445,6 +434,7 @@ export default {
       nav {
         display: flex;
         justify-content: center;
+
         p {
           width: vw(332);
           height: vw(193);
@@ -455,6 +445,7 @@ export default {
       section {
         display: flex;
         justify-content: space-between;
+
         margin-bottom: vw(70);
         span {
           font-size: vw(30);
@@ -561,7 +552,7 @@ export default {
           height: vw(210);
           overflow: hidden;
           line-height: vw(30);
-          transition: all 1s ease-out;
+          transition: all 0.8s ease-out;
           margin-bottom: vw(22);
           p:nth-of-type(1) {
           }
@@ -571,7 +562,7 @@ export default {
           .van-icon-arrow-down {
             transform-origin: center center;
             transform: rotate(0deg); //返回原点
-            transition: transform 1s ease-out;
+            transition: transform 0.8s ease-out;
           }
           .van-icon::before {
             font-size: vw(30);
@@ -589,7 +580,7 @@ export default {
     ul {
       li {
         display: flex;
-        align-items: center;
+        align-items: start;
         margin-bottom: vw(25);
         aside {
           width: vw(48);
@@ -599,6 +590,7 @@ export default {
           margin-right: vw(30);
         }
         p {
+          flex: 1;
           margin: 0;
           font-weight: bold;
           font-size: vw(24);
@@ -613,6 +605,7 @@ export default {
       p {
         font-size: vw(20);
         color: #00f0ab;
+
         text-decoration: underline;
         margin-bottom: vw(32);
       }
@@ -624,6 +617,9 @@ export default {
         font-size: vw(26);
         line-height: vw(72);
         color: #ffffff;
+      }
+      button:nth-of-type(1){
+        margin-bottom: vw(30)
       }
     }
   }

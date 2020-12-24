@@ -28,7 +28,7 @@
       <!-- <input type="textarea" v-model="article"> -->
       <textarea name v-model="article" id cols="30" rows="10"></textarea>
       <footer>
-        <van-button @click="$routerto('P_signContractStep2',{fileId:fileId})">Next</van-button>
+        <van-button @click="go">Next</van-button>
       </footer>
 
       <!-- <form ref="form" @submit.prevent="submit_click">
@@ -61,7 +61,7 @@ export default {
         username: "",
         password: ""
       },
-      fileId:"",
+      fileId: "",
       article: "",
       Template: "",
       TemplateList: [],
@@ -69,6 +69,10 @@ export default {
     };
   },
   created() {
+    this.projectId = this.$route.query.projectId;
+    this.signStatus4 = this.$route.query.signStatus4;
+    this.signId = this.$route.query.signId;
+    this.middlemanId = this.$route.query.middlemanId;
     this.getContractTemplateList();
     // /bsl_web/projectSign/getContractTemplateList
   },
@@ -82,18 +86,31 @@ export default {
     }
   },
   methods: {
+    go() {
+      if (this.article) {
+        this.$routerto("P_signContractStep2", {
+          projectId: this.projectId,
+          signStatus4: this.signStatus4,
+          signId: this.signId,
+          middlemanId: this.middlemanId,
+          fileId: this.fileId
+        });
+      }
+    },
     openValue() {
       this.show = !this.show;
     },
     getvalue(index, item) {
       this.Template = item.fileName;
       this.fileId = item.id;
+      this.$store.commit("isloading", true);
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackGetContractTemplateWord`,
           { fileId: item.id }
         )
         .then(res => {
+          this.$store.commit("isloading", false);
           if (res.data.data) {
             this.article = res.data.data;
           }
@@ -101,12 +118,14 @@ export default {
         });
     },
     getContractTemplateList() {
+      this.$store.commit("isloading", true);
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/getContractTemplateList`,
-          { projectId: 130439808 }
+          { projectId: this.projectId }
         )
         .then(res => {
+          this.$store.commit("isloading", false);
           this.TemplateList = res.data.data;
           console.log(this.TemplateList);
         });

@@ -3,7 +3,7 @@
     <commonnav>
       {{$t('common.Fliter')}}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$global.previous()" />
+        <van-icon name="arrow-left" @click="$routerto('mhome')" />
       </template>
       <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
@@ -65,13 +65,14 @@
         <van-button @click="$routerto('AllResult')">{{$t('common.Search')}}</van-button>
       </footer>
     </main>
-    <transition name="slide-fade">
+    <transition v-on:after-enter="afterEnterFun" v-on:after-leave="afterLeave" name="slide-fade">
       <keep-alive>
         <div
           class="secondLayer"
           @fromKids="pick"
           :result="result"
           :List="List"
+          :afterEnter.sync="afterEnter"
           :GoToname="name"
           :is="currentView"
         ></div>
@@ -90,6 +91,7 @@ export default {
     return {
       name: "",
       currentView: "",
+      afterEnter: false,
       List: {
         industryList: [],
         regionList: [],
@@ -102,6 +104,7 @@ export default {
       }
     };
   },
+
   created() {
     for (let key in this.$store.state.electedList) {
       if (key == "industryList") {
@@ -130,8 +133,24 @@ export default {
     //   console.log(element);
     // });
   },
+  mounted() {
+    // if (document.querySelector("#mutil-Pick")) {
+    //   document
+    //     .querySelector("#mutil-Pick")
+    //     .addEventListener("animationend", function() {
+    //       console.log(23);
+    //     });
+    // }
+    // dsfdsfdsfdsfds
+  },
   computed: {},
   methods: {
+    afterEnterFun(el) {
+      this.afterEnter = true;
+    },
+    afterLeave(el) {
+      this.afterEnter = false;
+    },
     pick(data) {
       if (this.name == "Industry") {
         let a;
@@ -143,7 +162,7 @@ export default {
           }
         });
         this.$store.commit("electedList", { arr: a, name: "industryList" });
-        console.log(this.$store.getters);
+        // console.log(this.$store.getters);
       } else if (this.name == "Region") {
         let a;
         a = this.List.regionList.filter(item => {

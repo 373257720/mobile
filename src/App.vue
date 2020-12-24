@@ -78,7 +78,7 @@ body {
   background: #fff;
   position: relative;
 }
-.van-button--default{
+.van-button--default {
   border: none;
 }
 // .van-dialog {
@@ -95,6 +95,46 @@ body {
 //     color: #fff;
 //   }
 // }
+.van-dialog {
+  background: #00e3a2;
+  color: #ffffff;
+
+  .van-button--default {
+    background: #00e3a2;
+    color: #ffffff;
+  }
+  .van-dialog__header {
+    font-size: vw(36);
+    font-weight: bold;
+  }
+  .van-hairline--top::after {
+    // border: 0 solid #fff;
+    border-top-width: vw(2);
+    border-top-color: #fff;
+  }
+  .van-hairline--left::after {
+    border-left-width: vw(2);
+    border-left-color: #fff;
+  }
+  .van-dialog__message {
+    padding: vw(72) vw(58) vw(72);
+
+    font-size: vw(30);
+    line-height: vw(34);
+    font-weight: bold;
+  }
+  .van-dialog__cancel,
+  .van-dialog__confirm {
+    height: initial;
+  }
+  .van-button__content {
+    .van-button__text {
+      color: #ffffff;
+      font-size: vw(40);
+      padding: vw(42) 0;
+    }
+  }
+}
 .van-button--primary {
   border: none;
 }

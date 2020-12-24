@@ -26,95 +26,72 @@
             </div>
           </van-search>
         </div>
-        <div v-if="$store.state.currentUsertype===1" class="timestamp">
+        <div class="timestamp" v-if="$store.state.currentUsertype==1">
           <ul>
-            <li @click="$routerto('projectSubStatus')" v-for="i in countrylist" :key="i.remark">
-              <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
-              <section id="container">
+            <li  v-for="i in MyProjectList" :key="i.id">
+              <h3 v-if="i.label">{{i.label.projectName}}</h3>
+              <section @click="$routerto('projectSubStatus')" id="container">
                 <div class="item item-1">
                   <p class="icon iconRight iconfont icon-1"></p>
                   <!-- <i class="icon iconRight iconfont icon-message"></i> -->
                 </div>
                 <div class="item item-2">
-                  <p>Biodiversity offsets</p>
+                  <p v-if="i.label">{{i.label.projectIndustry}}</p>
                 </div>
                 <div class="item item-3">
                   <p class="icon iconRight iconfont icon-2_1"></p>
                 </div>
                 <div class="item item-4">
-                  <p>#tag</p>
+                  <p v-if="i.label">{{i.label.projectCompany}}</p>
                 </div>
                 <div class="item item-5">
                   <p class="icon iconRight iconfont icon-3"></p>
                 </div>
                 <div class="item item-6">
-                  <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
+                  <p v-if="i.label">{{i.label.projectDescribe}}</p>
                 </div>
               </section>
-              <div class="btn">
+              <!-- <div class="btn">
                 <van-button>{{$t('projectOwner.chain')}}</van-button>
+              </div>-->
+              <!-- <div class="btn">
+                <van-button >{{$t('projectOwner.Interested')}}</van-button>
+              </div> -->
+                 <div class="btn">
+                <van-button>{{$t('project.projectChain')}}</van-button>
               </div>
             </li>
           </ul>
         </div>
-        <div v-if="$store.state.currentUsertype===3" class="timestamp">
+        <div class="timestamp" v-if="$store.state.currentUsertype==4">
           <ul>
-            <li @click="$routerto('projectStatus')" v-for="i in countrylist" :key="i.remark">
-              <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
-              <section id="container">
+            <li v-for="i in MyProjectList" :key="i.id">
+              <h3 v-if="i.label">{{i.label.projectName}}</h3>
+              <section @click="$routerto('projectStatus')" id="container">
                 <div class="item item-1">
                   <p class="icon iconRight iconfont icon-1"></p>
-                  <!-- <i class="icon iconRight iconfont icon-message"></i> -->
                 </div>
                 <div class="item item-2">
-                  <p>Biodiversity offsets</p>
+                  <p v-if="i.label">{{i.label.projectIndustry}}</p>
                 </div>
                 <div class="item item-3">
                   <p class="icon iconRight iconfont icon-2_1"></p>
                 </div>
                 <div class="item item-4">
-                  <p>#tag</p>
+                  <p v-if="i.label">{{i.label.projectCompany}}</p>
                 </div>
                 <div class="item item-5">
                   <p class="icon iconRight iconfont icon-3"></p>
                 </div>
                 <div class="item item-6">
-                  <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
+                  <p v-if="i.label">{{i.label.projectDescribe}}</p>
                 </div>
               </section>
+              <!-- <div class="btn">
+                <van-button>{{$t('projectOwner.chain')}}</van-button>
+              </div>-->
               <div class="btn">
-                <van-button>{{$t('projectOwner.Interested')}}</van-button>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div v-if="$store.state.currentUsertype===4" class="timestamp">
-          <ul>
-            <li  v-for="i in countrylist" :key="i.remark">
-              <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
-              <section id="container">
-                <div class="item item-1">
-                  <p class="icon iconRight iconfont icon-1"></p>
-                  <!-- <i class="icon iconRight iconfont icon-message"></i> -->
-                </div>
-                <div class="item item-2">
-                  <p>Biodiversity offsets</p>
-                </div>
-                <div class="item item-3">
-                  <p class="icon iconRight iconfont icon-2_1"></p>
-                </div>
-                <div class="item item-4">
-                  <p>#tag</p>
-                </div>
-                <div class="item item-5">
-                  <p class="icon iconRight iconfont icon-3"></p>
-                </div>
-                <div class="item item-6">
-                  <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
-                </div>
-              </section>
-              <div class="btn">
-                <van-button>{{$t('projectOwner.Interested')}}</van-button>
+                <van-button>{{$t('project.projectChain')}}</van-button>
               </div>
             </li>
           </ul>
@@ -122,7 +99,7 @@
       </v-scroll>
       <!-- </transition> -->
     </main>
-    <scroll-top />
+    <scroll-top></scroll-top>
   </div>
 </template>
 <script>
@@ -148,8 +125,8 @@ export default {
       loadNumUp: 20,
       countrylist: [],
       usertype: "",
+      MyProjectList: [],
       // 1投行（项目方），3投资者，4投资中间人
-      // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4    已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8   待确认项目->9  签约成功项目->10 拒绝签约项目->11
       piclists: [
         {
           value: 1,
@@ -208,9 +185,6 @@ export default {
         }
       ],
       checklist_height: "",
-      // classname: {
-      //   // "0":
-      // }
       num: 10,
       refreshing: false,
       loading: false,
@@ -246,27 +220,28 @@ export default {
   created() {
     console.log(this.$store.state.currentUsertype);
     this.usertype = this.$store.state.currentUsertype;
-    if (this.$route.query.projectId) {
-      let arr = JSON.parse(this.$route.query.array);
-      if (arr.length > 0) {
-        this.result = [...arr];
-      }
-    } else {
-      if (this.$store.state.genre.length > 0) {
-        this.result = [...this.$store.state.genre];
-      } else {
-        // 1投行（项目方），3投资者，4投资中间人
-        // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
-        // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
-        // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
-        if (this.usertype == 1 || this.usertype == 4) {
-          this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
-        } else if (this.usertype == 3) {
-          this.result = [9, 10, 11];
-        }
-      }
-    }
-    this.getcountrylist();
+    // if (this.$route.query.projectId) {
+    //   let arr = JSON.parse(this.$route.query.array);
+    //   if (arr.length > 0) {
+    //     this.result = [...arr];
+    //   }
+    // } else {
+    //   if (this.$store.state.genre.length > 0) {
+    //     this.result = [...this.$store.state.genre];
+    //   } else {
+    //     // 1投行（项目方），3投资者，4投资中间人
+    //     // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
+    //     // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
+    //     // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
+    //     if (this.usertype == 1 || this.usertype == 4) {
+    //       this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
+    //     } else if (this.usertype == 3) {
+    //       this.result = [9, 10, 11];
+    //     }
+    //   }
+    // }
+    // console.log();
+    this.getMyProjectList();
   },
   activated() {
     if (this.$route.query.projectId) {
@@ -383,41 +358,71 @@ export default {
   },
 
   methods: {
+    getMyProjectList(done) {
+      this.loaded = false;
+      this.Projectlist = [];
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectList`
+        )
+        .then(res => {
+          this.loaded = true;
+          if (done) done();
+          this.MyProjectList = res.data.data.data;
+          // console.log(res.data.data);
+          if (res.data.resultCode == 10000) {
+            if (this.$i18n.locale === "zh_CN") {
+              this.MyProjectList.forEach(item => {
+                let projectIndustry;
+                if (item.record.projectIndustryEn.indexOf("[") < 0) {
+                  projectIndustry = item.record.projectIndustry;
+                } else {
+                  projectIndustry = eval(
+                    "(" + item.record.projectIndustry + ")"
+                  ).join(",");
+                }
+
+                let label = {
+                  projectIndustry: projectIndustry,
+                  projectName: item.record.projectName,
+                  projectCompany: item.record.projectCompany,
+                  projectDescribe: item.record.projectDescribe
+                };
+                this.$set(item, "label", label);
+              });
+            } else {
+              this.MyProjectList.forEach(item => {
+                let projectIndustry;
+                if (item.record.projectIndustryEn.indexOf("[") < 0) {
+                  projectIndustry = item.record.projectIndustryEn;
+                } else {
+                  projectIndustry = eval(
+                    "(" + item.record.projectIndustryEn + ")"
+                  ).join(",");
+                }
+
+                let label = {
+                  projectIndustry: projectIndustry,
+                  projectName: item.record.projectNameEn,
+                  projectCompany: item.record.projectCompanyEn,
+                  projectDescribe: item.record.projectDescribeEn
+                };
+
+                this.$set(item, "label", label);
+              });
+              // console.log(this.Projectlist);
+            }
+            console.log(this.MyProjectList);
+          }
+        });
+    },
     initHeight() {
       let scrollTop = document.querySelector(".yo-scroll").scrollTop;
       this.isFixed = scrollTop > this.offsetTop ? true : false;
     },
-    getcountrylist(done) {
-      this.countrylist = [];
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
-          {
-            searchKey: this.searchkey
-          }
-        )
-        .then(res => {
-          if (res.data.data.length > 0) {
-            for (let i = 0; i < res.data.data.length; i++) {
-              this.countrylist.push({
-                chinese: res.data.data[i].countryZhname,
-                eng: res.data.data[i].countryEnname,
-                lable:
-                  this.$i18n.locale === "zh_CN"
-                    ? res.data.data[i].countryZhname
-                    : res.data.data[i].countryEnname,
-                value: i,
-                remark: res.data.data[i].countryCode
-              });
-            }
-            this.loaded = true;
-            if (done) done();
-          }
-        });
-    },
     onRefresh(done) {
       this.loaded = false;
-      this.getcountrylist(done);
+      this.getMyProjectList(done);
     },
     onInfinite(done) {
       if (!this.loaded) this.onInfinitePort(done);
@@ -553,11 +558,12 @@ export default {
             margin-bottom: vw(40);
             font-weight: bold;
             padding: 0 vw(70);
-            nav {
+            h3 {
               // width: 600px;
               // height: vw(34);
               font-size: vw(30);
               line-height: vw(34);
+              font-weight: bold;
               color: #4f3dad;
               margin-bottom: vw(22);
               // opacity: 1;
@@ -574,11 +580,13 @@ export default {
         grid-row: 3;
         margin-bottom: vw(22);
         grid-gap: vw(28) vw(30);
-        grid-template-columns: auto auto;
+        grid-template-columns: vw(30) auto;
         grid-template-rows: repeat(auto);
         grid-column: 2;
         grid-auto-flow: row;
         font-size: vw(24);
+        word-wrap: break-word;
+        word-break: break-all;
         font-weight: bold;
         align-items: start;
         line-height: vw(28);

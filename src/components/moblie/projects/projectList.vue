@@ -14,63 +14,70 @@
       <div v-if="$store.state.currentUsertype===1" class="timestamp">
         <ul>
           <li v-for="(i) in $store.state.selectedItem.arr" :key="i.text">
-            <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
             <section id="container">
               <div class="item item-1">
                 <p class="icon iconRight iconfont icon-5day"></p>
                 <!-- <i class="icon iconRight iconfont icon-message"></i> -->
               </div>
               <div class="item item-2">
-                <p>2020-06-06 14:00:00</p>
+                <p>{{$global.timestampToTime(i.signSubmitTime4)}}</p>
               </div>
               <div class="item item-3">
                 <p class="icon iconRight iconfont icon-5day"></p>
               </div>
               <div class="item item-4">
-                <p>2020-06-06 14:00:00</p>
+                <p v-if="$i18n.locale=='zh_CN'">{{i.projectName}}</p>
+                <p v-else>{{i.projectNameEn}}</p>
               </div>
               <div class="item item-5">
                 <p class="icon iconRight iconfont icon-3"></p>
               </div>
               <div class="item item-6">
-                <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
+                <p>{{$global.pic_obj[i.signStatus4]}}</p>
               </div>
             </section>
             <div class="btn">
-              <van-button @click="$routerto('p_projectdetail')">{{$t('project.Detail')}}</van-button>
-              <van-button @click="$routerto('projectChain')">{{$t('project.projectChain')}}</van-button>
+              <van-button
+                @click="$routerto('p_projectdetail',{projectId:i.projectId,signStatus4:i.signStatus4,
+                signId:i.signId,middlemanId:i.middlemanId})"
+              >{{$t('project.Detail')}}</van-button>
+              <!-- <van-button @click="$routerto('projectChain')">{{$t('project.projectChain')}}</van-button> -->
             </div>
           </li>
         </ul>
       </div>
       <div v-if="$store.state.currentUsertype===4" class="timestamp">
         <ul>
-          <li v-for="i in piclists" :key="i.remark">
-            <nav>CDC Biodiversité – Biodiversity Offsetting</nav>
+          <li v-for="(i) in $store.state.selectedItem.arr" :key="i.text">
+            <!-- <nav>CDC Biodiversité – Biodiversity Offsetting</nav> -->
             <section id="container">
               <div class="item item-1">
                 <p class="icon iconRight iconfont icon-5day"></p>
                 <!-- <i class="icon iconRight iconfont icon-message"></i> -->
               </div>
               <div class="item item-2">
-                <p>2020-06-06 14:00:00</p>
+                <p>{{$global.timestampToTime(i.signSubmitTime4)}}</p>
               </div>
               <div class="item item-3">
                 <p class="icon iconRight iconfont icon-5day"></p>
               </div>
               <div class="item item-4">
-                <p>2020-06-06 14:00:00</p>
+                <p v-if="$i18n.locale=='zh_CN'">{{i.projectName}}</p>
+                <p v-else>{{i.projectNameEn}}</p>
               </div>
               <div class="item item-5">
                 <p class="icon iconRight iconfont icon-3"></p>
               </div>
               <div class="item item-6">
-                <p>This is the first NCFF operation that supports a Biodiversity Offseting scheme.</p>
+             <p>{{$global.pic_obj[i.signStatus4]}}</p>
               </div>
             </section>
             <div class="btn">
-              <van-button @click="$routerto('agentProjectDetail')">{{$t('project.Detail')}}</van-button>
-              <van-button @click="$routerto('projectChain')">{{$t('project.projectChain')}}</van-button>
+              <van-button
+                @click="$routerto('agentProjectDetail',{projectId:i.projectId,signStatus4:i.signStatus4,
+                signId:i.signId,middlemanId:i.middlemanId})"
+              >{{$t('project.Detail')}}</van-button>
+              <!-- <van-button @click="$routerto('projectChain')">{{$t('project.projectChain')}}</van-button> -->
             </div>
           </li>
         </ul>
@@ -197,11 +204,11 @@ export default {
       next();
     }
   },
-  beforeDestroy(){
-  //  this.$store.commit("selectedItemMutations", {});
+  beforeDestroy() {
+    //  this.$store.commit("selectedItemMutations", {});
   },
   created() {
-    console.log(this.$store.state.selectedItem); 
+    console.log(this.$store.state.selectedItem);
     console.log(this.num);
     this.usertype = this.$store.state.currentUsertype;
     if (this.$route.query.projectId) {
@@ -640,7 +647,7 @@ export default {
     grid-row: 3;
     margin-bottom: vw(22);
     grid-gap: vw(28) vw(30);
-    grid-template-columns: auto auto;
+    grid-template-columns: vw(50) auto;
     grid-template-rows: repeat(auto);
     grid-column: 2;
     grid-auto-flow: row;

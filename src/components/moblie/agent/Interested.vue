@@ -15,58 +15,50 @@
         <h2>{{ProjectDetail.projectName}}</h2>
         <h3>Signed intermediary({{ProjectDetail.committedCount}})/Signed investor({{ProjectDetail.interestProjectCount}})</h3>
         <div class="projectMoney">
-          <aside class="iconfont icon-1"></aside>
           <p>
-            <span>{{ProjectDetail.committedCount}}</span>
-            <span>${{ProjectDetail.collectMoneyMin}}-{{ProjectDetail.collectMoneyMax}}</span>
+            <span class="icon">
+              <i class="iconfont icon-1"></i>
+            </span>
+            <span>{{ProjectDetail.projectIndustry}}</span>
+          </p>
+          <p>
+            <span class="currencyType">{{ProjectDetail.currencyType}}</span>
+            <span>{{ProjectDetail.collectMoneyMin}}</span>
+            <span>-</span>
+            <span>{{ProjectDetail.collectMoneyMax}}</span>
           </p>
         </div>
         <div class="projectDetail">
           <aside class="iconfont icon-3"></aside>
           <div>
             <article ref="article" :style="{height:articleHight}">
-              <p ref="articleOrign">{{ProjectDetail.projectDescribe}}</p>
+              <p
+                class="projectDescribe"
+                v-html="ProjectDetail.projectDescribe"
+                ref="projectDescribe"
+              ></p>
             </article>
-            <p class="drop">
+            <p class="drop" v-if="isshowDropdown">
               <van-icon @click="dropdown" :class="{'rotate1':articleHight}" name="arrow-down" />
             </p>
           </div>
         </div>
         <ul>
-          <li>
+          <li v-for="(value,key) in projectItem">
             <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
-          </li>
-          <li>
-            <aside></aside>
-            <p>Biodiversity offsets</p>
+            <p v-if="key=='potentialInvestorsTags'">
+              <section v-for="(item,idx) in value" :key="idx">
+                <span>{{idx+1}}.</span>
+                <span>{{item}}</span>
+              </section>
+            </p>
+            <p v-else>{{value}}</p>
           </li>
         </ul>
         <footer>
-          <p @click="signNDA">{{$t("project.SignNDAterms")}}</p>
-          <!-- <p @click="signNDA">{{$t("project.NDAcontract")}}</p> -->
-          <button @click="clickInterested">{{$t('project.Interested')}}</button>
+          <van-button @click="clickInterested">{{$t('project.Interested')}}</van-button>  
+          <!-- <p @click="signNDA">{{$t("project.SignNDAterms")}}</p> -->
+          <!-- <button @click="clickInterested">{{$t('project.Interested')}}</button> -->
           <!-- <button @click="$routerto('signContractStep1')">{{$t('project.SignContract')}}</button>
           <button @click="$routerto('signContractStep1')">{{$t('project.Contractwithibank')}}</button>-->
         </footer>
@@ -82,15 +74,6 @@
       :showCancel="true"
       :msg="msg"
     ></DialogMsg>
-    <!-- <DialogMsg
-      :remindervisible.sync="remindervisible2"
-      :confirmButtonText="confirmButtonText"
-      :cancelButtonText="cancelButtonText"
-      @comfirmFromDialog="gotoNDA"
-      :title="title"
-      :showCancel="true"
-      :msg="msg"
-    ></DialogMsg>-->
   </div>
 </template>
 <script>
@@ -107,46 +90,36 @@ export default {
       title: "",
       remindervisible: false,
       articleHight: null,
+      isshowDropdown: false,
       ProjectDetail: {
         projectName: "",
+        currencyType: "",
         committedCount: 0,
+        projectIndustry: "",
         interestProjectCount: 0,
         collectMoneyMin: "",
         collectMoneyMax: "",
         projectDescribe: ""
       },
-      taglist: [
-        {
-          name: "Biodiversity",
-          isactive: false
-        },
-        {
-          name: "Transport",
-          isactive: false
-        },
-        {
-          name: "Computer",
-          isactive: false
-        },
-        {
-          name: "InnovFin",
-          isactive: false
-        },
-        {
-          name: "Comsdfdsputer",
-          isactive: false
-        },
-        {
-          name: "InnosdfdsfvFin",
-          isactive: false
-        }
-      ]
+      projectItem: {
+        projectStatus: null,
+        projectCompany: "",
+        projectMobile: "",
+        projectEmail: "",
+        financingStage: "",
+        potentialInvestorsTags: []
+      },
+      projectUserId:null,
+      articleoffsetHeight: 0,
+      projectDescribeHeight: 0,
+  
     };
   },
   created() {
     this.projectId = this.$route.query.projectId;
     this.getProjectDetails();
   },
+  mounted() {},
   methods: {
     getProjectDetails() {
       this.$store.commit("isloading", true);
@@ -156,17 +129,89 @@ export default {
           { projectId: this.projectId }
         )
         .then(res => {
-         this.$store.commit("isloading", false);
-          for (let key in this.ProjectDetail) {
-            for (let i in res.data.data.data) {
-              if (key === i) {
-                  
-                if (key == "projectName") {
-                //   this.ProjectDetail[key] = res.data.data.data[projectNameEn];
+          this.$store.commit("isloading", false);
+          if (res.data.resultCode == 10000) {
+            let data = res.data.data.data;
+            this.projectUserId=data.projectUserId;
+            for (let i in data) {
+              for (let key in this.ProjectDetail) {
+                if (key === i) {
+                  if (key == "projectName") {
+                    if (this.$i18n.locale == "zh_CN") {
+                      this.ProjectDetail[key] = data[i];
+                    } else {
+                      this.ProjectDetail[key] = data.projectNameEn;
+                    }
+                  } else if (
+                    key == "collectMoneyMin" ||
+                    key == "collectMoneyMax"
+                  ) {
+                    this.ProjectDetail[key] = this.$global.formatNum(data[key]);
+                  } else if (key == "projectIndustry") {
+                    if (this.$i18n.locale == "zh_CN") {
+                      this.ProjectDetail[key] = eval(
+                        "(" + data[key] + ")"
+                      ).join(",");
+                    } else {
+                      this.ProjectDetail[key] = eval(
+                        "(" + data.projectIndustryEn + ")"
+                      ).join(",");
+                    }
+                  } else if (key == "projectDescribe") {
+                    if (this.$i18n.locale == "zh_CN") {
+                      this.ProjectDetail[key] = data.projectDescribe.replace(
+                        /[\n\r]/g,
+                        "<br>"
+                      );
+                    } else {
+                      this.ProjectDetail[key] = data.projectDescribeEn.replace(
+                        /[\n\r]/g,
+                        "<br>"
+                      );
+                    }
+                  } else {
+                    this.ProjectDetail[key] = res.data.data.data[i];
+                  }
+                }
+              }
+              for (let key in this.projectItem) {
+                if (key === i) {
+                  if (key == "projectCompany") {
+                    if (this.$i18n.locale == "zh_CN") {
+                      this.projectItem[key] = data[i];
+                    } else {
+                      this.projectItem[key] = data.projectCompanyEn;
+                    }
+                  } else if (key == "potentialInvestorsTags") {
+                    if (this.$i18n.locale == "zh_CN") {
+                      this.projectItem[key] = eval("(" + data[i] + ")");
+                    } else {
+                      this.projectItem[key] = eval(
+                        "(" + data.potentialInvestorsTagsEn + ")"
+                      );
+                    }
+                  } else if (key == "financingStage") {
+                    this.projectItem[key] = this.$global.financingStage[
+                      data[i]
+                    ];
+                  } else if (key == "projectStatus") {
+                    this.projectItem[key] = this.$global.projectStatus[data[i]];
+                  } else {
+                    this.projectItem[key] = data[i];
+                  }
                 }
               }
             }
+
+            this.$nextTick(() => {
+              this.articleoffsetHeight = this.$refs.article.offsetHeight;
+              this.projectDescribeHeight = this.$refs.projectDescribe.offsetHeight;
+              if (this.projectDescribeHeight > this.articleoffsetHeight) {
+                this.isshowDropdown = true;
+              }
+            });
           }
+
           // this.ProjectDetail=res.data.data.data
           // console.log(this.ProjectDetail);
         });
@@ -176,7 +221,7 @@ export default {
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/interested`,
-          { projectId: this.projectId, projectUserId: "263" }
+          { projectId: this.projectId, projectUserId:  this.projectUserId}
         )
         .then(res => {
           this.$store.commit("isloading", false);
@@ -192,10 +237,11 @@ export default {
     comfirmFromDialog(data) {
       console.log(data);
       this.remindervisible = false;
-      //   if (data == "interested") {
-      //     this.$routerto("ndaClause");
-      //   }
-      this.$routerto("ndaClause");
+      this.$routerto("mysign");
+      // if (data == "interested") {
+      //   this.$routerto("ndaClause");
+      // }
+      // this.$routerto("ndaClause");
       //   setTimeout(() => {
       //     // this.title = "Sign NDA";
       //     // this.msg = "Please sign the NDA to get more information";
@@ -226,7 +272,7 @@ export default {
         this.articleHight = null;
         return;
       }
-      this.articleHight = this.$refs.articleOrign.clientHeight + "px";
+      this.articleHight = this.$refs.projectDescribe.clientHeight + "px";
     }
   }
 };
@@ -333,24 +379,23 @@ export default {
     .projectMoney {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       margin-bottom: vw(53);
-      aside {
-        // height: vw(30);
-
+      span.icon {
+        align-self: center;
         margin-right: vw(20);
         font-size: vw(29);
-        // width: vw(30);
-        // background: #4f3dad;
-        // margin-right: vw(26);
       }
+
       p {
-        flex: 1;
+        // flex: 1;
         display: flex;
-        justify-content: space-between;
+        span.currencyType {
+          margin-right: vw(20);
+        }
         span {
           font-size: vw(24);
           font-weight: bold;
-          //   line-height: 29px;
         }
       }
     }
@@ -360,6 +405,7 @@ export default {
       nav {
         display: flex;
         justify-content: center;
+
         p {
           width: vw(332);
           height: vw(193);
@@ -370,6 +416,7 @@ export default {
       section {
         display: flex;
         justify-content: space-between;
+
         margin-bottom: vw(70);
         span {
           font-size: vw(30);
@@ -476,7 +523,7 @@ export default {
           height: vw(210);
           overflow: hidden;
           line-height: vw(30);
-          transition: all 1s ease-out;
+          transition: all 0.8s ease-out;
           margin-bottom: vw(22);
           p:nth-of-type(1) {
           }
@@ -486,7 +533,7 @@ export default {
           .van-icon-arrow-down {
             transform-origin: center center;
             transform: rotate(0deg); //返回原点
-            transition: transform 1s ease-out;
+            transition: transform 0.8s ease-out;
           }
           .van-icon::before {
             font-size: vw(30);
@@ -504,7 +551,7 @@ export default {
     ul {
       li {
         display: flex;
-        align-items: center;
+        align-items: start;
         margin-bottom: vw(25);
         aside {
           width: vw(48);
@@ -514,6 +561,7 @@ export default {
           margin-right: vw(30);
         }
         p {
+                  flex:1;
           margin: 0;
           font-weight: bold;
           font-size: vw(24);
@@ -528,6 +576,7 @@ export default {
       p {
         font-size: vw(20);
         color: #00f0ab;
+
         text-decoration: underline;
         margin-bottom: vw(32);
       }

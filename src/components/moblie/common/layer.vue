@@ -1,5 +1,5 @@
 <template>
-  <div id="layer" class="loading" v-show="this.$store.state.loading">
+  <div id="layer" class="loading" v-show="$store.state.loading">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -34,7 +34,9 @@ export default {
     msg: String
   },
   created() {
-    console.log(this.$store.state);
+    // this.$store.state.loading=false;
+    this.$store.commit("isloading", false);
+    console.log(this.$store.state.loading);
   },
   data() {
     return {

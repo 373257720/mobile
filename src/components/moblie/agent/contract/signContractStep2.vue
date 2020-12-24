@@ -113,19 +113,21 @@
             <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
           </p>
         </div>
-        <footer>
+        <!-- <footer>
           <button>Preview Contract</button>
-        </footer>
+        </footer>-->
         <ul>
           <li>
-            <van-button @click="$routerto('vipGrade')" class="renewal">Accept</van-button>
-            <button @click="acceptOrRejectCommission(0)">Accept</button>
+            <van-button @click="acceptOrRejectCommission(0)" class="renewal">Accept</van-button>
+            <!-- <button @click="acceptOrRejectCommission(0)">Accept</button> -->
           </li>
           <li>
-            <button @click="acceptOrRejectCommission(1)">Suggest</button>
+            <!-- <button @click="acceptOrRejectCommission(1)">Suggest</button> -->
+            <van-button @click="acceptOrRejectCommission(1)" class="renewal">Suggest</van-button>
           </li>
           <li>
-            <button @click="acceptOrRejectCommission(2)">Reject</button>
+            <!-- <button @click="acceptOrRejectCommission(2)">Reject</button> -->
+            <van-button @click="acceptOrRejectCommission(2)" class="renewal">Reject</van-button>
           </li>
         </ul>
       </div>
@@ -137,7 +139,7 @@
       :msg="msg"
     ></DialogMsg>
     <DialogMsg
-      :remindervisible.sync="remindervisibleBeforeAfter"
+      :remindervisible.sync="remindervisibleAfter"
       @comfirmFromDialog="comfirmFromDialog1"
       :showCancel="false"
       :msg="resultDesc"
@@ -154,17 +156,16 @@ export default {
   },
   data() {
     return {
-      msg: `Are you sure to accept this commission sharing mechanism from the project side?
-Once confirmed, it cannot be undone or changed
-And sign the contract with the project party`,
+      msg: ``,
       sharingMechanismType: 0,
       memberRecommendCount: 0,
       recommendMiddlemanTime: 0,
       remindervisibleBefore: false,
-      remindervisibleBeforeAfter: false,
+      remindervisibleAfter: false,
       resultDesc: "",
+      resultCode: null,
       isactive: false,
-      sharingMechanism0: 0.0,
+      sharingMechanism0: 0,
       sharingMechanism1: 0,
       alterType: null
       //   setTime:null,
@@ -178,11 +179,11 @@ And sign the contract with the project party`,
 
   methods: {
     comfirmFromDialog1(data) {
-      this.remindervisibleBeforeAfter = false;
-      if (this.resultDesc === 10000) {
-        if (this.alterType === 0 || this.alterType === 1) {
-          this.$routerto("projectSubStatus");
-        }
+      this.remindervisibleAfter = false;
+      if (this.resultCode === 10000) {
+        // if (this.alterType === 0 || this.alterType === 1) {
+        this.$routerto("projectStatus");
+        // }
       }
     },
     comfirmFromDialog(data) {
@@ -190,12 +191,11 @@ And sign the contract with the project party`,
       this.$store.commit("isloading", true);
       let obj = {
         optType: this.alterType,
-        middlemanId: "128961768000",
+        middlemanId: this.$route.query.middlemanId,
         sharingMechanism0: this.sharingMechanism0,
         sharingMechanism1: this.sharingMechanism1,
         sharingMechanismType: this.sharingMechanismType,
-        signId: "128967618000",
-        middlemanId: "128961768000"
+        signId: this.$route.query.signId
       };
       this.$global
         .post_encapsulation(
@@ -205,7 +205,8 @@ And sign the contract with the project party`,
         .then(res => {
           this.$store.commit("isloading", false);
           this.resultDesc = res.data.resultDesc;
-          this.remindervisibleBeforeAfter = true;
+          this.resultCode = res.data.resultCode;
+          this.remindervisibleAfter = true;
         });
       // setTimeout(() => {
       //   // this.title = "Sign NDA";
@@ -217,6 +218,15 @@ And sign the contract with the project party`,
       // }, 300);
     },
     acceptOrRejectCommission(num) {
+      if (num === 0) {
+        this.msg = "accept";
+      } else if (num == 1) {
+        this.msg = "suggest";
+      } else if (num == 2) {
+        this.msg = "refuse";
+      }
+      // console.log(this.msg);
+      
       this.remindervisibleBefore = true;
       this.alterType = num;
     },
@@ -260,7 +270,9 @@ And sign the contract with the project party`,
         clearTimeout(setTime);
       }, 30);
       if (type == "add") {
-        this[name]++;
+        if (this[name] < 100) {
+          this[name]++;
+        }
       } else if (type == "subtract") {
         if (this[name] > 0) {
           this[name]--;
@@ -348,6 +360,7 @@ And sign the contract with the project party`,
       ul {
         display: flex;
         justify-content: space-between;
+        margin-top: vw(50);
         li {
           button {
             width: vw(150);

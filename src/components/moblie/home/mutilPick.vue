@@ -1,5 +1,5 @@
 <template>
-  <div id="mhome">
+  <div id="mutil-Pick">
     <commonnav>
       {{GoToname}}
       <template v-slot:arrowLeft>
@@ -93,8 +93,8 @@
 <script>
 import Scroll from "../loadmore";
 export default {
-  name: "mhome",
-  props: ["GoToname", "result", "List"],
+  name: "mutil-Pick",
+  props: ["GoToname", "result", "List", "afterEnter"],
   components: {
     "v-scroll": Scroll
   },
@@ -111,7 +111,17 @@ export default {
   },
   created() {},
   activated() {
-    this.initial();
+    // if (afterEnter) {
+    //   this.initial();
+    // }
+  },
+  watch: {
+    afterEnter(neww, oldd) {
+      // console.log(neww);
+      if (neww) {
+        this.initial();
+      }
+    }
   },
   methods: {
     initial(done) {
@@ -126,13 +136,16 @@ export default {
           if (this.List.regionList.length === 0) {
             this.loaded = false;
           }
+          // setTimeout(()=>{
           this.getCountryList(done);
+          // },400)
+          // this.getCountryList(done);
           break;
         case "Tag":
           if (this.List.taglist.length === 0) {
             this.loaded = false;
           }
-          this.getAllProjectTags();
+          this.getAllProjectTags(done);
           break;
         default:
         // 默认代码块;
@@ -256,7 +269,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#mhome {
+#mutil-Pick {
   .van-checkbox-group {
     overflow-y: auto;
     .van-checkbox__icon .van-icon {
@@ -285,7 +298,7 @@ export default {
 }
 </style>
 <style lang="scss"  scoped>
-#mhome {
+#mutil-Pick {
   .van-search {
     width: vw(598);
     margin: 0 auto;

@@ -17,14 +17,18 @@
             :max="100"
             name="projectParty"
             placeholder
-            v-model.number="intermediaries"
+            v-model.number="sharingMechanism0"
           ></MyNumberInput>
           <span>%</span>
           <p>
-            <span class="iconfont icon-arrow_on"></span>
-            <span class="iconfont icon-arrow_under"></span>
-            <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
-            <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
+            <span
+              class="iconfont icon-arrow_on"
+              @click="calculate($event,'sharingMechanism0','add')"
+            ></span>
+            <span
+              @click="calculate($event,'sharingMechanism0','subtract')"
+              class="iconfont icon-arrow_under"
+            ></span>
           </p>
         </div>
         <header class="option">Percentage of commission income from project party</header>
@@ -34,20 +38,26 @@
             :max="100"
             name="projectParty"
             placeholder
-            v-model.number="projectParty"
+            v-model.number="sharingMechanism1"
           ></MyNumberInput>
           <span>%</span>
           <p>
-            <span class="iconfont icon-arrow_on projectParty"></span>
-            <span class="iconfont icon-arrow_under projectParty"></span>
+            <span
+              @click="calculate($event,'sharingMechanism1','add')"
+              class="iconfont icon-arrow_on projectParty"
+            ></span>
+            <span
+              @click="calculate($event,'sharingMechanism1','subtract')"
+              class="iconfont icon-arrow_under projectParty"
+            ></span>
             <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
             <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
           </p>
         </div>
 
-        <footer>
+        <!-- <footer>
           <button>Preview Contract</button>
-        </footer>
+        </footer>-->
         <ul>
           <li>
             <button @click="Sendtext">Send</button>
@@ -61,7 +71,13 @@
         </ul>
       </div>
     </main>
-    <DialogMsg :remindervisible.sync="remindervisible" :showCancel="true" :msg="msg"></DialogMsg>
+    <DialogMsg
+      :remindervisible.sync="remindervisible"
+      @comfirmFromDialog="comfirmFromDialog"
+      :showCancel="false"
+      :msg="msg"
+    ></DialogMsg>
+    <!-- <DialogMsg :remindervisible.sync="remindervisible" :showCancel="true" :msg="msg"></DialogMsg> -->
   </div>
 </template>
 <script>
@@ -78,11 +94,13 @@ export default {
 Once confirmed, it cannot be undone or changed
 And sign the contract with the project party`,
       radio: "",
+      title: "",
       remindervisible: false,
       isactive: false,
-      intermediaries: 0.0,
-      projectParty: 0,
-      timeout: null
+      sharingMechanism0: 0,
+      sharingMechanism1: 0,
+      timeout: null,
+      resultCode: null
       //   setTime:null,
     };
   },
@@ -91,50 +109,52 @@ And sign the contract with the project party`,
   watch: {},
 
   methods: {
+    calculate(e, name, type) {
+      e.target.style.color = "#fff";
+      let setTime = null;
+      setTime = setTimeout(() => {
+        e.target.style.color = "#00e3a2";
+        clearTimeout(setTime);
+      }, 30);
+      if (type == "add") {
+        if (this[name] < 100) {
+          this[name]++;
+        }
+      } else if (type == "subtract") {
+        if (this[name] > 0) {
+          this[name]--;
+        }
+      }
+    },
     Sendtext() {
-        
+      this.$store.commit("isloading", true);
+
       this.$global
         .post_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/draftContractOrReject`,
           {
-            signId: "128967618000",
-            middlemanId: "128961768000",
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
             signStatus: "2",
-            sharingMechanism0: this.intermediaries,
-            sharingMechanism1: this.projectParty
+            sharingMechanism0: this.sharingMechanism0,
+            sharingMechanism1: this.sharingMechanism1
           }
         )
         .then(res => {
-          if (res.data.resultCode == 10000) {
-              this.$routerto("projectSubStatus");
-          }
+          this.$store.commit("isloading", false);
+          this.resultCode = res.data.resultCode;
+          this.msg = res.data.resultDesc;
+          this.remindervisible = true;
         });
     },
-
-    dosome() {
+    comfirmFromDialog() {
       this.remindervisible = false;
-    },
-    max(value) {
-      if (value.target.value * 1 < 0) {
-        this.projectParty = 0;
-      } else if (value.target.value * 1 > 100) {
-        value.target.value = 100;
+      if (this.resultCode == 10000) {
+        this.$routerto("projectSubStatus");
       }
     },
-    calculate(e, name, type) {
-      // e.target.style.color = "#fff";
-      // let setTime = null;
-      // setTime = setTimeout(() => {
-      //   e.target.style.color = "#00e3a2";
-      //   clearTimeout(setTime);
-      // }, 30);
-      // if (type == "add") {
-      //   this[name]++;
-      // } else if (type == "subtract") {
-      //   if (this[name] > 0) {
-      //     this[name]--;
-      //   }
-      // }
+    dosome() {
+      this.remindervisible = false;
     },
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
@@ -211,7 +231,7 @@ And sign the contract with the project party`,
       }
       ul {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         li {
           button {
             width: vw(150);
