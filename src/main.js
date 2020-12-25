@@ -17,7 +17,7 @@ Vue.prototype.$qs = qs;
 // 富文本
 const url = process.env.BASE_API;
 axios.defaults.baseURL = url;
-axios.defaults.timeout = 60000;
+// axios.defaults.timeout = 60000;
 // store.commit("isloading", false);
 // console.log(store.state);
 

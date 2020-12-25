@@ -59,7 +59,6 @@
           <van-button
             :disabled="isdisabled"
             :class="isdisabled?'passive':'active'"
-            type="primary"
             native-type="submit"
           >{{$t('common.Submit')}}</van-button>
         </footer>

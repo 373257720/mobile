@@ -3,6 +3,10 @@ import Router from "vue-router";
 import intermediary from "./intermediary";
 import investors from "./investors";
 import projectOwner from "./projectOwner";
+
+// import Vuex from "vuex";
+// Vue.use(Vuex)
+// console.log(Vuex.$store);
 // const nationality = () =>
 //   import(
 //     /* webpackChunkName: "group-foo" */ "@/components/moblie/common/nationality"
@@ -78,7 +82,10 @@ const AllResult = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/home/AllResult"
   );
-
+const agentProjectDetail = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/agentProjectDetail"
+  );
 const fliter = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/home/fliter");
 const mutilPick = () =>
@@ -338,41 +345,52 @@ const routes = [
     }
   },
   {
-    path: "/projectStatus",
-    name: "projectStatus",
-    component: projectStatus,
+    path: "/projectRoot",
+    name: "projectRoot",
+    component: projectRoot,
+    redirect: "/projectRoot/projectStatus",
     meta: {
       isshowbottom: false
-    }
+    },
+    children: [
+      {
+        path: "projectStatus",
+        name: "projectStatus",
+        component: projectStatus,
+        meta: {
+          isshowbottom: false,
+          keepAlive: false
+        }
+      },
+      {
+        path: "projectSubStatus",
+        name: "projectSubStatus",
+        component: projectSubStatus,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "projectList",
+        name: "projectList",
+        component: projectList,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "agentProjectDetail",
+        name: "projectRootAgentProjectDetail",
+        component: agentProjectDetail,
+        meta: {
+          isshowbottom: false,
+          keepAlive: false
+        }
+      }
+    ]
   },
-  {
-    path: "/projectSubStatus",
-    name: "projectSubStatus",
-    component: projectSubStatus,
-    meta: {
-      isshowbottom: false
-    }
-  },
-  {
-    path: "/projectList",
-    name: "projectList",
-    component: projectList,
-    meta: {
-      isshowbottom: false
-    }
-  },
-  // {
-  //   path: "/projectRoot",
-  //   name: "projectRoot",
-  //   component: projectRoot,
-  //   redirect: "/projectRoot/projectStatus",
-  //   meta: {
-  //     isshowbottom: false
-  //   },
-  //   children: [
-     
-  //   ]
-  // },
 
   {
     path: "/projectDetail",

@@ -13,7 +13,7 @@
       <nav>{{$store.state.selectedItem.text}}</nav>
       <div v-if="$store.state.currentUsertype===1" class="timestamp">
         <ul>
-          <li v-for="(i) in $store.state.selectedItem.arr" :key="i.text">
+          <li v-for="(i) in arr" :key="i.text">
             <section id="container">
               <div class="item item-1">
                 <p class="icon iconRight iconfont icon-5day"></p>
@@ -48,7 +48,7 @@
       </div>
       <div v-if="$store.state.currentUsertype===4" class="timestamp">
         <ul>
-          <li v-for="(i) in $store.state.selectedItem.arr" :key="i.text">
+          <li v-for="(i) in arr" :key="i.text">
             <!-- <nav>CDC Biodiversité – Biodiversity Offsetting</nav> -->
             <section id="container">
               <div class="item item-1">
@@ -69,12 +69,12 @@
                 <p class="icon iconRight iconfont icon-3"></p>
               </div>
               <div class="item item-6">
-             <p>{{$global.pic_obj[i.signStatus4]}}</p>
+                <p>{{$global.pic_obj[i.signStatus4]}}</p>
               </div>
             </section>
             <div class="btn">
               <van-button
-                @click="$routerto('agentProjectDetail',{projectId:i.projectId,signStatus4:i.signStatus4,
+                @click="$routerto('projectRootAgentProjectDetail',{projectId:i.projectId,signStatus4:i.signStatus4,
                 signId:i.signId,middlemanId:i.middlemanId})"
               >{{$t('project.Detail')}}</van-button>
               <!-- <van-button @click="$routerto('projectChain')">{{$t('project.projectChain')}}</van-button> -->
@@ -98,6 +98,7 @@ export default {
   //     type: Object
   //   }
   // },
+
   data() {
     return {
       loaded: false,
@@ -255,6 +256,19 @@ export default {
     }
   },
   computed: {
+     arr() {  
+      let arry = this.$store.state.selectedItem.arr;
+      for (let i = 0; i < arry.length; i++) {
+        for (let j = 0; j < arry.length-1-i; j++) {
+          if (arry[j].signSubmitTime4 < arry[j + 1].signSubmitTime4) {
+            let temp = arry[j].signSubmitTime4;
+            arry[j].signSubmitTime4 = arry[j + 1].signSubmitTime4;
+            arry[j + 1].signSubmitTime4 = temp;
+          }
+        }
+      }
+      return arry;
+    },
     already_check: function() {
       if (this.$store.state.currentUsertype || this.usertype) {
         return this.$t("common.NoMore");

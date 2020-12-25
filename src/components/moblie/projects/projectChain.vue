@@ -357,7 +357,6 @@ export default {
       let elesArr = Array.from(
         new Set(this.myChart._chartsViews[0]._data._graphicEls)
       );   
-      
       let dep = this.myChart._chartsViews[0]._data.tree.root.height; //获取树高
       let layer_height = 100; //层级之间的高度
       let currentHeight = layer_height * (dep + 1) || layer_height;

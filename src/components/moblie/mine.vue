@@ -11,8 +11,8 @@
     </commonnav>
     <main>
       <div class="iconfont icon-account"></div>
-      <p @click="$routerto('vip')">Peter parker</p>
-      <p>Peter parker</p>
+      <p @click="$routerto('vip')">{{user_infor.username}}</p>
+      <p>{{user_infor.account}}</p>
     </main>
     <footer>
       <ul>
@@ -54,6 +54,7 @@ export default {
   data() {
     return {
       show: false,
+      email: "",
       content: this.$t("common.YouChooseToLogOut"),
       title: "",
       successto: "",
@@ -64,25 +65,35 @@ export default {
       reminder: "",
       logout: false,
       radio: "",
-      user_infor: {}
+      user_infor: {
+        account: "",
+        username: ""
+      }
     };
   },
   created() {
     // this.radio= window.localStorage.getItem("language");
     // this.$loading();
-    // this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/getAuthDetails`).then(res=>{
-    //   this.$toast.clear();
-    //   if(res.data.resultCode==10000){
-    //        this.user_infor={};
-    //         if(res.data.data.userType==1){
-    //           this.user_infor.name=res.data.data.userName;
-    //         }else if(res.data.data.userType==2){
-    //           this.user_infor.name=this.$i18n.locale=='zh_CN'?res.data.data.userCompanyCh:
-    //             res.data.data.userCompanyEn;
-    //         }
-    //       this.user_infor.account=res.data.data.bslEmail;
-    //   }
-    // })
+    this.$store.commit("isloading", true);
+    this.$global
+      .get_encapsulation(
+        `${this.$axios.defaults.baseURL}/bsl_web/user/getAuthDetails`
+      )
+      .then(res => {
+        this.$store.commit("isloading", false);
+        if (res.data.resultCode == 10000) {
+          if (res.data.data.userIdentityType == 1) {
+            this.user_infor.username = res.data.data.userName;
+          } else if (res.data.data.userIdentityType == 2) {
+            this.user_infor.username =
+              this.$i18n.locale == "zh_CN"
+                ? res.data.data.userCompanyCh
+                : res.data.data.userCompanyEn;
+          }
+
+          this.user_infor.account = res.data.data.bslEmail;
+        }
+      });
   },
   methods: {
     correct_password_function() {

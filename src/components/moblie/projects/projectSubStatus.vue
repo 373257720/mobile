@@ -4,7 +4,7 @@
     <commonnav>
       {{$t('project.projectStatus')}}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$global.previous()" />
+        <van-icon name="arrow-left" @click="goback" />
       </template>
       <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
@@ -26,10 +26,11 @@
 import loadmore from "../loadmore";
 export default {
   name: "projectSubStatus",
-  // props: {
-  //   selectedItem: {
-  //     type: Object,
+  //  beforeRouteLeave(to, from, next){
+  //   if(to.name === 'projectStatus') {
+  //     to.meta.keepAlive = true
   //   }
+  //   next()
   // },
   data() {
     return {
@@ -433,17 +434,23 @@ export default {
   //   loadmore
   // },
   methods: {
+    goback() {
+      if (this.$store.state.currentUsertype == 1) {
+        this.$routerto("mysign");
+      } else if (this.$store.state.currentUsertype == 4) {
+        this.$routerto("projectStatus");
+      }
+    },
     clickItem(item) {
       this.$store.commit("selectedItemMutations", item);
-      // this.selectedItem=item;
-      // this.$emit('update:selectedItem',item)
       this.$routerto("projectList");
     },
     acceptOrRejectCommission() {
       this.$store.commit("isloading", true);
       this.$global
         .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectStatusList`
+          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectStatusList`,
+          { projectId: this.$route.query.projectId }
         )
         .then(res => {
           this.$store.commit("isloading", false);

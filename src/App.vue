@@ -9,7 +9,9 @@
       style="position: relative; width: 500px; height: 400px;"
     >-->
     <layer></layer>
-    <keep-alive include="mine,userpass,AccountMessage">
+    <keep-alive
+      include="mine,userpass,AccountMessage"
+    >
       <router-view :class="{'ispaddingBottom':ispaddingBottom}"></router-view>
     </keep-alive>
     <mbottom v-if="$route.meta.isshowbottom"></mbottom>
@@ -79,26 +81,13 @@ body {
   position: relative;
 }
 .van-button--default {
-  border: none;
+  border: none !important;
 }
-// .van-dialog {
-//   color: #fff;
-//   background-color: #0ce5b2;
-//   .van-dialog__footer {
-//     &::after {
-//       border-top-width: vw(3);
-//       border-color: #fff;
-//     }
-//   }
-//   .van-button--default {
-//     background-color: #0ce5b2;
-//     color: #fff;
-//   }
-// }
-.van-dialog {
-  background: #00e3a2;
-  color: #ffffff;
 
+.van-dialog {
+  // background: #00e3a2;
+  color: #ffffff;
+  background-color: #00e3a2 !important;
   .van-button--default {
     background: #00e3a2;
     color: #ffffff;

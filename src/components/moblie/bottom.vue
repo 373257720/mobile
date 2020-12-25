@@ -10,16 +10,16 @@
     </van-tabbar-item>
     <van-tabbar-item name="recommandHistory" replace to="/recommandHistory">
       <van-icon class="iconfont" class-prefix="icon" slot="icon" name="contact"></van-icon>
-      <span>Recommand</span>
+      <span>{{$t('project.Recommand')}}</span>
     </van-tabbar-item>
-    <van-tabbar-item
+    <!-- <van-tabbar-item
       name="p_user_contact"
       icon="friends-o"
       color="#fff"
       replace
       to="/contact"
       v-if="this.$store.state.currentUsertype==1"
-    >{{$t('common.Contacts')}}</van-tabbar-item>
+    >{{$t('common.Contacts')}}</van-tabbar-item> -->
     <van-tabbar-item name="mine" replace to="/mine">
       <van-icon class="iconfont" class-prefix="icon" slot="icon" name="account"></van-icon>
       <span>{{$t('common.ME')}}</span>

@@ -12,7 +12,6 @@
         <div class="mui-input-row input-row" v-for="i in dataList" :key="i.cellInfo">
           <p class="label">{{i.cellInfo}}</p>
           <section v-for="(self,idx) in i.listCell" :key="idx">
-            <span>{{idx+1}}.</span>
             <input name="userName" type="text" v-model="i.listCell[idx]" />
           </section>
         </div>

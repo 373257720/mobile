@@ -21,7 +21,7 @@
               :class="isdisabled?'passive':'active'"
               class="button is-primary"
               type="submit"
-            >{{$t('common.Submit')}}</button>
+            >{{$t('common.Send')}}</button>
           </footer>
         </form>
       </main>
@@ -78,6 +78,9 @@ export default {
         )
         .then(res => {
           this.$store.commit("isloading", false);
+          if(res.data.resultCode!==10000){
+            this.errorsMsg=res.data.resultDesc
+          }
           console.log(res);
         });
 

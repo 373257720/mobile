@@ -22,15 +22,15 @@
             left-icon
           >
             <div slot="right-icon">
-              <van-icon name="search" />
+              <van-icon name="search" @click="search" />
             </div>
           </van-search>
         </div>
         <div class="timestamp" v-if="$store.state.currentUsertype==1">
           <ul>
-            <li  v-for="i in MyProjectList" :key="i.id">
+            <li v-for="i in MyProjectList" :key="i.id">
               <h3 v-if="i.label">{{i.label.projectName}}</h3>
-              <section @click="$routerto('projectSubStatus')" id="container">
+              <section @click="$routerto('projectSubStatus',{projectId:i.id})" id="container">
                 <div class="item item-1">
                   <p class="icon iconRight iconfont icon-1"></p>
                   <!-- <i class="icon iconRight iconfont icon-message"></i> -->
@@ -56,8 +56,8 @@
               </div>-->
               <!-- <div class="btn">
                 <van-button >{{$t('projectOwner.Interested')}}</van-button>
-              </div> -->
-                 <div class="btn">
+              </div>-->
+              <div class="btn">
                 <van-button>{{$t('project.projectChain')}}</van-button>
               </div>
             </li>
@@ -67,7 +67,7 @@
           <ul>
             <li v-for="i in MyProjectList" :key="i.id">
               <h3 v-if="i.label">{{i.label.projectName}}</h3>
-              <section @click="$routerto('projectStatus')" id="container">
+              <section @click="$routerto('projectStatus',{projectId:i.id})" id="container">
                 <div class="item item-1">
                   <p class="icon iconRight iconfont icon-1"></p>
                 </div>
@@ -358,12 +358,16 @@ export default {
   },
 
   methods: {
+    search() {
+      this.getMyProjectList();
+    },
     getMyProjectList(done) {
       this.loaded = false;
-      this.Projectlist = [];
+      this.MyProjectList = [];
       this.$global
         .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectList`
+          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectList`,
+     
         )
         .then(res => {
           this.loaded = true;
@@ -604,6 +608,15 @@ export default {
           p.iconRight {
             font-size: vw(28);
             line-height: vw(28);
+          }
+        }
+        .item-6 {
+          p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
           }
         }
       }

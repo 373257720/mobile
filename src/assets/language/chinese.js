@@ -50,6 +50,7 @@ export default {
     inconsistent: "不一致"
   },
   common: {
+    Send:"发送",
     Search: "搜索",
     Fliter: "筛选",
     LinktoResetPassword: "一个重置密码的链接将发送到您的邮箱，请检查",
@@ -245,6 +246,7 @@ export default {
     Whethertoshowleaderboard: "Whethertoshowleaderboard",
   },
   project: {
+    Recommand:"推荐",
     Step1Pleaseaddcompletecontractdetails:"第一步请补充完整的合约细节内容",
     Contract:"合约",
     FinderCompanyName:"公司名称",

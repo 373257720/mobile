@@ -21,7 +21,7 @@
             left-icon
           >
             <div slot="right-icon">
-              <van-icon name="search" />
+              <van-icon name="search" @click="search" />
             </div>
           </van-search>
           <div>
@@ -259,7 +259,7 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/index/getAllProjectTags`
         )
         .then(res => {
-          let lan = res.data.data.lan || this.$i18n.locale;
+          let lan = this.$i18n.locale;
           this.ProjectTags = res.data.data.projectTagsList.map(item => {
             return {
               label: lan === "zh_CN" ? item.tagsName : item.tagsNameEn,
@@ -454,33 +454,40 @@ export default {
           if (this.$i18n.locale === "zh_CN") {
             this.Projectlist.forEach(item => {
               let label = {
-                projectIndustry: eval(
-                  "(" + item.record.projectIndustry + ")"
-                ).join(","),
-                projectTags: eval("(" + item.record.projectTags + ")").join(
-                  ","
-                ),
+                projectIndustry:
+                  item.record.projectIndustry.indexOf("[") < 0
+                    ? item.record.projectIndustry
+                    : eval("(" + item.record.projectIndustry + ")").join(","),
+                projectName: item.record.projectName,
+                projectTags:
+                  item.record.projectTags.indexOf("[") < 0
+                    ? item.record.projectTags
+                    : eval("(" + item.record.projectTags + ")").join(","),
                 projectDescribe: item.record.projectDescribe
               };
 
               this.$set(item, "label", label);
             });
           } else {
-            console.log(this.Projectlist);
             this.Projectlist.forEach(item => {
               let label = {
                 projectIndustry:
-                  eval("(" + item.record.projectIndustryEn + ")").join(",") ||
-                  item.record.projectIndustryEn,
+                  item.record.projectIndustryEn.indexOf("[") < 0
+                    ? item.record.projectIndustryEn
+                    : eval("(" + item.record.projectIndustryEn + ")").join(","),
+
                 projectName: item.record.projectNameEn,
                 projectTags:
-                  eval("(" + item.record.projectTagsEn + ")").join(",") ||
-                  item.record.projectTagsEn,
+                  item.record.projectTagsEn.indexOf("[") < 0
+                    ? item.record.projectTagsEn
+                    : eval("(" + item.record.projectTagsEn + ")").join(","),
+
                 projectDescribe: item.record.projectDescribeEn
               };
               this.$set(item, "label", label);
             });
           }
+          console.log(this.Projectlist);
         })
         .catch(err => {
           // this.Refreshing = false;
@@ -494,6 +501,9 @@ export default {
     },
     onInfinite(done) {
       if (!this.loaded) this.onInfinitePort(done);
+    },
+    search() {
+      this.getAllProjectlist();
     },
     /**
      * 上拉加载接口
@@ -638,7 +648,8 @@ export default {
     .searchContainer {
       z-index: 1;
       display: flex;
-      margin-left: vw(40);
+      // margin-left: vw(40);
+      justify-content: center;
       align-items: center;
       background: #fff;
       margin-bottom: vw(48);
@@ -647,6 +658,7 @@ export default {
         background: #fff;
         padding: 0;
         z-index: 666;
+        margin-left: 0;
         margin-right: vw(20);
       }
       .van-search__content {
@@ -806,6 +818,15 @@ export default {
           p.iconRight {
             font-size: vw(28);
             line-height: vw(28);
+          }
+        }
+        .item-6 {
+          p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
           }
         }
       }

@@ -133,7 +133,9 @@ export default {
               });
             }
             this.loaded = true;
-            if (done) done();
+            if (done && typeof done === "function") {
+              done();
+            }
           }
         });
     }

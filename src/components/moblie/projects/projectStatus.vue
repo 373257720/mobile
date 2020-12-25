@@ -31,6 +31,36 @@
 import loadmore from "../loadmore";
 export default {
   name: "projectStatus",
+  // beforeRouteLeave(to, from, next) {
+  //   from.meta.keepAlive = false;
+  //   next();
+  // },
+  // beforeRouteEnter(to, from, next) {
+
+  //   if (from.name === "signContractStep2" || from.name === "mysign") {
+  //     // 处理页面缓存后，返回首页再次进入缓存页时数据为更新
+  //     // 该生命周期无法获取到this，因此把vm实例当作参数传递
+  //     next(vm => {
+  //       // 因为我这里查询表单是动态的，所以首页进入时需要调用一次，在改方法中请求返回后调用了获取列表数据getTableDatas方法
+  //       vm.getMyProjectStatusList();
+  //     });
+  //   } else if (!from.name) {
+  //     // 处理刷新页面时，获取动态表单方法未执行，导致表单无法加载
+  //     next(vm => {
+  //        vm.getMyProjectStatusList();
+  //     });
+  //   } else {
+  //     next()
+  //     // 详情返回时只更新列表数据，因为如果在详情页面做了操作，列表数据状态会改变，其他使用缓存
+  //     // next(vm => {
+  //     //   vm.getTableDatas();
+  //     // });
+  //   }
+  // },
+  //  beforeRouteLeave(to, from, next) {
+  //   from.meta.keepAlive = false
+  //   next()
+  // },
   data() {
     return {
       multipleList: {
@@ -62,7 +92,11 @@ export default {
     };
   },
   created() {
+    // console.log(123);
     this.getMyProjectStatusList();
+  },
+  activated() {
+    // console.log(123);
   },
   methods: {
     clickItem(item) {
@@ -73,9 +107,10 @@ export default {
       this.$store.commit("isloading", true);
       this.$global
         .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectStatusList`
+          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectStatusList`,
+          { projectId: this.$route.query.projectId }
         )
-        
+
         .then(res => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {

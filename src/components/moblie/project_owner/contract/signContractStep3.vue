@@ -117,12 +117,12 @@ And sign the contract with the project party`,
         clearTimeout(setTime);
       }, 30);
       if (type == "add") {
-        if (this[name] < 100) {
-          this[name]++;
+        if (parseFloat((this[name] + 1).toFixed(2)) <= 100) {
+          this[name] = parseFloat((this[name] + 1).toFixed(2));
         }
       } else if (type == "subtract") {
-        if (this[name] > 0) {
-          this[name]--;
+        if (parseFloat((this[name] - 1).toFixed(2)) >= 0) {
+          this[name] = parseFloat((this[name] - 1).toFixed(2));
         }
       }
     },

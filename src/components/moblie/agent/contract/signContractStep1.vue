@@ -48,7 +48,6 @@
             </div>-->
             <br />
           </div>
-
           <div v-if="item.type===4 " class="mui-input-row input-row">
             <p class="label">{{item.cellInfo}}</p>
             <p>{{item.listCell[one]}}</p>
@@ -87,7 +86,15 @@
 </template>
 <script>
 export default {
-  name: "mhome",
+  name: "a_signContractStep1",
+  // beforeRouteLeave(to, from, next) {
+  //   if (to.name === "projectRootAgentProjectDetail") {
+  //     console.log(to);
+      
+  //     to.meta.keepAlive = true;
+  //   }
+  //   next();
+  // },
   data() {
     return {
       one: 0,
@@ -122,7 +129,7 @@ export default {
     comfirmFromDialog(data) {
       this.remindervisible = false;
       if (this.resultCode === 10000) {
-        this.$routerto("signContractStep2",this.$route.query);
+        this.$routerto("signContractStep2", this.$route.query);
       }
 
       // setTimeout(() => {
@@ -187,7 +194,7 @@ export default {
           {
             importListStr: this.validateForm.datalist,
             signId: this.$route.query.signId,
-            middlemanId:this.$route.query.middlemanId,
+            middlemanId: this.$route.query.middlemanId
           }
         )
         .then(res => {

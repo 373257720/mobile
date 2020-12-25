@@ -1,11 +1,15 @@
 <template>
-  <!-- <keep-alive include="a_project_intro,a_recommand_i"> -->
-  <router-view :selectedItem.sync="selectedItem"></router-view>
-  <!-- </keep-alive> -->
+  <!-- <div>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+  
+  </div>-->
+  <router-view></router-view>
 </template>
 <script>
 export default {
-  name: "projectSubStatus",
+  name: "projectRoot",
   data() {
     return {
       selectedItem: {}

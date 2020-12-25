@@ -376,9 +376,10 @@ export default {
       line-height: vw(30);
       margin-bottom: vw(34);
     }
-    .projectMoney {
+   .projectMoney {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       flex-wrap: wrap;
       margin-bottom: vw(53);
       span.icon {
@@ -390,6 +391,7 @@ export default {
       p {
         // flex: 1;
         display: flex;
+        align-items: center;
         span.currencyType {
           margin-right: vw(20);
         }
@@ -397,6 +399,9 @@ export default {
           font-size: vw(24);
           font-weight: bold;
         }
+      }
+      p:nth-of-type(1){
+        // margin-right: vw(20);
       }
     }
 

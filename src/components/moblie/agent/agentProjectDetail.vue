@@ -87,7 +87,8 @@
 </template>
 <script>
 export default {
-  name: "a_projectdetail",
+  name: "a_projectdetail",  
+
   data() {
     return {
       current: 0,
@@ -111,7 +112,7 @@ export default {
         projectDescribe: ""
       },
       projectItem: {
-        projectStatus: null,
+        // projectStatus: null,
         projectCompany: "",
         projectMobile: "",
         projectEmail: "",
@@ -123,6 +124,8 @@ export default {
     };
   },
   created() {
+    // console.log(123);
+    
     this.projectId = this.$route.query.projectId;
     this.signStatus4 = this.$route.query.signStatus4;
     this.signId = this.$route.query.signId;
@@ -386,6 +389,7 @@ export default {
     .projectMoney {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       flex-wrap: wrap;
       margin-bottom: vw(53);
       span.icon {
@@ -397,6 +401,7 @@ export default {
       p {
         // flex: 1;
         display: flex;
+        align-items: center;
         span.currencyType {
           margin-right: vw(20);
         }
@@ -404,6 +409,9 @@ export default {
           font-size: vw(24);
           font-weight: bold;
         }
+      }
+      p:nth-of-type(1){
+        // margin-right: vw(20);
       }
     }
 

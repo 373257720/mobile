@@ -30,11 +30,11 @@ const bargin = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/contract/bargin"
   );
-// const projectDetail = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */
-//     "@/components/moblie/agent/projectDetail"
-//   );
+const a_previewContract = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/a_previewContract"
+  );
 const signContractStep1 = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -204,6 +204,15 @@ export default [
         }
       }
     ]
+  },
+
+  {
+    path: "/a_previewContract",
+    name: "a_previewContract",
+    component: a_previewContract,
+    meta: {
+      isshowbottom: false
+    }
   },
   {
     path: "/signContractStep1",

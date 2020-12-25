@@ -113,12 +113,21 @@
             <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
           </p>
         </div>
-        <!-- <footer>
-          <button>Preview Contract</button>
-        </footer>-->
+        <footer>
+          <van-button
+            @click="$routerto('a_previewContract',
+              $route.query
+          )"
+            class="renewal"
+          >Preview Contract</van-button>
+        </footer>
         <ul>
           <li>
-            <van-button @click="acceptOrRejectCommission(0)" class="renewal">Accept</van-button>
+            <van-button
+              :disabled="isdisabled"
+              @click="acceptOrRejectCommission(0)"
+              class="renewal"
+            >Accept</van-button>
             <!-- <button @click="acceptOrRejectCommission(0)">Accept</button> -->
           </li>
           <li>
@@ -127,7 +136,11 @@
           </li>
           <li>
             <!-- <button @click="acceptOrRejectCommission(2)">Reject</button> -->
-            <van-button @click="acceptOrRejectCommission(2)" class="renewal">Reject</van-button>
+            <van-button
+              :disabled="isdisabled"
+              @click="acceptOrRejectCommission(2)"
+              class="renewal"
+            >Reject</van-button>
           </li>
         </ul>
       </div>
@@ -167,16 +180,33 @@ export default {
       isactive: false,
       sharingMechanism0: 0,
       sharingMechanism1: 0,
+      OringinsharingMechanism0: 0,
+      OringinsharingMechanism1: 0,
       alterType: null
-      //   setTime:null,
     };
   },
   created() {
     this.middlemanGetCommissionMechanism();
   },
-  computed: {},
+  computed: {
+    isdisabled() {
+      if (this.sharingMechanismType === 0) {
+        // console.log(this.sharingMechanism0);
+        if (this.OringinsharingMechanism0 != this.sharingMechanism0) {
+          return true;
+        } else {
+          return false;
+        }
+      } else if (this.sharingMechanismType === 1) {
+        if (this.OringinsharingMechanism1 != this.sharingMechanism1) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+  },
   watch: {},
-
   methods: {
     comfirmFromDialog1(data) {
       this.remindervisibleAfter = false;
@@ -226,7 +256,7 @@ export default {
         this.msg = "refuse";
       }
       // console.log(this.msg);
-      
+
       this.remindervisibleBefore = true;
       this.alterType = num;
     },
@@ -236,8 +266,8 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanGetCommissionMechanism`,
           {
-            signId: "128967618000",
-            middlemanId: "128961768000"
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
           }
         )
         .then(res => {
@@ -248,19 +278,15 @@ export default {
             this.recommendMiddlemanTime =
               res.data.data.recommendMiddlemanTime || 0;
             this.sharingMechanism0 = res.data.data.sharingMechanism0;
+            this.OringinsharingMechanism0 = res.data.data.sharingMechanism0;
             this.sharingMechanism1 = res.data.data.sharingMechanism1;
+            this.OringinsharingMechanism1 = res.data.data.sharingMechanism1;
           }
         });
     },
-    dosome() {
-      this.remindervisibleBefore = false;
-    },
-    max(value) {
-      if (value.target.value * 1 < 0) {
-        this.projectParty = 0;
-      } else if (value.target.value * 1 > 100) {
-        value.target.value = 100;
-      }
+    formatNum(f, digit) {
+      var m = Math.pow(10, digit);
+      return parseInt(f * m, 10) / m;
     },
     calculate(e, name, type) {
       e.target.style.color = "#fff";
@@ -270,39 +296,34 @@ export default {
         clearTimeout(setTime);
       }, 30);
       if (type == "add") {
-        if (this[name] < 100) {
-          this[name]++;
+        if (parseFloat((this[name] + 1).toFixed(2)) <= 100) {
+          this[name] = parseFloat((this[name] + 1).toFixed(2));
         }
       } else if (type == "subtract") {
-        if (this[name] > 0) {
-          this[name]--;
+        if (parseFloat((this[name] - 1).toFixed(2)) >= 0) {
+          this[name] = parseFloat((this[name] - 1).toFixed(2));
         }
       }
-    },
-    toggle(index) {
-      this.$refs.checkboxes[index].toggle();
-    },
-    delectTag(item, idx) {
-      this.taglist.splice(idx, 1);
     }
   }
 };
 </script>
 <style lang="scss">
-.van-radio__icon {
-  height: vw(44);
-  .van-icon {
-    width: vw(44);
+#signContractStep2 {
+  .van-radio__icon {
     height: vw(44);
-    // background: #00f0ab;
+    .van-icon {
+      width: vw(44);
+      height: vw(44);
+      // background: #00f0ab;
+    }
   }
-}
-
-.van-radio__label {
-  margin-left: vw(26);
-  font-size: vw(20);
-  color: #fff;
-  line-height: vw(26);
+  .van-radio__label {
+    margin-left: vw(26);
+    font-size: vw(20);
+    color: #fff;
+    line-height: vw(26);
+  }
 }
 </style>
 <style lang="scss" scoped>
@@ -345,14 +366,14 @@ export default {
         margin-top: vw(76);
         margin-bottom: vw(76);
         button {
-          width: vw(262);
+          // width: vw(262);
           height: vw(56);
           background: #00f0ab;
 
           opacity: 1;
           border-radius: vw(16);
           font-size: vw(24);
-          font-weight: bold;
+          // font-weight: bold;
           line-height: vw(56);
           color: #ffffff;
         }

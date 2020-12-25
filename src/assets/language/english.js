@@ -51,6 +51,7 @@ export default {
     inconsistent: "不一致"
   },
   common: {
+    Send:"Send",
     Search: "Search",
     Fliter: "Fliter",
     LinktoResetPassword:
@@ -249,6 +250,7 @@ export default {
     Whethertoshowleaderboard: "Whether to show the real name to the leaderboard"
   },
   project: {
+    Recommand:"Recommand",
     Step1Pleaseaddcompletecontractdetails:
       "Step 1 Please add complete contract details",
     Contract: "Contract",
