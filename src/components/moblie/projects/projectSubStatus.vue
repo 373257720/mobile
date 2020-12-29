@@ -28,8 +28,8 @@ export default {
   name: "projectSubStatus",
   //  beforeRouteLeave(to, from, next){
   //   if(to.name === 'projectStatus') {
-  //     to.meta.keepAlive = true
-  //   }
+  //     to.meta.keepAlive = false
+  //   };
   //   next()
   // },
   data() {
@@ -51,7 +51,7 @@ export default {
     };
   },
   created() {
-    console.log(this.$store.state.selectedProjectStatus);
+    // console.log(this.$store.state.selectedProjectStatus);
     if (this.$store.state.currentUsertype == 4) {
       let type;
       if (this.$route.query && this.$route.query.type) {
@@ -319,7 +319,7 @@ export default {
           }
         });
       });
-      console.log(this.multipleList);
+      // console.log(this.multipleList);
     }
 
     if (this.$store.state.currentUsertype == 1) {
@@ -430,9 +430,6 @@ export default {
       this.acceptOrRejectCommission();
     }
   },
-  // components: {
-  //   loadmore
-  // },
   methods: {
     goback() {
       if (this.$store.state.currentUsertype == 1) {

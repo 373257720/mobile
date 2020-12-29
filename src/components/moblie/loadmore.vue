@@ -8,10 +8,9 @@
     <section class="inner" :style="{ transform: 'translate3d(0, ' + top + 'px, 0)' }">
       <header class="pull-refresh">
         <slot name="pull-refresh">
-           <span class="down-tip">下拉更新</span>
+           <!-- <span class="down-tip">下拉更新</span> -->
            <span class="up-tip">松开更新</span>
            <span class="refresh-tip">
-             
            </span>
         </slot>
       </header>
@@ -134,15 +133,14 @@ export default {
         // in refreshing
         this.state = 2;
         this.top = this.offset;
-  
+
         return;
       }
       if (this.top >= this.offset) {
         // console.log(this.top);
-        
+
         this.refresh();
       } else {
-
         this.state = 0;
         this.top = 0;
       }

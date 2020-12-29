@@ -269,7 +269,7 @@ export default {
     },
     clickInterested() {
       // this.$routerto("P_signContractStep1", { projectId: this.projectId });
-      this.$routerto("P_signContractStep1", {
+      this.$routerto("ibankSignContractStep1", {
         projectId: this.projectId,
         signStatus4: this.signStatus4,
         signId: this.signId,

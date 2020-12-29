@@ -85,7 +85,7 @@ export default {
         .then(res => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
-            this.$routerto("P_signContractStep3", this.$route.query);
+            this.$routerto("ibankSignContractStep3", this.$route.query);
           }
         });
     },

@@ -9,9 +9,8 @@
     <main>
       <h1>Step 1 Please choose a suitable contract sample</h1>
       <div class="divInput">
-        <div class="input" @click="openValue">
+        <!-- <div class="input" @click="openValue">
           <input v-model="Template" type="text" placeholder="筛选实验类型" />
-          <!-- <img src="../assets/arrow.png" alt /> -->
           <van-icon name="arrow-left" />
         </div>
         <div class="list" v-show="show">
@@ -22,7 +21,16 @@
               :key="item.id"
             >{{ item.fileName }}</li>
           </ul>
-        </div>
+        </div>-->
+        <a-select placeholder="Select" size="large" @change="handleChange">
+          <!-- <icon-font  type="icon-account" /> -->
+          <van-icon slot="suffixIcon" name="arrow-down" />
+          <a-select-option
+            v-for="(item,index) in TemplateList"
+            :value="index"
+            :key="item.id"
+          >{{item.fileName}}</a-select-option>
+        </a-select>
       </div>
       <!-- <article>{{article}}</article> -->
       <!-- <input type="textarea" v-model="article"> -->
@@ -52,8 +60,16 @@
   </div>
 </template>
 <script>
+// import { Icon } from "ant-design-vue";
+// import myicon from "../../../../../static/icon/iconfont";
+// const IconFont = Icon.createFromIconfontCN({
+//   scriptUrl: myicon
+// });
 export default {
   name: "mhome",
+  // components: {
+  //   IconFont
+  // },
   data() {
     return {
       show: false,
@@ -61,6 +77,7 @@ export default {
         username: "",
         password: ""
       },
+      one: 0,
       fileId: "",
       article: "",
       Template: "",
@@ -86,9 +103,29 @@ export default {
     }
   },
   methods: {
+    handleChange(value) {
+      this.one = value;
+      let item = this.TemplateList[value];
+      // console.log(value); // { key: "lucy", label: "Lucy (101)" }
+      this.Template = item.fileName;
+      this.fileId = item.id;
+      this.$store.commit("isloading", true);
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackGetContractTemplateWord`,
+          { fileId: item.id }
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+          if (res.data.data) {
+            this.article = res.data.data;
+          }
+          this.show = false;
+        });
+    },
     go() {
       if (this.article) {
-        this.$routerto("P_signContractStep2", {
+        this.$routerto("ibankSignContractStep2", {
           projectId: this.projectId,
           signStatus4: this.signStatus4,
           signId: this.signId,
@@ -182,47 +219,8 @@ export default {
       position: relative;
       margin-bottom: vw(70);
       font-size: vw(30);
-      ul li {
-        list-style: none;
-      }
-      .input {
-        // width: 140px;
-        display: flex;
-        height: vw(60);
-
-        align-items: center;
-      }
-      .input input {
-        border: none;
-        outline: none;
-        width: 90%;
-        height: 100%;
-      }
-      .input i {
-        // position: absolute;
-        // right: 0;
-        // top: 50%;
-        // transform: translateY(-50%)
-      }
-      .list {
+      .ant-select {
         width: 100%;
-        position: absolute;
-        top: vw(60);
-        border: 1px solid #cccccc;
-        height: vw(400);
-        background: #fff;
-        opacity: 3;
-        overflow-y: auto;
-      }
-      .list ul li {
-        width: 100%;
-        // height: 30px;
-        cursor: pointer;
-        line-height: 30px;
-        // padding-left: 10px;
-      }
-      .list ul li:hover {
-        background-color: #cccccc;
       }
     }
     textarea {

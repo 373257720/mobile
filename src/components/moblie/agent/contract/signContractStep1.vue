@@ -24,14 +24,14 @@
             <!-- <select class="label" style="width:100%;border:none" v-model="one">
               <option v-for="(self,index) in item.listCell" :value="index" :key="index">{{self}}</option>
             </select>-->
-            <a-select :defaultValue="one" size="large" @change="handleChange">
+            <a-select placeholder="Select" size="large" @change="handleChange">
+              <van-icon slot="suffixIcon" name="arrow-down" />
               <a-select-option
                 :value="index"
                 v-for="(self,index) in item.listCell"
                 :key="index"
               >{{self}}</a-select-option>
             </a-select>
-
             <!-- <div class="divInput">
               <div class="input" @click="openValue">
                 <van-icon name="arrow-left" />
@@ -87,13 +87,14 @@
 <script>
 export default {
   name: "a_signContractStep1",
-  // beforeRouteLeave(to, from, next) {
-  //   if (to.name === "projectRootAgentProjectDetail") {
-  //     console.log(to);
-      
-  //     to.meta.keepAlive = true;
+  //   beforeRouteEnter(to, from, next) {
+  //   if (from.name == "agentProjectDetail") {
+  //     next(vm => {
+  //       vm.middlemanGetContractItems();
+  //     });
+  //   } else {
+  //     next();
   //   }
-  //   next();
   // },
   data() {
     return {
@@ -129,7 +130,7 @@ export default {
     comfirmFromDialog(data) {
       this.remindervisible = false;
       if (this.resultCode === 10000) {
-        this.$routerto("signContractStep2", this.$route.query);
+        this.$routerto("agentsignContractStep2", this.$route.query);
       }
 
       // setTimeout(() => {

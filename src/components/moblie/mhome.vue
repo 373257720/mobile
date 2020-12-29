@@ -7,64 +7,64 @@
       </template>
     </commonnav>
     <main class="main">
+      <div class="searchContainer">
+        <van-search
+          v-model="searchkey"
+          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
+          shape="round"
+          left-icon
+        >
+          <div slot="right-icon">
+            <van-icon name="search" @click="search" />
+          </div>
+        </van-search>
+        <div>
+          <p @click="$routerto('fliter')" style="width:20px;height:20px;background:#555"></p>
+        </div>
+      </div>
+      <div class="mhome-tag">
+        <ul>
+          <li>
+            <aside>{{$t('common.Industry')}}</aside>
+            <div>
+              <p
+                :class="{'isactive':item.isactive}"
+                @click="saveIndustryOfHits(item)"
+                v-for="item in Industrylist"
+                :key="item.value"
+              >{{item.label}}</p>
+            </div>
+          </li>
+          <li>
+            <aside>{{$t('common.region')}}</aside>
+            <div>
+              <p
+                :class="{'isactive':item.isactive}"
+                @click="saveCountryOfHits(item)"
+                v-for="item in countrylist"
+                :key="item.remark"
+              >{{item.label}}</p>
+            </div>
+          </li>
+          <li>
+            <aside>Tag</aside>
+            <div>
+              <p
+                :class="{'isactive':item.isactive}"
+                @click="saveProjectTagsOfHits(item)"
+                v-for="item in ProjectTags"
+                :key="item.value"
+              >{{item.label}}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
       <v-scroll
         class="mhome-article"
         :on-refresh="onRefresh"
         :loaded="loaded"
         :on-infinite="onInfinite"
       >
-        <div class="searchContainer">
-          <van-search
-            v-model="searchkey"
-            :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-            shape="round"
-            left-icon
-          >
-            <div slot="right-icon">
-              <van-icon name="search" @click="search" />
-            </div>
-          </van-search>
-          <div>
-            <p @click="$routerto('fliter')" style="width:20px;height:20px;background:#555"></p>
-          </div>
-        </div>
-        <div class="mhome-tag">
-          <ul>
-            <li>
-              <aside>{{$t('common.Industry')}}</aside>
-              <div>
-                <p
-                  :class="{'isactive':item.isactive}"
-                  @click="saveIndustryOfHits(item)"
-                  v-for="item in Industrylist"
-                  :key="item.value"
-                >{{item.label}}</p>
-              </div>
-            </li>
-            <li>
-              <aside>{{$t('common.region')}}</aside>
-              <div>
-                <p
-                  :class="{'isactive':item.isactive}"
-                  @click="saveCountryOfHits(item)"
-                  v-for="item in countrylist"
-                  :key="item.remark"
-                >{{item.label}}</p>
-              </div>
-            </li>
-            <li>
-              <aside>Tag</aside>
-              <div>
-                <p
-                  :class="{'isactive':item.isactive}"
-                  @click="saveProjectTagsOfHits(item)"
-                  v-for="item in ProjectTags"
-                  :key="item.value"
-                >{{item.label}}</p>
-              </div>
-            </li>
-          </ul>
-        </div>
         <div class="timestamp">
           <ul>
             <li v-for="i in Projectlist" :key="i.id">
@@ -422,7 +422,7 @@ export default {
     },
     initHeight() {
       let scrollTop = document.querySelector(".yo-scroll").scrollTop;
-      this.isFixed = scrollTop > this.scrollHeight ? true : false;
+      // this.isFixed = scrollTop > this.scrollHeight ? true : false;
     },
     getAllProjectlist(done) {
       this.loaded = false;
@@ -636,10 +636,12 @@ export default {
 
   main {
     // padding-bottom: 50px;
-    height: 100%;
-    position: relative;
-    //  z-index: 200;
-    // overflow: auto;
+    overflow-y: auto;
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    top: 50px;
     .isFixed {
       position: -webkit-sticky; /* Safari */
       position: sticky;
@@ -671,10 +673,14 @@ export default {
       }
     }
     .yo-scroll {
-      position: absolute;
-      top: 50px;
-      bottom: 50px;
+      position: relative;
+      // height: 100%;
+      overflow: initial;
+      top: 10px;
+      transition: all 1s ease;
       -webkit-overflow-scrolling: touch;
+      .inner {
+      }
     }
     .yo-scroll.Fixed {
       // top: 0;
@@ -727,41 +733,7 @@ export default {
         margin: vw(40) 0;
       }
     }
-    .mhome-signTag {
-      // padding: vw(62) 0;
-      padding-left: vw(70);
-      padding-top: vw(24);
-      p {
-        width: vw(124);
-        display: flex;
-        align-items: center;
-        height: vw(54);
-        justify-content: space-evenly;
-        border: vw(2) solid #4f3dad;
-        border-radius: vw(52);
-        i {
-          display: inline-block;
-          width: vw(38);
-          height: vw(38);
-          background: #4f3dad;
-          // margin-left: vw(26);
-          // margin-right: vw(10);
-        }
-        span {
-          // display: inline-block;
-          width: vw(32);
-          height: vw(32);
-          align-self: center;
-          font-weight: bold;
-          text-align: center;
-          // justify-self: center;
-          background: #00f0ab;
-          border-radius: 50%;
-          color: #fff;
-          font-size: vw(10);
-        }
-      }
-    }
+
     .mhome-article {
       .timestamp {
         margin-top: vw(50);

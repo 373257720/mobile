@@ -3,23 +3,28 @@ import Router from "vue-router";
 import intermediary from "./intermediary";
 import investors from "./investors";
 import projectOwner from "./projectOwner";
+console.log(intermediary);
 
-// import Vuex from "vuex";
-// Vue.use(Vuex)
-// console.log(Vuex.$store);
-// const nationality = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */ "@/components/moblie/common/nationality"
-//   );
-// const identity = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */ "@/components/moblie/common/identity"
-//   );
-
-// const genus = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */ "@/components/moblie/common/genus"
-//   );
+const p_projectdetail = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/p_projectdetail"
+  );
+const P_signContractStep1 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contract/signContractStep1"
+  );
+const P_signContractStep2 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contract/signContractStep2"
+  );
+  const P_signContractStep3  = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contract/signContractStep3"
+  );
 const register = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/login/register"
@@ -85,6 +90,16 @@ const AllResult = () =>
 const agentProjectDetail = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/agentProjectDetail"
+  );
+  const signContractStep1 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/signContractStep1"
+  );
+const signContractStep2 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/signContractStep2"
   );
 const fliter = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/home/fliter");
@@ -359,7 +374,7 @@ const routes = [
         component: projectStatus,
         meta: {
           isshowbottom: false,
-          keepAlive: false
+          keepAlive: true
         }
       },
       {
@@ -386,9 +401,65 @@ const routes = [
         component: agentProjectDetail,
         meta: {
           isshowbottom: false,
-          keepAlive: false
+          keepAlive: true
         }
-      }
+      },
+      {
+        path: "agentsignContractStep1",
+        name: "agentsignContractStep1",
+        component: signContractStep1,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "agentsignContractStep2",
+        name: "agentsignContractStep2",
+        component: signContractStep2,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "ibankSignContractStep1",
+        name: "ibankSignContractStep1",
+        component: P_signContractStep1,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "ibankSignContractStep2",
+        name: "ibankSignContractStep2",
+        component: P_signContractStep2,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "ibankSignContractStep3",
+        name: "ibankSignContractStep3",
+        component: P_signContractStep3,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "ibankprojectdetail",
+        name: "ibankprojectdetail",
+        component: p_projectdetail,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      
+      
     ]
   },
 

@@ -88,7 +88,15 @@
 <script>
 export default {
   name: "a_projectdetail",  
-
+  // beforeRouteEnter(to, from, next) {
+  //   if (from.name == "projectList") {
+  //     next(vm => {
+  //       vm.getProjectDetails();
+  //     });
+  //   } else {
+  //     next();
+  //   }
+  // },
   data() {
     return {
       current: 0,
@@ -126,18 +134,17 @@ export default {
   created() {
     // console.log(123);
     
-    this.projectId = this.$route.query.projectId;
-    this.signStatus4 = this.$route.query.signStatus4;
-    this.signId = this.$route.query.signId;
-    this.middlemanId = this.$route.query.middlemanId;
+    // this.projectId = this.$route.query.projectId;
+    // this.signStatus4 = this.$route.query.signStatus4;
+    // this.signId = this.$route.query.signId;
+    // this.middlemanId = this.$route.query.middlemanId;
     this.getProjectDetails();
   },
-
   methods: {
     goto() {
-      this.$routerto("signContractStep1", {
-        signId: this.signId,
-        middlemanId: this.middlemanId
+      this.$routerto("agentsignContractStep1", {
+        signId:this.$route.query.signId,
+        middlemanId: this.$route.query.middlemanId,
       });
     },
     getProjectDetails() {
@@ -146,9 +153,9 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/project/getMyProjectDetails`,
           {
-            projectId: this.projectId,
-            signId: this.signId,
-            middlemanId: this.middlemanId
+            projectId: this.$route.query.projectId,
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId
           }
         )
         .then(res => {

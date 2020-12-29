@@ -50,7 +50,7 @@
 </template>
 <script>
 export default {
-  name: "mime",
+  name: "mine",
   data() {
     return {
       show: false,

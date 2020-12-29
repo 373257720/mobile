@@ -164,6 +164,14 @@
 import MyNumberInput from "@/components/moblie/common/input";
 export default {
   name: "mhome",
+  beforeRouteLeave(to, from, next){
+    if(to.name === 'projectStatus' || to.name === 'projectSubStatus') {
+      to.meta.keepAlive = false;
+       next();
+    }else{
+       next()
+    };
+  },
   components: {
     MyNumberInput //注册
   },
@@ -267,7 +275,7 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanGetCommissionMechanism`,
           {
             signId: this.$route.query.signId,
-            middlemanId: this.$route.query.middlemanId,
+            middlemanId: this.$route.query.middlemanId
           }
         )
         .then(res => {

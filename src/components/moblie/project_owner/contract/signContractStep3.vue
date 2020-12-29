@@ -88,6 +88,14 @@ export default {
   components: {
     MyNumberInput //注册
   },
+  beforeRouteLeave(to, from, next) {
+    if (to.name === "projectSubStatus") {
+      to.meta.keepAlive = false;
+      next();
+    } else {
+      next();
+    }
+  },
   data() {
     return {
       msg: `Are you sure to accept this commission sharing mechanism from the project side?
