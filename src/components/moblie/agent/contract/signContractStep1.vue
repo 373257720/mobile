@@ -24,6 +24,9 @@
             <!-- <select class="label" style="width:100%;border:none" v-model="one">
               <option v-for="(self,index) in item.listCell" :value="index" :key="index">{{self}}</option>
             </select>-->
+
+
+            
             <a-select placeholder="Select" size="large" @change="handleChange">
               <van-icon slot="suffixIcon" name="arrow-down" />
               <a-select-option
