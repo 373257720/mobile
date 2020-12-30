@@ -13,7 +13,7 @@
       <div class="fliter-tag">
         <ul class="totalResults">
           <!-- {{$store.getters.totalResults}} -->
-          <li v-for="(item,idx) in $store.getters.totalResults" :key="item.name">
+          <li v-for="(item,idx) in $store.getters.totalResults" :key="idx">
             <p>
               {{item.label}}
               <span @click="delectTag(item,idx)"></span>
@@ -152,6 +152,9 @@ export default {
       this.afterEnter = false;
     },
     pick(data) {
+      // console.log(data);
+      console.log(this.result);
+      
       if (this.name == "Industry") {
         let a;
         a = this.List.industryList.filter(item => {
@@ -161,6 +164,8 @@ export default {
             }
           }
         });
+        console.log(a);
+        
         this.$store.commit("electedList", { arr: a, name: "industryList" });
         // console.log(this.$store.getters);
       } else if (this.name == "Region") {

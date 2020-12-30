@@ -180,9 +180,8 @@ axios.interceptors.response.use(
           }).then(() => {
             store.dispatch("reset_actions", restore_obj);
             window.sessionStorage.clear();
-            // location.href = process.env.WEB_API;
-            router.push({ name: "login" });
-            // location.href = process.env.WEB_API;
+            // router.push({ name: "login" });
+            location.href = process.env.WEB_API;
           });
         }
       }
@@ -206,8 +205,8 @@ axios.interceptors.response.use(
         }).then(() => {
           store.dispatch("reset_actions", restore_obj);
           window.sessionStorage.clear();
-          router.push({ name: "login" });
-          // location.href = process.env.WEB_API;
+          // router.push({ name: "login" });
+          location.href = process.env.WEB_API;
         });
       }
     }

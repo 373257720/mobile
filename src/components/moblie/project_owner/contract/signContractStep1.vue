@@ -23,8 +23,9 @@
           </ul>
         </div>-->
         <a-select placeholder="Select" size="large" @change="handleChange">
-          <!-- <icon-font  type="icon-account" /> -->
-          <van-icon slot="suffixIcon" name="arrow-down" />
+          <!-- <icon-font slot="suffixIcon"  type="icon-account" /> -->
+          <span slot="suffixIcon" class="iconfont icon-arrow_under"></span>
+          <!-- <van-icon slot="suffixIcon" name="arrow-down" /> -->
           <a-select-option
             v-for="(item,index) in TemplateList"
             :value="index"
@@ -60,16 +61,16 @@
   </div>
 </template>
 <script>
-// import { Icon } from "ant-design-vue";
-// import myicon from "../../../../../static/icon/iconfont";
-// const IconFont = Icon.createFromIconfontCN({
-//   scriptUrl: myicon
-// });
+import { Icon } from "ant-design-vue";
+import myicon from "../../../../../static/icon/iconfont";
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: myicon
+});
 export default {
   name: "mhome",
-  // components: {
-  //   IconFont
-  // },
+  components: {
+    IconFont
+  },
   data() {
     return {
       show: false,

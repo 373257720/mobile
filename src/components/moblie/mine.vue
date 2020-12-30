@@ -2,13 +2,17 @@
   <div id="mine">
     <commonnav>
       {{$t('Account.Account')}}
-      <template v-slot:arrowLeft>
+      <!-- <template v-slot:arrowLeft>
         <span class="iconfont icon-account iconLeft" @click="$routerto('setNickname')"></span>
-      </template>
+      </template>-->
       <template v-slot:arrowRight>
-        <span class="iconfont icon-account iconRight" @click="$routerto('AccountMessage')"></span>
+        <p class="iconRight">
+          <span class="iconfont icon-1" @click="$routerto('setNickname')"></span>
+          <span class="iconfont icon-message" @click="$routerto('AccountMessage')"></span>
+        </p>
       </template>
     </commonnav>
+
     <main>
       <div class="iconfont icon-account"></div>
       <p @click="$routerto('vip')">{{user_infor.username}}</p>
@@ -187,6 +191,17 @@ export default {
 /*van-fade-enter-active*/
 /*van-fade-enter-to*/
 #mine {
+    #common_nav header .iconRight {
+    display: flex;
+    align-items: center;
+  }
+  .icon-1 {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  .icon-message {
+    font-size: 20px;
+  }
   .van-overlay {
     // opacity: 0.5;
     background-color: rgba(0, 0, 0, 0.7);
@@ -241,6 +256,7 @@ export default {
 #mine {
   // padding-top: vw(46);
   // padding-bottom: vw(116);
+    overflow-y: auto;
   header {
     height: vw(56);
     box-sizing: initial;
@@ -252,9 +268,9 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 0 vw(30);
-    .iconfont {
-      font-size: vw(28);
-    }
+    // .iconfont {
+    //   font-size: vw(28);
+    // }
   }
   main {
     margin-top: vw(140);

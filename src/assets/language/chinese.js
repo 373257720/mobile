@@ -131,6 +131,7 @@ export default {
     changePassword: "修改密码",
     NewPassword: "新密码",
     ConfirmPassword: "确认密码",
+    ConfirmNewPassword:"确认新密码",
     PasswordsEnteredTwiceAreInconsistent: "两次密码输入不一致",
     PleaseFillInTheNewPassword: "请填写新密码",
     ProjectScreening: "项目筛选",

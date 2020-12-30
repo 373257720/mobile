@@ -20,7 +20,7 @@ const P_signContractStep2 = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/contract/signContractStep2"
   );
-  const P_signContractStep3  = () =>
+const P_signContractStep3 = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/contract/signContractStep3"
@@ -91,7 +91,7 @@ const agentProjectDetail = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/agentProjectDetail"
   );
-  const signContractStep1 = () =>
+const signContractStep1 = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/contract/signContractStep1"
@@ -330,7 +330,8 @@ const routes = [
     name: "mine",
     component: mine,
     meta: {
-      isshowbottom: true
+      isshowbottom: true,
+      ispaddingBottom: true
     }
   },
 
@@ -457,9 +458,7 @@ const routes = [
           isshowbottom: false,
           keepAlive: true
         }
-      },
-      
-      
+      }
     ]
   },
 

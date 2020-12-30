@@ -85,7 +85,6 @@ body {
 }
 
 .van-dialog {
-  // background: #00e3a2;
   color: #ffffff;
   background-color: #00e3a2 !important;
   .van-button--default {
@@ -98,16 +97,15 @@ body {
   }
   .van-hairline--top::after {
     // border: 0 solid #fff;
-    border-top-width: vw(2);
+    border-top-width: 2px;
     border-top-color: #fff;
   }
   .van-hairline--left::after {
-    border-left-width: vw(2);
+    border-left-width: 2px;
     border-left-color: #fff;
   }
   .van-dialog__message {
     padding: vw(72) vw(58) vw(72);
-
     font-size: vw(30);
     line-height: vw(34);
     font-weight: bold;

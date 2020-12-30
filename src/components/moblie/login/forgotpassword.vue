@@ -55,6 +55,7 @@ export default {
     }
   },
   created() {
+    // console.log(this.$Dialog);
     // this.username = this.$route.query.email ? this.$route.query.email : "";
     // console.log(this.$route.query.email);
   },
@@ -68,7 +69,7 @@ export default {
         // console.log(errorMsg);
         return false;
       }
-     this.$store.commit("isloading", true);
+      this.$store.commit("isloading", true);
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/user/sendForgetPwdEmailCode.do`,
@@ -78,10 +79,17 @@ export default {
         )
         .then(res => {
           this.$store.commit("isloading", false);
-          if(res.data.resultCode!==10000){
-            this.errorsMsg=res.data.resultDesc
-          }
-          console.log(res);
+          this.$dialog
+            .alert({
+              title: res.data.resultDesc
+            })
+            .then(() => {
+              if (res.data.resultCode === 10000) {
+                this.$routerto("login");
+              }
+            });
+
+          // console.log(res);
         });
 
       // this.$routerto("mhome");

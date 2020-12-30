@@ -14,7 +14,7 @@
             <input name="userName" type="text" v-model="validateForm.username" />
           </div>-->
           <div class="mui-input-row input-row">
-            <p class="label">{{$t('common.PassWord')}}</p>
+            <p class="label">{{$t('common.NewPassword')}}</p>
             <section>
               <input
                 name="Password"
@@ -29,7 +29,7 @@
             </section>
           </div>
           <div class="mui-input-row input-row">
-            <p class="label">{{$t('common.ConfirmPassword')}}</p>
+            <p class="label">{{$t('common.ConfirmNewPassword')}}</p>
             <section>
               <input
                 name="confirmpassword"

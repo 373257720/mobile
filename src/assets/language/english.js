@@ -131,9 +131,10 @@ export default {
     LogOut: "Log out",
     LogIn: "Log in",
     PassWord: "Password",
-    changePassword: "Change Password",
-    NewPassword: "New Password",
-    ConfirmPassword: "Confirm Password",
+    changePassword: "Change password",
+    NewPassword: "New password",
+    ConfirmPassword: "Confirm password",
+    ConfirmNewPassword:"Confirm new password",
     PasswordsEnteredTwiceAreInconsistent:
       "Passwords entered twice are inconsistent",
     PleaseFillInTheNewPassword: "Please Enter the new password",
