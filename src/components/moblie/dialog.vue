@@ -31,14 +31,18 @@ export default {
   },
   data() {
     return {
-      ishow: this.remindervisible
+      ishow: false,
     };
   },
-  computed: {},
+  computed: {
+    // ishow(){
+    //     return this.remindervisible
+    // }
+  },
   watch: {
     remindervisible: function(neww, old) {
       this.ishow = neww;
-      // console.log(neww);
+      console.log(neww);
     }
   },
   methods: {
@@ -85,7 +89,7 @@ export default {
     border-left-color: #fff;
   }
   .van-dialog__message {
-    padding: vw(72) vw(58) vw(72);
+    // padding: vw(72) vw(58) vw(72);
 
     font-size: vw(30);
     line-height: vw(34);

@@ -1,54 +1,57 @@
 <template>
   <div id="mysign">
     <commonnav>
-      {{$t('project.project')}}
+      {{ $t("project.project") }}
       <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
       </template>
     </commonnav>
     <main>
-      <div class="searchContainer" :class="{'isFixed':isFixed}">
-        <van-search
-          :class="{'is_fixed' : isFixed}"
-          v-model="searchkey"
-          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-          shape="round"
-          left-icon
-        >
-          <div slot="right-icon">
-            <van-icon name="search" @click="search" />
-          </div>
-        </van-search>
-      </div>
       <v-scroll
         class="mhome-article"
         :on-refresh="onRefresh"
         :loaded="loaded"
         :on-infinite="onInfinite"
       >
-        <div class="timestamp" v-if="$store.state.currentUsertype==1">
+        <div slot="navv" class="searchContainer" :class="{ isFixed: isFixed }">
+          <van-search
+            :class="{ is_fixed: isFixed }"
+            v-model="searchkey"
+            :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
+            shape="round"
+            left-icon
+          >
+            <div slot="right-icon">
+              <van-icon name="search" @click="search" />
+            </div>
+          </van-search>
+        </div>
+        <div class="timestamp" v-if="$store.state.currentUsertype == 1">
           <ul>
             <li v-for="i in MyProjectList" :key="i.id">
-              <h3 v-if="i.label">{{i.label.projectName}}</h3>
-              <section @click="$routerto('projectSubStatus',{projectId:i.id})" id="container">
+              <h3 v-if="i.label">{{ i.label.projectName }}</h3>
+              <section
+                @click="$routerto('projectSubStatus', { projectId: i.id })"
+                id="container"
+              >
                 <div class="item item-1">
                   <p class="icon iconRight iconfont icon-1"></p>
                   <!-- <i class="icon iconRight iconfont icon-message"></i> -->
                 </div>
                 <div class="item item-2">
-                  <p v-if="i.label">{{i.label.projectIndustry}}</p>
+                  <p v-if="i.label">{{ i.label.projectIndustry }}</p>
                 </div>
                 <div class="item item-3">
                   <p class="icon iconRight iconfont icon-2_1"></p>
                 </div>
                 <div class="item item-4">
-                  <p v-if="i.label">{{i.label.projectCompany}}</p>
+                  <p v-if="i.label">{{ i.label.projectCompany }}</p>
                 </div>
                 <div class="item item-5">
                   <p class="icon iconRight iconfont icon-3"></p>
                 </div>
                 <div class="item item-6">
-                  <p v-if="i.label">{{i.label.projectDescribe}}</p>
+                  <p v-if="i.label">{{ i.label.projectDescribe }}</p>
                 </div>
               </section>
               <!-- <div class="btn">
@@ -58,40 +61,45 @@
                 <van-button >{{$t('projectOwner.Interested')}}</van-button>
               </div>-->
               <div class="btn">
-                <van-button>{{$t('project.projectChain')}}</van-button>
+                <van-button @click="downPDF">{{
+                  $t("project.projectChain")
+                }}</van-button>
               </div>
             </li>
           </ul>
         </div>
-        <div class="timestamp" v-if="$store.state.currentUsertype==4">
+        <div class="timestamp" v-if="$store.state.currentUsertype == 4">
           <ul>
             <li v-for="i in MyProjectList" :key="i.id">
-              <h3 v-if="i.label">{{i.label.projectName}}</h3>
-              <section @click="$routerto('projectStatus',{projectId:i.id})" id="container">
+              <h3 v-if="i.label">{{ i.label.projectName }}</h3>
+              <section
+                @click="$routerto('projectStatus', { projectId: i.id })"
+                id="container"
+              >
                 <div class="item item-1">
                   <p class="icon iconRight iconfont icon-1"></p>
                 </div>
                 <div class="item item-2">
-                  <p v-if="i.label">{{i.label.projectIndustry}}</p>
+                  <p v-if="i.label">{{ i.label.projectIndustry }}</p>
                 </div>
                 <div class="item item-3">
                   <p class="icon iconRight iconfont icon-2_1"></p>
                 </div>
                 <div class="item item-4">
-                  <p v-if="i.label">{{i.label.projectCompany}}</p>
+                  <p v-if="i.label">{{ i.label.projectCompany }}</p>
                 </div>
                 <div class="item item-5">
                   <p class="icon iconRight iconfont icon-3"></p>
                 </div>
                 <div class="item item-6">
-                  <p v-if="i.label">{{i.label.projectDescribe}}</p>
+                  <p v-if="i.label">{{ i.label.projectDescribe }}</p>
                 </div>
               </section>
               <!-- <div class="btn">
                 <van-button>{{$t('projectOwner.chain')}}</van-button>
               </div>-->
               <div class="btn">
-                <van-button>{{$t('project.projectChain')}}</van-button>
+                <van-button>{{ $t("project.projectChain") }}</van-button>
               </div>
             </li>
           </ul>
@@ -110,7 +118,7 @@ export default {
   name: "mysign",
   components: {
     "v-scroll": Scroll,
-    ScrollTop
+    ScrollTop,
   },
   data() {
     return {
@@ -119,7 +127,6 @@ export default {
       isFixed: false,
       offsetTop: 0,
       loaded: false,
-      refreshing: false,
       loadText: "Loading…",
       pageNum: 1,
       usertype: "",
@@ -129,88 +136,75 @@ export default {
         {
           value: 1,
           text: this.$t("common.PendingItems"),
-          pic: "../../../static/pic/waitreview.png"
+          pic: "../../../static/pic/waitreview.png",
         },
         {
           value: 2,
           text: this.$t("common.ToBeSignedProject"),
-          pic: "../../../static/pic/waitsign.png"
+          pic: "../../../static/pic/waitsign.png",
         },
         {
           value: 4,
           text: this.$t("common.SignedForChain"),
-          pic: "../../../static/pic/waitinvestor.png"
+          pic: "../../../static/pic/waitinvestor.png",
         },
         {
           value: 5,
           text: this.$t("common.ChainedForRecommendation"),
-          pic: "../../../static/pic/waitinvestor.png"
+          pic: "../../../static/pic/waitinvestor.png",
         },
         {
           value: 6,
           text: this.$t("common.PendingReview"),
-          pic: "../../../static/pic/waitreview.png"
+          pic: "../../../static/pic/waitreview.png",
         },
         {
           value: 8,
           text: this.$t("common.ReviewedPending"),
-          pic: "../../../static/pic/waitinvestor.png"
+          pic: "../../../static/pic/waitinvestor.png",
         },
         {
           value: 9,
           text: this.$t("investor.Itemstobeconfirmed"),
-          pic: "../../../static/pic/waitinvestor.png"
+          pic: "../../../static/pic/waitinvestor.png",
         },
         {
           value: 10,
           text: this.$t("common.SignedContract"),
-          pic: "../../../static/pic/success.png"
+          pic: "../../../static/pic/success.png",
         },
         {
           value: 3,
           text: this.$t("common.InvestmentBankHasRejected"),
-          pic: "../../../static/pic/false.png"
+          pic: "../../../static/pic/false.png",
         },
         {
           value: 7,
           text: this.$t("common.InvestmentBankHasRejected"),
-          pic: "../../../static/pic/false.png"
+          pic: "../../../static/pic/false.png",
         },
         {
           value: 11,
           text: this.$t("common.InvestorHasRejected"),
-          pic: "../../../static/pic/false.png"
-        }
+          pic: "../../../static/pic/false.png",
+        },
       ],
-      checklist_height: "",
-      num: 10,
       refreshing: false,
-      loading: false,
-      text: "List"
+      text: "List",
     };
   },
   beforeRouteLeave(to, from, next) {
     console.log(to, from);
-    if (to.name == "p_submit_contract" || to.name == "a_submit_contract") {
+    if (
+      (to.name == "Interested" ||
+      to.name == "ibankSignContractStep3" ||
+      to.name == "agentsignContractStep2" ||
+      to.name == "p_bargin" ||
+      to.name == "A_bargin" ||
+      to.name == "sign_contract" ||
+      to.name == "a_recommand_i")
+    ) {
       next(false);
-    } else if (to.name == "a_recommand_i") {
-      next(false);
-    } else if (to.name == "a_project_intro" && to.query.signStatus === "0") {
-      next(false);
-    } else if (to.name == "uploadtoblock" && to.query.signStatus === "5") {
-      next(false);
-    } else if (to.name == "a_wait_sendemail" && to.query.signStatus === "9") {
-      next(false);
-    } else if (to.name == "i_wait_confirm" && to.query.signStatus === "11") {
-      next(false);
-    } else if (to.name == "i_perfect_infor") {
-      next(false);
-    } else if (to.name == "p_sign_request") {
-      if (to.query.signStatus == 6 || to.query.signStatus == 1) {
-        next();
-      } else {
-        next(false);
-      }
     } else {
       next();
     }
@@ -223,79 +217,78 @@ export default {
   activated() {},
   computed: {},
   mounted() {
-    window.addEventListener("scroll", this.initHeight, true);
-    this.$nextTick(() => {
-      this.offsetTop = document.querySelector(".van-search__content").offsetTop;
-    });
+    // window.addEventListener("scroll", this.initHeight, true);
+    // this.$nextTick(() => {
+    //   this.offsetTop = document.querySelector(".searchContainer").clientHeight;
+    //   console.log(this.offsetTop);
+    // });
   },
   destroyed() {
-    window.removeEventListener("scroll", this.initHeight, true);
+    // window.removeEventListener("scroll", this.initHeight, true);
   },
-
   methods: {
+    downPDF() {
+      // this.$routerto('projectChain')
+      // console.log(document.getElementById("links"));
+      // window.location.href =
+      //   "http://47.90.62.114:8086/bsl_web/bsl_data_upload/pdf/202008/pdf_1596610060000153073.pdf";
+      // document.getElementById("links").href =
+      //   "http://47.90.62.114:8086/bsl_web/bsl_data_upload/pdf/202008/pdf_1596610060000153073.pdf";
+    },
+
+    // projectChainFun() {
+    //   window.open(
+    //     "http://47.90.62.114:8086/bsl_web/bsl_data_upload/pdf/202008/pdf_1596610060000153073.pdf"
+    //   );
+    // },
     search() {
       this.getMyProjectList();
     },
     getMyProjectList(done) {
       this.loaded = false;
+      let self = this;
       this.MyProjectList = [];
       this.$global
         .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectList`
+          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectList`,
+          {searchkey:this.searchkey}
         )
-        .then(res => {
+        .then((res) => {
           this.loaded = true;
           if (done) done();
           this.MyProjectList = res.data.data.data;
-          // console.log(res.data.data);
           if (res.data.resultCode == 10000) {
-            if (this.$i18n.locale === "zh_CN") {
-              this.MyProjectList.forEach(item => {
-                let projectIndustry;
-                if (item.record.projectIndustryEn.indexOf("[") < 0) {
-                  projectIndustry = item.record.projectIndustry;
-                } else {
-                  projectIndustry = eval(
-                    "(" + item.record.projectIndustry + ")"
-                  ).join(",");
-                }
-
+            if (this.MyProjectList) {
+              this.MyProjectList.forEach((item) => {
                 let label = {
-                  projectIndustry: projectIndustry,
-                  projectName: item.record.projectName,
-                  projectCompany: item.record.projectCompany,
-                  projectDescribe: item.record.projectDescribe
+                  projectIndustry:
+                    item.record["projectIndustry" + self.$global.lan()].indexOf(
+                      "["
+                    ) < 0
+                      ? item.record["projectIndustry" + self.$global.lan()]
+                      : eval(
+                          "(" +
+                            item.record[
+                              "projectIndustry" + self.$global.lan()
+                            ] +
+                            ")"
+                        ).join(","),
+                  projectName: item.record["projectName" + self.$global.lan()],
+                  projectCompany:
+                    item.record["projectCompany" + self.$global.lan()],
+                  projectDescribe:
+                    item.record["projectDescribe" + self.$global.lan()],
                 };
                 this.$set(item, "label", label);
               });
-            } else {
-              this.MyProjectList.forEach(item => {
-                let projectIndustry;
-                if (item.record.projectIndustryEn.indexOf("[") < 0) {
-                  projectIndustry = item.record.projectIndustryEn;
-                } else {
-                  projectIndustry = eval(
-                    "(" + item.record.projectIndustryEn + ")"
-                  ).join(",");
-                }
-
-                let label = {
-                  projectIndustry: projectIndustry,
-                  projectName: item.record.projectNameEn,
-                  projectCompany: item.record.projectCompanyEn,
-                  projectDescribe: item.record.projectDescribeEn
-                };
-
-                this.$set(item, "label", label);
-              });
-              // console.log(this.Projectlist);
             }
             console.log(this.MyProjectList);
           }
         });
     },
     initHeight() {
-      let scrollTop = document.querySelector(".yo-scroll").scrollTop;
+      let scrollTop = document.querySelector(".loadmore").scrollTop;
+
       this.isFixed = scrollTop > this.offsetTop ? true : false;
     },
     onRefresh(done) {
@@ -307,30 +300,40 @@ export default {
     },
     onInfinitePort(done) {
       this.getMyProjectList(done);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
+#mysign {
+  .yo-scroll .inner {
+    position: relative;
+    top: vw(-100);
+    z-index: 8;
+  }
+}
 </style>
 <style lang="scss" scoped>
 #mysign {
-  // height: 100%;
-
+  height: 100%;
+  //  overflow-y: auto;
   main {
     // height: 100%;
-    overflow-y: auto;
+    // overflow-y: auto;
     position: absolute;
     bottom: 50px;
     left: 0;
     right: 0;
     top: 50px;
     .searchContainer {
+      position: relative;
+      background: #fff;
+      z-index: 999;
       .van-search {
         width: vw(598);
         margin: 0 auto;
-        background: #fff;
+
         padding: 0;
         margin-bottom: vw(48);
         .van-search__content {
@@ -344,17 +347,16 @@ export default {
       }
     }
     .yo-scroll {
-      overflow: initial;
-      top: 50px;
+      // overflow: initial;
+      top: 0px;
       transition: all 1s ease;
       // bottom: 50px;
       // overflow: none;
       -webkit-overflow-scrolling: touch;
-      .inner {
-      }
     }
+
     .yo-scrollTop {
-      top: vw(332);
+      // top: vw(332);
     }
 
     .mhome-article {

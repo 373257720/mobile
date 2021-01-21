@@ -13,8 +13,11 @@
         <button @mousedown="clear">{{$t('common.Rewrite')}}</button>
         <button @mousedown="commit">{{$t('common.Submit')}}</button>
       </div>
-      <van-dialog v-model="show" show-cancel-button>
+      <van-dialog v-model="show" @confirm="commitSignature" show-cancel-button>
         <img :src="preview" />
+      </van-dialog>
+      <van-dialog v-model="showNotsign">
+        <span>未签名</span>
       </van-dialog>
       <!-- <van-dialog v-model="show" :title="$t('common.PleaseSignInTheBox')"></van-dialog> -->
     </div>
@@ -42,7 +45,9 @@ export default {
       imgurl: "",
       domjiedian: "",
       preview: null,
-      show: false
+      show: false,
+      showNotsign: false
+      // draw_stauts:draw_stauts,
     };
   },
   components: {
@@ -135,20 +140,24 @@ export default {
       const canvas = document.querySelector("canvas");
       this.draw = new Draw(canvas, -this.degree);
     },
+    commitSignature() {
+      this.$emit("imgurl", this.imgurl);
+      // if (this.$route.name == "a_sign_contract") {
+      //   this.$emit("aimgurl", this.imgurl);
+      // } else if (this.$route.name == "p_sign_contract") {
+      //   this.$emit("imgurl", this.imgurl);
+      // }
+    },
     commit() {
       // var aa = this.draw.scale(100, 50, this.draw.canvas);
       this.imgurl = this.draw.getPNGImage(this.draw.canvas);
+      // console.log(this.imgurl);
       if (draw_stauts == 0) {
-        this.show = true;
+        this.showNotsign = true;
       } else {
         this.draw.commit();
         this.show = true;
         this.preview = this.imgurl;
-        if (this.$route.name == "a_sign_contract") {
-          this.$emit("aimgurl", this.imgurl);
-        } else if (this.$route.name == "p_sign_contract") {
-          this.$emit("imgurl", this.imgurl);
-        }
       }
     },
 

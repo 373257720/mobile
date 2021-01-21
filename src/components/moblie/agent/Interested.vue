@@ -9,7 +9,6 @@
         <i class="icon iconRight iconfont icon-message"></i>
       </template>
     </commonnav>
-
     <main>
       <div class="mhome-tag">
         <h2>{{ProjectDetail.projectName}}</h2>
@@ -17,7 +16,7 @@
         <div class="projectMoney">
           <p>
             <span class="icon">
-              <i class="iconfont icon-1"></i>
+              <i class="iconfont icon-bitbroicon_setting"></i>
             </span>
             <span>{{ProjectDetail.projectIndustry}}</span>
           </p>
@@ -44,20 +43,20 @@
           </div>
         </div>
         <ul>
-          <li v-for="(value,key) in projectItem">
-            <aside></aside>
-            <p v-if="key=='potentialInvestorsTags'">
-              <section v-for="(item,idx) in value" :key="idx">
+          <li v-for="(value,key) in projectItem" :key="key" :class="{'potentialInvestorsTags':value.classname}">
+            <aside class="iconfont" :class="value.tag"></aside>
+            <p  v-if="key=='potentialInvestorsTags'">
+              <section v-for="(item,idx) in value.content" :key="idx">
                 <span>{{idx+1}}.</span>
                 <span>{{item}}</span>
               </section>
             </p>
-            <p v-else>{{value}}</p>
+            <p v-else>{{value.content}}</p>
           </li>
         </ul>
         <footer>
-          <van-button @click="clickInterested">{{$t('project.Interested')}}</van-button>  
-          <!-- <p @click="signNDA">{{$t("project.SignNDAterms")}}</p> -->
+           <!-- <p @click="signNDA">{{$t("project.SignNDAterms")}}</p> -->
+          <van-button @click="clickInterested">{{$t('project.Interested')}}</van-button>    
           <!-- <button @click="clickInterested">{{$t('project.Interested')}}</button> -->
           <!-- <button @click="$routerto('signContractStep1')">{{$t('project.SignContract')}}</button>
           <button @click="$routerto('signContractStep1')">{{$t('project.Contractwithibank')}}</button>-->
@@ -67,11 +66,9 @@
     <DialogMsg
       :remindervisible.sync="remindervisible"
       :confirmButtonText="confirmButtonText"
-      :cancelButtonText="cancelButtonText"
       @comfirmFromDialog="comfirmFromDialog"
       :title="title"
       :msgtype="msgtype"
-      :showCancel="true"
       :msg="msg"
     ></DialogMsg>
   </div>
@@ -99,20 +96,35 @@ export default {
         interestProjectCount: 0,
         collectMoneyMin: "",
         collectMoneyMax: "",
-        projectDescribe: ""
+        projectDescribe: "",
       },
       projectItem: {
-        projectStatus: null,
-        projectCompany: "",
-        projectMobile: "",
-        projectEmail: "",
-        financingStage: "",
-        potentialInvestorsTags: []
+        // projectStatus: null,
+        projectCompany: {
+          tag: "icon-bitbroicon2",
+          content: "",
+        },
+        projectMobile: {
+          tag: "icon-bitbroicon4",
+          content: "",
+        },
+        projectEmail: {
+          tag: "icon-bitbroicon5",
+          content: "",
+        },
+        financingStage: {
+          tag: "icon-bitbroicon6",
+          content: "",
+        },
+        potentialInvestorsTags: {
+          tag: "icon-bitbroicon7",
+          content: [],
+          classname: true,
+        },
       },
-      projectUserId:null,
+      projectUserId: null,
       articleoffsetHeight: 0,
       projectDescribeHeight: 0,
-  
     };
   },
   created() {
@@ -128,47 +140,29 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
           { projectId: this.projectId }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
             let data = res.data.data.data;
-            this.projectUserId=data.projectUserId;
+            this.projectUserId = data.projectUserId;
             for (let i in data) {
               for (let key in this.ProjectDetail) {
                 if (key === i) {
                   if (key == "projectName") {
-                    if (this.$i18n.locale == "zh_CN") {
-                      this.ProjectDetail[key] = data[i];
-                    } else {
-                      this.ProjectDetail[key] = data.projectNameEn;
-                    }
+                    this.ProjectDetail[key] = data[key + this.$global.lan()];
                   } else if (
                     key == "collectMoneyMin" ||
                     key == "collectMoneyMax"
                   ) {
                     this.ProjectDetail[key] = this.$global.formatNum(data[key]);
                   } else if (key == "projectIndustry") {
-                    if (this.$i18n.locale == "zh_CN") {
-                      this.ProjectDetail[key] = eval(
-                        "(" + data[key] + ")"
-                      ).join(",");
-                    } else {
-                      this.ProjectDetail[key] = eval(
-                        "(" + data.projectIndustryEn + ")"
-                      ).join(",");
-                    }
+                    this.ProjectDetail[key] = eval(
+                      "(" + data[key + this.$global.lan()] + ")"
+                    ).join(",");
                   } else if (key == "projectDescribe") {
-                    if (this.$i18n.locale == "zh_CN") {
-                      this.ProjectDetail[key] = data.projectDescribe.replace(
-                        /[\n\r]/g,
-                        "<br>"
-                      );
-                    } else {
-                      this.ProjectDetail[key] = data.projectDescribeEn.replace(
-                        /[\n\r]/g,
-                        "<br>"
-                      );
-                    }
+                    this.ProjectDetail[key] = data[
+                      key + this.$global.lan()
+                    ].replace(/[\n\r]/g, "<br>");
                   } else {
                     this.ProjectDetail[key] = res.data.data.data[i];
                   }
@@ -177,27 +171,22 @@ export default {
               for (let key in this.projectItem) {
                 if (key === i) {
                   if (key == "projectCompany") {
-                    if (this.$i18n.locale == "zh_CN") {
-                      this.projectItem[key] = data[i];
-                    } else {
-                      this.projectItem[key] = data.projectCompanyEn;
-                    }
+                    this.projectItem[key].content =
+                      data[key + this.$global.lan()];
                   } else if (key == "potentialInvestorsTags") {
-                    if (this.$i18n.locale == "zh_CN") {
-                      this.projectItem[key] = eval("(" + data[i] + ")");
-                    } else {
-                      this.projectItem[key] = eval(
-                        "(" + data.potentialInvestorsTagsEn + ")"
-                      );
-                    }
+                    this.projectItem[key].content = eval(
+                      "(" + data[key + this.$global.lan()] + ")"
+                    );
                   } else if (key == "financingStage") {
-                    this.projectItem[key] = this.$global.financingStage[
+                    this.projectItem[key].content = this.$global.financingStage[
                       data[i]
                     ];
                   } else if (key == "projectStatus") {
-                    this.projectItem[key] = this.$global.projectStatus[data[i]];
+                    this.projectItem[key].content = this.$global.projectStatus[
+                      data[i]
+                    ];
                   } else {
-                    this.projectItem[key] = data[i];
+                    this.projectItem[key].content = data[i];
                   }
                 }
               }
@@ -217,17 +206,20 @@ export default {
         });
     },
     clickInterested() {
+      this.msg = "";
       this.$store.commit("isloading", true);
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/interested`,
-          { projectId: this.projectId, projectUserId:  this.projectUserId}
+          { projectId: this.projectId, projectUserId: this.projectUserId }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           this.remindervisible = true;
           this.msgtype = "interested";
-          this.msg = "您还可以签署NDA来获取该项目更多的资讯";
+          // if(res.data.resultCode==10000)
+          // this.msg = "您还可以签署NDA来获取该项目更多的资讯";
+          this.msg = res.data.resultDesc;
         });
     },
     gotoNDA() {
@@ -251,13 +243,7 @@ export default {
       //     // this.remindervisible2 = true;
       //   }, 300);
     },
-    signNDA() {
-      this.title = "Request project details";
-      this.msg = "You can sign the NDA to get more information";
-      this.confirmButtonText = "Yes";
-      this.cancelButtonText = "No";
-      this.remindervisible = true;
-    },
+ 
     privous() {
       this.$refs.swipe.prev();
     },
@@ -273,8 +259,8 @@ export default {
         return;
       }
       this.articleHight = this.$refs.projectDescribe.clientHeight + "px";
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" >
@@ -376,7 +362,7 @@ export default {
       line-height: vw(30);
       margin-bottom: vw(34);
     }
-   .projectMoney {
+    .projectMoney {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -400,96 +386,11 @@ export default {
           font-weight: bold;
         }
       }
-      p:nth-of-type(1){
+      p:nth-of-type(1) {
         // margin-right: vw(20);
       }
     }
 
-    div.isSuccessful,
-    div.isFailed {
-      nav {
-        display: flex;
-        justify-content: center;
-
-        p {
-          width: vw(332);
-          height: vw(193);
-          background: #3ab5cc;
-          opacity: 1;
-        }
-      }
-      section {
-        display: flex;
-        justify-content: space-between;
-
-        margin-bottom: vw(70);
-        span {
-          font-size: vw(30);
-          font-family: Helvetica Neue;
-          font-weight: bold;
-          line-height: vw(34);
-          color: #3ab5cc;
-        }
-      }
-
-      .Bname {
-        > p {
-          margin-bottom: vw(34);
-          font-size: vw(30);
-          font-weight: bold;
-        }
-      }
-    }
-    div.isSuccessful {
-      header {
-        color: #3ab5cc;
-        font-weight: bold;
-        margin-bottom: vw(60);
-        span {
-          font-size: vw(24);
-          line-height: vw(28);
-        }
-        span:first-of-type {
-          font-size: vw(60);
-          font-weight: bold;
-        }
-      }
-      footer {
-        margin-bottom: vw(156);
-        button {
-          width: vw(250);
-          height: vw(72);
-          background: #00f0ab;
-          opacity: 1;
-          border-radius: vw(16);
-        }
-      }
-    }
-    div.isFailed {
-      header {
-        color: #3ab5cc;
-        font-weight: bold;
-        margin-bottom: vw(60);
-        text-align: center;
-        span {
-          font-size: vw(24);
-          font-weight: bold;
-          color: #3ab5cc;
-          opacity: 1;
-        }
-      }
-      footer {
-        margin-bottom: vw(156);
-        article {
-          width: vw(542);
-          font-size: vw(20);
-          font-family: Helvetica Neue;
-          font-weight: bold;
-          line-height: vw(22);
-          color: #3ab5cc;
-        }
-      }
-    }
     .projectsDetails-recommand {
       color: #ffffff;
       .project-swipe {
@@ -556,21 +457,23 @@ export default {
     ul {
       li {
         display: flex;
-        align-items: start;
+        align-items: center;
         margin-bottom: vw(25);
         aside {
-          width: vw(48);
-          height: vw(48);
-          background: #4f3dad;
+          font-size: vw(48);
+          line-height: vw(48);
           border-radius: 50%;
           margin-right: vw(30);
         }
         p {
-                  flex:1;
+          flex: 1;
           margin: 0;
           font-weight: bold;
           font-size: vw(24);
         }
+      }
+      li.potentialInvestorsTags {
+        align-items: flex-start;
       }
     }
     footer {

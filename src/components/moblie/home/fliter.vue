@@ -1,7 +1,7 @@
 <template>
   <div id="fliter">
     <commonnav>
-      {{$t('common.Fliter')}}
+      {{ $t("common.Fliter") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$routerto('mhome')" />
       </template>
@@ -12,48 +12,37 @@
     <main>
       <div class="fliter-tag">
         <ul class="totalResults">
-          <!-- {{$store.getters.totalResults}} -->
-          <li v-for="(item,idx) in $store.getters.totalResults" :key="idx">
+          <li v-for="(item, idx) in $store.getters.totalResults" :key="idx">
             <p>
-              {{item.label}}
-              <span @click="delectTag(item,idx)"></span>
+              {{ item.label }}
+              <span @click="delectTag(item, idx)"></span>
             </p>
           </li>
         </ul>
         <article>
           <div>
-            <p class="label">{{$t('common.Industry')}}</p>
+            <p class="label">{{ $t("common.Industry") }}</p>
             <div class="item" @click="goto('Industry')">
               <p>
-                <span v-for="(item) in $store.state.electedList.industryList" :key="item.value">
-                  {{
-                  item.label
-                  }},
-                </span>
+                <span>{{ electedindustryList }}</span>
               </p>
               <van-icon name="arrow" />
             </div>
           </div>
           <div>
-            <p class="label">{{$t('common.region')}}</p>
+            <p class="label">{{ $t("common.region") }}</p>
             <div class="item" @click="goto('Region')">
               <p>
-                <span
-                  v-for="(item) in $store.state.electedList.regionList"
-                  :key="item.name"
-                >{{ item.label}},</span>
+                <span>{{ electedregionList }}</span>
               </p>
               <van-icon name="arrow" />
             </div>
           </div>
           <div>
-            <p class="label">Tag</p>
+            <p class="label">{{ $t("common.Tag") }}</p>
             <div class="item" @click="goto('Tag')">
               <p>
-                <span
-                  v-for="(item) in $store.state.electedList.taglist"
-                  :key="item.name"
-                >{{ item.label}},</span>
+                <span>{{ electedtaglist }}</span>
               </p>
               <van-icon name="arrow" />
             </div>
@@ -61,11 +50,16 @@
         </article>
       </div>
       <footer>
-        <!-- <button>{{$t('common.Search')}}</button> -->
-        <van-button @click="$routerto('AllResult')">{{$t('common.Search')}}</van-button>
+        <van-button @click="$routerto('AllResult')">{{
+          $t("common.Search")
+        }}</van-button>
       </footer>
     </main>
-    <transition v-on:after-enter="afterEnterFun" v-on:after-leave="afterLeave" name="slide-fade">
+    <transition
+      v-on:after-enter="afterEnterFun"
+      v-on:after-leave="afterLeave"
+      name="slide-fade"
+    >
       <keep-alive>
         <div
           class="secondLayer"
@@ -85,7 +79,7 @@ import mutilPick from "@/components/moblie/home/mutilPick";
 export default {
   name: "fliter",
   components: {
-    "mutil-Pick": mutilPick
+    "mutil-Pick": mutilPick,
   },
   data() {
     return {
@@ -95,43 +89,57 @@ export default {
       List: {
         industryList: [],
         regionList: [],
-        taglist: []
+        taglist: [],
       },
       result: {
         industryList: [],
         regionList: [],
-        taglist: []
-      }
+        taglist: [],
+      },
     };
   },
-
+  computed: {
+    electedindustryList() {
+      let arr = this.$store.state.electedList.industryList.map((item) => {
+        return item.label;
+      });
+      return arr.length ? arr.join(",") : "";
+    },
+    electedregionList() {
+      let arr = this.$store.state.electedList.regionList.map((item) => {
+        return item.label;
+      });
+      return arr.length ? arr.join(",") : "";
+    },
+    electedtaglist() {
+      let arr = this.$store.state.electedList.taglist.map((item) => {
+        return item.label;
+      });
+      return arr.length ? arr.join(",") : "";
+    },
+  },
   created() {
     for (let key in this.$store.state.electedList) {
       if (key == "industryList") {
         this.result.industryList = this.$store.state.electedList[key].map(
-          element => {
+          (element) => {
             return element.value;
           }
         );
       } else if (key == "regionList") {
         this.result.regionList = this.$store.state.electedList[key].map(
-          element => {
+          (element) => {
             return element.value;
           }
         );
       } else if (key == "taglist") {
         this.result.taglist = this.$store.state.electedList[key].map(
-          element => {
+          (element) => {
             return element.value;
           }
         );
       }
     }
-    // console.log(this.result);
-
-    // this.$store.state.electedList.industryList.map(element => {
-    //   console.log(element);
-    // });
   },
   mounted() {
     // if (document.querySelector("#mutil-Pick")) {
@@ -143,7 +151,6 @@ export default {
     // }
     // dsfdsfdsfdsfds
   },
-  computed: {},
   methods: {
     afterEnterFun(el) {
       this.afterEnter = true;
@@ -152,25 +159,19 @@ export default {
       this.afterEnter = false;
     },
     pick(data) {
-      // console.log(data);
-      console.log(this.result);
-      
       if (this.name == "Industry") {
-        let a;
-        a = this.List.industryList.filter(item => {
+        console.log(this.List.industryList);
+        console.log(data);
+        let a = this.List.industryList.filter((item) => {
           for (let i = 0; i < data.industryList.length; i++) {
             if (item.value === data.industryList[i]) {
               return item;
             }
           }
         });
-        console.log(a);
-        
         this.$store.commit("electedList", { arr: a, name: "industryList" });
-        // console.log(this.$store.getters);
       } else if (this.name == "Region") {
-        let a;
-        a = this.List.regionList.filter(item => {
+        let a = this.List.regionList.filter((item) => {
           for (let i = 0; i < data.regionList.length; i++) {
             if (item.value === data.regionList[i]) {
               return item;
@@ -178,10 +179,8 @@ export default {
           }
         });
         this.$store.commit("electedList", { arr: a, name: "regionList" });
-        console.log(this.$store.state);
       } else if (this.name == "Tag") {
-        let a;
-        a = this.List.taglist.filter(item => {
+        let a = this.List.taglist.filter((item) => {
           for (let i = 0; i < data.taglist.length; i++) {
             if (item.value === data.taglist[i]) {
               return item;
@@ -190,7 +189,6 @@ export default {
         });
         this.$store.commit("electedList", { arr: a, name: "taglist" });
       }
-
       this.currentView = "";
     },
     goto(name) {
@@ -204,7 +202,7 @@ export default {
           if (this.result.industryList[i] === item.value) {
             this.$store.commit("delect", {
               index: i,
-              name: "industryList"
+              name: "industryList",
             });
             this.result.industryList.splice(i, 1);
           }
@@ -214,7 +212,7 @@ export default {
           if (this.result.regionList[i] === item.value) {
             this.$store.commit("delect", {
               index: i,
-              name: "regionList"
+              name: "regionList",
             });
             this.result.regionList.splice(i, 1);
           }
@@ -224,14 +222,14 @@ export default {
           if (this.result.taglist[i] === item.value) {
             this.$store.commit("delect", {
               index: i,
-              name: "taglist"
+              name: "taglist",
             });
             this.result.taglist.splice(i, 1);
           }
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

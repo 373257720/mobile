@@ -1,4 +1,6 @@
 <template lang="html">
+  <div class="loadmore">
+  <slot name="navv"></slot>
   <div class="yo-scroll"
   :class="{'down':(state===0),'up':(state==1),refresh:(state===2),touch:touching}"
   @touchstart.preventDefault="touchStart($event)"
@@ -14,12 +16,10 @@
            </span>
         </slot>
       </header>
-    
-      
       <slot></slot>
       <footer class="load-more">
         <slot name="load-more">
-            <nav>  
+        <nav>  
          <svg  class="loading"
                   v-if="!loaded"
                   xmlns="http://www.w3.org/2000/svg"
@@ -44,12 +44,13 @@
                   />
             </path>
           </svg></nav>
-              <span v-if="loaded">完成</span>
-              
+              <span v-if="loaded">完成</span>     
         </slot>
       </footer>
     </section>
   </div>
+  </div>
+
 </template>
  
 <script>
@@ -57,7 +58,7 @@ export default {
   props: {
     offset: {
       type: Number,
-      default: 50
+      default: 30
     },
     enableInfinite: {
       type: Boolean,
@@ -96,8 +97,6 @@ export default {
   // },
   methods: {
     touchStart(e) {
-      //  console.log(this.state);
-
       this.startY = e.targetTouches[0].pageY;
       this.startScroll = this.$el.scrollTop || 0;
       this.touching = true;
@@ -107,9 +106,10 @@ export default {
       if (!this.enableRefresh || this.$el.scrollTop > 0 || !this.touching) {
         return;
       }
-      // console.log(this.startScroll);
+      // console.log(e.targetTouches[0].pageY, this.startY);
 
       let diff = e.targetTouches[0].pageY - this.startY - this.startScroll;
+      // console.log(this.startScroll);
 
       if (diff > 0 && e.cancelable) e.preventDefault();
       this.top = Math.pow(diff, 0.8) + (this.state === 2 ? this.offset : 0);
@@ -136,11 +136,13 @@ export default {
 
         return;
       }
+
       if (this.top >= this.offset) {
         // console.log(this.top);
 
         this.refresh();
       } else {
+        // console.log(this.top);
         this.state = 0;
         this.top = 0;
       }
@@ -184,18 +186,29 @@ export default {
 };
 </script>
 <style lang='scss'>
-.yo-scroll {
+.loadmore {
+  overflow: auto;
   position: absolute;
-  top: vw(210);
+  z-index: 1;
+  top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  left: 0;
+}
+.yo-scroll {
+  // position: absolute;
+  // top: vw(210);
+  // right: 0;
+  // bottom: 0;
+  // left: 0;
+  position: relative;
   font-size: vw(26);
   color: #4f3dad;
   font-weight: bold;
-  overflow: auto;
+  z-index: 8;
   -webkit-overflow-scrolling: touch;
   // touch-action: none;
+
   .loading {
     width: vw(80);
     height: vw(80);
@@ -219,6 +232,7 @@ export default {
   left: 0;
   top: 0;
   width: 100%;
+  // background: #000;
   height: vw(100);
   display: flex;
   align-items: center;

@@ -7,29 +7,18 @@
       </template>
     </commonnav>
     <main>
-      <header>
-        <div v-html="$t('agent.Whorecommendme')">
-          Who
-          <br />recommend
-          <br />me
-        </div>
-        <div>
-          My
-          <br />recommended
-          <br />middleman
-        </div>
-        <div>
-          My
-          <br />recommended
-          <br />investors
-        </div>
-      </header>
       <v-scroll
-        class="recommandHistory"
+        class="mhome-article"
         :on-refresh="onRefresh"
         :loaded="loaded"
         :on-infinite="onInfinite"
       >
+        <header slot="navv">
+          <div v-html="$t('agent.Whorecommendme')"></div>
+          <div v-html="$t('agent.MyrecommendedMiddleman')"></div>
+          <div v-html="$t('agent.MyrecommendedInvestors')">
+          </div>
+        </header>
         <article>
           <table class="title">
             <tr class="tr-first">
@@ -231,10 +220,15 @@ export default {
 </style>
 <style lang="scss"  scoped>
 #recommandHistory {
-  height: 100%;
+  // height: 100%;
   main {
     //   background: #fff;
-    height: 100%;
+    // height: 100%;
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    top: 50px;
     .yo-scroll {
       top: vw(348);
       bottom: vw(114);
@@ -242,8 +236,8 @@ export default {
     .top {
       top: vw(332);
     }
-    padding: vw(140) 0 vw(116);
-    position: relative;
+    // padding: vw(140) 0 vw(116);
+    // position: relative;
     header {
       padding: 0 vw(30);
       display: flex;

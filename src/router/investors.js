@@ -21,10 +21,7 @@ const i_wait_confirm = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/investor/wait_comfirm"
   );
-const i_sign_failed = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/investor/sign_failed"
-  );
+
 const i_emailto_confirm = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -64,15 +61,6 @@ export default [
       }
     ]
   },
-  {
-    path: "/i_sign_failed",
-    name: "i_sign_failed",
-    component: i_sign_failed,
-    meta: {
-      isshowbottom: false
-    }
-  },
-
   {
     path: "/i_emailto_confirm",
     name: "i_emailto_confirm",

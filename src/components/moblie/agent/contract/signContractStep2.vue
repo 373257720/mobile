@@ -66,7 +66,7 @@
             </p>
           </div>
         </van-radio-group>
-        <h3>Recommend locking date</h3>
+        <!-- <h3>Recommend locking date</h3>
         <p class="subtitle">Recommendation time</p>
         <div class="count">
           <MyNumberInput
@@ -85,11 +85,9 @@
               class="iconfont icon-arrow_under"
               @click="calculate($event,'memberRecommendCount','subtract')"
             ></span>
-            <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
-            <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
           </p>
-        </div>
-        <p class="subtitle">Recommended countdown</p>
+        </div> -->
+        <!-- <p class="subtitle">Recommended countdown</p>
         <div class="count">
           <MyNumberInput
             :point="0"
@@ -107,12 +105,8 @@
               class="iconfont icon-arrow_under"
               @click="calculate($event,'recommendMiddlemanTime','subtract')"
             ></span>
-            <!-- <span :class="{'isactive':isactive}" class="iconfont icon-arrow_on projectParty"></span>
-            <span class="iconfont icon-arrow_under projectParty"></span>-->
-            <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
-            <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
           </p>
-        </div>
+        </div> -->
         <footer>
           <van-button
             @click="$routerto('a_previewContract',
@@ -164,13 +158,13 @@
 import MyNumberInput from "@/components/moblie/common/input";
 export default {
   name: "mhome",
-  beforeRouteLeave(to, from, next){
-    if(to.name === 'projectStatus' || to.name === 'projectSubStatus') {
+  beforeRouteLeave(to, from, next) {
+    if (to.name === "projectStatus" || to.name === "projectSubStatus") {
       to.meta.keepAlive = false;
-       next();
-    }else{
-       next()
-    };
+      next();
+    } else {
+      next();
+    }
   },
   components: {
     MyNumberInput //注册
@@ -220,7 +214,7 @@ export default {
       this.remindervisibleAfter = false;
       if (this.resultCode === 10000) {
         // if (this.alterType === 0 || this.alterType === 1) {
-        this.$routerto("projectStatus");
+        this.$routerto("mysign");
         // }
       }
     },
@@ -281,7 +275,7 @@ export default {
         .then(res => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode === 10000) {
-            this.radio = res.data.data.sharingMechanismType;
+            this.sharingMechanismType = res.data.data.sharingMechanismType;
             this.memberRecommendCount = res.data.data.memberRecommendCount || 0;
             this.recommendMiddlemanTime =
               res.data.data.recommendMiddlemanTime || 0;

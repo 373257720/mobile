@@ -2,7 +2,7 @@
   <div id="projectSubStatus">
     <!-- <commonnav>{{$t('project.projectStatus')}}</commonnav> -->
     <commonnav>
-      {{$t('project.projectStatus')}}
+      {{ $t("project.projectStatus") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="goback" />
       </template>
@@ -12,10 +12,10 @@
     </commonnav>
     <main>
       <ul>
-        <li v-for="(item,idx) in multipleList" :key="idx">
-          <div @click="clickItem(item)" v-if="item.arr.length>0">
-            <p>{{item.text}}</p>
-            <aside>{{item.arr.length>0?item.arr.length:0}}</aside>
+        <li v-for="(item, idx) in multipleList" :key="idx">
+          <div @click="clickItem(item)">
+            <p>{{ item.text }}</p>
+            <aside>{{ item.arr.length > 0 ? item.arr.length : 0 }}</aside>
           </div>
         </li>
       </ul>
@@ -26,12 +26,12 @@
 import loadmore from "../loadmore";
 export default {
   name: "projectSubStatus",
-  //  beforeRouteLeave(to, from, next){
-  //   if(to.name === 'projectStatus') {
-  //     to.meta.keepAlive = false
-  //   };
-  //   next()
-  // },
+  beforeRouteLeave(to, from, next) {
+    if (to.name === "projectStatus") {
+      to.meta.keepAlive = false;
+    }
+    next();
+  },
   data() {
     return {
       num: 10,
@@ -44,13 +44,13 @@ export default {
         0: {
           arr: [],
           text: "",
-          total: 0
-        }
+          type: 0,
+        },
       },
-      multipleList: []
+      multipleList: [],
     };
   },
-  created() {
+  activated() {
     // console.log(this.$store.state.selectedProjectStatus);
     if (this.$store.state.currentUsertype == 4) {
       let type;
@@ -64,241 +64,244 @@ export default {
               arr: [],
               text: this.$t("project.PendingItems"),
               type: [1],
-              nda: null
+              nda: null,
               //1
             },
             {
               arr: [],
               text: this.$t("project.NDArequestitem"),
               type: null,
-              nda: 1
+              nda: 1,
               //nda-1
             },
             {
               arr: [],
               text: this.$t("project.NDAprojecttobesigned"),
               type: null,
-              nda: 2
+              nda: 2,
               //nda-2
             },
             {
               arr: [],
               text: this.$t("project.SignedNDAtobelisted"),
               type: null,
-              nda: 3
+              nda: 3,
               //nda-3
             },
             {
               arr: [],
               text: this.$t("project.NDAhasChained"),
               type: null,
-              nda: 4
+              nda: 4,
               //nda-4
             },
             {
               arr: [],
               text: this.$t("project.Projecttobesigned"),
               type: [2],
-              nda: null
+              nda: null,
               //2
             },
             {
               arr: [],
               text: this.$t("project.MiddleAgreeContract"),
               type: [4],
-              nda: null
+              nda: null,
               //4
             },
             {
               arr: [],
-              text: this.$t("project.waitMiddleSigned"),
+              text: this.$t("project.Waitingforyoutosignthecontract"),
               type: [7],
-              nda: null
+              nda: null,
               //7
             },
             {
               arr: [],
               text: this.$t("project.unfinishedSignContract"),
-              type: [7],
-              nda: null
+              type: [8],
+              nda: null,
               //8
             },
             {
               arr: [],
               text: this.$t("project.chainedToRecommand"),
               type: [9],
-              nda: null
+              nda: null,
               //9
             },
             {
               arr: [],
               text: this.$t("project.failedSigned"),
-              total: [3, 5, 6, 14, 17, 20, 22, 32],
-              nda: null
+              type: [3, 5, 6, 14, 17, 20, 22, 32],
+              nda: null,
               //3, 5, 6, 14, 17, 20, 22, 32
-            }
+            },
           ];
           break;
         case 2:
           this.multipleList = [
             {
               arr: [],
-              text: this.$t("project.PendingItems"),
-              type: [12]
+              text: "待审核 你推荐的中间人资料",
+              type: [12],
             },
             {
               arr: [],
-              text: this.$t("project.NDArequestitem"),
-              type: [13]
+              text: "已审核待发送",
+              type: [13],
             },
             {
               arr: [],
-              text: this.$t("project.SignedNDAtobelisted"),
-              type: [15]
+              text: "已发送待确认",
+              type: [15],
             },
             {
               arr: [],
-              text: this.$t("project.NDAhasChained"),
-              type: [16]
+              text: "已确认等待项目方准备合同资料",
+              type: [16],
             },
             {
               arr: [],
-              text: this.$t("project.MiddleAgreeContract"),
-              type: [18]
+              text: "（投行）已收到合同资料待发送",
+              type: [18],
             },
             {
               arr: [],
-              text: this.$t("project.waitMiddleSigned"),
-              type: [19]
+              text: "（中间人a）已发送，磋商中",
+              type: [19],
             },
             {
               arr: [],
-              text: this.$t("project.chainedToRecommand"),
-              type: [21]
+              text: "(中间人b）已确认待签约",
+              type: [21],
             },
             {
               arr: [],
-              text: this.$t("project.chainedToRecommand"),
-              type: [23]
+              text: "（中间人a）等待你推荐的中间人签约",
+              type: [23],
             },
             {
               arr: [],
-              text: this.$t("project.chainedToRecommand"),
-              type: [24]
+              text: "（中间人b）你推荐的中间人暂未完成签约程序",
+              type: [24],
             },
             {
               arr: [],
-              text: this.$t("project.chainedToRecommand"),
-              type: [25]
+              text: "（后台系统）你推荐的中间人已上链",
+              type: [25],
             },
             {
               arr: [],
               text: this.$t("project.failedSigned"),
-              total: [3, 5, 6, 14, 17, 20, 22, 32]
-            }
+              type: [3, 5, 6, 14, 17, 20, 22, 32],
+            },
           ];
           break;
         case 3:
           this.multipleList = [
             {
               arr: [],
-              text: this.$t("project.PendingItems"),
-              type: [50]
+              text: "(中间人b)收到推荐待确认",
+              type: [30],
             },
             {
               arr: [],
-              text: this.$t("project.NDArequestitem"),
-              type: [51]
+              text: "中间人b)已确认待项目方准备合约",
+              type: [31],
             },
             {
               arr: [],
-              text: this.$t("project.SignedNDAtobelisted"),
-              type: [52]
+              text: " (中间人b)待上家中间人填写分成机制",
+              type: [33],
             },
             {
               arr: [],
-              text: this.$t("project.NDAhasChained"),
-              type: [53]
+              text: " (中间人b) 已收到合约待确认",
+              type: [34],
             },
             {
               arr: [],
-              text: this.$t("project.MiddleAgreeContract"),
-              type: [54]
+              text: "(中间人b)与上家中间人磋商中",
+              type: [35],
+            },
+            {
+              arr: [],
+              text: "(中间人b)已同意待上家中间人签约",
+              type: [36],
+            },
+            {
+              arr: [],
+              text: "(中间人b)已拒绝和上家中间人签约",
+              type: [37],
+            },
+            {
+              arr: [],
+              text: "中间人a)等待你签约",
+              type: [38],
+            },
+            {
+              arr: [],
+              text: "(中间人a)上家中间人拒绝和你签约",
+              type: [39],
+            },
+            {
+              arr: [],
+              text: "(中间人b)你暂时未完成签约程序",
+              type: [40],
+            },
+            {
+              arr: [],
+              text:
+                "（后台系统）已上链待推荐（上链成功，等待我推荐新的中间人或投资者）",
+              type: [41],
             },
             {
               arr: [],
               text: this.$t("project.failedSigned"),
-              total: [3, 5, 6, 14, 17, 20, 22, 32]
-            }
+              type: [3, 5, 6, 14, 17, 20, 22, 32],
+            },
           ];
           break;
         case 4:
           this.multipleList = [
             {
               arr: [],
-              text: this.$t("project.PendingItems"),
-              type: [30]
+              text: "待审核你推荐的投资者资料",
+              type: [50],
             },
             {
               arr: [],
-              text: this.$t("project.NDArequestitem"),
-              type: [31]
+              text: "已审核等待你发送链接给投资者",
+              type: [51],
             },
             {
               arr: [],
-              text: this.$t("project.NDAhasChained"),
-              type: [33]
+              text: "等待你推荐的投资人确认",
+              type: [52],
             },
             {
               arr: [],
-              text: this.$t("project.MiddleAgreeContract"),
-              type: [34]
+              text: "与你推荐的投资者签约成功项目",
+              type: [53],
             },
             {
               arr: [],
-              text: this.$t("project.MiddleAgreeContract"),
-              type: [35]
-            },
-            {
-              arr: [],
-              text: this.$t("project.MiddleAgreeContract"),
-              type: [36]
-            },
-            {
-              arr: [],
-              text: this.$t("project.MiddleAgreeContract"),
-              type: [37]
-            },
-            {
-              arr: [],
-              text: this.$t("project.MiddleAgreeContract"),
-              type: [38]
-            },
-            {
-              arr: [],
-              text: this.$t("project.MiddleAgreeContract"),
-              type: [39]
-            },
-            {
-              arr: [],
-              text: this.$t("project.MiddleAgreeContract"),
-              type: [40]
-            },
-            {
-              arr: [],
-              text: this.$t("project.MiddleAgreeContract"),
-              type: [41]
+              text: "投资人拒绝",
+              type: [54],
             },
             {
               arr: [],
               text: this.$t("project.failedSigned"),
-              total: [3, 5, 6, 14, 17, 20, 22, 32]
-            }
+              type: [3, 5, 6, 14, 17, 20, 22, 32],
+            },
           ];
+
           break;
       }
-      this.$store.state.selectedProjectStatus.arr.forEach(item => {
-        this.multipleList.forEach(self => {
+      console.log(this.$store.state.selectedProjectStatus.arr);
+      this.$store.state.selectedProjectStatus.arr.forEach((item) => {
+        this.multipleList.forEach((self) => {
           if (item.signStatus4) {
             // console.log(item.signStatus4);
             if (self.type instanceof Array) {
@@ -328,104 +331,104 @@ export default {
           arr: [],
           text: this.$t("project.PendingItems"),
           type: [1],
-          nda: null
+          nda: null,
           //1
         },
         {
           arr: [],
           text: this.$t("project.NDArequestitem"),
           type: null,
-          nda: 1
+          nda: 1,
           //nda-1
         },
         {
           arr: [],
           text: this.$t("project.NDAprojecttobesigned"),
           type: null,
-          nda: 2
+          nda: 2,
           //nda-2
         },
         {
           arr: [],
           text: this.$t("project.SignedNDAtobelisted"),
           type: null,
-          nda: 3
+          nda: 3,
           //nda-3
         },
         {
           arr: [],
           text: this.$t("project.NDAhasChained"),
           type: null,
-          nda: 4
+          nda: 4,
           //nda-4
         },
         {
           arr: [],
           text: this.$t("project.Projecttobesigned"),
           type: [2],
-          nda: null
+          nda: null,
           //2
         },
         {
           arr: [],
           text: this.$t("project.MiddleAgreeContract"),
           type: [4],
-          nda: null
+          nda: null,
           //4
         },
         {
           arr: [],
           text: this.$t("project.waitMiddleSigned"),
           type: [7],
-          nda: null
+          nda: null,
           //7
         },
         {
           arr: [],
           text: this.$t("project.unfinishedSignContract"),
           type: [8],
-          nda: null
+          nda: null,
           //8
         },
         {
           arr: [],
           text: this.$t("project.chainedToRecommand"),
           type: [9],
-          nda: null
+          nda: null,
           //9
         },
         {
           arr: [],
           text: this.$t("project.waitChecked"),
-          type: [50, 12]
+          type: [50, 12],
         },
         {
           arr: [],
           text: this.$t("project.CheckedTosend"),
-          type: [51, 13]
+          type: [51, 13],
         },
         {
           arr: [],
           text: this.$t("project.waitComfirm"),
-          type: [52, 15]
+          type: [52, 15],
         },
         {
           arr: [],
           text: this.$t("project.waitreadyContract"),
-          type: [16]
+          type: [16],
         },
         {
           arr: [],
           text: this.$t("project.successfulSigned"),
-          type: [53, 24]
+          type: [53, 24],
         },
         {
           arr: [],
           text: this.$t("project.failedSigned"),
-          total: [3, 5, 6, 54]
-        }
+          type: [3, 5, 6, 54],
+        },
       ];
-      // console.log(this.multipleList);
+      console.log(this.multipleList);
 
       this.acceptOrRejectCommission();
     }
@@ -435,12 +438,16 @@ export default {
       if (this.$store.state.currentUsertype == 1) {
         this.$routerto("mysign");
       } else if (this.$store.state.currentUsertype == 4) {
-        this.$routerto("projectStatus");
+        this.$routerto("projectStatus", {
+          projectId: this.$route.query.projectId,
+        });
       }
     },
     clickItem(item) {
-      this.$store.commit("selectedItemMutations", item);
-      this.$routerto("projectList");
+      if (item.arr.length) {
+        this.$store.commit("selectedItemMutations", item);
+        this.$routerto("projectList");
+      }
     },
     acceptOrRejectCommission() {
       this.$store.commit("isloading", true);
@@ -449,17 +456,17 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectStatusList`,
           { projectId: this.$route.query.projectId }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
             let data = res.data.data;
             for (let key in data) {
               if (key == "signList") {
-                data[key].forEach(item => {
+                data[key].forEach((item) => {
                   //  [3,5,6,14,17,20,22,32]已拒绝项目（中间人感兴趣，拒绝；中间人推荐下家或者投资人被拒绝；磋商拒绝）
-                  this.multipleList.forEach(self => {
+                  this.multipleList.forEach((self) => {
                     if (self.type instanceof Array) {
-                      self.type.forEach(j => {
+                      self.type.forEach((j) => {
                         if (j == item.signStatus4) {
                           self.arr.push(item);
                         }
@@ -468,8 +475,8 @@ export default {
                   });
                 });
               } else if (key == "ndaList") {
-                data[key].forEach(item => {
-                  this.multipleList.forEach(self => {
+                data[key].forEach((item) => {
+                  this.multipleList.forEach((self) => {
                     if (self.nda && self.nda == item.signNdaStatus) {
                       self.arr.push(item);
                     }
@@ -489,8 +496,8 @@ export default {
       //   .then(res => {
 
       //   });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

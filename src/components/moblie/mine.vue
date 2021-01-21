@@ -7,7 +7,7 @@
       </template>-->
       <template v-slot:arrowRight>
         <p class="iconRight">
-          <span class="iconfont icon-1" @click="$routerto('setNickname')"></span>
+          <span class="iconfont icon-bitbroicon_setting" @click="$routerto('setNickname')"></span>
           <span class="iconfont icon-message" @click="$routerto('AccountMessage')"></span>
         </p>
       </template>
@@ -22,22 +22,22 @@
       <ul>
         <li @click="$routerto('vip')">
           <div class="iconfont icon-account"></div>
-          <div>Membership</div>
+          <div>{{$t('Account.Membership')}}</div>
         </li>
         <li @click="$routerto('personalReview')">
           <div class="iconfont icon-account"></div>
           <div>{{$t('Account.PersonalReview')}}</div>
         </li>
-        <li>
-          <div class="iconfont icon-account"></div>
+        <li @click="switch_language">
+          <div class="iconfont icon-language"></div>
           <div>{{$t('Account.Language')}}</div>
         </li>
         <li @click="$routerto('forgotpassword')">
-          <div class="iconfont icon-account"></div>
-          <div>{{$t('Account.Password')}}</div>
+          <div class="iconfont icon-password"></div>
+          <div>{{$t('common.changePassword')}}</div>
         </li>
         <li @click="()=>remindervisible=true">
-          <div class="iconfont icon-account"></div>
+          <div class="iconfont icon-quit"></div>
           <div>{{$t('Account.Logout')}}</div>
         </li>
       </ul>
@@ -45,11 +45,27 @@
     <DialogMsg
       :msg="content"
       :title.sync="title"
-      :successto="successto"
       @comfirmFromDialog="loginout"
       :showCancel="true"
       :remindervisible.sync="remindervisible"
     ></DialogMsg>
+    <van-dialog
+      v-model="show"
+      :title="$t('common.SwitchLanguage')"
+      show-cancel-button
+      :beforeClose="changelanguage"
+    >
+      <van-radio-group v-model="radio">
+        <van-cell-group>
+          <van-cell :title="$t('common.English')" clickable @click="radio ='en_US'">
+            <van-radio slot="right-icon" name="en_US" />
+          </van-cell>
+          <van-cell :title="$t('common.Chinese')" clickable @click="radio = 'zh_CN'">
+            <van-radio slot="right-icon" name="zh_CN" />
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
+    </van-dialog>
   </div>
 </template>
 <script>
@@ -61,11 +77,7 @@ export default {
       email: "",
       content: this.$t("common.YouChooseToLogOut"),
       title: "",
-      successto: "",
       remindervisible: false,
-      correct_password: false,
-      password1: "",
-      password2: "",
       reminder: "",
       logout: false,
       radio: "",
@@ -76,71 +88,31 @@ export default {
     };
   },
   created() {
-    // this.radio= window.localStorage.getItem("language");
-    // this.$loading();
-    this.$store.commit("isloading", true);
-    this.$global
-      .get_encapsulation(
-        `${this.$axios.defaults.baseURL}/bsl_web/user/getAuthDetails`
-      )
-      .then(res => {
-        this.$store.commit("isloading", false);
-        if (res.data.resultCode == 10000) {
-          if (res.data.data.userIdentityType == 1) {
-            this.user_infor.username = res.data.data.userName;
-          } else if (res.data.data.userIdentityType == 2) {
-            this.user_infor.username =
-              this.$i18n.locale == "zh_CN"
-                ? res.data.data.userCompanyCh
-                : res.data.data.userCompanyEn;
-          }
-
-          this.user_infor.account = res.data.data.bslEmail;
-        }
-      });
+    this.getAuthDetails();
+    this.radio = this.$i18n.locale;
   },
   methods: {
-    correct_password_function() {
-      this.correct_password = true;
-    },
-    correct_password_fun(action, done) {
-      if (action === "confirm") {
-        if (this.password1 && this.password2) {
-          if (this.password1 === this.password2) {
-            this.$global
-              .post_encapsulation(
-                `${this.$axios.defaults.baseURL}/bsl_web/user/updatePwd`,
-                { newPwd: this.password1 }
-              )
-              .then(res => {
-                this.reminder = res.data.resultDesc;
-                if (res.data.resultCode == 10000) {
-                  setTimeout(() => {
-                    this.password1 = "";
-                    this.password2 = "";
-                    this.reminder = "";
-                    done();
-                  }, 1000);
-                } else {
-                  done(false);
-                }
-              });
-          } else {
-            this.reminder = this.$t(
-              "common.PasswordsEnteredTwiceAreInconsistent"
-            );
-            done(false);
+    getAuthDetails() {
+      this.$store.commit("isloading", true);
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/getAuthDetails`
+        )
+        .then(res => {
+          this.$store.commit("isloading", false);
+          if (res.data.resultCode == 10000) {
+            if (res.data.data.userIdentityType == 1) {
+              this.user_infor.username = res.data.data.userName;
+            } else if (res.data.data.userIdentityType == 2) {
+              this.user_infor.username =
+                this.$i18n.locale == "zh_CN"
+                  ? res.data.data.userCompanyCh
+                  : res.data.data.userCompanyEn;
+            }
+
+            this.user_infor.account = res.data.data.bslEmail;
           }
-        } else {
-          this.reminder = this.$t("common.PleaseFillInTheNewPassword");
-          done(false);
-        }
-      } else if (action === "cancel") {
-        this.password1 = "";
-        this.password2 = "";
-        this.reminder = "";
-        done(); //关闭
-      }
+        });
     },
     changelanguage(action, done) {
       if (action === "confirm") {
@@ -154,10 +126,7 @@ export default {
               window.localStorage.setItem("language", this.radio);
               this.$Local(this.radio);
               this.$i18n.locale = this.radio;
-              this.$store.dispatch(
-                "X_Token_actions",
-                JSON.parse(res.data.data).X_Token
-              );
+              this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
             }
             this.$toast(res.data.resultDesc);
             done();
@@ -180,7 +149,9 @@ export default {
           if (res.data.resultCode == 10000) {
             this.$store.dispatch("reset_actions", this.$restore_obj);
             sessionStorage.clear();
-            this.$routerto("homePage");
+            // location.replace = process.env.WEB_API;
+            // this.$routerto("homePage");
+            location.href = process.env.WEB_API;
           }
         });
     }
@@ -191,11 +162,37 @@ export default {
 /*van-fade-enter-active*/
 /*van-fade-enter-to*/
 #mine {
-    #common_nav header .iconRight {
+  #common_nav header .iconRight {
     display: flex;
     align-items: center;
   }
-  .icon-1 {
+  .van-radio__icon--checked .van-icon {
+    color: #00f0ab;
+    background-color: #fff;
+  }
+  .van-radio__icon .van-icon {
+    border: 1px solid #fff;
+  }
+  .van-cell-group {
+    background-color: #00f0ab;
+  }
+  .van-hairline--top-bottom::after,
+  .van-hairline-unset--top-bottom::after {
+    border-width: 0 0;
+  }
+  .van-cell::after {
+    border-bottom: 0;
+  }
+  // .van-hairline--top-bottom::after {
+  //   border-width: 2px 0;
+  // }
+  // .van-hairline-unset--top-bottom::after {
+  //   border-width: 0 0;
+  // }
+  // .van-cell::after {
+  //   border-bottom: 2px solid #fff;
+  // }
+  .icon-bitbroicon_setting {
     font-size: 20px;
     margin-right: 10px;
   }
@@ -256,7 +253,7 @@ export default {
 #mine {
   // padding-top: vw(46);
   // padding-bottom: vw(116);
-    overflow-y: auto;
+  overflow-y: auto;
   header {
     height: vw(56);
     box-sizing: initial;

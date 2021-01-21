@@ -1,90 +1,70 @@
 <template>
   <div id="signContract">
     <commonnav>
-      {{$t('project.Contract')}}
+      {{ $t("project.Contract") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>
-      <h1>{{$t('project.Step1Pleaseaddcompletecontractdetails')}}</h1>
+      <h1>{{ $t("project.Step1Pleaseaddcompletecontractdetails") }}</h1>
       <form ref="form" @submit.prevent="submit_click">
-        <section v-for="(item) in validateForm.datalist" :key="item.cellInfo">
-          <div v-if="item.type===2" class="mui-input-row input-row">
-            <p class="label">{{item.cellInfo}}</p>
+        <section v-for="item in datalist" :key="item.cellInfo">
+          <div v-if="item.type === 2" class="mui-input-row input-row">
+            <p class="label">{{ item.cellInfo }}</p>
             <input name="userName" type="text" v-model="item.listCell[0]" />
             <!-- <section v-for="(i,d) in item.listCell" :key="d">
               <span>{{d+1}}</span>
               <input name="userName" type="text" v-model="item.listCell[d]" />
             </section>-->
           </div>
-          <div v-if="item.type===3" class="mui-input-row input-row">
-            <p class="label">{{item.cellInfo}}</p>
+          <div v-if="item.type === 3" class="mui-input-row input-row">
+            <p class="label">{{ item.cellInfo }}</p>
             <!-- <input name="userName" type="text" v-model="validateForm.username" />- -->
             <!-- <select class="label" style="width:100%;border:none" v-model="one">
               <option v-for="(self,index) in item.listCell" :value="index" :key="index">{{self}}</option>
             </select>-->
-
-
-            
-            <a-select placeholder="Select" size="large" @change="handleChange">
-              <van-icon slot="suffixIcon" name="arrow-down" />
+            <a-select
+              :default-value="item.listCell.lenghth ? null : 0"
+              placeholder="Select"
+              size="large"
+              @change="handleChange"
+            >
+              <!-- <van-icon slot="suffixIcon" name="icon-bitbroicon7" /> -->
+              <span slot="suffixIcon" class="iconfont icon-bitbroicon12"></span>
               <a-select-option
                 :value="index"
-                v-for="(self,index) in item.listCell"
+                v-for="(self, index) in item.listCell"
                 :key="index"
-              >{{self}}</a-select-option>
+                >{{ self }}</a-select-option
+              >
             </a-select>
-            <!-- <div class="divInput">
-              <div class="input" @click="openValue">
-                <van-icon name="arrow-left" />
-              </div>
-              <div class="list" v-show="show">
-                <ul>
-                  <li
-                    @click="getvalue(index,self)"
-                    v-for="(self,index) in item.listCell"
-                    :key="index"
-                  >{{ self }}</li>
-                </ul>
-              </div>
-            </div>-->
             <br />
           </div>
-          <div v-if="item.type===4 " class="mui-input-row input-row">
-            <p class="label">{{item.cellInfo}}</p>
-            <p>{{item.listCell[one]}}</p>
-            <!-- <div v-for="(i,idx) in item.listCell[one]" :key="idx" class="mui-input-row input-row">
-              <p class="label">{{idx+1}}.</p>
-              <p>{{i}}</p>
-            </div>-->
+          <div v-if="item.type === 4" class="mui-input-row input-row">
+            <p class="label">{{ item.cellInfo }}</p>
+            <p>{{ item.listCell[one] }}</p>
           </div>
         </section>
-        <!-- <div  class="mui-input-row input-row" >
-          <p class="label">{{$t('project.FinderCompanyName')}}</p>
-          <input name="userName" type="text" v-model="validateForm.username" />
-        </div>-->
-        <!-- <div class="mui-input-row input-row">
-          <p class="label">{{$t('project.FinderAddress')}}</p>
-          <input name="Password" type="text" v-model="validateForm.password" />
-        </div>-->
-        <p class="error">{{errorsMsg}}</p>
+        <p class="error">{{ errorsMsg }}</p>
         <button
           :disabled="isdisabled"
-          :class="isdisabled?'passive':'active'"
+          :class="isdisabled ? 'passive' : 'active'"
           class="button is-primary"
           type="submit"
-        >{{$t('common.Submit')}}</button>
+        >
+          {{ $t("common.Submit") }}
+        </button>
       </form>
     </main>
-    <DialogMsg
+    <!-- <DialogMsg
       :remindervisible.sync="remindervisible"
       :confirmButtonText="confirmButtonText"
       @comfirmFromDialog="comfirmFromDialog"
       :title="title"
       :showCancel="false"
       :msg="msg"
-    ></DialogMsg>
+    ></DialogMsg>-->
   </div>
 </template>
 <script>
@@ -99,35 +79,25 @@ export default {
   //     next();
   //   }
   // },
+
   data() {
     return {
-      one: 0,
-      remindervisible: false,
-      confirmButtonText: "",
-      cancelButtonText: "",
-      msg: "",
-      title: "",
-      show: false,
+      one: 0, //选择role
+      // remindervisible: false,
+      // confirmButtonText: "",
+      // cancelButtonText: "",
+      // msg: "",
+      // title: "",
       resultCode: null,
-      validateForm: {
-        username: "",
-        password: "",
-        datalist: []
-      },
-      errorsMsg: ""
+      datalist: [],
+      errorsMsg: "",
     };
   },
   created() {
     this.middlemanGetContractItems();
   },
   computed: {
-    isdisabled() {
-      // if (this.validateForm.username && this.validateForm.password) {
-      //   return false;
-      // } else {
-      //   return true;
-      // }
-    }
+    isdisabled() {},
   },
   methods: {
     comfirmFromDialog(data) {
@@ -135,7 +105,6 @@ export default {
       if (this.resultCode === 10000) {
         this.$routerto("agentsignContractStep2", this.$route.query);
       }
-
       // setTimeout(() => {
       //   // this.title = "Sign NDA";
       //   // this.msg = "Please sign the NDA to get more information";
@@ -156,17 +125,18 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanGetContractItems`,
           {
             signId: this.$route.query.signId,
-            middlemanId: this.$route.query.middlemanId
+            middlemanId: this.$route.query.middlemanId,
           }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
-            this.validateForm.datalist = res.data.data.list;
-            this.validateForm.datalist.forEach(element => {
-              if (element.type == 3) {
-                // this.one = item.listCell;
-                console.log(element);
+            this.datalist = res.data.data.list;
+            this.datalist.forEach((item) => {
+              if (item.type === 2) {
+                if (!item.listCell.length) {
+                  item.listCell.push("");
+                }
               }
             });
           }
@@ -174,15 +144,19 @@ export default {
         });
     },
     submit_click() {
-      this.validateForm.datalist.forEach((item, idx) => {
-        if (item.type === 3) {
-          item.listCell.forEach((i, d) => {
-            if (this.one !== d) {
-              item.listCell.splice(d, 1);
-            }
-          });
-        }
-        if (item.type === 4) {
+      // console.log(this.validateForm.datalist);
+      this.errorsMsg = "";
+      let errorMsg = this.validateFunc();
+      if (errorMsg) {
+        this.errorsMsg = errorMsg;
+        return false;
+      }
+      this.middlemanSaveContractItems();
+    },
+    middlemanSaveContractItems() {
+      let arr = this.$global.deepCopy(this.datalist);
+      arr.forEach((item, idx) => {
+        if (item.type === 3 || item.type === 4) {
           item.listCell.forEach((i, d) => {
             if (this.one !== d) {
               item.listCell.splice(d, 1);
@@ -190,57 +164,69 @@ export default {
           });
         }
       });
-      console.log(this.validateForm.datalist);
       this.$store.commit("isloading", true);
       this.$global
         .post_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanSaveContractItems`,
           {
-            importListStr: this.validateForm.datalist,
+            importListStr: arr,
             signId: this.$route.query.signId,
-            middlemanId: this.$route.query.middlemanId
+            middlemanId: this.$route.query.middlemanId,
           }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
-          this.title = "Reminder";
+          // this.title = "Reminder";
           this.resultCode = res.data.resultCode;
           this.msg = res.data.resultDesc;
-          this.confirmButtonText = "Yes";
+          // this.confirmButtonText = "Yes";
           // this.cancelButtonText = "No";
-          this.remindervisible = true;
+          this.$dialog
+            .alert({
+              message: this.msg,
+            })
+            .then(() => {
+              if (this.resultCode == 10000) {
+                this.$routerto("agentsignContractStep2", this.$route.query);
+              }
+            });
         });
-      // console.log(123)
-      // this.errorsMsg = "";
-      // let errorMsg = this.validateFunc();
-      // if (errorMsg) {
-      //   this.errorsMsg = errorMsg;
-      //   // console.log(errorMsg);
-      //   return false;
-      // }
     },
     validateFunc() {
       let self = this;
       let validator = new this.$Validator();
-      validator.add(self.validateForm.username, [
-        ["isNotEmpty", this.$t("common.isno")],
-        ["minLength|6", "不允许以空白字符命名"]
-      ]);
-      validator.add(self.validateForm.password, [
-        ["isNotEmpty", "用户名不可为空"]
-      ]);
+      this.datalist.forEach((item, idx) => {
+        if (item.type === 2) {
+          validator.add(item.listCell[0], [
+            ["isNotEmpty", this.$t("common.Pleasefillout")],
+          ]);
+        }
+      });
+      // console.log(this.validateForm.datalist);
       var errorMsg = validator.start(); // 获得效验结果
       return errorMsg; // 返回效验结果
     },
-    toggle(index) {
-      this.$refs.checkboxes[index].toggle();
-    },
-    delectTag(item, idx) {
-      this.taglist.splice(idx, 1);
-    }
-  }
+  },
 };
 </script>
+<style lang="scss">
+.ant-select {
+  width: 100%;
+  .icon-bitbroicon12 {
+    font-size: vw(20);
+    color: #4f3dad;
+  }
+}
+.ant-select-lg {
+  font-size: vw(26);
+}
+.ant-select-lg .ant-select-selection__rendered {
+  line-height: vw(60);
+}
+.ant-select-lg .ant-select-selection--single {
+  height: vw(60);
+}
+</style>
 <style lang="scss" scoped>
 #signContract {
   main {
@@ -305,6 +291,7 @@ export default {
     .mui-input-row {
       margin-bottom: vw(60);
       font-size: vw(26);
+
       p.label {
         margin-bottom: vw(62);
         height: vw(32);

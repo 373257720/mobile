@@ -1,6 +1,8 @@
 export default {
   agent: {
     Whorecommendme: "谁推荐我",
+    MyrecommendedMiddleman: "我推荐的中间人",
+    MyrecommendedInvestors: "我推荐的投资人",
     SignTheContract: "签署合约",
     Sign: "签署",
     RecommendInvestors: "推荐投资者",
@@ -50,6 +52,12 @@ export default {
     inconsistent: "不一致"
   },
   common: {
+    English:"英文",
+    Chinese:"中文",
+    Pleasefillout:"请填写完整表格",
+    Pleasechoose:"请选择",
+    Tag:"标签",
+    Nodata:"没有数据",
     Send:"发送",
     Search: "搜索",
     Fliter: "筛选",
@@ -151,6 +159,7 @@ export default {
     IdentificationNumber: "身份证号码",
     IDCardFront: "身份证正面",
     IDCardBack: "身份证背面",
+    IDCardFrontandBack: "身份证正面和反面",
     passport: "护照",
     CertificateNumber: "证件号码",
     PleaseNationality: "请输入国籍",
@@ -217,7 +226,7 @@ export default {
     ARound: "A轮",
     BRound: "B轮",
     CRound: "C轮",
-    PreIPO:"上市前私募",
+    PreIPO:"上市前融资",
     DebtFinancing: "债务融资",
     SigningTime: "签约成功时间",
     IntermediaryInformation: "中间人资料",
@@ -233,6 +242,7 @@ export default {
     Contacts: "联络人"
   },
   Account: {
+    Membership:"会员",
     Message: "信息",
     Comfirm: "确认",
     Account: "账户",
@@ -246,9 +256,24 @@ export default {
     WhethertoshowMiddleman: "是否向中间人出示实名",
     Whethertoshowleaderboard: "Whethertoshowleaderboard",
   },
+  Bargin:{
+    Intermediary: "中间人",
+    Projectparty:"项目方",
+    Suggest:"建议",
+    SuggestBack:"反建议",
+    Percentagebyintermediaries:"中介机构筹集资金总额的百分比",
+    Percentageprojectparty:"项目方佣金收入的百分比",
+    Accept:"接受",
+    Suggest:"建议",
+    Reject:"拒绝"
+  },
   project: {
     Recommand:"推荐",
+    Step1Pleasechooseasuitablecontracttemple:
+    "第一步请选择一个合适的合同模板",
     Step1Pleaseaddcompletecontractdetails:"第一步请补充完整的合约细节内容",
+    Step2Pleaseaddcompletecontractdetails:"第二步请添加完整的合同细节",
+    Step3pleasechoosesuitablecommissionsharingmechanism:"第三步请选择合适的佣金分成机制",
     Contract:"合约",
     FinderCompanyName:"公司名称",
     FinderAddress:"公司地址",
@@ -275,7 +300,8 @@ export default {
     NDAhasChained:"NDA签署已上链",
     MiddleAgreeContract:"中间人已同意待签约项目",
     waitMiddleSigned:"你已签约等待中间人签约项目",
-    unfinishedSignContract:"未能完成签约程序",
+    waitMiddlemanSigned:"项目方已签约等待您签约",
+    unfinishedSignContract:"已签约待上链",
     chainedToRecommand:"已上链待推荐",
     waitChecked:"待审核项目",
     CheckedTosend:"已审核待发送",

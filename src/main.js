@@ -14,16 +14,19 @@ import { i18n } from "./language";
 import "../static/icon/iconfont.css";
 Vue.config.productionTip = false;
 Vue.prototype.$qs = qs;
-// 富文本
+
 const url = process.env.BASE_API;
 axios.defaults.baseURL = url;
-// axios.defaults.timeout = 60000;
+import G6 from '@antv/g6';
+
+//axios.defaults.timeout = 60000;
 // store.commit("isloading", false);
-// console.log(store.state);
+console.log(store.state);
 
 import "./components/moblie/vee-validate/validate";
 import { Validator } from "../src/components/moblie/validation";
 Vue.prototype.$Validator = Validator;
+// 富文本
 // import "font-awesome/css/font-awesome.css";
 // import initRichText from "./editor";
 // initRichText();
@@ -33,10 +36,10 @@ import "amfe-flexible/index.js";
 // Vue.use(Validator);
 
 // import Vue from 'vue'
-import VueDraggableResizable from "vue-draggable-resizable";
-// 可选择导入默认样式
-import "vue-draggable-resizable/dist/VueDraggableResizable.css";
-Vue.component("vue-draggable-resizable", VueDraggableResizable);
+// import VueDraggableResizable from "vue-draggable-resizable";
+// // 可选择导入默认样式
+// import "vue-draggable-resizable/dist/VueDraggableResizable.css";
+// Vue.component("vue-draggable-resizable", VueDraggableResizable);
 // vuex
 import Vuex from "vuex";
 Vue.use(Vuex);
@@ -84,7 +87,6 @@ import "./css/base.css";
 import "./css/base.scss";
 import { Dialog } from "vant";
 Vue.use(Dialog);
-
 import { Toast } from "vant";
 Vue.use(Toast);
 import { Locale } from "vant";
@@ -101,14 +103,9 @@ function locales(a) {
 }
 Vue.prototype.$Local = locales;
 // 多语言设置
-let z = localStorage.getItem("language")
-  ? localStorage.getItem("language")
-  : "en_US";
+let z = localStorage.getItem("language") || "en_US";
 locales(z);
-i18n.locale = localStorage.getItem("language")
-  ? localStorage.getItem("language")
-  : "en_US";
-
+i18n.locale = localStorage.getItem("language") || "en_US";
 window.addEventListener(
   "popstate",
   function(e) {
@@ -213,31 +210,16 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-// console.log(process.env);
-
-// import "muse-ui-loading/dist/muse-ui-loading.css"; // load css
-// import Loading from "muse-ui-loading";
-// Vue.use(Loading);
 Vue.prototype.$routerto = function routerTo(name, obj) {
   router.push({
     name: name,
     query: obj
   });
 };
-Vue.prototype.$loading = function loading() {
-  this.$toast.loading({
-    loadingType: "circular",
-    overlay: true,
-    className: "selfloading",
-    // message: 'loading...',
-    forbidClick: true,
-    duration: 0
-  });
-};
-Vue.prototype.$loadingfail = function loadingfail() {
-  this.$toast.fail({
-    // loadingType: 'spinner',
-    message: "failed"
+Vue.prototype.$replaceto = function replaceTo(name, obj) {
+  router.replace({
+    name: name,
+    query: obj
   });
 };
 var baseurl = {
@@ -268,12 +250,6 @@ import cavans from "./components/moblie/cavans.vue";
 Vue.component("cavans", cavans);
 import common_nav from "./components/moblie/common/common_nav.vue";
 Vue.component("commonnav", common_nav);
-import box from "./components/moblie/3box";
-Vue.component("boxx", box);
-import commondetails from "./components/moblie/common/common_details";
-Vue.component("commondetails", commondetails);
-import commoninvestors from "./components/moblie/common/common_investors";
-Vue.component("commoninvestors", commoninvestors);
 import contract from "./components/moblie/contract";
 Vue.component("contractcomponent", contract);
 import DialogMsg from "./components/moblie/dialog";

@@ -1,101 +1,132 @@
 <template>
   <div id="vip">
     <commonnav>
-      personal Review
+      {{ $t("Account.PersonalReview") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
-    <main>
+    <main v-if="optStatus === 0">
+      <h2>{{ $t("common.YourInformationHasBeenSubmitted") }}</h2>
+    </main>
+    <main v-if="optStatus == 1 || optStatus == 2">
       <ul>
         <li class="mui-input-row input-row">
-          <aside>{{$t('common.Genus')}}:</aside>
+          <aside>{{ $t("common.Genus") }}:</aside>
           <p>
-            <span>{{formdata.userType}}</span>
+            <span>{{ formdata.userType }}</span>
           </p>
         </li>
         <li class="mui-input-row input-row">
-          <aside>{{$t('common.Identity')}}:</aside>
+          <aside>{{ $t("common.Identity") }}:</aside>
           <p>
-            <span>{{optionId[formdata.userIdentityType] }}</span>
+            <span>{{ optionId[formdata.userIdentityType] }}</span>
           </p>
         </li>
         <li class="mui-input-row input-row">
-          <aside>{{$t('common.Nationality')}}:</aside>
+          <aside>{{ $t("common.Nationality") }}:</aside>
           <p>
-            <span>{{formdata.userCountryEn}}</span>
+            <span v-if="$i18n.locale == 'zh_CN'">{{
+              formdata.userCountryCh
+            }}</span>
+            <span v-else>{{ formdata.userCountryEn }}</span>
           </p>
         </li>
         <li
-          v-if="formdata.userIdentityType==2 && this.$i18n.locale=='en_US'"
+          v-if="formdata.userIdentityType == 2 && this.$i18n.locale == 'en_US'"
           class="mui-input-row input-row"
         >
-          <aside>{{$t('common.CompanyName')}}:</aside>
+          <aside>{{ $t("common.CompanyName") }}:</aside>
           <p>
-            <span>{{formdata.userCompanyEn}}</span>
+            <span>{{ formdata.userCompanyEn }}</span>
           </p>
         </li>
         <li
-          v-if="formdata.userIdentityType==2 && this.$i18n.locale=='zh_CN'"
+          v-if="formdata.userIdentityType == 2 && this.$i18n.locale == 'zh_CN'"
           class="mui-input-row input-row"
         >
-          <aside>{{$t('common.CompanyName')}}:</aside>
+          <aside>{{ $t("common.CompanyName") }}:</aside>
           <p>
-            <span>{{formdata.userCompanyCh}}</span>
+            <span>{{ formdata.userCompanyCh }}</span>
           </p>
         </li>
         <li
-          v-if="formdata.userIdentityType==2 && this.$i18n.locale=='en_US'"
+          v-if="formdata.userIdentityType == 2 && this.$i18n.locale == 'en_US'"
           class="mui-input-row input-row"
         >
-          <aside>{{$t('common.CompanyAddress')}}:</aside>
+          <aside>{{ $t("common.CompanyAddress") }}:</aside>
           <p>
-            <span>{{formdata.userAddressCh}}</span>
+            <span>{{ formdata.userAddressEn }}</span>
           </p>
         </li>
         <li
-          v-if="formdata.userIdentityType==2 && this.$i18n.locale=='zh_CN'"
+          v-if="formdata.userIdentityType == 2 && this.$i18n.locale == 'zh_CN'"
           class="mui-input-row input-row"
         >
-          <aside>{{$t('common.CompanyAddress')}}:</aside>
+          <aside>{{ $t("common.CompanyAddress") }}:</aside>
           <p>
-            <span>{{formdata.userAddressEn}}</span>
-          </p>
-        </li>
-        <li v-if="formdata.userIdentityType==1" class="mui-input-row input-row">
-          <aside>{{$t('common.PersonalName')}}:</aside>
-          <p>
-            <span>{{formdata.userName}}</span>
+            <span>{{ formdata.userAddressCh }}</span>
           </p>
         </li>
         <li
-          v-if="formdata.userIdentityType==1 && formdata.userCountryEn=='China'"
+          v-if="formdata.userIdentityType == 1"
           class="mui-input-row input-row"
         >
-          <aside>{{$t('common.IdentificationNumber')}}:</aside>
+          <aside>{{ $t("common.PersonalName") }}:</aside>
           <p>
-            <span>{{formdata.userIdentity}}</span>
+            <span>{{ formdata.userName }}</span>
           </p>
         </li>
-        <li v-else-if="formdata.userIdentityType==1" class="mui-input-row input-row">
-          <aside>{{$t('common.passport')}}:</aside>
+        <li
+          v-if="
+            formdata.userIdentityType == 1 && formdata.userCountryEn == 'China'
+          "
+          class="mui-input-row input-row"
+        >
+          <aside>{{ $t("common.IdentificationNumber") }}:</aside>
           <p>
-            <span>{{formdata.userIdentity}}</span>
+            <span>{{ formdata.userIdentity }}</span>
           </p>
         </li>
-        <li v-if="formdata.userIdentityType==1 && formdata.userCountryEn=='China'" class="pic">
-          <aside>{{$t('common.IdentificationNumber')}}:</aside>
+        <li
+          v-else-if="formdata.userIdentityType == 1"
+          class="mui-input-row input-row"
+        >
+          <aside>{{ $t("common.passport") }}:</aside>
+          <p>
+            <span>{{ formdata.userIdentity }}</span>
+          </p>
+        </li>
+        <li
+          v-if="
+            formdata.userIdentityType == 1 && formdata.userCountryEn == 'China'
+          "
+          class="pic"
+        >
+          <aside>{{ $t("common.IdentificationNumber") }}:</aside>
           <img :src="formdata.identityPicOne" alt />
-        </li>
-        <li v-else-if="formdata.userIdentityType==1" class="pic">
-          <aside>{{$t('common.passport')}}:</aside>
           <img :src="formdata.identityPicTwo" alt />
         </li>
-        <li v-if="formdata.userIdentityType==2" class="pic">
-          <aside>{{$t('common.Certificate')}}:</aside>
+        <li v-else-if="formdata.userIdentityType == 1" class="pic">
+          <aside>{{ $t("common.passport") }}:</aside>
+          <img :src="formdata.identityPicOne" alt />
+        </li>
+        <li v-if="formdata.userIdentityType == 2" class="pic">
+          <aside>{{ $t("common.Certificate") }}:</aside>
           <img :src="formdata.userCompanyPic" alt />
         </li>
       </ul>
+      <h2 v-if="optStatus == 2">
+        <h3>{{ $t("common.YourReviewFailed") }}</h3>
+        <p v-for="(item, idx) in formdata.optRemark" :key="item">
+          {{ idx + 1 }}.{{ item }}
+        </p>
+      </h2>
+      <footer v-if="optStatus == 2">
+        <van-button @click="$routerto('verify')">{{
+          $t("common.ApplyAgain")
+        }}</van-button>
+      </footer>
     </main>
   </div>
 </template>
@@ -104,14 +135,15 @@ export default {
   name: "vip",
   data() {
     return {
+      optStatus: null, //verify 0 pending 1 success 2 failed
       optionType: [
         { text: this.$t("common.ProjectParty"), value: 1 },
         { text: this.$t("common.Middleman"), value: 4 },
-        { text: this.$t("common.Investor"), value: 3 }
+        { text: this.$t("common.Investor"), value: 3 },
       ],
       optionId: {
         1: this.$t("common.individual"),
-        2: this.$t("common.company")
+        2: this.$t("common.company"),
       },
       // optionId: [
       //   { text: this.$t("common.individual"), value: 1 },
@@ -133,10 +165,11 @@ export default {
         userAddressCh: "",
         userAddressEn: "",
         userCompanyPic: "",
-        userType: null
+        userType: null,
+        optRemark: "",
         // X_Token: this.$store.state.X_Token
         // identity: ""
-      }
+      },
     };
   },
   created() {
@@ -151,40 +184,42 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/user/getAuthDetails`
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
-          for (let key in res.data.data) {
-            for (let k in this.formdata) {
-              if (key == k) {
-                if (key == "userType") {
-                  this.optionType.forEach(element => {
-                    if (res.data.data[key] === element.value) {
-                      this.formdata[k] = element.text;
-                    }
-                  });
-                } else if (
-                  key == "userCompanyPic" ||
-                  key == "identityPicOne" ||
-                  key == "identityPicTwo"
-                ) {
-                  this.formdata[k] =
-                    this.$axios.defaults.baseURL + res.data.data[key];
-                  console.log(this.formdata[k]);
-                } else if (key == "userCountryEn") {
-                  this.formdata[k] =
-                    this.$i18n.locale == "zh_CH"
-                      ? res.data.data["userCountry"]
-                      : res.data.data["userCountryEn"];
-                } else {
-                  this.formdata[k] = res.data.data[key];
+          if (res.data.resultCode === 10000) {
+            this.optStatus = res.data.data.optStatus;
+            for (let key in res.data.data) {
+              for (let k in this.formdata) {
+                if (key == k) {
+                  if (key == "userType") {
+                    this.optionType.forEach((element) => {
+                      if (res.data.data[key] === element.value) {
+                        this.formdata[k] = element.text;
+                      }
+                    });
+                  } else if (
+                    key == "userCompanyPic" ||
+                    key == "identityPicOne" ||
+                    key == "identityPicTwo"
+                  ) {
+                    this.formdata[k] =
+                      this.$axios.defaults.baseURL + res.data.data[key];
+                    // console.log(this.formdata[k]);
+                  } else if (key == "optRemark") {
+                    this.formdata[k] = res.data.data[key].split(",");
+                  } else {
+                    this.formdata[k] = res.data.data[key];
+                  }
                 }
               }
             }
           }
+
+          console.log(this.formdata);
         });
-    }
+    },
     // handleleterClick() {},
-  }
+  },
 };
 </script>
 
@@ -192,6 +227,21 @@ export default {
 #vip {
   main {
     padding: vw(140) vw(60) vw(116);
+    h2 {
+      margin-bottom: vw(20);
+
+      h3 {
+        font-weight: bold;
+        font-size: vw(50);
+        color: #4f3dad;
+        text-align: center;
+      }
+      p {
+        font-weight: bold;
+        font-size: vw(30);
+        color: #4f3dad;
+      }
+    }
     ul {
       li {
         font-size: vw(30);
@@ -217,12 +267,37 @@ export default {
         img {
           width: 100%;
           height: vw(288);
-          border: vw(4) dashed #4f3dad;
+          border: vw(2) dashed #4f3dad;
           opacity: 1;
         }
         img:nth-of-type(2) {
           margin-top: vw(66);
         }
+      }
+    }
+    footer {
+      font-weight: bold;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      p {
+        font-size: vw(20);
+        color: #00f0ab;
+
+        text-decoration: underline;
+        margin-bottom: vw(32);
+      }
+      button {
+        min-width: vw(186);
+        height: vw(72);
+        background: #00f0ab;
+        border-radius: vw(16);
+        font-size: vw(26);
+        line-height: vw(72);
+        color: #ffffff;
+      }
+      button:nth-of-type(1) {
+        margin-bottom: vw(30);
       }
     }
   }

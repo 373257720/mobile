@@ -1,13 +1,13 @@
 <template>
   <div id="signContract">
     <commonnav>
-      {{$t('project.Contract')}}
+      {{ $t("project.Contract") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>
-      <h1>Step 1 Please choose a suitable contract sample</h1>
+      <h1>{{ $t("project.Step1Pleasechooseasuitablecontracttemple") }}</h1>
       <div class="divInput">
         <!-- <div class="input" @click="openValue">
           <input v-model="Template" type="text" placeholder="筛选实验类型" />
@@ -24,13 +24,14 @@
         </div>-->
         <a-select placeholder="Select" size="large" @change="handleChange">
           <!-- <icon-font slot="suffixIcon"  type="icon-account" /> -->
-          <span slot="suffixIcon" class="iconfont icon-arrow_under"></span>
+          <span slot="suffixIcon" class="iconfont icon-bitbroicon12"></span>
           <!-- <van-icon slot="suffixIcon" name="arrow-down" /> -->
           <a-select-option
-            v-for="(item,index) in TemplateList"
+            v-for="(item, index) in TemplateList"
             :value="index"
             :key="item.id"
-          >{{item.fileName}}</a-select-option>
+            >{{ item.fileName }}</a-select-option
+          >
         </a-select>
       </div>
       <!-- <article>{{article}}</article> -->
@@ -39,24 +40,6 @@
       <footer>
         <van-button @click="go">Next</van-button>
       </footer>
-
-      <!-- <form ref="form" @submit.prevent="submit_click">
-        <div class="mui-input-row input-row">
-          <p class="label">{{$t('project.FinderCompanyName')}}</p>
-          <input name="userName" type="text" v-model="validateForm.username" />
-        </div>
-        <div class="mui-input-row input-row">
-          <p class="label">{{$t('project.FinderAddress')}}</p>
-          <input name="Password" type="text" v-model="validateForm.password" />
-        </div>
-        <p class="error">{{errorsMsg}}</p>
-        <button
-          :disabled="isdisabled"
-          :class="isdisabled?'passive':'active'"
-          class="button is-primary"
-          type="submit"
-        >{{$t('common.Submit')}}</button>
-      </form>-->
     </main>
   </div>
 </template>
@@ -64,26 +47,34 @@
 import { Icon } from "ant-design-vue";
 import myicon from "../../../../../static/icon/iconfont";
 const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: myicon
+  scriptUrl: myicon,
 });
 export default {
   name: "mhome",
   components: {
-    IconFont
+    IconFont,
+  },
+  beforeRouteLeave(to, from, next) {
+    if (to.name === "ibankSignContractStep2") {
+      to.meta.keepAlive = false;
+      next();
+    } else {
+      next();
+    }
   },
   data() {
     return {
       show: false,
       validateForm: {
         username: "",
-        password: ""
+        password: "",
       },
       one: 0,
       fileId: "",
       article: "",
       Template: "",
       TemplateList: [],
-      errorsMsg: ""
+      errorsMsg: "",
     };
   },
   created() {
@@ -91,19 +82,35 @@ export default {
     this.signStatus4 = this.$route.query.signStatus4;
     this.signId = this.$route.query.signId;
     this.middlemanId = this.$route.query.middlemanId;
-    this.getContractTemplateList();
-    // /bsl_web/projectSign/getContractTemplateList
+    if (this.signStatus4 == 16) {
+      this.getMiddlemanContractTemplateList();
+    } else {
+      this.getContractTemplateList();
+    }
   },
   computed: {
     isdisabled() {
-      if (this.validateForm.username && this.validateForm.password) {
+      if (this.article) {
         return false;
       } else {
         return true;
       }
-    }
+    },
   },
   methods: {
+    getMiddlemanContractTemplateList() {
+      this.$store.commit("isloading", true);
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/getMiddlemanContractTemplateList`,
+          { projectId: this.projectId, signId: this.signId }
+        )
+        .then((res) => {
+          this.$store.commit("isloading", false);
+          this.TemplateList = res.data.data;
+          console.log(this.TemplateList);
+        });
+    },
     handleChange(value) {
       this.one = value;
       let item = this.TemplateList[value];
@@ -116,7 +123,7 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackGetContractTemplateWord`,
           { fileId: item.id }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           if (res.data.data) {
             this.article = res.data.data;
@@ -131,30 +138,15 @@ export default {
           signStatus4: this.signStatus4,
           signId: this.signId,
           middlemanId: this.middlemanId,
-          fileId: this.fileId
+          fileId: this.fileId,
         });
+      } else {
+        this.$toast(this.$t("common.Pleasechoose"));
       }
     },
-    openValue() {
-      this.show = !this.show;
-    },
-    getvalue(index, item) {
-      this.Template = item.fileName;
-      this.fileId = item.id;
-      this.$store.commit("isloading", true);
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackGetContractTemplateWord`,
-          { fileId: item.id }
-        )
-        .then(res => {
-          this.$store.commit("isloading", false);
-          if (res.data.data) {
-            this.article = res.data.data;
-          }
-          this.show = false;
-        });
-    },
+    // openValue() {
+    //   this.show = !this.show;
+    // },
     getContractTemplateList() {
       this.$store.commit("isloading", true);
       this.$global
@@ -162,7 +154,7 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/getContractTemplateList`,
           { projectId: this.projectId }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           this.TemplateList = res.data.data;
           console.log(this.TemplateList);
@@ -170,7 +162,6 @@ export default {
     },
     submit_click() {
       // console.log(123);
-
       this.errorsMsg = "";
       let errorMsg = this.validateFunc();
       if (errorMsg) {
@@ -185,10 +176,10 @@ export default {
       let validator = new this.$Validator();
       validator.add(self.validateForm.username, [
         ["isNotEmpty", this.$t("common.isno")],
-        ["minLength|6", "不允许以空白字符命名"]
+        ["minLength|6", "不允许以空白字符命名"],
       ]);
       validator.add(self.validateForm.password, [
-        ["isNotEmpty", "用户名不可为空"]
+        ["isNotEmpty", "用户名不可为空"],
       ]);
       var errorMsg = validator.start(); // 获得效验结果
       return errorMsg; // 返回效验结果
@@ -198,8 +189,8 @@ export default {
     },
     delectTag(item, idx) {
       this.taglist.splice(idx, 1);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -242,7 +233,8 @@ export default {
       display: flex;
       justify-content: center;
       button {
-        width: vw(184);
+        flex: 1;
+        // width: vw(184);
         height: vw(72);
         background: #00f0ab;
         opacity: 1;
@@ -256,22 +248,6 @@ export default {
         background: #00f0ab;
       }
     }
-
-    // footer {
-    //   margin-top: vw(70);
-    //   font-weight: bold;
-    //   display: flex;
-    //   justify-content: center;
-    //   button {
-    //     width: vw(528);
-    //     height: vw(114);
-    //     background: #00f0ab;
-    //     border-radius: vw(40);
-    //     font-size: vw(40);
-    //     line-height: vw(114);
-    //     color: #ffffff;
-    //   }
-    // }
   }
 }
 </style>

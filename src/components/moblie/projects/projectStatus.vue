@@ -2,7 +2,7 @@
   <div id="projectStatus">
     <!-- <commonnav>{{$t('project.projectStatus')}}</commonnav> -->
     <commonnav>
-      {{$t('project.projectStatus')}}
+      {{ $t("project.projectStatus") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$routerto('mysign')" />
       </template>
@@ -14,13 +14,12 @@
       <ul>
         <li
           @click="clickItem(value)"
-          v-for="(value,key) in multipleList"
+          v-for="(value, key) in multipleList"
           :key="key"
-          v-if="value.arr.length>0"
         >
           <div>
-            <p>{{value.text}}</p>
-            <aside>{{value.arr.length}}</aside>
+            <p>{{ value.text }}</p>
+            <aside>{{ value.arr.length }}</aside>
           </div>
         </li>
       </ul>
@@ -31,35 +30,34 @@
 import loadmore from "../loadmore";
 export default {
   name: "projectStatus",
-
   data() {
     return {
       multipleList: {
         PendingItems: {
           arr: [],
           text: this.$t("project.YouAndProjectparty"),
-          type: 1
+          type: 1,
           //signStatus4小于10
         },
         NDArequestitem: {
           arr: [],
           text: this.$t("project.YouRecommandMiddleman"),
-          type: 2
+          type: 2,
           //signStatus4小于26大于11
-        },
-        NDAprojecttobesigned: {
-          arr: [],
-          text: this.$t("project.YouAndInverstor"),
-          type: 3
-          //signStatus4小于42大于29
         },
         SignedNDAtobelisted: {
           arr: [],
-          text: this.$t("project.MiddlemanRecommandYou"),
-          type: 4
+          text: this.$t("project.YouAndInverstor"),
+          type: 4,
           //signStatus4大于49
-        }
-      }
+        },
+        NDAprojecttobesigned: {
+          arr: [],
+          text: this.$t("project.MiddlemanRecommandYou"),
+          type: 3,
+          //signStatus4小于42大于29
+        },
+      },
     };
   },
   created() {
@@ -71,8 +69,13 @@ export default {
   },
   methods: {
     clickItem(item) {
+      // if (item.arr.length) {
       this.$store.commit("selectedProjectStatusMutations", item);
-      this.$routerto("projectSubStatus", { type: item.type });
+      this.$routerto("projectSubStatus", {
+        type: item.type,
+        projectId: this.$route.query.projectId,
+      });
+      // }
     },
     getMyProjectStatusList(done) {
       this.$store.commit("isloading", true);
@@ -82,58 +85,63 @@ export default {
           { projectId: this.$route.query.projectId }
         )
 
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
             let data = res.data.data;
             for (let key in data) {
               if (key == "signList") {
-                data[key].forEach(item => {
-                  //  [3,5,6,14,17,20,22,32]已拒绝项目（中间人感兴趣，拒绝；中间人推荐下家或者投资人被拒绝；磋商拒绝）
-                  if (item.signStatus4 < 10) {
-                    if (
-                      item.signStatus4 !== 3 &&
-                      item.signStatus4 !== 5 &&
-                      item.signStatus4 !== 6
-                    ) {
+                data[key].forEach((item) => {
+                  if (item.signStatus4) {
+                    //  [3,5,6,14,17,20,22,32]已拒绝项目（中间人感兴趣，拒绝；中间人推荐下家或者投资人被拒绝；磋商拒绝）
+                    if (item.signStatus4 < 10) {
                       this.multipleList.PendingItems.arr.push(item);
-                    }
-                  } else if (11 < item.signStatus4 < 26) {
-                    if (
-                      item.signStatus4 !== 14 &&
-                      item.signStatus4 !== 17 &&
-                      item.signStatus4 !== 20 &&
-                      item.signStatus4 !== 22
-                    ) {
+                      // if (
+                      //   item.signStatus4 !== 3 &&
+                      //   item.signStatus4 !== 5 &&
+                      //   item.signStatus4 !== 6
+                      // ) {
+                      //   this.multipleList.PendingItems.arr.push(item);
+                      // }
+                    } else if (11 < item.signStatus4 && item.signStatus4 < 26) {
+                      // if (
+                      //   item.signStatus4 !== 14 &&
+                      //   item.signStatus4 !== 17 &&
+                      //   item.signStatus4 !== 20 &&
+                      //   item.signStatus4 !== 22
+                      // ) {
+                      //   this.multipleList.NDArequestitem.arr.push(item);
+                      // }
                       this.multipleList.NDArequestitem.arr.push(item);
-                    }
-                  } else if (29 < item.signStatus4 < 42) {
-                    if (item.signStatus4 !== 32) {
+                    } else if (29 < item.signStatus4 && item.signStatus4 < 42) {
+                      // if (item.signStatus4 !== 32) {
+                      //   this.multipleList.NDAprojecttobesigned.arr.push(item);
+                      // }
                       this.multipleList.NDAprojecttobesigned.arr.push(item);
+                    } else if (item.signStatus4 > 49) {
+                      this.multipleList.SignedNDAtobelisted.arr.push(item);
                     }
-                  } else if (item.signStatus4 > 49) {
-                    this.multipleList.SignedNDAtobelisted.arr.push(item);
                   }
                 });
-                data.signList.forEach(item => {
-                  if (
-                    item.signStatus4 == 3 ||
-                    item.signStatus4 == 5 ||
-                    item.signStatus4 == 6 ||
-                    item.signStatus4 == 14 ||
-                    item.signStatus4 == 17 ||
-                    item.signStatus4 == 20 ||
-                    item.signStatus4 == 22 ||
-                    item.signStatus4 == 32
-                  ) {
-                    this.multipleList.PendingItems.arr.push(item);
-                    this.multipleList.NDArequestitem.arr.push(item);
-                    this.multipleList.NDAprojecttobesigned.arr.push(item);
-                    this.multipleList.SignedNDAtobelisted.arr.push(item);
-                  }
-                });
+                // data.signList.forEach((item) => {
+                //   if (
+                //     item.signStatus4 == 3 ||
+                //     item.signStatus4 == 5 ||
+                //     item.signStatus4 == 6 ||
+                //     item.signStatus4 == 14 ||
+                //     item.signStatus4 == 17 ||
+                //     item.signStatus4 == 20 ||
+                //     item.signStatus4 == 22 ||
+                //     item.signStatus4 == 32
+                //   ) {
+                //     this.multipleList.PendingItems.arr.push(item);
+                //     this.multipleList.NDArequestitem.arr.push(item);
+                //     this.multipleList.NDAprojecttobesigned.arr.push(item);
+                //     this.multipleList.SignedNDAtobelisted.arr.push(item);
+                //   }
+                // });
               } else if (key == "ndaList") {
-                data[key].forEach(item => {
+                data[key].forEach((item) => {
                   if (item.signNdaStatus) {
                     this.multipleList.PendingItems.arr.push(item);
                   }
@@ -142,8 +150,8 @@ export default {
             }
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

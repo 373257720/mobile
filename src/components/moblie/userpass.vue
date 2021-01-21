@@ -4,74 +4,101 @@
       <van-icon name="arrow-left" @click="$global.previous()" />
       <commonnav :msg="dad_text"></commonnav>
     </header>
-    <main class="userpass2" v-if="optStatus===0">
+    <main class="userpass2" v-if="optStatus === 0">
       <h2>
         <img src="../../assets/indexLogo.png" alt />
       </h2>
-      <section>{{$t('common.YourInformationHasBeenSubmitted')}}</section>
+      <h2>{{ $t("common.YourInformationHasBeenSubmitted") }}</h2>
       <nav class="backbtn"></nav>
     </main>
-    <main v-if="optStatus==1 || optStatus==2">
-    <h2 v-if="optStatus==2">{{$t('common.YourReviewFailed')}}</h2>
+    <main v-if="optStatus == 1 || optStatus == 2">
+      <h2 v-if="optStatus == 2">{{ $t("common.YourReviewFailed") }}</h2>
       <ul>
         <li>
-          <p>{{$t('common.Category')}}:</p>
-          <div>{{form.userType}}</div>
+          <p>{{ $t("common.Category") }}:</p>
+          <div>{{ form.userType }}</div>
         </li>
         <li>
-          <p>{{$t('common.Identity')}}:</p>
-          <div>{{form.userIdentityType==1?$t('common.individual'):$t('common.company')}}</div>
+          <p>{{ $t("common.Identity") }}:</p>
+          <div>
+            {{
+              form.userIdentityType == 1
+                ? $t("common.individual")
+                : $t("common.company")
+            }}
+          </div>
         </li>
         <li>
-          <p>{{$t('common.Nationality')}}:</p>
-          <div>{{$i18n.locale=='zh_CN'?form.userCountryCh:form.userCountryEn}}</div>
+          <p>{{ $t("common.Nationality") }}:</p>
+          <div>
+            {{
+              $i18n.locale == "zh_CN" ? form.userCountryCh : form.userCountryEn
+            }}
+          </div>
         </li>
-        <li v-if="form.userIdentityType==1">
-          <p>{{$t('common.PersonalName')}}:</p>
-          <div>{{form.userName}}</div>
+        <li v-if="form.userIdentityType == 1">
+          <p>{{ $t("common.PersonalName") }}:</p>
+          <div>{{ form.userName }}</div>
         </li>
-        <li v-if="form.userIdentityType==1">
-          <p v-if="switchon">{{$t('common.IdentificationNumber')}}:</p>
-          <p v-if="!switchon">{{$t('common.passport')}}:</p>
-          <div>{{form.userIdentity}}</div>
+        <li v-if="form.userIdentityType == 1">
+          <p v-if="switchon">{{ $t("common.IdentificationNumber") }}:</p>
+          <p v-if="!switchon">{{ $t("common.passport") }}:</p>
+          <div>{{ form.userIdentity }}</div>
         </li>
-        <li v-if="form.userIdentityType==2">
+        <li v-if="form.userIdentityType == 2">
           <p>公司名称:</p>
-          <div>{{form.userCompanyCh}}</div>
+          <div>{{ form.userCompanyCh }}</div>
         </li>
-        <li v-if="form.userIdentityType==2">
+        <li v-if="form.userIdentityType == 2">
           <p>Company name:</p>
-          <div>{{form.userCompanyEn}}</div>
+          <div>{{ form.userCompanyEn }}</div>
         </li>
-        <li v-if="form.userIdentityType==2">
+        <li v-if="form.userIdentityType == 2">
           <p>公司地址:</p>
-          <div>{{form.userAddressCh}}</div>
+          <div>{{ form.userAddressCh }}</div>
         </li>
-        <li v-if="form.userIdentityType==2">
+        <li v-if="form.userIdentityType == 2">
           <p>Company address:</p>
-          <div>{{form.userAddressEn}}</div>
+          <div>{{ form.userAddressEn }}</div>
         </li>
-        <li class="idcard_left" v-if="form.userIdentityType==1 && form.identityPicOne">
-          <p>{{ switchon == true ?  $t('common.IDCardFront') : $t('common.passport')  }}</p>
+        <li
+          class="idcard_left"
+          v-if="form.userIdentityType == 1 && form.identityPicOne"
+        >
+          <p>
+            {{
+              switchon == true
+                ? $t("common.IDCardFront")
+                : $t("common.passport")
+            }}
+          </p>
           <div class="pic">
-            <img :src="$baseurl+form.identityPicOne" alt />
+            <img :src="$baseurl + form.identityPicOne" alt />
           </div>
         </li>
-        <li class="idcard_right" v-if="switchon && form.userIdentityType==1 && form.identityPicTwo">
-          <p>{{$t('common.IDCardBack')}}</p>
+        <li
+          class="idcard_right"
+          v-if="switchon && form.userIdentityType == 1 && form.identityPicTwo"
+        >
+          <p>{{ $t("common.IDCardBack") }}</p>
           <div class="pic">
-            <img :src="$baseurl+form.identityPicTwo" alt />
+            <img :src="$baseurl + form.identityPicTwo" alt />
           </div>
         </li>
-        <li v-if="form.userIdentityType==2 && form.userCompanyPic" class="idcard_right">
-          <p>{{$t('common.Certificate')}}</p>
+        <li
+          v-if="form.userIdentityType == 2 && form.userCompanyPic"
+          class="idcard_right"
+        >
+          <p>{{ $t("common.Certificate") }}</p>
           <div class="pic">
-            <img :src="$baseurl+form.userCompanyPic" alt />
+            <img :src="$baseurl + form.userCompanyPic" alt />
           </div>
         </li>
       </ul>
-      <div v-if="optStatus==2" class="failure">
-        <button @click="$routerto('usercheck')">{{$t('common.ApplyAgain')}}</button>
+      <div v-if="optStatus == 2" class="failure">
+        <button @click="$routerto('usercheck')">
+          {{ $t("common.ApplyAgain") }}
+        </button>
       </div>
     </main>
   </div>
@@ -81,7 +108,7 @@ export default {
   name: "userpass",
   data() {
     return {
-      dad_text:this.$t('common.Reveiw'),
+      dad_text: this.$t("common.Reveiw"),
       switchon: true, //护照和身份证,true是身份证
       optStatus: 3,
       form: {
@@ -99,17 +126,20 @@ export default {
         userAddressCh: "",
         userAddressEn: "",
         userCompanyPic: [],
-        userType: ""
-      }
+        userType: "",
+      },
     };
   },
   created() {
     this.$loading();
-    this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_web/user/getAuthDetails`)
-      .then(res => {
+    this.$global
+      .get_encapsulation(
+        `${this.$axios.defaults.baseURL}/bsl_web/user/getAuthDetails`
+      )
+      .then((res) => {
         this.$toast.clear();
         console.log(res.data.data);
-		this.optStatus=res.data.data.optStatus;
+        this.optStatus = res.data.data.optStatus;
         // if (res.data.data.optStatus === 0) {
         //   // 0审核中
         //   this.optStatus = 0;
@@ -125,17 +155,15 @@ export default {
           this.form[key] = res.data.data[key];
           if (key == "userType") {
             if (this.form[key] == 1) {
-              this.form[key] = this.$t('common.ProjectParty');
+              this.form[key] = this.$t("common.ProjectParty");
             } else if (this.form[key] == 3) {
-              this.form[key] = this.$t('common.Investor');
+              this.form[key] = this.$t("common.Investor");
             } else if (this.form[key] == 4) {
-              this.form[key] = this.$t('common.Middleman');
+              this.form[key] = this.$t("common.Middleman");
             }
           }
           if (key == "userCountryEn") {
-            if (
-              this.form[key] == "China"
-            ) {
+            if (this.form[key] == "China") {
               this.switchon = true;
             } else {
               this.switchon = false;
@@ -144,10 +172,10 @@ export default {
         }
         console.log(this.form);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-  }
+  },
 };
 </script>
 <style lang="scss">
@@ -181,8 +209,8 @@ export default {
   main {
     background: white;
     padding: 1.6rem 0 2rem 0;
-      h2{
-           text-align: center;
+    h2 {
+      text-align: center;
       font-size: 0.64rem;
       font-weight: 600;
       margin: 0.8rem 0 0rem 0;
@@ -242,7 +270,7 @@ export default {
     text-align: center;
 
     img {
-     width: 6rem;
+      width: 6rem;
       height: 3rem;
     }
     section {

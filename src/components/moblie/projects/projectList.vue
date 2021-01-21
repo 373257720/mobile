@@ -1,7 +1,7 @@
 <template>
   <div id="mysign">
     <commonnav>
-      {{$t('project.project')}}
+      {{ $t("project.project") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -10,45 +10,56 @@
       </template>
     </commonnav>
     <main>
-      <nav>{{$store.state.selectedItem.text}}</nav>
-      <div v-if="$store.state.currentUsertype===1" class="timestamp">
+      <nav>{{ $store.state.selectedItem.text }}</nav>
+      <div v-if="$store.state.currentUsertype === 1" class="timestamp">
         <ul>
-          <li v-for="(i) in arr" :key="i.text">
+          <li v-for="i in arr" :key="i.text">
             <section id="container">
               <div class="item item-1">
                 <p class="icon iconRight iconfont icon-5day"></p>
                 <!-- <i class="icon iconRight iconfont icon-message"></i> -->
               </div>
               <div class="item item-2">
-                <p>{{$global.timestampToTime(i.signSubmitTime4)}}</p>
+                <p v-if="i.signNdaStatus">
+                  {{ $global.timestampToTime(i.ndaSubmitTime) }}
+                </p>
+                <p v-else>{{ $global.timestampToTime(i.signSubmitTime4) }}</p>
               </div>
               <div class="item item-3">
                 <p class="icon iconRight iconfont icon-5day"></p>
               </div>
               <div class="item item-4">
-                <p v-if="$i18n.locale=='zh_CN'">{{i.projectName}}</p>
-                <p v-else>{{i.projectNameEn}}</p>
+                <p v-if="i.userIdentityType == 1">{{ i.userName }}</p>
+                <p
+                  v-else-if="i.userIdentityType == 2 && $i18n.locale == 'zh_CN'"
+                >
+                  {{ i.userCompanyCh }}
+                </p>
+                <p
+                  v-else-if="i.userIdentityType == 2 && $i18n.locale == 'en_US'"
+                >
+                  {{ i.userCompanyEn }}
+                </p>
               </div>
               <div class="item item-5">
                 <p class="icon iconRight iconfont icon-3"></p>
               </div>
               <div class="item item-6">
-                <p>{{$global.pic_obj[i.signStatus4]}}</p>
+                <p>{{ $t($global.investorsType[i.userIdentityType]) }}</p>
               </div>
             </section>
             <div class="btn">
-              <van-button
-                @click="$routerto('p_projectdetail',{projectId:i.projectId,signStatus4:i.signStatus4,
-                signId:i.signId,middlemanId:i.middlemanId})"
-              >{{$t('project.Detail')}}</van-button>
+              <van-button @click="routerto(i)">{{
+                $t("project.Detail")
+              }}</van-button>
               <!-- <van-button @click="$routerto('projectChain')">{{$t('project.projectChain')}}</van-button> -->
             </div>
           </li>
         </ul>
       </div>
-      <div v-if="$store.state.currentUsertype===4" class="timestamp">
+      <div v-if="$store.state.currentUsertype === 4" class="timestamp">
         <ul>
-          <li v-for="(i) in arr" :key="i.text">
+          <li v-for="i in arr" :key="i.text">
             <!-- <nav>CDC Biodiversité – Biodiversity Offsetting</nav> -->
             <section id="container">
               <div class="item item-1">
@@ -56,27 +67,41 @@
                 <!-- <i class="icon iconRight iconfont icon-message"></i> -->
               </div>
               <div class="item item-2">
-                <p>{{$global.timestampToTime(i.signSubmitTime4)}}</p>
+                <p v-if="i.signNdaStatus">
+                  {{ $global.timestampToTime(i.ndaSubmitTime) }}
+                </p>
+                <p v-else>{{ $global.timestampToTime(i.signSubmitTime4) }}</p>
               </div>
               <div class="item item-3">
                 <p class="icon iconRight iconfont icon-5day"></p>
               </div>
               <div class="item item-4">
-                <p v-if="$i18n.locale=='zh_CN'">{{i.projectName}}</p>
-                <p v-else>{{i.projectNameEn}}</p>
+                <p v-if="$i18n.locale == 'zh_CN'">{{ i.projectName }}</p>
+                <p v-else>{{ i.projectNameEn }}</p>
               </div>
               <div class="item item-5">
                 <p class="icon iconRight iconfont icon-3"></p>
               </div>
               <div class="item item-6">
-                <p>{{$global.pic_obj[i.signStatus4]}}</p>
+                <p v-if="i.signNdaStatus">
+                  {{ $global.ndastage[i.signNdaStatus] }}
+                </p>
+                <p v-else>{{ $global.middleman_obj[i.signStatus4] }}</p>
               </div>
             </section>
             <div class="btn">
               <van-button
-                @click="$routerto('projectRootAgentProjectDetail',{projectId:i.projectId,signStatus4:i.signStatus4,
-                signId:i.signId,middlemanId:i.middlemanId})"
-              >{{$t('project.Detail')}}</van-button>
+                @click="
+                  $routerto('projectRootAgentProjectDetail', {
+                    projectId: i.projectId,
+                    signStatus4: i.signStatus4,
+                    signId: i.signId,
+                    middlemanId: i.middlemanId,
+                    signUserId4: i.signUserId4,
+                  })
+                "
+                >{{ $t("project.Detail") }}</van-button
+              >
               <!-- <van-button @click="$routerto('projectChain')">{{$t('project.projectChain')}}</van-button> -->
             </div>
           </li>
@@ -91,7 +116,7 @@ import Scroll from "../loadmore";
 export default {
   name: "mysign",
   components: {
-    "v-scroll": Scroll
+    "v-scroll": Scroll,
   },
   // props: {
   //   selectedItem: {
@@ -116,58 +141,58 @@ export default {
         {
           value: 1,
           text: this.$t("common.PendingItems"),
-          pic: "../../../static/pic/waitreview.png"
+          pic: "../../../static/pic/waitreview.png",
         },
         {
           value: 2,
           text: this.$t("common.ToBeSignedProject"),
-          pic: "../../../static/pic/waitsign.png"
+          pic: "../../../static/pic/waitsign.png",
         },
         {
           value: 4,
           text: this.$t("common.SignedForChain"),
-          pic: "../../../static/pic/waitinvestor.png"
+          pic: "../../../static/pic/waitinvestor.png",
         },
         {
           value: 5,
           text: this.$t("common.ChainedForRecommendation"),
-          pic: "../../../static/pic/waitinvestor.png"
+          pic: "../../../static/pic/waitinvestor.png",
         },
         {
           value: 6,
           text: this.$t("common.PendingReview"),
-          pic: "../../../static/pic/waitreview.png"
+          pic: "../../../static/pic/waitreview.png",
         },
         {
           value: 8,
           text: this.$t("common.ReviewedPending"),
-          pic: "../../../static/pic/waitinvestor.png"
+          pic: "../../../static/pic/waitinvestor.png",
         },
         {
           value: 9,
           text: this.$t("investor.Itemstobeconfirmed"),
-          pic: "../../../static/pic/waitinvestor.png"
+          pic: "../../../static/pic/waitinvestor.png",
         },
         {
           value: 10,
           text: this.$t("common.SignedContract"),
-          pic: "../../../static/pic/success.png"
+          pic: "../../../static/pic/success.png",
         },
         {
           value: 3,
           text: this.$t("common.InvestmentBankHasRejected"),
-          pic: "../../../static/pic/false.png"
+          pic: "../../../static/pic/false.png",
         },
         {
           value: 7,
           text: this.$t("common.InvestmentBankHasRejected"),
-          pic: "../../../static/pic/false.png"
+          pic: "../../../static/pic/false.png",
         },
         {
           value: 11,
           text: this.$t("common.InvestorHasRejected"),
-          pic: "../../../static/pic/false.png"
-        }
+          pic: "../../../static/pic/false.png",
+        },
       ],
       checklist_height: "",
       // classname: {
@@ -176,7 +201,7 @@ export default {
       num: 10,
       refreshing: false,
       loading: false,
-      text: "List"
+      text: "List",
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -209,67 +234,79 @@ export default {
     //  this.$store.commit("selectedItemMutations", {});
   },
   created() {
-    console.log(this.$store.state.selectedItem);
-    console.log(this.num);
-    this.usertype = this.$store.state.currentUsertype;
-    if (this.$route.query.projectId) {
-      let arr = JSON.parse(this.$route.query.array);
-      if (arr.length > 0) {
-        this.result = [...arr];
-      }
-    } else {
-      if (this.$store.state.genre.length > 0) {
-        this.result = [...this.$store.state.genre];
-      } else {
-        // 1投行（项目方），3投资者，4投资中间人
-        // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
-        // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
-        // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
-        if (this.usertype == 1 || this.usertype == 4) {
-          this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
-        } else if (this.usertype == 3) {
-          this.result = [9, 10, 11];
-        }
-      }
-    }
+    console.log(this.$store.state);
+    // this.usertype = this.$store.state.currentUsertype;
+    // if (this.$route.query.projectId) {
+    //   let arr = JSON.parse(this.$route.query.array);
+    //   if (arr.length > 0) {
+    //     this.result = [...arr];
+    //   }
+    // } else {
+    //   if (this.$store.state.genre.length > 0) {
+    //     this.result = [...this.$store.state.genre];
+    //   } else {
+    //     // 1投行（项目方），3投资者，4投资中间人
+    //     // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
+    //     // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
+    //     // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
+    //     if (this.usertype == 1 || this.usertype == 4) {
+    //       this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
+    //     } else if (this.usertype == 3) {
+    //       this.result = [9, 10, 11];
+    //     }
+    //   }
+    // }
   },
   activated() {
-    if (this.$route.query.projectId) {
-      let arr = JSON.parse(this.$route.query.array);
-      if (arr.length > 0) {
-        this.result = [...arr];
-      }
-    } else {
-      if (this.$store.state.genre.length > 0) {
-        this.result = [...this.$store.state.genre];
-      } else {
-        // 1投行（项目方），3投资者，4投资中间人
-        // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
-        // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
-        // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
-        if (this.usertype == 1 || this.usertype == 4) {
-          this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
-        } else if (this.usertype == 3) {
-          this.result = [9, 10, 11];
-        }
-      }
-    }
+    // if (this.$route.query.projectId) {
+    //   let arr = JSON.parse(this.$route.query.array);
+    //   if (arr.length > 0) {
+    //     this.result = [...arr];
+    //   }
+    // } else {
+    //   if (this.$store.state.genre.length > 0) {
+    //     this.result = [...this.$store.state.genre];
+    //   } else {
+    //     // 1投行（项目方），3投资者，4投资中间人
+    //     // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4
+    //     // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
+    //     // 待确认项目->9  签约成功项目->10 拒绝签约项目->11
+    //     if (this.usertype == 1 || this.usertype == 4) {
+    //       this.result = [1, 2, 4, 5, 6, 8, 9, 10, 11, 3, 7];
+    //     } else if (this.usertype == 3) {
+    //       this.result = [9, 10, 11];
+    //     }
+    //   }
+    // }
   },
   computed: {
-     arr() {  
+    arr() {
       let arry = this.$store.state.selectedItem.arr;
-      for (let i = 0; i < arry.length; i++) {
-        for (let j = 0; j < arry.length-1-i; j++) {
-          if (arry[j].signSubmitTime4 < arry[j + 1].signSubmitTime4) {
-            let temp = arry[j].signSubmitTime4;
-            arry[j].signSubmitTime4 = arry[j + 1].signSubmitTime4;
-            arry[j + 1].signSubmitTime4 = temp;
+      if (this.$store.state.selectedItem.nda) {
+        for (let i = 0; i < arry.length; i++) {
+          for (let j = 0; j < arry.length - 1 - i; j++) {
+            if (arry[j].ndaSubmitTime < arry[j + 1].ndaSubmitTime) {
+              let temp = arry[j];
+              arry[j] = arry[j + 1];
+              arry[j + 1] = temp;
+            }
+          }
+        }
+        console.log(arry);
+      } else {
+        for (let i = 0; i < arry.length; i++) {
+          for (let j = 0; j < arry.length - 1 - i; j++) {
+            if (arry[j].signSubmitTime4 < arry[j + 1].signSubmitTime4) {
+              let temp = arry[j];
+              arry[j] = arry[j + 1];
+              arry[j + 1] = temp;
+            }
           }
         }
       }
       return arry;
     },
-    already_check: function() {
+    already_check: function () {
       if (this.$store.state.currentUsertype || this.usertype) {
         return this.$t("common.NoMore");
       } else {
@@ -277,7 +314,7 @@ export default {
       }
     },
 
-    list: function() {
+    list: function () {
       // 待处理项目->1 待签约项目->2 投行拒绝和中间人签约 ->3 已签约待上链->4
       // 已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8
       // 待确认项目->9  签约成功项目->10 投资人拒绝签约项目->11
@@ -286,69 +323,69 @@ export default {
           {
             value: 1,
             text: this.$t("common.PendingItems"),
-            pic: "../../../static/pic/waitreview.png"
+            pic: "../../../static/pic/waitreview.png",
           },
           {
             value: 2,
             text: this.$t("common.ToBeSignedProject"),
-            pic: "../../../static/pic/waitsign.png"
+            pic: "../../../static/pic/waitsign.png",
           },
           {
             value: 4,
             text: this.$t("common.SignedForChain"),
-            pic: "../../../static/pic/waitsign.png"
+            pic: "../../../static/pic/waitsign.png",
           },
           {
             value: 5,
             text: this.$t("common.ChainedForRecommendation"),
-            pic: "../../../static/pic/waitinvestor.png"
+            pic: "../../../static/pic/waitinvestor.png",
           },
           {
             value: 6,
             text: this.$t("common.PendingReview"),
-            pic: "../../../static/pic/waitreview.png"
+            pic: "../../../static/pic/waitreview.png",
           },
           {
             value: 8,
             text: this.$t("common.ReviewedPending"),
-            pic: "../../../static/pic/waitreview.png"
+            pic: "../../../static/pic/waitreview.png",
           },
           {
             value: 9,
             text: this.$t("common.ToBeConfirmedByInvestors"),
-            pic: "../../../static/pic/waitinvestor.png"
+            pic: "../../../static/pic/waitinvestor.png",
           },
           {
             value: 10,
             text: this.$t("common.SignedContract"),
-            pic: "../../../static/pic/success.png"
+            pic: "../../../static/pic/success.png",
           },
           {
             value: 3,
             text: this.$t("common.RejectedProject"),
-            pic: "../../../static/pic/false.png"
-          }
+            pic: "../../../static/pic/false.png",
+          },
         ];
       } else if (this.usertype == 3) {
         return [
           {
             value: 9,
             text: this.$t("common.ToBeConfirmedByInvestors"),
-            pic: "../../../static/pic/waitinvestor.png"
+            pic: "../../../static/pic/waitinvestor.png",
           },
           {
             value: 10,
             text: this.$t("common.SignedContract"),
-            pic: "../../../static/pic/success.png"
+            pic: "../../../static/pic/success.png",
           },
           {
             value: 11,
             text: this.$t("common.RejectedProject"),
-            pic: "../../../static/pic/false.png"
-          }
+            pic: "../../../static/pic/false.png",
+          },
         ];
       }
-    }
+    },
   },
   mounted() {
     this.initial();
@@ -362,6 +399,20 @@ export default {
   },
 
   methods: {
+    routerto(i) {
+      // console.log(item);
+      this.$routerto("p_projectdetail", {
+        projectId: i.projectId,
+        signStatus4: i.signStatus4,
+        signId: i.signId,
+        recommendUserId: i.recommendUserId ? i.recommendUserId : "",
+        recommendedUserId: i.recommendedUserId ? i.recommendedUserId : "",
+        middlemanId: i.middlemanId,
+        signUserId4: i.signUserId4 ? i.signUserId4 : "",
+        parentMiddlemanId: i.parentMiddlemanId,
+        signNdaStatus: i.signNdaStatus ? i.signNdaStatus : "",
+      });
+    },
     onRefresh(done) {
       this.loaded = false;
       this.getcountrylist(done);
@@ -375,10 +426,10 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
           {
-            searchKey: this.searchkey
+            searchKey: this.searchkey,
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.data.data instanceof Array) {
             for (let i = 0; i < res.data.data.length; i++) {
               this.countrylist.push({
@@ -389,7 +440,7 @@ export default {
                     ? res.data.data[i].countryZhname
                     : res.data.data[i].countryEnname,
                 value: i,
-                remark: res.data.data[i].countryCode
+                remark: res.data.data[i].countryCode,
               });
             }
             done();
@@ -420,7 +471,7 @@ export default {
       let obj = {
         projectId: item.projectId,
         signStatus: item.signStatus,
-        signId: item.signId
+        signId: item.signId,
       };
       // 1投行（项目方），3投资者，4投资中间人
       // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4    已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8   待确认项目->9  签约成功项目->10 拒绝签约项目->11
@@ -564,11 +615,11 @@ export default {
             projectId: this.$route.query.projectId,
             signStatusList: this.result,
             pageIndex: this.pageNum,
-            pageSize: this.loadNumUp
+            pageSize: this.loadNumUp,
             // X_Token:this.$store.state.X_Token
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.data.resultCode == 10000) {
             let re = [...res.data.data.lists];
             for (let i = 0; i < re.length; i++) {
@@ -580,8 +631,8 @@ export default {
                 : "";
             }
             if (re.length > 0) {
-              re.forEach(item => {
-                this.piclists.forEach(each => {
+              re.forEach((item) => {
+                this.piclists.forEach((each) => {
                   if (item.signStatus == each.value) {
                     item.signStatustext = each.text;
                     item.pic = each.pic;
@@ -604,11 +655,11 @@ export default {
           }
           console.log(this.upGoodsInfo);
         })
-        .catch(err => {
+        .catch((err) => {
           // this.loadText = "加载失败";
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

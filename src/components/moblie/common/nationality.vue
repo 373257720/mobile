@@ -142,6 +142,13 @@ export default {
   }
 };
 </script>
+<style lang='scss'>
+#Verify {
+  .loadmore {
+    top: vw(210);
+  }
+}
+</style>
 <style lang='scss' scoped>
 .Nationality {
   main {

@@ -6,6 +6,17 @@ import qs from "qs";
 import store from "../../store/store";
 import AsyncValidator from "async-validator";
 const global = {
+  //去除换行 
+  ClearBr(key) {
+    // key = key.replace(/<\/?.+?>/g, "");
+    key = key.replace(/[\r\n]/g, "");
+    return key;
+  },
+  //去除空格 
+  rim(str) {
+    return str.replace(/>\s+</g,"><")
+    // return str.replace(/\s+/g, "");
+  },
   nodeToString(node) {
     var tmpNode = document.createElement("div");
     tmpNode.appendChild(node.cloneNode(true));
@@ -13,8 +24,29 @@ const global = {
     tmpNode = node = null; // prevent memory leaks in IE
     return str;
   },
+  lan() {
+    if (i18n.locale == "zh_CN") {
+      return "";
+    } else {
+      return "En";
+    }
+  },
+  countryLan(){
+    if (i18n.locale == "zh_CN") {
+      return "Zh";
+    } else {
+      return "En";
+    }
+  },
+  language(){
+    if (i18n.locale == "zh_CN") {
+      return "Ch";
+    } else {
+      return "En";
+    }
+  },
   // format num add comma
-  formatNum: function(num) {
+  formatNum: function (num) {
     let value = Math.round(num * 100) / 100;
     let s = value.toString().split(".");
     let format_num;
@@ -78,7 +110,22 @@ const global = {
     }
     return result;
   },
-  stamptodate: function(stamp) {
+  newdateTodate: function (stamp) {
+    if (stamp) {
+      var date = new Date(stamp);
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D =
+        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+      return Y + M + D;
+    } else {
+      return "";
+    }
+  },
+  stamptodate: function (stamp) {
     // if(stamp==''){
     //   return '';
     // }
@@ -96,7 +143,7 @@ const global = {
       return "";
     }
   },
-  timestampToTime: function(timestamp) {
+  timestampToTime: function (timestamp) {
     var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为1
     var Y = date.getFullYear() + "-";
     var M =
@@ -126,6 +173,25 @@ const global = {
     // "10": "common.SignedContract",
     // "11": "common.InvestorHasRejected"
   },
+  ndastage: {
+    "1": "申请签署NDA项目",
+    "2": "等待中间人签约NAD",
+    "3": "NAD签署待上链",
+    "4": "NDA签署已上链",
+  },
+  middleman_obj: {
+    "1": i18n.t("project.PendingItems"),
+    "2": i18n.t("project.Projecttobesigned"),
+    "3": i18n.t("project.failedSigned"),
+    "4": i18n.t("project.MiddleAgreeContract"),
+    "5": i18n.t("project.failedSigned"),
+    "6": i18n.t("project.failedSigned"),
+    "7": i18n.t("project.waitMiddlemanSigned"),
+    "8": i18n.t("project.unfinishedSignContract"),
+    "9": i18n.t("project.chainedToRecommand")
+    // "10": "common.SignedContract",
+    // "11": "common.InvestorHasRejected"
+  },
   financingStage: {
     // 0: "projectOwner.SeedRound",
     0: i18n.t("projectOwner.AngelWheel"),
@@ -144,10 +210,10 @@ const global = {
   },
   // 投资者身份类型：1个人，2公司
   investorsType: {
-    "1": "common.individual",
-    "2": "common.company"
+    1: "common.individual",
+    2: "common.company"
   },
-  get_encapsulation: function(url, datas) {
+  get_encapsulation: function (url, datas) {
     if (Object.prototype.toString.call(datas) !== "[object Object]") {
       datas = {};
     }
@@ -163,20 +229,19 @@ const global = {
         .then(res => {
           resolve(res);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           reject(error);
           // console.log(error);
         });
     });
   },
-  post_encapsulation: function(url, datas, cancel) {
+  post_encapsulation: function (url, datas, cancel) {
     if (Object.prototype.toString.call(datas) !== "[object Object]") {
       datas = {};
     }
     if (Object.prototype.toString.call(cancel) !== "[object Object]") {
       cancel = {};
     }
-
     if (store.state.X_Token) {
       datas.X_Token = store.state.X_Token;
     }
@@ -190,13 +255,13 @@ const global = {
         .then(res => {
           resolve(res);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           reject(error);
           // console.log(error);
         });
     });
   },
-  goods_deatails: function(
+  goods_deatails: function (
     url,
     methods,
     datas,
@@ -335,7 +400,7 @@ const global = {
           };
           resolve(combin);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           reject(error);
           // console.log(error);
         });
@@ -349,7 +414,7 @@ const global = {
     this.$routerto("login");
     sessionStorage.clear();
   },
-  get_deatails: function(
+  get_deatails: function (
     url,
     methods,
     datas,
@@ -489,7 +554,7 @@ const global = {
           };
           resolve(combin);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           reject(error);
           // console.log(error);
         });

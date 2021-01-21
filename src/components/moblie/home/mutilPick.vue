@@ -1,7 +1,7 @@
 <template>
   <div id="mutil-Pick">
     <commonnav>
-      {{GoToname}}
+      {{titleName}}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="pickgenus" />
       </template>
@@ -16,7 +16,7 @@
       left-icon
     >
       <div slot="right-icon">
-        <van-icon name="search" />
+        <van-icon name="search" @click="searchFun" />
       </div>
     </van-search>
     <main>
@@ -103,7 +103,7 @@ export default {
       // list: [],
       loaded: false,
       refreshing: false,
-      IndustryResult: [],
+      // IndustryResult: [],
       // RegionResult: [],
       // TagResult: [],
       searchkey: ""
@@ -115,15 +115,60 @@ export default {
     //   this.initial();
     // }
   },
+  computed: {
+    titleName() {
+      switch (this.GoToname) {
+        case "Industry":
+          return this.$t("common.Industry");
+          break;
+        case "Region":
+          return this.$t("common.region");
+          break;
+        case "Tag":
+          return this.$t("common.Tag");
+          break;
+        default:
+        // 默认代码块;
+      }
+    }
+  },
   watch: {
+    GoToname(newvalue) {
+      if (newvalue) {
+        this.searchkey = "";
+      }
+    },
     afterEnter(neww, oldd) {
-      // console.log(neww);
       if (neww) {
         this.initial();
       }
     }
   },
   methods: {
+    searchFun(done) {
+      switch (this.GoToname) {
+        case "Industry":
+          if (this.List.industryList.length === 0) {
+            this.loaded = false;
+          }
+          this.getIndustryList();
+          break;
+        case "Region":
+          if (this.List.regionList.length === 0) {
+            this.loaded = false;
+          }
+          this.getCountryList();
+          break;
+        case "Tag":
+          if (this.List.taglist.length === 0) {
+            this.loaded = false;
+          }
+          this.getAllProjectTags();
+          break;
+        default:
+        // 默认代码块;
+      }
+    },
     initial(done) {
       switch (this.GoToname) {
         case "Industry":
@@ -158,23 +203,24 @@ export default {
     getCountryList(done) {
       this.$global
         .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/index/getCountryList`
+          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
+          {
+            searchKey: this.searchkey
+          }
         )
         .then(res => {
           if (res.data.resultCode === 10000) {
-            if (res.data.data.allCountryList.length > 0) {
-              this.List.regionList = res.data.data.allCountryList.map(
-                (self, idx) => {
-                  return {
-                    label:
-                      this.$i18n.locale === "zh_CN"
-                        ? self.countryZhname
-                        : self.countryEnname,
-                    value: self.countryCode,
-                    key: "region"
-                  };
-                }
-              );
+            if (res.data.data.length) {
+              this.List.regionList = res.data.data.map((self, idx) => {
+                return {
+                  label:
+                    this.$i18n.locale === "zh_CN"
+                      ? self.countryZhname
+                      : self.countryEnname,
+                  value: self.countryCode,
+                  key: "region"
+                };
+              });
             }
           }
           this.loaded = true;
@@ -184,28 +230,37 @@ export default {
     getIndustryList(done) {
       this.$global
         .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/index/getIndustryList`
+          `${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry`,
+          {
+            searchKey: this.searchkey
+          }
         )
         .then(res => {
           let lan = this.$i18n.locale;
-          this.List.industryList = res.data.data.allIndustryList.map(item => {
-            return {
-              label:
-                lan === "zh_CN" ? item.industryNameCh : item.industryNameEn,
-              value:
-                lan === "zh_CN" ? item.industryNameCh : item.industryNameEn,
-              key: "industry"
-            };
-          });
-          this.loaded = true;
-          if (done) done();
+          if (res.data.resultCode === 10000) {
+            this.List.industryList = res.data.data.map(item => {
+              return {
+                label:
+                  lan === "zh_CN" ? item.industryNameCh : item.industryNameEn,
+                value:
+                  lan === "zh_CN" ? item.industryNameCh : item.industryNameEn,
+                key: "industry"
+              };
+            });
+            this.loaded = true;
+            if (done) done();
+          }
+
           // console.log(this.Industrylist);
         });
     },
     getAllProjectTags(done) {
       this.$global
         .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/index/getAllProjectTags`
+          `${this.$axios.defaults.baseURL}/bsl_web/index/getAllProjectTags`,
+          {
+            searchKey: this.searchkey
+          }
         )
         .then(res => {
           let lan = this.$i18n.locale;

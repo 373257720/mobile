@@ -7,9 +7,21 @@ const ndaRoot = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/nda/ndaRoot"
   );
+const aNdaRoot = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/nda/aNdaRoot"
+  );
 const ndaClause = () =>
   import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/ndaClause"
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/nda/ndaClause"
+  );
+const NDAsignature = () =>
+  import(
+  /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/nda/NDAsignature"
+  );
+const NDAsubmit = () =>
+  import(
+  /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/nda/NDAsubmit"
   );
 
 const recommand = () =>
@@ -25,7 +37,7 @@ const recommandHistory = () =>
     /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/recommandHistory"
   );
 
-const bargin = () =>
+const A_bargin = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/contract/bargin"
@@ -45,44 +57,22 @@ const signContractStep2 = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/contract/signContractStep2"
   );
-const a_project_intro_roots = () =>
-  import(
-    /* webpackChunkName: "group-foo" */
-    "@/components/moblie/agent/a_project_intro_roots"
-  );
+
 const agentProjectDetail = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/agentProjectDetail"
   );
-const a_wait_review = () =>
+
+
+const recommandRoot = () =>
   import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/wait_review"
+  /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/recommandRoot"
   );
 const a_recommand_i = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/recommand_i"
   );
-const a_wait_investor_comfirm = () =>
-  import(
-    /* webpackChunkName: "group-foo" */
-    "@/components/moblie/agent/wait_investor_comfirm"
-  );
-const a_wait_signed = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/wait_signed"
-  );
-const a_sign_failed = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/sign_failed"
-  );
-const a_sign_successful = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/sign_successful"
-  );
-const a_wait_sendemail = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/wait_sendemail"
-  );
+
 const a_sign_contract = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -94,42 +84,10 @@ const recent_recommand = () =>
   );
 
 // agent_set_contract
-const a_tobeSigned_roots = () =>
-  import(
-    /* webpackChunkName: "group-foo" */
-    "@/components/moblie/agent/contract/tobeSigned_roots"
-  );
-const a_submit_contract = () =>
-  import(
-    /* webpackChunkName: "group-foo" */
-    "@/components/moblie/agent/contract/submit_contract"
-  );
-const a_check_contract = () =>
-  import(
-    /* webpackChunkName: "group-foo" */
-    "@/components/moblie/agent/contract/check_contract"
-  );
-const agent_set_contract = () =>
-  import(
-    /* webpackChunkName: "group-foo" */
-    "@/components/moblie/agent/contract/agent_set_contract"
-  );
-const uploadtoblock = () =>
-  import(
-    /* webpackChunkName: "group-foo" */
-    "@/components/moblie/agent/contract/uploadtoblock"
-  );
 
 export default [
   // agent
-  {
-    path: "/recommandMiddleman",
-    name: "recommandMiddleman",
-    component: recommandMiddleman,
-    meta: {
-      isshowbottom: false
-    }
-  },
+
   {
     path: "/recommandHistory",
     name: "recommandHistory",
@@ -138,14 +96,7 @@ export default [
       isshowbottom: true
     }
   },
-  {
-    path: "/a_sign_successful",
-    name: "a_sign_successful",
-    component: a_sign_successful,
-    meta: {
-      isshowbottom: false
-    }
-  },
+
   {
     path: "/Interested",
     name: "Interested",
@@ -162,31 +113,47 @@ export default [
       isshowbottom: false
     }
   },
+  // {
+  //   path: "a_recommand_i",
+  //   name: "a_recommand_i",
+  //   component: a_recommand_i,
+  //   meta: {
+  //     isshowbottom: false
+  //   }
+  // },
+  // {
+  //   path: "/recent_recommand",
+  //   name: "recent_recommand",
+  //   component: recent_recommand,
+  //   meta: {
+  //     isshowbottom: false
+  //   }
+  // },
   {
-    path: "/uploadtoblock",
-    name: "uploadtoblock",
-    component: uploadtoblock,
-    meta: {
-      isshowbottom: false
-    }
-  },
-  {
-    path: "/a_project_intro_roots",
-    name: "a_project_intro_roots",
-    component: a_project_intro_roots,
-    redirect: "/a_project_intro_roots/a_check_contract",
+    path: "/recommandRoot",
+    name: "recommandRoot",
+    component: recommandRoot,
+    redirect: "/recommandRoot/recent_recommand",
     meta: {
       isshowbottom: false
     },
     children: [
-      // {
-      //   path: "/a_project_intro",
-      //   name: "a_project_intro",
-      //   component: a_project_intro,
-      //   meta: {
-      //     isshowbottom: false
-      //   }
-      // },
+      {
+        path: "recent_recommand",
+        name: "recent_recommand",
+        component: recent_recommand,
+        meta: {
+          isshowbottom: false
+        }
+      },
+      {
+        path: "recommandMiddleman",
+        name: "recommandMiddleman",
+        component: recommandMiddleman,
+        meta: {
+          isshowbottom: false
+        }
+      },
       {
         path: "a_recommand_i",
         name: "a_recommand_i",
@@ -195,16 +162,9 @@ export default [
           isshowbottom: false
         }
       },
-      {
-        path: "recent_recommand",
-        name: "recent_recommand",
-        component: recent_recommand,
-        meta: {
-          isshowbottom: false
-        }
-      }
     ]
   },
+
 
   {
     path: "/a_previewContract",
@@ -230,14 +190,7 @@ export default [
       isshowbottom: false
     }
   },
-  {
-    path: "/a_sign_failed",
-    name: "a_sign_failed",
-    component: a_sign_failed,
-    meta: {
-      isshowbottom: false
-    }
-  },
+
   {
     path: "/recommand",
     name: "recommand",
@@ -246,7 +199,14 @@ export default [
       isshowbottom: false
     }
   },
-
+  {
+    path: "/aNdaRoot",
+    name: "aNdaRoot",
+    component: aNdaRoot,
+    meta: {
+      isshowbottom: false
+    }
+  },
   {
     path: "/ndaRoot",
     name: "ndaRoot",
@@ -254,109 +214,40 @@ export default [
     meta: {
       isshowbottom: false
     },
-    redirect: "/ndaRoot/ndaClause",
-    children: [
-      {
-        path: "ndaClause",
-        name: "ndaClause",
-        component: ndaClause,
-        meta: {
-          isshowbottom: false
-        }
-      },
-      {
-        path: "a_sign_contract",
-        name: "a_sign_contract",
-        component: a_sign_contract,
-        meta: {
-          isshowbottom: false
-        }
-      }
-    ]
+    // redirect: "/ndaRoot/ndaClause",
+    // children: [
+    //   {
+    //     path: "ndaClause",
+    //     name: "ndaClause",
+    //     component: ndaClause,
+    //     meta: {
+    //       isshowbottom: false
+    //     }
+    //   },
+    //   {
+    //     path: "NDAsignature",
+    //     name: "NDAsignature",
+    //     component: NDAsignature,
+    //     meta: {
+    //       isshowbottom: false
+    //     }
+    //   },
+    //   {
+    //     path: "NDAsubmit",
+    //     name: "NDAsubmit",
+    //     component: NDAsubmit,
+    //     meta: {
+    //       isshowbottom: false
+    //     }
+    //   }
+
+    // ]
   },
 
   {
-    path: "/a_tobeSigned_roots",
-    name: "a_tobeSigned_roots",
-    component: a_tobeSigned_roots,
-    meta: {
-      isshowbottom: false
-    },
-    redirect: "/a_tobeSigned_roots/a_wait_signed",
-    children: [
-      {
-        path: "a_wait_signed",
-        name: "a_wait_signed",
-        component: a_wait_signed,
-        meta: {
-          isshowbottom: false
-        }
-      },
-      {
-        path: "agent_set_contract",
-        name: "agent_set_contract",
-        component: agent_set_contract,
-        redirect: "/a_tobeSigned_roots/agent_set_contract/a_check_contract",
-        meta: {
-          isshowbottom: false
-        },
-        children: [
-          {
-            path: "a_check_contract",
-            name: "a_check_contract",
-            component: a_check_contract,
-            meta: {
-              isshowbottom: false
-            }
-          },
-          {
-            path: "a_sign_contract",
-            name: "a_sign_contract",
-            component: a_sign_contract,
-            meta: {
-              isshowbottom: false
-            }
-          },
-          {
-            path: "a_submit_contract",
-            name: "a_submit_contract",
-            component: a_submit_contract,
-            meta: {
-              isshowbottom: false
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    path: "/a_wait_investor_comfirm",
-    name: "a_wait_investor_comfirm",
-    component: a_wait_investor_comfirm,
-    meta: {
-      isshowbottom: false
-    }
-  },
-  {
-    path: "/a_wait_review",
-    name: "a_wait_review",
-    component: a_wait_review,
-    meta: {
-      isshowbottom: false
-    }
-  },
-  {
-    path: "/a_wait_sendemail",
-    name: "a_wait_sendemail",
-    component: a_wait_sendemail,
-    meta: {
-      isshowbottom: false
-    }
-  },
-  {
-    path: "/bargin",
-    name: "bargin",
-    component: bargin,
+    path: "/A_bargin",
+    name: "A_bargin",
+    component: A_bargin,
     meta: {
       isshowbottom: false
     }

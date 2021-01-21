@@ -1,9 +1,8 @@
 <template>
-
-
   <input
     class="my-number-input"
     type="number"
+    :disabled="isdisabled"
     :placeholder="placeholder"
     v-model.number="inputModel"
   />
@@ -15,6 +14,7 @@ export default {
     point: {
       default: 0
     },
+    isdisabled:false,
     max: Number,
     placeholder: String,
     value: {
@@ -113,6 +113,10 @@ export default {
       console.log(that.keyDownDel);
     };
   },
+  beforeDestroy() {
+    window.document.onkeydown=undefined;
+  },
+  
   methods: {
     removeDot(){
       

@@ -10,9 +10,10 @@
       <!-- <h1>Step 1 Please choose a suitable contract sample</h1> -->
       <!-- <article>{{article}}</article> -->
       <!-- <input type="textarea" v-model="article"> -->
-      <textarea name v-model="article" id cols="30" rows="15"></textarea>
+      <textarea disabled name v-model="article" id cols="30" rows="15"></textarea>
       <footer>
           <van-button >Download contract content (pdf)</van-button>  
+          <van-button class="sign" @click="$routerto('sign_contract',$route.query)">Sign</van-button>  
           <!-- <p @click="signNDA">{{$t("project.SignNDAterms")}}</p> -->
           <!-- <button @click="clickInterested">{{$t('project.Interested')}}</button> -->
           <!-- <button @click="$routerto('signContractStep1')">{{$t('project.SignContract')}}</button>
@@ -34,7 +35,7 @@
           class="button is-primary"
           type="submit"
         >{{$t('common.Submit')}}</button> -->
-      </form>
+      <!-- </form> -->
     </main>
   </div>
 </template>
@@ -56,34 +57,39 @@ export default {
     this.signStatus4 = this.$route.query.signStatus4;
     this.signId = this.$route.query.signId;
     this.middlemanId = this.$route.query.middlemanId;
-    this.middlemanGetTemplateWord();
+    this.GetTemplateWord();
     // /bsl_web/projectSign/getContractTemplateList
   },
   computed: {},
   methods: {
-    go() {
-      if (this.article) {
-        this.$routerto("P_a_previewContractStep2", {
-          projectId: this.projectId,
-          signStatus4: this.signStatus4,
-          signId: this.signId,
-          middlemanId: this.middlemanId,
-          fileId: this.fileId
-        });
-      }
-    },
+    // go() {
+    //   if (this.article) {
+    //     this.$routerto("P_a_previewContractStep2", {
+    //       projectId: this.projectId,
+    //       signStatus4: this.signStatus4,
+    //       signId: this.signId,
+    //       middlemanId: this.middlemanId,
+    //       fileId: this.fileId
+    //     });
+    //   }
+    // },
 
-    middlemanGetTemplateWord() {
+    GetTemplateWord() {
       this.$store.commit("isloading", true);
       this.$global
         .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanGetTemplateWord`,
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackGetTemplateWord`,
           { signId: this.$route.query.signId, middlemanId: this.$route.query.middlemanId }
         )
-        .then(res => {
-          this.$store.commit("isloading", false);
-          this.article = res.data.data;
-          console.log(this.article);
+        .then(res => { 
+           this.$store.commit("isloading", false);
+          if(res.data.resultCode){
+         var arr =   Object.keys(res.data.data)
+          this.article = arr.length==0?'':res.data.data;
+          // console.log(this.article);
+          }
+        
+        
         });
     }
   }
@@ -164,22 +170,29 @@ export default {
       overflow-y: auto;
       opacity: 1;
     }
-    footer {
+      footer {
+      font-weight: bold;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      p {
+        font-size: vw(20);
+        color: #00f0ab;
+
+        text-decoration: underline;
+        margin-bottom: vw(32);
+      }
       button {
-        // width: vw(184);
+        min-width: vw(186);
         height: vw(72);
         background: #00f0ab;
-        opacity: 1;
-        color: #fff;
         border-radius: vw(16);
+        font-size: vw(26);
+        line-height: vw(72);
+        color: #ffffff;
       }
-      button.passive {
-        background: #828282;
-      }
-      button.active {
-        background: #00f0ab;
+      button:nth-of-type(1){
+        margin-bottom: vw(30)
       }
     }
 

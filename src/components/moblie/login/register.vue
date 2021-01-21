@@ -1,7 +1,7 @@
 <template>
   <div id="register">
     <commonnav>
-      {{$t('common.Register')}}
+      {{ $t("common.Register") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -9,11 +9,16 @@
     <main class="main">
       <form ref="form" @submit.prevent="submit_click">
         <div class="mui-input-row input-row">
-          <p class="label">{{$t('common.Email')}}</p>
-          <input @blur="check($event)" name="userName" type="text" v-model="validateForm.username" />
+          <p class="label">{{ $t("common.Email") }}</p>
+          <input
+            @blur="check($event)"
+            name="userName"
+            type="text"
+            v-model="validateForm.username"
+          />
         </div>
         <div class="mui-input-row input-row">
-          <p class="label">{{$t('common.PassWord')}}</p>
+          <p class="label">{{ $t("common.PassWord") }}</p>
 
           <section>
             <input
@@ -24,14 +29,14 @@
               v-model="validateForm.password"
             />
             <i
-              @click="passwordshow(isshowpassword,'isshowpassword')"
+              @click="passwordshow(isshowpassword, 'isshowpassword')"
               class="iconfont icon-yanjing_huaban1"
             ></i>
           </section>
-          <p class="helpText">{{$t('common.passwordRule')}}</p>
+          <p class="helpText">{{ $t("common.passwordRule") }}</p>
         </div>
         <div class="mui-input-row input-row">
-          <p class="label">{{$t('common.ConfirmPassword')}}</p>
+          <p class="label">{{ $t("common.ConfirmPassword") }}</p>
           <section>
             <input
               @blur="check($event)"
@@ -41,13 +46,13 @@
               v-model="validateForm.confirmpassword"
             />
             <i
-              @click="passwordshow(isconfirmpassword,'isconfirmpassword')"
+              @click="passwordshow(isconfirmpassword, 'isconfirmpassword')"
               class="iconfont icon-yanjing_huaban1"
             ></i>
           </section>
           <!-- <i class="icon-language" id="togglePassword"></i> -->
         </div>
-        <p class="error">{{errorsMsg}}</p>
+        <p class="error">{{ errorsMsg }}</p>
         <!-- <p v-show="errors.has('userName')" class="error">{{ errors.first('userName') }}</p>
         <p v-show="errors.has('Password')" class="error">{{ errors.first('Password') }}</p>
         <p
@@ -58,9 +63,10 @@
         <footer>
           <van-button
             :disabled="isdisabled"
-            :class="isdisabled?'passive':'active'"
+            :class="isdisabled ? 'passive' : 'active'"
             native-type="submit"
-          >{{$t('common.Submit')}}</van-button>
+            >{{ $t("common.Submit") }}</van-button
+          >
         </footer>
       </form>
       <DialogMsg
@@ -83,7 +89,7 @@ export default {
       validateForm: {
         username: "",
         password: "",
-        confirmpassword: ""
+        confirmpassword: "",
       },
       msg: "",
       isshowpassword: "password",
@@ -92,32 +98,32 @@ export default {
         userName: [
           [
             ("isNotEmpty",
-            this.$t("common.Email") + this.$t("VerifyMsg.isnotempty"))
+            this.$t("common.Email") + this.$t("VerifyMsg.isnotempty")),
           ],
           [
             "emailFormat",
-            this.$t("common.Email") + this.$t("VerifyMsg.FormatError")
-          ]
+            this.$t("common.Email") + this.$t("VerifyMsg.FormatError"),
+          ],
         ],
         Password: [
           [
             "isNotEmpty",
-            this.$t("common.PassWord") + this.$t("VerifyMsg.isnotempty")
+            this.$t("common.PassWord") + this.$t("VerifyMsg.isnotempty"),
           ],
           [
             "password",
-            this.$t("common.PassWord") + this.$t("VerifyMsg.FormatError")
-          ]
-        ]
-        // confirmpassword: [
-        //   ["isNotEmpty", "用户名不可为空"],
-        //   [`confirmpasswrod|${this.password}`, "密码不一样"]
-        // ]
+            this.$t("common.PassWord") + this.$t("VerifyMsg.FormatError"),
+          ],
+        ],
+        confirmpassword: [
+          ["isNotEmpty", "用户名不可为空"],
+          [`confirmpasswrod|${this.password}`, "密码不一样"],
+        ],
       },
       remindervisible: false,
       content: "",
       title: "",
-      successto: ""
+      successto: "",
     };
   },
   computed: {
@@ -131,7 +137,7 @@ export default {
       } else {
         return true;
       }
-    }
+    },
   },
 
   created() {
@@ -173,34 +179,25 @@ export default {
       let validator = new this.$Validator();
       validator.add(self.validateForm.username, [
         [
-          "isNotEmpty",
-          this.$t("common.Email") + this.$t("VerifyMsg.isnotempty")
-        ],
-        [
           "emailFormat",
-          this.$t("common.Email") + this.$t("VerifyMsg.FormatError")
-        ]
+          this.$t("common.Email") + this.$t("VerifyMsg.FormatError"),
+        ],
       ]);
       validator.add(self.validateForm.password, [
         [
-          "isNotEmpty",
-          this.$t("common.PassWord") + this.$t("VerifyMsg.isnotempty")
-        ],
-        [
           "password",
-          this.$t("common.PassWord") + this.$t("VerifyMsg.FormatError")
-        ]
+          this.$t("common.PassWord") + this.$t("VerifyMsg.FormatError"),
+        ],
       ]);
       validator.add(self.validateForm.confirmpassword, [
         [
-          "isNotEmpty",
-          this.$t("common.ConfirmPassword") + this.$t("VerifyMsg.isnotempty")
+          `confirmpasswrod|${self.validateForm.password}`,
+          this.$t("common.PassWord") + this.$t("VerifyMsg.inconsistent"),
         ],
-        [
-          "password",
-          this.$t("common.Password") + this.$t("VerifyMsg.inconsistent")
-        ]
-        // [`confirmpasswrod|${self.validateForm.password}`, "密码不一样"]
+        // [
+        //   "confirmpasswrod",
+        //   this.$t("common.Password") + this.$t("VerifyMsg.inconsistent")
+        // ]
       ]);
       var errorMsg = validator.start(); // 获得效验结果
       return errorMsg; // 返回效验结果
@@ -245,10 +242,10 @@ export default {
     blur(event) {
       this.$global
         .singerValitator(event, this.form, this.rules)
-        .then(res => {
+        .then((res) => {
           this.errors[event.target.name] = "";
         })
-        .catch(e => {
+        .catch((e) => {
           this.errors[event.target.name] = e.errors[0].message;
         });
     },
@@ -283,8 +280,8 @@ export default {
       //    console.log(errors);
       //   // return handleErrors(errors, fields);
       // });
-    }
-  }
+    },
+  },
 };
 </script>
 

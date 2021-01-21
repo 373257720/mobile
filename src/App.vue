@@ -87,6 +87,13 @@ body {
 .van-dialog {
   color: #ffffff;
   background-color: #00e3a2 !important;
+  .van-cell-group{
+  //  background-color: #00e3a2;
+   .van-cell{
+       background-color: #00e3a2;
+       color: #fff;
+   }
+  }
   .van-button--default {
     background: #00e3a2;
     color: #ffffff;
@@ -105,9 +112,10 @@ body {
     border-left-color: #fff;
   }
   .van-dialog__message {
-    padding: vw(72) vw(58) vw(72);
+    // padding: vw(72) vw(58) vw(72);
     font-size: vw(30);
     line-height: vw(34);
+       color: #ffffff;
     font-weight: bold;
   }
   .van-dialog__cancel,

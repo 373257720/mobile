@@ -1,6 +1,8 @@
 export default {
   agent: {
     Whorecommendme: "Who<br/>recommend<br/>me",
+    MyrecommendedMiddleman: "My<br/>recommended<br/>middleman",
+    MyrecommendedInvestors: "My<br/>recommended<br/>Investors",
     SignTheContract: "Sign the contract",
     Sign: "Sign",
     RecommendInvestors: "Recommend Investors",
@@ -51,7 +53,13 @@ export default {
     inconsistent: "不一致"
   },
   common: {
-    Send:"Send",
+    English: "English",
+    Chinese: "Chinese",
+    Pleasefillout: "Please fill out",
+    Pleasechoose: "Please choose",
+    Tag: "Tag",
+    Nodata: "No data",
+    Send: "Send",
     Search: "Search",
     Fliter: "Fliter",
     LinktoResetPassword:
@@ -134,7 +142,7 @@ export default {
     changePassword: "Change password",
     NewPassword: "New password",
     ConfirmPassword: "Confirm password",
-    ConfirmNewPassword:"Confirm new password",
+    ConfirmNewPassword: "Confirm new password",
     PasswordsEnteredTwiceAreInconsistent:
       "Passwords entered twice are inconsistent",
     PleaseFillInTheNewPassword: "Please Enter the new password",
@@ -155,6 +163,7 @@ export default {
     IdentificationNumber: "Identity card Number",
     IDCardFront: "The front of IDCard",
     IDCardBack: "The Back of IDCard",
+    IDCardFrontandBack: "The front and back of IDCard",
     passport: "Passport",
     CertificateNumber: "Certificate Number",
     PleaseNationality: "Please enter your nationality",
@@ -223,7 +232,7 @@ export default {
     ARound: "Series A",
     BRound: "Series B",
     CRound: "Series C",
-    PreIPO:"Pre-IPO",
+    PreIPO: "Pre-IPO",
     SigningTime: "Signing time",
     IntermediaryInformation: "Intermediary Information",
     ConfirmInvestor: "Confirm Investor",
@@ -237,6 +246,7 @@ export default {
       "Cooperation intention has been sent,please wait"
   },
   Account: {
+    Membership: "Membership",
     Message: "Message",
     Comfirm: "Comfirm",
     Account: "Account",
@@ -250,10 +260,25 @@ export default {
     WhethertoshowMiddleman: "Whether to show the real name to the middleman",
     Whethertoshowleaderboard: "Whether to show the real name to the leaderboard"
   },
+  Bargin: {
+    Intermediary: "中间人",
+    Projectparty: "项目方",
+    Suggest: "建议",
+    SuggestBack: "反建议",
+    Percentagebyintermediaries: "中介机构筹集资金总额的百分比",
+    Percentageprojectparty: "项目方佣金收入的百分比",
+    Accept: "接受",
+    Suggest: "建议",
+    Reject: "拒绝"
+  },
   project: {
-    Recommand:"Recommand",
-    Step1Pleaseaddcompletecontractdetails:
-      "Step 1 Please add complete contract details",
+    Recommand: "Recommand",
+    Step1Pleasechooseasuitablecontracttemple:
+      "Step 1 Please choose a suitable contract temple",
+    Step2Pleaseaddcompletecontractdetails:
+      "Step 2 Please add complete contract details",
+    Step3pleasechoosesuitablecommissionsharingmechanism:
+      "Step 3 please choose suitable commission sharing mechanism",
     Contract: "Contract",
     FinderCompanyName: "Finder Company Name",
     FinderAddress: "Finder Address",
@@ -280,6 +305,7 @@ export default {
     NDAhasChained: "NDA has Chained",
     MiddleAgreeContract: "Middle Agree Contract",
     waitMiddleSigned: "wait Middle Signed",
+    waitMiddlemanSigned: "Project patry has signed, waitting for  you Sign",
     unfinishedSignContract: "unfinished Sign Contract",
     chainedToRecommand: "chained to recommand",
     waitChecked: "wait checked",

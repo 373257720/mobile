@@ -3,12 +3,17 @@ import Router from "vue-router";
 import intermediary from "./intermediary";
 import investors from "./investors";
 import projectOwner from "./projectOwner";
-console.log(intermediary);
+// console.log(intermediary);
 
 const p_projectdetail = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/p_projectdetail"
+  );
+  const a_sign_contract = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/sign_contract"
   );
 const P_signContractStep1 = () =>
   import(
@@ -39,10 +44,7 @@ const forgotpassword = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/login/forgotpassword"
   );
-const usercheckroot = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/usercheckroot"
-  );
+
 const verify = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/login/Verify"
@@ -393,7 +395,8 @@ const routes = [
         component: projectList,
         meta: {
           isshowbottom: false,
-          keepAlive: true
+          keepAlive: true,
+          ispaddingBottom: true
         }
       },
       {
@@ -515,16 +518,7 @@ const routes = [
       ispaddingBottom: false
     }
   },
-  {
-    path: "/usercheckroot",
-    name: "usercheckroot",
-    component: usercheckroot,
-    // redirect: "/usercheckroot/usercheck",
-    meta: {
-      isshowbottom: false,
-      ispaddingBottom: true
-    }
-  },
+
   {
     path: "/leaderboard",
     name: "leaderboard",
@@ -585,7 +579,14 @@ const routes = [
     //   }
     // ]
   },
-
+  {
+    path: "/sign_contract",
+    name: "sign_contract",
+    component: a_sign_contract,
+    meta: {
+      isshowbottom: false
+    }
+  },
   {
     path: "/cavans",
     name: "cavans",

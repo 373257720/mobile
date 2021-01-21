@@ -7,53 +7,61 @@
       </template>
     </commonnav>
     <main>
-      <h1>Step 3 please choose suitable commission sharing mechanism</h1>
+      <h1>{{$t('project.Step3pleasechoosesuitablecommissionsharingmechanism')}}</h1>
       <div>
         <h3>Project proposal</h3>
-        <header class="option">Percentage of total funds raised by intermediaries</header>
-        <div class="count">
-          <MyNumberInput
-            :point="2"
-            :max="100"
-            name="projectParty"
-            placeholder
-            v-model.number="sharingMechanism0"
-          ></MyNumberInput>
-          <span>%</span>
-          <p>
-            <span
-              class="iconfont icon-arrow_on"
-              @click="calculate($event,'sharingMechanism0','add')"
-            ></span>
-            <span
-              @click="calculate($event,'sharingMechanism0','subtract')"
-              class="iconfont icon-arrow_under"
-            ></span>
-          </p>
-        </div>
-        <header class="option">Percentage of commission income from project party</header>
-        <div class="count">
-          <MyNumberInput
-            :point="2"
-            :max="100"
-            name="projectParty"
-            placeholder
-            v-model.number="sharingMechanism1"
-          ></MyNumberInput>
-          <span>%</span>
-          <p>
-            <span
-              @click="calculate($event,'sharingMechanism1','add')"
-              class="iconfont icon-arrow_on projectParty"
-            ></span>
-            <span
-              @click="calculate($event,'sharingMechanism1','subtract')"
-              class="iconfont icon-arrow_under projectParty"
-            ></span>
-            <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
-            <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
-          </p>
-        </div>
+        <van-radio-group v-model="sharingMechanismType">
+          <van-radio
+            :name="0"
+            checked-color="#00f0ab"
+          >Percentage of total funds raised by intermediaries</van-radio>
+          <div class="count">
+            <MyNumberInput
+              :point="2"
+              :max="100"
+              name="projectParty"
+              placeholder
+              v-model.number="sharingMechanism0"
+            ></MyNumberInput>
+            <span>%</span>
+            <p>
+              <span
+                class="iconfont icon-arrow_on"
+                @click="calculate($event,'sharingMechanism0','add')"
+              ></span>
+              <span
+                @click="calculate($event,'sharingMechanism0','subtract')"
+                class="iconfont icon-arrow_under"
+              ></span>
+            </p>
+          </div>
+          <van-radio
+            :name="1"
+            checked-color="#00f0ab"
+          >Percentage of commission income from project party</van-radio>
+          <div class="count">
+            <MyNumberInput
+              :point="2"
+              :max="100"
+              name="projectParty"
+              placeholder
+              v-model.number="sharingMechanism1"
+            ></MyNumberInput>
+            <span>%</span>
+            <p>
+              <span
+                @click="calculate($event,'sharingMechanism1','add')"
+                class="iconfont icon-arrow_on projectParty"
+              ></span>
+              <span
+                @click="calculate($event,'sharingMechanism1','subtract')"
+                class="iconfont icon-arrow_under projectParty"
+              ></span>
+              <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
+              <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
+            </p>
+          </div>
+        </van-radio-group>
 
         <!-- <footer>
           <button>Preview Contract</button>
@@ -103,6 +111,7 @@ Once confirmed, it cannot be undone or changed
 And sign the contract with the project party`,
       radio: "",
       title: "",
+      sharingMechanismType: 0,
       remindervisible: false,
       isactive: false,
       sharingMechanism0: 0,
@@ -144,6 +153,7 @@ And sign the contract with the project party`,
             signId: this.$route.query.signId,
             middlemanId: this.$route.query.middlemanId,
             signStatus: "2",
+            sharingMechanismType: this.sharingMechanismType,
             sharingMechanism0: this.sharingMechanism0,
             sharingMechanism1: this.sharingMechanism1
           }
@@ -158,7 +168,7 @@ And sign the contract with the project party`,
     comfirmFromDialog() {
       this.remindervisible = false;
       if (this.resultCode == 10000) {
-        this.$routerto("projectSubStatus");
+        this.$routerto("mysign");
       }
     },
     dosome() {

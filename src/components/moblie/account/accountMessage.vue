@@ -15,7 +15,11 @@
       >
         <div class="timestamp">
           <ul>
-            <li @click="$routerto('MessageDetails',{id:item.id})" v-for="item in inforlist" :key="item.id">
+            <li
+              @click="$routerto('MessageDetails',{id:item.id})"
+              v-for="item in inforlist"
+              :key="item.id"
+            >
               <nav>{{item.sendTime}}</nav>
               <section id="container">
                 <div class="item item-1">
@@ -126,7 +130,7 @@ export default {
 /*van-fade-enter-to*/
 
 #AccountMessage {
-  height: 100%;
+  // height: 100%;
 }
 </style>
 <style lang="scss" scoped>
@@ -134,8 +138,12 @@ export default {
   // padding-top: vw(96);
   main {
     // padding-bottom: 50px;
-    height: 100%;
-    position: relative;
+    // height: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 50px;
     //  z-index: 200;
     // overflow: auto;
     .isFixed {

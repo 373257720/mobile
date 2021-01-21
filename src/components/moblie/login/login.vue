@@ -107,9 +107,6 @@ export default {
     }
   },
   created() {
-
-      
-    
     // this.username = this.$route.query.email ? this.$route.query.email : "";
     // console.log(this.$route.query.email);
   },
@@ -142,17 +139,12 @@ export default {
           }
         )
         .then(res => {
-          var rescode = res.status;
           this.$store.commit("isloading", false);
-          console.log(res);
-
-          if (rescode == 200) {
+          if (res.data.resultCode === 10000) {
             this.$store.dispatch("reset_actions", this.$restore_obj);
             this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
             this.$store.dispatch("usertype", res.data.data.userType);
             this.$store.dispatch("setUser", this.username);
-            console.log(res.data.data.isAuth);
-          //1 verified 0 unverified
             if (res.data.data.isAuth === 1) {
               this.$routerto("mhome");
             } else if (res.data.data.isAuth === 0) {

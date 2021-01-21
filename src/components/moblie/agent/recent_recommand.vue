@@ -3,15 +3,15 @@
     <commonnav>
       project detail
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$router.go(-1)"/>
+        <van-icon name="arrow-left" @click="$router.go(-1)" />
       </template>
     </commonnav>
     <main>
       <div>
-        <span @click="$routerto('a_recommand_i')">Recommended to middleman</span>
+        <span @click="routerto(1)">Recommended to middleman</span>
       </div>
       <div>
-        <span  @click="$routerto('a_recommand_i')">Recommend to investors</span>
+        <span @click="routerto(2)">Recommend to investors</span>
       </div>
     </main>
   </div>
@@ -21,6 +21,7 @@
 let timeout;
 export default {
   name: "recent_recommand",
+  inject: ["recommendList"],
   data() {
     return {
       num: 1,
@@ -30,37 +31,34 @@ export default {
       investors_type: [
         {
           text: this.$t("common.individual"),
-          value: 1
+          value: 1,
         },
         {
           text: this.$t("common.company"),
-          value: 2
-        }
+          value: 2,
+        },
       ],
       dad_text: this.$t("agent.RecommendInvestors"),
       title: "",
-      investorsArea: undefined
+      investorsArea: undefined,
+      // Routequery: {
+      //   towho: null,
+      //   signId: "",
+      //   signStatus4: "",
+      // },
     };
   },
 
   created() {
-    this.$global
-      .get_encapsulation(
-        `${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry`
-      )
-      .then(res => {
-        if (res.data.resultCode == 10000) {
-          this.title = res.data.data.projectName;
-          this.industrylist = res.data.data;
-        }
-        this.$toast.clear();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    console.log(this.recommendList);
+    // this.Routequery = Object.assign(this.Routequery, this.$route.query);
   },
   computed: {},
   methods: {
+    routerto(num) {
+      let Routequery = Object.assign({ towho: num }, this.$route.query);
+      this.$routerto("a_recommand_i", Routequery );
+    },
     toggleAll() {
       // console.log(this.num)
       if (this.num == 1) {
@@ -106,17 +104,17 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
           {
-            searchKey: val
+            searchKey: val,
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.data.data.length > 0) {
             for (let i = 0; i < res.data.data.length; i++) {
               arr.push({
                 chinese: res.data.data[i].countryZhname,
                 eng: res.data.data[i].countryEnname,
                 value: i,
-                remark: res.data.data[i].countryCode
+                remark: res.data.data[i].countryCode,
               });
             }
             this.region = arr;
@@ -128,7 +126,7 @@ export default {
     remind(meg) {
       this.$dialog
         .alert({
-          title: meg
+          title: meg,
           // message: "弹窗内容"
         })
         .then(() => {});
@@ -146,18 +144,18 @@ export default {
       // }
       if (this.form.investorsType == 2 && this.form.investorsCompanyEn == "") {
         this.$toast({
-          message: this.$t("agent.PleaseEnterTheCompanyName")
+          message: this.$t("agent.PleaseEnterTheCompanyName"),
         });
         return;
       }
       if (this.form.investorsName == "") {
         this.$toast({
-          message: this.$t("agent.PleaseEnterInvestorName")
+          message: this.$t("agent.PleaseEnterInvestorName"),
         });
         return;
       } else if (this.form.investorsArea == "") {
         this.$toast({
-          message: this.$t("agent.PleaseEnterRegion")
+          message: this.$t("agent.PleaseEnterRegion"),
         });
         return;
       }
@@ -168,7 +166,7 @@ export default {
       console.log(this.form);
       this.$dialog
         .confirm({
-          title: this.$t("agent.Confirm")
+          title: this.$t("agent.Confirm"),
           // message: "确认提交"
         })
         .then(() => {
@@ -178,13 +176,13 @@ export default {
               `${this.$axios.defaults.baseURL}/bsl_web/projectSign/submitInvestors`,
               this.form
             )
-            .then(res => {
+            .then((res) => {
               this.$toast.clear();
               if (res.data.resultCode == 10000) {
                 this.$dialog
                   .alert({
                     title: res.data.resultDesc,
-                    message: this.$t("agent.WaitingForInvestmentBankReview")
+                    message: this.$t("agent.WaitingForInvestmentBankReview"),
                   })
                   .then(() => {
                     this.$routerto("mysign");
@@ -197,8 +195,8 @@ export default {
         .catch(() => {
           // on cancel
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

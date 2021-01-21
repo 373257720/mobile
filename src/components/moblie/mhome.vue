@@ -7,64 +7,68 @@
       </template>
     </commonnav>
     <main class="main">
-      <div class="searchContainer">
-        <van-search
-          v-model="searchkey"
-          :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
-          shape="round"
-          left-icon
-        >
-          <div slot="right-icon">
-            <van-icon name="search" @click="search" />
-          </div>
-        </van-search>
-        <div>
-          <p @click="$routerto('fliter')" style="width:20px;height:20px;background:#555"></p>
-        </div>
-      </div>
-      <div class="mhome-tag">
-        <ul>
-          <li>
-            <aside>{{$t('common.Industry')}}</aside>
-            <div>
-              <p
-                :class="{'isactive':item.isactive}"
-                @click="saveIndustryOfHits(item)"
-                v-for="item in Industrylist"
-                :key="item.value"
-              >{{item.label}}</p>
-            </div>
-          </li>
-          <li>
-            <aside>{{$t('common.region')}}</aside>
-            <div>
-              <p
-                :class="{'isactive':item.isactive}"
-                @click="saveCountryOfHits(item)"
-                v-for="item in countrylist"
-                :key="item.remark"
-              >{{item.label}}</p>
-            </div>
-          </li>
-          <li>
-            <aside>Tag</aside>
-            <div>
-              <p
-                :class="{'isactive':item.isactive}"
-                @click="saveProjectTagsOfHits(item)"
-                v-for="item in ProjectTags"
-                :key="item.value"
-              >{{item.label}}</p>
-            </div>
-          </li>
-        </ul>
-      </div>
       <v-scroll
         class="mhome-article"
         :on-refresh="onRefresh"
         :loaded="loaded"
         :on-infinite="onInfinite"
       >
+        <div slot="navv" class="box">
+          <div class="searchContainer">
+            <van-search
+              v-model="searchkey"
+              :placeholder="$t('common.PleaseEnterTheSearchKeyword')"
+              shape="round"
+              left-icon
+            >
+              <div slot="right-icon">
+                <van-icon name="search" @click="search" />
+              </div>
+            </van-search>
+            <div class="fliter">
+              <img @click="$routerto('fliter')" src="../../assets/fliter.png" alt />
+              <!-- <p @click="$routerto('fliter')" ></p> -->
+            </div>
+          </div>
+          <div class="mhome-tag">
+            <ul>
+              <li>
+                <aside>{{$t('common.Industry')}}</aside>
+                <div>
+                  <p
+                    :class="{'isactive':item.isactive}"
+                    @click="saveIndustryOfHits(item)"
+                    v-for="item in Industrylist"
+                    :key="item.value"
+                  >{{item.label}}</p>
+                </div>
+              </li>
+              <li>
+                <aside>{{$t('common.region')}}</aside>
+                <div>
+                  <p
+                    :class="{'isactive':item.isactive}"
+                    @click="saveCountryOfHits(item)"
+                    v-for="item in countrylist"
+                    :key="item.remark"
+                  >{{item.label}}</p>
+                </div>
+              </li>
+              <li>
+                <aside>{{$t('common.Tag')}}</aside>
+                <div>
+                  <p
+                    :class="{'isactive':item.isactive}"
+                    @click="saveProjectTagsOfHits(item)"
+                    v-for="item in ProjectTags"
+                    :key="item.value"
+                  >{{item.label}}</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
         <div class="timestamp">
           <ul>
             <li v-for="i in Projectlist" :key="i.id">
@@ -128,8 +132,6 @@ export default {
     return {
       text: "",
       loaded: false,
-      isFixed: false,
-      scrollHeight: 0,
       usertype: "",
       Refreshing: false,
       tags: {
@@ -192,10 +194,10 @@ export default {
     this.getAllProjectlist();
   },
   mounted() {
-    window.addEventListener("scroll", this.initHeight, true);
-    this.scrollHeight = document.querySelector(
-      ".van-search__content"
-    ).offsetTop;
+    // window.addEventListener("scroll", this.initHeight, true);
+    // this.scrollHeight = document.querySelector(
+    //   ".van-search__content"
+    // ).offsetTop;
   },
   activated() {
     // this.usertype = this.$store.state.currentUsertype;
@@ -247,7 +249,7 @@ export default {
     // this.onLoad();
   },
   beforeDestroy() {
-    window.removeEventListener("scroll", this.initHeight, true);
+    // window.removeEventListener("scroll", this.initHeight, true);
   },
   methods: {
     cancelAxios() {
@@ -262,12 +264,11 @@ export default {
           let lan = this.$i18n.locale;
           this.ProjectTags = res.data.data.projectTagsList.map(item => {
             return {
-              label: lan === "zh_CN" ? item.tagsName : item.tagsNameEn,
+              label: item['tagsName'+ this.$global.lan()],
               value: item.id,
               isactive: false
             };
           });
-          // console.log(this.Industrylist);
         });
     },
     getCountryList() {
@@ -299,19 +300,13 @@ export default {
       if (!this.Refreshing) {
         if (item.isactive) {
           item.isactive = false;
-          if (this.$i18n.locale === "zh_CN") {
-            this.selectedtagsNamelist.forEach((self, idx) => {
+          this['selectedtagsNamelist' + this.$global.lan()].forEach(
+            (self, idx) => {
               if (self == item.label) {
-                this.selectedtagsNamelist.splice(idx, 1);
+                this['selectedtagsNamelist' + this.$global.lan()].splice(idx, 1);
               }
-            });
-          } else {
-            this.selectedtagsNamelistEn.forEach((self, idx) => {
-              if (self == item.label) {
-                this.selectedtagsNamelistEn.splice(idx, 1);
-              }
-            });
-          }
+            }
+          );
           this.cancelAxios();
           this.getAllProjectlist();
         } else {
@@ -321,11 +316,7 @@ export default {
               { projectTagsId: item.id }
             )
             .then(res => {
-              if (this.$i18n.locale === "zh_CN") {
-                this.selectedtagsNamelist.push(item.label);
-              } else {
-                this.selectedtagsNamelistEn.push(item.label);
-              }
+              this['selectedtagsNamelist' + this.$global.lan()].push(item.label);
               item.isactive = true;
               this.cancelAxios();
               this.getAllProjectlist();
@@ -373,30 +364,20 @@ export default {
               { industryId: item.industryId }
             )
             .then(res => {
-              if (this.$i18n.locale === "zh_CN") {
-                this.selectedIndustrylist.push(item.label);
-              } else {
-                this.selectedIndustrylistEn.push(item.label);
-              }
+              this['selectedIndustrylist' + this.$global.lan()].push(item.label);
               item.isactive = true;
               this.cancelAxios();
               this.getAllProjectlist();
             });
         } else {
           item.isactive = false;
-          if (this.$i18n.locale === "zh_CN") {
-            this.selectedIndustrylist.forEach((self, idx) => {
+          this['selectedIndustrylist' + this.$global.lan()].forEach(
+            (self, idx) => {
               if (self == item.label) {
-                this.selectedIndustrylist.splice(idx, 1);
+                this['selectedIndustrylist' + this.$global.lan()].splice(idx, 1);
               }
-            });
-          } else {
-            this.selectedIndustrylistEn.forEach((self, idx) => {
-              if (self == item.label) {
-                this.selectedIndustrylistEn.splice(idx, 1);
-              }
-            });
-          }
+            }
+          );
           this.cancelAxios();
           this.getAllProjectlist();
         }
@@ -425,6 +406,7 @@ export default {
       // this.isFixed = scrollTop > this.scrollHeight ? true : false;
     },
     getAllProjectlist(done) {
+      let self = this;
       this.loaded = false;
       this.Projectlist = [];
       this.source = this.$axios.CancelToken.source();
@@ -450,48 +432,33 @@ export default {
             this.Refreshing = false;
           }
           this.Projectlist = res.data.data.data;
-
-          if (this.$i18n.locale === "zh_CN") {
-            this.Projectlist.forEach(item => {
-              let label = {
-                projectIndustry:
-                  item.record.projectIndustry.indexOf("[") < 0
-                    ? item.record.projectIndustry
-                    : eval("(" + item.record.projectIndustry + ")").join(","),
-                projectName: item.record.projectName,
-                projectTags:
-                  item.record.projectTags.indexOf("[") < 0
-                    ? item.record.projectTags
-                    : eval("(" + item.record.projectTags + ")").join(","),
-                projectDescribe: item.record.projectDescribe
-              };
-
-              this.$set(item, "label", label);
-            });
-          } else {
-            this.Projectlist.forEach(item => {
-              let label = {
-                projectIndustry:
-                  item.record.projectIndustryEn.indexOf("[") < 0
-                    ? item.record.projectIndustryEn
-                    : eval("(" + item.record.projectIndustryEn + ")").join(","),
-
-                projectName: item.record.projectNameEn,
-                projectTags:
-                  item.record.projectTagsEn.indexOf("[") < 0
-                    ? item.record.projectTagsEn
-                    : eval("(" + item.record.projectTagsEn + ")").join(","),
-
-                projectDescribe: item.record.projectDescribeEn
-              };
-              this.$set(item, "label", label);
-            });
-          }
-          console.log(this.Projectlist);
-        })
-        .catch(err => {
-          // this.Refreshing = false;
-          console.log(err);
+          this.Projectlist.forEach(item => {
+            let label = {
+              projectIndustry:
+                item.record["projectIndustry" + self.$global.lan()].indexOf(
+                  "["
+                ) < 0
+                  ? item.record["projectIndustry" + self.$global.lan()]
+                  : eval(
+                      "(" +
+                        item.record["projectIndustry" + self.$global.lan()] +
+                        ")"
+                    ).join(","),
+              projectName: item.record["projectName" + self.$global.lan()],
+              projectTags:
+                item.record["projectTags" + self.$global.lan()].indexOf("[") < 0
+                  ? item.record["projectTags" + self.$global.lan()]
+                  : eval(
+                      "(" +
+                        item.record["projectTags" + self.$global.lan()] +
+                        ")"
+                    ).join(","),
+              projectDescribe:
+                item.record["projectDescribe" + self.$global.lan()]
+            };
+            this.$set(item, "label", label);
+          });
+          // console.log(this.Projectlist[0].label.fun());
         });
     },
     onRefresh(done) {
@@ -625,6 +592,10 @@ export default {
   .van-button--normal {
     font-size: vw(26);
   }
+  .yo-scroll .inner {
+    position: relative;
+    z-index: 8;
+  }
 }
 </style>
 
@@ -636,102 +607,110 @@ export default {
 
   main {
     // padding-bottom: 50px;
-    overflow-y: auto;
+    // overflow-y: auto;
     position: absolute;
     bottom: 50px;
     left: 0;
     right: 0;
     top: 50px;
-    .isFixed {
-      position: -webkit-sticky; /* Safari */
-      position: sticky;
-      // top: 0;
-    }
-    .searchContainer {
-      z-index: 1;
-      display: flex;
-      // margin-left: vw(40);
-      justify-content: center;
-      align-items: center;
-      background: #fff;
-      margin-bottom: vw(48);
-      .van-search {
-        width: vw(598);
+
+    .box {
+      position: relative;
+      z-index: 100;
+
+      .searchContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background: #fff;
-        padding: 0;
-        z-index: 666;
-        margin-left: 0;
-        margin-right: vw(20);
+        margin-bottom: vw(48);
+        .fliter {
+          img {
+            width: vw(53);
+            height: vw(53);
+          }
+        }
+        .van-search {
+          width: vw(598);
+          background: #fff;
+          padding: 0;
+          z-index: 666;
+          margin-left: 0;
+          margin-right: vw(20);
+        }
+        .van-search__content {
+          border: vw(2) solid #3ab5cc;
+          background: #fff;
+          .van-icon-search,
+          .van-icon-clear {
+            color: #3ab5cc;
+          }
+        }
       }
-      .van-search__content {
-        border: vw(2) solid #3ab5cc;
+
+      .mhome-tag {
         background: #fff;
-        .van-icon-search,
-        .van-icon-clear {
-          color: #3ab5cc;
+        // padding-top: vw(62);
+        li {
+          display: flex;
+          padding-left: vw(40);
+          align-items: center;
+          aside {
+            width: vw(118);
+            height: vw(34);
+            font-size: vw(30);
+            font-weight: bold;
+            line-height: vw(34);
+            color: #4f3dad;
+            margin-right: vw(29);
+          }
+          div {
+            display: flex;
+            overflow-x: auto;
+            flex: 1;
+            margin-right: vw(20);
+            color: #3ab5cc;
+            p {
+              height: vw(54);
+              white-space: nowrap;
+              margin-right: vw(20);
+              line-height: vw(54);
+              border: vw(2) solid #3ab5cc;
+              border-radius: vw(52);
+              font-size: vw(26);
+              font-weight: bold;
+              padding: 0 vw(26);
+            }
+            p.isactive {
+              background: #3ab5cc;
+              color: #fff;
+            }
+          }
+          div::-webkit-scrollbar {
+            display: none;
+          }
+        }
+        li:nth-of-type(2) {
+          margin: vw(40) 0;
         }
       }
     }
+
     .yo-scroll {
-      position: relative;
+      z-index: 1;
+      // position: relative;
       // height: 100%;
-      overflow: initial;
-      top: 10px;
+      // overflow: initial;
+      background: #fff;
+      top: 0;
       transition: all 1s ease;
       -webkit-overflow-scrolling: touch;
-      .inner {
-      }
     }
     .yo-scroll.Fixed {
       // top: 0;
     }
     .yo-scrollTop {
       // top: 50px;
-    }
-    .mhome-tag {
-      // padding-top: vw(62);
-      li {
-        display: flex;
-        padding-left: vw(40);
-        align-items: center;
-        aside {
-          width: vw(118);
-          height: vw(34);
-          font-size: vw(30);
-          font-weight: bold;
-          line-height: vw(34);
-          color: #4f3dad;
-          margin-right: vw(29);
-        }
-        div {
-          display: flex;
-          overflow-x: auto;
-          flex: 1;
-          margin-right: vw(20);
-          color: #3ab5cc;
-          p {
-            height: vw(54);
-            white-space: nowrap;
-            margin-right: vw(20);
-            line-height: vw(54);
-            border: vw(2) solid #3ab5cc;
-            border-radius: vw(52);
-            font-size: vw(26);
-            font-weight: bold;
-            padding: 0 vw(26);
-          }
-          p.isactive {
-            background: #3ab5cc;
-            color: #fff;
-          }
-        }
-        div::-webkit-scrollbar {
-          display: none;
-        }
-      }
-      li:nth-of-type(2) {
-        margin: vw(40) 0;
-      }
     }
 
     .mhome-article {
@@ -847,9 +826,7 @@ export default {
       }
     }
   }
-  #common_nav {
-    // z-index: 200;
-  }
+
   .topReduce {
     padding-top: vw(140);
   }

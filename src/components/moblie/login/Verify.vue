@@ -2,7 +2,7 @@
   <div id="Verify">
     <div class="usercheck">
       <commonnav>
-        {{$t("common.Verify")}}
+        {{ $t("common.Verify") }}
         <template v-slot:arrowLeft>
           <van-icon name="arrow-left" @click="$global.previous()" />
         </template>
@@ -10,65 +10,124 @@
       <main class="main">
         <form ref="form" @submit.prevent="submit_click">
           <div class="mui-input-row input-row">
-            <p class="label need">{{$t('common.Genus')}}</p>
+            <p class="label need">{{ $t("common.Genus") }}</p>
             <p class="select" @click="goto('genus')">
-              <span>{{validateForm.genus && validateForm.genus.text}}</span>
+              <span>{{ validateForm.genus && validateForm.genus.text }}</span>
               <van-icon name="arrow" />
             </p>
           </div>
           <div class="mui-input-row input-row">
-            <p class="label need">{{$t('common.Identity')}}</p>
+            <p class="label need">{{ $t("common.Identity") }}</p>
             <p class="select" @click="goto('identity')">
-              <span>{{validateForm.identity && validateForm.identity.text}}</span>
+              <span>{{
+                validateForm.identity && validateForm.identity.text
+              }}</span>
               <van-icon name="arrow" />
             </p>
           </div>
           <div class="mui-input-row input-row">
-            <p class="label need">{{$t('common.Nationality')}}</p>
+            <p class="label need">{{ $t("common.Nationality") }}</p>
             <p class="select" @click="goto('nationality')">
-              <span>{{validateForm.nation && validateForm.nation.lable}}</span>
+              <span>{{
+                validateForm.nation && validateForm.nation.lable
+              }}</span>
               <van-icon name="arrow" />
             </p>
           </div>
-          <div v-if="validateForm.identity.value===2" class="mui-input-row input-row">
-            <p class="label need">{{$t('common.CompanyName')}} (English)</p>
-            <input name="confirmpassword" autocomplete="off" v-model="formdata.userCompanyEn" />
-          </div>
-          <div v-if="validateForm.identity.value===2" class="mui-input-row input-row">
-            <p class="label">{{$t('common.CompanyName')}}(Chinese)</p>
-            <input name="confirmpassword" autocomplete="off" v-model="formdata.userCompanyCh" />
-          </div>
-          <div v-if="validateForm.identity.value===2" class="mui-input-row input-row">
-            <p class="label need">{{$t('common.CompanyAddress')}}(English)</p>
-            <input name="confirmpassword" autocomplete="off" v-model="formdata.userAddressEn" />
-          </div>
-          <div v-if="validateForm.identity.value===2" class="mui-input-row input-row">
-            <p class="label">{{$t('common.CompanyAddress')}}(Chinese)</p>
-            <input name="confirmpassword" autocomplete="off" v-model="formdata.userAddressCh" />
-          </div>
-          <div v-if="validateForm.identity.value===1" class="mui-input-row input-row">
-            <p class="label need">{{$t('common.PersonalName')}}</p>
-            <input name="confirmpassword" autocomplete="off" v-model="formdata.userName" />
-          </div>
           <div
-            v-if="validateForm.identity.value===1 && validateForm.nation && validateForm.nation.remark==='CHN'"
+            v-if="validateForm.identity.value === 2"
             class="mui-input-row input-row"
           >
-            <p class="label need">{{$t('common.IdentificationNumber')}}</p>
-            <input name="confirmpassword" autocomplete="off" v-model="formdata.userIdentity" />
+            <p class="label need">{{ $t("common.CompanyName") }} (English)</p>
+            <input
+              name="confirmpassword"
+              autocomplete="off"
+              v-model="formdata.userCompanyEn"
+            />
           </div>
           <div
-            v-if="validateForm.identity.value===1 && validateForm.nation && validateForm.nation.remark!=='CHN'"
+            v-if="validateForm.identity.value === 2"
             class="mui-input-row input-row"
           >
-            <p class="label need">{{$t('common.passport')}}</p>
-            <input name="confirmpassword" autocomplete="off" v-model="formdata.userIdentity" />
+            <p class="label">{{ $t("common.CompanyName") }}(Chinese)</p>
+            <input
+              name="confirmpassword"
+              autocomplete="off"
+              v-model="formdata.userCompanyCh"
+            />
+          </div>
+          <div
+            v-if="validateForm.identity.value === 2"
+            class="mui-input-row input-row"
+          >
+            <p class="label need">{{ $t("common.CompanyAddress") }}(English)</p>
+            <input
+              name="confirmpassword"
+              autocomplete="off"
+              v-model="formdata.userAddressEn"
+            />
+          </div>
+          <div
+            v-if="validateForm.identity.value === 2"
+            class="mui-input-row input-row"
+          >
+            <p class="label">{{ $t("common.CompanyAddress") }}(Chinese)</p>
+            <input
+              name="confirmpassword"
+              autocomplete="off"
+              v-model="formdata.userAddressCh"
+            />
+          </div>
+          <div
+            v-if="validateForm.identity.value === 1"
+            class="mui-input-row input-row"
+          >
+            <p class="label need">{{ $t("common.PersonalName") }}</p>
+            <input
+              name="confirmpassword"
+              autocomplete="off"
+              v-model="formdata.userName"
+            />
+          </div>
+          <div
+            v-if="
+              validateForm.identity.value === 1 &&
+              validateForm.nation &&
+              validateForm.nation.remark === 'CHN'
+            "
+            class="mui-input-row input-row"
+          >
+            <p class="label need">{{ $t("common.IdentificationNumber") }}</p>
+            <input
+              name="confirmpassword"
+              autocomplete="off"
+              v-model="formdata.userIdentity"
+            />
+          </div>
+          <div
+            v-if="
+              validateForm.identity.value === 1 &&
+              validateForm.nation &&
+              validateForm.nation.remark !== 'CHN'
+            "
+            class="mui-input-row input-row"
+          >
+            <p class="label need">{{ $t("common.passport") }}</p>
+            <input
+              name="confirmpassword"
+              autocomplete="off"
+              v-model="formdata.userIdentity"
+            />
           </div>
           <div
             class="mui-input-row input-row"
-            v-if="validateForm.identity.value===1 && validateForm.nation && validateForm.nation.remark!=='CHN'"
+            v-if="
+              validateForm.identity.value === 1 &&
+              validateForm.nation &&
+              validateForm.nation.remark !== 'CHN'
+            "
           >
-            <p class="label">{{$t('common.passport')}}</p>
+            <p class="label">{{ $t("common.passport") }}</p>
             <van-uploader
               upload-icon="plus"
               name="passport"
@@ -79,9 +138,13 @@
           </div>
           <div
             class="mui-input-row input-row"
-            v-if="validateForm.identity.value===1 && validateForm.nation && validateForm.nation.remark==='CHN'"
+            v-if="
+              validateForm.identity.value === 1 &&
+              validateForm.nation &&
+              validateForm.nation.remark === 'CHN'
+            "
           >
-            <p class="label">{{$t('common.IdentificationNumber')}}</p>
+            <p class="label">{{ $t("common.IDCardFrontandBack ") }}</p>
             <van-uploader
               class="uploaderFirst"
               upload-icon="plus"
@@ -98,8 +161,11 @@
               max-count="1"
             />
           </div>
-          <div class="mui-input-row input-row" v-if="validateForm.identity.value===2">
-            <p class="label">{{$t('common.Certificate')}}</p>
+          <div
+            class="mui-input-row input-row"
+            v-if="validateForm.identity.value === 2"
+          >
+            <p class="label">{{ $t("common.Certificate") }}</p>
             <van-uploader
               upload-icon="plus"
               name="userCompanyPic"
@@ -110,14 +176,21 @@
           </div>
           <!-- <p class="error">{{errorsMsg}}</p> -->
           <footer>
-            <button class="button is-primary" type="submit">{{$t("common.Submit")}}</button>
+            <button class="button is-primary" type="submit">
+              {{ $t("common.Submit") }}
+            </button>
           </footer>
         </form>
       </main>
     </div>
     <transition name="slide-fade">
       <keep-alive>
-        <div class="secondLayer" @fromKids="pick" :usercheck="validateForm" :is="currentView"></div>
+        <div
+          class="secondLayer"
+          @fromKids="pick"
+          :usercheck="validateForm"
+          :is="currentView"
+        ></div>
       </keep-alive>
     </transition>
     <DialogMsg
@@ -143,20 +216,20 @@ export default {
       validateForm: {
         genus: {
           text: "",
-          value: null
+          value: null,
         },
         identity: { text: "", value: null },
-        nation: {}
+        nation: {},
       },
       formdata: {
         emailData: "",
         userCountry: "",
-        userIdentityType: null,
+        userIdentityType: null, // person or company
         userCountryEn: "",
         userCountryCh: "",
         userIdentity: "",
         userName: "",
-        identityType: "",
+        identityType: "", // user id card type
         identityPicOne: "",
         identityPicTwo: "",
         userCompanyCh: "",
@@ -164,7 +237,7 @@ export default {
         userAddressCh: "",
         userAddressEn: "",
         userCompanyPic: "",
-        userType: null
+        userType: null, //user type
         // X_Token: this.$store.state.X_Token
         // identity: ""
       },
@@ -174,7 +247,7 @@ export default {
       errorsMsg: "",
       fileList_company: [],
       fileList_front: [],
-      fileList_back: []
+      fileList_back: [],
     };
   },
   components: {
@@ -182,17 +255,17 @@ export default {
     genus: genus,
     nationality: nationality,
     identity: identity,
-    layer: layer
+    layer: layer,
   },
   watch: {
-    isshow: function(a, b) {
+    isshow: function (a, b) {
       if (a) {
         this.transitionName = "slide-left";
       } else {
         this.transitionName = "slide-right";
       }
       // console.log(this.transitionName);
-    }
+    },
   },
   computed: {
     isdisabled() {
@@ -201,7 +274,7 @@ export default {
       } else {
         return true;
       }
-    }
+    },
   },
   created() {
     // this.getcountrylist("");
@@ -242,7 +315,6 @@ export default {
         //   this.fileList_back = [];
         // }
         // console.log(this.validateForm.nation);
-
         if (this.validateForm.nation.remark === "CHN") {
           this.formdata.identityType = 1; //身份证
         } else {
@@ -250,7 +322,6 @@ export default {
         }
         this.formdata.userCountry = this.validateForm.nation.value;
       }
-
       this.currentView = "";
       // this.validateForm=Object.assign({},this.validateForm)
       // console.log(this.validateForm);
@@ -735,25 +806,25 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/user/submitAuth`,
           this.formdata
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
             this.$dialog
               .alert({
-                title: res.data.resultDesc
+                title: res.data.resultDesc,
                 // message: "点"
               })
               .then(() => {
                 this.$router.replace({
                   //核心语句
-                  path: "/login" //跳转的路径
+                  path: "/login", //跳转的路径
                 });
               });
             // this.success = !this.success;
           } else {
             this.$dialog
               .alert({
-                title: res.data.resultDesc
+                title: res.data.resultDesc,
               })
               .then(() => {});
           }
@@ -769,27 +840,27 @@ export default {
       validator.add(self.formdata.userType, [
         [
           "isNotEmpty",
-          self.$t("common.Genus") + this.$t("VerifyMsg.isnotempty")
-        ]
+          self.$t("common.Genus") + this.$t("VerifyMsg.isnotempty"),
+        ],
       ]);
       validator.add(self.formdata.userIdentityType, [
         [
           "isNotEmpty",
-          this.$t("common.Identity") + this.$t("VerifyMsg.isnotempty")
-        ]
+          this.$t("common.Identity") + this.$t("VerifyMsg.isnotempty"),
+        ],
       ]);
       validator.add(self.formdata.userCountry, [
         [
           "isNotEmpty",
-          this.$t("common.Nationality") + this.$t("VerifyMsg.isnotempty")
-        ]
+          this.$t("common.Nationality") + this.$t("VerifyMsg.isnotempty"),
+        ],
       ]);
       if (self.validateForm.identity.value === 1) {
         validator.add(self.formdata.userName, [
           [
             "isNotEmpty",
-            this.$t("common.PersonalName") + this.$t("VerifyMsg.isnotempty")
-          ]
+            this.$t("common.PersonalName") + this.$t("VerifyMsg.isnotempty"),
+          ],
         ]);
         if (
           self.validateForm.nation &&
@@ -799,8 +870,8 @@ export default {
             [
               "isNotEmpty",
               this.$t("common.IdentificationNumber") +
-                +this.$t("VerifyMsg.isnotempty")
-            ]
+                +this.$t("VerifyMsg.isnotempty"),
+            ],
           ]);
         } else if (
           self.validateForm.nation &&
@@ -809,22 +880,22 @@ export default {
           validator.add(self.formdata.userIdentity, [
             [
               "isNotEmpty",
-              this.$t("common.passport") + this.$t("VerifyMsg.isnotempty")
-            ]
+              this.$t("common.passport") + this.$t("VerifyMsg.isnotempty"),
+            ],
           ]);
         }
       } else if (self.validateForm.identity.value === 2) {
         validator.add(self.formdata.userCompanyEn, [
           [
             "isNotEmpty",
-            this.$t("common.CompanyName") + this.$t("VerifyMsg.isnotempty")
-          ]
+            this.$t("common.CompanyName") + this.$t("VerifyMsg.isnotempty"),
+          ],
         ]);
         validator.add(self.formdata.userAddressEn, [
           [
             "isNotEmpty",
-            this.$t("common.CompanyAddress") + this.$t("VerifyMsg.isnotempty")
-          ]
+            this.$t("common.CompanyAddress") + this.$t("VerifyMsg.isnotempty"),
+          ],
         ]);
       }
       var errorMsg = validator.start(); // 获得效验结果
@@ -873,10 +944,10 @@ export default {
           url: `${this.$axios.defaults.baseURL}/bsl_web/upload/pic`,
           data: formData,
           headers: {
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data",
             // "application/x-www-form-urlencoded"
-          }
-        }).then(res => {
+          },
+        }).then((res) => {
           if (res.data.resultCode == 10000) {
             resolve(res);
           } else {
@@ -884,21 +955,8 @@ export default {
           }
         });
       });
-    }
-    // submit() {
-    //   this.$refs.form.validate().then(result => {
-    //     console.log("form valid: ", result);
-    //   });
-    // },
-    // clear() {
-    //   this.$refs.form.clear();
-    //   this.validateForm = {
-    //     username: "",
-    //     password: "",
-    //     isAgree: false
-    //   };
-    // }
-  }
+    },
+  },
 };
 </script>
 <style lang='scss'>
@@ -915,6 +973,11 @@ export default {
 }
 
 #Verify .usercheck {
+  .yo-scroll {
+    .loadmore {
+      top: 50px;
+    }
+  }
   .van-icon-plus::before {
     // display: inline-block;
     // vertical-align: middle;

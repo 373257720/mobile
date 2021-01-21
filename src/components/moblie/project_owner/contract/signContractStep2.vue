@@ -1,28 +1,40 @@
 <template>
   <div id="signContract">
     <commonnav>
-      {{$t('project.Contract')}}
+      {{ $t("project.Contract") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>
-      <h1>{{$t('project.Step1Pleaseaddcompletecontractdetails')}}</h1>
+      <h1>{{ $t("project.Step2Pleaseaddcompletecontractdetails") }}</h1>
       <form ref="form" @submit.prevent="submit_click">
-        <div class="mui-input-row input-row" v-for="i in dataList" :key="i.cellInfo">
-          <p class="label">{{i.cellInfo}}</p>
-          <section v-for="(self,idx) in i.listCell" :key="idx">
-            <input name="userName" type="text" v-model="i.listCell[idx]" />
+        <div
+          class="mui-input-row input-row"
+          v-for="i in dataList"
+          :key="i.cellInfo"
+        >
+          <p class="label">{{ i.cellInfo }}</p>
+          <section>
+            <input
+              name="userName"
+              v-model="i.listCell[0]"
+            />
           </section>
         </div>
-        <p class="error">{{errorsMsg}}</p>
-        <button class="button is-primary active" type="submit">{{$t('common.Submit')}}</button>
+        <p class="error">{{ errorsMsg }}</p>
+        <button
+          v-if="dataList.length"
+          class="button is-primary active"
+          type="submit"
+        >
+          {{ $t("common.Submit") }}
+        </button>
       </form>
     </main>
   </div>
 </template>
 <script>
-// 1绿色2黄色3红色4橙色
 export default {
   name: "mhome",
   data() {
@@ -30,7 +42,7 @@ export default {
       validateForm: {},
       dataList: [],
       errorsMsg: "",
-      fileId: ""
+      fileId: "",
     };
   },
   created() {
@@ -38,28 +50,42 @@ export default {
     // this.query=this.$route.query
     this.getExcel();
   },
-  computed: {
-    isdisabled() {
-      if (this.validateForm.username && this.validateForm.password) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-  },
+  computed: {},
   methods: {
     getExcel() {
+      // 1绿色2黄色3红色4橙色
       this.$store.commit("isloading", true);
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackGetContractItems`,
           { fileId: this.fileId }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           this.dataList = res.data.data.list;
+          console.log(this.dataList);
+
+          this.dataList.forEach((item) => {
+            if (item.type === 1) {
+              if (!item.listCell.length) {
+                item.listCell.push("");
+              }
+            }
+          });
           // console.log(res.data.data.list);
         });
+    },
+    validateFunc() {
+      let self = this;
+      let validator = new this.$Validator();
+      this.dataList.forEach((item) => {
+        item.listCell.forEach((i, d) => {
+          validator.add(i, [["isNotEmpty", this.$t("common.Pleasefillout")]]);
+        });
+      });
+      var errorMsg = validator.start(); // 获得效验结果
+      console.log(errorMsg);
+      return errorMsg; // 返回效验结果
     },
     submit_click() {
       this.errorsMsg = "";
@@ -72,49 +98,38 @@ export default {
     },
     iBackSaveContractItems() {
       this.$store.commit("isloading", true);
+      let RequestUrl = "";
+      if (this.$route.query.signStatus4 == 16) {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/iBackSaveContractItems`;
+      } else {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackSaveContractItems`;
+      }
       this.$global
-        .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackSaveContractItems`,
-          {
-            fileId: this.fileId,
-            importListStr: this.dataList,
-            signId: this.$route.query.signId,
-            middlemanId: this.$route.query.middlemanId
-          }
-        )
-        .then(res => {
+        .post_encapsulation(RequestUrl, {
+          fileId: this.fileId,
+          importListStr: this.dataList,
+          signId: this.$route.query.signId,
+          middlemanId: this.$route.query.middlemanId,
+        })
+        .then((res) => {
           this.$store.commit("isloading", false);
-          if (res.data.resultCode == 10000) {
-            this.$routerto("ibankSignContractStep3", this.$route.query);
-          }
+          this.$dialog
+            .alert({
+              message: res.data.resultDesc,
+            })
+            .then(() => {
+              if (res.data.resultCode == 10000) {
+                if (this.$route.query.signStatus4 == 16) {
+                  this.$replaceto("mysign");
+                } else {
+                  this.$routerto("ibankSignContractStep3", this.$route.query);
+                }
+              }
+              // on close
+            });
         });
     },
-    validateFunc() {
-      let self = this;
-      let validator = new this.$Validator();
-      this.dataList.forEach(item => {
-        item.listCell.forEach((i, d) => {
-          validator.add(i, [["isNotEmpty", this.$t("common.isno")]]);
-        });
-      });
-      //   validator.add(self.validateForm.username, [
-      //     ["isNotEmpty", this.$t("common.isno")],
-      //     ["minLength|6", "不允许以空白字符命名"]
-      //   ]);
-      //   validator.add(self.validateForm.password, [
-      //     ["isNotEmpty", "用户名不可为空"]
-      //   ]);
-      var errorMsg = validator.start(); // 获得效验结果
-      console.log(errorMsg);
-      return errorMsg; // 返回效验结果
-    },
-    toggle(index) {
-      this.$refs.checkboxes[index].toggle();
-    },
-    delectTag(item, idx) {
-      this.taglist.splice(idx, 1);
-    }
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
