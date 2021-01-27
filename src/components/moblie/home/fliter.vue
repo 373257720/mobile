@@ -14,7 +14,7 @@
         <ul class="totalResults">
           <li v-for="(item, idx) in $store.getters.totalResults" :key="idx">
             <p>
-              {{ item.label }}
+              {{ item["label" + $global.language()] }}
               <span @click="delectTag(item, idx)"></span>
             </p>
           </li>
@@ -67,7 +67,7 @@
           :result="result"
           :List="List"
           :afterEnter.sync="afterEnter"
-          :GoToname="name"
+          :GoToname="GoToname"
           :is="currentView"
         ></div>
       </keep-alive>
@@ -83,7 +83,7 @@ export default {
   },
   data() {
     return {
-      name: "",
+      GoToname: "",
       currentView: "",
       afterEnter: false,
       List: {
@@ -101,19 +101,20 @@ export default {
   computed: {
     electedindustryList() {
       let arr = this.$store.state.electedList.industryList.map((item) => {
-        return item.label;
+        return item["label" + this.$global.language()];
       });
       return arr.length ? arr.join(",") : "";
+      // return arr
     },
     electedregionList() {
       let arr = this.$store.state.electedList.regionList.map((item) => {
-        return item.label;
+        return item["label" + this.$global.language()];
       });
       return arr.length ? arr.join(",") : "";
     },
     electedtaglist() {
       let arr = this.$store.state.electedList.taglist.map((item) => {
-        return item.label;
+        return item["label" + this.$global.language()];
       });
       return arr.length ? arr.join(",") : "";
     },
@@ -159,9 +160,7 @@ export default {
       this.afterEnter = false;
     },
     pick(data) {
-      if (this.name == "Industry") {
-        console.log(this.List.industryList);
-        console.log(data);
+      if (this.GoToname == "Industry") {
         let a = this.List.industryList.filter((item) => {
           for (let i = 0; i < data.industryList.length; i++) {
             if (item.value === data.industryList[i]) {
@@ -170,7 +169,7 @@ export default {
           }
         });
         this.$store.commit("electedList", { arr: a, name: "industryList" });
-      } else if (this.name == "Region") {
+      } else if (this.GoToname == "Region") {
         let a = this.List.regionList.filter((item) => {
           for (let i = 0; i < data.regionList.length; i++) {
             if (item.value === data.regionList[i]) {
@@ -179,7 +178,7 @@ export default {
           }
         });
         this.$store.commit("electedList", { arr: a, name: "regionList" });
-      } else if (this.name == "Tag") {
+      } else if (this.GoToname == "Tag") {
         let a = this.List.taglist.filter((item) => {
           for (let i = 0; i < data.taglist.length; i++) {
             if (item.value === data.taglist[i]) {
@@ -192,11 +191,10 @@ export default {
       this.currentView = "";
     },
     goto(name) {
-      this.name = name;
+      this.GoToname = name;
       this.currentView = "mutil-Pick";
     },
     delectTag(item, idx) {
-      let arr;
       if (item.key === "industry") {
         for (let i = 0; i < this.result.industryList.length; i++) {
           if (this.result.industryList[i] === item.value) {

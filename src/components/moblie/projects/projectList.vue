@@ -83,10 +83,11 @@
                 <p class="icon iconRight iconfont icon-3"></p>
               </div>
               <div class="item item-6">
-                <p v-if="i.signNdaStatus">
+                <p>{{ $store.state.selectedItem.text }}</p>
+                <!-- <p v-if="i.signNdaStatus">
                   {{ $global.ndastage[i.signNdaStatus] }}
                 </p>
-                <p v-else>{{ $global.middleman_obj[i.signStatus4] }}</p>
+                <p v-else>{{ $global.middleman_obj[i.signStatus4] }}</p> -->
               </div>
             </section>
             <div class="btn">
@@ -466,67 +467,7 @@ export default {
         this.num = 1;
       }
     },
-    mysignto(item) {
-      let signStatus = item.signStatus;
-      let obj = {
-        projectId: item.projectId,
-        signStatus: item.signStatus,
-        signId: item.signId,
-      };
-      // 1投行（项目方），3投资者，4投资中间人
-      // 待处理项目->1 待签约项目->2 投行拒绝和投资人签约 ->3 已签约待上链->4    已上链待推荐->5  待审核项目->6  已审核拒绝->7  已审核待发送8   待确认项目->9  签约成功项目->10 拒绝签约项目->11
-      if (this.usertype == 1) {
-        if (signStatus == 1) {
-          this.$routerto("p_sign_request", obj);
-        } else if (signStatus == 2) {
-          this.$routerto("p_wait_agent_input", obj);
-        } else if (signStatus == 4) {
-          this.$routerto("p_wait_agent_input", obj);
-        } else if (signStatus == 5) {
-          this.$routerto("p_wait_investor", obj);
-          // this.$routerto("p_wait_agent_input", obj);
-        } else if (signStatus == 6) {
-          this.$routerto("p_sign_request", obj);
-        } else if (signStatus == 8) {
-          this.$routerto("p_wait_investor", obj);
-        } else if (signStatus == 9) {
-          this.$routerto("p_wait_investor", obj);
-        } else if (signStatus == 10) {
-          this.$routerto("p_sign_successful", obj);
-        } else if (signStatus == 3 || signStatus == 7 || signStatus == 11) {
-          this.$routerto("p_sign_failed", obj);
-        }
-      } else if (this.usertype == 4) {
-        if (signStatus == 1) {
-          this.$routerto("a_wait_review", obj);
-        } else if (signStatus == 2) {
-          this.$routerto("a_wait_signed", obj);
-        } else if (signStatus == 4) {
-          this.$routerto("uploadtoblock", obj);
-        } else if (signStatus == 5) {
-          this.$routerto("a_project_intro", obj);
-        } else if (signStatus == 6) {
-          this.$routerto("a_wait_review", obj);
-        } else if (signStatus == 8) {
-          this.$routerto("a_wait_sendemail", obj);
-        } else if (signStatus == 9) {
-          this.$routerto("a_wait_investor_comfirm", obj);
-        } else if (signStatus == 10) {
-          this.$routerto("a_sign_successful", obj);
-        } else if (signStatus == 3 || signStatus == 7 || signStatus == 11) {
-          this.$routerto("a_sign_failed", obj);
-        }
-      } else if (this.usertype == 3) {
-        console.log(signStatus);
-        if (signStatus == 9) {
-          this.$routerto("i_wait_confirm", obj);
-        } else if (signStatus == 10) {
-          this.$routerto("i_conected_project", obj);
-        } else if (signStatus == 11) {
-          this.$routerto("i_sign_failed", obj);
-        }
-      }
-    },
+
     confirm_lists() {
       function unique(arr) {
         if (!Array.isArray(arr)) {
@@ -717,6 +658,8 @@ export default {
     grid-column: 2;
     grid-auto-flow: row;
     font-size: vw(24);
+    word-wrap: break-word;
+    word-break: break-all;
     font-weight: bold;
     align-items: start;
     line-height: vw(28);

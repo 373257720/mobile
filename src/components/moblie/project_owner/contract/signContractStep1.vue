@@ -1,5 +1,5 @@
 <template>
-  <div id="signContract">
+  <div id="signContractStep1">
     <commonnav>
       {{ $t("project.Contract") }}
       <template v-slot:arrowLeft>
@@ -38,9 +38,9 @@
       <!-- <input type="textarea" v-model="article"> -->
       <textarea name v-model="article" id cols="30" rows="10"></textarea>
       <footer>
-        <van-button @click="go">Next</van-button>
+        <van-button @click="go">{{ $t("common.Next") }}</van-button>
       </footer>
-    </main>
+    </main> 
   </div>
 </template>
 <script>
@@ -50,7 +50,7 @@ const IconFont = Icon.createFromIconfontCN({
   scriptUrl: myicon,
 });
 export default {
-  name: "mhome",
+  name: "signContractStep1",
   components: {
     IconFont,
   },
@@ -156,7 +156,11 @@ export default {
         )
         .then((res) => {
           this.$store.commit("isloading", false);
-          this.TemplateList = res.data.data;
+          this.TemplateList = this.$global.quickSort(
+            res.data.data,
+            "createTime",
+            "descending"
+          );
           console.log(this.TemplateList);
         });
     },
@@ -193,8 +197,16 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+#signContractStep1 {
+  .ant-select-selection {
+    border-color: #4f3dad;
+  }
+}
+</style>
+
 <style lang="scss" scoped>
-#signContract {
+#signContractStep1 {
   main {
     width: 100%;
     padding: vw(140) vw(92) vw(116);

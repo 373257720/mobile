@@ -1,11 +1,20 @@
 export default {
   agent: {
+    SignedIntermediary:"已接受中间人者数量",
+    Signedinvestor:"已接受投资者数量",
     Whorecommendme: "谁推荐我",
     MyrecommendedMiddleman: "我推荐的中间人",
     MyrecommendedInvestors: "我推荐的投资人",
     SignTheContract: "签署合约",
     Sign: "签署",
+    Re:"剩余推荐次数",
+    Rc:"推荐倒计时",
+    times:"次",
+    days:"天",
     RecommendInvestors: "推荐投资者",
+    RecommendNewInvestors: "添加新投资者",
+    RM:"推荐中间人",
+    RNM:"添加新中间人",
     Interested: "感兴趣",
     FinancingStage: "融资阶段",
     NumberOfinvestorsHaveSubmitted: "已提交</br>投资者数量",
@@ -52,6 +61,7 @@ export default {
     inconsistent: "不一致"
   },
   common: {
+    Next:"下一步",
     English:"英文",
     Chinese:"中文",
     Pleasefillout:"请填写完整表格",
@@ -185,6 +195,8 @@ export default {
     UploadTakesAboutOneMinute: "上传大概需要1分钟，请耐心等候"
   },
   investor: {
+    Investorprofile:"投资者资料",
+    Unsigned:"未签约",
     MyProfile: "我的资料",
     CompleteMaterial: "完善资料",
     Refuse: "拒绝",
@@ -252,9 +264,9 @@ export default {
     Logout: "退出登录",
     Nickname: "昵称",
     EditInformation: "编辑信息",
-    WhethertoshowInvestors: "是否向投资者出示实名",
-    WhethertoshowMiddleman: "是否向中间人出示实名",
-    Whethertoshowleaderboard: "Whethertoshowleaderboard",
+    WhethertoshowInvestors: "是否向投资者显示真实姓名",
+    WhethertoshowMiddleman: "是否向中间人显示真实姓名",
+    Whethertoshowleaderboard: "是否在排行榜显示真实姓名",
   },
   Bargin:{
     Intermediary: "中间人",
@@ -268,16 +280,19 @@ export default {
     Reject:"拒绝"
   },
   project: {
+    PreviewContract:"预览合同",
+    Projectproposal:"项目建议",
     Recommand:"推荐",
     Step1Pleasechooseasuitablecontracttemple:
     "第一步请选择一个合适的合同模板",
+    Step2Pleasechooseasuitablecontracttemple:"第二步请选择合适的佣金分成机制",
     Step1Pleaseaddcompletecontractdetails:"第一步请补充完整的合约细节内容",
     Step2Pleaseaddcompletecontractdetails:"第二步请添加完整的合同细节",
     Step3pleasechoosesuitablecommissionsharingmechanism:"第三步请选择合适的佣金分成机制",
     Contract:"合约",
     FinderCompanyName:"公司名称",
     FinderAddress:"公司地址",
-    Contractwithibank: "Contract with ibank",
+    Contractwithibank: "签署合约",
     SignContract:"签约",
     Interested: "感兴趣",
     NDAcontract:"NDA合约",
@@ -286,9 +301,9 @@ export default {
     SeeAll:"查看全部",
     Detail: "详情",
     projectChain: "项目链",
-    YouAndProjectparty: "你(中间人)和项目方",
+    YouAndProjectparty: "你(中间人)与项目方",
     YouRecommandMiddleman: "你(中间人)推荐中间人",
-    YouAndInverstor: "你(中间人)投资者",
+    YouAndInverstor: "你(中间人)与投资者",
     MiddlemanRecommandYou: "中间人推荐你(中间人)",
     project: "项目",
     Projectchain: "项目链",

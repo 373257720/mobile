@@ -1,7 +1,7 @@
 <template>
   <div id="agentProjectDetail">
     <commonnav>
-      {{$t('common.ProjectDetails')}}
+      {{$t('common.ProjectDescription')}}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -12,7 +12,7 @@
     <main>
       <div class="mhome-tag">
         <h2>{{ProjectDetail.projectName}}</h2>
-        <h3>Signed intermediary({{ProjectDetail.committedCount}})/Signed investor({{ProjectDetail.interestProjectCount}})</h3>
+        <h3>{{$t("agent.SignedIntermediary")}}({{ProjectDetail.committedCount}})/{{$t("agent.Signedinvestor")}}({{ProjectDetail.interestProjectCount}})</h3>
         <div class="projectMoney">
           <p>
             <span class="icon">
@@ -243,7 +243,7 @@ export default {
       //     // this.remindervisible2 = true;
       //   }, 300);
     },
- 
+
     privous() {
       this.$refs.swipe.prev();
     },

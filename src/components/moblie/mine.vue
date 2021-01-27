@@ -1,50 +1,56 @@
 <template>
   <div id="mine">
     <commonnav>
-      {{$t('Account.Account')}}
+      {{ $t("Account.Account") }}
       <!-- <template v-slot:arrowLeft>
         <span class="iconfont icon-account iconLeft" @click="$routerto('setNickname')"></span>
       </template>-->
       <template v-slot:arrowRight>
         <p class="iconRight">
-          <span class="iconfont icon-bitbroicon_setting" @click="$routerto('setNickname')"></span>
-          <span class="iconfont icon-message" @click="$routerto('AccountMessage')"></span>
+          <span
+            class="iconfont icon-bitbroicon_setting"
+            @click="$routerto('setNickname')"
+          ></span>
+          <span
+            class="iconfont icon-message"
+            @click="$routerto('AccountMessage')"
+          ></span>
         </p>
       </template>
     </commonnav>
 
     <main>
       <div class="iconfont icon-account"></div>
-      <p @click="$routerto('vip')">{{user_infor.username}}</p>
-      <p>{{user_infor.account}}</p>
+      <p @click="$routerto('vip')">{{ user_infor.username }}</p>
+      <p>{{ user_infor.account }}</p>
     </main>
     <footer>
       <ul>
         <li @click="$routerto('vip')">
           <div class="iconfont icon-account"></div>
-          <div>{{$t('Account.Membership')}}</div>
+          <div>{{ $t("Account.Membership") }}</div>
         </li>
         <li @click="$routerto('personalReview')">
           <div class="iconfont icon-account"></div>
-          <div>{{$t('Account.PersonalReview')}}</div>
+          <div>{{ $t("Account.PersonalReview") }}</div>
         </li>
         <li @click="switch_language">
           <div class="iconfont icon-language"></div>
-          <div>{{$t('Account.Language')}}</div>
+          <div>{{ $t("Account.Language") }}</div>
         </li>
         <li @click="$routerto('forgotpassword')">
           <div class="iconfont icon-password"></div>
-          <div>{{$t('common.changePassword')}}</div>
+          <div>{{ $t("common.changePassword") }}</div>
         </li>
-        <li @click="()=>remindervisible=true">
+        <li @click="() => (remindervisible = true)">
           <div class="iconfont icon-quit"></div>
-          <div>{{$t('Account.Logout')}}</div>
+          <div>{{ $t("Account.Logout") }}</div>
         </li>
       </ul>
     </footer>
     <DialogMsg
-      :msg="content"
-      :title.sync="title"
+      msg=""
+      :title.sync="content"
       @comfirmFromDialog="loginout"
       :showCancel="true"
       :remindervisible.sync="remindervisible"
@@ -57,10 +63,18 @@
     >
       <van-radio-group v-model="radio">
         <van-cell-group>
-          <van-cell :title="$t('common.English')" clickable @click="radio ='en_US'">
+          <van-cell
+            :title="$t('common.English')"
+            clickable
+            @click="radio = 'en_US'"
+          >
             <van-radio slot="right-icon" name="en_US" />
           </van-cell>
-          <van-cell :title="$t('common.Chinese')" clickable @click="radio = 'zh_CN'">
+          <van-cell
+            :title="$t('common.Chinese')"
+            clickable
+            @click="radio = 'zh_CN'"
+          >
             <van-radio slot="right-icon" name="zh_CN" />
           </van-cell>
         </van-cell-group>
@@ -83,8 +97,8 @@ export default {
       radio: "",
       user_infor: {
         account: "",
-        username: ""
-      }
+        username: "",
+      },
     };
   },
   created() {
@@ -98,7 +112,7 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/user/getAuthDetails`
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
             if (res.data.data.userIdentityType == 1) {
@@ -109,7 +123,7 @@ export default {
                   ? res.data.data.userCompanyCh
                   : res.data.data.userCompanyEn;
             }
-
+            this.$store.dispatch("setUser",this.user_infor.username)
             this.user_infor.account = res.data.data.bslEmail;
           }
         });
@@ -121,7 +135,7 @@ export default {
             `${this.$axios.defaults.baseURL}/bsl_web/base/language.do`,
             { lan: this.radio }
           )
-          .then(res => {
+          .then((res) => {
             if (res.data.resultCode == 10000) {
               window.localStorage.setItem("language", this.radio);
               this.$Local(this.radio);
@@ -144,7 +158,7 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/user/logOut`
         )
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.data.resultCode == 10000) {
             this.$store.dispatch("reset_actions", this.$restore_obj);
@@ -154,8 +168,8 @@ export default {
             location.href = process.env.WEB_API;
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

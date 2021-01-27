@@ -206,7 +206,16 @@ export default {
                       this.$axios.defaults.baseURL + res.data.data[key];
                     // console.log(this.formdata[k]);
                   } else if (key == "optRemark") {
-                    this.formdata[k] = res.data.data[key].split(",");
+                    if (this.$global.isJSON(res.data.data[key])) {
+                      let a = JSON.parse(res.data.data[key]);
+                      if (this.$i18n.locale == "zh_CN") {
+                        this.formdata[k] = a.chinese;
+                      } else {
+                        this.formdata[k] = a.eng;
+                      }
+                    } else {
+                      this.formdata[k] = res.data.data[key].split(",");
+                    }
                   } else {
                     this.formdata[k] = res.data.data[key];
                   }

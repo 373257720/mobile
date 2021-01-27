@@ -1,7 +1,7 @@
 <template>
   <div id="a_recommand_i">
     <commonnav>
-      Recommended investors
+      {{ title }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -24,22 +24,26 @@
               <h3>{{ item.recommendName.value }}</h3>
               <ul>
                 <li>
-                  <aside></aside>
+                  <aside class="iconfont icon-bitbroicon_setting"></aside>
                   <article>
                     {{ $t($global.investorsType[item.recommendType.value]) }}
                   </article>
                 </li>
                 <li>
-                  <aside></aside>
+                  <aside class="iconfont icon-email"></aside>
                   <article>{{ item.recommendEmail.value }}</article>
                 </li>
                 <li>
-                  <aside></aside>
-                  <article>Recommended countdown: 5 days</article>
+                  <aside class="iconfont icon-star"></aside>
+                  <article>
+                    {{ $t("agent.Re") }}: 5 {{ $t("agent.times") }}
+                  </article>
                 </li>
                 <li>
-                  <aside></aside>
-                  <article>Recommended countdown: 5 days</article>
+                  <aside class="iconfont icon-day"></aside>
+                  <article>
+                    {{ $t("agent.Rc") }}: 5 {{ $t("agent.days") }}
+                  </article>
                 </li>
               </ul>
             </template>
@@ -58,7 +62,7 @@
           />
         </p> -->
         <div class>
-          <span>Recommend new investors</span>
+          <span>{{ add }}</span>
           <span @click="$routerto('recommandMiddleman', $route.query)">+</span>
         </div>
 
@@ -82,6 +86,20 @@ export default {
     };
   },
   computed: {
+    title() {
+      if (this.$route.query.towho == 1) {
+        return this.$t("agent.RM");
+      } else if (this.$route.query.towho == 2) {
+        return this.$t("agent.RecommendInvestors");
+      }
+    },
+    add() {
+      if (this.$route.query.towho == 1) {
+        return this.$t("agent.RNM");
+      } else if (this.$route.query.towho == 2) {
+        return this.$t("agent.RecommendNewInvestors");
+      }
+    },
     rotate1() {
       if (this.articleHight > this.boxHeight * 2) {
         return true;
@@ -264,10 +282,12 @@ export default {
     li {
       display: flex;
       margin-bottom: vw(30);
-      aside {
-        width: vw(29);
-        height: vw(29);
-        background: #4f3dad;
+      align-items: center;
+      aside.iconfont {
+        font-size: vw(30);
+        line-height: vw(30);
+        font-weight: bold;
+        border-radius: 50%;
         margin-right: vw(28);
       }
       article {

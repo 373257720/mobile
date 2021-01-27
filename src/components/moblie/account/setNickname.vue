@@ -16,7 +16,7 @@
           <p>{{ $t("Account.WhethertoshowInvestors") }}</p>
           <van-switch
             active-color="#00F0AB"
-            v-model="validateForm.rankingDisplayName"
+            v-model="validateForm.superiorDisplayName"
           />
         </div>
         <div class="mui-input-row input-row select">
@@ -30,7 +30,7 @@
           <p>{{ $t("Account.Whethertoshowleaderboard") }}</p>
           <van-switch
             active-color="#00F0AB"
-            v-model="validateForm.superiorDisplayName"
+            v-model="validateForm.rankingDisplayName"
           />
         </div>
         <footer>

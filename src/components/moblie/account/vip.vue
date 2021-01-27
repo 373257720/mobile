@@ -8,7 +8,7 @@
     </commonnav>
     <main>
       <div class="iconfont icon-account"></div>
-      <p @click="$routerto('vip')">Peter parker</p>
+      <p @click="$routerto('vip')">{{$store.state.currentUser}}</p>
       <p>Points: {{MemberInfo.exchangeIntegral}}</p>
       <!-- <p>Membership is valid until December 12, 2020</p> -->
       <van-button @click="$routerto('vipGrade')" class="renewal">VIP&nbsp;renewal</van-button>

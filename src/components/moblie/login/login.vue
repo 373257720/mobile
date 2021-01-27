@@ -132,7 +132,7 @@ export default {
       this.$store.commit("isloading", true);
       this.$global
         .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/user//login.do`,
+          `${this.$axios.defaults.baseURL}/bsl_web/user/login.do`,
           {
             bslEmail: this.validateForm.username,
             bslPwd: this.validateForm.password

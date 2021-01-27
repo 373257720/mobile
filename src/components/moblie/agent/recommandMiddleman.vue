@@ -1,13 +1,13 @@
 <template>
   <div id="a_recommand_i">
     <commonnav>
-      Recommended middleman
+      {{ title }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>
-      <h3>Recommend new middleman</h3>
+      <h3>{{ add }}</h3>
       <div
         :style="{ height: articleHight + 'px' }"
         class="article"
@@ -157,6 +157,20 @@ export default {
     };
   },
   computed: {
+    title() {
+      if (this.$route.query.towho == 1) {
+        return this.$t("agent.RM");
+      } else if (this.$route.query.towho == 2) {
+        return this.$t("agent.RecommendInvestors");
+      }
+    },
+    add() {
+      if (this.$route.query.towho == 1) {
+        return this.$t("agent.RNM");
+      } else if (this.$route.query.towho == 2) {
+        return this.$t("agent.RecommendNewInvestors");
+      }
+    },
     rotate1() {
       if (this.articleHight > this.boxHeight * 1) {
         return true;
@@ -252,16 +266,8 @@ export default {
         this.errorsMsg = errorMsg;
         return false;
       }
-      // console.log(this.list);
       this.recommendList.push(...this.list);
-      // console.log(this.recommendList);
-      // if (this.$route.query.towho == 1) {
-      //   // this.recommendMiddleman();
-
-      // } else if (this.$route.query.towho == 2) {
-      // }
-
-      this.$global.previous();
+      this.$replaceto("a_recommand_i", this.$route.query);
     },
     validateFunc(word) {
       let self = this;

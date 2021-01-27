@@ -144,7 +144,7 @@
               validateForm.nation.remark === 'CHN'
             "
           >
-            <p class="label">{{ $t("common.IDCardFrontandBack ") }}</p>
+            <p class="label">{{ $t("common.IDCardFrontandBack") }}</p>
             <van-uploader
               class="uploaderFirst"
               upload-icon="plus"
@@ -993,7 +993,7 @@ export default {
   .van-uploader {
     width: 100%;
     height: vw(200);
-    border: vw(4) dashed #4f3dad;
+    border: vw(2) dashed #4f3dad;
   }
 
   .van-uploader__upload {

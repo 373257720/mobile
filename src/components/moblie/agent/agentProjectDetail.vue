@@ -13,7 +13,7 @@
     <main>
       <div class="mhome-tag">
         <h2>{{ProjectDetail.projectName}}</h2>
-        <h3>Signed intermediary({{ProjectDetail.committedCount}})/Signed investor({{ProjectDetail.interestProjectCount}})</h3>
+       <h3>{{$t("agent.SignedIntermediary")}}({{ProjectDetail.committedCount}})/{{$t("agent.Signedinvestor")}}({{ProjectDetail.interestProjectCount}})</h3>
         <div class="projectMoney">
           <p>
             <span class="icon">
@@ -70,7 +70,24 @@
             <!-- <p @click="$routerto('a_recommand_i')">See all</p> -->
             <van-icon name="arrow" @click="next" />
           </div>
-          <div class="RecommendMore" @click="$routerto('recent_recommand', $route.query)">Recommend More</div>
+          <div class="RecommendMore" @click="$routerto('recent_recommand', $route.query)">
+            {{$t('project.RecommendMore')}}</div>
+        </div>
+        <div  v-if="$route.query.signStatus4>11 && $route.query.signStatus4<30" class="recommnandInfo">
+         <h3 v-if="$route.query.signStatus4>11 && $route.query.signStatus4<26">被推荐人中间人信息</h3>
+        <h3 v-if="$route.query.signStatus4>49 && $route.query.signStatus4<55">被推荐人投资人信息</h3>
+        <ul>
+          <li v-for="(value,key) in middlemanInfo" :key="key" :class="{'potentialInvestorsTags':value.classname}">
+            <aside class="iconfont" :class="value.tag"></aside>
+            <p  v-if="key=='potentialInvestorsTags'">
+              <section v-for="(item,idx) in value.content" :key="idx">
+                <span>{{idx+1}}.</span>
+                <span>{{item}}</span>
+              </section>
+            </p>
+            <p v-else>{{value.content}}</p>
+          </li>
+        </ul>
         </div>
         <div class="projectDetail">
           <aside class="iconfont icon-3"></aside>
@@ -100,7 +117,18 @@
           </li>
         </ul>
         <footer>
-       <!-- 0未签约  ，1申请签署NDA项目，2等待中间人签约NAD，3NAD签署待上链，4NDA签署已上链 -->
+        <!-- /磋商结果sharingResult
+        0投行填写建议磋商的分成比例；
+        1中间人a反建议磋商，
+        2投行反建议磋商
+        3投行拒绝，
+        4中间人a拒绝，
+        5中间人a同意分成比例
+        6投行同意分成比例,7投行签署合约，
+        8投行签署合约，
+        9中间人b反建议磋商，
+        10中间人b拒绝，
+        11中间人b同意分成比例 -->
           <p class="underline" @click="signNDA(0)" v-if="signNdaStatus===0">{{$t("project.SignNDAterms")}}</p>
           <p  v-if="signNdaStatus===1">等待投行签约NDA</p>
           <p class="underline" @click="signNDA(2)" v-if="signNdaStatus===2">等待您签约NDA</p>
@@ -111,24 +139,39 @@
             @click="goto"
           >{{$t('project.Contractwithibank')}}</van-button>
           <van-button
-            v-if="$route.query.signStatus4==2 && (sharingResult===1 || sharingResult===2)"
+            v-if="$route.query.signStatus4==2 && (sharingResult===1 || sharingResult===2 || sharingResult===6)"
            @click="$routerto('A_bargin',$route.query)"
-          >磋商</van-button>
+          >和投行磋商</van-button>
           <van-button
             v-if="$route.query.signStatus4==7"
            @click="$routerto('a_previewContract',$route.query)"
           >签约</van-button> 
-          <div>
+          <van-button
+            v-if="$route.query.signStatus4==18"
+            @click="goto"
+          >{{$t('project.Contractwithibank')}}</van-button>
+           <van-button
+            v-if="$route.query.signStatus4==19 "
+            @click="$routerto('middmanAbargin',$route.query)"
+          >和中间人b磋商</van-button>
+          <div v-if="$route.query.signStatus4==30">
          <van-button
-            v-if="$route.query.signStatus4==30"
            @click="signStatus30(32)"
           >拒绝签约</van-button> 
             <van-button
-            v-if="$route.query.signStatus4==30"
            @click="signStatus30(31)"
           >同意签约</van-button> 
           </div>
-   
+           <div v-if="$route.query.signStatus4==34">
+         <van-button
+           @click="$routerto('a_previewContract',$route.query)"
+          >确认中间人a的合同</van-button> 
+          </div>
+          <div v-if="$route.query.signStatus4==35">
+            <van-button
+           @click="$routerto('middlemanBargin',$route.query)"
+          >和中间人a磋商</van-button> 
+          </div>
            <!-- <van-button
             v-if="$route.query.signStatus4>=9"
            @click="$routerto('a_previewContract',$route.query)"
@@ -183,6 +226,24 @@ export default {
         collectMoneyMax: "",
         projectDescribe: "",
       },
+      middlemanInfo: {
+        userIdentityType: {
+          tag: "icon-bitbroicon2",
+          content: "",
+        },
+        userName: {
+          tag: "icon-bitbroicon7",
+          content: "",
+        },
+        userCountry: {
+          tag: "icon-bitbroicon2",
+          content: "",
+        },
+        recommendEmail: {
+          tag: "icon-bitbroicon5",
+          content: "",
+        },
+      },
       signNdaStatus: null,
       sharingResult: null,
       projectItem: {
@@ -213,14 +274,14 @@ export default {
       projectDescribeHeight: 0,
     };
   },
-  created() {
-    // console.log(123);
-    // console.log(this.$route.query);
+  created() {},
+  activated() {
     this.projectId = this.$route.query.projectId;
     this.signStatus4 = this.$route.query.signStatus4;
     this.signId = this.$route.query.signId;
     this.middlemanId = this.$route.query.middlemanId;
-    if (this.signStatus4 == 15) {
+
+    if (this.signStatus4 > 11 && this.signStatus4 < 30) {
       this.getProjectDetailsAndNextMiddleman();
     } else {
       this.getProjectDetails();
@@ -231,6 +292,7 @@ export default {
       this.$routerto("agentsignContractStep1", {
         signId: this.$route.query.signId,
         middlemanId: this.$route.query.middlemanId,
+        signStatus4: this.$route.query.signStatus4,
       });
     },
     getProjectDetails() {
@@ -325,27 +387,30 @@ export default {
         .then((res) => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
-            let data = res.data.data.data;
-            for (let i in data) {
+            console.log(res);
+            let result = res.data.data;
+            for (let i in result) {
               for (let key in this.ProjectDetail) {
                 if (key === i) {
                   if (key == "projectName") {
-                    this.ProjectDetail[key] = data[key + this.$global.lan()];
+                    this.ProjectDetail[key] = result[key + this.$global.lan()];
                   } else if (
                     key == "collectMoneyMin" ||
                     key == "collectMoneyMax"
                   ) {
-                    this.ProjectDetail[key] = this.$global.formatNum(data[key]);
+                    this.ProjectDetail[key] = this.$global.formatNum(
+                      result[key]
+                    );
                   } else if (key == "projectIndustry") {
                     this.ProjectDetail[key] = eval(
-                      "(" + data[key + this.$global.lan()] + ")"
+                      "(" + result[key + this.$global.lan()] + ")"
                     ).join(",");
                   } else if (key == "projectDescribe") {
-                    this.ProjectDetail[key] = data[
+                    this.ProjectDetail[key] = result[
                       key + this.$global.lan()
                     ].replace(/[\n\r]/g, "<br>");
                   } else {
-                    this.ProjectDetail[key] = res.data.data.data[i];
+                    this.ProjectDetail[key] = result[i];
                   }
                 }
               }
@@ -353,27 +418,52 @@ export default {
                 if (key === i) {
                   if (key == "projectCompany") {
                     this.projectItem[key].content =
-                      data[key + this.$global.lan()];
+                      result[key + this.$global.lan()];
                   } else if (key == "potentialInvestorsTags") {
                     this.projectItem[key].content = eval(
-                      "(" + data[key + this.$global.lan()] + ")"
+                      "(" + result[key + this.$global.lan()] + ")"
                     );
                   } else if (key == "financingStage") {
                     this.projectItem[key].content = this.$global.financingStage[
-                      data[i]
+                      result[i]
                     ];
                   } else if (key == "projectStatus") {
                     this.projectItem[key].content = this.$global.projectStatus[
-                      data[i]
+                      result[i]
                     ];
                   } else {
-                    this.projectItem[key].content = data[i];
+                    this.projectItem[key].content = result[i];
                   }
                 }
               }
             }
-            this.sharingResult = res.data.data.sharingResult;
-            this.signNdaStatus = res.data.data.signNdaStatus;
+            if (result.userIdentityType == 1) {
+              this.middlemanInfo.userName.content = result.userName;
+            } else if (result.userIdentityType == 2) {
+              this.middlemanInfo.userName.content =
+                result["userCompany" + this.$global.language()];
+            }
+            if (
+              Object.prototype.toString.call(result.userCountry) ==
+              "[object String]"
+            ) {
+              if (this.$i18n.locale == "zh_CN") {
+                this.middlemanInfo.userCountry.content = result.userCountry.split(
+                  ","
+                )[0];
+              } else {
+                this.middlemanInfo.userCountry.content = result.userCountry.split(
+                  ","
+                )[1];
+              }
+            }
+
+            this.middlemanInfo.userIdentityType.content = this.$t(
+              this.$global.investorsType[result.userIdentityType]
+            );
+            this.middlemanInfo.recommendEmail.content = result.recommendEmail;
+            this.sharingResult = result.sharingResult;
+            this.signNdaStatus = result.signNdaStatus;
 
             this.$nextTick(() => {
               this.articleoffsetHeight = this.$refs.article.offsetHeight;
@@ -383,25 +473,24 @@ export default {
               }
             });
           }
-
           // this.ProjectDetail=res.data.data.data
           // console.log(this.ProjectDetail);
         });
     },
     clickInterested() {
-      this.$store.commit("isloading", true);
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/interested`,
-          { projectId: this.projectId, projectUserId: "263" }
-        )
-        .then((res) => {
-          this.$store.commit("isloading", false);
-          this.remindervisible = true;
-          this.msgtype = "interested";
-          // this.msg = "您还可以签署NDA来获取该项目更多的资讯";
-          this.msg = "您已成功申请项目";
-        });
+      // this.$store.commit("isloading", true);
+      // this.$global
+      //   .get_encapsulation(
+      //     `${this.$axios.defaults.baseURL}/bsl_web/projectSign/interested`,
+      //     { projectId: this.projectId, projectUserId: "263" }
+      //   )
+      //   .then((res) => {
+      //     this.$store.commit("isloading", false);
+      //     this.remindervisible = true;
+      //     this.msgtype = "interested";
+      //     // this.msg = "您还可以签署NDA来获取该项目更多的资讯";
+      //     this.msg = "您已成功申请项目";
+      //   });
     },
     signStatus30(isAgree) {
       this.$store.commit("isloading", true);
@@ -427,10 +516,10 @@ export default {
             });
         });
     },
-    gotoNDA() {
-      this.remindervisible = false;
-      this.$routerto("ndaClause");
-    },
+    // gotoNDA() {
+    //   this.remindervisible = false;
+    //   this.$routerto("ndaClause");
+    // },
     comfirmFromDialog(data) {
       this.remindervisible = false;
       this.$$routerto("projectStatus");
@@ -489,7 +578,6 @@ export default {
           });
       }
     },
-
     downloadFile(fileName, data) {
       if (!data) {
         return;
@@ -560,6 +648,14 @@ export default {
     // padding-top: vw(212);
     padding: vw(192) vw(70) vw(80);
     color: #4f3dad;
+    // .recommnandInfo{
+    //   margin-bottom: vw(60);
+    //   ul{
+    //     li:nth-type-of(4){
+    //       margin-bottom: 0;
+    //     }
+    //   }
+    // }
     .projectsDetails-recommand {
       color: #ffffff;
       div.project-swipe {
@@ -772,6 +868,7 @@ export default {
         }
       }
     }
+
     .projectsDetails-recommand {
       color: #ffffff;
       .project-swipe {

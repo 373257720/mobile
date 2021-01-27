@@ -72,7 +72,7 @@
   </div>
 </template>
 
-<script type="text/javascript" src="https://unpkg.zhimg.com/wangeditor@4.6.2/dist/wangEditor.min.js"></script>
+
 <script>
 import E from "wangeditor";
 import i18next from "i18next";
@@ -147,6 +147,17 @@ export default {
     let lan = this.$i18n.locale == "zh_CN" ? "zh-CN" : "en";
     editor.config.lang = lan;
     editor.i18next = i18next;
+    // 关闭粘贴样式的过滤
+    editor.config.pasteFilterStyle = true;
+    console.log(editor);
+    // // 忽略粘贴内容中的图片
+    editor.config.pasteIgnoreImg = true;
+    // // 自定义处理粘贴的文本内容
+    editor.config.pasteTextHandle = function (content) {
+      console.log(content);
+      // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
+      return content;
+    };
     // editor.i18next
     // 或者 var editor = new E( document.getElementById('editor') )
     editor.create();

@@ -1,119 +1,114 @@
 <template>
   <div id="signContractStep2">
     <commonnav>
-      {{$t('project.Contract')}}
+      {{ $t("project.Contract") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>
-      <h1>Step 2 please choose suitable commission sharing mechanism</h1>
-      <div class="box">
-        <h3>Project proposal</h3>
-        <van-radio-group v-model="sharingMechanismType">
-          <van-radio
-            :name="0"
-            checked-color="#00f0ab"
-          >Percentage of total funds raised by intermediaries</van-radio>
+      <h1>
+        {{ $t("project.Step2Pleasechooseasuitablecontracttemple") }}
+      </h1>
+      <div v-if="$route.query.signStatus4 == 18" class="box">
+        <h3>{{ $t("project.Projectproposal") }}</h3>
+        <div class="Projectproposal">
+          <div v-if="sharingMechanismType === 0">
+            <p>{{ $t("Bargin.Percentagebyintermediaries") }}</p>
+            <div class="count">
+              <MyNumberInput
+                :point="2"
+                :max="100"
+                name="projectParty"
+                placeholder
+                v-model.number="sharingMechanism0"
+              ></MyNumberInput>
+              <span>%</span>
+              <p>
+                <span
+                  class="iconfont icon-arrow_on"
+                  @click="calculate($event, 'sharingMechanism0', 'add')"
+                ></span>
+                <span
+                  class="iconfont icon-arrow_under"
+                  @click="calculate($event, 'sharingMechanism0', 'subtract')"
+                ></span>
+              </p>
+            </div>
+          </div>
+          <div v-if="sharingMechanismType === 1">
+            <p>{{ $t("Bargin.Percentageprojectparty") }}</p>
+            <div class="count">
+              <MyNumberInput
+                :point="2"
+                :max="100"
+                name="projectParty"
+                placeholder
+                v-model.number="sharingMechanism1"
+              ></MyNumberInput>
+              <span>%</span>
+              <p>
+                <span
+                  class="iconfont icon-arrow_on"
+                  @click="calculate($event, 'sharingMechanism1', 'add')"
+                ></span>
+                <span
+                  class="iconfont icon-arrow_under"
+                  @click="calculate($event, 'sharingMechanism1', 'subtract')"
+                ></span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="Recommendlocking">
+          <h3>Recommend locking date</h3>
+          <p class="subtitle">Recommendation time</p>
           <div class="count">
             <MyNumberInput
-              :point="2"
-              :max="100"
+              :point="0"
               name="projectParty"
               placeholder
-              v-model.number="sharingMechanism0"
+              v-model.number="memberRecommendCount"
             ></MyNumberInput>
-            <span class="persent">%</span>
+            <span class="unit">times</span>
             <p>
               <span
                 class="iconfont icon-arrow_on"
-                @click="calculate($event,'sharingMechanism0','add')"
+                @click="calculate($event, 'memberRecommendCount', 'add')"
               ></span>
               <span
                 class="iconfont icon-arrow_under"
-                @click="calculate($event,'sharingMechanism0','subtract')"
+                @click="calculate($event, 'memberRecommendCount', 'subtract')"
               ></span>
-              <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
-              <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
             </p>
           </div>
-          <van-radio
-            :name="1"
-            checked-color="#00f0ab"
-          >Percentage of commission income from project party</van-radio>
+          <p class="subtitle">Recommended countdown</p>
           <div class="count">
             <MyNumberInput
-              :point="2"
-              :max="100"
+              :point="0"
               name="projectParty"
               placeholder
-              v-model.number="sharingMechanism1"
+              v-model.number="recommendMiddlemanTime"
             ></MyNumberInput>
-            <span class="persent">%</span>
+            <span class="unit">month</span>
             <p>
-              <!-- <span class="iconfont icon-arrow_on projectParty"></span>
-              <span class="iconfont icon-arrow_under projectParty"></span>-->
               <span
                 class="iconfont icon-arrow_on"
-                @click="calculate($event,'sharingMechanism1','add')"
+                @click="calculate($event, 'recommendMiddlemanTime', 'add')"
               ></span>
               <span
                 class="iconfont icon-arrow_under"
-                @click="calculate($event,'sharingMechanism1','subtract')"
+                @click="calculate($event, 'recommendMiddlemanTime', 'subtract')"
               ></span>
-              <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
-              <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
             </p>
           </div>
-        </van-radio-group>
-        <!-- <h3>Recommend locking date</h3>
-        <p class="subtitle">Recommendation time</p>
-        <div class="count">
-          <MyNumberInput
-            :point="0"
-            name="projectParty"
-            placeholder
-            v-model.number="memberRecommendCount"
-          ></MyNumberInput>
-          <span class="unit">times</span>
-          <p>
-            <span
-              class="iconfont icon-arrow_on"
-              @click="calculate($event,'memberRecommendCount','add')"
-            ></span>
-            <span
-              class="iconfont icon-arrow_under"
-              @click="calculate($event,'memberRecommendCount','subtract')"
-            ></span>
-          </p>
-        </div> -->
-        <!-- <p class="subtitle">Recommended countdown</p>
-        <div class="count">
-          <MyNumberInput
-            :point="0"
-            name="projectParty"
-            placeholder
-            v-model.number="recommendMiddlemanTime"
-          ></MyNumberInput>
-          <span class="unit">month</span>
-          <p>
-            <span
-              class="iconfont icon-arrow_on"
-              @click="calculate($event,'recommendMiddlemanTime','add')"
-            ></span>
-            <span
-              class="iconfont icon-arrow_under"
-              @click="calculate($event,'recommendMiddlemanTime','subtract')"
-            ></span>
-          </p>
-        </div> -->
+        </div>
         <footer>
           <van-button
-            @click="$routerto('a_previewContract',
-              $route.query
-          )"
+            @click="$routerto('a_previewContract', $route.query)"
             class="renewal"
-          >Preview Contract</van-button>
+            >{{ $t("project.PreviewContract") }}</van-button
+          >
         </footer>
         <ul>
           <li>
@@ -121,12 +116,15 @@
               :disabled="isdisabled"
               @click="acceptOrRejectCommission(0)"
               class="renewal"
-            >Accept</van-button>
+              >{{ $t("Bargin.Accept") }}</van-button
+            >
             <!-- <button @click="acceptOrRejectCommission(0)">Accept</button> -->
           </li>
           <li>
             <!-- <button @click="acceptOrRejectCommission(1)">Suggest</button> -->
-            <van-button @click="acceptOrRejectCommission(1)" class="renewal">Suggest</van-button>
+            <van-button @click="acceptOrRejectCommission(1)" class="renewal">{{
+              $t("Bargin.Suggest")
+            }}</van-button>
           </li>
           <li>
             <!-- <button @click="acceptOrRejectCommission(2)">Reject</button> -->
@@ -134,7 +132,143 @@
               :disabled="isdisabled"
               @click="acceptOrRejectCommission(2)"
               class="renewal"
-            >Reject</van-button>
+              >{{ $t("Bargin.Reject") }}</van-button
+            >
+          </li>
+        </ul>
+      </div>
+      <div v-else class="box">
+        <h3>{{ $t("project.Projectproposal") }}</h3>
+        <div class="Projectproposal">
+          <van-radio-group v-model="sharingMechanismType">
+            <van-radio :name="0" checked-color="#00f0ab">{{
+              $t("Bargin.Percentagebyintermediaries")
+            }}</van-radio>
+            <div class="count">
+              <MyNumberInput
+                :point="2"
+                :max="100"
+                name="projectParty"
+                placeholder
+                v-model.number="sharingMechanism0"
+              ></MyNumberInput>
+              <span class="persent">%</span>
+              <p>
+                <span
+                  class="iconfont icon-arrow_on"
+                  @click="calculate($event, 'sharingMechanism0', 'add')"
+                ></span>
+                <span
+                  class="iconfont icon-arrow_under"
+                  @click="calculate($event, 'sharingMechanism0', 'subtract')"
+                ></span>
+                <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
+              <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
+              </p>
+            </div>
+            <van-radio :name="1" checked-color="#00f0ab">{{
+              $t("Bargin.Percentageprojectparty")
+            }}</van-radio>
+            <div class="count">
+              <MyNumberInput
+                :point="2"
+                :max="100"
+                name="projectParty"
+                placeholder
+                v-model.number="sharingMechanism1"
+              ></MyNumberInput>
+              <span class="persent">%</span>
+              <p>
+                <!-- <span class="iconfont icon-arrow_on projectParty"></span>
+              <span class="iconfont icon-arrow_under projectParty"></span>-->
+                <span
+                  class="iconfont icon-arrow_on"
+                  @click="calculate($event, 'sharingMechanism1', 'add')"
+                ></span>
+                <span
+                  class="iconfont icon-arrow_under"
+                  @click="calculate($event, 'sharingMechanism1', 'subtract')"
+                ></span>
+                <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
+              <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
+              </p>
+            </div>
+          </van-radio-group>
+        </div>
+        <div class="Recommendlocking">
+          <h3>Recommend locking date</h3>
+          <p class="subtitle">Recommendation time</p>
+          <div class="count">
+            <MyNumberInput
+              :point="0"
+              name="projectParty"
+              placeholder
+              v-model.number="memberRecommendCount"
+            ></MyNumberInput>
+            <span class="unit">times</span>
+            <p>
+              <span
+                class="iconfont icon-arrow_on"
+                @click="calculate($event, 'memberRecommendCount', 'add')"
+              ></span>
+              <span
+                class="iconfont icon-arrow_under"
+                @click="calculate($event, 'memberRecommendCount', 'subtract')"
+              ></span>
+            </p>
+          </div>
+          <p class="subtitle">Recommended countdown</p>
+          <div class="count">
+            <MyNumberInput
+              :point="0"
+              name="projectParty"
+              placeholder
+              v-model.number="recommendMiddlemanTime"
+            ></MyNumberInput>
+            <span class="unit">month</span>
+            <p>
+              <span
+                class="iconfont icon-arrow_on"
+                @click="calculate($event, 'recommendMiddlemanTime', 'add')"
+              ></span>
+              <span
+                class="iconfont icon-arrow_under"
+                @click="calculate($event, 'recommendMiddlemanTime', 'subtract')"
+              ></span>
+            </p>
+          </div>
+        </div>
+        <footer>
+          <van-button
+            @click="$routerto('a_previewContract', $route.query)"
+            class="renewal"
+            >{{ $t("project.PreviewContract") }}</van-button
+          >
+        </footer>
+        <ul>
+          <li>
+            <van-button
+              :disabled="isdisabled"
+              @click="acceptOrRejectCommission(0)"
+              class="renewal"
+              >{{ $t("Bargin.Accept") }}</van-button
+            >
+            <!-- <button @click="acceptOrRejectCommission(0)">Accept</button> -->
+          </li>
+          <li>
+            <!-- <button @click="acceptOrRejectCommission(1)">Suggest</button> -->
+            <van-button @click="acceptOrRejectCommission(1)" class="renewal">{{
+              $t("Bargin.Suggest")
+            }}</van-button>
+          </li>
+          <li>
+            <!-- <button @click="acceptOrRejectCommission(2)">Reject</button> -->
+            <van-button
+              :disabled="isdisabled"
+              @click="acceptOrRejectCommission(2)"
+              class="renewal"
+              >{{ $t("Bargin.Reject") }}</van-button
+            >
           </li>
         </ul>
       </div>
@@ -145,12 +279,12 @@
       :showCancel="true"
       :msg="msg"
     ></DialogMsg>
-    <DialogMsg
+    <!-- <DialogMsg
       :remindervisible.sync="remindervisibleAfter"
       @comfirmFromDialog="comfirmFromDialog1"
       :showCancel="false"
       :msg="resultDesc"
-    ></DialogMsg>
+    ></DialogMsg> -->
   </div>
 </template>
 <script>
@@ -167,7 +301,7 @@ export default {
     }
   },
   components: {
-    MyNumberInput //注册
+    MyNumberInput, //注册
   },
   data() {
     return {
@@ -176,15 +310,15 @@ export default {
       memberRecommendCount: 0,
       recommendMiddlemanTime: 0,
       remindervisibleBefore: false,
-      remindervisibleAfter: false,
-      resultDesc: "",
-      resultCode: null,
+      // remindervisibleAfter: false,
+      // resultDesc: "",
+      // resultCode: null,
       isactive: false,
       sharingMechanism0: 0,
       sharingMechanism1: 0,
       OringinsharingMechanism0: 0,
       OringinsharingMechanism1: 0,
-      alterType: null
+      alterType: null,
     };
   },
   created() {
@@ -206,40 +340,60 @@ export default {
           return false;
         }
       }
-    }
+    },
   },
   watch: {},
   methods: {
-    comfirmFromDialog1(data) {
-      this.remindervisibleAfter = false;
-      if (this.resultCode === 10000) {
-        // if (this.alterType === 0 || this.alterType === 1) {
-        this.$routerto("mysign");
-        // }
-      }
-    },
+    // comfirmFromDialog1(data) {
+    //   this.remindervisibleAfter = false;
+    //   if (this.resultCode === 10000) {
+    //     // if (this.alterType === 0 || this.alterType === 1) {
+    //     this.$routerto("mysign");
+    //     // }
+    //   }
+    // },
     comfirmFromDialog(data) {
       this.remindervisibleBefore = false;
       this.$store.commit("isloading", true);
-      let obj = {
-        optType: this.alterType,
-        middlemanId: this.$route.query.middlemanId,
-        sharingMechanism0: this.sharingMechanism0,
-        sharingMechanism1: this.sharingMechanism1,
-        sharingMechanismType: this.sharingMechanismType,
-        signId: this.$route.query.signId
-      };
-      this.$global
-        .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/acceptOrRejectCommission`,
-          obj
-        )
-        .then(res => {
-          this.$store.commit("isloading", false);
-          this.resultDesc = res.data.resultDesc;
-          this.resultCode = res.data.resultCode;
-          this.remindervisibleAfter = true;
-        });
+      let obj, RequestUrl;
+      if (this.$route.query.signStatus4 == 18) {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/middlemanASendContractToMB`;
+        obj = {
+          optType: this.alterType,
+          middlemanId: this.$route.query.middlemanId,
+          sharingMechanism0: this.sharingMechanism0,
+          sharingMechanism1: this.sharingMechanism1,
+          sharingMechanismType: this.sharingMechanismType,
+          signId: this.$route.query.signId,
+          recommendationCount: this.memberRecommendCount,
+          recommendationTimes: this.recommendMiddlemanTime,
+        };
+      } else {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSign/acceptOrRejectCommission`;
+        obj = {
+          optType: this.alterType,
+          middlemanId: this.$route.query.middlemanId,
+          sharingMechanism0: this.sharingMechanism0,
+          sharingMechanism1: this.sharingMechanism1,
+          sharingMechanismType: this.sharingMechanismType,
+          signId: this.$route.query.signId,
+        };
+      }
+      this.$global.post_encapsulation(RequestUrl, obj).then((res) => {
+        this.$store.commit("isloading", false);
+        // this.resultDesc = res.data.resultDesc;
+        // this.resultCode = res.data.resultCode;
+        // this.remindervisibleAfter = true;
+        this.$dialog
+          .alert({
+            message: res.data.resultDesc,
+          })
+          .then(() => {
+            if (res.data.resultCode == 10000) {
+              this.$replaceto("mysign");
+            }
+          });
+      });
       // setTimeout(() => {
       //   // this.title = "Sign NDA";
       //   // this.msg = "Please sign the NDA to get more information";
@@ -264,27 +418,50 @@ export default {
     },
     middlemanGetCommissionMechanism() {
       this.$store.commit("isloading", true);
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanGetCommissionMechanism`,
-          {
+      let RequestUrl;
+      if (this.$route.query.signStatus4 == 18) {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/middlemanAGetCommissionMechanism`;
+        this.$global
+          .post_encapsulation(RequestUrl, {
             signId: this.$route.query.signId,
-            middlemanId: this.$route.query.middlemanId
-          }
-        )
-        .then(res => {
-          this.$store.commit("isloading", false);
-          if (res.data.resultCode === 10000) {
-            this.sharingMechanismType = res.data.data.sharingMechanismType;
-            this.memberRecommendCount = res.data.data.memberRecommendCount || 0;
-            this.recommendMiddlemanTime =
-              res.data.data.recommendMiddlemanTime || 0;
-            this.sharingMechanism0 = res.data.data.sharingMechanism0;
-            this.OringinsharingMechanism0 = res.data.data.sharingMechanism0;
-            this.sharingMechanism1 = res.data.data.sharingMechanism1;
-            this.OringinsharingMechanism1 = res.data.data.sharingMechanism1;
-          }
-        });
+            middlemanId: this.$route.query.middlemanId,
+          })
+          .then((res) => {
+            this.$store.commit("isloading", false);
+            if (res.data.resultCode === 10000) {
+              this.sharingMechanismType = res.data.data.sharingMechanismType;
+              this.memberRecommendCount =
+                res.data.data.memberRecommendCount || 0;
+              this.recommendMiddlemanTime =
+                res.data.data.recommendMiddlemanTime || 0;
+              this.sharingMechanism0 = res.data.data.sharingMechanism0;
+              this.OringinsharingMechanism0 = res.data.data.sharingMechanism0;
+              this.sharingMechanism1 = res.data.data.sharingMechanism1;
+              this.OringinsharingMechanism1 = res.data.data.sharingMechanism1;
+            }
+          });
+      } else {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanGetCommissionMechanism`;
+        this.$global
+          .get_encapsulation(RequestUrl, {
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
+          })
+          .then((res) => {
+            this.$store.commit("isloading", false);
+            if (res.data.resultCode === 10000) {
+              this.sharingMechanismType = res.data.data.sharingMechanismType;
+              this.memberRecommendCount =
+                res.data.data.memberRecommendCount || 0;
+              this.recommendMiddlemanTime =
+                res.data.data.recommendMiddlemanTime || 0;
+              this.sharingMechanism0 = res.data.data.sharingMechanism0;
+              this.OringinsharingMechanism0 = res.data.data.sharingMechanism0;
+              this.sharingMechanism1 = res.data.data.sharingMechanism1;
+              this.OringinsharingMechanism1 = res.data.data.sharingMechanism1;
+            }
+          });
+      }
     },
     formatNum(f, digit) {
       var m = Math.pow(10, digit);
@@ -306,8 +483,8 @@ export default {
           this[name] = parseFloat((this[name] - 1).toFixed(2));
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -350,6 +527,9 @@ export default {
       background: #4f3dad;
       border-radius: vw(50);
       color: #ffffff;
+      .Projectproposal {
+        margin-bottom: vw(50);
+      }
       .subtitle {
         font-size: vw(20);
         color: #fff;
@@ -396,10 +576,8 @@ export default {
           }
         }
       }
-      div.count:nth-of-type(2) {
-        margin-bottom: vw(76);
-      }
       div.count {
+        margin-bottom: vw(76);
         display: flex;
         justify-content: flex-end;
         align-items: center;

@@ -10,32 +10,34 @@
       <!-- <h1>Step 1 Please choose a suitable contract sample</h1> -->
       <!-- <article>{{article}}</article> -->
       <!-- <input type="textarea" v-model="article"> -->
-      <textarea disabled name v-model="article" id cols="30" rows="15"></textarea>
+      <textarea
+        disabled
+        name
+        v-model="article"
+        id
+        cols="30"
+        rows="15"
+      ></textarea>
       <footer>
-          <van-button >Download contract content (pdf)</van-button>  
-          <van-button class="sign" @click="$routerto('sign_contract',$route.query)">Sign</van-button>  
-          <!-- <p @click="signNDA">{{$t("project.SignNDAterms")}}</p> -->
-          <!-- <button @click="clickInterested">{{$t('project.Interested')}}</button> -->
-          <!-- <button @click="$routerto('signContractStep1')">{{$t('project.SignContract')}}</button>
+        <van-button>Download contract content (pdf)</van-button>
+        <van-button
+          v-if="$route.query.signStatus4 == 34"
+          class="sign"
+          @click="$routerto('middlemanBargin', $route.query)"
+          >下一步</van-button
+        >
+        <van-button
+        v-else
+          class="sign"
+          @click="$routerto('sign_contract', $route.query)"
+          >下一步</van-button
+        >
+
+        <!-- <p @click="signNDA">{{$t("project.SignNDAterms")}}</p> -->
+        <!-- <button @click="clickInterested">{{$t('project.Interested')}}</button> -->
+        <!-- <button @click="$routerto('signContractStep1')">{{$t('project.SignContract')}}</button>
           <button @click="$routerto('signContractStep1')">{{$t('project.Contractwithibank')}}</button>-->
       </footer>
-      <!-- <form ref="form" @submit.prevent="submit_click">
-        <div class="mui-input-row input-row">
-          <p class="label">{{$t('project.FinderCompanyName')}}</p>
-          <input name="userName" type="text" v-model="validateForm.username" />
-        </div>
-        <div class="mui-input-row input-row">
-          <p class="label">{{$t('project.FinderAddress')}}</p>
-          <input name="Password" type="text" v-model="validateForm.password" />
-        </div>
-        <p class="error">{{errorsMsg}}</p>
-        <button
-          :disabled="isdisabled"
-          :class="isdisabled?'passive':'active'"
-          class="button is-primary"
-          type="submit"
-        >{{$t('common.Submit')}}</button> -->
-      <!-- </form> -->
     </main>
   </div>
 </template>
@@ -49,7 +51,7 @@ export default {
       article: "",
       Template: "",
       TemplateList: [],
-      errorsMsg: ""
+      errorsMsg: "",
     };
   },
   created() {
@@ -79,20 +81,21 @@ export default {
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackGetTemplateWord`,
-          { signId: this.$route.query.signId, middlemanId: this.$route.query.middlemanId }
-        )
-        .then(res => { 
-           this.$store.commit("isloading", false);
-          if(res.data.resultCode){
-         var arr =   Object.keys(res.data.data)
-          this.article = arr.length==0?'':res.data.data;
-          // console.log(this.article);
+          {
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
           }
-        
-        
+        )
+        .then((res) => {
+          this.$store.commit("isloading", false);
+          if (res.data.resultCode) {
+            var arr = Object.keys(res.data.data);
+            this.article = arr.length == 0 ? "" : res.data.data;
+            // console.log(this.article);
+          }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -170,7 +173,7 @@ export default {
       overflow-y: auto;
       opacity: 1;
     }
-      footer {
+    footer {
       font-weight: bold;
       display: flex;
       flex-direction: column;
@@ -191,8 +194,8 @@ export default {
         line-height: vw(72);
         color: #ffffff;
       }
-      button:nth-of-type(1){
-        margin-bottom: vw(30)
+      button:nth-of-type(1) {
+        margin-bottom: vw(30);
       }
     }
 

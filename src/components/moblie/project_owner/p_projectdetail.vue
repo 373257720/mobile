@@ -13,7 +13,7 @@
     <main>
       <div class="mhome-tag">
     <h2>{{ProjectDetail.projectName}}</h2>
-        <h3>Signed intermediary({{ProjectDetail.committedCount}})/Signed investor({{ProjectDetail.interestProjectCount}})</h3>
+       <h3>{{$t("agent.SignedIntermediary")}}({{ProjectDetail.committedCount}})/{{$t("agent.Signedinvestor")}}({{ProjectDetail.interestProjectCount}})</h3>
         <div class="projectMoney">
           <p>
             <span class="icon">
@@ -28,11 +28,11 @@
             <span>{{ProjectDetail.collectMoneyMax}}</span>
           </p>
         </div>
-        <div class="middleman" v-if="$route.query.signStatus4==12|| $route.query.signStatus4==50" >
-        <h3 v-if="$route.query.signStatus4==12">Middleman information</h3>
-        <h3 v-if="$route.query.signStatus4==50">inverstors information</h3>
+        <div class="middleman" v-if="$route.query.signStatus4>11" >
+        <h3 v-if="$route.query.signStatus4>11 && $route.query.signStatus4<26">被推荐人中间人信息</h3>
+        <h3 v-if="$route.query.signStatus4>49 && $route.query.signStatus4<55">被推荐人投资人信息</h3>
         <ul>
-          <li v-for="(value,key) in projectItem" :key="key" :class="{'potentialInvestorsTags':value.classname}">
+          <li v-for="(value,key) in middlemanInfo" :key="key" :class="{'potentialInvestorsTags':value.classname}">
             <aside class="iconfont" :class="value.tag"></aside>
             <p  v-if="key=='potentialInvestorsTags'">
               <section v-for="(item,idx) in value.content" :key="idx">
@@ -77,13 +77,13 @@
           <p  v-if="signNdaStatus===3">NDA签署待上链</p>
           <p class="underline"  @click="signNDA(4)" v-if="signNdaStatus===4">下载NDA合同</p>
          <div v-if="signStatus4==1">
+             <button @click="refuse">{{$t('investor.Refuse')}}</button>
             <button @click="ibankSignContractStep1()">{{$t('project.Interested')}}</button>
-            <button @click="refuse">{{$t('investor.Refuse')}}</button>
          </div>
-         <div v-if="signStatus4==2 && sharingResult===1" >
+         <div v-if="signStatus4==2 && (sharingResult===1 || sharingResult===2 || sharingResult===6)" >
            <van-button  @click="$routerto('p_bargin',$route.query)">磋商</van-button>
          </div>
-         <div v-if="signStatus4==2 && sharingResult===6">
+         <div v-if="signStatus4==2 && sharingResult===5">
             <van-button  @click="$routerto('a_previewContract',$route.query)">签约</van-button>
          </div>
          <div v-if="signStatus4==4">
@@ -92,7 +92,6 @@
          <div v-if="signStatus4==12" >
             <van-button  @click="ibankReviewedMiddleman(14)">拒绝</van-button>
           <van-button  @click="ibankReviewedMiddleman(15)">感兴趣</van-button>
-
          </div>
            <div v-if="signStatus4==16" >
           <van-button  @click="ibankSignContractStep1()">草拟中间人和中间人合约</van-button>
@@ -117,14 +116,14 @@
       :msg="msg"
       :msgtype="msgtype"
     ></DialogMsg>
-    <DialogMsg
+    <!-- <DialogMsg
       :remindervisible.sync="remindervisible2"
       :confirmButtonText="confirmButtonText"
       @comfirmFromDialog="confirmrefuse"
       :title="title"
       :showCancel="false"
       :msg="msg"
-    ></DialogMsg>
+    ></DialogMsg> -->
   </div>
 </template>
 <script>
@@ -154,7 +153,24 @@ export default {
         projectDescribe: "",
       },
       signNdaStatus: null,
-      middlemanInfo: {},
+      middlemanInfo: {
+        userIdentityType: {
+          tag: "icon-bitbroicon2",
+          content: "",
+        },
+        userName: {
+          tag: "icon-bitbroicon7",
+          content: "",
+        },
+        userCountry: {
+          tag: "icon-bitbroicon2",
+          content: "",
+        },
+        recommendEmail: {
+          tag: "icon-bitbroicon5",
+          content: "",
+        },
+      },
       projectItem: {
         // projectStatus: null,
         projectCompany: {
@@ -194,11 +210,11 @@ export default {
     this.signStatus4 = this.$route.query.signStatus4;
     this.signId = this.$route.query.signId;
     this.middlemanId = this.$route.query.middlemanId;
-    if (this.$route.query.signStatus4 == 12) {
+    if (
+      this.$route.query.signStatus4 > 11 &&
+      this.$route.query.signStatus4 < 26
+    ) {
       //to middleman
-      this.getProjectDetailsAndMiddleman();
-    } else if (this.$route.query.signStatus4 == 16) {
-      this.middlemanId = this.$route.query.parentMiddlemanId;
       this.getProjectDetailsAndMiddleman();
     } else if (this.$route.query.signStatus4 == 50) {
     } else {
@@ -688,7 +704,7 @@ export default {
                 signStatus: isAgree,
                 signId: this.$route.query.signId,
                 emailData: letter,
-                middlemanId: this.$route.query.parentMiddlemanId,
+                middlemanId: this.$route.query.middlemanId,
               }
             )
             .then((res) => {
@@ -752,38 +768,40 @@ export default {
         .then((res) => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
-            let data = res.data.data;
+            let result = res.data.data;
             this.letterObj = {
               logoUrl: "",
               projectCompany: "",
               projectName: "",
               middleman: "",
             };
-            for (let i in data) {
+            for (let i in result) {
               for (let key in this.ProjectDetail) {
                 if (key === i) {
                   if (key == "projectName") {
-                    this.ProjectDetail[key] = data[key + this.$global.lan()];
+                    this.ProjectDetail[key] = result[key + this.$global.lan()];
                   } else if (
                     key == "collectMoneyMin" ||
                     key == "collectMoneyMax"
                   ) {
-                    this.ProjectDetail[key] = this.$global.formatNum(data[key]);
+                    this.ProjectDetail[key] = this.$global.formatNum(
+                      result[key]
+                    );
                   } else if (key == "projectIndustry") {
-                    if (data[key + this.$global.lan()].indexOf("[") > -1) {
+                    if (result[key + this.$global.lan()].indexOf("[") > -1) {
                       this.ProjectDetail[key] = eval(
-                        "(" + data[key + this.$global.lan()] + ")"
+                        "(" + result[key + this.$global.lan()] + ")"
                       ).join(",");
                     }
                     this.ProjectDetail[key] = eval(
-                      "(" + data[key + this.$global.lan()] + ")"
+                      "(" + result[key + this.$global.lan()] + ")"
                     ).join(",");
                   } else if (key == "projectDescribe") {
-                    this.ProjectDetail[key] = data[
+                    this.ProjectDetail[key] = result[
                       key + this.$global.lan()
                     ].replace(/[\n\r]/g, "<br>");
                   } else {
-                    this.ProjectDetail[key] = res.data.data[i];
+                    this.ProjectDetail[key] = result[i];
                   }
                 }
               }
@@ -791,27 +809,54 @@ export default {
                 if (key === i) {
                   if (key == "projectCompany") {
                     this.projectItem[key].content =
-                      data[key + this.$global.lan()];
+                      result[key + this.$global.lan()];
                   } else if (key == "potentialInvestorsTags") {
-                    if (data[key + this.$global.lan()].indexOf("[") > -1) {
+                    if (result[key + this.$global.lan()].indexOf("[") > -1) {
                       this.projectItem[key].content = eval(
-                        "(" + data[key + this.$global.lan()] + ")"
+                        "(" + result[key + this.$global.lan()] + ")"
                       );
                     }
                   } else if (key == "financingStage") {
                     this.projectItem[key].content = this.$global.financingStage[
-                      data[i]
+                      result[i]
                     ];
                   } else if (key == "projectStatus") {
                     this.projectItem[key].content = this.$global.projectStatus[
-                      data[i]
+                      result[i]
                     ];
                   } else {
-                    this.projectItem[key].content = data[i];
+                    this.projectItem[key].content = result[i];
                   }
                 }
               }
             }
+            if (result.userIdentityType == 1) {
+              this.middlemanInfo.userName.content = result.userName;
+            } else if (result.userIdentityType == 2) {
+              this.middlemanInfo.userName.content =
+                result["userCompany" + this.$global.language()];
+            }
+            if (
+              Object.prototype.toString.call(result.userCountry) ==
+              "[object String]"
+            ) {
+              if (this.$i18n.locale == "zh_CN") {
+                this.middlemanInfo.userCountry.content = result.userCountry.split(
+                  ","
+                )[0];
+              } else {
+                this.middlemanInfo.userCountry.content = result.userCountry.split(
+                  ","
+                )[1];
+              }
+            }
+
+            this.middlemanInfo.userIdentityType.content = this.$t(
+              this.$global.investorsType[result.userIdentityType]
+            );
+            this.middlemanInfo.recommendEmail.content = result.recommendEmail;
+            this.sharingResult = result.sharingResult;
+            this.signNdaStatus = result.signNdaStatus;
 
             this.$nextTick(() => {
               this.articleoffsetHeight = this.$refs.article.offsetHeight;
@@ -902,37 +947,40 @@ export default {
         });
     },
     refuse() {
-      this.title = "Request project details";
-      this.msg = this.$t("investor.Refuse");
+      this.title = "提醒";
+      this.msg = "是否确定拒绝这次合作?拒绝后无法撤销";
       this.msgtype = "No";
-      this.confirmButtonText = "Yes";
-      this.cancelButtonText = "No";
+      this.confirmButtonText = this.$t("common.isyes");
+      this.cancelButtonText = this.$t("common.isno");
       this.remindervisible = true;
     },
-    comfirmFromDialog(data) {
+    comfirmFromDialog() {
       this.remindervisible = false;
-      if (data == "No") {
-        this.$store.commit("isloading", true);
-        this.$global
-          .post_encapsulation(
-            `${this.$axios.defaults.baseURL}/bsl_web/projectSign/draftContractOrReject`,
-            {
-              signId: this.$route.query.signId,
-              middlemanId: this.$route.query.middlemanId,
-              signStatus: 3,
-            }
-          )
-          .then((res) => {
-            this.$store.commit("isloading", false);
-            if (res.data.resultCode == 10000) {
-              this.remindervisible2 = true;
-              this.msg = res.data.resultDesc;
-            }
-          });
-      }
-    },
-    confirmrefuse() {
-      this.$routerto("projectSubStatus");
+      this.$store.commit("isloading", true);
+      // @param signStatus=3 is refuse
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/draftContractOrReject`,
+          {
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
+            signStatus: 3,
+          }
+        )
+        .then((res) => {
+          this.$store.commit("isloading", false);
+          this.$dialog
+            .alert({
+              message: res.data.resultDesc,
+            })
+            .then(() => {
+              if (res.data.resultCode == 10000) {
+                this.$replaceto("projectSubStatus", {
+                  projectId: this.$route.query.projectId,
+                });
+              }
+            });
+        });
     },
     ibankSignContractStep1() {
       // this.$routerto("P_signContractStep1", { projectId: this.projectId });
@@ -942,24 +990,11 @@ export default {
         signId: this.signId,
         middlemanId: this.middlemanId,
       });
-      // this.$store.commit("isloading", true);
-      // this.$global
-      //   .get_encapsulation(
-      //     `${this.$axios.defaults.baseURL}/bsl_web/projectSign/interested`,
-      //     { projectId: this.projectId, projectUserId: "263" }
-      //   )
-      //   .then(res => {
-      //     this.$store.commit("isloading", false);
-      //     this.remindervisible = true;
-      //     this.msgtype = "interested";
-      //     this.msg = "您还可以签署NDA来获取该项目更多的资讯";
-      //   });
     },
     gotoNDA() {
       this.remindervisible = false;
       this.$routerto("ndaClause");
     },
-
     signNDA(num) {
       if (num == 1) {
         this.$routerto("ndaRoot", this.$route.query);
@@ -993,7 +1028,6 @@ export default {
       // this.cancelButtonText = "No";
       // this.remindervisible = true;
     },
-
     downloadFile(fileName, data) {
       if (!data) {
         return;

@@ -1,7 +1,7 @@
 <template>
   <div id="mhome">
     <commonnav>
-      {{$t('common.Home')}}
+      {{ $t("common.Home") }}
       <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
       </template>
@@ -26,43 +26,53 @@
               </div>
             </van-search>
             <div class="fliter">
-              <img @click="$routerto('fliter')" src="../../assets/fliter.png" alt />
+              <img
+                @click="$routerto('fliter')"
+                src="../../assets/fliter.png"
+                alt
+              />
               <!-- <p @click="$routerto('fliter')" ></p> -->
             </div>
           </div>
           <div class="mhome-tag">
             <ul>
               <li>
-                <aside>{{$t('common.Industry')}}</aside>
+                <aside>{{ $t("common.Industry") }}</aside>
                 <div>
                   <p
-                    :class="{'isactive':item.isactive}"
+                    :class="{ isactive: item.isactive }"
                     @click="saveIndustryOfHits(item)"
                     v-for="item in Industrylist"
                     :key="item.value"
-                  >{{item.label}}</p>
+                  >
+                    {{ item.label }}
+                  </p>
                 </div>
               </li>
               <li>
-                <aside>{{$t('common.region')}}</aside>
+                <aside>{{ $t("common.region") }}</aside>
                 <div>
                   <p
-                    :class="{'isactive':item.isactive}"
+                    :class="{ isactive: item.isactive }"
                     @click="saveCountryOfHits(item)"
                     v-for="item in countrylist"
                     :key="item.remark"
-                  >{{item.label}}</p>
+                  >
+                    {{ item.label }}
+                  </p>
                 </div>
               </li>
               <li>
-                <aside>{{$t('common.Tag')}}</aside>
+                <aside>{{ $t("common.Tag") }}</aside>
                 <div>
                   <p
-                    :class="{'isactive':item.isactive}"
+                    :class="{ isactive: item.isactive }"
                     @click="saveProjectTagsOfHits(item)"
                     v-for="item in ProjectTags"
                     :key="item.value"
-                  >{{item.label}}</p>
+                  >
+                    {{ item.label }}
+                  </p>
                 </div>
               </li>
             </ul>
@@ -72,40 +82,47 @@
         <div class="timestamp">
           <ul>
             <li v-for="i in Projectlist" :key="i.id">
-              <h3 v-if="i.label">{{i.label.projectName}}</h3>
+              <h3 v-if="i.label">{{ i.label.projectName }}</h3>
               <section id="container">
                 <div class="item item-1">
                   <p class="icon iconRight iconfont icon-1"></p>
                 </div>
                 <div class="item item-2">
-                  <p v-if="i.label">{{i.label.projectIndustry}}</p>
+                  <p v-if="i.label">{{ i.label.projectIndustry }}</p>
                 </div>
                 <div class="item item-3">
                   <p class="icon iconRight iconfont icon-2_1"></p>
                 </div>
                 <div class="item item-4">
-                  <p v-if="i.label">{{i.label.projectTags}}</p>
+                  <p v-if="i.label">{{ i.label.projectTags }}</p>
                 </div>
                 <div class="item item-5">
                   <p class="icon iconRight iconfont icon-3"></p>
                 </div>
                 <div class="item item-6">
-                  <p v-if="i.label">{{i.label.projectDescribe}}</p>
+                  <p v-if="i.label">{{ i.label.projectDescribe }}</p>
                 </div>
               </section>
-              <div class="btn">
+              <div class="btn" v-if="$store.state.currentUsertype == 4">
                 <van-button
-                  v-if="$store.state.currentUsertype==4"
-                  @click="$routerto('Interested',{projectId:i.id})"
-                >{{$t('projectOwner.Interested')}}</van-button>
-                <van-button v-if="$store.state.currentUsertype==1">
+                  @click="$routerto('Interested', { projectId: i.id })"
+                  >{{ $t("projectOwner.Interested") }}</van-button
+                >
+              </div>
+              <div class="btn" v-if="$store.state.currentUsertype == 1">
+                <van-button v-if="i.record.investorsIdList.length">
                   <div class="investorProfile">
-                    <nav>investor profile</nav>
-                    <p style="display:flex;">
+                    <nav>{{ $t("investor.Investorprofile") }}</nav>
+                    <p style="display: flex">
                       <span class="ellipse ellipse-left"></span>
-                      <span class="investors">{{0}}</span>
+                      <span class="investors">{{ 0 }}</span>
                       <span class="ellipse ellipse-right"></span>
                     </p>
+                  </div>
+                </van-button>
+                <van-button class="unsigned" v-else>
+                  <div class="investorProfile">
+                    <nav>{{ $t("investor.Unsigned") }}</nav>
                   </div>
                 </van-button>
               </div>
@@ -126,7 +143,7 @@ export default {
   name: "mhome",
   components: {
     "v-scroll": Scroll,
-    ScrollTop
+    ScrollTop,
   },
   data() {
     return {
@@ -137,40 +154,40 @@ export default {
       tags: {
         signUserList1: {
           text: this.$t("common.Pending"),
-          number: 0
+          number: 0,
         },
         signUserList2: {
           text: this.$t("common.ToBeSigned"),
-          number: 0
+          number: 0,
         },
         signUserList4: {
           text: this.$t("common.SignedForChain"),
-          number: 0
+          number: 0,
         },
         signUserList5: {
           text: this.$t("common.ChainedForRecommendation"),
-          number: 0
+          number: 0,
         },
         signUserList6: {
           text: this.$t("common.PendingReview"),
-          number: 0
+          number: 0,
         },
         signUserList8: {
           text: this.$t("common.ReviewedPending"),
-          number: 0
+          number: 0,
         },
         signUserList9: {
           text: this.$t("common.ToBeConfirmedByInvestors"),
-          number: 0
+          number: 0,
         },
         signUserList10: {
           text: this.$t("common.SignedContract"),
-          number: 0
+          number: 0,
         },
         signUserList3711: {
           text: this.$t("common.Rejected"),
-          number: 0
-        }
+          number: 0,
+        },
       },
       searchkey: "",
       pageNum: 1,
@@ -184,7 +201,7 @@ export default {
       selectedIndustrylist: [],
       selectedIndustrylistEn: [],
       selectedtagsNamelist: [],
-      selectedtagsNamelistEn: []
+      selectedtagsNamelistEn: [],
     };
   },
   created() {
@@ -260,13 +277,13 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/index/getAllProjectTags`
         )
-        .then(res => {
+        .then((res) => {
           let lan = this.$i18n.locale;
-          this.ProjectTags = res.data.data.projectTagsList.map(item => {
+          this.ProjectTags = res.data.data.projectTagsList.map((item) => {
             return {
-              label: item['tagsName'+ this.$global.lan()],
+              label: item["tagsName" + this.$global.lan()],
               value: item.id,
-              isactive: false
+              isactive: false,
             };
           });
         });
@@ -276,7 +293,7 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/index/getCountryList`
         )
-        .then(res => {
+        .then((res) => {
           if (res.data.resultCode === 10000) {
             if (res.data.data.allCountryList.length > 0) {
               res.data.data.allCountryList.forEach((self, idx) => {
@@ -289,7 +306,7 @@ export default {
                       : self.countryEnname,
                   value: idx,
                   isactive: false,
-                  remark: self.countryCode
+                  remark: self.countryCode,
                 });
               });
             }
@@ -300,10 +317,13 @@ export default {
       if (!this.Refreshing) {
         if (item.isactive) {
           item.isactive = false;
-          this['selectedtagsNamelist' + this.$global.lan()].forEach(
+          this["selectedtagsNamelist" + this.$global.lan()].forEach(
             (self, idx) => {
               if (self == item.label) {
-                this['selectedtagsNamelist' + this.$global.lan()].splice(idx, 1);
+                this["selectedtagsNamelist" + this.$global.lan()].splice(
+                  idx,
+                  1
+                );
               }
             }
           );
@@ -315,8 +335,10 @@ export default {
               `${this.$axios.defaults.baseURL}/bsl_web/index/saveProjectTagsOfHits`,
               { projectTagsId: item.id }
             )
-            .then(res => {
-              this['selectedtagsNamelist' + this.$global.lan()].push(item.label);
+            .then((res) => {
+              this["selectedtagsNamelist" + this.$global.lan()].push(
+                item.label
+              );
               item.isactive = true;
               this.cancelAxios();
               this.getAllProjectlist();
@@ -342,7 +364,7 @@ export default {
               `${this.$axios.defaults.baseURL}/bsl_web/index/saveCountryOfHits`,
               { countryCode: item.remark }
             )
-            .then(res => {
+            .then((res) => {
               if (res.data.resultCode === 10000) {
                 this.selectedCountrylist.push(item.remark);
               }
@@ -363,18 +385,23 @@ export default {
               `${this.$axios.defaults.baseURL}/bsl_web/index/saveIndustryOfHits`,
               { industryId: item.industryId }
             )
-            .then(res => {
-              this['selectedIndustrylist' + this.$global.lan()].push(item.label);
+            .then((res) => {
+              this["selectedIndustrylist" + this.$global.lan()].push(
+                item.label
+              );
               item.isactive = true;
               this.cancelAxios();
               this.getAllProjectlist();
             });
         } else {
           item.isactive = false;
-          this['selectedIndustrylist' + this.$global.lan()].forEach(
+          this["selectedIndustrylist" + this.$global.lan()].forEach(
             (self, idx) => {
               if (self == item.label) {
-                this['selectedIndustrylist' + this.$global.lan()].splice(idx, 1);
+                this["selectedIndustrylist" + this.$global.lan()].splice(
+                  idx,
+                  1
+                );
               }
             }
           );
@@ -388,14 +415,14 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/index/getIndustryList`
         )
-        .then(res => {
+        .then((res) => {
           let lan = this.$i18n.locale;
-          this.Industrylist = res.data.data.allIndustryList.map(item => {
+          this.Industrylist = res.data.data.allIndustryList.map((item) => {
             return {
               label:
                 lan === "zh_CN" ? item.industryNameCh : item.industryNameEn,
               value: item.industryId,
-              isactive: false
+              isactive: false,
             };
           });
           // console.log(this.Industrylist);
@@ -419,46 +446,50 @@ export default {
             projectIndustryEn: this.selectedIndustrylistEn,
             tagsName: this.selectedtagsNamelist,
             tagsNameEn: this.selectedtagsNamelistEn,
-            searchKey: this.searchkey
+            searchKey: this.searchkey,
           },
           {
-            cancelToken: this.source.token
+            cancelToken: this.source.token,
           }
         )
-        .then(res => {
+        .then((res) => {
           this.loaded = true;
           if (done) {
             done();
             this.Refreshing = false;
           }
           this.Projectlist = res.data.data.data;
-          this.Projectlist.forEach(item => {
-            let label = {
-              projectIndustry:
-                item.record["projectIndustry" + self.$global.lan()].indexOf(
-                  "["
-                ) < 0
-                  ? item.record["projectIndustry" + self.$global.lan()]
-                  : eval(
-                      "(" +
-                        item.record["projectIndustry" + self.$global.lan()] +
-                        ")"
-                    ).join(","),
-              projectName: item.record["projectName" + self.$global.lan()],
-              projectTags:
-                item.record["projectTags" + self.$global.lan()].indexOf("[") < 0
-                  ? item.record["projectTags" + self.$global.lan()]
-                  : eval(
-                      "(" +
-                        item.record["projectTags" + self.$global.lan()] +
-                        ")"
-                    ).join(","),
-              projectDescribe:
-                item.record["projectDescribe" + self.$global.lan()]
-            };
-            this.$set(item, "label", label);
-          });
-          // console.log(this.Projectlist[0].label.fun());
+          if (this.Projectlist instanceof Array) {
+            this.Projectlist.forEach((item) => {
+              let label = {
+                projectIndustry:
+                  item.record["projectIndustry" + self.$global.lan()].indexOf(
+                    "["
+                  ) < 0
+                    ? item.record["projectIndustry" + self.$global.lan()]
+                    : eval(
+                        "(" +
+                          item.record["projectIndustry" + self.$global.lan()] +
+                          ")"
+                      ).join(","),
+                projectName: item.record["projectName" + self.$global.lan()],
+                projectTags:
+                  item.record["projectTags" + self.$global.lan()].indexOf("[") <
+                  0
+                    ? item.record["projectTags" + self.$global.lan()]
+                    : eval(
+                        "(" +
+                          item.record["projectTags" + self.$global.lan()] +
+                          ")"
+                      ).join(","),
+                projectDescribe:
+                  item.record["projectDescribe" + self.$global.lan()],
+              };
+              this.$set(item, "label", label);
+            });
+          }
+
+          // console.log(this.Projectlist);
         });
     },
     onRefresh(done) {
@@ -481,10 +512,10 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
           {
-            searchKey: this.searchkey
+            searchKey: this.searchkey,
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.data.data instanceof Array) {
             for (let i = 0; i < res.data.data.length; i++) {
               this.countrylist.push({
@@ -495,7 +526,7 @@ export default {
                     ? res.data.data[i].countryZhname
                     : res.data.data[i].countryEnname,
                 value: i,
-                remark: res.data.data[i].countryCode
+                remark: res.data.data[i].countryCode,
               });
             }
             done();
@@ -533,13 +564,13 @@ export default {
         if (item.signUserResp.length > 0) {
           this.$routerto("mysign", {
             projectId: item.projectId,
-            array: JSON.stringify(hash)
+            array: JSON.stringify(hash),
           });
         } else if (item.signUserResp.length < 1) {
           let obj = {
             projectId: item.projectId,
             signStatus: item.signUserResp[0].signStatus,
-            signId: item.signUserResp[0].signId
+            signId: item.signUserResp[0].signId,
           };
           this.$routerto("p_goods_details", obj);
         }
@@ -547,7 +578,7 @@ export default {
         let obj = {
           projectId: item.projectId,
           signStatus: item.signUserResp[0].signStatus,
-          signId: item.signUserResp[0].signId
+          signId: item.signUserResp[0].signId,
         };
         this.$routerto("i_conected_project", obj);
         // this.$routerto("a_project_intro", { projectId: item.projectId });
@@ -556,7 +587,7 @@ export default {
           let obj = {
             projectId: item.projectId,
             signStatus: item.signUserResp[0].signStatus,
-            signId: item.signUserResp[0].signId
+            signId: item.signUserResp[0].signId,
           };
           if (item.signUserResp[0].signStatus < 5) {
             if (item.signUserResp[0].signStatus == 1) {
@@ -576,12 +607,12 @@ export default {
             projectId: item.projectId,
             isSign: "0",
             // signId: item.signUserResp[0].signId,
-            signStatus: "0"
+            signStatus: "0",
           });
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -785,7 +816,7 @@ export default {
         display: flex;
         justify-content: flex-end;
         button {
-          min-width: vw(232);
+          min-width: vw(186);
           height: vw(72);
           background: #00f0ab;
           border-radius: vw(16);
@@ -822,6 +853,9 @@ export default {
               // opacity: 1;
             }
           }
+        }
+        button.unsigned {
+          background: #828282;
         }
       }
     }

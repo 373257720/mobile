@@ -1,7 +1,7 @@
 <template>
   <div id="p_bargin">
     <commonnav>
-      Project
+      {{ $t("project.project") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -9,7 +9,9 @@
     <main>
       <div class="bargin-upper">
         <h3>
-          {{ $t("Bargin.Intermediary") }} （用戶名）{{ $t("Bargin.Suggest") }}
+          {{ $t("Bargin.Intermediary") }} （{{ middlemanName }}）{{
+            $t("Bargin.Suggest")
+          }}
         </h3>
         <div v-if="obj.sharingMechanismType4 === 0">
           <p>{{ $t("Bargin.Percentagebyintermediaries") }}</p>
@@ -28,7 +30,7 @@
       </div>
       <div class="bargin-lower">
         <h3>
-          {{ $t("Bargin.Projectparty") }} （用戶名）{{
+          {{ $t("Bargin.Projectparty") }} （{{ projectpartyName }}）{{
             $t("Bargin.SuggestBack")
           }}
         </h3>
@@ -130,7 +132,9 @@ export default {
         sharingResult: 0,
         sharingType: 0,
       },
-      OriginsharingMiddle: 0,
+      projectpartyName: "",
+      middlemanName: "",
+      // OriginsharingMiddle: 0,
       OriginsharingProject: 0,
       timeout: null,
       //   setTime:null,
@@ -142,7 +146,8 @@ export default {
   computed: {
     isdisabled() {
       if (this.obj.sharingMechanismType4 === 0) {
-        if (this.OriginsharingMiddle != this.obj.sharingMechanism04) {
+        console.log(this.OriginsharingProject, this.obj.sharingMechanism01);
+        if (this.OriginsharingProject != this.obj.sharingMechanism01) {
           return true;
         } else {
           return false;
@@ -184,12 +189,14 @@ export default {
     acceptOrRejectCommission(num) {
       let sharingMechanism0;
       let sharingMechanism1;
-      if (this.obj.sharingMechanismType4 === 1) {
-        // sharingMechanism0 = this.obj.sharingMechanism14;
-        sharingMechanism1 = this.obj.sharingMechanism11;
-      } else if (this.obj.sharingMechanismType4 === 0) {
+      if (this.obj.sharingMechanismType4 === 0) {
         sharingMechanism0 = this.obj.sharingMechanism01;
-        // sharingMechanism1 = this.obj.sharingMechanism04;
+        sharingMechanism1 = "";
+        //  this.obj.sharingMechanism04;
+      } else if (this.obj.sharingMechanismType4 === 1) {
+        sharingMechanism0 = "";
+        // this.obj.sharingMechanism14;
+        sharingMechanism1 = this.obj.sharingMechanism11;
       }
       // console.log(sharingMechanism0, sharingMechanism1);
       // if (num === 0) {
@@ -265,14 +272,27 @@ export default {
           // console.log(res);
           if (res.data.resultCode == 10000) {
             this.obj = res.data.data;
+            this.projectpartyName = this.obj[
+              "userCompany" + this.$global.language() + "1"
+            ];
+            if (this.obj.isDisplayUserName4) {
+              if (this.obj.userIdentityType4 == 1) {
+                this.middlemanName = this.obj.userName4;
+              } else if (this.obj.userIdentityType4 == 2) {
+                this.middlemanName = this.obj[
+                  "userCompany" + this.$global.language() + "4"
+                ];
+              }
+            } else {
+              this.middlemanName = this.obj.bslName4;
+            }
             if (res.data.data.sharingMechanismType4 === 0) {
               this.OriginsharingProject = res.data.data.sharingMechanism01;
-              this.OriginsharingMiddle = res.data.data.sharingMechanism04;
+              // this.OriginsharingMiddle = res.data.data.sharingMechanism04;
             } else if (res.data.data.sharingMechanismType4 === 1) {
               this.OriginsharingProject = res.data.data.sharingMechanism11;
-              this.OriginsharingMiddle = res.data.data.sharingMechanism14;
+              // this.OriginsharingMiddle = res.data.data.sharingMechanism14;
             }
-
             // console.log(this.obj.sharingResult);
           }
         });

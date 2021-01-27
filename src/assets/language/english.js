@@ -1,11 +1,20 @@
 export default {
   agent: {
+    SignedIntermediary: "Signed intermediary",
+    Signedinvestor: "Signed investor",
     Whorecommendme: "Who<br/>recommend<br/>me",
     MyrecommendedMiddleman: "My<br/>recommended<br/>middleman",
     MyrecommendedInvestors: "My<br/>recommended<br/>Investors",
     SignTheContract: "Sign the contract",
     Sign: "Sign",
+    Re: "Recommendations remaining",
+    Rc: "Recommended countdown",
+    times: "times",
+    days: "days",
     RecommendInvestors: "Recommend Investors",
+    RecommendNewInvestors: "Add new investors",
+    RM: "Recommend middleman",
+    RNM: "Add new middleman",
     Interested: "Interested",
     FinancingStage: "Financing Stage",
     NumberOfinvestorsHaveSubmitted: "Submission of Investors",
@@ -53,6 +62,7 @@ export default {
     inconsistent: "不一致"
   },
   common: {
+    Next: "Next",
     English: "English",
     Chinese: "Chinese",
     Pleasefillout: "Please fill out",
@@ -190,6 +200,8 @@ export default {
     UploadTakesAboutOneMinute: "Please wait with patient, about 1 minute..."
   },
   investor: {
+    Investorprofile: "Investor profile",
+    Unsigned: "Unsigned",
     MyProfile: "My Profile",
     CompleteMaterial: "Complete form",
     Refuse: "Refuse",
@@ -272,9 +284,13 @@ export default {
     Reject: "拒绝"
   },
   project: {
+    PreviewContract:"Preview contract",
+    Projectproposal: "Project proposal",
     Recommand: "Recommand",
+    Step1Pleaseaddcompletecontractdetails:"Step 1 Please add complete contract details",
+    Step2Pleasechooseasuitablecontracttemple: "Step 2 please choose suitable commission sharing mechanism",
     Step1Pleasechooseasuitablecontracttemple:
-      "Step 1 Please choose a suitable contract temple",
+    "Step 1 Please choose a suitable contract temple",
     Step2Pleaseaddcompletecontractdetails:
       "Step 2 Please add complete contract details",
     Step3pleasechoosesuitablecommissionsharingmechanism:

@@ -417,6 +417,11 @@ export default {
           text: this.$t("project.waitreadyContract"),
           type: [16],
         },
+          {
+          arr: [],
+          text: "投行准备了合约发给中间人a，等待中间人a查看",
+          type: [18],
+        },
         {
           arr: [],
           text: this.$t("project.successfulSigned"),
@@ -429,7 +434,6 @@ export default {
         },
       ];
       console.log(this.multipleList);
-
       this.acceptOrRejectCommission();
     }
   },

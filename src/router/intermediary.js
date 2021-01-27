@@ -42,6 +42,22 @@ const A_bargin = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/contract/bargin"
   );
+  const middmanAbargin = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/middmanAbargin"
+  );
+  
+const middlemanBargin = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/middlemanBargin"
+  );
+const middlemanBconfirmContract = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/middlemanBconfirmContract"
+  );
 const a_previewContract = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -251,5 +267,39 @@ export default [
     meta: {
       isshowbottom: false
     }
-  }
+  },
+  {
+    path: "/signContractStep2",
+    name: "signContractStep2",
+    component: signContractStep2,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/middlemanBconfirmContract",
+    name: "middlemanBconfirmContract",
+    component: middlemanBconfirmContract,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/middlemanBargin",
+    name: "middlemanBargin",
+    component: middlemanBargin,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/middmanAbargin",
+    name: "middmanAbargin",
+    component: middmanAbargin,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  
+
 ];

@@ -93,7 +93,7 @@ export default {
       errorsMsg: "",
     };
   },
-  created() {
+  activated() {
     this.middlemanGetContractItems();
   },
   computed: {
@@ -105,43 +105,58 @@ export default {
       if (this.resultCode === 10000) {
         this.$routerto("agentsignContractStep2", this.$route.query);
       }
-      // setTimeout(() => {
-      //   // this.title = "Sign NDA";
-      //   // this.msg = "Please sign the NDA to get more information";
-      //   // this.confirmButtonText = "Yes";
-      //   // this.cancelButtonText = "No";\
-      //   this.$routerto("ndaClause");
-      //   // this.remindervisible2 = true;
-      // }, 300);
     },
     handleChange(value) {
       this.one = value;
       console.log(value); // { key: "lucy", label: "Lucy (101)" }
     },
+
     middlemanGetContractItems() {
       this.$store.commit("isloading", true);
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanGetContractItems`,
-          {
+      let RequestUrl;
+      if (this.$route.query.signStatus4 == 18) {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/middlemanAGetContractItems`;
+        this.$global
+          .post_encapsulation(RequestUrl, {
             signId: this.$route.query.signId,
             middlemanId: this.$route.query.middlemanId,
-          }
-        )
-        .then((res) => {
-          this.$store.commit("isloading", false);
-          if (res.data.resultCode == 10000) {
-            this.datalist = res.data.data.list;
-            this.datalist.forEach((item) => {
-              if (item.type === 2) {
-                if (!item.listCell.length) {
-                  item.listCell.push("");
+          })
+          .then((res) => {
+            this.$store.commit("isloading", false);
+            if (res.data.resultCode == 10000) {
+              this.datalist = res.data.data.list;
+              this.datalist.forEach((item) => {
+                if (item.type === 2) {
+                  if (!item.listCell.length) {
+                    item.listCell.push("");
+                  }
                 }
-              }
-            });
-          }
-          console.log(this.datalist);
-        });
+              });
+            }
+            console.log(this.datalist);
+          });
+      } else {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanGetContractItems`;
+        this.$global
+          .get_encapsulation(RequestUrl, {
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
+          })
+          .then((res) => {
+            this.$store.commit("isloading", false);
+            if (res.data.resultCode == 10000) {
+              this.datalist = res.data.data.list;
+              this.datalist.forEach((item) => {
+                if (item.type === 2) {
+                  if (!item.listCell.length) {
+                    item.listCell.push("");
+                  }
+                }
+              });
+            }
+            console.log(this.datalist);
+          });
+      }
     },
     submit_click() {
       // console.log(this.validateForm.datalist);
@@ -151,8 +166,10 @@ export default {
         this.errorsMsg = errorMsg;
         return false;
       }
+
       this.middlemanSaveContractItems();
     },
+
     middlemanSaveContractItems() {
       let arr = this.$global.deepCopy(this.datalist);
       arr.forEach((item, idx) => {
@@ -165,15 +182,18 @@ export default {
         }
       });
       this.$store.commit("isloading", true);
+      let RequestUrl;
+      if (this.$route.query.signStatus4 == 18) {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/middlemanASaveContractItems`;
+      } else {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanSaveContractItems`;
+      }
       this.$global
-        .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanSaveContractItems`,
-          {
-            importListStr: arr,
-            signId: this.$route.query.signId,
-            middlemanId: this.$route.query.middlemanId,
-          }
-        )
+        .post_encapsulation(RequestUrl, {
+          importListStr: arr,
+          signId: this.$route.query.signId,
+          middlemanId: this.$route.query.middlemanId,
+        })
         .then((res) => {
           this.$store.commit("isloading", false);
           // this.title = "Reminder";

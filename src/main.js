@@ -217,6 +217,7 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
   });
 };
 Vue.prototype.$replaceto = function replaceTo(name, obj) {
+  console.log(123);
   router.replace({
     name: name,
     query: obj

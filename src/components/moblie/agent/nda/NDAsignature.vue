@@ -1,6 +1,5 @@
 <template>
   <div id="NDAsignature">
-    <!-- <cavans :contract="contract" @imgurl="commit"></cavans> -->
     <div class="container signbox">
       <div id="canvasBox" :style="getHorizontalStyle">
         <div class="greet">

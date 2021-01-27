@@ -119,11 +119,12 @@ export default {
             })
             .then(() => {
               if (res.data.resultCode == 10000) {
-                if (this.$route.query.signStatus4 == 16) {
-                  this.$replaceto("mysign");
-                } else {
-                  this.$routerto("ibankSignContractStep3", this.$route.query);
-                }
+                // if (this.$route.query.signStatus4 == 16) {
+                //   this.$replaceto("mysign");
+                // } else {
+                  
+                // }
+                this.$routerto("ibankSignContractStep3", this.$route.query);
               }
               // on close
             });
@@ -167,7 +168,7 @@ export default {
       }
     }
     p.error {
-      height: vw(24);
+      // height: vw(24);
       font-size: vw(24);
       // font-weight: 400;
       color: #0ce5b2;

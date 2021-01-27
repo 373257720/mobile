@@ -41,7 +41,6 @@ export default {
   },
   watch: {
     $route: function(to, from) {
-      // console.log(this.$route);
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     }

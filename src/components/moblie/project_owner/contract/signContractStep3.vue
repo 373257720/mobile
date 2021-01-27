@@ -1,20 +1,57 @@
 <template>
   <div id="signContractStep2">
     <commonnav>
-      {{$t('project.Contract')}}
+      {{ $t("project.Contract") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>
-      <h1>{{$t('project.Step3pleasechoosesuitablecommissionsharingmechanism')}}</h1>
-      <div>
-        <h3>Project proposal</h3>
+      <h1>
+        {{ $t("project.Step3pleasechoosesuitablecommissionsharingmechanism") }}
+      </h1>
+      <div v-if="$route.query.signStatus4 == 16" class="bargin-upper">
+        <h3>{{ $t("project.Projectproposal") }}</h3>
+        <div>
+          <p v-if="sharingMechanismType === 0">
+            {{ $t("Bargin.Percentagebyintermediaries") }}
+          </p>
+          <p v-if="sharingMechanismType === 1">
+            {{ $t("Bargin.Percentageprojectparty") }}
+          </p>
+          <div class="count">
+            <MyNumberInput
+              :point="2"
+              :max="100"
+              name="projectParty"
+              placeholder
+              v-model.number="sharingMechanismTotal"
+            ></MyNumberInput>
+            <span>%</span>
+            <p>
+              <span
+                class="iconfont icon-arrow_on"
+                @click="calculate($event, 'sharingMechanismTotal', 'add')"
+              ></span>
+              <span
+                class="iconfont icon-arrow_under"
+                @click="calculate($event, 'sharingMechanismTotal', 'subtract')"
+              ></span>
+            </p>
+          </div>
+            <ul>
+          <li>
+            <button @click="Sendtext">{{ $t("common.Send") }}</button>
+          </li>
+        </ul>
+        </div>
+      </div>
+      <div v-else class="bargin-upper">
+        <h3>{{ $t("project.Projectproposal") }}</h3>
         <van-radio-group v-model="sharingMechanismType">
-          <van-radio
-            :name="0"
-            checked-color="#00f0ab"
-          >Percentage of total funds raised by intermediaries</van-radio>
+          <van-radio :name="0" checked-color="#00f0ab">{{
+            $t("Bargin.Percentagebyintermediaries")
+          }}</van-radio>
           <div class="count">
             <MyNumberInput
               :point="2"
@@ -27,18 +64,17 @@
             <p>
               <span
                 class="iconfont icon-arrow_on"
-                @click="calculate($event,'sharingMechanism0','add')"
+                @click="calculate($event, 'sharingMechanism0', 'add')"
               ></span>
               <span
-                @click="calculate($event,'sharingMechanism0','subtract')"
+                @click="calculate($event, 'sharingMechanism0', 'subtract')"
                 class="iconfont icon-arrow_under"
               ></span>
             </p>
           </div>
-          <van-radio
-            :name="1"
-            checked-color="#00f0ab"
-          >Percentage of commission income from project party</van-radio>
+          <van-radio :name="1" checked-color="#00f0ab">{{
+            $t("Bargin.Percentageprojectparty")
+          }}</van-radio>
           <div class="count">
             <MyNumberInput
               :point="2"
@@ -50,32 +86,20 @@
             <span>%</span>
             <p>
               <span
-                @click="calculate($event,'sharingMechanism1','add')"
+                @click="calculate($event, 'sharingMechanism1', 'add')"
                 class="iconfont icon-arrow_on projectParty"
               ></span>
               <span
-                @click="calculate($event,'sharingMechanism1','subtract')"
+                @click="calculate($event, 'sharingMechanism1', 'subtract')"
                 class="iconfont icon-arrow_under projectParty"
               ></span>
-              <!-- <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_on"></van-icon>
-              <van-icon class="iconfont" class-prefix="icon" slot="icon" name="arrow_under"></van-icon>-->
             </p>
           </div>
         </van-radio-group>
-
-        <!-- <footer>
-          <button>Preview Contract</button>
-        </footer>-->
         <ul>
           <li>
-            <button @click="Sendtext">Send</button>
+            <button @click="Sendtext">{{ $t("common.Send") }}</button>
           </li>
-          <!-- <li>
-            <button @click="$routerto('bargin')">Suggest</button>
-          </li>
-          <li>
-            <button>Reject</button>
-          </li>-->
         </ul>
       </div>
     </main>
@@ -94,7 +118,7 @@ import MyNumberInput from "@/components/moblie/common/input";
 export default {
   name: "mhome",
   components: {
-    MyNumberInput //注册
+    MyNumberInput, //注册
   },
   beforeRouteLeave(to, from, next) {
     if (to.name === "projectSubStatus") {
@@ -111,21 +135,47 @@ Once confirmed, it cannot be undone or changed
 And sign the contract with the project party`,
       radio: "",
       title: "",
-      sharingMechanismType: 0,
       remindervisible: false,
       isactive: false,
       sharingMechanism0: 0,
       sharingMechanism1: 0,
       timeout: null,
-      resultCode: null
+      resultCode: null,
+      sharingMechanismType: null,
+      sharingMechanismTotal: 0,
+      originsharingMechanismTotal: 0,
+      obj: {
+        sharingMechanism01: null,
+        sharingMechanism11: null,
+        sharingMechanismType4: 1,
+      },
       //   setTime:null,
     };
   },
-  created() {},
+  created() {
+    this.iBackGetSharingMechanismType();
+  },
   computed: {},
   watch: {},
 
   methods: {
+    iBackGetSharingMechanismType() {
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/iBackGetSharingMechanismType`,
+          {
+            middlemanId: this.$route.query.middlemanId,
+          }
+        )
+        .then((res) => {
+          if (res.data.resultCode == 10000) {
+            this.sharingMechanismType = res.data.data.sharingMechanismType;
+            this.sharingMechanismTotal = res.data.data.sharingMechanismTotal;
+            this.originsharingMechanismTotal =
+              res.data.data.sharingMechanismTotal;
+          }
+        });
+    },
     calculate(e, name, type) {
       e.target.style.color = "#fff";
       let setTime = null;
@@ -134,6 +184,15 @@ And sign the contract with the project party`,
         clearTimeout(setTime);
       }, 30);
       if (type == "add") {
+        // if (name == "sharingMechanismTotal") {
+        //   if (
+        //     parseFloat((this[name] + 1).toFixed(2)) <=
+        //     this.originsharingMechanismTotal
+        //   ) {
+        //     this[name] = parseFloat((this[name] + 1).toFixed(2));
+        //   }
+        //   return;
+        // }
         if (parseFloat((this[name] + 1).toFixed(2)) <= 100) {
           this[name] = parseFloat((this[name] + 1).toFixed(2));
         }
@@ -145,25 +204,41 @@ And sign the contract with the project party`,
     },
     Sendtext() {
       this.$store.commit("isloading", true);
-
-      this.$global
-        .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/draftContractOrReject`,
-          {
+      let RequestUrl = "";
+      if (this.$route.query.signStatus4 == 16) {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/draftContractOrReject`;
+        this.$global
+          .post_encapsulation(RequestUrl, {
             signId: this.$route.query.signId,
             middlemanId: this.$route.query.middlemanId,
-            signStatus: "2",
+            sharingMechanismType: this.sharingMechanismType,
+            sharingMechanism0: this.sharingMechanismTotal,
+            sharingMechanism1: this.sharingMechanismTotal,
+          })
+          .then((res) => {
+            this.$store.commit("isloading", false);
+            this.resultCode = res.data.resultCode;
+            this.msg = res.data.resultDesc;
+            this.remindervisible = true;
+          });
+      } else {
+        RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectSign/draftContractOrReject`;
+        this.$global
+          .post_encapsulation(RequestUrl, {
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
             sharingMechanismType: this.sharingMechanismType,
             sharingMechanism0: this.sharingMechanism0,
-            sharingMechanism1: this.sharingMechanism1
-          }
-        )
-        .then(res => {
-          this.$store.commit("isloading", false);
-          this.resultCode = res.data.resultCode;
-          this.msg = res.data.resultDesc;
-          this.remindervisible = true;
-        });
+            sharingMechanism1: this.sharingMechanism1,
+            signStatus: "2",
+          })
+          .then((res) => {
+            this.$store.commit("isloading", false);
+            this.resultCode = res.data.resultCode;
+            this.msg = res.data.resultDesc;
+            this.remindervisible = true;
+          });
+      }
     },
     comfirmFromDialog() {
       this.remindervisible = false;
@@ -179,8 +254,8 @@ And sign the contract with the project party`,
     },
     delectTag(item, idx) {
       this.taglist.splice(idx, 1);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -214,10 +289,9 @@ And sign the contract with the project party`,
       line-height: vw(34);
       color: #4f3dad;
     }
-    > div {
+    div.bargin-upper {
       padding: vw(42) vw(58) vw(48);
       width: vw(630);
-
       // height: vw(955);
       background: #4f3dad;
       border-radius: vw(50);

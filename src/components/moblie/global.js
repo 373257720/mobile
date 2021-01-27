@@ -6,6 +6,66 @@ import qs from "qs";
 import store from "../../store/store";
 import AsyncValidator from "async-validator";
 const global = {
+  isJSON(str) {
+    if (typeof str == 'string') {
+      try {
+        var obj = JSON.parse(str);
+        if (typeof obj == 'object' && obj) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (e) {
+        console.log('error：' + str + '!!!' + e);
+        return false;
+      }
+    }
+    console.log('It is not a string!')
+  },
+  quickSort(arr, key, order) {
+    if (arr.length < 2) { return arr; }
+    let baseindex = Math.floor(arr.length / 2);
+    let base = arr.splice(baseindex, 1)[0];
+    let left = [];
+    let right = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (key) {
+        if (order == "ascending") {
+          if (arr[i][key] < base[key]) {
+            left.push(arr[i]);
+          } else {
+            right.push(arr[i]);
+          }
+        } else if (order == "descending") {
+          if (arr[i][key] > base[key]) {
+            left.push(arr[i]);
+          } else {
+            right.push(arr[i]);
+          }
+        }
+
+      } else {
+        if (order == "ascending") {
+          if (arr[i] < base) {
+            left.push(arr[i]);
+          } else {
+            right.push(arr[i]);
+
+          }
+        } else if (order == "descending") {
+          if (arr[i] > base) {
+            left.push(arr[i]);
+          } else {
+            right.push(arr[i]);
+
+          }
+        }
+
+      }
+    }
+    return this.quickSort(left, key, order).concat([base], this.quickSort(right, key, order));
+
+  },
   //去除换行 
   ClearBr(key) {
     // key = key.replace(/<\/?.+?>/g, "");
@@ -14,7 +74,7 @@ const global = {
   },
   //去除空格 
   rim(str) {
-    return str.replace(/>\s+</g,"><")
+    return str.replace(/>\s+</g, "><")
     // return str.replace(/\s+/g, "");
   },
   nodeToString(node) {
@@ -31,14 +91,14 @@ const global = {
       return "En";
     }
   },
-  countryLan(){
+  countryLan() {
     if (i18n.locale == "zh_CN") {
       return "Zh";
     } else {
       return "En";
     }
   },
-  language(){
+  language() {
     if (i18n.locale == "zh_CN") {
       return "Ch";
     } else {
@@ -188,7 +248,8 @@ const global = {
     "6": i18n.t("project.failedSigned"),
     "7": i18n.t("project.waitMiddlemanSigned"),
     "8": i18n.t("project.unfinishedSignContract"),
-    "9": i18n.t("project.chainedToRecommand")
+    "9": i18n.t("project.chainedToRecommand"),
+
     // "10": "common.SignedContract",
     // "11": "common.InvestorHasRejected"
   },
@@ -213,6 +274,14 @@ const global = {
     1: "common.individual",
     2: "common.company"
   },
+  encapsulation(url, datas, method) {
+    if (method == "get") {
+      this.get_encapsulation(url, datas)
+    } else if (method == "post") {
+      this.post_encapsulation(url, datas)
+    }
+  },
+
   get_encapsulation: function (url, datas) {
     if (Object.prototype.toString.call(datas) !== "[object Object]") {
       datas = {};

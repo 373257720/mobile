@@ -1,17 +1,17 @@
 <template>
   <div id="recent_recommand">
     <commonnav>
-      project detail
+      {{ $t("project.RecommendMore") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$router.go(-1)" />
       </template>
     </commonnav>
     <main>
-      <div>
-        <span @click="routerto(1)">Recommended to middleman</span>
+      <div @click="routerto(1)">
+        <span >{{ $t("agent.RM") }}</span>
       </div>
-      <div>
-        <span @click="routerto(2)">Recommend to investors</span>
+      <div @click="routerto(2)">
+        <span >{{ $t("agent.RecommendInvestors") }}</span>
       </div>
     </main>
   </div>
@@ -57,7 +57,7 @@ export default {
   methods: {
     routerto(num) {
       let Routequery = Object.assign({ towho: num }, this.$route.query);
-      this.$routerto("a_recommand_i", Routequery );
+      this.$routerto("a_recommand_i", Routequery);
     },
     toggleAll() {
       // console.log(this.num)

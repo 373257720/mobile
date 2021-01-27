@@ -62,7 +62,15 @@
 .icon-account:before {
   content: "\e626";
 }
-
+.icon-star:before {
+  content: "\e632";
+}
+.icon-email:before {
+  content: "\e633";
+}
+.icon-day:before {
+  content: "\e634";
+}
 .icon-contact:before {
   content: "\e627";
 }
