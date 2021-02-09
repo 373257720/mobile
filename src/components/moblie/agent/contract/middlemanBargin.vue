@@ -99,7 +99,7 @@
             </div>
           </div>
           <div class="Recommendlocking">
-            <h3>Recommend locking date</h3>
+            <h3>Recommend locking date</h3> 
             <p class="subtitle">Recommendation time</p>
             <div class="count">
               <MyNumberInput

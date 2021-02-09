@@ -25,7 +25,7 @@
     </main>
     <footer>
       <ul>
-        <li @click="$routerto('vip')">
+        <li v-if="$store.state.currentUsertype==4" @click="$routerto('vip')">
           <div class="iconfont icon-account"></div>
           <div>{{ $t("Account.Membership") }}</div>
         </li>
