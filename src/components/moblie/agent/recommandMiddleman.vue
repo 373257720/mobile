@@ -20,6 +20,14 @@
               <van-icon name="close" />
             </van-button> -->
           </p>
+          <!-- <div class="mui-input-row input-row">
+            <p class="label">{{ item.recommendEmail.label }}</p>
+            <dropdown
+              :item-click="dropDownClick"
+              :isNeedSearch="true"
+              :itemlist="itemlist"
+            ></dropdown>
+          </div> -->
           <div class="mui-input-row input-row">
             <p class="label">{{ item.recommendType.label }}</p>
             <!-- <input name="userName" type="text" v-model="validateForm.username" /> -->
@@ -110,20 +118,45 @@
 </template>
 <script>
 import { Icon } from "ant-design-vue";
-
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
 });
+import Dropdown from "@/components/moblie/common/dropdown";
 export default {
   name: "mhome",
   inject: ["recommendList"],
   components: {
     IconFont,
+    Dropdown,
   },
   data() {
     return {
       one: 0,
       articleHight: null,
+      itemlist: {
+        cur: {
+          val: "",
+          name: "所有产品",
+        },
+        data: [
+          {
+            val: "",
+            name: "所有产品",
+          },
+          {
+            val: 1,
+            name: "梦幻西游",
+          },
+          {
+            val: 2,
+            name: "梦幻无双",
+          },
+          {
+            val: 3,
+            name: "大话西游",
+          },
+        ],
+      },
       list: [
         {
           recommendType: { label: "Middleman genus", value: null },
@@ -142,7 +175,6 @@ export default {
           label: this.$t("common.company"),
         },
       ],
-      result: [],
       regionList: [],
       searchkey: "",
       Searchtimer: null,
@@ -179,6 +211,7 @@ export default {
       }
     },
   },
+
   created() {
     // console.log(this.recommendList);
     this.getCountryList();
@@ -189,14 +222,9 @@ export default {
     // this.articleHight = this.$refs.box[0].clientHeight * 1;
   },
   methods: {
-    filterOption(input, option) {
-      // return (
-      //   option.componentOptions.children[0].text
-      //     .toLowerCase()
-      //     .indexOf(input.toLowerCase()) >= 0
-      // );
+    dropDownClick(e) {
+      console.log(e.name, e.val);
     },
-
     getCountryList(searchKey) {
       this.$global
         .get_encapsulation(
@@ -266,94 +294,205 @@ export default {
         this.errorsMsg = errorMsg;
         return false;
       }
-      this.recommendList.push(...this.list);
-      this.$replaceto("a_recommand_i", this.$route.query);
+      // console.log(recommendList);
+      let singelObj = {
+        recommendType: null,
+        recommendEmail: "",
+        // recommendName: "",
+        recommendArea: "",
+        signId: this.$route.query.signId,
+        middlemanId: this.$route.query.middlemanId,
+      };
+      let sw = this.recommendList.every((item) => {
+        return (
+          item.recommendEmail.value !=
+          this.list[this.list.length - 1].recommendEmail.value
+        );
+      });
+      if (sw) {
+        for (var key in this.list[this.list.length - 1]) {
+          for (var i in singelObj) {
+            if (key == i) {
+              singelObj[i] = this.list[this.list.length - 1][key].value;
+            }
+          }
+        }
+        if (singelObj.recommendType == 1) {
+          singelObj.recommendName = this.list[this.list.length - 1][
+            "recommendName"
+          ].value;
+        } else if (singelObj.recommendType == 2) {
+          singelObj.recommendCompany = this.list[this.list.length - 1][
+            "recommendName"
+          ].value;
+        }
+        if (this.$route.query.towho == 1) {
+          this.recommendMiddlemanCheck(singelObj).then((res) => {
+            if (res.data.resultCode === 10000) {
+              this.recommendList.push(...this.list);
+              this.$replaceto("a_recommand_i", this.$route.query);
+            } else {
+              this.$dialog
+                .alert({
+                  message: res.data.resultDesc,
+                })
+                .then(() => {});
+            }
+          });
+        } else if (this.$route.query.towho == 2) {
+          this.recommendInvestorCheck(singelObj).then((res) => {
+            if (res.data.resultCode === 10000) {
+              this.recommendList.push(...this.list);
+              this.$replaceto("a_recommand_i", this.$route.query);
+            } else {
+              this.$dialog
+                .alert({
+                  message: res.data.resultDesc,
+                })
+                .then(() => {});
+            }
+          });
+        }
+      } else {
+        this.$toast("不能添加重复的邮箱");
+      }
     },
     validateFunc(word) {
       let self = this;
       let validator = new this.$Validator();
-      if (word == "submit") {
-        this.list.forEach((item) => {
-          for (let key in item) {
-            if (key == "recommendEmail") {
-              validator.add(item[key].value, [
-                [
-                  "isNotEmpty",
-                  item[key].label + this.$t("VerifyMsg.isnotempty"),
-                ],
-                [
-                  "emailFormat",
-                  item[key].label + this.$t("VerifyMsg.FormatError"),
-                ],
-              ]);
-            } else {
-              validator.add(item[key].value, [
-                [
-                  "isNotEmpty",
-                  item[key].label + this.$t("VerifyMsg.isnotempty"),
-                ],
-              ]);
-            }
-          }
-        });
-      } else if (word == "add") {
-        let Singeobj = this.list[this.list.length - 1];
-        for (let key in Singeobj) {
-          if (key == "recommendEmail") {
-            validator.add(Singeobj[key].value, [
-              [
-                "isNotEmpty",
-                Singeobj[key].label + this.$t("VerifyMsg.isnotempty"),
-              ],
-              [
-                "emailFormat",
-                Singeobj[key].label + this.$t("VerifyMsg.FormatError"),
-              ],
-            ]);
-          } else {
-            validator.add(Singeobj[key].value, [
-              [
-                "isNotEmpty",
-                Singeobj[key].label + this.$t("VerifyMsg.isnotempty"),
-              ],
-            ]);
-          }
+      let Singeobj = this.list[this.list.length - 1];
+      for (let key in Singeobj) {
+        if (key == "recommendEmail") {
+          validator.add(Singeobj[key].value, [
+            [
+              "isNotEmpty",
+              Singeobj[key].label + this.$t("VerifyMsg.isnotempty"),
+            ],
+            [
+              "emailFormat",
+              Singeobj[key].label + this.$t("VerifyMsg.FormatError"),
+            ],
+          ]);
+        } else {
+          validator.add(Singeobj[key].value, [
+            [
+              "isNotEmpty",
+              Singeobj[key].label + this.$t("VerifyMsg.isnotempty"),
+            ],
+          ]);
         }
       }
-
       var errorMsg = validator.start(); // 获得效验结果
       return errorMsg; // 返回效验结果
     },
     additem() {
-      // this.list[this.list.length - 1].errorMsg = "";
       this.errorsMsg = "";
       let errorMsg = this.validateFunc("add");
       if (errorMsg) {
-        // console.log(this.list);
-        // this.list[this.list.length - 1].errorMsg = errorMsg;
         this.errorsMsg = errorMsg;
         return false;
       }
-      this.list.push({
-        recommendType: { label: "Middleman genus", value: null },
-        recommendEmail: { label: "Middleman email", value: "" },
-        recommendName: { label: "Middleman name", value: "" },
-        recommendArea: { label: "Region", value: "" },
-      });
+      let singelObj = {
+        recommendType: null,
+        recommendEmail: "",
+        // recommendName: "",
+        recommendArea: "",
+        signId: this.$route.query.signId,
+        middlemanId: this.$route.query.middlemanId,
+      };
+      console.log(this.list[this.list.length - 1]);
 
-      // this.articleHight += this.boxHeight;
+      let sw = this.recommendList.every((item) => {
+        return (
+          item.recommendEmail.value !=
+          this.list[this.list.length - 1].recommendEmail.value
+        );
+      });
+      if (sw) {
+        for (var key in this.list[this.list.length - 1]) {
+          for (var i in singelObj) {
+            if (key == i) {
+              singelObj[i] = this.list[this.list.length - 1][key].value;
+            }
+          }
+        }
+        if (singelObj.recommendType == 1) {
+          singelObj.recommendName = this.list[this.list.length - 1][
+            "recommendName"
+          ].value;
+        } else if (singelObj.recommendType == 2) {
+          singelObj.recommendCompany = this.list[this.list.length - 1][
+            "recommendName"
+          ].value;
+        }
+        // this.articleHight += this.boxHeight;
+        if (this.$route.query.towho == 1) {
+          this.recommendMiddlemanCheck(singelObj).then((res) => {
+            if (res.data.resultCode === 10000) {
+              this.list.push({
+                recommendType: { label: "Middleman genus", value: null },
+                recommendEmail: { label: "Middleman email", value: "" },
+                recommendName: { label: "Middleman name", value: "" },
+                recommendArea: { label: "Region", value: "" },
+              });
+            } else {
+              this.$dialog
+                .alert({
+                  message: res.data.resultDesc,
+                })
+                .then(() => {});
+            }
+          });
+        } else if (this.$route.query.towho == 2) {
+          this.recommendInvestorCheck(singelObj).then((res) => {
+            if (res.data.resultCode === 10000) {
+              this.list.push({
+                recommendType: { label: "Middleman genus", value: null },
+                recommendEmail: { label: "Middleman email", value: "" },
+                recommendName: { label: "Middleman name", value: "" },
+                recommendArea: { label: "Region", value: "" },
+              });
+            } else {
+              this.$dialog
+                .alert({
+                  message: res.data.resultDesc,
+                })
+                .then(() => {});
+            }
+          });
+        }
+      } else {
+        this.$toast("不能添加重复的邮箱");
+      }
+    },
+    recommendMiddlemanCheck(obj) {
+      return new Promise((resolve, reject) => {
+        this.$global
+          .post_encapsulation(
+            `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/recommendMiddlemanCheck`,
+            obj
+          )
+          .then((res) => {
+            resolve(res);
+          });
+      });
+    },
+    recommendInvestorCheck(obj) {
+      return new Promise((resolve, reject) => {
+        this.$global
+          .post_encapsulation(
+            `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/recommendInvestorCheck`,
+            obj
+          )
+          .then((res) => {
+            resolve(res);
+          });
+      });
     },
     delectItem(idx) {
       if (this.list.length > 1) {
         this.list.splice(idx, 1);
       }
-    },
-    toggle() {
-      // console.log(index);
-      // this.$refs.checkboxes[index].toggle();
-    },
-    delectTag(item, idx) {
-      this.taglist.splice(idx, 1);
     },
   },
 };

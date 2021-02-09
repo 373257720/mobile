@@ -1,7 +1,7 @@
 <template>
   <div id="AccountMessage">
     <commonnav>
-      {{$t('Account.Message')}}
+      {{ $t("Account.Message") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -16,21 +16,21 @@
         <div class="timestamp">
           <ul>
             <li
-              @click="$routerto('MessageDetails',{id:item.id})"
+              @click="$routerto('MessageDetails', { id: item.id })"
               v-for="item in inforlist"
               :key="item.id"
             >
-              <nav>{{item.sendTime}}</nav>
+              <nav>{{ $global.timestampToTime(item.sendTime) }}</nav>
               <section id="container">
                 <div class="item item-1">
                   <p class="icon iconRight iconfont icon-1"></p>
                 </div>
                 <div class="item item-2">
-                  <p>{{item.messageTitle}}</p>
-                  <article>{{item.messageContent}}</article>
+                  <p>{{ item.messageTitle }}</p>
+                  <article>{{ item.messageContent }}</article>
                 </div>
                 <div class="item item-3">
-                  <p class="spot" v-if="item.isCheck"></p>
+                  <p class="spot" v-if="!item.isCheck"></p>
                 </div>
               </section>
             </li>
@@ -53,14 +53,14 @@ export default {
       refreshing: false,
       loading: false,
       text: "List",
-      inforlist: []
+      inforlist: [],
     };
   },
   components: {
     "v-scroll": Scroll,
-    ScrollTop
+    ScrollTop,
   },
-  created() {
+  activated() {
     this.getinfolist();
   },
 
@@ -71,7 +71,7 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/user/getUserMessageList`
         )
-        .then(res => {
+        .then((res) => {
           console.log(res.data.data.lists);
           if (res.data.data.lists instanceof Array) {
             this.inforlist = res.data.data.lists;
@@ -88,10 +88,10 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
           {
-            searchKey: this.searchkey
+            searchKey: this.searchkey,
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.data.data instanceof Array) {
             for (let i = 0; i < res.data.data.length; i++) {
               this.countrylist.push({
@@ -102,7 +102,7 @@ export default {
                     ? res.data.data[i].countryZhname
                     : res.data.data[i].countryEnname,
                 value: i,
-                remark: res.data.data[i].countryCode
+                remark: res.data.data[i].countryCode,
               });
             }
             done();
@@ -121,8 +121,8 @@ export default {
         this.num += 10;
         console.log(this.num);
       }, 2000);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

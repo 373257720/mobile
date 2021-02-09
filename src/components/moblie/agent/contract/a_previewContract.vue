@@ -19,7 +19,7 @@
         rows="15"
       ></textarea>
       <footer>
-        <van-button>Download contract content (pdf)</van-button>
+        <!-- <van-button>Download contract content (pdf)</van-button> -->
         <van-button
           v-if="$route.query.signStatus4 == 34"
           class="sign"
@@ -27,12 +27,18 @@
           >下一步</van-button
         >
         <van-button
-        v-else
+          v-if="
+            $route.query.sharingResult == 5 ||
+            $route.query.sharingResult == 6 ||
+            $route.query.sharingResult == 7 ||
+            $route.query.sharingResult == 8 ||
+            $route.query.sharingResult == 9 ||
+            $route.query.sharingResult == 12
+          "
           class="sign"
           @click="$routerto('sign_contract', $route.query)"
           >下一步</van-button
         >
-
         <!-- <p @click="signNDA">{{$t("project.SignNDAterms")}}</p> -->
         <!-- <button @click="clickInterested">{{$t('project.Interested')}}</button> -->
         <!-- <button @click="$routerto('signContractStep1')">{{$t('project.SignContract')}}</button>
@@ -64,36 +70,64 @@ export default {
   },
   computed: {},
   methods: {
-    // go() {
-    //   if (this.article) {
-    //     this.$routerto("P_a_previewContractStep2", {
-    //       projectId: this.projectId,
-    //       signStatus4: this.signStatus4,
-    //       signId: this.signId,
-    //       middlemanId: this.middlemanId,
-    //       fileId: this.fileId
-    //     });
-    //   }
-    // },
-
     GetTemplateWord() {
       this.$store.commit("isloading", true);
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackGetTemplateWord`,
-          {
-            signId: this.$route.query.signId,
-            middlemanId: this.$route.query.middlemanId,
-          }
-        )
-        .then((res) => {
-          this.$store.commit("isloading", false);
-          if (res.data.resultCode) {
-            var arr = Object.keys(res.data.data);
-            this.article = arr.length == 0 ? "" : res.data.data;
-            // console.log(this.article);
-          }
-        });
+
+      if (
+        this.$route.query.signStatus4 == 34 ||
+        this.$route.query.signStatus4 == 38
+      ) {
+        this.$global
+          .post_encapsulation(
+            `${this.$axios.defaults.baseURL}/bsl_web/projectSignThree/middlemanBGetContractWord`,
+            {
+              signId: this.$route.query.signId,
+              middlemanId: this.$route.query.middlemanId,
+            }
+          )
+          .then((res) => {
+            this.$store.commit("isloading", false);
+            if (res.data.resultCode) {
+              var arr = Object.keys(res.data.data);
+              this.article = arr.length == 0 ? "" : res.data.data;
+              // console.log(this.article);
+            }
+          });
+      } else if (this.$route.query.signStatus4 == 18) {
+        this.$global
+          .post_encapsulation(
+            `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/middlemanAGetContractWord`,
+            {
+              signId: this.$route.query.signId,
+              middlemanId: this.$route.query.middlemanId,
+            }
+          )
+          .then((res) => {
+            this.$store.commit("isloading", false);
+            if (res.data.resultCode) {
+              var arr = Object.keys(res.data.data);
+              this.article = arr.length == 0 ? "" : res.data.data;
+              // console.log(this.article);
+            }
+          });
+      } else {
+        this.$global
+          .get_encapsulation(
+            `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackGetTemplateWord`,
+            {
+              signId: this.$route.query.signId,
+              middlemanId: this.$route.query.middlemanId,
+            }
+          )
+          .then((res) => {
+            this.$store.commit("isloading", false);
+            if (res.data.resultCode) {
+              var arr = Object.keys(res.data.data);
+              this.article = arr.length == 0 ? "" : res.data.data;
+              // console.log(this.article);
+            }
+          });
+      }
     },
   },
 };

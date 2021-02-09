@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      nowIndex:"ndaClause",
+      nowIndex: "ndaClause",
       NDAcontract: {
         projectPartybehalf: "",
         projectPartyname: "",
@@ -48,3 +48,9 @@ export default {
   },
 };
 </script>
+<style lang='scss'>
+div.secondLayer {
+  width: 100%;
+  height: 100%;
+}
+</style>

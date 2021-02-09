@@ -76,13 +76,23 @@
 <script>
 export default {
   name: "mhome",
-  inject: ["recommendList"],
+  inject: ["recommendList", "restore"],
+  // beforeRouteEnter(to, from, next) {
+  //   if (from.name == "recent_recommand") {
+  //     next((vm) => {
+  //       vm.restore();
+  //     });
+  //   } else {
+  //     next();
+  //   }
+  // },
   data() {
     return {
       articleHight: null,
       result: [],
       searchkey: "",
       boxHeight: null,
+      towho: "",
     };
   },
   computed: {
@@ -109,13 +119,31 @@ export default {
     },
   },
   created() {
-    console.log(this.recommendList);
+    // console.log(123);
+    this.middlemanGetSuccessHistory(this.$route.query.towho);
   },
+
   mounted() {
     // this.boxHeight = this.$refs.box.clientHeight;
     // this.articleHight = this.$refs.box.clientHeight * 2;
   },
   methods: {
+    middlemanGetSuccessHistory(num) {
+      let a = 0;
+      if (num == 1) {
+        a = 0;
+      } else if (num == 2) {
+        a = 1;
+      }
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectRecommendation/middlemanGetSuccessHistory`,
+          {
+            selectType : a,
+          }
+        )
+        .then((res) => {});
+    },
     submit_click() {
       let recommendListStr = [];
       recommendListStr = this.result.map((item) => {

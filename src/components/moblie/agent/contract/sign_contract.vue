@@ -196,7 +196,9 @@ export default {
         .then((res) => {
           // console.log(res);
           if (res.data.resultCode == 10000) {
-            if (this.$store.state.currentUsertype == 1) {
+            //  5中间人a同意投行分成比例
+            let newDate = this.$global.timestampToTime(new Date().getTime());
+            if (this.$route.query.sharingResult == 5) {
               this.$global
                 .post_encapsulation(
                   `${this.$axios.defaults.baseURL}/bsl_web/projectSign/iBackSignOrRejectCommission `,
@@ -204,7 +206,7 @@ export default {
                     optType: 0,
                     signId: this.$route.query.signId,
                     middlemanId: this.$route.query.middlemanId,
-                    signingTime: new Date().getTime(),
+                    signingTime: newDate,
                     signingPicPath: res.data.data.signingPicPath,
                   }
                 )
@@ -215,14 +217,65 @@ export default {
                     this.submitSuccessful = true;
                   }
                 });
-            } else if (this.$store.state.currentUsertype == 4) {
+            }
+            // 6投行同意a分成比例,7投行签署合约，
+            else if (
+              this.$route.query.sharingResult == 6 ||
+              this.$route.query.sharingResult == 7
+            ) {
               this.$global
                 .post_encapsulation(
-                  `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanSign `,
+                  `${this.$axios.defaults.baseURL}/bsl_web/projectSign/middlemanSign`,
                   {
                     signId: this.$route.query.signId,
                     middlemanId: this.$route.query.middlemanId,
-                    signingTime: new Date().getTime(),
+                    signingTime: newDate,
+                    signingPicPath: res.data.data.signingPicPath,
+                  }
+                )
+                .then((res) => {
+                  this.showNotsign = true;
+                  this.errorMsg = res.data.resultDesc;
+                  if (res.data.resultCode == 10000) {
+                    this.submitSuccessful = true;
+                  }
+                });
+            }
+            // 12 中间人b同意
+            else if (
+              this.$route.query.sharingResult == 12 ||
+              this.$route.query.sharingResult == 9
+            ) {
+              let obj = Object.assign(
+                {
+                  signingTime: newDate,
+                  signingPicPath: res.data.data.signingPicPath,
+                },
+                this.$route.query
+              );
+              console.log(obj);
+              this.$global
+                .post_encapsulation(
+                  `${this.$axios.defaults.baseURL}/bsl_web/projectSignThree/middlemanASignOrRejectCommission`,
+                  obj
+                )
+                .then((res) => {
+                  this.showNotsign = true;
+                  this.errorMsg = res.data.resultDesc;
+                  if (res.data.resultCode == 10000) {
+                    this.submitSuccessful = true;
+                  }
+                });
+            }
+            //  8  中间人a同意b并签署合约
+            else if (this.$route.query.sharingResult == 8) {
+              this.$global
+                .post_encapsulation(
+                  `${this.$axios.defaults.baseURL}/bsl_web/projectSignThree/middlemanBSign`,
+                  {
+                    signId: this.$route.query.signId,
+                    middlemanId: this.$route.query.middlemanId,
+                    signingTime: newDate,
                     signingPicPath: res.data.data.signingPicPath,
                   }
                 )

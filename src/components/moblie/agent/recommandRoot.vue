@@ -6,7 +6,7 @@
 export default {
   name: "recommandRoot",
   provide() {
-    return { recommendList: this.List };
+    return { recommendList: this.List, restore: this.restore };
   },
   data() {
     return {
@@ -40,6 +40,24 @@ export default {
       console.log(this.query);
       //   let obj = this.$route.query;
       //   return obj;
+    },
+    restore() {
+      this.List = [
+        {
+          recommendType: { label: "Middleman genus", value: 1 },
+          recommendEmail: {
+            label: "Middleman email",
+            value: "373257720@qq.com",
+          },
+          recommendName: { label: "Middleman name", value: "Tony" },
+          recommendArea: {
+            label: "Region",
+            value: "HK",
+            countryZhname: "香港",
+            countryEnname: "Hong Kong",
+          },
+        },
+      ];
     },
   },
 };

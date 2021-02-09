@@ -1,7 +1,7 @@
 <template>
-  <div id="agentProjectDetail">
+  <div id="I_projectdetails">
     <commonnav>
-      {{$t('common.ProjectDescription')}}
+      {{$t('common.ProjectDetails')}}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -11,9 +11,8 @@
     </commonnav>
     <main>
       <div class="mhome-tag">
-        <h2>{{ProjectDetail.projectName}}</h2>
-        <h3>{{$t("agent.SignedIntermediary")}}({{ProjectDetail.committedCount}})/{{$t("agent.Signedinvestor")}}({{ProjectDetail.interestProjectCount}})</h3>
-        <div class="projectMoney">
+    <h2>{{ProjectDetail.projectName}}</h2>
+      <div class="projectMoney">
           <p>
             <span class="icon">
               <i class="iconfont icon-bitbroicon_setting"></i>
@@ -54,28 +53,32 @@
             <p v-else>{{value.content}}</p>
           </li>
         </ul>
-        <footer>
-           <!-- <p @click="signNDA">{{$t("project.SignNDAterms")}}</p> -->
-          <van-button @click="clickInterested">{{$t('project.Interested')}}</van-button>    
-          <!-- <button @click="clickInterested">{{$t('project.Interested')}}</button> -->
-          <!-- <button @click="$routerto('signContractStep1')">{{$t('project.SignContract')}}</button>
-          <button @click="$routerto('signContractStep1')">{{$t('project.Contractwithibank')}}</button>-->
+        <footer >
+         <div v-if="signStatus4==53">
+             <button @click="refuse">{{$t('investor.Refuse')}}</button>
+            <button @click="completeInfo()">完善资料</button>
+         </div>
+         <!-- <div v-if="signStatus4==54">
+           <van-button  @click="$routerto('p_bargin',$route.query)">我的资料</van-button>
+         </div> -->
         </footer>
       </div>
     </main>
     <DialogMsg
       :remindervisible.sync="remindervisible"
       :confirmButtonText="confirmButtonText"
+      :cancelButtonText="cancelButtonText"
       @comfirmFromDialog="comfirmFromDialog"
       :title="title"
-      :msgtype="msgtype"
+      :showCancel="true"
       :msg="msg"
+      :msgtype="msgtype"
     ></DialogMsg>
   </div>
 </template>
 <script>
 export default {
-  name: "agentProjectDetail",
+  name: "I_projectdetails",
   data() {
     return {
       current: 0,
@@ -85,6 +88,7 @@ export default {
       confirmButtonText: "",
       cancelButtonText: "",
       title: "",
+      sharingResult: null,
       remindervisible: false,
       articleHight: null,
       isshowDropdown: false,
@@ -97,6 +101,25 @@ export default {
         collectMoneyMin: "",
         collectMoneyMax: "",
         projectDescribe: "",
+      },
+      signNdaStatus: null,
+      middlemanInfo: {
+        userIdentityType: {
+          tag: "icon-bitbroicon2",
+          content: "",
+        },
+        userName: {
+          tag: "icon-bitbroicon7",
+          content: "",
+        },
+        userCountry: {
+          tag: "icon-bitbroicon2",
+          content: "",
+        },
+        recommendEmail: {
+          tag: "icon-bitbroicon5",
+          content: "",
+        },
       },
       projectItem: {
         // projectStatus: null,
@@ -122,49 +145,70 @@ export default {
           classname: true,
         },
       },
-      projectUserId: null,
+      letterObj: {
+        picUrl: "",
+        projectOwner: "",
+        projectName: "",
+        middlemanA: "",
+        middlemanB: "",
+      },
       articleoffsetHeight: 0,
       projectDescribeHeight: 0,
     };
   },
   created() {
+    this.investorsGetProjectDetails();
     this.projectId = this.$route.query.projectId;
-    this.getProjectDetails();
+    this.signStatus4 = this.$route.query.signStatus4;
+    this.signId = this.$route.query.signId;
+    this.middlemanId = this.$route.query.middlemanId;
   },
-  mounted() {},
+  mounted() {
+    console.log(process.env);
+  },
   methods: {
-    getProjectDetails() {
+    investorsGetProjectDetails() {
       this.$store.commit("isloading", true);
       this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/project/getProjectDetails`,
-          { projectId: this.projectId }
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/myProjectDetails/investorsGetProjectDetails`,
+          {
+            projectId: this.$route.query.projectId,
+            middlemanId: this.$route.query.middlemanId,
+            signId: this.$route.query.signId,
+          }
         )
         .then((res) => {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
-            let data = res.data.data.data;
-            this.projectUserId = data.projectUserId;
-            for (let i in data) {
+            let result = res.data.data;
+            for (let i in result) {
               for (let key in this.ProjectDetail) {
                 if (key === i) {
                   if (key == "projectName") {
-                    this.ProjectDetail[key] = data[key + this.$global.lan()];
+                    this.ProjectDetail[key] = result[key + this.$global.lan()];
                   } else if (
                     key == "collectMoneyMin" ||
                     key == "collectMoneyMax"
                   ) {
-                    this.ProjectDetail[key] = this.$global.formatNum(data[key]);
+                    this.ProjectDetail[key] = this.$global.formatNum(
+                      result[key]
+                    );
                   } else if (key == "projectIndustry") {
+                    if (result[key + this.$global.lan()].indexOf("[") > -1) {
+                      this.ProjectDetail[key] = eval(
+                        "(" + result[key + this.$global.lan()] + ")"
+                      ).join(",");
+                    }
                     this.ProjectDetail[key] = eval(
-                      "(" + data[key + this.$global.lan()] + ")"
+                      "(" + result[key + this.$global.lan()] + ")"
                     ).join(",");
                   } else if (key == "projectDescribe") {
-                    this.ProjectDetail[key] = data[
+                    this.ProjectDetail[key] = result[
                       key + this.$global.lan()
                     ].replace(/[\n\r]/g, "<br>");
                   } else {
-                    this.ProjectDetail[key] = res.data.data.data[i];
+                    this.ProjectDetail[key] = result[i];
                   }
                 }
               }
@@ -172,25 +216,66 @@ export default {
                 if (key === i) {
                   if (key == "projectCompany") {
                     this.projectItem[key].content =
-                      data[key + this.$global.lan()];
+                      result[key + this.$global.lan()];
                   } else if (key == "potentialInvestorsTags") {
-                    this.projectItem[key].content = eval(
-                      "(" + data[key + this.$global.lan()] + ")"
-                    );
+                    if (result[key + this.$global.lan()].indexOf("[") > -1) {
+                      this.projectItem[key].content = eval(
+                        "(" + result[key + this.$global.lan()] + ")"
+                      );
+                    }
                   } else if (key == "financingStage") {
                     this.projectItem[key].content = this.$global.financingStage[
-                      data[i]
+                      result[i]
                     ];
                   } else if (key == "projectStatus") {
                     this.projectItem[key].content = this.$global.projectStatus[
-                      data[i]
+                      result[i]
                     ];
                   } else {
-                    this.projectItem[key].content = data[i];
+                    this.projectItem[key].content = result[i];
                   }
                 }
               }
             }
+            if (result.userIdentityType == 1) {
+              this.middlemanInfo.userName.content = result.userName;
+            } else if (result.userIdentityType == 2) {
+              this.middlemanInfo.userName.content =
+                result["userCompany" + this.$global.language()];
+            }
+            if (
+              Object.prototype.toString.call(result.userCountry) ==
+              "[object String]"
+            ) {
+              if (this.$i18n.locale == "zh_CN") {
+                this.middlemanInfo.userCountry.content = result.userCountry.split(
+                  ","
+                )[0];
+              } else {
+                this.middlemanInfo.userCountry.content = result.userCountry.split(
+                  ","
+                )[1];
+              }
+            }
+            this.letterObj.picUrl = result.picUrl;
+            this.letterObj.middlemanA =
+              result.userIdentityType4 == 1
+                ? result.userName4
+                : result.userIdentityType4 == 2
+                ? result["userCompany" + this.$global.language() + "4"]
+                : "";
+            this.letterObj.middlemanB = result.recommendEmail;
+            this.letterObj.projectOwner =
+              result["userCompany" + this.$global.language() + "1"];
+            this.letterObj.projectName =
+              result["projectName" + this.$global.lan()];
+
+            this.middlemanInfo.userIdentityType.content = this.$t(
+              this.$global.investorsType[result.userIdentityType]
+            );
+            this.middlemanInfo.recommendEmail.content = result.recommendEmail;
+            this.sharingResult = result.sharingResult;
+            this.signNdaStatus = result.signNdaStatus;
 
             this.$nextTick(() => {
               this.articleoffsetHeight = this.$refs.article.offsetHeight;
@@ -205,53 +290,51 @@ export default {
           // console.log(this.ProjectDetail);
         });
     },
-    clickInterested() {
-      this.msg = "";
+
+    refuse() {
+      this.title = "提醒";
+      this.msg = "是否确定拒绝这次合作?拒绝后无法撤销";
+      this.msgtype = "No";
+      this.confirmButtonText = this.$t("common.isyes");
+      this.cancelButtonText = this.$t("common.isno");
+      this.remindervisible = true;
+    },
+    comfirmFromDialog() {
+      this.remindervisible = false;
       this.$store.commit("isloading", true);
+      // @param signStatus=55 is refuse
       this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/interested`,
-          { projectId: this.projectId, projectUserId: this.projectUserId }
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSignThree/investorsAgree`,
+          {
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
+            signStatus: 55,
+          }
         )
         .then((res) => {
           this.$store.commit("isloading", false);
-          this.remindervisible = true;
-          this.msgtype = "interested";
-          // if(res.data.resultCode==10000)
-          // this.msg = "您还可以签署NDA来获取该项目更多的资讯";
-          this.msg = res.data.resultDesc;
+          this.$dialog
+            .alert({
+              message: res.data.resultDesc,
+            })
+            .then(() => {
+              if (res.data.resultCode == 10000) {
+                this.$replaceto("mysign", {
+                  projectId: this.$route.query.projectId,
+                });
+              }
+            });
         });
     },
-    gotoNDA() {
-      this.remindervisible = false;
-      this.$routerto("ndaClause");
-    },
-    comfirmFromDialog(data) {
-      console.log(data);
-      this.remindervisible = false;
-      this.$routerto("mysign");
-      // if (data == "interested") {
-      //   this.$routerto("ndaClause");
-      // }
-      // this.$routerto("ndaClause");
-      //   setTimeout(() => {
-      //     // this.title = "Sign NDA";
-      //     // this.msg = "Please sign the NDA to get more information";
-      //     // this.confirmButtonText = "Yes";
-      //     // this.cancelButtonText = "No";\
-      //     this.$routerto("ndaClause");
-      //     // this.remindervisible2 = true;
-      //   }, 300);
-    },
-
-    privous() {
-      this.$refs.swipe.prev();
-    },
-    next() {
-      this.$refs.swipe.next();
-    },
-    onChange(index) {
-      this.current = index;
+    completeInfo() {
+      // this.$routerto("P_signContractStep1", { projectId: this.projectId });
+      this.$routerto("completeInfo", {
+        projectId: this.projectId,
+        signStatus4: this.signStatus4,
+        signId: this.signId,
+        middlemanId: this.middlemanId,
+      });
     },
     dropdown() {
       if (this.articleHight) {
@@ -264,22 +347,9 @@ export default {
 };
 </script>
 <style lang="scss" >
-/* .custom-indicator {
-    position: absolute;
-    right: 5px;
-    bottom: 5px;
-    padding: 2px 5px;
-    font-size: 12px;
-    background: rgba(0, 0, 0, 0.1);
-  } */
-.van-swipe {
-  // &:before{
-  //     content: "\e630"
-  // }
-}
 </style>
 <style lang="scss" scoped>
-#agentProjectDetail {
+#I_projectdetails {
   main {
     // padding-top: vw(212);
     padding: vw(192) vw(70) vw(80);
@@ -391,6 +461,91 @@ export default {
       }
     }
 
+    div.isSuccessful,
+    div.isFailed {
+      nav {
+        display: flex;
+        justify-content: center;
+
+        p {
+          width: vw(332);
+          height: vw(193);
+          background: #3ab5cc;
+          opacity: 1;
+        }
+      }
+      section {
+        display: flex;
+        justify-content: space-between;
+
+        margin-bottom: vw(70);
+        span {
+          font-size: vw(30);
+          font-family: Helvetica Neue;
+          font-weight: bold;
+          line-height: vw(34);
+          color: #3ab5cc;
+        }
+      }
+
+      .Bname {
+        > p {
+          margin-bottom: vw(34);
+          font-size: vw(30);
+          font-weight: bold;
+        }
+      }
+    }
+    div.isSuccessful {
+      header {
+        color: #3ab5cc;
+        font-weight: bold;
+        margin-bottom: vw(60);
+        span {
+          font-size: vw(24);
+          line-height: vw(28);
+        }
+        span:first-of-type {
+          font-size: vw(60);
+          font-weight: bold;
+        }
+      }
+      footer {
+        margin-bottom: vw(156);
+        button {
+          width: vw(250);
+          height: vw(72);
+          background: #00f0ab;
+          opacity: 1;
+          border-radius: vw(16);
+        }
+      }
+    }
+    div.isFailed {
+      header {
+        color: #3ab5cc;
+        font-weight: bold;
+        margin-bottom: vw(60);
+        text-align: center;
+        span {
+          font-size: vw(24);
+          font-weight: bold;
+          color: #3ab5cc;
+          opacity: 1;
+        }
+      }
+      footer {
+        margin-bottom: vw(156);
+        article {
+          width: vw(542);
+          font-size: vw(20);
+          font-family: Helvetica Neue;
+          font-weight: bold;
+          line-height: vw(22);
+          color: #3ab5cc;
+        }
+      }
+    }
     .projectsDetails-recommand {
       color: #ffffff;
       .project-swipe {
@@ -485,8 +640,10 @@ export default {
         font-size: vw(20);
         color: #00f0ab;
 
-        text-decoration: underline;
         margin-bottom: vw(32);
+      }
+      p.underline {
+        text-decoration: underline;
       }
       button {
         min-width: vw(186);
@@ -496,6 +653,9 @@ export default {
         font-size: vw(26);
         line-height: vw(72);
         color: #ffffff;
+      }
+      button:nth-of-type(1) {
+        margin-bottom: vw(30);
       }
     }
   }

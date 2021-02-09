@@ -139,7 +139,6 @@ export default {
 
       if (this.top >= this.offset) {
         // console.log(this.top);
-
         this.refresh();
       } else {
         // console.log(this.top);
@@ -150,6 +149,7 @@ export default {
     refresh() {
       this.state = 2;
       this.top = this.offset;
+      // console.log(this.top);
       this.onRefresh(this.refreshDone);
     },
     refreshDone() {

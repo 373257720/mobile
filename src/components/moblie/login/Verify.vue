@@ -189,6 +189,7 @@
           class="secondLayer"
           @fromKids="pick"
           :usercheck="validateForm"
+          :userType="$store.state.currentUsertype"
           :is="currentView"
         ></div>
       </keep-alive>

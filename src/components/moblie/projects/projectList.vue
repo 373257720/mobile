@@ -5,9 +5,9 @@
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
-      <template v-slot:arrowRight>
+      <!-- <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
-      </template>
+      </template> -->
     </commonnav>
     <main>
       <nav>{{ $store.state.selectedItem.text }}</nav>
@@ -28,24 +28,74 @@
               <div class="item item-3">
                 <p class="icon iconRight iconfont icon-5day"></p>
               </div>
-              <div class="item item-4">
-                <p v-if="i.userIdentityType == 1">{{ i.userName }}</p>
-                <p
-                  v-else-if="i.userIdentityType == 2 && $i18n.locale == 'zh_CN'"
-                >
-                  {{ i.userCompanyCh }}
+              <div
+                v-if="
+                  i.signStatus4 > 10 && i.signStatus4 < 50 && i.signNdaStatus
+                "
+                class="item item-4"
+              >
+                <p v-if="i.userIdentityType4 == 1">{{ i.userName4 }}</p>
+                <p v-else-if="i.userIdentityType4 == 2">
+                  {{ i["userCompany" + $global.language() + "4"] }}
                 </p>
-                <p
-                  v-else-if="i.userIdentityType == 2 && $i18n.locale == 'en_US'"
-                >
-                  {{ i.userCompanyEn }}
+              </div>
+              <div
+                v-else-if="i.signStatus4 > 10 && i.signStatus4 < 50"
+                class="item item-4"
+              >
+                <p v-if="i.userIdentityType4 == 1">{{ i.userName4 }}</p>
+                <p v-else-if="i.userIdentityType4 == 2">
+                  {{ i["userCompany" + $global.language() + "4"] }}
+                </p>
+              </div>
+              <div
+                v-if="
+                  (i.signStatus4 < 10 || i.signStatus4 > 49) && i.signNdaStatus
+                "
+                class="item item-4"
+              >
+                <p v-if="i.userIdentityType == 1">{{ i.userName }}</p>
+                <p v-else-if="i.userIdentityType == 2">
+                  {{ i["userCompany" + $global.language()] }}
+                </p>
+              </div>
+              <div
+                v-else-if="i.signStatus4 < 10 || i.signStatus4 > 49"
+                class="item item-4"
+              >
+                <p v-if="i.userIdentityType == 1">{{ i.userName }}</p>
+                <p v-else-if="i.userIdentityType == 2">
+                  {{ i["userCompany" + $global.language()] }}
                 </p>
               </div>
               <div class="item item-5">
                 <p class="icon iconRight iconfont icon-3"></p>
               </div>
               <div class="item item-6">
-                <p>{{ $t($global.investorsType[i.userIdentityType]) }}</p>
+                <p
+                  v-if="
+                    i.signStatus4 > 10 && i.signStatus4 < 50 && i.signNdaStatus
+                  "
+                >
+                  {{ $t($global.investorsType[i.userIdentityType4]) }}
+                </p>
+                <p v-else-if="i.signStatus4 > 10 && i.signStatus4 < 50">
+                  {{ $t($global.investorsType[i.userIdentityType4]) }}
+                </p>
+                <p
+                  v-if="
+                    (i.signStatus4 < 10 || i.signStatus4 > 49) &&
+                    i.signNdaStatus
+                  "
+                >
+                  {{ $t($global.investorsType[i.userIdentityType]) }}
+                </p>
+                <p v-else-if="i.signStatus4 < 10 || i.signStatus4 > 49">
+                  {{ $t($global.investorsType[i.userIdentityType]) }}
+                </p>
+                <!-- <p v-if="i.signNdaStatus">
+                  {{ $t($global.investorsType[i.userIdentityType4]) }}
+                </p> -->
               </div>
             </section>
             <div class="btn">
@@ -98,6 +148,7 @@
                     signStatus4: i.signStatus4,
                     signId: i.signId,
                     middlemanId: i.middlemanId,
+                    parentMiddlemanId: i.parentMiddlemanId,
                     signUserId4: i.signUserId4,
                   })
                 "
@@ -293,7 +344,6 @@ export default {
             }
           }
         }
-        console.log(arry);
       } else {
         for (let i = 0; i < arry.length; i++) {
           for (let j = 0; j < arry.length - 1 - i; j++) {
@@ -304,7 +354,14 @@ export default {
             }
           }
         }
+        // console.log(arry);
+        arry.forEach((item) => {
+          if (item.signStatus4 == 50) {
+            console.log(item);
+          }
+        });
       }
+      console.log(arry);
       return arry;
     },
     already_check: function () {
@@ -456,149 +513,6 @@ export default {
       // } else {
       //   document.querySelector(".choose_lists").style.maxHeight = "initial";
       // }
-    },
-    toggleAll() {
-      // console.log(this.num)
-      if (this.num == 1) {
-        this.$refs.check.toggleAll(true);
-        this.num = 2;
-      } else if (this.num == 2) {
-        this.$refs.check.toggleAll(false);
-        this.num = 1;
-      }
-    },
-
-    confirm_lists() {
-      function unique(arr) {
-        if (!Array.isArray(arr)) {
-          console.log("type error!");
-          return;
-        }
-        arr = arr.sort();
-        var arrry = [arr[0]];
-        for (var i = 1; i < arr.length; i++) {
-          if (arr[i] !== arr[i - 1]) {
-            arrry.push(arr[i]);
-          }
-        }
-        return arrry;
-      }
-      this.result = unique(this.result);
-      // this.result = [...new Set(this.result)];
-      if (this.usertype == 1 || this.usertype == 4) {
-        if (this.result.indexOf(3) >= 0) {
-          if (this.result.indexOf(7) <= 0) {
-            this.result.push(7);
-          }
-          if (this.result.indexOf(11) <= 0) {
-            this.result.push(11);
-          }
-        } else if (this.result.indexOf(3) < 0) {
-          if (this.result.indexOf(7) >= 0) {
-            this.result.splice(this.result.indexOf(7), 1);
-          }
-          if (this.result.indexOf(11) >= 0) {
-            this.result.splice(this.result.indexOf(11), 1);
-          }
-        }
-      }
-      this.$store.commit("genre_array", this.result);
-      console.log(this.$store.state);
-      this.finished = false;
-      this.loading = true;
-      this.upGoodsInfo = [];
-      this.pageNum = 1;
-      this.fliter();
-      this.onLoad();
-    },
-    fliter() {
-      this.checklist_height = this.$refs.check.$el.children[0].clientHeight;
-      if (
-        this.$refs.check.$el.style.height == 0 ||
-        this.$refs.check.$el.style.height == 0 + "px"
-      ) {
-        this.$refs.check.$el.style.height = this.checklist_height + "px";
-      } else {
-        this.$refs.check.$el.style.height = 0;
-      }
-    },
-    toggle(index) {
-      this.$refs.checkboxes[index].toggle();
-    },
-    onLoad() {
-      if (this.refreshing) {
-        this.upGoodsInfo = [];
-        this.refreshing = false;
-      }
-      // this.$axios({
-      //   method: "post",
-      //   url: `${this.$axios.defaults.baseURL}/bsl_web/projectSign/project`,
-      //   data: this.$qs.stringify(
-      //     {
-      //       projectId: this.$route.query.projectId,
-      //       signStatusList: this.result,
-      //       pageIndex: this.pageNum,
-      //       pageSize: this.loadNumUp,
-      //       X_Token:this.$store.state.X_Token
-      //     },
-      //     { arrayFormat: "brackets" }
-      //   ),
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded"
-      //   }
-      // })
-      // console.log(result);
-
-      this.$global
-        .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectSign/project`,
-          {
-            projectId: this.$route.query.projectId,
-            signStatusList: this.result,
-            pageIndex: this.pageNum,
-            pageSize: this.loadNumUp,
-            // X_Token:this.$store.state.X_Token
-          }
-        )
-        .then((res) => {
-          if (res.data.resultCode == 10000) {
-            let re = [...res.data.data.lists];
-            for (let i = 0; i < re.length; i++) {
-              re[i].signTime4Submit = re[i].signTime4Submit
-                ? this.$global.timestampToTime(re[i].signTime4Submit)
-                : "";
-              re[i].signTime = re[i].signTime
-                ? this.$global.timestampToTime(re[i].signTime)
-                : "";
-            }
-            if (re.length > 0) {
-              re.forEach((item) => {
-                this.piclists.forEach((each) => {
-                  if (item.signStatus == each.value) {
-                    item.signStatustext = each.text;
-                    item.pic = each.pic;
-                  }
-                });
-              });
-              this.upGoodsInfo = this.upGoodsInfo.concat(re);
-              this.loading = false;
-            }
-            if (
-              this.upGoodsInfo.length >= res.data.data.pageTotal ||
-              this.upGoodsInfo.length == 0
-            ) {
-              this.finished = true;
-            }
-            this.pageNum++;
-          } else {
-            this.loading = false;
-            this.finished = true;
-          }
-          console.log(this.upGoodsInfo);
-        })
-        .catch((err) => {
-          // this.loadText = "加载失败";
-        });
     },
   },
 };

@@ -32,7 +32,7 @@ const recommandMiddleman = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/recommandMiddleman"
   );
-const recommandHistory = () =>
+const a_recommandHistory = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/recommandHistory"
   );
@@ -42,12 +42,12 @@ const A_bargin = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/contract/bargin"
   );
-  const middmanAbargin = () =>
+const middmanAbargin = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/contract/middmanAbargin"
   );
-  
+
 const middlemanBargin = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -105,9 +105,9 @@ export default [
   // agent
 
   {
-    path: "/recommandHistory",
-    name: "recommandHistory",
-    component: recommandHistory,
+    path: "/a_recommandHistory",
+    name: "a_recommandHistory",
+    component: a_recommandHistory,
     meta: {
       isshowbottom: true
     }
@@ -151,7 +151,8 @@ export default [
     component: recommandRoot,
     redirect: "/recommandRoot/recent_recommand",
     meta: {
-      isshowbottom: false
+      isshowbottom: false,
+      eepAlive: true,
     },
     children: [
       {
@@ -159,7 +160,8 @@ export default [
         name: "recent_recommand",
         component: recent_recommand,
         meta: {
-          isshowbottom: false
+          isshowbottom: false,
+          keepAlive: true,
         }
       },
       {
@@ -167,7 +169,8 @@ export default [
         name: "recommandMiddleman",
         component: recommandMiddleman,
         meta: {
-          isshowbottom: false
+          isshowbottom: false,
+          eepAlive: true,
         }
       },
       {
@@ -175,13 +178,12 @@ export default [
         name: "a_recommand_i",
         component: a_recommand_i,
         meta: {
-          isshowbottom: false
+          isshowbottom: false,
+          keepAlive: true,
         }
       },
     ]
   },
-
-
   {
     path: "/a_previewContract",
     name: "a_previewContract",
@@ -300,6 +302,6 @@ export default [
       isshowbottom: false
     }
   },
-  
+
 
 ];

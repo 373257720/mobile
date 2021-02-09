@@ -9,12 +9,17 @@
     <div class="main">
       <div class="registerbtn common">
         <van-button
-          @click="()=>{
-          $routerto('register')
-          }"
-        >{{$t('common.Register')}}</van-button>
+          @click="
+            () => {
+              $routerto('register');
+            }
+          "
+          >{{ $t("common.Register") }}</van-button
+        >
       </div>
-      <div class="login" @click="$routerto('login')">{{$t('common.LogIn')}}</div>
+      <div class="login" @click="$routerto('login')">
+        {{ $t("common.LogIn") }}
+      </div>
     </div>
   </div>
 </template>
@@ -30,19 +35,20 @@ export default {
       username: "",
       password: "",
       remind: "",
-      lan: ""
+      lan: "",
     };
   },
   computed: {
-    lantext: function() {
+    lantext: function () {
       if (this.lan == "en_US") {
         return "En";
       } else if (this.lan == "zh_CN") {
         return "中文";
       }
-    }
+    },
   },
   created() {
+
     this.lan = this.$i18n.locale;
     this.switchLan();
   },
@@ -67,10 +73,10 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/base/language.do`,
           {
-            lan: language
+            lan: language,
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.data.resultCode === 10000) {
             this.lan = language;
             localStorage.setItem("language", language);
@@ -81,8 +87,8 @@ export default {
             // this.$toast(res.data.resultDesc);
           }
         });
-    }
-  }
+    },
+  },
 };
 // 10011	登录账号不能为空
 // 10012	密码不能为空
@@ -118,7 +124,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    div.login{
+    div.login {
       font-size: vw(40);
       color: #4f3dad;
       margin-bottom: vw(234);

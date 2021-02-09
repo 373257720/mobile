@@ -6,9 +6,9 @@
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="goback" />
       </template>
-      <template v-slot:arrowRight>
+      <!-- <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
-      </template>
+      </template> -->
     </commonnav>
     <main>
       <ul>
@@ -133,7 +133,7 @@ export default {
             {
               arr: [],
               text: this.$t("project.failedSigned"),
-              type: [3, 5, 6, 14, 17, 20, 22, 32],
+              type: [3, 5, 6],
               nda: null,
               //3, 5, 6, 14, 17, 20, 22, 32
             },
@@ -168,33 +168,33 @@ export default {
             },
             {
               arr: [],
-              text: "（中间人a）已发送，磋商中",
+              text: "已发送，磋商中",
               type: [19],
             },
             {
               arr: [],
-              text: "(中间人b）已确认待签约",
+              text: "已确认待签约",
               type: [21],
             },
             {
               arr: [],
-              text: "（中间人a）等待你推荐的中间人签约",
+              text: "等待你推荐的中间人签约",
               type: [23],
             },
             {
               arr: [],
-              text: "（中间人b）你推荐的中间人暂未完成签约程序",
+              text: "你推荐的中间人暂未完成签约程序",
               type: [24],
             },
             {
               arr: [],
-              text: "（后台系统）你推荐的中间人已上链",
+              text: "你推荐的中间人已上链",
               type: [25],
             },
             {
               arr: [],
               text: this.$t("project.failedSigned"),
-              type: [3, 5, 6, 14, 17, 20, 22, 32],
+              type: [14, 17, 20, 22],
             },
           ];
           break;
@@ -202,64 +202,63 @@ export default {
           this.multipleList = [
             {
               arr: [],
-              text: "(中间人b)收到推荐待确认",
+              text: "收到推荐待确认",
               type: [30],
             },
             {
               arr: [],
-              text: "中间人b)已确认待项目方准备合约",
+              text: "已确认待项目方准备合约",
               type: [31],
             },
             {
               arr: [],
-              text: " (中间人b)待上家中间人填写分成机制",
+              text: "待上家中间人填写分成机制",
               type: [33],
             },
             {
               arr: [],
-              text: " (中间人b) 已收到合约待确认",
+              text: "已收到合约待确认",
               type: [34],
             },
             {
               arr: [],
-              text: "(中间人b)与上家中间人磋商中",
+              text: "与上家中间人磋商中",
               type: [35],
             },
             {
               arr: [],
-              text: "(中间人b)已同意待上家中间人签约",
+              text: "已同意待上家中间人签约",
               type: [36],
             },
+            // {
+            //   arr: [],
+            //   text: "已拒绝和上家中间人签约",
+            //   type: [37],
+            // },
             {
               arr: [],
-              text: "(中间人b)已拒绝和上家中间人签约",
-              type: [37],
-            },
-            {
-              arr: [],
-              text: "中间人a)等待你签约",
+              text: "等待你签约",
               type: [38],
             },
             {
               arr: [],
-              text: "(中间人a)上家中间人拒绝和你签约",
+              text: "上家中间人拒绝和你签约",
               type: [39],
             },
             {
               arr: [],
-              text: "(中间人b)你暂时未完成签约程序",
+              text: "已签约正在上链",
               type: [40],
             },
             {
               arr: [],
-              text:
-                "（后台系统）已上链待推荐（上链成功，等待我推荐新的中间人或投资者）",
+              text: "已上链待推荐（上链成功，等待我推荐新的中间人或投资者）",
               type: [41],
             },
             {
               arr: [],
               text: this.$t("project.failedSigned"),
-              type: [3, 5, 6, 14, 17, 20, 22, 32],
+              type: [32, 37],
             },
           ];
           break;
@@ -278,23 +277,23 @@ export default {
             {
               arr: [],
               text: "等待你推荐的投资人确认",
-              type: [52],
-            },
-            {
-              arr: [],
-              text: "与你推荐的投资者签约成功项目",
               type: [53],
             },
             {
               arr: [],
-              text: "投资人拒绝",
+              text: "与你推荐的投资者签约成功项目",
               type: [54],
             },
             {
               arr: [],
-              text: this.$t("project.failedSigned"),
-              type: [3, 5, 6, 14, 17, 20, 22, 32],
+              text: "拒绝项目",
+              type: [52, 55],
             },
+            // {
+            //   arr: [],
+            //   text: this.$t("project.failedSigned"),
+            //   type: [3, 5, 6, 14, 17, 20, 22, 32],
+            // },
           ];
 
           break;
@@ -410,14 +409,14 @@ export default {
         {
           arr: [],
           text: this.$t("project.waitComfirm"),
-          type: [52, 15],
+          type: [53, 15],
         },
         {
           arr: [],
           text: this.$t("project.waitreadyContract"),
           type: [16],
         },
-          {
+        {
           arr: [],
           text: "投行准备了合约发给中间人a，等待中间人a查看",
           type: [18],
@@ -425,12 +424,12 @@ export default {
         {
           arr: [],
           text: this.$t("project.successfulSigned"),
-          type: [53, 24],
+          type: [54, 24],
         },
         {
           arr: [],
           text: this.$t("project.failedSigned"),
-          type: [3, 5, 6, 54],
+          type: [3, 5, 6, 14, 52, 55],
         },
       ];
       console.log(this.multipleList);
@@ -474,6 +473,9 @@ export default {
                         if (j == item.signStatus4) {
                           self.arr.push(item);
                         }
+                        if (j.signStatus4 == 54) {
+                          console.log(item);
+                        }
                       });
                     }
                   });
@@ -489,6 +491,7 @@ export default {
               }
             }
           }
+          // console.log(this.multipleList);
         });
 
       // let data = res.data.data;

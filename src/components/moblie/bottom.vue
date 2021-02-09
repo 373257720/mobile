@@ -1,16 +1,55 @@
 <template>
-  <van-tabbar v-model="activeTag" id="moblie_bottom" inactive-color="#fff" active-color="#00F0AB">
+  <van-tabbar
+    v-model="activeTag"
+    id="moblie_bottom"
+    inactive-color="#fff"
+    active-color="#00F0AB"
+  >
     <van-tabbar-item name="mhome" replace to="/mhome">
-      <van-icon class="iconfont" class-prefix="icon" slot="icon" name="home"></van-icon>
-      <span>{{$t('common.Home')}}</span>
+      <van-icon
+        class="iconfont"
+        class-prefix="icon"
+        slot="icon"
+        name="home"
+      ></van-icon>
+      <span>{{ $t("common.Home") }}</span>
     </van-tabbar-item>
     <van-tabbar-item name="mysign" replace to="/mysign">
-      <van-icon class="iconfont" class-prefix="icon" slot="icon" name="project"></van-icon>
-      <span>{{$t('common.MyProjectS')}}</span>
+      <van-icon
+        class="iconfont"
+        class-prefix="icon"
+        slot="icon"
+        name="project"
+      ></van-icon>
+      <span>{{ $t("common.MyProjectS") }}</span>
     </van-tabbar-item>
-    <van-tabbar-item name="recommandHistory" replace to="/recommandHistory">
-      <van-icon class="iconfont" class-prefix="icon" slot="icon" name="contact"></van-icon>
-      <span>{{$t('project.Recommand')}}</span>
+    <van-tabbar-item
+      v-if="this.$store.state.currentUsertype == 4"
+      name="a_recommandHistory"
+      replace
+      to="/a_recommandHistory"
+    >
+      <van-icon
+        class="iconfont"
+        class-prefix="icon"
+        slot="icon"
+        name="contact"
+      ></van-icon>
+      <span>{{ $t("project.Recommand") }}</span>
+    </van-tabbar-item>
+    <van-tabbar-item
+      v-if="this.$store.state.currentUsertype == 1"
+      name="contactList"
+      replace
+      to="/contactRoot/contactList"
+    >
+      <van-icon
+        class="iconfont"
+        class-prefix="icon"
+        slot="icon"
+        name="contact"
+      ></van-icon>
+      <span>{{ $t("common.Contacts") }}</span>
     </van-tabbar-item>
     <!-- <van-tabbar-item
       name="p_user_contact"
@@ -21,8 +60,13 @@
       v-if="this.$store.state.currentUsertype==1"
     >{{$t('common.Contacts')}}</van-tabbar-item> -->
     <van-tabbar-item name="mine" replace to="/mine">
-      <van-icon class="iconfont" class-prefix="icon" slot="icon" name="account"></van-icon>
-      <span>{{$t('common.ME')}}</span>
+      <van-icon
+        class="iconfont"
+        class-prefix="icon"
+        slot="icon"
+        name="account"
+      ></van-icon>
+      <span>{{ $t("common.ME") }}</span>
     </van-tabbar-item>
   </van-tabbar>
 </template>
@@ -54,13 +98,13 @@ export default {
       set(value) {
         // console.log(value);
         // return value;
-      }
-    }
+      },
+    },
   },
   activated() {
     // console.log(this.$route.name)
     // this.active = this.$route.name;
-  }
+  },
 };
 </script>
 <style lang='scss' >
@@ -69,7 +113,7 @@ export default {
     background: none;
   }
   background: #4f3dad;
-  height:50px;
+  height: 50px;
   .van-icon {
     font-size: vw(45);
   }

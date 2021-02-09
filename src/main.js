@@ -110,7 +110,7 @@ window.addEventListener(
   "popstate",
   function(e) {
     router.isBack = true;
-    console.log(router);
+    // console.log(router);
   },
   false
 );

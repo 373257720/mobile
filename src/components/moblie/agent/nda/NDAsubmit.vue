@@ -1,7 +1,7 @@
 <template>
   <div id="NDAsubmit">
     <commonnav>
-       NDA clause
+      NDA clause
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="goto('NDAsignature')" />
       </template>
@@ -158,7 +158,6 @@ export default {
     handleMessage(event) {
       // 根据上面制定的结构来解析iframe内部发回来的数据
       const data = event.data;
-
       switch (data.cmd) {
         case "returnFormJson":
           // 业务逻辑
@@ -178,15 +177,19 @@ export default {
       );
     },
     middleman() {
-      this.Uptochain();
       this.$store.commit("isloading", true);
+      let htmldata = this.iframeVue.document.documentElement;
+      let htmlstr = this.$global.nodeToString(htmldata);
+      htmlstr = this.$global.ClearBr(htmlstr);
+      htmlstr = this.$global.rim(htmlstr);
+      console.log(htmlstr);
       this.$global
         .post_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectNda/middlemanSignNda`,
           {
             signId: this.$route.query.signId,
             middlemanId: this.$route.query.middlemanId,
-            htmlData: this.NDAcontract,
+            htmlData: htmlstr,
           }
         )
         .then((res) => {
@@ -196,19 +199,15 @@ export default {
               message: res.data.resultDesc,
             })
             .then(() => {
-              if (res.data.resultCode == 10000) {
-                // this.$router.replace({ path: "/mysign" });
-                this.Uptochain();
+              if (res.data.resultCode === 10000) {
+                this.$router.replace({ path: "/mysign" });
               }
-              // on close
-              // this.$routerto("mysign");
             });
         });
     },
     Uptochain() {
       // debug :htmlToPDF is blank on the pdf,cause the plugin can not read the html
       //  at local in exchange of reading it by an url.
-
       let htmldata = this.iframeVue.document.documentElement;
       let htmlstr = this.$global.nodeToString(htmldata);
       htmlstr = this.$global.ClearBr(htmlstr);

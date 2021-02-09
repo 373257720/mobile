@@ -10,7 +10,7 @@ const p_projectdetail = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/p_projectdetail"
   );
-  const a_sign_contract = () =>
+const a_sign_contract = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/agent/contract/sign_contract"
@@ -67,10 +67,7 @@ const projectSubStatus = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectSubStatus"
   );
-const projectDetail = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectDetail"
-  );
+
 
 const projectList = () =>
   import(
@@ -181,6 +178,10 @@ const personalReview = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/personalReview"
   );
+const changePassword = () => import(
+  /* webpackChunkName: "group-foo" */
+  "@/components/moblie/login/changePassword"
+);
 // console.log(AccountMessage);
 
 Vue.use(Router);
@@ -465,14 +466,6 @@ const routes = [
     ]
   },
 
-  {
-    path: "/projectDetail",
-    name: "projectDetail",
-    component: projectDetail,
-    meta: {
-      isshowbottom: false
-    }
-  },
   // {
   //   path: "/projecstList",
   //   name: "projecstList",
@@ -595,11 +588,14 @@ const routes = [
       isshowbottom: false
     }
   },
-  // {
-  //   path: '/testcavans',
-  //   name: 'testcavans',
-  //   component: testcavans,
-  // },
+  {
+    path: '/changePassword',
+    name: 'changePassword',
+    component: changePassword,
+    meta: {
+      isshowbottom: false
+    }
+  },
   {
     path: "*",
     // name: 'login',

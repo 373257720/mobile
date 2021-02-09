@@ -5,9 +5,9 @@
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="pickgenus" />
       </template>
-      <template v-slot:arrowRight>
+      <!-- <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
-      </template>
+      </template> -->
     </commonnav>
     <van-search
       v-model="searchkey"
@@ -209,7 +209,7 @@ export default {
         )
         .then((res) => {
           if (res.data.resultCode === 10000) {
-            if (res.data.data.length) {
+    
               self.RegionList = res.data.data.map((item, idx) => {
                 return {
                   label: item["country" + self.$global.countryLan() + "name"],
@@ -219,7 +219,7 @@ export default {
                   key: "region",
                 };
               });
-            }
+            
           }
           this.loaded = true;
           if (done) done();
@@ -302,10 +302,13 @@ export default {
           // console.log(this.Industrylist);
         });
     },
-    searchAllProjectTags() {
+    searchAllProjectTags(done) {
       this.$global
         .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/index/getAllProjectTags`
+          `${this.$axios.defaults.baseURL}/bsl_web/index/getAllProjectTags`,
+           {
+            searchKey: this.searchkey,
+          }
         )
         .then((res) => {
           if (res.data.resultCode === 10000) {

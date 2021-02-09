@@ -6,9 +6,9 @@
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$routerto('mysign')" />
       </template>
-      <template v-slot:arrowRight>
+      <!-- <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
-      </template>
+      </template> -->
     </commonnav>
     <main>
       <ul>
@@ -16,7 +16,7 @@
           @click="clickItem(value)"
           v-for="(value,key) in multipleList"
           :key="key"
-          v-if="value.arr.length>0"
+          v-if="value.arr.length"
         >
           <div>
             <p>{{value.text}}</p>

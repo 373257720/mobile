@@ -7,17 +7,17 @@
       </template>
     </commonnav>
     <main>
-      <div >
+      <div>
         <div class="bargin-upper">
           <h3>中间人a{{ $t("Bargin.Suggest") }}</h3>
-          <div v-if="obj.sharingMechanismType4 === 0">
+          <div v-if="obj.sharingMechanismType1 === 0">
             <p>{{ $t("Bargin.Percentagebyintermediaries") }}</p>
             <div class="count">
               <input disabled type="number" v-model="obj.sharingMechanism01" />
               <span>%</span>
             </div>
           </div>
-          <div v-if="obj.sharingMechanismType4 === 1">
+          <div v-if="obj.sharingMechanismType1 === 1">
             <p>{{ $t("Bargin.Percentageprojectparty") }}</p>
             <div class="count">
               <input disabled type="number" v-model="obj.sharingMechanism11" />
@@ -32,6 +32,7 @@
                 :point="0"
                 name="projectParty"
                 placeholder
+                :isdisabled="true"
                 v-model.number="obj.recommendationTimes1"
               ></MyNumberInput>
               <span class="unit">times</span>
@@ -42,6 +43,7 @@
                 :point="0"
                 name="projectParty"
                 placeholder
+                :isdisabled="true"
                 v-model.number="obj.recommendationCount1"
               ></MyNumberInput>
               <span class="unit">month</span>
@@ -50,19 +52,18 @@
         </div>
         <div class="bargin-lower">
           <h3>中间人b（{{ middlemanNameA }}）{{ $t("Bargin.SuggestBack") }}</h3>
-          <div v-if="obj.sharingMechanismType4 === 0">
+          <div v-if="obj.sharingMechanismType1 === 0">
             <p>{{ $t("Bargin.Percentagebyintermediaries") }}</p>
             <div class="count">
               <MyNumberInput
                 :point="2"
                 :max="100"
                 name="projectParty"
-                :isdisabled="!(obj.sharingResult == 1)"
                 placeholder
                 v-model.number="obj.sharingMechanism04"
               ></MyNumberInput>
               <span>%</span>
-              <p v-if="obj.sharingResult == 1">
+              <p v-if="obj.sharingResult == 10 || obj.sharingResult == 1">
                 <span
                   class="iconfont icon-arrow_on"
                   @click="calculate($event, 'sharingMechanism04', 'add')"
@@ -74,19 +75,18 @@
               </p>
             </div>
           </div>
-          <div v-if="obj.sharingMechanismType4 === 1">
+          <div v-if="obj.sharingMechanismType1 === 1">
             <p>{{ $t("Bargin.Percentageprojectparty") }}</p>
             <div class="count">
               <MyNumberInput
                 :point="2"
                 :max="100"
                 name="projectParty"
-                :isdisabled="!(obj.sharingResult == 1)"
                 placeholder
                 v-model.number="obj.sharingMechanism14"
               ></MyNumberInput>
               <span>%</span>
-              <p v-if="obj.sharingResult == 1">
+              <p v-if="obj.sharingResult == 10">
                 <span
                   class="iconfont icon-arrow_on"
                   @click="calculate($event, 'sharingMechanism14', 'add')"
@@ -109,14 +109,14 @@
                 v-model.number="obj.recommendationTimes4"
               ></MyNumberInput>
               <span class="unit">times</span>
-              <p>
+              <p v-if="obj.sharingResult == 10 || obj.sharingResult == 1">
                 <span
                   class="iconfont icon-arrow_on"
-                  @click="calculate($event, 'memberRecommendCount', 'add')"
+                  @click="calculate($event, 'recommendationTimes4', 'add')"
                 ></span>
                 <span
                   class="iconfont icon-arrow_under"
-                  @click="calculate($event, 'memberRecommendCount', 'subtract')"
+                  @click="calculate($event, 'recommendationTimes4', 'subtract')"
                 ></span>
               </p>
             </div>
@@ -129,21 +129,19 @@
                 v-model.number="obj.recommendationCount4"
               ></MyNumberInput>
               <span class="unit">month</span>
-              <p>
+              <p v-if="obj.sharingResult == 10 || obj.sharingResult == 1">
                 <span
                   class="iconfont icon-arrow_on"
-                  @click="calculate($event, 'recommendMiddlemanTime', 'add')"
+                  @click="calculate($event, 'recommendationCount4', 'add')"
                 ></span>
                 <span
                   class="iconfont icon-arrow_under"
-                  @click="
-                    calculate($event, 'recommendMiddlemanTime', 'subtract')
-                  "
+                  @click="calculate($event, 'recommendationCount4', 'subtract')"
                 ></span>
               </p>
             </div>
           </div>
-          <ul v-if="obj.sharingResult == 9 || obj.sharingResult == 1">
+          <ul v-if="obj.sharingResult == 10 || obj.sharingResult == 1">
             <li>
               <van-button
                 :disabled="isdisabled"
@@ -188,8 +186,8 @@ export default {
         sharingMechanism04: 0,
         sharingMechanism11: 0,
         sharingMechanism14: 0,
-        sharingMechanismType1: 0,
-        sharingMechanismType4: 0,
+        sharingMechanismType1: null,
+        sharingMechanismType4: null,
         recommendationCount1: 0,
         recommendationCount4: 0,
         recommendationTimes1: 0,
@@ -210,14 +208,14 @@ export default {
   },
   computed: {
     isdisabled() {
-      if (this.obj.sharingMechanismType4 === 0) {
-        if (this.OriginsharingMechanism01 != this.obj.sharingMechanism01) {
+      if (this.obj.sharingMechanismType1 === 0) {
+        if (this.OriginsharingMechanism04 != this.obj.sharingMechanism04) {
           return true;
         } else {
           return false;
         }
-      } else if (this.obj.sharingMechanismType4 === 1) {
-        if (this.OriginsharingMechanism11 != this.obj.sharingMechanism11) {
+      } else if (this.obj.sharingMechanismType1 === 1) {
+        if (this.OriginsharingMechanism14 != this.obj.sharingMechanism14) {
           return true;
         } else {
           return false;
@@ -254,29 +252,37 @@ export default {
         });
     },
     acceptOrRejectCommission(num) {
-      let sharingMechanism0;
-      let sharingMechanism1;
-
-      if (this.obj.sharingMechanismType4 === 0) {
-        sharingMechanism0 = this.obj.sharingMechanism04;
-        sharingMechanism1 = "";
-        //  this.obj.sharingMechanism01;
-      } else if (this.obj.sharingMechanismType4 === 1) {
-        sharingMechanism0 = "";
-        // this.obj.sharingMechanism11;
-        sharingMechanism1 = this.obj.sharingMechanism14;
+      let sharingMechanism0 = null,
+        sharingMechanism1 = null,
+        recommendationCount = null,
+        recommendationTimes = null;
+      if (num === 0 || num == 2) {
+        if (this.obj.sharingMechanismType1 === 0) {
+          sharingMechanism0 = this.obj.sharingMechanism01;
+        } else if (this.obj.sharingMechanismType1 === 1) {
+          sharingMechanism1 = this.obj.sharingMechanism11;
+        }
+        recommendationCount = this.obj.recommendationCount1;
+        recommendationTimes = this.obj.recommendationTimes1;
+      } else if (num === 1) {
+        if (this.obj.sharingMechanismType1 === 0) {
+          sharingMechanism0 = this.obj.sharingMechanism04;
+        } else if (this.obj.sharingMechanismType1 === 1) {
+          sharingMechanism1 = this.obj.sharingMechanism14;
+        }
+        recommendationCount = this.obj.recommendationCount4;
+        recommendationTimes = this.obj.recommendationTimes4;
       }
-      console.log(this.obj);
       this.$global
         .post_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSignThree/middlemanBAcceptOrRejectCommission`,
           {
             optType: num,
-            sharingMechanismType: this.obj.sharingMechanismType4,
+            sharingMechanismType: this.obj.sharingMechanismType1,
             sharingMechanism0: sharingMechanism0,
             sharingMechanism1: sharingMechanism1,
-            recommendationCount: this.obj.recommendationCount4,
-            recommendationTimes: this.obj.recommendationTimes4,
+            recommendationCount: recommendationCount,
+            recommendationTimes: recommendationTimes,
             signId: this.$route.query.signId,
             middlemanId: this.$route.query.middlemanId,
           }
@@ -324,7 +330,7 @@ export default {
         .then((res) => {
           // console.log(res);
           if (res.data.resultCode == 10000) {
-            this.obj = res.data.data;
+            this.obj = Object.assign(this.obj, res.data.data);
             this.middlemanNameB = this.obj[
               "userCompany" + this.$global.language() + "1"
             ];
@@ -339,8 +345,10 @@ export default {
             } else {
               this.middlemanNameA = this.obj.bslName4;
             }
-            this.OriginsharingMechanism04 = res.data.data.sharingMechanism04;
-            this.OriginsharingMechanism14 = res.data.data.sharingMechanism14;
+            this.OriginsharingMechanism04 =
+              res.data.data.sharingMechanism04 || 0;
+            this.OriginsharingMechanism14 =
+              res.data.data.sharingMechanism14 || 0;
             console.log(this.obj);
           }
         });

@@ -18,7 +18,6 @@
         </p>
       </template>
     </commonnav>
-
     <main>
       <div class="iconfont icon-account"></div>
       <p @click="$routerto('vip')">{{ user_infor.username }}</p>
@@ -38,7 +37,7 @@
           <div class="iconfont icon-language"></div>
           <div>{{ $t("Account.Language") }}</div>
         </li>
-        <li @click="$routerto('forgotpassword')">
+        <li @click="$routerto('changePassword')">
           <div class="iconfont icon-password"></div>
           <div>{{ $t("common.changePassword") }}</div>
         </li>
@@ -47,6 +46,7 @@
           <div>{{ $t("Account.Logout") }}</div>
         </li>
       </ul>
+      <!-- 2-5 -->
     </footer>
     <DialogMsg
       msg=""

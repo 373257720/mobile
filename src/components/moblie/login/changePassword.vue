@@ -1,22 +1,44 @@
 <template>
-  <div id="forgotpassword">
-    <div class="forgotpassword">
+  <div id="changePassword">
+    <div class="changePassword">
       <commonnav>
-        {{ $t("common.forgetpassword") }}
+        修改密码
         <template v-slot:arrowLeft>
           <van-icon name="arrow-left" @click="$global.previous()" />
         </template>
       </commonnav>
       <main class="main">
-        <div>{{ $t("common.LinktoResetPassword") }}</div>
         <form ref="form" @submit.prevent="submit_click">
           <div class="mui-input-row input-row">
-            <p class="label">{{ $t("common.Email") }}</p>
-            <input
-              name="userName"
-              type="text"
-              v-model.trim="validateForm.username"
-            />
+            <p class="label">{{ $t("common.NewPassword") }}</p>
+            <section>
+              <input
+                name="Password"
+                :type="isshowpassword"
+                autocomplete="off"
+                v-model.trim="validateForm.password"
+              />
+              <i
+                @click="passwordshow(isshowpassword, 'isshowpassword')"
+                class="iconfont icon-yanjing_huaban1"
+              ></i>
+            </section>
+            <p class="helpText">{{ $t("common.passwordRule") }}</p>
+          </div>
+          <div class="mui-input-row input-row">
+            <p class="label">{{ $t("common.ConfirmNewPassword") }}</p>
+            <section>
+              <input
+                name="confirmpassword"
+                :type="isconfirmpassword"
+                autocomplete="off"
+                v-model.trim="validateForm.confirmpassword"
+              />
+              <i
+                @click="passwordshow(isconfirmpassword, 'isconfirmpassword')"
+                class="iconfont icon-yanjing_huaban1"
+              ></i>
+            </section>
           </div>
           <p class="error">{{ errorsMsg }}</p>
           <footer>
@@ -26,7 +48,7 @@
               class="button is-primary"
               type="submit"
             >
-              {{ $t("common.Send") }}
+              {{ $t("common.Submit") }}
             </button>
           </footer>
         </form>
@@ -45,15 +67,21 @@ export default {
     return {
       submitDisabled: false,
       cache: [],
+      isshowpassword: "password",
+      isconfirmpassword: "password",
       validateForm: {
-        username: "",
+        password: "",
+        confirmpassword: "",
       },
+      ishowGoback: false,
+      verificationCodeToken: "",
       errorsMsg: "",
     };
   },
+
   computed: {
     isdisabled() {
-      if (this.validateForm.username) {
+      if (this.validateForm.password && this.validateForm.confirmpassword) {
         return false;
       } else {
         return true;
@@ -61,65 +89,80 @@ export default {
     },
   },
   created() {
-    // console.log(this.$Dialog);
+    // this.verificationCodeToken = this.$route.query.token || "";
     // this.username = this.$route.query.email ? this.$route.query.email : "";
     // console.log(this.$route.query.email);
   },
 
   methods: {
+    passwordshow(is, name) {
+      // console.log(is, name);
+      if (is == "password") {
+        this[name] = "text";
+      } else if (is == "text") {
+        this[name] = "password";
+      }
+    },
     submit_click() {
+      // console.log(123);
       this.errorsMsg = "";
+
       let errorMsg = this.validateFunc();
+      console.log(errorMsg);
       if (errorMsg) {
         this.errorsMsg = errorMsg;
         // console.log(errorMsg);
         return false;
       }
+      console.log(this.verificationCodeToken, this.validateForm.password);
       this.$store.commit("isloading", true);
       this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/user/sendForgetPwdEmailCode.do`,
-          {
-            email: this.validateForm.username,
-          }
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/updatePwd`,
+          { newPwd: this.validateForm.password }
         )
         .then((res) => {
+          this.reminder = res.data.resultDesc;
           this.$store.commit("isloading", false);
+          this.validateForm.password = "";
+          this.validateForm.comfirmpassword = "";
           this.$dialog
             .alert({
-              title: res.data.resultDesc,
+              // title: "标题",
+              message: res.data.resultDesc,
             })
             .then(() => {
               if (res.data.resultCode === 10000) {
-                this.$routerto("login");
+                this.$replaceto("mine");
               }
+              // on close
             });
-
-          // console.log(res);
+          this.errorsMsg = res.data.resultDesc;
+          //   this.remindervisible = true;
         });
-
-      // this.$routerto("mhome");
     },
     validateFunc() {
       let self = this;
       let validator = new this.$Validator();
-      validator.add(self.validateForm.username, [
+      validator.add(self.validateForm.password, [
         [
-          "isNotEmpty",
-          this.$t("common.Email") + this.$t("VerifyMsg.isnotempty"),
+          "password",
+          this.$t("common.PassWord") + this.$t("VerifyMsg.FormatError"),
         ],
+      ]);
+      validator.add(self.validateForm.confirmpassword, [
         [
-          "emailFormat",
-          this.$t("common.Email") + this.$t("VerifyMsg.FormatError"),
+          `confirmpasswrod|${self.validateForm.password}`,
+          this.$t("common.PassWord") + this.$t("VerifyMsg.inconsistent"),
         ],
+        // [
+        //   "confirmpasswrod",
+        //   this.$t("common.Password") + this.$t("VerifyMsg.inconsistent")
+        // ]
       ]);
       var errorMsg = validator.start(); // 获得效验结果
       return errorMsg; // 返回效验结果
     },
-    // callback(errors, fields){
-    //   console.log(errors);
-
-    // },
     checkEmailformat(email) {
       if (/^([a-zA-Z\d])(\w|\-)+@[a-zA-Z\d]+\.[a-zA-Z]{2,4}$/.test(email)) {
         return true;
@@ -211,11 +254,11 @@ export default {
 
 
 <style lang='scss'>
-#forgotpassword {
+#changePassword {
 }
 </style>
 <style lang='scss' scoped>
-#forgotpassword {
+#changePassword {
   min-height: 100vh;
   width: 100vw;
   // background: #2f36ac;
@@ -231,6 +274,7 @@ export default {
     line-height: vw(34);
     // line-height: vw(24);
   }
+
   main {
     > div {
       font-size: vw(30);
@@ -259,6 +303,13 @@ export default {
         font-weight: bold;
         line-height: vw(34);
       }
+      p.helpText {
+        font-size: vw(30);
+        font-weight: bold;
+        line-height: vw(34);
+        color: #8277b9;
+        margin-top: vw(50);
+      }
       span {
         display: inline-block;
       }
@@ -266,6 +317,17 @@ export default {
         width: 100%;
         font-size: vw(34);
         border-bottom: vw(2) solid #4f3dad;
+      }
+      section {
+        position: relative;
+        input {
+          padding-right: vw(42);
+        }
+        .icon-yanjing_huaban1 {
+          position: absolute;
+          right: 0;
+          font-size: vw(34);
+        }
       }
     }
     footer {

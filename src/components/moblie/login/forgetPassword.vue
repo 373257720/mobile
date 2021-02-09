@@ -2,10 +2,10 @@
   <div id="forgotpassword">
     <div class="forgotpassword">
       <commonnav>
-        {{$t("common.forgetpassword")}}
+        {{ $t("common.forgetpassword") }}
         <!-- <template v-slot:arrowLeft>
           <van-icon name="arrow-left" @click="$global.previous()" />
-        </template>-->
+        </template> -->
       </commonnav>
       <main class="main">
         <form ref="form" @submit.prevent="submit_click">
@@ -14,44 +14,46 @@
             <input name="userName" type="text" v-model="validateForm.username" />
           </div>-->
           <div class="mui-input-row input-row">
-            <p class="label">{{$t('common.NewPassword')}}</p>
+            <p class="label">{{ $t("common.NewPassword") }}</p>
             <section>
               <input
                 name="Password"
                 :type="isshowpassword"
                 autocomplete="off"
-                v-model="validateForm.password"
+                v-model.trim="validateForm.password"
               />
               <i
-                @click="passwordshow(isshowpassword,'isshowpassword')"
+                @click="passwordshow(isshowpassword, 'isshowpassword')"
                 class="iconfont icon-yanjing_huaban1"
               ></i>
             </section>
           </div>
           <div class="mui-input-row input-row">
-            <p class="label">{{$t('common.ConfirmNewPassword')}}</p>
+            <p class="label">{{ $t("common.ConfirmNewPassword") }}</p>
             <section>
               <input
                 name="confirmpassword"
                 :type="isconfirmpassword"
                 autocomplete="off"
-                v-model="validateForm.comfirmpassword"
+                v-model.trim="validateForm.comfirmpassword"
               />
               <i
-                @click="passwordshow(isconfirmpassword,'isconfirmpassword')"
+                @click="passwordshow(isconfirmpassword, 'isconfirmpassword')"
                 class="iconfont icon-yanjing_huaban1"
               ></i>
             </section>
           </div>
-          <p class="error">{{errorsMsg}}</p>
+          <p class="error">{{ errorsMsg }}</p>
 
           <footer>
             <button
               :disabled="isdisabled"
-              :class="isdisabled?'passive':'active'"
+              :class="isdisabled ? 'passive' : 'active'"
               class="button is-primary"
               type="submit"
-            >{{$t('common.Submit')}}</button>
+            >
+              {{ $t("common.Submit") }}
+            </button>
           </footer>
         </form>
       </main>
@@ -74,12 +76,14 @@ export default {
       validateForm: {
         username: "",
         password: "",
-        comfirmpassword: ""
+        comfirmpassword: "",
       },
+      ishowGoback: false,
       verificationCodeToken: "",
-      errorsMsg: ""
+      errorsMsg: "",
     };
   },
+
   computed: {
     isdisabled() {
       if (this.validateForm.password && this.validateForm.comfirmpassword) {
@@ -87,7 +91,7 @@ export default {
       } else {
         return true;
       }
-    }
+    },
   },
   created() {
     this.verificationCodeToken = this.$route.query.token || "";
@@ -122,16 +126,16 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/user/forgetPwd.do`,
           {
             newPwd: this.validateForm.password,
-            verificationCodeToken: this.verificationCodeToken
+            verificationCodeToken: this.verificationCodeToken,
           }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           var rescode = res.data.resultCode;
           if (rescode == 10000) {
             this.$router.replace({
               //核心语句
-              name: "login" //跳转的路径
+              name: "login", //跳转的路径
             });
             // this.successto = "login";
             // this.$router.replace()
@@ -152,22 +156,22 @@ export default {
       validator.add(self.validateForm.password, [
         [
           "isNotEmpty",
-          this.$t("common.PassWord") + this.$t("VerifyMsg.isnotempty")
+          this.$t("common.PassWord") + this.$t("VerifyMsg.isnotempty"),
         ],
         [
           "password",
-          this.$t("common.PassWord") + this.$t("VerifyMsg.FormatError")
-        ]
+          this.$t("common.PassWord") + this.$t("VerifyMsg.FormatError"),
+        ],
       ]);
       validator.add(self.validateForm.comfirmpassword, [
         [
           "isNotEmpty",
-          this.$t("common.ConfirmPassword") + this.$t("VerifyMsg.isnotempty")
+          this.$t("common.ConfirmPassword") + this.$t("VerifyMsg.isnotempty"),
         ],
         [
           "password",
-          this.$t("common.Password") + this.$t("VerifyMsg.inconsistent")
-        ]
+          this.$t("common.Password") + this.$t("VerifyMsg.inconsistent"),
+        ],
         // [`confirmpasswrod|${self.validateForm.password}`, "密码不一样"]
       ]);
       var errorMsg = validator.start(); // 获得效验结果
@@ -198,7 +202,7 @@ export default {
     },
     validateBeforeSubmit() {
       // console.log(this.$validator);
-      this.$validator.validateAll().then(result => {
+      this.$validator.validateAll().then((result) => {
         if (result) {
           // eslint-disable-next-line
           alert("Form Submitted!");
@@ -209,7 +213,7 @@ export default {
     },
     blur(event) {
       var validator = new AsyncValidator({
-        [event.target.name]: this.rules[event.target.name]
+        [event.target.name]: this.rules[event.target.name],
       });
       validator
         .validate(
@@ -255,13 +259,13 @@ export default {
       // });
     },
     submit() {
-      this.$refs.form.validate().then(result => {
+      this.$refs.form.validate().then((result) => {
         if (result) {
           this.register();
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

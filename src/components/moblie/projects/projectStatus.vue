@@ -6,9 +6,9 @@
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$routerto('mysign')" />
       </template>
-      <template v-slot:arrowRight>
+      <!-- <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
-      </template>
+      </template> -->
     </commonnav>
     <main>
       <ul>
@@ -92,6 +92,7 @@ export default {
             for (let key in data) {
               if (key == "signList") {
                 data[key].forEach((item) => {
+                  
                   if (item.signStatus4) {
                     //  [3,5,6,14,17,20,22,32]已拒绝项目（中间人感兴趣，拒绝；中间人推荐下家或者投资人被拒绝；磋商拒绝）
                     if (item.signStatus4 < 10) {
@@ -104,12 +105,13 @@ export default {
                       //   this.multipleList.PendingItems.arr.push(item);
                       // }
                     } else if (11 < item.signStatus4 && item.signStatus4 < 26) {
+                      
                       // if (
                       //   item.signStatus4 !== 14 &&
                       //   item.signStatus4 !== 17 &&
                       //   item.signStatus4 !== 20 &&
                       //   item.signStatus4 !== 22
-                      // ) {
+                      // ) {  
                       //   this.multipleList.NDArequestitem.arr.push(item);
                       // }
                       this.multipleList.NDArequestitem.arr.push(item);
@@ -119,6 +121,7 @@ export default {
                       // }
                       this.multipleList.NDAprojecttobesigned.arr.push(item);
                     } else if (item.signStatus4 > 49) {
+                      console.log(item);
                       this.multipleList.SignedNDAtobelisted.arr.push(item);
                     }
                   }

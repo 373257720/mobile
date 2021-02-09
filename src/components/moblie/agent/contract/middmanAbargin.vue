@@ -10,14 +10,14 @@
       <div>
         <div class="bargin-upper">
           <h3>中间人b （{{ middlemanNameB }}）{{ $t("Bargin.Suggest") }}</h3>
-          <div v-if="obj.sharingMechanismType4 === 0">
+          <div v-if="obj.sharingMechanismType1 === 0">
             <p>{{ $t("Bargin.Percentagebyintermediaries") }}</p>
             <div class="count">
               <input disabled type="number" v-model="obj.sharingMechanism04" />
               <span>%</span>
             </div>
           </div>
-          <div v-if="obj.sharingMechanismType4 === 1">
+          <div v-if="obj.sharingMechanismType1 === 1">
             <p>{{ $t("Bargin.Percentageprojectparty") }}</p>
             <div class="count">
               <input disabled type="number" v-model="obj.sharingMechanism14" />
@@ -52,11 +52,7 @@
           <h3>
             中间人a （{{ middlemanNameA }}）{{ $t("Bargin.SuggestBack") }}
           </h3>
-          <div
-            v-if="
-              obj.sharingMechanismType4 === 0 || obj.sharingMechanismType1 === 0
-            "
-          >
+          <div v-if="obj.sharingMechanismType1 === 0">
             <p>{{ $t("Bargin.Percentagebyintermediaries") }}</p>
             <div class="count">
               <MyNumberInput
@@ -68,7 +64,7 @@
                 v-model.number="obj.sharingMechanism01"
               ></MyNumberInput>
               <span>%</span>
-              <p v-if="obj.sharingResult == 2">
+              <p v-if="obj.sharingResult == 9">
                 <span
                   class="iconfont icon-arrow_on"
                   @click="calculate($event, 'sharingMechanism01', 'add')"
@@ -80,11 +76,7 @@
               </p>
             </div>
           </div>
-          <div
-            v-if="
-              obj.sharingMechanismType4 === 1 || obj.sharingMechanismType1 === 1
-            "
-          >
+          <div v-if="obj.sharingMechanismType1 === 1">
             <p>{{ $t("Bargin.Percentageprojectparty") }}</p>
             <div class="count">
               <MyNumberInput
@@ -119,6 +111,16 @@
                 v-model.number="obj.recommendationTimes1"
               ></MyNumberInput>
               <span class="unit">times</span>
+              <p v-if="obj.sharingResult == 9">
+                <span
+                  class="iconfont icon-arrow_on"
+                  @click="calculate($event, 'recommendationTimes1', 'add')"
+                ></span>
+                <span
+                  class="iconfont icon-arrow_under"
+                  @click="calculate($event, 'recommendationTimes1', 'subtract')"
+                ></span>
+              </p>
             </div>
             <p class="subtitle">Recommended countdown</p>
             <div class="count">
@@ -129,29 +131,54 @@
                 v-model.number="obj.recommendationCount1"
               ></MyNumberInput>
               <span class="unit">month</span>
+              <p v-if="obj.sharingResult == 9">
+                <span
+                  class="iconfont icon-arrow_on"
+                  @click="calculate($event, 'recommendationCount1', 'add')"
+                ></span>
+                <span
+                  class="iconfont icon-arrow_under"
+                  @click="calculate($event, 'recommendationCount1', 'subtract')"
+                ></span>
+              </p>
             </div>
           </div>
           <ul v-if="obj.sharingResult == 9">
             <li>
               <van-button
                 :disabled="isdisabled"
-                @click="pick(0)"
+                @click="signSignature(0)"
                 class="renewal"
                 >{{ $t("Bargin.Accept") }}</van-button
               >
-              <!-- <button @click="acceptOrRejectCommission(0)">Accept</button> -->
             </li>
             <li>
-              <!-- <button @click="acceptOrRejectCommission(1)">Suggest</button> -->
-              <van-button @click="pick(1)" class="renewal">{{
+              <van-button @click="pick(1)"   class="renewal">{{
                 $t("Bargin.Suggest")
               }}</van-button>
             </li>
             <li>
-              <!-- <button @click="acceptOrRejectCommission(2)">Reject</button> -->
               <van-button
                 :disabled="isdisabled"
                 @click="pick(2)"
+                class="renewal"
+                >{{ $t("Bargin.Reject") }}</van-button
+              >
+            </li>
+          </ul>
+          <ul v-if="obj.sharingResult == 12">
+            <li>
+              <van-button
+                :disabled="isdisabled"
+                @click="signSignature(0)"
+                class="renewal"
+                >{{ $t("Bargin.Accept") }}</van-button
+              >
+            </li>
+            <li>
+              <van-button
+                :disabled="isdisabled"
+                @click="signSignature(2)"
                 class="renewal"
                 >{{ $t("Bargin.Reject") }}</van-button
               >
@@ -219,6 +246,117 @@ export default {
   watch: {},
 
   methods: {
+    signSignature(num) {
+      let remindMsg;
+      let sharingMechanism0 = null,
+        sharingMechanism1 = null,
+        recommendationCount = null,
+        recommendationTimes = null,
+        submitObj = {};
+      if (this.obj.sharingMechanismType1 === 0) {
+        sharingMechanism0 = this.obj.sharingMechanism04;
+      } else if (this.obj.sharingMechanismType1 === 1) {
+        sharingMechanism1 = this.obj.sharingMechanism14;
+      }
+      recommendationCount = this.obj.recommendationCount4;
+      recommendationTimes = this.obj.recommendationTimes4;
+      submitObj = {
+        optType: num,
+        sharingMechanismType: this.obj.sharingMechanismType1,
+        sharingMechanism0: sharingMechanism0,
+        sharingMechanism1: sharingMechanism1,
+        recommendationCount: recommendationCount,
+        recommendationTimes: recommendationTimes,
+        signId: this.$route.query.signId,
+        middlemanId: this.$route.query.middlemanId,
+        sharingResult: this.obj.sharingResult,
+      };
+
+      console.log(submitObj);
+      if (num === 0) {
+        remindMsg = "accept";
+      } else if (num === 2) {
+        remindMsg = "此操作无法撤销,";
+      }
+      this.$dialog
+        .confirm({
+          // title: "标题",
+          message: remindMsg,
+        })
+        .then(() => {
+          // on confirm
+          if (num === 0) {
+            this.$routerto("sign_contract", submitObj);
+          } else if (num === 2) {
+            remindMsg = "此操作无法撤销,";
+          }
+          // this.middlemanASignOrRejectCommission(num);
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
+    middlemanASignOrRejectCommission(num) {
+      // let sharingMechanism0;
+      // let sharingMechanism1;
+      // if (this.obj.sharingMechanismType1 === 0) {
+      //   sharingMechanism0 = this.obj.sharingMechanism01;
+      //   sharingMechanism1 = "";
+      //   //  this.obj.sharingMechanism01;
+      // } else if (this.obj.sharingMechanismType1 === 1) {
+      //   sharingMechanism0 = "";
+      //   // this.obj.sharingMechanism11;
+      //   sharingMechanism1 = this.obj.sharingMechanism11;
+      // }
+      let sharingMechanism0 = null,
+        sharingMechanism1 = null,
+        recommendationCount = null,
+        recommendationTimes = null;
+      if (num == 2) {
+        if (this.obj.sharingMechanismType1 === 0) {
+          sharingMechanism0 = this.obj.sharingMechanism04;
+        } else if (this.obj.sharingMechanismType1 === 1) {
+          sharingMechanism1 = this.obj.sharingMechanism14;
+        }
+        recommendationCount = this.obj.recommendationCount4;
+        recommendationTimes = this.obj.recommendationTimes4;
+      } else if (num === 1) {
+        if (this.obj.sharingMechanismType1 === 0) {
+          sharingMechanism0 = this.obj.sharingMechanism01;
+        } else if (this.obj.sharingMechanismType1 === 1) {
+          sharingMechanism1 = this.obj.sharingMechanism11;
+        }
+        recommendationCount = this.obj.recommendationCount1;
+        recommendationTimes = this.obj.recommendationTimes1;
+      }
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSignThree/middlemanASignOrRejectCommission`,
+          {
+            optType: num,
+            sharingMechanismType: this.obj.sharingMechanismType1,
+            sharingMechanism0: sharingMechanism0,
+            sharingMechanism1: sharingMechanism1,
+            recommendationCount: recommendationCount,
+            recommendationTimes: recommendationTimes,
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
+          }
+        )
+        .then((res) => {
+          this.$dialog
+            .alert({
+              // title: "标题",
+              message: res.data.resultDesc,
+            })
+            .then(() => {
+              if (res.data.resultCode == 10000) {
+                this.$routerto("mysign");
+              }
+              // on close
+            });
+        });
+    },
     pick(num) {
       let remindMsg;
       if (num === 0) {
@@ -313,7 +451,7 @@ export default {
         .then((res) => {
           // console.log(res);
           if (res.data.resultCode == 10000) {
-            this.obj = res.data.data;
+            this.obj = Object.assign(this.obj, res.data.data);
             this.middlemanNameB = this.obj[
               "userCompany" + this.$global.language() + "1"
             ];

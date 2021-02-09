@@ -2,9 +2,9 @@
   <div id="mysign">
     <commonnav>
       {{ $t("project.project") }}
-      <template v-slot:arrowRight>
+      <!-- <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
-      </template>
+      </template> -->
     </commonnav>
     <main>
       <v-scroll
@@ -54,12 +54,6 @@
                   <p v-if="i.label">{{ i.label.projectDescribe }}</p>
                 </div>
               </section>
-              <!-- <div class="btn">
-                <van-button>{{$t('projectOwner.chain')}}</van-button>
-              </div>-->
-              <!-- <div class="btn">
-                <van-button >{{$t('projectOwner.Interested')}}</van-button>
-              </div>-->
               <div class="btn">
                 <van-button @click="downPDF">{{
                   $t("project.projectChain")
@@ -95,14 +89,73 @@
                   <p v-if="i.label">{{ i.label.projectDescribe }}</p>
                 </div>
               </section>
-              <!-- <div class="btn">
-                <van-button>{{$t('projectOwner.chain')}}</van-button>
-              </div>-->
               <div class="btn">
-                <van-button>{{ $t("project.projectChain") }}</van-button>
+                <van-button @click="downPDF">{{
+                  $t("project.projectChain")
+                }}</van-button>
               </div>
             </li>
           </ul>
+        </div>
+        <div class="timestamp" v-if="$store.state.currentUsertype == 3">
+          <van-collapse v-model="activeNames">
+            <van-collapse-item
+              v-for="(value, key) in investorList"
+              :key="key"
+              :name="key"
+            >
+              <template #title>
+                <div>{{ value.name }}</div>
+              </template>
+              <ul>
+                <li v-for="i in value.arr" :key="i.id">
+                  <h3 v-if="i.label">{{ i.label.projectName }}</h3>
+                  <section
+                    @click="
+                      $routerto('I_projectdetails', {
+                        projectId: i.projectId,
+                        signId: i.signId,
+                        middlemanId: i.middlemanId,
+                        signStatus4: i.signStatus4,
+                      })
+                    "
+                    id="container"
+                  >
+                    <div class="item item-1">
+                      <p class="icon iconRight iconfont icon-1"></p>
+                    </div>
+                    <div class="item item-2">
+                      <p v-if="i.label">
+                        {{ $global.timestampToTime(i.label.signSubmitTime4) }}
+                      </p>
+                    </div>
+                    <div class="item item-3">
+                      <p class="icon iconRight iconfont icon-2_1"></p>
+                    </div>
+                    <div class="item item-4">
+                      <p v-if="i.label">{{ i.label.projectCompany }}</p>
+                    </div>
+                    <div class="item item-5">
+                      <p class="icon iconRight iconfont icon-3"></p>
+                    </div>
+                    <div class="item item-6">
+                      <p v-if="i.label">
+                        {{
+                          $t($global.investorsType[i.label.userIdentityType])
+                        }}
+                      </p>
+                    </div>
+                  </section>
+                  <!-- <div class="btn">
+                    <van-button>{{ $t("project.projectChain") }}</van-button>
+                  </div> -->
+                </li>
+              </ul>
+              <ul v-if="!investorList[key].arr.length">
+                <li>没有数据</li>
+              </ul>
+            </van-collapse-item>
+          </van-collapse>
         </div>
       </v-scroll>
       <!-- </transition> -->
@@ -122,6 +175,7 @@ export default {
   },
   data() {
     return {
+      activeNames: ["waitcomfirm"],
       searchkey: "",
       result: [],
       isFixed: false,
@@ -131,78 +185,34 @@ export default {
       pageNum: 1,
       usertype: "",
       MyProjectList: [],
+      investorList: {
+        waitcomfirm: {
+          name: "等待投资人确认",
+          arr: [],
+        },
+        connected: {
+          name: "已连接项目",
+          arr: [],
+        },
+        refusal: {
+          name: "已拒绝项目",
+          arr: [],
+        },
+      },
       // 1投行（项目方），3投资者，4投资中间人
-      piclists: [
-        {
-          value: 1,
-          text: this.$t("common.PendingItems"),
-          pic: "../../../static/pic/waitreview.png",
-        },
-        {
-          value: 2,
-          text: this.$t("common.ToBeSignedProject"),
-          pic: "../../../static/pic/waitsign.png",
-        },
-        {
-          value: 4,
-          text: this.$t("common.SignedForChain"),
-          pic: "../../../static/pic/waitinvestor.png",
-        },
-        {
-          value: 5,
-          text: this.$t("common.ChainedForRecommendation"),
-          pic: "../../../static/pic/waitinvestor.png",
-        },
-        {
-          value: 6,
-          text: this.$t("common.PendingReview"),
-          pic: "../../../static/pic/waitreview.png",
-        },
-        {
-          value: 8,
-          text: this.$t("common.ReviewedPending"),
-          pic: "../../../static/pic/waitinvestor.png",
-        },
-        {
-          value: 9,
-          text: this.$t("investor.Itemstobeconfirmed"),
-          pic: "../../../static/pic/waitinvestor.png",
-        },
-        {
-          value: 10,
-          text: this.$t("common.SignedContract"),
-          pic: "../../../static/pic/success.png",
-        },
-        {
-          value: 3,
-          text: this.$t("common.InvestmentBankHasRejected"),
-          pic: "../../../static/pic/false.png",
-        },
-        {
-          value: 7,
-          text: this.$t("common.InvestmentBankHasRejected"),
-          pic: "../../../static/pic/false.png",
-        },
-        {
-          value: 11,
-          text: this.$t("common.InvestorHasRejected"),
-          pic: "../../../static/pic/false.png",
-        },
-      ],
-      refreshing: false,
       text: "List",
     };
   },
   beforeRouteLeave(to, from, next) {
     console.log(to, from);
     if (
-      (to.name == "Interested" ||
+      to.name == "Interested" ||
       to.name == "ibankSignContractStep3" ||
       to.name == "agentsignContractStep2" ||
       to.name == "p_bargin" ||
       to.name == "A_bargin" ||
       to.name == "sign_contract" ||
-      to.name == "a_recommand_i")
+      to.name == "a_recommand_i"
     ) {
       next(false);
     } else {
@@ -212,7 +222,11 @@ export default {
   created() {
     console.log(this.$store.state.currentUsertype);
     this.usertype = this.$store.state.currentUsertype;
-    this.getMyProjectList();
+    if (this.$store.state.currentUsertype == 3) {
+      this.getMyProjectStatusList();
+    } else {
+      this.getMyProjectList();
+    }
   },
   activated() {},
   computed: {},
@@ -227,8 +241,56 @@ export default {
     // window.removeEventListener("scroll", this.initHeight, true);
   },
   methods: {
+    getMyProjectStatusList(done) {
+      this.loaded = false;
+      let self = this;
+      this.MyProjectList = [];
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectStatusList`,
+          { searchKey: this.searchkey }
+        )
+        .then((res) => {
+          this.loaded = true;
+          if (done) done();
+          // this.investorList = {
+          //   waitcomfirm: [],
+          //   connected: [],
+          //   refusal: [],
+          // };
+          if (res.data.resultCode == 10000) {
+            this.investorList.waitcomfirm.arr = [];
+            this.investorList.connected.arr = [];
+            this.investorList.refusal.arr = [];
+            let result = res.data.data.signList;
+            result.forEach((item) => {
+              let label = {
+                signSubmitTime4: item.signSubmitTime4,
+                projectName: item["projectName" + self.$global.lan()],
+                projectCompany:
+                  item.userIdentityType == 1
+                    ? item.userName
+                    : item["userCompany" + self.$global.language()],
+                userIdentityType: item.userIdentityType,
+              };
+              this.$set(item, "label", label);
+              //  53（中间人）等待你推荐的投资人确认（发送邮件给投资人，等待投资人确认）
+              //  54（投资人）与你推荐的投资者签约成功项目（投资人注册登录，同意则签约成功）
+              //  55 （投资人）  投资人拒绝
+              if (item.signStatus4 == 53) {
+                this.investorList.waitcomfirm.arr.push(item);
+              } else if (item.signStatus4 == 54) {
+                this.investorList.connected.arr.push(item);
+              } else if (item.signStatus4 == 55) {
+                this.investorList.refusal.arr.push(item);
+              }
+            });
+            console.log(this.investorList.waitcomfirm);
+          }
+        });
+    },
     downPDF() {
-      // this.$routerto('projectChain')
+      this.$routerto('projectChain')
       // console.log(document.getElementById("links"));
       // window.location.href =
       //   "http://47.90.62.114:8086/bsl_web/bsl_data_upload/pdf/202008/pdf_1596610060000153073.pdf";
@@ -251,7 +313,7 @@ export default {
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectList`,
-          {searchkey:this.searchkey}
+          { searchKey: this.searchkey }
         )
         .then((res) => {
           this.loaded = true;
@@ -293,7 +355,11 @@ export default {
     },
     onRefresh(done) {
       this.loaded = false;
-      this.getMyProjectList(done);
+      if (this.$store.state.currentUsertype == 3) {
+        this.getMyProjectStatusList(done);
+      } else {
+        this.getMyProjectList(done);
+      }
     },
     onInfinite(done) {
       if (!this.loaded) this.onInfinitePort(done);
@@ -311,6 +377,16 @@ export default {
     position: relative;
     top: vw(-100);
     z-index: 8;
+  }
+  .van-cell::after {
+    border-bottom: none;
+  }
+  .van-collapse-item__content {
+    padding: 0;
+  }
+  .van-hairline--top-bottom::after,
+  .van-hairline-unset--top-bottom::after {
+    border-width: 0;
   }
 }
 </style>

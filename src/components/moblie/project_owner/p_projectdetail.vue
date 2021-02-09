@@ -9,12 +9,10 @@
         <i class="icon iconRight iconfont icon-message"></i>
       </template>
     </commonnav>
-
     <main>
       <div class="mhome-tag">
     <h2>{{ProjectDetail.projectName}}</h2>
-       <h3>{{$t("agent.SignedIntermediary")}}({{ProjectDetail.committedCount}})/{{$t("agent.Signedinvestor")}}({{ProjectDetail.interestProjectCount}})</h3>
-        <div class="projectMoney">
+       <h3>已提交投资者数量({{ProjectDetail.committedCount}})/已接受投资者数量({{ProjectDetail.interestProjectCount}})</h3>      <div class="projectMoney">
           <p>
             <span class="icon">
               <i class="iconfont icon-bitbroicon_setting"></i>
@@ -31,7 +29,7 @@
         <div class="middleman" v-if="$route.query.signStatus4>11" >
         <h3 v-if="$route.query.signStatus4>11 && $route.query.signStatus4<26">被推荐人中间人信息</h3>
         <h3 v-if="$route.query.signStatus4>49 && $route.query.signStatus4<55">被推荐人投资人信息</h3>
-        <ul>
+        <ul v-if="($route.query.signStatus4>11 && $route.query.signStatus4<26) || ($route.query.signStatus4>49 && $route.query.signStatus4<55)">
           <li v-for="(value,key) in middlemanInfo" :key="key" :class="{'potentialInvestorsTags':value.classname}">
             <aside class="iconfont" :class="value.tag"></aside>
             <p  v-if="key=='potentialInvestorsTags'">
@@ -84,10 +82,13 @@
            <van-button  @click="$routerto('p_bargin',$route.query)">磋商</van-button>
          </div>
          <div v-if="signStatus4==2 && sharingResult===5">
-            <van-button  @click="$routerto('a_previewContract',$route.query)">签约</van-button>
+            <van-button  @click="$routerto('a_previewContract',Object.assign({sharingResult:sharingResult},$route.query))">签约</van-button>
          </div>
          <div v-if="signStatus4==4">
-            <van-button  @click="$routerto('a_previewContract',$route.query)">签约</van-button>
+            <van-button  @click="$routerto('a_previewContract',Object.assign({sharingResult:sharingResult},$route.query))">签约</van-button>
+         </div>
+           <div v-if="signStatus4==9" >
+              <van-button  @click="getContractParams">下载签约合同</van-button>
          </div>
          <div v-if="signStatus4==12" >
             <van-button  @click="ibankReviewedMiddleman(14)">拒绝</van-button>
@@ -196,10 +197,11 @@ export default {
         },
       },
       letterObj: {
-        logoUrl: "",
-        projectCompany: "",
+        picUrl: "",
+        projectOwner: "",
         projectName: "",
-        middleman: "",
+        middlemanA: "",
+        middlemanB: "",
       },
       articleoffsetHeight: 0,
       projectDescribeHeight: 0,
@@ -216,13 +218,46 @@ export default {
     ) {
       //to middleman
       this.getProjectDetailsAndMiddleman();
-    } else if (this.$route.query.signStatus4 == 50) {
+    } else if (
+      this.$route.query.signStatus4 > 49 &&
+      this.$route.query.signStatus4 < 56
+    ) {
+      this.getProjectDetailsAndInvestors();
     } else {
       this.getProjectDetails();
     }
   },
-  mounted() {},
+  mounted() {
+    console.log(process.env);
+  },
   methods: {
+    getContractParams() {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/project/getViewContractPdfUrl`,
+          {
+            middlemanId: this.$route.query.middlemanId,
+            type: true,
+          }
+        )
+        .then((res) => {
+          if (res.data.resultCode == 10000) {
+            this.downloadContract(res.data.data);
+          } else {
+            this.$dialog
+              .alert({
+                // title: "标题",
+                message: res.data.resultDesc,
+              })
+              .then(() => {
+                // on close
+              });
+          }
+        });
+    },
+    downloadContract(fileUrl) {
+      window.location.href = `${this.$axios.defaults.baseURL}/bsl_web/upload/downloadFile?X_Token=${this.$store.state.X_Token}&fileUrl=${fileUrl}`;
+    },
     htmlSendtoEmail() {
       let letter = `<meta charset="utf-8" />
                 <div class="content-wrap"
@@ -253,7 +288,7 @@ export default {
                                 style="font-size: 0px; word-break: break-word; width: 500px; text-align: center; padding: 30px 0; ">
                                 <div>
                                   <img height="auto" alt="" width="180" height="200"
-                                       src="${this.letterObj.logoUrl}"
+                                       src="${this.letterObj.picUrl}"
                                        style="box-sizing: border-box; border: 0px; display: inline-block; outline: none; text-decoration: none; height: auto; max-width: 100%; padding: 0px;" />
                                 </div>
                               </td>
@@ -324,7 +359,7 @@ export default {
                             <td align="left" style="font-size: 0px; padding: 20px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>尊敬的投資人，您有壹個投資項目，由下列中間人把項目方推薦給您
+                                <div>尊敬的用户${this.letterObj.middlemanB}，您有壹個投資項目，由下列中間人把項目方推薦給您
                                   請核對及提供您的資料作系統紀錄和核實用途。
                                   閣下完成登錄核實程序后，投資銀行的負責人員將與您聯係並進一步提供投資項目相關資料。謝謝！</div>
                               </div>
@@ -395,7 +430,7 @@ export default {
                             <td align="left" style="font-size: 0px; padding: 20px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align: left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>${this.letterObj.middleman}</div>
+                                <div>${this.letterObj.middlemanA}</div>
                               </div>
                             </td>
                           </tr>
@@ -533,7 +568,7 @@ export default {
                             <td align="left" style="font-size: 0px; padding: 20px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei"; overflow-wrap: break-word; margin: 0px; text-align:left; line-height: 20px; color: rgb(102, 102, 102); font-size: 14px; font-weight: normal;'>
-                                <div>${this.letterObj.companyname}</div>
+                                <div>${this.letterObj.projectOwner}</div>
                               </div>
                             </td>
                           </tr>
@@ -576,7 +611,7 @@ export default {
                             <td align="left" style="font-size: 0px;">
                               <div class="text"
                                    style='font-family: "Microsoft YaHei";word-wrap:break-word;word-break:break-all; overflow-wrap: break-word; margin: 0px; text-align:left; line-height: 20px;  color: lightcoral; font-size: 14px; font-weight: normal;'>
-                                <div>如您還未在系統注冊賬號，請先按以下連接註冊 <a href="${process.env.indexUrl}/#/register">http://www.bit-bro.biz/#/register</a>。注冊完成后，再按以下按鈕登錄操作。</div>
+                                <div>如您還未在系統注冊賬號，請先按以下連接註冊 <a href="${process.env.WEB_API}/#/homePage">http://www.bit-bro.biz/#/homePage</a>。注冊完成后，再按以下按鈕登錄操作。</div>
                               </div>
                             </td>
                           </tr>
@@ -661,7 +696,7 @@ export default {
                           <tr>
                             <td align="center" bgcolor="#409EFF" valign="middle"
                                 style="line-height: 1; background-color: rgb(64, 158, 255); border-radius:5px; cursor:pointer">
-                              <a href="${process.env.indexUrl}/#/register"" class="button" style="text-decoration:none;">
+                              <a href="${process.env.WEB_API}/#/homePage"" class="button" style="text-decoration:none;">
                                 <p style='font-family: "Microsoft YaHei";padding: 14px 54px; margin: 0px; color: rgb(255, 255, 255); line-height: 1; font-size: 14px; font-weight: normal; text-decoration: none; text-transform: none;'>
                                   <span>登錄系統並確認資料</span>
                                 </p>
@@ -690,6 +725,7 @@ export default {
     },
     ibankReviewedMiddleman(isAgree) {
       let letter = this.htmlSendtoEmail();
+      console.log(letter);
       this.$dialog
         .confirm({
           title: "提醒",
@@ -723,6 +759,8 @@ export default {
         });
     },
     ibankReviewedInvestor(isAgree) {
+      let letter = this.htmlSendtoEmail();
+      console.log(this.letterObj.middlemanA);
       this.$dialog
         .confirm({
           title: "提醒",
@@ -732,10 +770,11 @@ export default {
           this.$store.commit("isloading", true);
           this.$global
             .post_encapsulation(
-              `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/ibankReviewedInvestor`,
+              `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/ibankReviewedInvestors`,
               {
                 signStatus: isAgree,
                 signId: this.$route.query.signId,
+                emailData: letter,
                 middlemanId: this.$route.query.middlemanId,
               }
             )
@@ -769,12 +808,6 @@ export default {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
             let result = res.data.data;
-            this.letterObj = {
-              logoUrl: "",
-              projectCompany: "",
-              projectName: "",
-              middleman: "",
-            };
             for (let i in result) {
               for (let key in this.ProjectDetail) {
                 if (key === i) {
@@ -850,6 +883,151 @@ export default {
                 )[1];
               }
             }
+            this.letterObj.picUrl = result.picUrl;
+            if (result.isDisplayUserName4) {
+              this.letterObj.middlemanA =
+                result.userIdentityType4 == 1
+                  ? result.userName4
+                  : result.userIdentityType4 == 2
+                  ? result["userCompany" + this.$global.language() + "4"]
+                  : "";
+            } else {
+              this.letterObj.middlemanA = result.bslName4;
+            }
+            console.log(this.letterObj.middlemanA);
+            this.letterObj.middlemanB = result.recommendEmail;
+            this.letterObj.projectOwner =
+              result["userCompany" + this.$global.language() + "1"];
+            this.letterObj.projectName =
+              result["projectName" + this.$global.lan()];
+
+            this.middlemanInfo.userIdentityType.content = this.$t(
+              this.$global.investorsType[result.userIdentityType]
+            );
+            this.middlemanInfo.recommendEmail.content = result.recommendEmail;
+            this.sharingResult = result.sharingResult;
+            this.signNdaStatus = result.signNdaStatus;
+
+            this.$nextTick(() => {
+              this.articleoffsetHeight = this.$refs.article.offsetHeight;
+              this.projectDescribeHeight = this.$refs.projectDescribe.offsetHeight;
+              if (this.projectDescribeHeight > this.articleoffsetHeight) {
+                this.isshowDropdown = true;
+              }
+            });
+          }
+
+          // this.ProjectDetail=res.data.data.data
+          // console.log(this.ProjectDetail);
+        });
+    },
+    getProjectDetailsAndInvestors() {
+      this.$store.commit("isloading", true);
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/myProjectDetails/iBackGetProjectDetailsAndInvestors`,
+          {
+            projectId: this.$route.query.projectId,
+            recommendUserId: this.$route.query.recommendUserId,
+            recommendedUserId: this.$route.query.recommendedUserId,
+          }
+        )
+        .then((res) => {
+          this.$store.commit("isloading", false);
+          if (res.data.resultCode == 10000) {
+            let result = res.data.data;
+            for (let i in result) {
+              for (let key in this.ProjectDetail) {
+                if (key === i) {
+                  if (key == "projectName") {
+                    this.ProjectDetail[key] = result[key + this.$global.lan()];
+                  } else if (
+                    key == "collectMoneyMin" ||
+                    key == "collectMoneyMax"
+                  ) {
+                    this.ProjectDetail[key] = this.$global.formatNum(
+                      result[key]
+                    );
+                  } else if (key == "projectIndustry") {
+                    if (result[key + this.$global.lan()].indexOf("[") > -1) {
+                      this.ProjectDetail[key] = eval(
+                        "(" + result[key + this.$global.lan()] + ")"
+                      ).join(",");
+                    }
+                    this.ProjectDetail[key] = eval(
+                      "(" + result[key + this.$global.lan()] + ")"
+                    ).join(",");
+                  } else if (key == "projectDescribe") {
+                    this.ProjectDetail[key] = result[
+                      key + this.$global.lan()
+                    ].replace(/[\n\r]/g, "<br>");
+                  } else {
+                    this.ProjectDetail[key] = result[i];
+                  }
+                }
+              }
+              for (let key in this.projectItem) {
+                if (key === i) {
+                  if (key == "projectCompany") {
+                    this.projectItem[key].content =
+                      result[key + this.$global.lan()];
+                  } else if (key == "potentialInvestorsTags") {
+                    if (result[key + this.$global.lan()].indexOf("[") > -1) {
+                      this.projectItem[key].content = eval(
+                        "(" + result[key + this.$global.lan()] + ")"
+                      );
+                    }
+                  } else if (key == "financingStage") {
+                    this.projectItem[key].content = this.$global.financingStage[
+                      result[i]
+                    ];
+                  } else if (key == "projectStatus") {
+                    this.projectItem[key].content = this.$global.projectStatus[
+                      result[i]
+                    ];
+                  } else {
+                    this.projectItem[key].content = result[i];
+                  }
+                }
+              }
+            }
+            if (result.userIdentityType == 1) {
+              this.middlemanInfo.userName.content = result.userName;
+            } else if (result.userIdentityType == 2) {
+              this.middlemanInfo.userName.content =
+                result["userCompany" + this.$global.language()];
+            }
+            if (
+              Object.prototype.toString.call(result.userCountry) ==
+              "[object String]"
+            ) {
+              if (this.$i18n.locale == "zh_CN") {
+                this.middlemanInfo.userCountry.content = result.userCountry.split(
+                  ","
+                )[0];
+              } else {
+                this.middlemanInfo.userCountry.content = result.userCountry.split(
+                  ","
+                )[1];
+              }
+            }
+            this.letterObj.picUrl = result.picUrl;
+            if (result.isDisplayUserName4) {
+              this.letterObj.middlemanA =
+                result.userIdentityType4 == 1
+                  ? result.userName4
+                  : result.userIdentityType4 == 2
+                  ? result["userCompany" + this.$global.language() + "4"]
+                  : "";
+            } else {
+              this.letterObj.middlemanA = result.bslName4;
+            }
+            console.log(this.letterObj.middlemanA);
+            this.letterObj.middlemanB = result.recommendEmail;
+            this.letterObj.projectOwner =
+              result["userCompany" + this.$global.language() + "1"];
+            this.letterObj.projectName =
+              result["projectName" + this.$global.lan()];
 
             this.middlemanInfo.userIdentityType.content = this.$t(
               this.$global.investorsType[result.userIdentityType]

@@ -14,7 +14,7 @@
         <h3>{{ $t("project.Projectproposal") }}</h3>
         <div class="Projectproposal">
           <div v-if="sharingMechanismType === 0">
-            <p>{{ $t("Bargin.Percentagebyintermediaries") }}</p>
+            <p class="title">{{ $t("Bargin.Percentagebyintermediaries") }}</p>
             <div class="count">
               <MyNumberInput
                 :point="2"
@@ -37,7 +37,7 @@
             </div>
           </div>
           <div v-if="sharingMechanismType === 1">
-            <p>{{ $t("Bargin.Percentageprojectparty") }}</p>
+            <p class="title">{{ $t("Bargin.Percentageprojectparty") }}</p>
             <div class="count">
               <MyNumberInput
                 :point="2"
@@ -137,7 +137,7 @@
           </li>
         </ul>
       </div>
-      <div v-else class="box">
+      <div v-if="$route.query.signStatus4 == 2" class="box">
         <h3>{{ $t("project.Projectproposal") }}</h3>
         <div class="Projectproposal">
           <van-radio-group v-model="sharingMechanismType">
@@ -194,49 +194,6 @@
               </p>
             </div>
           </van-radio-group>
-        </div>
-        <div class="Recommendlocking">
-          <h3>Recommend locking date</h3>
-          <p class="subtitle">Recommendation time</p>
-          <div class="count">
-            <MyNumberInput
-              :point="0"
-              name="projectParty"
-              placeholder
-              v-model.number="memberRecommendCount"
-            ></MyNumberInput>
-            <span class="unit">times</span>
-            <p>
-              <span
-                class="iconfont icon-arrow_on"
-                @click="calculate($event, 'memberRecommendCount', 'add')"
-              ></span>
-              <span
-                class="iconfont icon-arrow_under"
-                @click="calculate($event, 'memberRecommendCount', 'subtract')"
-              ></span>
-            </p>
-          </div>
-          <p class="subtitle">Recommended countdown</p>
-          <div class="count">
-            <MyNumberInput
-              :point="0"
-              name="projectParty"
-              placeholder
-              v-model.number="recommendMiddlemanTime"
-            ></MyNumberInput>
-            <span class="unit">month</span>
-            <p>
-              <span
-                class="iconfont icon-arrow_on"
-                @click="calculate($event, 'recommendMiddlemanTime', 'add')"
-              ></span>
-              <span
-                class="iconfont icon-arrow_under"
-                @click="calculate($event, 'recommendMiddlemanTime', 'subtract')"
-              ></span>
-            </p>
-          </div>
         </div>
         <footer>
           <van-button
@@ -534,6 +491,9 @@ export default {
         font-size: vw(20);
         color: #fff;
         line-height: vw(26);
+      }
+      p.title {
+        font-size: vw(26);
       }
       h3 {
         font-size: vw(26);

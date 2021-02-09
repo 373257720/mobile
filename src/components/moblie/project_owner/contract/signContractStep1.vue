@@ -40,7 +40,7 @@
       <footer>
         <van-button @click="go">{{ $t("common.Next") }}</van-button>
       </footer>
-    </main> 
+    </main>
   </div>
 </template>
 <script>
@@ -103,7 +103,11 @@ export default {
       this.$global
         .post_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/getMiddlemanContractTemplateList`,
-          { projectId: this.projectId, signId: this.signId }
+          {
+            projectId: this.projectId,
+            signId: this.signId,
+            middlemanId: this.middlemanId,
+          }
         )
         .then((res) => {
           this.$store.commit("isloading", false);

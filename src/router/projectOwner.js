@@ -19,12 +19,12 @@ const P_signContractStep2 = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/contract/signContractStep2"
   );
-  const P_signContractStep3  = () =>
+const P_signContractStep3 = () =>
   import(
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/contract/signContractStep3"
   );
-  
+
 const login = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/login/login");
 
@@ -62,7 +62,23 @@ const connected_projects = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/project_owner/connected_projects"
   );
+// 
+const contactRoot = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contact/contactRoot"
+  );
 
+const contactList = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contact/contactList"
+  );
+const recommandHistory = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contact/recommandHistory"
+  );
 
 
 export default [
@@ -125,7 +141,7 @@ export default [
       isshowbottom: false
     }
   },
-  
+
 
   {
     path: "/p_bargin",
@@ -161,9 +177,6 @@ export default [
       isshowbottom: false
     }
   },
-
-
-
   {
     path: "/p_inverstor_details",
     name: "p_inverstor_details",
@@ -171,5 +184,34 @@ export default [
     meta: {
       isshowbottom: false
     }
+  },
+  {
+    path: "/contactRoot",
+    name: "contactRoot",
+    component: contactRoot,
+    meta: {
+      isshowbottom: true
+    },
+    redirect: "/contactRoot/contactList",
+    children: [
+      {
+        path: "contactList",
+        name: "contactList",
+        component: contactList,
+        meta: {
+          isshowbottom: true
+        },
+      },
+      {
+        path: "recommandHistory",
+        name: "recommandHistory",
+        component: recommandHistory,
+        meta: {
+          isshowbottom: false
+        },
+      },
+
+    ]
   }
+
 ];

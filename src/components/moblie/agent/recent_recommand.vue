@@ -8,10 +8,10 @@
     </commonnav>
     <main>
       <div @click="routerto(1)">
-        <span >{{ $t("agent.RM") }}</span>
+        <span>{{ $t("agent.RM") }}</span>
       </div>
       <div @click="routerto(2)">
-        <span >{{ $t("agent.RecommendInvestors") }}</span>
+        <span>{{ $t("agent.RecommendInvestors") }}</span>
       </div>
     </main>
   </div>

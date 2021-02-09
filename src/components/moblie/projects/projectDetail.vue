@@ -9,7 +9,6 @@
         <i class="icon iconRight iconfont icon-message"></i>
       </template>
     </commonnav>
-
     <main>
       <div class="mhome-tag">
         <h2>CDC Biodiversité – Biodiversity Offsetting</h2>

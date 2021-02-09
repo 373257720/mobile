@@ -5,20 +5,26 @@
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
-      <template v-slot:arrowRight>
+      <!-- <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
-      </template>
+      </template> -->
     </commonnav>
     <main class="yo-scroll">
       <div class="mhome-signTag">
         <div class="logo">
-          <img @click="$routerto('fliter')" src="../../../assets/fliter.png" alt />
-          <span>{{$store.getters.totalResults && $store.getters.totalResults.length}}</span>
+          <img
+            @click="$routerto('fliter')"
+            src="../../../assets/fliter.png"
+            alt
+          />
+          <span>{{
+            $store.getters.totalResults && $store.getters.totalResults.length
+          }}</span>
         </div>
         <ul class="totalResults">
-          <li v-for="(item) in $store.getters.totalResults" :key="item.name">
+          <li v-for="item in $store.getters.totalResults" :key="item.name">
             <p>
-              {{item.label}}
+              {{ item.label }}
               <!-- <span @click="delectTag(item,idx)"></span> -->
             </p>
           </li>
@@ -27,28 +33,28 @@
       <div class="timestamp">
         <ul v-if="Projectlist.length">
           <li v-for="i in Projectlist" :key="i.id">
-            <h3 v-if="i.label">{{i.label.projectName}}</h3>
+            <h3 v-if="i.label">{{ i.label.projectName }}</h3>
             <section id="container">
               <div class="item item-1">
                 <p class="icon iconRight iconfont icon-1"></p>
               </div>
               <div class="item item-2">
-                <p v-if="i.label">{{i.label.projectIndustry}}</p>
+                <p v-if="i.label">{{ i.label.projectIndustry }}</p>
               </div>
               <div class="item item-3">
                 <p class="icon iconRight iconfont icon-2_1"></p>
               </div>
               <div class="item item-4">
-                <p v-if="i.label">{{i.label.projectTags}}</p>
+                <p v-if="i.label">{{ i.label.projectTags }}</p>
               </div>
               <div class="item item-5">
                 <p class="icon iconRight iconfont icon-3"></p>
               </div>
               <div class="item item-6">
-                <p v-if="i.label">{{i.label.projectDescribe}}</p>
+                <p v-if="i.label">{{ i.label.projectDescribe }}</p>
               </div>
             </section>
-            <div class="btn">
+            <!-- <div class="btn">
               <van-button
                 v-if="$store.state.currentUsertype==4"
                 @click="$routerto('Interested',{projectId:i.id})"
@@ -63,10 +69,45 @@
                   </p>
                 </div>
               </van-button>
+            </div> -->
+            <div class="btn" v-if="$store.state.currentUsertype == 4">
+              <van-button
+                @click="$routerto('Interested', { projectId: i.id })"
+                >{{ $t("projectOwner.Interested") }}</van-button
+              >
+            </div>
+            <div class="btn" v-if="$store.state.currentUsertype == 1">
+              <van-button
+                @click="
+                  $routerto('p_investor_lists', {
+                    arr: JSON.stringify(i.record.investorsIdList),
+                  })
+                "
+                v-if="i.record.investorsIdList.length"
+              >
+                <div class="investorProfile">
+                  <nav>{{ $t("investor.Investorprofile") }}</nav>
+                  <p style="display: flex">
+                    <span class="ellipse ellipse-left"></span>
+                    <span class="investors">{{
+                      i.record.investorsIdList.length
+                    }}</span>
+                    <span class="ellipse ellipse-right"></span>
+                  </p>
+                </div>
+              </van-button>
+              <van-button class="unsigned" v-else>
+                <div class="investorProfile">
+                  <nav>{{ $t("investor.Unsigned") }}</nav>
+                </div>
+              </van-button>
+            </div>
+            <div class="btn" v-if="$store.state.currentUsertype == 3">
+              <van-button>已连接</van-button>
             </div>
           </li>
         </ul>
-        <div class="nodata" v-else>{{$t('common.Nodata')}}</div>
+        <div class="nodata" v-else>{{ $t("common.Nodata") }}</div>
       </div>
     </main>
     <scroll-top></scroll-top>
@@ -81,7 +122,7 @@ export default {
   name: "allresult",
   components: {
     "v-scroll": Scroll,
-    ScrollTop
+    ScrollTop,
   },
   data() {
     return {
@@ -89,34 +130,34 @@ export default {
       items: [
         {
           text: this.$t("common.Industry"),
-          children: []
-        }
+          children: [],
+        },
       ],
       taglist: [
         {
           name: "Biodiversity",
-          isactive: false
+          isactive: false,
         },
         {
           name: "Transport",
-          isactive: false
+          isactive: false,
         },
         {
           name: "Computer",
-          isactive: false
+          isactive: false,
         },
         {
           name: "InnovFin",
-          isactive: false
+          isactive: false,
         },
         {
           name: "Comdputer",
-          isactive: false
+          isactive: false,
         },
         {
           name: "InnodvFin",
-          isactive: false
-        }
+          isactive: false,
+        },
       ],
       isFixed: false,
       scrollHeight: 0,
@@ -132,22 +173,22 @@ export default {
       selectedIndustrylist: [],
       selectedIndustrylistEn: [],
       selectedtagsNamelist: [],
-      selectedtagsNamelistEn: []
+      selectedtagsNamelistEn: [],
     };
   },
   computed: {},
   created() {
     for (let key in this.$store.state.electedList) {
       if (key == "industryList") {
-        this.$store.state.electedList[key].forEach(item => {
+        this.$store.state.electedList[key].forEach((item) => {
           this["selectedIndustrylist" + this.$global.lan()].push(item.value);
         });
       } else if ((key = "regionList")) {
-        this.$store.state.electedList[key].forEach(item => {
+        this.$store.state.electedList[key].forEach((item) => {
           this.selectedCountrylist.push(item.value);
         });
       } else if ((key = "taglist")) {
-        this.$store.state.electedList[key].forEach(item => {
+        this.$store.state.electedList[key].forEach((item) => {
           this["selectedtagsNamelist" + this.$global.lan()].push(item.value);
         });
       }
@@ -175,15 +216,15 @@ export default {
             projectIndustryEn: this.selectedIndustrylistEn,
             tagsName: this.selectedtagsNamelist,
             tagsNameEn: this.selectedtagsNamelistEn,
-            searchKey: this.searchkey
+            searchKey: this.searchkey,
           }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           this.Projectlist = res.data.data.data;
-          this.Projectlist.forEach(item => {
+          this.Projectlist.forEach((item) => {
             let label = {
-              projectName:item.record['projectName'+this.$global.lan()],
+              projectName: item.record["projectName" + this.$global.lan()],
               projectIndustry: eval(
                 "(" + item.record["projectIndustry" + this.$global.lan()] + ")"
               ).join(","),
@@ -191,13 +232,13 @@ export default {
                 "(" + item.record["projectTags" + this.$global.lan()] + ")"
               ).join(","),
               projectDescribe:
-                item.record["projectDescribe" + this.$global.lan()]
+                item.record["projectDescribe" + this.$global.lan()],
             };
             this.$set(item, "label", label);
           });
           // console.log(this.Projectlist);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -241,13 +282,13 @@ export default {
         if (item.signUserResp.length > 0) {
           this.$routerto("mysign", {
             projectId: item.projectId,
-            array: JSON.stringify(hash)
+            array: JSON.stringify(hash),
           });
         } else if (item.signUserResp.length < 1) {
           let obj = {
             projectId: item.projectId,
             signStatus: item.signUserResp[0].signStatus,
-            signId: item.signUserResp[0].signId
+            signId: item.signUserResp[0].signId,
           };
           this.$routerto("p_goods_details", obj);
         }
@@ -255,7 +296,7 @@ export default {
         let obj = {
           projectId: item.projectId,
           signStatus: item.signUserResp[0].signStatus,
-          signId: item.signUserResp[0].signId
+          signId: item.signUserResp[0].signId,
         };
         this.$routerto("i_conected_project", obj);
         // this.$routerto("a_project_intro", { projectId: item.projectId });
@@ -264,7 +305,7 @@ export default {
           let obj = {
             projectId: item.projectId,
             signStatus: item.signUserResp[0].signStatus,
-            signId: item.signUserResp[0].signId
+            signId: item.signUserResp[0].signId,
           };
           if (item.signUserResp[0].signStatus < 5) {
             if (item.signUserResp[0].signStatus == 1) {
@@ -284,7 +325,7 @@ export default {
             projectId: item.projectId,
             isSign: "0",
             // signId: item.signUserResp[0].signId,
-            signStatus: "0"
+            signStatus: "0",
           });
         }
       }
@@ -317,8 +358,8 @@ export default {
       this.loading = true; //下拉加载中
       this.finished = false; //下拉结
       this.onLoad();
-    }
-  }
+    },
+  },
 };
 </script>
 

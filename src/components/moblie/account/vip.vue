@@ -1,7 +1,7 @@
 <template>
   <div id="vip">
     <commonnav>
-      Vip
+      VIP
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>

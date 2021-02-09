@@ -82,6 +82,7 @@
             </p>
           </div>
         </div>
+        <!-- <p>{{reminderMsg}}</p> -->
         <ul v-if="obj.sharingResult == 2">
           <li>
             <van-button
@@ -94,9 +95,31 @@
           </li>
           <li>
             <!-- <button @click="acceptOrRejectCommission(1)">Suggest</button> -->
-            <van-button @click="pick(1)" class="renewal">{{
-              $t("Bargin.Suggest")
-            }}</van-button>
+            <van-button
+              @click="pick(1)"
+              class="renewal"
+              >{{ $t("Bargin.Suggest") }}</van-button
+            >
+          </li>
+          <li>
+            <!-- <button @click="acceptOrRejectCommission(2)">Reject</button> -->
+            <van-button
+              :disabled="isdisabled"
+              @click="pick(2)"
+              class="renewal"
+              >{{ $t("Bargin.Reject") }}</van-button
+            >
+          </li>
+        </ul>
+        <ul v-if="obj.sharingResult == 6">
+          <li>
+            <van-button
+              :disabled="isdisabled"
+              @click="pick(0)"
+              class="renewal"
+              >{{ $t("Bargin.Accept") }}</van-button
+            >
+            <!-- <button @click="acceptOrRejectCommission(0)">Accept</button> -->
           </li>
           <li>
             <!-- <button @click="acceptOrRejectCommission(2)">Reject</button> -->
@@ -123,6 +146,7 @@ export default {
   data() {
     return {
       radio: "",
+      reminderMsg: "当你调整数字后反建议按钮才可以生效",
       isactive: false,
       obj: {
         sharingMechanism01: 0,
@@ -191,18 +215,33 @@ export default {
         });
     },
     acceptOrRejectCommission(num) {
-      let sharingMechanism0;
-      let sharingMechanism1;
-      if (this.obj.sharingMechanismType4 === 0) {
-        sharingMechanism0 = this.obj.sharingMechanism04;
-        sharingMechanism1 = "";
-        //  this.obj.sharingMechanism01;
-      } else if (this.obj.sharingMechanismType4 === 1) {
-        sharingMechanism0 = "";
-        // this.obj.sharingMechanism11;
-        sharingMechanism1 = this.obj.sharingMechanism14;
+      // let sharingMechanism0;
+      // let sharingMechanism1;
+      // if (this.obj.sharingMechanismType4 === 0) {
+      //   sharingMechanism0 = this.obj.sharingMechanism04;
+      //   sharingMechanism1 = "";
+      //   //  this.obj.sharingMechanism01;
+      // } else if (this.obj.sharingMechanismType4 === 1) {
+      //   sharingMechanism0 = "";
+      //   // this.obj.sharingMechanism11;
+      //   sharingMechanism1 = this.obj.sharingMechanism14;
+      // }
+
+      let sharingMechanism0 = null,
+        sharingMechanism1 = null;
+      if (num == 2 || num == 0) {
+        if (this.obj.sharingMechanismType4 === 0) {
+          sharingMechanism0 = this.obj.sharingMechanism01;
+        } else if (this.obj.sharingMechanismType4 === 1) {
+          sharingMechanism1 = this.obj.sharingMechanism11;
+        }
+      } else if (num === 1) {
+        if (this.obj.sharingMechanismType4 === 0) {
+          sharingMechanism0 = this.obj.sharingMechanism04;
+        } else if (this.obj.sharingMechanismType4 === 1) {
+          sharingMechanism1 = this.obj.sharingMechanism14;
+        }
       }
-      console.log(sharingMechanism0, sharingMechanism1);
       this.$global
         .post_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectSign/acceptOrRejectCommission`,

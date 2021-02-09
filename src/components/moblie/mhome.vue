@@ -2,9 +2,9 @@
   <div id="mhome">
     <commonnav>
       {{ $t("common.Home") }}
-      <template v-slot:arrowRight>
+      <!-- <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
-      </template>
+      </template> -->
     </commonnav>
     <main class="main">
       <v-scroll
@@ -78,7 +78,6 @@
             </ul>
           </div>
         </div>
-
         <div class="timestamp">
           <ul>
             <li v-for="i in Projectlist" :key="i.id">
@@ -110,12 +109,23 @@
                 >
               </div>
               <div class="btn" v-if="$store.state.currentUsertype == 1">
-                <van-button v-if="i.record.investorsIdList.length">
+                <van-button
+                  @click="
+                    $routerto('p_investor_lists', {
+                      arr: 
+                        JSON.stringify(i.record.investorsIdList)
+                      ,
+                    })
+                  "
+                  v-if="i.record.investorsIdList.length"
+                >
                   <div class="investorProfile">
                     <nav>{{ $t("investor.Investorprofile") }}</nav>
                     <p style="display: flex">
                       <span class="ellipse ellipse-left"></span>
-                      <span class="investors">{{ 0 }}</span>
+                      <span class="investors">{{
+                        i.record.investorsIdList.length
+                      }}</span>
                       <span class="ellipse ellipse-right"></span>
                     </p>
                   </div>
@@ -125,6 +135,9 @@
                     <nav>{{ $t("investor.Unsigned") }}</nav>
                   </div>
                 </van-button>
+              </div>
+              <div class="btn" v-if="$store.state.currentUsertype == 3">
+                <van-button>已连接</van-button>
               </div>
             </li>
           </ul>
@@ -216,55 +229,7 @@ export default {
     //   ".van-search__content"
     // ).offsetTop;
   },
-  activated() {
-    // this.usertype = this.$store.state.currentUsertype;
-    // let axiosList = [
-    //   this.$axios.get(
-    //     `${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry?X_Token=${this.$store.state.X_Token}`
-    //   ),
-    //   this.$axios.get(
-    //     `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do?X_Token=${this.$store.state.X_Token}`
-    //   )
-    // ];
-    // this.$axios.all(axiosList).then(
-    //   this.$axios.spread((res1, res2) => {
-    //     if (res1) {
-    //       // console.log(this.$i18n.locale)
-    //       if (this.$i18n.locale == "zh_CN") {
-    //         for (let i = 0; i < res1.data.data.length; i++) {
-    //           this.items[0].children.push({
-    //             text: res1.data.data[i].industryNameCh,
-    //             id: res1.data.data[i].industryId,
-    //             num: i + 1
-    //           });
-    //         }
-    //       } else {
-    //         for (let i = 0; i < res1.data.data.length; i++) {
-    //           this.items[0].children.push({
-    //             text: res1.data.data[i].industryNameEn,
-    //             id: res1.data.data[i].industryId,
-    //             num: i + 1
-    //           });
-    //         }
-    //       }
-    //     }
-    //     if (res2) {
-    //       for (let i = 0; i < res2.data.data.length; i++) {
-    //         this.countrylist.push({
-    //           chinese: res2.data.data[i].countryZhname,
-    //           eng: res2.data.data[i].countryEnname,
-    //           value: i + 1,
-    //           remark: res2.data.data[i].countryCode,
-    //           classname: ""
-    //         });
-    //       }
-    //       // console.log(this.countrylist)
-    //     }
-    //   })
-    // );
-    // this.loading = true
-    // this.onLoad();
-  },
+  activated() {},
   beforeDestroy() {
     // window.removeEventListener("scroll", this.initHeight, true);
   },
@@ -295,7 +260,7 @@ export default {
         )
         .then((res) => {
           if (res.data.resultCode === 10000) {
-            if (res.data.data.allCountryList.length > 0) {
+            if (res.data.data.allCountryList.length) {
               res.data.data.allCountryList.forEach((self, idx) => {
                 this.countrylist.push({
                   chinese: self.countryZhname,
@@ -417,14 +382,17 @@ export default {
         )
         .then((res) => {
           let lan = this.$i18n.locale;
-          this.Industrylist = res.data.data.allIndustryList.map((item) => {
-            return {
-              label:
-                lan === "zh_CN" ? item.industryNameCh : item.industryNameEn,
-              value: item.industryId,
-              isactive: false,
-            };
-          });
+          if (res.data.data.allIndustryList.length) {
+            this.Industrylist = res.data.data.allIndustryList.map((item) => {
+              return {
+                label:
+                  lan === "zh_CN" ? item.industryNameCh : item.industryNameEn,
+                value: item.industryId,
+                isactive: false,
+              };
+            });
+          }
+
           // console.log(this.Industrylist);
         });
     },
@@ -458,9 +426,10 @@ export default {
             done();
             this.Refreshing = false;
           }
-          this.Projectlist = res.data.data.data;
-          if (this.Projectlist instanceof Array) {
-            this.Projectlist.forEach((item) => {
+
+          let list = res.data.data.data;
+          if (list instanceof Array) {
+            list.forEach((item) => {
               let label = {
                 projectIndustry:
                   item.record["projectIndustry" + self.$global.lan()].indexOf(
@@ -485,11 +454,16 @@ export default {
                 projectDescribe:
                   item.record["projectDescribe" + self.$global.lan()],
               };
-              this.$set(item, "label", label);
+              // this.$set(item, "label", label);
+              item.label = label;
             });
           }
-
-          // console.log(this.Projectlist);
+          // console.log(list);
+          this.Projectlist.push(...list);
+          console.log(this.Projectlist);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
     onRefresh(done) {

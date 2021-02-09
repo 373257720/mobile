@@ -19,7 +19,7 @@
             </section>-->
           </div>
           <div v-if="item.type === 3" class="mui-input-row input-row">
-            <p class="label">{{ item.cellInfo }}</p>
+            <p v-if="item.cellInfo" class="label">{{ item.cellInfo }}</p>
             <!-- <input name="userName" type="text" v-model="validateForm.username" />- -->
             <!-- <select class="label" style="width:100%;border:none" v-model="one">
               <option v-for="(self,index) in item.listCell" :value="index" :key="index">{{self}}</option>
@@ -39,7 +39,7 @@
                 >{{ self }}</a-select-option
               >
             </a-select>
-            <br />
+       
           </div>
           <div v-if="item.type === 4" class="mui-input-row input-row">
             <p class="label">{{ item.cellInfo }}</p>

@@ -14,7 +14,7 @@
             @blur="check($event)"
             name="userName"
             type="text"
-            v-model="validateForm.username"
+            v-model.trim="validateForm.username"
           />
         </div>
         <div class="mui-input-row input-row">
@@ -26,7 +26,7 @@
               name="Password"
               :type="isshowpassword"
               autocomplete="off"
-              v-model="validateForm.password"
+              v-model.trim="validateForm.password"
             />
             <i
               @click="passwordshow(isshowpassword, 'isshowpassword')"
@@ -43,7 +43,7 @@
               name="confirmpassword"
               :type="isconfirmpassword"
               autocomplete="off"
-              v-model="validateForm.confirmpassword"
+              v-model.trim="validateForm.confirmpassword"
             />
             <i
               @click="passwordshow(isconfirmpassword, 'isconfirmpassword')"

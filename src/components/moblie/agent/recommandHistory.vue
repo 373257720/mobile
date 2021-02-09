@@ -1,11 +1,6 @@
 <template>
-  <div id="recommandHistory">
-    <commonnav>
-      recommand
-      <template v-slot:arrowRight>
-        <i class="icon iconRight iconfont icon-message"></i>
-      </template>
-    </commonnav>
+  <div id="a_recommandHistory">
+    <commonnav> recommand </commonnav>
     <main>
       <v-scroll
         class="mhome-article"
@@ -14,36 +9,155 @@
         :on-infinite="onInfinite"
       >
         <header slot="navv">
-          <div v-html="$t('agent.Whorecommendme')"></div>
-          <div v-html="$t('agent.MyrecommendedMiddleman')"></div>
-          <div v-html="$t('agent.MyrecommendedInvestors')">
+          <!-- <div v-html="$t('agent.Whorecommendme')"></div> -->
+          <div class="boxes">
+            <div
+              @click="pick(1)"
+              :class="[isActive == 1 ? 'active' : 'positive']"
+              v-html="$t('agent.Whorecommendme')"
+            ></div>
+            <div
+              @click="pick(2)"
+              :class="[isActive == 2 ? 'active' : 'positive']"
+              v-html="$t('agent.MyrecommendedMiddleman')"
+            ></div>
+            <div
+              @click="pick(3)"
+              :class="[isActive == 3 ? 'active' : 'positive']"
+              v-html="$t('agent.MyrecommendedInvestors')"
+            ></div>
           </div>
         </header>
         <article>
-          <table class="title">
-            <tr class="tr-first">
-              <th>
-                <i class="icon iconRight iconfont icon-5day"></i>
-                <span>Time</span>
-              </th>
-              <th>
-                <i class="icon iconRight iconfont icon-project"></i>
-                <span>Project</span>
-              </th>
-              <th>
-                <i class="icon iconRight iconfont icon-account"></i>
-                <span>
-                  Recommended
-                  middleman
-                </span>
-              </th>
-            </tr>
-            <tr @click="$routerto('projectDetail')" v-for="(item,idx) in content" :key="idx">
-              <td valign="top">{{item.time}}</td>
-              <td valign="top">{{item.content}}</td>
-              <td valign="top">{{item.name}}</td>
-            </tr>
-          </table>
+          <ul v-if="isActive == 1">
+            <li v-for="(item, idx) in result.listResultM" :key="idx">
+              <section
+                class="container"
+                :class="[
+                  item.signStatus4 === 41 ? 'active' : '',
+                  [17, 32, 37, 39].includes(item.signStatus4) === true
+                    ? 'positive'
+                    : '',
+                ]"
+              >
+                <div class="item item-1">
+                  <p class="icon iconRight iconfont icon-day"></p>
+                </div>
+                <div class="item item-2">
+                  <p>
+                    {{ $global.timestampToTime(item.signTime4) }}
+                  </p>
+                </div>
+                <div class="item item-7">
+                  <p class="icon iconRight iconfont icon-account"></p>
+                </div>
+                <div class="item item-8">
+                  <p>
+                    {{ item.projectName }}
+                  </p>
+                </div>
+                <div class="item item-5">
+                  <p class="icon iconRight iconfont icon-account"></p>
+                </div>
+                <div class="item item-6">
+                  <p>
+                    {{ item.userName }}
+                  </p>
+                </div>
+                <div class="item item-5">
+                  <p class="icon iconRight iconfont icon-account"></p>
+                </div>
+                <div class="item item-6">
+                  <p>
+                    {{ item.agreementKey }}
+                  </p>
+                </div>
+              </section>
+            </li>
+          </ul>
+          <ul v-if="isActive == 2">
+            <li v-for="(item, idx) in result.listResult" :key="idx">
+              <section
+                class="container"
+                :class="[
+                  item.signStatus4 === 25 ? 'active' : '',
+                  [14, 17, 20, 22].includes(item.signStatus4) === true
+                    ? 'positive'
+                    : '',
+                ]"
+              >
+                <div class="item item-1">
+                  <p class="icon iconRight iconfont icon-day"></p>
+                </div>
+                <div class="item item-2">
+                  <p>
+                    {{ $global.timestampToTime(item.signTime4) }}
+                  </p>
+                </div>
+                <div class="item item-7">
+                  <p class="icon iconRight iconfont icon-account"></p>
+                </div>
+                <div class="item item-8">
+                  <p>
+                    {{ item.projectName }}
+                  </p>
+                </div>
+                <div class="item item-5">
+                  <p class="icon iconRight iconfont icon-account"></p>
+                </div>
+                <div class="item item-6">
+                  <p>
+                    {{ item.userName }}
+                  </p>
+                </div>
+                    <div class="item item-5">
+                  <p class="icon iconRight iconfont icon-account"></p>
+                </div>
+                <div class="item item-6">
+                  <p>
+                    {{ item.agreementKey }}
+                  </p>
+                </div>
+              </section>
+            </li>
+          </ul>
+          <ul v-if="isActive == 3">
+            <li v-for="(item, idx) in result.listResultI" :key="idx">
+              <section
+                class="container"
+                :class="[
+                  item.signStatus4 === 54 ? 'active' : '',
+                  [55].includes(item.signStatus4) === true ? 'positive' : '',
+                ]"
+              >
+                <div class="item item-1">
+                  <p class="icon iconRight iconfont icon-day"></p>
+                </div>
+                <div class="item item-2">
+                  <p>
+                    {{ $global.timestampToTime(item.signTime4) }}
+                  </p>
+                </div>
+                <div class="item item-7">
+                  <p class="icon iconRight iconfont icon-account"></p>
+                </div>
+                <div class="item item-8">
+                  <p>
+                    {{ item.projectName }}
+                  </p>
+                </div>
+                <div class="item item-5">
+                  <p class="icon iconRight iconfont icon-account"></p>
+                </div>
+                <div class="item item-6">
+                  <p>
+                    {{ item.userName }}
+                  </p>
+                </div>
+                
+              </section>
+            </li>
+          </ul>
         </article>
       </v-scroll>
     </main>
@@ -54,86 +168,159 @@ import Scroll from "../loadmore";
 export default {
   name: "mhome",
   components: {
-    "v-scroll": Scroll
+    "v-scroll": Scroll,
   },
   data() {
     return {
+      activeNames: [],
+      isActive: 1,
       loaded: false,
-      refreshing: false,
-      content: []
+      content: [],
+      result: {},
     };
   },
   computed: {},
   created() {
-    this.load();
+    this.middlemanGetRecommendationHistory();
   },
   mounted() {
     // this.boxHeight = this.$refs.box.clientHeight;
     // this.articleHight = this.$refs.box.clientHeight * 2;
   },
   methods: {
-    load(done) {
-      this.content = [];
-      setTimeout(() => {
-        this.content = [
-          {
-            time: "2020-06-07",
-            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-            name: "Jason Chan"
-          },
-          {
-            time: "2020-06-07",
-            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-            name: "Jason Chan"
-          },
-          {
-            time: "2020-06-07",
-            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-            name: "Jason Chan"
-          },
-          {
-            time: "2020-06-07",
-            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-            name: "Jason Chan"
-          },
-          {
-            time: "2020-06-07",
-            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-            name: "Jason Chan"
-          },
-          {
-            time: "2020-06-07",
-            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-            name: "Jason Chan"
-          },
-          {
-            time: "2020-06-07",
-            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-            name: "Jason Chan"
-          },
-          {
-            time: "2020-06-07",
-            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-            name: "Jason Chan"
-          },
-          {
-            time: "2020-06-07",
-            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-            name: "Jason Chan"
-          },
-          {
-            time: "2020-06-07",
-            content: "CDC Biodiversité – Biodiversity Offsetting(success)",
-            name: "Jason Chan"
+    pick(num) {
+      this.isActive = num;
+      // this.load();
+    },
+    middlemanGetRecommendationHistory(done) {
+      this.loaded = false;
+      this.result = {};
+      let self = this;
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectRecommendation/middlemanGetRecommendationHistory`
+        )
+        .then((res) => {
+          self.loaded = true;
+          if (done) {
+            done();
           }
-        ];
-        this.loaded = true;
-        if (done) done();
-      }, 1000);
+          if (res.data.resultCode == 10000) {
+            console.log(res);
+            let result = res.data.data;
+            for (let key in result) {
+              if (result[key].length) {
+                result[key] = result[key].map((item) => {
+                  if (key == "listResult") {
+                    // 我推荐的中间人
+                    if ([14, 17, 20, 22, 25].includes(item.signStatus4)) {
+                      return {
+                        signTime4: item.signTime4,
+                        projectName: item["projectName" + self.$global.lan()],
+                        userName:
+                          item.userIdentityType4 == 1
+                            ? item.userName4
+                            : item[
+                                "userCompany" + self.$global.language() + "4"
+                              ],
+                        signStatus4: item.signStatus4,
+                        agreementKey:item.agreementKey || "",
+                      };
+                    }
+                  } else if (key == "listResultI") {
+                    //我推荐的投资人
+                    if ([54, 55].includes(item.signStatus4)) {
+                      return {
+                        signTime4: item.signTime4,
+                        projectName: item["projectName" + self.$global.lan()],
+                        userName:
+                          item.userIdentityType3 == 1
+                            ? item.userName3
+                            : item["userCompany" + self.$global.language()+'3'],
+                        signStatus4: item.signStatus4,
+                        // agreementKey:item.agreementKey || "",
+                      };
+                    }
+                  } else if (key == "listResultM") {
+                    //谁推荐我
+                    // 17、32、37、39是拒绝；41是成功
+                    if ([17, 32, 37, 39, 41].includes(item.signStatus4)) {
+                      return {
+                        signTime4: item.signTime4,
+                        projectName: item["projectName" + self.$global.lan()],
+                        userName:
+                          item.userIdentityType == 1
+                            ? item.userName
+                            : item["userCompany" + self.$global.language()],
+                        signStatus4: item.signStatus4,
+                        agreementKey:item.agreementKey || "",
+                      };
+                    }
+                  }
+                });
+              }
+            }
+            this.result = result;
+          }
+        });
+    },
+    load(done) {
+      this.loaded = false;
+      this.signList = {};
+      let self = this,
+        RequestUrl;
+      this.source = this.$axios.CancelToken.source();
+      // if (self.isActive == 1) {
+      //   RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectRecommendation/iBackGetMiddlemanABRHistory`;
+      // } else if (self.isActive == 2) {
+      //   RequestUrl = `${this.$axios.defaults.baseURL}/bsl_web/projectRecommendation/iBackGetMiddlemanInvestorRHistory`;
+      // }
+
+      this.$global
+        .post_encapsulation(
+          RequestUrl,
+          {},
+          {
+            cancelToken: this.source.token,
+          }
+        )
+        .then((res) => {
+          self.loaded = true;
+          if (done) {
+            done();
+          }
+          if (res.data.resultCode == 10000) {
+            let signList = res.data.data.signList;
+            for (let key in signList) {
+              if (signList[key].length) {
+                signList[key] = signList[key].map((item) => {
+                  return {
+                    signTime4: item.signTime4,
+                    sharingMechanismType: item.sharingMechanismType,
+                    projectName: item["projectName" + self.$global.lan()],
+                    sharingMechanism: item.sharingMechanism,
+                    userName:
+                      item.userIdentityType == 1
+                        ? item.userName
+                        : item["userCompany" + self.$global.language()],
+                    userName4:
+                      item.userIdentityType4 == 1
+                        ? item.userName4
+                        : item["userCompany" + self.$global.language() + "4"],
+                  };
+                });
+              }
+            }
+            this.signList = signList;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     onRefresh(done) {
-      this.loaded = false;
-      this.load(done);
+      // this.Refreshing = true;
+      this.middlemanGetRecommendationHistory(done);
     },
     onInfinite(done) {
       if (!this.loaded) this.onInfinitePort(done);
@@ -144,10 +331,10 @@ export default {
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
           {
-            searchKey: this.searchkey
+            searchKey: this.searchkey,
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.data.data instanceof Array) {
             for (let i = 0; i < res.data.data.length; i++) {
               this.countrylist.push({
@@ -158,68 +345,45 @@ export default {
                     ? res.data.data[i].countryZhname
                     : res.data.data[i].countryEnname,
                 value: i,
-                remark: res.data.data[i].countryCode
+                remark: res.data.data[i].countryCode,
               });
             }
             done();
           }
         });
     },
-
-    dropdown() {
-      if (this.articleHight > this.$refs.box.clientHeight * 2) {
-        this.articleHight = this.$refs.box.clientHeight * 2;
-      } else {
-        this.articleHight = this.$refs.article.clientHeight;
-      }
-    },
-    toggle() {
-      // console.log(index);
-      // this.$refs.checkboxes[index].toggle();
-    },
-    delectTag(item, idx) {
-      this.taglist.splice(idx, 1);
-    }
-  }
+  },
 };
 </script>
 <style lang="scss">
-#recommandHistory {
-  .van-checkbox-group {
-    // height: vw(700);
-    overflow: hidden;
-    transition: all 2s ease-out;
-    // height: vw(300);
-    // overflow-y: auto;
-    .van-checkbox__icon .van-icon {
-      width: vw(62);
-      height: vw(62);
-      line-height: vw(62);
-      font-size: vw(40);
-      border-color: #00f0ab;
-    }
-    .van-cell__title {
-      color: #4f3dad;
-      font-size: vw(30);
-    }
-    .van-cell {
-      padding: 0;
-      padding-bottom: vw(60);
-      // padding-left: 0;
-      // padding-right: 0;
-    }
-    .van-cell::after {
-      border-bottom: none;
-    }
-    .van-hairline--top-bottom::after,
-    .van-hairline-unset--top-bottom::after {
-      border-width: 0;
-    }
+#a_recommandHistory {
+  .van-cell__title {
+    color: #4f3dad;
+  }
+  .van-collapse-item__content {
+    padding: 0;
+  }
+  .van-hairline--top-bottom::after,
+  .van-hairline-unset--top-bottom::after {
+    border-width: 0;
+  }
+  .van-cell__right-icon {
+    color: #4f3dad;
+  }
+  .van-cell::after {
+    border-bottom: vw(2) solid #4f3dad;
+  }
+  .van-collapse-item--border::after {
+    border-top: vw(2) solid #4f3dad;
+  }
+  .yo-scroll .inner {
+    position: relative;
+    z-index: 8;
   }
 }
 </style>
 <style lang="scss"  scoped>
-#recommandHistory {
+#a_recommandHistory {
   // height: 100%;
   main {
     //   background: #fff;
@@ -228,7 +392,7 @@ export default {
     bottom: 50px;
     left: 0;
     right: 0;
-    top: 50px;
+    top: 55px;
     .yo-scroll {
       top: vw(348);
       bottom: vw(114);
@@ -239,67 +403,89 @@ export default {
     // padding: vw(140) 0 vw(116);
     // position: relative;
     header {
-      padding: 0 vw(30);
-      display: flex;
-      //   margin-bottom: vw(76);
-      justify-content: space-between;
-      div {
+      div.boxes {
+        // padding: 0 vw(30);
         display: flex;
-        align-items: center;
-        justify-content: center;
-        border: vw(2) solid #3ab5cc;
-        width: vw(216);
-        height: vw(132);
-        // background: #3ab5cc;
-        color: #3ab5cc;
-        border-radius: vw(30);
-        text-align: center;
-        font-size: vw(26);
-        font-weight: bold;
-        line-height: vw(30);
-        // color: #ffffff;
-        opacity: 1;
+        justify-content: space-evenly;
+
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: vw(2) solid #3ab5cc;
+          width: vw(216);
+          height: vw(132);
+          // background: #3ab5cc;
+          color: #3ab5cc;
+          border-radius: vw(30);
+          text-align: center;
+          font-size: vw(26);
+          font-weight: bold;
+          line-height: vw(30);
+          // color: #ffffff;
+          opacity: 1;
+        }
+        .active {
+          background: #3ab5cc;
+          color: #ffffff;
+          z-index: 100;
+        }
+        .positive {
+          color: #3ab5cc;
+          background: #ffffff;
+          z-index: 100;
+        }
       }
     }
     article {
-      table {
-        font-size: vw(26);
-        line-height: vw(34);
-        text-align: center;
+      .container {
+        display: grid;
         color: #4f3dad;
+        grid-row: 3;
+        padding: vw(54);
+        // margin-bottom: vw(100);
+        grid-gap: vw(28) vw(30);
+        grid-template-columns: vw(30) auto;
+        grid-template-rows: repeat(auto);
+        grid-column: 2;
+        grid-auto-flow: row;
+        font-size: vw(24);
+        word-wrap: break-word;
+        word-break: break-all;
         font-weight: bold;
-        position: relative;
-        td {
-          padding: vw(60) 0;
-          line-height: vw(30);
-          font-size: vw(26);
-        }
-        .tr-first {
-          // display: flex;
-          th:nth-of-type(1) {
-            width: vw(220);
-          }
-          th:nth-of-type(2) {
-            width: vw(220);
-          }
-          th:nth-of-type(3) {
-            // width: vw(260);
-          }
-
-          th:nth-of-type(3) {
-            display: flex;
-            align-items: center;
-            // display: table-cell;
-            // vertical-align: middle;
-            i {
-              // display: inline-block;
-              // height: vw(36);
-              // width: vw(36);
-
-              // background: #4f3dad;
-            }
+        align-items: start;
+        line-height: vw(28);
+        .item-1 {
+          p.iconRight {
+            font-size: vw(29);
           }
         }
+        .item-3 {
+          p.iconRight {
+            font-size: vw(28);
+          }
+        }
+        .item-5 {
+          p.iconRight {
+            font-size: vw(28);
+            line-height: vw(28);
+          }
+        }
+        .item-6 {
+          p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+          }
+        }
+      }
+      .container.active {
+        // color: #3ab5cc;
+      }
+      .container.positive {
+        color: #757575;
       }
     }
   }

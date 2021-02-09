@@ -83,6 +83,7 @@
             </p>
           </div>
         </div>
+        <!-- <p class="reminder">{{ reminderMsg }}</p> -->
         <ul v-if="obj.sharingResult == 1">
           <li>
             <van-button
@@ -93,9 +94,11 @@
             >
           </li>
           <li>
-            <van-button @click="pick(1)" class="renewal">{{
-              $t("Bargin.Suggest")
-            }}</van-button>
+            <van-button
+              @click="pick(1)"
+              class="renewal"
+              >{{ $t("Bargin.Suggest") }}</van-button
+            >
           </li>
           <li>
             <van-button
@@ -122,6 +125,7 @@ export default {
     return {
       radio: "",
       isactive: false,
+      reminderMsg: "当你调整数字后反建议按钮才可以生效",
       obj: {
         sharingMechanism01: 0,
         sharingMechanism04: 0,
@@ -180,35 +184,39 @@ export default {
         .then(() => {
           // on confirm
           this.acceptOrRejectCommission(num);
-          // this.$routerto("a_previewContract", obj);
         })
         .catch(() => {
           // on cancel
         });
     },
     acceptOrRejectCommission(num) {
-      let sharingMechanism0;
-      let sharingMechanism1;
-      if (this.obj.sharingMechanismType4 === 0) {
-        sharingMechanism0 = this.obj.sharingMechanism01;
-        sharingMechanism1 = "";
-        //  this.obj.sharingMechanism04;
-      } else if (this.obj.sharingMechanismType4 === 1) {
-        sharingMechanism0 = "";
-        // this.obj.sharingMechanism14;
-        sharingMechanism1 = this.obj.sharingMechanism11;
-      }
-      // console.log(sharingMechanism0, sharingMechanism1);
-      // if (num === 0) {
-      //   return {
-      //     optType: num,
-      //     sharingMechanismType: this.obj.sharingMechanismType4,
-      //     sharingMechanism0: sharingMechanism0,
-      //     sharingMechanism1: sharingMechanism1,
-      //     signId: this.$route.query.signId,
-      //     middlemanId: this.$route.query.middlemanId
-      //   };
+      // let sharingMechanism0;
+      // let sharingMechanism1;
+      // if (this.obj.sharingMechanismType4 === 0) {
+      //   sharingMechanism0 = this.obj.sharingMechanism01;
+      //   sharingMechanism1 = "";
+      //   //  this.obj.sharingMechanism04;
+      // } else if (this.obj.sharingMechanismType4 === 1) {
+      //   sharingMechanism0 = "";
+      //   // this.obj.sharingMechanism14;
+      //   sharingMechanism1 = this.obj.sharingMechanism11;
       // }
+      // console.log(sharingMechanism0, sharingMechanism1);
+      let sharingMechanism0 = null,
+        sharingMechanism1 = null;
+      if (num == 2 || num == 0) {
+        if (this.obj.sharingMechanismType4 === 0) {
+          sharingMechanism0 = this.obj.sharingMechanism04;
+        } else if (this.obj.sharingMechanismType4 === 1) {
+          sharingMechanism1 = this.obj.sharingMechanism14;
+        }
+      } else if (num === 1) {
+        if (this.obj.sharingMechanismType4 === 0) {
+          sharingMechanism0 = this.obj.sharingMechanism01;
+        } else if (this.obj.sharingMechanismType4 === 1) {
+          sharingMechanism1 = this.obj.sharingMechanism11;
+        }
+      }
 
       this.$global
         .post_encapsulation(
@@ -230,11 +238,7 @@ export default {
             })
             .then(() => {
               if (res.data.resultCode == 10000) {
-                if (num === 0) {
-                  this.$routerto("a_previewContract", this.$route.query);
-                } else {
-                  this.$routerto("mysign");
-                }
+                this.$routerto("mysign");
               }
               // on close
             });
@@ -416,6 +420,11 @@ export default {
             margin-bottom: vw(8);
           }
         }
+      }
+      p.reminder {
+        margin-top: vw(10);
+        color: #00f0ab;
+        text-align: right;
       }
     }
   }

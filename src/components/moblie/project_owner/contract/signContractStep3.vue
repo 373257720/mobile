@@ -12,11 +12,11 @@
       </h1>
       <div v-if="$route.query.signStatus4 == 16" class="bargin-upper">
         <h3>{{ $t("project.Projectproposal") }}</h3>
-        <div>
-          <p v-if="sharingMechanismType === 0">
+        <div >
+          <p class="title" v-if="sharingMechanismType === 0">
             {{ $t("Bargin.Percentagebyintermediaries") }}
           </p>
-          <p v-if="sharingMechanismType === 1">
+          <p class="title" v-if="sharingMechanismType === 1">
             {{ $t("Bargin.Percentageprojectparty") }}
           </p>
           <div class="count">
@@ -39,11 +39,11 @@
               ></span>
             </p>
           </div>
-            <ul>
-          <li>
-            <button @click="Sendtext">{{ $t("common.Send") }}</button>
-          </li>
-        </ul>
+          <ul>
+            <li>
+              <button @click="Sendtext">{{ $t("common.Send") }}</button>
+            </li>
+          </ul>
         </div>
       </div>
       <div v-else class="bargin-upper">
@@ -296,7 +296,9 @@ And sign the contract with the project party`,
       background: #4f3dad;
       border-radius: vw(50);
       color: #ffffff;
-
+      p.title {
+        font-size: vw(26);
+      }
       h3 {
         font-size: vw(26);
         font-weight: bold;
@@ -322,6 +324,7 @@ And sign the contract with the project party`,
         }
       }
       ul {
+        margin-top: vw(40);
         display: flex;
         justify-content: center;
         li {
@@ -362,6 +365,7 @@ And sign the contract with the project party`,
           padding: vw(8);
           color: #4f3dad;
           height: vw(40);
+
           background: #ffffff;
           opacity: 1;
           border-radius: vw(5);

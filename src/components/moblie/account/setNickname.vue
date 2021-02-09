@@ -93,6 +93,9 @@ export default {
                 ) {
                   this.validateForm[i] =
                     res.data.data[key] === 1 ? true : false;
+                } else if (key == "bslName") {
+                  this.validateForm[key] =
+                    res.data.data[key] || res.data.data.bslEmail;
                 } else {
                   this.validateForm[i] = res.data.data[key];
                 }

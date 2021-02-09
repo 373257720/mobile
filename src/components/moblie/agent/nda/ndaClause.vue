@@ -9,30 +9,6 @@
     <main class="main">
       <form ref="form">
         <div class="mui-input-row input-row">
-          <p class="label">For and on behalf of</p>
-          <input
-            name="userName"
-            type="text"
-            v-model="NDAcontract.projectPartybehalf"
-          />
-        </div>
-        <div class="mui-input-row input-row">
-          <p class="label">Name</p>
-          <input
-            name="Password"
-            type="text"
-            v-model="NDAcontract.projectPartyname"
-          />
-        </div>
-        <div class="mui-input-row input-row">
-          <p class="label">Title</p>
-          <input
-            name="Password"
-            type="text"
-            v-model="NDAcontract.projectPartytitle"
-          />
-        </div>
-        <div class="mui-input-row input-row">
           <p class="label">NDA Terms</p>
           <div id="editor">
             <!-- Employee shall not use for Employee’s personal benefit, or disclose,
@@ -55,6 +31,30 @@
             information, trade secrets, and the like. -->
           </div>
           <!-- <input name="Password" type="text" v-model="validateForm.password" /> -->
+        </div>
+        <div class="mui-input-row input-row">
+          <p class="label">For and on behalf of</p>
+          <input
+            name="userName"
+            type="text"
+            v-model="NDAcontract.projectPartybehalf"
+          />
+        </div>
+        <div class="mui-input-row input-row">
+          <p class="label">Name</p>
+          <input
+            name="Password"
+            type="text"
+            v-model="NDAcontract.projectPartyname"
+          />
+        </div>
+        <div class="mui-input-row input-row">
+          <p class="label">Title</p>
+          <input
+            name="Password"
+            type="text"
+            v-model="NDAcontract.projectPartytitle"
+          />
         </div>
         <p class="error">{{ errorsMsg }}</p>
         <footer>
@@ -148,15 +148,18 @@ export default {
     editor.config.lang = lan;
     editor.i18next = i18next;
     // 关闭粘贴样式的过滤
-    editor.config.pasteFilterStyle = true;
-    console.log(editor);
+    editor.config.pasteFilterStyle = false;
+    // console.log(editor);
     // // 忽略粘贴内容中的图片
     editor.config.pasteIgnoreImg = true;
     // // 自定义处理粘贴的文本内容
     editor.config.pasteTextHandle = function (content) {
-      console.log(content);
+      // console.log(content);
       // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
       return content;
+
+
+
     };
     // editor.i18next
     // 或者 var editor = new E( document.getElementById('editor') )
@@ -164,6 +167,7 @@ export default {
   },
   methods: {
     editorOnchange(newHtml) {
+      console.log(newHtml);
       this.NDAcontract.editorContent = newHtml;
     },
     submit_click() {
@@ -174,7 +178,7 @@ export default {
         // console.log(errorMsg);
         return false;
       }
-      // console.log(this.NDAcontract);
+      console.log(this.NDAcontract.editorContent);
       this.goto("NDAsignature");
     },
     validateFunc() {
@@ -249,8 +253,8 @@ export default {
 </style>
 <style lang='scss' scoped>
 #login1st {
-  min-height: 100vh;
-  width: 100vw;
+  // min-height: 100vh;
+  // width: 100vw;
   // background: #2f36ac;
   display: flex;
   flex-direction: column;
