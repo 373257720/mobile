@@ -161,30 +161,33 @@ export default {
     },
     pick(data) {
       if (this.GoToname == "Industry") {
-        let a = this.List.industryList.filter((item) => {
-          for (let i = 0; i < data.industryList.length; i++) {
-            if (item.value === data.industryList[i]) {
-              return item;
+        let a = [];
+        data.industryList.forEach((item) => {
+          this.List.industryList.forEach((element) => {
+            if (item == element.value) {
+              a.push(element);
             }
-          }
+          });
         });
         this.$store.commit("electedList", { arr: a, name: "industryList" });
       } else if (this.GoToname == "Region") {
-        let a = this.List.regionList.filter((item) => {
-          for (let i = 0; i < data.regionList.length; i++) {
-            if (item.value === data.regionList[i]) {
-              return item;
+        let a = [];
+        data.regionList.forEach((item) => {
+          this.List.regionList.forEach((element) => {
+            if (item == element.value) {
+              a.push(element);
             }
-          }
+          });
         });
         this.$store.commit("electedList", { arr: a, name: "regionList" });
       } else if (this.GoToname == "Tag") {
-        let a = this.List.taglist.filter((item) => {
-          for (let i = 0; i < data.taglist.length; i++) {
-            if (item.value === data.taglist[i]) {
-              return item;
+        let a = [];
+        data.taglist.forEach((item) => {
+          this.List.taglist.forEach((element) => {
+            if (item == element.value) {
+              a.push(element);
             }
-          }
+          });
         });
         this.$store.commit("electedList", { arr: a, name: "taglist" });
       }

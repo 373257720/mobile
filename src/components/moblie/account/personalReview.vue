@@ -99,21 +99,30 @@
         </li>
         <li
           v-if="
-            formdata.userIdentityType == 1 && formdata.userCountryEn == 'China'
+            formdata.userIdentityType == 1 &&
+            formdata.userCountryEn == 'China' &&
+            formdata.identityPicOne
           "
           class="pic"
         >
           <aside>{{ $t("common.IdentificationNumber") }}:</aside>
-          <img :src="formdata.identityPicOne" alt />
-          <img :src="formdata.identityPicTwo" alt />
+          <!-- <van-uploader v-model="fileList" :deletable="false" /> -->
+          <img :src="$axios.defaults.baseURL + formdata.identityPicOne" alt />
+          <img :src="$axios.defaults.baseURL + formdata.identityPicTwo" alt />
         </li>
-        <li v-else-if="formdata.userIdentityType == 1" class="pic">
+        <li
+          v-else-if="formdata.userIdentityType == 1 && formdata.identityPicOne"
+          class="pic"
+        >
           <aside>{{ $t("common.passport") }}:</aside>
-          <img :src="formdata.identityPicOne" alt />
+          <img :src="$axios.defaults.baseURL + formdata.identityPicOne" alt />
         </li>
-        <li v-if="formdata.userIdentityType == 2" class="pic">
+        <li
+          v-if="formdata.userIdentityType == 2 && formdata.userCompanyPic"
+          class="pic"
+        >
           <aside>{{ $t("common.Certificate") }}:</aside>
-          <img :src="formdata.userCompanyPic" alt />
+          <img :src="$axios.defaults.baseURL + formdata.userCompanyPic" alt />
         </li>
       </ul>
       <h2 v-if="optStatus == 2">
@@ -188,6 +197,7 @@ export default {
           this.$store.commit("isloading", false);
           if (res.data.resultCode === 10000) {
             this.optStatus = res.data.data.optStatus;
+            // this.optStatus = 2;
             for (let key in res.data.data) {
               for (let k in this.formdata) {
                 if (key == k) {
@@ -202,8 +212,7 @@ export default {
                     key == "identityPicOne" ||
                     key == "identityPicTwo"
                   ) {
-                    this.formdata[k] =
-                      this.$axios.defaults.baseURL + res.data.data[key];
+                    this.formdata[k] = res.data.data[key];
                     // console.log(this.formdata[k]);
                   } else if (key == "optRemark") {
                     if (this.$global.isJSON(res.data.data[key])) {
@@ -237,8 +246,10 @@ export default {
   main {
     padding: vw(140) vw(60) vw(116);
     h2 {
+      padding-top: vw(150);
       margin-bottom: vw(20);
-
+      color: #4f3dad;
+      font-size: vw(50);
       h3 {
         font-weight: bold;
         font-size: vw(50);
@@ -256,7 +267,7 @@ export default {
         font-size: vw(30);
         font-family: Helvetica Neue;
         font-weight: bold;
-        line-height: vw(34);
+    
         color: #4f3dad;
         opacity: 1;
         margin-bottom: vw(40);
@@ -264,6 +275,7 @@ export default {
         flex-wrap: wrap;
         aside {
           margin-right: vw(10);
+          // line-height: vw(34);
         }
       }
       li.pic {

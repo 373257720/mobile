@@ -3,7 +3,7 @@
     <commonnav>
       {{ $t("project.RecommendMore") }}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$router.go(-1)" />
+       <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>

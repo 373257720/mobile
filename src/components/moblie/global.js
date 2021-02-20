@@ -3,9 +3,39 @@ import Vue from "vue";
 import router from "../../router";
 import { i18n } from "../../language";
 import qs from "qs";
+import { Dialog } from "vant";
+Vue.use(Dialog);
 import store from "../../store/store";
 import AsyncValidator from "async-validator";
 const global = {
+  /**
+  * 设置cookie
+  * @param name cookie的名称
+  * @param value cookie的值
+  * @param day cookie的过期时间
+  */
+  setCookie(name, value, day) {
+    if (day !== 0) {     //当设置的时间等于0时，不设置expires属性，cookie在浏览器关闭后删除
+      var expires = day * 24 * 60 * 60 * 1000;
+      var date = new Date(+new Date() + expires);
+      document.cookie = name + "=" + escape(value) + ";expires=" + date.toUTCString();
+    } else {
+      document.cookie = name + "=" + escape(value);
+    }
+  },
+  /**
+     * 获取对应名称的cookie
+     * @param name cookie的名称
+     * @returns {null} 不存在时，返回null
+     */
+  getCookie(name) {
+    var arr;
+    var reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    if (arr = document.cookie.match(reg))
+      return unescape(arr[2]);
+    else
+      return null;
+  },
   isJSON(str) {
     if (typeof str == 'string') {
       try {
@@ -348,8 +378,20 @@ const global = {
 
 
   previous() {
+    if (this.getCookie('islogin')) {
+      router.go(-1);
+    } else {
+      Dialog.alert({
+        title: "cookie已不存在，需要重新登录"
+      }).then(() => {
+        const restore_obj = this.deepCopy(store._modules.root.state);
+        store.dispatch("reset_actions", restore_obj);
+        window.sessionStorage.clear();
+        location.href = process.env.WEB_API;
+      });
+    }
 
-    router.go(-1);
+
 
   },
   cleanall() {
