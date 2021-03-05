@@ -278,6 +278,7 @@ export default {
     },
   },
   created() {
+    // console.log(this.$route);
     // this.getcountrylist("");
     // console.log(this.usercheck);
   },
@@ -335,7 +336,6 @@ export default {
     },
     submit_click() {
       this.errorsMsg = "";
-
       let errorMsg = this.validateFunc();
       if (errorMsg) {
         this.errormsg = errorMsg;
@@ -799,9 +799,7 @@ export default {
         </div>`;
       this.formdata.emailData = letter;
       this.formdata.userCountryCh = this.validateForm.nation.chinese;
-
       this.formdata.userCountryEn = this.validateForm.nation.eng;
-
       this.$global
         .post_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/user/submitAuth`,
@@ -816,10 +814,14 @@ export default {
                 // message: "点"
               })
               .then(() => {
-                this.$router.replace({
-                  //核心语句
-                  path: "/login", //跳转的路径
-                });
+                if (this.$route.query.again) {
+                  this.$routerto("mine");
+                } else {
+                  this.$router.replace({
+                    //核心语句
+                    path: "/login", //跳转的路径
+                  });
+                }
               });
             // this.success = !this.success;
           } else {

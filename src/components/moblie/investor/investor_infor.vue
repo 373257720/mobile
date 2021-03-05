@@ -1,166 +1,244 @@
 <template>
-  <div id="i_inverstor_infor">
-<!--    <nav>
-      <van-icon name="arrow-left" @click="$global.previous()" />{{$t('investor.InformationOfContractedInvestors')}}
-    </nav> -->
-    <commonnav :msg="$t('investor.InformationOfContractedInvestors')"></commonnav>
+  <div id="p_investor_lists">
+    <commonnav>
+      投资人
+      <template v-slot:arrowLeft>
+        <van-icon name="arrow-left" @click="$global.previous()" />
+      </template>
+    </commonnav>
     <main>
-      <!-- <aside>
-        <img src="../../assets/26566ffb301dac8c24d21969b538612.png" alt />
-      </aside>-->
       <article>
-        <!-- <header>放水电费鼎飞丹砂</header> -->
         <ul>
-          <li i v-for="(item) in details_lists" :key="item.name">
-            <div
-              v-if="item.keyword!='investorsCompany' || (item.keyword=='investorsCompany' && item.response!='')"
-            >
-              <p class="row1">{{item.name}}</p>
-              <p class="row2 init">{{item.response}}</p>
-            </div>
+          <li v-for="(value,key) in projectItem" :key="key" :class="{'potentialInvestorsTags':value.classname}">
+            <aside class="iconfont" :class="value.tag"></aside>
+            <p  v-if="key=='potentialInvestorsTags'">
+              <section v-for="(item,idx) in value.content" :key="idx">
+                <span>{{idx+1}}.</span>
+                <span>{{item}}</span>
+              </section>
+            </p>
+            <p v-else>{{value.content}}</p>
           </li>
         </ul>
+        <!-- <section>
+              <aside class="iconfont icon-bitbroicon2"></aside>
+              <p>{{$global.timestampToTime(item.optTime)  }}</p>
+            </section>
+            <section>
+              <aside class="iconfont icon-bitbroicon2"></aside>
+              <p>{{ $t($global.investorsType[item.recommendType]) }}</p>
+            </section>
+            <section v-if="item.recommendType == 1">
+              <aside class="iconfont icon-bitbroicon2"></aside>
+              <p>{{ item.recommendName }}</p>
+            </section>
+            <section v-if="item.recommendType == 2">
+              <aside class="iconfont icon-bitbroicon2"></aside>
+              <p>{{ item.recommendCompany }}</p>
+            </section>
+            <section>
+              <aside class="iconfont icon-bitbroicon2"></aside>
+              <p>{{ item.recommendMobile }}</p>
+            </section>
+            <section>
+              <aside class="iconfont icon-bitbroicon2"></aside>
+              <p>{{ item.recommendIndustries.join(",") }}</p>
+            </section>
+            <section>
+              <aside class="iconfont icon-bitbroicon2"></aside>
+              <p>{{ item.recommendEmail }}</p>
+            </section>
+            <section>
+              <aside class="iconfont icon-bitbroicon2"></aside>
+              <p>{{ item.recommendCompanyAddress }}</p>
+            </section>
+            <section>
+              <aside class="iconfont icon-bitbroicon2"></aside>
+              <p>{{ item.recommendArea }}</p>
+            </section> -->
+        <!-- <p>
+              <section v-for="(item,idx) in value.content" :key="idx">
+                <span>{{idx+1}}.</span>
+                <span>{{item}}</span>
+              </section>
+            </p> -->
       </article>
     </main>
   </div>
 </template>
 <script>
 export default {
-  name: "i_inverstor_infor",
+  name: "investor_lists",
   data() {
     return {
-      details_lists: [
-        {
-          keyword: "investorsCompany",
-          name:  this.$t('agent.InvestorCompany'),
-          response: ""
+      dad_text: this.$t("projectOwner.InvestorInformation"),
+      form: {
+        investorsIdList: [],
+        // X_Token: this.$store.state.X_Token
+      },
+      // investorsId:'',
+      projectItem: {
+        recommendCompany: {
+          tag: "icon-bitbroicon2",
+          content: "",
         },
-        {
-          keyword: "investorsName",
-          name: this.$t('agent.InvestorName'),
-          response: ""
+        recommendName: {
+          tag: "icon-bitbroicon2",
+          content: "",
         },
-        {
-          keyword: "investorsArea",
-          name: this.$t('investor.InvestorRegion'),
-          response: ""
+        recommendArea: {
+          tag: "icon-bitbroicon2",
+          content: "",
         },
-        {
-          keyword: "investorsMobile",
-          name: this.$t('investor.InvestorPhone'),
-          response: ""
+        recommendMobile: {
+          tag: "icon-bitbroicon4",
+          content: "",
         },
-        {
-          keyword: "investorsEmail",
-          name: this.$t('investor.InvestorEmail'),
-          response: ""
+        recommendEmail: {
+          tag: "icon-bitbroicon5",
+          content: "",
         },
-        {
-          keyword: "interestedIndustries",
-          name: this.$t('investor.InvestorInterest'),
-          response: ""
+        recommendIndustries: {
+          tag: "icon-bitbroicon7",
+          content: [],
+          classname: true,
         },
-        {
-          keyword: "investorsCompanyAddress",
-          name: this.$t('investor.InvestorCompanyAddress'),
-          response: ""
-        }
-      ],
-
+        recommendCompanyAddress: {
+          tag: "icon-bitbroicon6",
+          content: "",
+        },
+      },
     };
   },
-  created() {
-    this.$loading();
-      this.$global.get_encapsulation( `${this.$axios.defaults.baseURL}/bsl_web/projectSign/getInvestorsDetail`,
-        {
-          investorsId:this.$route.query.investorsId,
-        })
-      .then(res => {
-        console.log(res.data.data.lan)
-      for (var i in res.data.data) {
-        for (var j = 0; j < this.details_lists.length; j++) {
-          if (this.details_lists[j].keyword == i) {
-						
-						if(res.data.data.lan=='zh_CN'){
-							  if(i=='interestedIndustries'){
-								  this.details_lists[j].response = res.data.data.interestedIndustries || '-';
-							  }else if(i=='investorsArea'){
-								   this.details_lists[j].response = res.data.data.investorsArea || '-';;
-							  }  else if(i=='investorsCompany'){
-								this.details_lists[j].response = res.data.data.investorsCompany || '-';;
-									}  else if(i=='investorsCompanyAddress'){
-										   this.details_lists[j].response = res.data.data.investorsCompanyAddress || '-';;
-									}else{
-										 this.details_lists[j].response = res.data.data[i] || '-';
-									}
-						}else {
-							  if(i=='interestedIndustries'){
-							   this.details_lists[j].response = res.data.data.interestedIndustriesEn || '-';;
-							  }else if(i=='investorsArea'){
-								 this.details_lists[j].response = res.data.data.investorsAreaEn || '-';;
-							  }else if(i=='investorsCompany'){
-								this.details_lists[j].response = res.data.data.investorsCompanyEn || '-';;
-							}else if(i=='investorsCompanyAddress'){
-							 this.details_lists[j].response = res.data.data.investorsCompanyAddressEn || '-';;
-							}else{
-							 this.details_lists[j].response = res.data.data[i] || '-';
-								}
-										    
-						}
-						
 
+  methods: {
+    getInvestorsList() {
+      // let arr = this.$route.query.arr && JSON.parse(this.$route.query.arr);
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSignOther/getInvestorsDetail`,
+          { investorsId: this.$route.query.investorsId }
+        )
+        .then((res) => {
+          console.log(res);
+          let result = res.data.data;
+          for (let i in result) {
+            for (let key in this.projectItem) {
+              if (key === i) {
+                if (key == "projectCompany") {
+                  this.projectItem[key].content =
+                    result[key + this.$global.lan()];
+                } else if (key == "recommendIndustries") {
+                  // console.log(JSON.parse(result[key]));
+                  let arr = JSON.parse(result[key]);
+                  let arr2 = arr.map((item) => {
+                    return item["industryName" + this.$global.language()];
+                  });
+                  this.projectItem[key].content = arr2.join(",");
+                  // if (result[key].indexOf("[") > -1) {
+                  //   this.projectItem[key].content = eval(
+                  //     "(" + result[key + this.$global.lan()] + ")"
+                  //   );
+                  // }
+                } else {
+                  this.projectItem[key].content = result[i];
+                }
+              }
+            }
           }
-        }
-      }
-       this.$toast.clear();
-    });
 
-  }
+          // arr.forEach((item) => {
+          //   let a = JSON.parse(item.recommendIndustries);
+          //   item.recommendIndustries = a.map((item) => {
+          //     return item["industryName" + this.$global.language()];
+          //   });
+          // });
+          // console.log(arr);
+          // // let a= arr[2].recommendIndustries
+
+          // //   console.log(a);
+          // this.totallists = arr;
+          //  console.log(JSON.parse(this.totallists[0].recommendIndustries)[0]);
+        });
+    },
+  },
+  created() {
+    this.getInvestorsList();
+    // this.$loading();
+    // let arr = [];
+    // console.log(JSON.parse(this.$route.query.arr))
+    // arr = this.$route.query.arr && JSON.parse(this.$route.query.arr);
+    // this.form.investorsIdList = arr;
+    // this.$axios({
+    //   method: "post",
+    //   url: `${this.$axios.defaults.baseURL}/bsl_web/projectSign/getInvestorsList`,
+    //   data: this.$qs.stringify(this.form, { arrayFormat: "brackets" })
+    // });
+    // this.$global
+    //   .post_encapsulation(
+    //     `${this.$axios.defaults.baseURL}/bsl_web/projectSign/getInvestorsList`,
+    //     this.form
+    //   )
+    //   .then(res => {
+    //     this.$toast.clear();
+    //     if (res.data.resultCode == 10000) {
+    //       this.totallists = res.data.data;
+    //       for (let i = 0; i < this.totallists.length; i++) {
+    //         this.totallists[i].signTime3 =
+    //           this.totallists[i].signTime3 == 0
+    //             ? ""
+    //             : this.$global.timestampToTime(this.totallists[i].signTime3);
+    //       }
+    //     }else{
+    //     }
+    //   });
+  },
 };
 </script>
 <style lang="scss">
-#i_inverstor_infor {
+#p_investor_lists {
 }
+// .van-dialog {
+//   font-size: 0.3rem;
+// }
+// .van-dialog__message {
+//   font-size: 0.3rem;
+// }
+// .van-button {
+//   font-size: 0.3rem;
+// }
 </style>
 <style lang="scss" scoped>
-#i_inverstor_infor {
+#p_investor_lists {
   width: 100%;
+  height: 100%;
   main {
-    padding: 1.5rem 0 1.3rem 0;
+    padding: vw(192) vw(70) vw(80);
     background: #ffffff;
-    aside {
-      display: flex;
-      width: 100%;
-      height: 3rem;
-      justify-content: center;
-    }
-    article {
-      margin: 0 0 1.3rem 0;
-      ul {
-        padding: 0.5rem 0.5rem 0 0.5rem;
-        li {
-          > div {
-            margin-bottom: 0.5rem;
-            align-items: baseline;
-            font-size: 0.44rem;
-            line-height: 0.56rem;
-          }
-          .row1 {
-            color: #4c4c4c;
-            font-weight: 600;
-            font-size: 0.46rem;
-            margin-bottom: 0.2rem;
-          }
-          .row2 {
-            /*height: 0.6rem;*/
-            word-break: break-all;
-            line-height: 0.6rem;
-            color: #787878;
-          }
-
+    color: #4f3dad;
+    ul {
+      li {
+        display: flex;
+        align-items: center;
+        margin-bottom: vw(25);
+        aside {
+          font-size: vw(48);
+          line-height: vw(48);
+          border-radius: 50%;
+          margin-right: vw(30);
         }
+        p {
+          flex: 1;
+          margin: 0;
+          font-weight: bold;
+          font-size: vw(24);
+        }
+      }
+      li.potentialInvestorsTags {
+        // align-items: flex-start;
       }
     }
   }
 }
 </style>
+

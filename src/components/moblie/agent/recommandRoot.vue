@@ -1,5 +1,8 @@
 <template>
+<keep-alive include="recommand_i">
   <router-view></router-view>
+</keep-alive>
+  
   <!-- <div id="recommandRoot">123</div> -->
 </template>
 <script>
@@ -11,20 +14,20 @@ export default {
   data() {
     return {
       List: [
-        {
-          recommendType: { label: "Middleman genus", value: 1 },
-          recommendEmail: {
-            label: "Middleman email",
-            value: "373257720@qq.com",
-          },
-          recommendName: { label: "Middleman name", value: "Tony" },
-          recommendArea: {
-            label: "Region",
-            value: "HK",
-            countryZhname: "香港",
-            countryEnname: "Hong Kong",
-          },
-        },
+        // {
+        //   recommendType: { label: "Middleman genus", value: 1 },
+        //   recommendEmail: {
+        //     label: "Middleman email",
+        //     value: "373257720@qq.com",
+        //   },
+        //   recommendName: { label: "Middleman name", value: "Tony" },
+        //   recommendArea: {
+        //     label: "Region",
+        //     value: "HK",
+        //     countryZhname: "香港",
+        //     countryEnname: "Hong Kong",
+        //   },
+        // },
       ],
     };
   },

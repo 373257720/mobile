@@ -409,7 +409,7 @@ export default {
             this.middlemanInfo.recommendEmail.content = result.recommendEmail;
             this.sharingResult = result.sharingResult;
             this.signNdaStatus = result.signNdaStatus;
-
+        console.log(this.signNdaStatus);
             this.$nextTick(() => {
               this.articleoffsetHeight = this.$refs.article.offsetHeight;
               this.projectDescribeHeight = this.$refs.projectDescribe.offsetHeight;
@@ -524,9 +524,10 @@ export default {
             }
             this.sharingResult = res.data.data.sharingResult;
             if (this.signStatus4 < 50) {
-              this.signNdaStatus = res.data.data.signNdaStatus;
+              
             }
-            console.log(this.signNdaStatus);
+            this.signNdaStatus = res.data.data.signNdaStatus;
+            // console.log(this.signNdaStatus);
             this.$nextTick(() => {
               this.articleoffsetHeight = this.$refs.article.offsetHeight;
               this.projectDescribeHeight = this.$refs.projectDescribe.offsetHeight;

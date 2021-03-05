@@ -9,10 +9,8 @@
       style="position: relative; width: 500px; height: 400px;"
     >-->
     <layer></layer>
-    <keep-alive
-      include="mine,userpass,AccountMessage"
-    >
-      <router-view :class="{'ispaddingBottom':ispaddingBottom}"></router-view>
+    <keep-alive include="mine,userpass,AccountMessage">
+      <router-view  :class="{ ispaddingBottom: ispaddingBottom }"></router-view>
     </keep-alive>
     <mbottom v-if="$route.meta.isshowbottom"></mbottom>
     <!-- </div> -->
@@ -33,22 +31,23 @@ export default {
   data() {
     return {
       layerShow: true,
-      SkipSwitchName: ""
+      SkipSwitchName: "",
+      messageTimer: null,
     };
   },
   components: {
-    layer: layer
+    layer: layer,
   },
   watch: {
-    $route: function(to, from) {
+    $route: function (to, from) {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
-    }
+    },
   },
   computed: {
     ispaddingBottom() {
       return this.$route.meta.ispaddingBottom;
-    }
+    },
   },
   created() {
     // console.log(this);
@@ -68,9 +67,26 @@ export default {
     });
   },
   mounted() {
+    // this.messageTimer = setInterval(this.getCountUserMessageUnread, 30000);
     //  plus.screen.lockOrientation( 'portrait-primary')
     // console.log("7-13更新");
-  }
+  },
+  beforeDestroy() {
+    // clearInterval(this.messageTimer);
+  },
+  methods: {
+    getCountUserMessageUnread() {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/getCountUserMessageUnread`
+        )
+        .then((res) => {
+          if (res.data.resultCode == 10000) {
+            this.$store.dispatch("UnreadMessage_action", res.data.data);
+          }
+        });
+    },
+  },
 };
 </script>
 
@@ -82,16 +98,18 @@ body {
 .van-button--default {
   border: none !important;
 }
-
+input {
+  border-radius: 0;
+}
 .van-dialog {
   color: #ffffff;
   background-color: #00e3a2 !important;
-  .van-cell-group{
-  //  background-color: #00e3a2;
-   .van-cell{
-       background-color: #00e3a2;
-       color: #fff;
-   }
+  .van-cell-group {
+    //  background-color: #00e3a2;
+    .van-cell {
+      background-color: #00e3a2;
+      color: #fff;
+    }
   }
   .van-button--default {
     background: #00e3a2;
@@ -114,7 +132,7 @@ body {
     // padding: vw(72) vw(58) vw(72);
     font-size: vw(30);
     line-height: vw(34);
-       color: #ffffff;
+    color: #ffffff;
     font-weight: bold;
   }
   .van-dialog__cancel,

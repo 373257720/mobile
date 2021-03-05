@@ -36,13 +36,15 @@
                 <li>
                   <aside class="iconfont icon-star"></aside>
                   <article>
-                    {{ $t("agent.Re") }}: 5 {{ $t("agent.times") }}
+                    {{ $t("agent.Re") }}: {{ item.surplusLockCount.value }}
+                    {{ $t("agent.times") }}
                   </article>
                 </li>
                 <li>
                   <aside class="iconfont icon-day"></aside>
                   <article>
-                    {{ $t("agent.Rc") }}: 5 {{ $t("agent.days") }}
+                    {{ $t("agent.Rc") }}: {{ item.surpluslockDay.value }}
+                    {{ $t("agent.days") }}
                   </article>
                 </li>
               </ul>
@@ -75,7 +77,7 @@
 </template>
 <script>
 export default {
-  name: "mhome",
+  name: "recommand_i",
   inject: ["recommendList", "restore"],
   // beforeRouteEnter(to, from, next) {
   //   if (from.name == "recent_recommand") {
@@ -139,10 +141,43 @@ export default {
         .post_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectRecommendation/middlemanGetSuccessHistory`,
           {
-            selectType : a,
+            selectType: a,
           }
         )
-        .then((res) => {});
+        .then((res) => {
+          // console.log(this.recommendList);
+          let result = res.data.data;
+          let arr = result.listResultM.map((item) => {
+            return {
+              recommendType: {
+                label: "Middleman genus",
+                value: item.userIdentityType,
+              },
+              recommendEmail: {
+                label: "Middleman email",
+                value: item.bslEmail,
+              },
+              recommendName: { label: "Middleman name", value: item.userName },
+              recommendArea: {
+                label: "Region",
+                value: item.bslEmail,
+                countryZhname: "香港",
+                countryEnname: "Hong Kong",
+              },
+              surplusLockCount: {
+                label: "surplusLockCount",
+                value: item.surplusLockCount,
+              },
+
+              surpluslockDay: {
+                label: "surpluslockDay",
+                value: item.surpluslockDay,
+              },
+            };
+          });
+          this.recommendList.push(...arr);
+          console.log(arr);
+        });
     },
     submit_click() {
       let recommendListStr = [];

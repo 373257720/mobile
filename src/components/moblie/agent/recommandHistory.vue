@@ -30,55 +30,31 @@
         </header>
         <article>
           <ul v-if="isActive == 1">
-            <li v-for="(item, idx) in result.listResultM" :key="idx">
-              <section
-                class="container"
-                :class="[
-                  item.signStatus4 === 41 ? 'active' : '',
-                  [17, 32, 37, 39].includes(item.signStatus4) === true
-                    ? 'positive'
-                    : '',
-                ]"
-              >
-                <div class="item item-1">
-                  <p class="icon iconRight iconfont icon-day"></p>
-                </div>
-                <div class="item item-2">
-                  <p>
-                    {{ $global.timestampToTime(item.signTime4) }}
+            <li>
+              <section class="container container-title">
+                <div class="item">
+                  <p class="title">
+                    <span class="icon iconRight iconfont icon-day"></span>
+                    <span>Time</span>
                   </p>
-                </div>
-                <div class="item item-7">
-                  <p class="icon iconRight iconfont icon-account"></p>
                 </div>
                 <div class="item item-8">
-                  <p>
-                    {{ item.projectName }}
+                  <p class="title">
+                    <span class="icon iconRight iconfont icon-project"></span>
+                    <span>Project</span>
                   </p>
                 </div>
-                <div class="item item-5">
-                  <p class="icon iconRight iconfont icon-account"></p>
-                </div>
                 <div class="item item-6">
-                  <p>
-                    {{ item.userName }}
-                  </p>
-                </div>
-                <div class="item item-5">
-                  <p class="icon iconRight iconfont icon-account"></p>
-                </div>
-                <div class="item item-6">
-                  <p>
-                    {{ item.agreementKey }}
+                  <p class="title">
+                    <span class="icon iconRight iconfont icon-account"></span>
+                    <span>Recommended middleman</span>
                   </p>
                 </div>
               </section>
             </li>
-          </ul>
-          <ul v-if="isActive == 2">
-            <li v-for="(item, idx) in result.listResult" :key="idx">
+            <li v-for="(item, idx) in result.listResultM" :key="idx">
               <section
-                class="container"
+                class="container container-content"
                 :class="[
                   item.signStatus4 === 25 ? 'active' : '',
                   [14, 17, 20, 22].includes(item.signStatus4) === true
@@ -86,75 +62,150 @@
                     : '',
                 ]"
               >
-                <div class="item item-1">
-                  <p class="icon iconRight iconfont icon-day"></p>
-                </div>
                 <div class="item item-2">
                   <p>
-                    {{ $global.timestampToTime(item.signTime4) }}
+                    {{ $global.stamptodate(item.signTime4) }}
                   </p>
-                </div>
-                <div class="item item-7">
-                  <p class="icon iconRight iconfont icon-account"></p>
                 </div>
                 <div class="item item-8">
                   <p>
                     {{ item.projectName }}
                   </p>
                 </div>
-                <div class="item item-5">
-                  <p class="icon iconRight iconfont icon-account"></p>
-                </div>
                 <div class="item item-6">
                   <p>
                     {{ item.userName }}
                   </p>
                 </div>
-                    <div class="item item-5">
-                  <p class="icon iconRight iconfont icon-account"></p>
+              </section>
+              <aside>
+                <div>
+                  {{ item.agreementKey }}
+                </div>
+              </aside>
+            </li>
+          </ul>
+          <ul v-if="isActive == 2">
+            <li>
+              <section class="container container-title">
+                <div class="item">
+                  <p class="title">
+                    <span class="icon iconRight iconfont icon-day"></span>
+                    <span>Time</span>
+                  </p>
+                </div>
+                <div class="item item-8">
+                  <p class="title">
+                    <span class="icon iconRight iconfont icon-project"></span>
+                    <span>Project</span>
+                  </p>
                 </div>
                 <div class="item item-6">
+                  <p class="title">
+                    <span class="icon iconRight iconfont icon-account"></span>
+                    <span>Recommended middleman</span>
+                  </p>
+                </div>
+                <!-- <div class="item item-5">
+                  <p class="icon iconRight iconfont icon-account"></p>
+                </div> -->
+                <!-- <div class="item item-6">
                   <p>
                     {{ item.agreementKey }}
+                  </p>
+                </div> -->
+              </section>
+            </li>
+            <li v-for="(item, idx) in result.listResult" :key="idx">
+              <section
+                class="container container-content"
+                :class="[
+                  item.signStatus4 === 25 ? 'active' : '',
+                  [14, 17, 20, 22].includes(item.signStatus4) === true
+                    ? 'positive'
+                    : '',
+                ]"
+              >
+                <!-- <div class="item item-1">
+                  <p class="icon iconRight iconfont icon-day"></p>
+                </div> -->
+                <div class="item item-2">
+                  <p>
+                    {{ $global.stamptodate(item.signTime4) }}
+                  </p>
+                </div>
+                <!-- <div class="item item-7">
+                  <p class="icon iconRight iconfont icon-account"></p>
+                </div> -->
+                <div class="item item-8">
+                  <p>
+                    {{ item.projectName }}
+                  </p>
+                </div>
+                <!-- <div class="item item-5">
+                  <p class="icon iconRight iconfont icon-account"></p>
+                </div> -->
+                <div class="item item-6">
+                  <p>
+                    {{ item.userName }}
+                  </p>
+                </div>
+              </section>
+              <aside>
+                <div>
+                  {{ item.agreementKey }}
+                </div>
+              </aside>
+            </li>
+          </ul>
+          <ul v-if="isActive == 3">
+            <li>
+              <section class="container container-title">
+                <div class="item">
+                  <p class="title">
+                    <span class="icon iconRight iconfont icon-day"></span>
+                    <span>Time</span>
+                  </p>
+                </div>
+                <div class="item item-8">
+                  <p class="title">
+                    <span class="icon iconRight iconfont icon-project"></span>
+                    <span>Project</span>
+                  </p>
+                </div>
+                <div class="item item-6">
+                  <p class="title">
+                    <span class="icon iconRight iconfont icon-account"></span>
+                    <span>Recommended middleman</span>
                   </p>
                 </div>
               </section>
             </li>
-          </ul>
-          <ul v-if="isActive == 3">
             <li v-for="(item, idx) in result.listResultI" :key="idx">
               <section
-                class="container"
+                class="container container-content"
                 :class="[
-                  item.signStatus4 === 54 ? 'active' : '',
-                  [55].includes(item.signStatus4) === true ? 'positive' : '',
+                  item.signStatus4 === 25 ? 'active' : '',
+                  [14, 17, 20, 22].includes(item.signStatus4) === true
+                    ? 'positive'
+                    : '',
                 ]"
               >
-                <div class="item item-1">
-                  <p class="icon iconRight iconfont icon-day"></p>
-                </div>
                 <div class="item item-2">
                   <p>
-                    {{ $global.timestampToTime(item.signTime4) }}
+                    {{ $global.stamptodate(item.signTime4) }}
                   </p>
-                </div>
-                <div class="item item-7">
-                  <p class="icon iconRight iconfont icon-account"></p>
                 </div>
                 <div class="item item-8">
                   <p>
                     {{ item.projectName }}
                   </p>
                 </div>
-                <div class="item item-5">
-                  <p class="icon iconRight iconfont icon-account"></p>
-                </div>
                 <div class="item item-6">
                   <p>
                     {{ item.userName }}
                   </p>
                 </div>
-                
               </section>
             </li>
           </ul>
@@ -224,7 +275,7 @@ export default {
                                 "userCompany" + self.$global.language() + "4"
                               ],
                         signStatus4: item.signStatus4,
-                        agreementKey:item.agreementKey || "",
+                        agreementKey: item.agreementKey || "",
                       };
                     }
                   } else if (key == "listResultI") {
@@ -236,7 +287,9 @@ export default {
                         userName:
                           item.userIdentityType3 == 1
                             ? item.userName3
-                            : item["userCompany" + self.$global.language()+'3'],
+                            : item[
+                                "userCompany" + self.$global.language() + "3"
+                              ],
                         signStatus4: item.signStatus4,
                         // agreementKey:item.agreementKey || "",
                       };
@@ -244,23 +297,24 @@ export default {
                   } else if (key == "listResultM") {
                     //谁推荐我
                     // 17、32、37、39是拒绝；41是成功
-                    if ([17, 32, 37, 39, 41].includes(item.signStatus4)) {
-                      return {
-                        signTime4: item.signTime4,
-                        projectName: item["projectName" + self.$global.lan()],
-                        userName:
-                          item.userIdentityType == 1
-                            ? item.userName
-                            : item["userCompany" + self.$global.language()],
-                        signStatus4: item.signStatus4,
-                        agreementKey:item.agreementKey || "",
-                      };
-                    }
+                    // if ([17, 32, 37, 39, 41].includes(item.signStatus4)) {
+                    return {
+                      signTime4: item.signTime4,
+                      projectName: item["projectName" + self.$global.lan()],
+                      userName:
+                        item.userIdentityType == 1
+                          ? item.userName
+                          : item["userCompany" + self.$global.language()],
+                      signStatus4: item.signStatus4,
+                      agreementKey: item.agreementKey || "",
+                    };
+                    // }
                   }
                 });
               }
             }
             this.result = result;
+            console.log(this.result);
           }
         });
     },
@@ -438,23 +492,67 @@ export default {
       }
     }
     article {
+      padding-top: vw(92);
+      // .container-content {
+
+      // }
+      li {
+        margin-bottom: vw(80);
+      }
+      aside {
+        margin-top: vw(20);
+        padding: 0 vw(20);
+        display: flex;
+        justify-content: flex-end;
+        div {
+          width: vw(250);
+          height: vw(100);
+          border: 2px solid #3ab5cc;
+          border-radius: vw(20);
+          padding: vw(20);
+          font-size: vw(18);
+          line-height: vw(30);
+          word-wrap: break-word;
+          word-break: break-all;
+          color: #3ab5cc;
+          // display: -webkit-box;
+          // -webkit-box-orient: vertical;
+          // -webkit-line-clamp: 2;
+          overflow: hidden;
+          transform: rotate(-12deg);
+        }
+      }
       .container {
+        position: relative;
         display: grid;
         color: #4f3dad;
-        grid-row: 3;
-        padding: vw(54);
+        // grid-row: 3;
+        padding: 0 vw(50);
         // margin-bottom: vw(100);
-        grid-gap: vw(28) vw(30);
-        grid-template-columns: vw(30) auto;
+        // grid-gap: vw(28) vw(30);
+
+        text-align: center;
+        grid-template-columns: repeat(3, 33.33%);
         grid-template-rows: repeat(auto);
-        grid-column: 2;
+        grid-column: 1 / 3;
         grid-auto-flow: row;
         font-size: vw(24);
         word-wrap: break-word;
         word-break: break-all;
         font-weight: bold;
         align-items: start;
-        line-height: vw(28);
+
+        line-height: vw(30);
+        .item {
+          height: 100%;
+          p.title {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+
         .item-1 {
           p.iconRight {
             font-size: vw(29);
@@ -472,6 +570,7 @@ export default {
           }
         }
         .item-6 {
+          height: 100%;
           p {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -479,7 +578,16 @@ export default {
             -webkit-line-clamp: 4;
             -webkit-box-orient: vertical;
           }
+          p.title {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
         }
+      }
+      .container-title {
+        margin-bottom: vw(68);
       }
       .container.active {
         // color: #3ab5cc;

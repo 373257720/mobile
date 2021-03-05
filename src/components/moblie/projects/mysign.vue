@@ -55,7 +55,7 @@
                 </div>
               </section>
               <div class="btn">
-                <van-button @click="downPDF">{{
+                <van-button @click="downPDF(i.id)">{{
                   $t("project.projectChain")
                 }}</van-button>
               </div>
@@ -90,7 +90,7 @@
                 </div>
               </section>
               <div class="btn">
-                <van-button @click="downPDF">{{
+                <van-button @click="downPDF(i.id)">{{
                   $t("project.projectChain")
                 }}</van-button>
               </div>
@@ -289,8 +289,8 @@ export default {
           }
         });
     },
-    downPDF() {
-      this.$routerto('projectChain')
+    downPDF(id) {
+      this.$routerto('projectChain',{projectId:id})
       // console.log(document.getElementById("links"));
       // window.location.href =
       //   "http://47.90.62.114:8086/bsl_web/bsl_data_upload/pdf/202008/pdf_1596610060000153073.pdf";

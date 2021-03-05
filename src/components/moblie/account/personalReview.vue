@@ -132,7 +132,7 @@
         </p>
       </h2>
       <footer v-if="optStatus == 2">
-        <van-button @click="$routerto('verify')">{{
+        <van-button @click="$routerto('verify',{again:1})">{{
           $t("common.ApplyAgain")
         }}</van-button>
       </footer>
@@ -267,7 +267,6 @@ export default {
         font-size: vw(30);
         font-family: Helvetica Neue;
         font-weight: bold;
-    
         color: #4f3dad;
         opacity: 1;
         margin-bottom: vw(40);

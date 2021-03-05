@@ -13,6 +13,7 @@
           ></span>
           <span
             class="iconfont icon-message"
+            :class="{redPoint:$store.state.UnreadMessage}"
             @click="$routerto('AccountMessage')"
           ></span>
         </p>
@@ -20,12 +21,15 @@
     </commonnav>
     <main>
       <div class="iconfont icon-account"></div>
-      <p @click="$routerto('vip')">{{ user_infor.username }}</p>
+      <p v-if="$store.state.currentUsertype == 4" @click="$routerto('vip')">
+        {{ user_infor.username }}
+      </p>
+      <p v-else>{{ user_infor.username }}</p>
       <p>{{ user_infor.account }}</p>
     </main>
     <footer>
       <ul>
-        <li v-if="$store.state.currentUsertype==4" @click="$routerto('vip')">
+        <li v-if="$store.state.currentUsertype == 4" @click="$routerto('vip')">
           <div class="iconfont icon-account"></div>
           <div>{{ $t("Account.Membership") }}</div>
         </li>
@@ -123,7 +127,7 @@ export default {
                   ? res.data.data.userCompanyCh
                   : res.data.data.userCompanyEn;
             }
-            this.$store.dispatch("setUser",this.user_infor.username)
+            this.$store.dispatch("setUser", this.user_infor.username);
             this.user_infor.account = res.data.data.bslEmail;
           }
         });
@@ -141,6 +145,7 @@ export default {
               this.$Local(this.radio);
               this.$i18n.locale = this.radio;
               this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
+              this.getAuthDetails();
             }
             this.$toast(res.data.resultDesc);
             done();
@@ -212,6 +217,17 @@ export default {
   }
   .icon-message {
     font-size: 20px;
+    position: relative;
+  }
+  .redPoint::after {
+    position: absolute;
+    top: 11px;
+    right: -4px;
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
   }
   .van-overlay {
     // opacity: 0.5;
@@ -268,6 +284,7 @@ export default {
   // padding-top: vw(46);
   // padding-bottom: vw(116);
   overflow-y: auto;
+
   header {
     height: vw(56);
     box-sizing: initial;

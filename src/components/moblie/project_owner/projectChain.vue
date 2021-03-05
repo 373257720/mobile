@@ -1,7 +1,7 @@
 <template>
   <div id="mysign">
     <commonnav>
-      {{$t('project.projectStatus')}}
+      {{ $t("project.projectStatus") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
@@ -12,17 +12,19 @@
     <main id="main"></main>
   </div>
 </template>
+
 <script>
 // import VueDraggableResizable from 'vue-draggable-resizable'
 var echarts = require("echarts");
+
 export default {
-  data: function() {
+  data: function () {
     return {
       width: 0,
       height: 0,
       x: 0,
       y: 0,
-      myChart: ""
+      myChart: "",
     };
   },
   created() {
@@ -122,14 +124,8 @@ export default {
       this.myChart.setOption({
         tooltip: {
           trigger: "item",
-          triggerOn: "mousemove"
+          triggerOn: "mousemove",
         },
-        // dataZoom: {
-        //   show: true,
-        //   realtime: true,
-        //   start: 0,
-        //   end: 50
-        // },
         series: [
           {
             type: "tree",
@@ -148,7 +144,7 @@ export default {
             symbolOffset: [0, "40%"],
             symbolKeepAspect: true,
             scaleLimit: {
-              min: 1
+              min: 1,
             },
             layout: "orthogonal",
             // nodeClick: "zoomToNode",
@@ -156,16 +152,16 @@ export default {
             orient: "TB",
             edgeShape: "curve",
             lineStyle: {
-              width: 2
+              width: 2,
             },
             itemStyle: {
               color: "#4F3DAD",
-              borderColor: "#4F3DAD"
+              borderColor: "#4F3DAD",
             },
             lineStyle: {
               color: "#00F0AB",
               width: 2,
-              curveness: 0.4
+              curveness: 0.2,
             },
             label: {
               show: true,
@@ -176,7 +172,7 @@ export default {
               align: "right",
 
               fontSize: 9,
-              color: "#4F3DAD"
+              color: "#4F3DAD",
               // rotate: -90
             },
 
@@ -186,18 +182,18 @@ export default {
                 position: "bottom",
                 rotate: -90,
                 verticalAlign: "middle",
-                align: "left"
+                align: "left",
                 // distance: 20,
                 // align: "center",
                 // width: "50px"
-              }
+              },
             },
             initialTreeDepth: 2,
             expandAndCollapse: true,
             animationDuration: 550,
-            animationDurationUpdate: 750
-          }
-        ]
+            animationDurationUpdate: 750,
+          },
+        ],
       });
       //显示加载动画
       // this.myChart.showLoading({
@@ -227,26 +223,26 @@ export default {
                 name: "converters",
                 children: [
                   { name: "Converters", value: 721 },
-                  { name: "DelimitedTextConverter", value: 4294 }
-                ]
+                  { name: "DelimitedTextConverter", value: 4294 },
+                ],
               },
               {
                 name: "DataUtil",
-                value: 3322
-              }
-            ]
+                value: 3322,
+              },
+            ],
           },
           {
             name: "display",
             children: [
               { name: "DirtySprite", value: 8833 },
               { name: "LineSprite", value: 1732 },
-              { name: "RectSprite", value: 3623 }
-            ]
+              { name: "RectSprite", value: 3623 },
+            ],
           },
           {
             name: "flex",
-            children: [{ name: "FlareVis", value: 4116 }]
+            children: [{ name: "FlareVis", value: 4116 }],
           },
           {
             name: "query",
@@ -303,8 +299,8 @@ export default {
                   { name: "variance", value: 335 },
                   { name: "where", value: 299 },
                   { name: "xor", value: 354 },
-                  { name: "x_x", value: 264 }
-                ]
+                  { name: "x_x", value: 264 },
+                ],
               },
               { name: "Minimum", value: 843 },
               { name: "Not", value: 1554 },
@@ -315,8 +311,8 @@ export default {
               { name: "Sum", value: 791 },
               { name: "Variable", value: 1124 },
               { name: "Variance", value: 1876 },
-              { name: "Xor", value: 1101 }
-            ]
+              { name: "Xor", value: 1101 },
+            ],
           },
           {
             name: "scale",
@@ -330,23 +326,23 @@ export default {
               { name: "RootScale", value: 1756 },
               { name: "Scale", value: 4268 },
               { name: "ScaleType", value: 1821 },
-              { name: "TimeScale", value: 5833 }
-            ]
-          }
-        ]
+              { name: "TimeScale", value: 5833 },
+            ],
+          },
+        ],
       };
       // console.log(this.dataAxis)
       setTimeout(() => {
         //为了让加载动画效果明显,这里加入了setTimeout,实现300ms延时
         // this.myChart.hideLoading(); //隐藏加载动画
         // myChart.setOption(this.option);
-
+      console.log(123);
         this.myChart.setOption({
           series: [
             {
-              data: [data]
-            }
-          ]
+              data: [data],
+            },
+          ],
         });
         this.resize();
       }, 1000);
@@ -355,19 +351,19 @@ export default {
     resize(params) {
       let elesArr = Array.from(
         new Set(this.myChart._chartsViews[0]._data._graphicEls)
-      );   
+      );
       let dep = this.myChart._chartsViews[0]._data.tree.root.height; //获取树高
       let layer_height = 100; //层级之间的高度
       let currentHeight = layer_height * (dep + 1) || layer_height;
       let newHeight = Math.max(currentHeight, layer_height);
       this.chartHeight = newHeight + "px";
-      let min_width = 100; // 兄弟节点之间的距离
+      let min_width = 500; // 兄弟节点之间的距离
       let currentWidth = min_width * (elesArr.length - 1) || min_width;
       let newWidth = Math.max(currentWidth, min_width);
       this.chartWidth = newWidth + "px";
       this.myChart.resize();
     },
-    onResize: function(x, y, width, height) {
+    onResize: function (x, y, width, height) {
       console.log(x, y, width, height);
 
       this.x = x;
@@ -375,20 +371,23 @@ export default {
       this.width = width;
       this.height = height;
     },
-    onDrag: function(x, y) {
+    onDrag: function (x, y) {
       this.x = x;
       this.y = y;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
 #mysign {
   height: 100%;
+  padding-top: vw(140);
   #main {
-    padding-top: vw(140);
+    border: 2px solid #4f3dad;
     /* margin-top: vw(150); */
-    height: 100%;
+    margin: 0 auto;
+    height: 90%;
+    width: 80%;
     // height: calc(100vh - vw(140));
   }
 }

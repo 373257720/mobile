@@ -104,17 +104,17 @@
               </section>
               <div class="btn" v-if="$store.state.currentUsertype == 4">
                 <van-button
+                  v-if="!i.label.islock"
                   @click="$routerto('Interested', { projectId: i.id })"
                   >{{ $t("projectOwner.Interested") }}</van-button
                 >
+                <van-button disabled v-if="i.label.islock">已锁定</van-button>
               </div>
               <div class="btn" v-if="$store.state.currentUsertype == 1">
                 <van-button
                   @click="
                     $routerto('p_investor_lists', {
-                      arr: 
-                        JSON.stringify(i.record.investorsIdList)
-                      ,
+                      arr: JSON.stringify(i.record.investorsIdList),
                     })
                   "
                   v-if="i.record.investorsIdList.length"
@@ -430,6 +430,7 @@ export default {
           let list = res.data.data.data;
           if (list instanceof Array) {
             list.forEach((item) => {
+              console.log(item);
               let label = {
                 projectIndustry:
                   item.record["projectIndustry" + self.$global.lan()].indexOf(
@@ -453,6 +454,7 @@ export default {
                       ).join(","),
                 projectDescribe:
                   item.record["projectDescribe" + self.$global.lan()],
+                islock: item.record.islock,
               };
               // this.$set(item, "label", label);
               item.label = label;

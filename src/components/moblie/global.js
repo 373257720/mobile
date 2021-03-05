@@ -185,6 +185,23 @@ const global = {
         });
     });
   },
+  recursion(arr) {
+    let  result = arr.length ? [] : {};
+    arr.forEach((item, idx) => {
+      if (item.hasOwnProperty('listResult')) {
+        if (item["listResult"].length > 0) {
+          result[idx] = this.recursion(item["listResult"])
+          //result.push(...this.recursion(item["listResult"]));
+        } else {
+          result[idx] = item["listResult"]
+        }
+      }
+
+
+    });
+    console.log(result);
+    return result;
+  },
   deepCopy(obj) {
     var result = Array.isArray(obj) ? [] : {};
     for (var key in obj) {
@@ -215,22 +232,26 @@ const global = {
       return "";
     }
   },
-  stamptodate: function (stamp) {
-    // if(stamp==''){
-    //   return '';
-    // }
-    if (stamp) {
-      var date = new Date(stamp * 1000);
+  stamptodate: function (timestamp) {
+    if (timestamp) {
+      let date;
+      if (timestamp.toString().length == 10) {
+        date = new Date(parseInt(timestamp * 1000));
+
+      } else if (timestamp.toString().length == 13) {
+        date = new Date(parseInt(timestamp));
+      }
+      console.log(date.getFullYear());
+      //时间戳为10位需*1000，时间戳为1
       var Y = date.getFullYear() + "-";
       var M =
         (date.getMonth() + 1 < 10
           ? "0" + (date.getMonth() + 1)
           : date.getMonth() + 1) + "-";
-      var D =
-        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+      var D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+      var h =
+        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
       return Y + M + D;
-    } else {
-      return "";
     }
   },
   timestampToTime: function (timestamp) {
@@ -375,8 +396,6 @@ const global = {
         });
     });
   },
-
-
   previous() {
     if (this.getCookie('islogin')) {
       router.go(-1);

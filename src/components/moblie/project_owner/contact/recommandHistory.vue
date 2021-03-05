@@ -38,11 +38,14 @@
               :name="key"
             >
               <template #title>
-                <div>{{ value[0].projectName }}</div>
+                <div>{{ value[0]["projectName"] }}</div>
               </template>
               <ul>
                 <li v-for="(i, idx) in value" :key="idx">
-                  <section class="container">
+                  <section
+                    class="container"
+                    :class="{ isDenied: failedArr.includes(i.signStatus4) }"
+                  >
                     <div class="item item-1">
                       <p class="icon iconRight iconfont icon-day"></p>
                     </div>
@@ -132,6 +135,7 @@ export default {
       content: [],
       signList: {},
       source: null,
+      failedArr: [14, 17, 20, 22, 32, 37, 39, 55],
     };
   },
   computed: {},
@@ -185,6 +189,7 @@ export default {
                     sharingMechanismType: item.sharingMechanismType,
                     projectName: item["projectName" + self.$global.lan()],
                     sharingMechanism: item.sharingMechanism,
+                    signStatus4:item.signStatus4,
                     userName:
                       item.userIdentityType == 1
                         ? item.userName
@@ -276,6 +281,7 @@ export default {
 <style lang="scss"  scoped>
 #recommandHistory {
   // height: 100%;
+
   main {
     //   background: #fff;
     // height: 100%;
@@ -371,6 +377,9 @@ export default {
             -webkit-box-orient: vertical;
           }
         }
+      }
+      .isDenied {
+        color: #757575;
       }
     }
   }

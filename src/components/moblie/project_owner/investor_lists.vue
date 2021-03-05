@@ -9,14 +9,14 @@
     <main>
       <article>
         <ul>
-          <li v-for="(item, idx) in totallists" :key="item.id">
-            <div class="serial">{{ idx + 1 }}</div>
+          <li v-for="(item) in totallists" :key="item.id">
+            <!-- <div class="serial">{{ idx + 1 }}</div> -->
             <section>
               <aside class="iconfont icon-bitbroicon2"></aside>
               <p>{{$global.timestampToTime(item.optTime)  }}</p>
             </section>
             <section>
-              <aside class="iconfont icon-bitbroicon2"></aside>
+              <aside class="iconfont icon-bitbroicon7"></aside>
               <p>{{ $t($global.investorsType[item.recommendType]) }}</p>
             </section>
             <section v-if="item.recommendType == 1">
@@ -28,7 +28,7 @@
               <p>{{ item.recommendCompany }}</p>
             </section>
             <section>
-              <aside class="iconfont icon-bitbroicon2"></aside>
+              <aside class="iconfont icon-bitbroicon4"></aside>
               <p>{{ item.recommendMobile }}</p>
             </section>
             <section>
@@ -36,7 +36,7 @@
               <p>{{ item.recommendIndustries.join(",") }}</p>
             </section>
             <section>
-              <aside class="iconfont icon-bitbroicon2"></aside>
+              <aside class="iconfont icon-bitbroicon5"></aside>
               <p>{{ item.recommendEmail }}</p>
             </section>
             <section>

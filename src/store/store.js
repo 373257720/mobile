@@ -5,9 +5,10 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
+    UnreadMessage: null,
     loading: false,
     selectedItem: {},
-    selectedProjectStatus:{},
+    selectedProjectStatus: {},
     usercheck: {
       nation: {},
       genus: "",
@@ -48,6 +49,12 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    UnreadMessage_mutaion(state, content) {
+      // if (content.name) {
+      state.UnreadMessage = content;
+      // }
+      // state.electedList = content;
+    },
     selectedProjectStatusMutations(state, content) {
       // if (content.name) {
       state.selectedProjectStatus = content;
@@ -127,6 +134,9 @@ export default new Vuex.Store({
   },
   actions: {
     // 重置所有状态
+    UnreadMessage_action(context, obj) {
+      context.commit("UnreadMessage_mutaion", obj);
+    },
     X_Token_actions(context, obj) {
       context.commit("X_Token_mutation", obj);
     },

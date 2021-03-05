@@ -19,8 +19,7 @@
         </div>
         <div class="mui-input-row input-row">
           <p class="label">{{ $t("common.PassWord") }}</p>
-
-          <section>
+          <div class="section">
             <input
               @blur="check($event)"
               name="Password"
@@ -32,12 +31,12 @@
               @click="passwordshow(isshowpassword, 'isshowpassword')"
               class="iconfont icon-yanjing_huaban1"
             ></i>
-          </section>
+          </div>
           <p class="helpText">{{ $t("common.passwordRule") }}</p>
         </div>
         <div class="mui-input-row input-row">
           <p class="label">{{ $t("common.ConfirmPassword") }}</p>
-          <section>
+          <div class="section">
             <input
               @blur="check($event)"
               name="confirmpassword"
@@ -49,7 +48,7 @@
               @click="passwordshow(isconfirmpassword, 'isconfirmpassword')"
               class="iconfont icon-yanjing_huaban1"
             ></i>
-          </section>
+          </div>
           <!-- <i class="icon-language" id="togglePassword"></i> -->
         </div>
         <p class="error">{{ errorsMsg }}</p>
@@ -215,10 +214,10 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/user/register.do`,
           {
             bslEmail: this.validateForm.username,
-            bslPwd: this.validateForm.password
+            bslPwd: this.validateForm.password,
           }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
           this.rescode = res.data.resultCode;
           this.msg = res.data.resultDesc;
@@ -331,9 +330,9 @@ export default {
       margin-bottom: vw(60);
       display: flex;
       flex-direction: column;
-      span {
-        display: inline-block;
-      }
+      // span {
+      //   display: inline-block;
+      // }
       input {
         width: 100%;
         font-size: vw(34);
@@ -344,12 +343,15 @@ export default {
         font-weight: bold;
         line-height: vw(34);
         color: #8277b9;
-        margin-top: vw(50);
+        padding-top: vw(60);
       }
-      section {
+      div.section {
         position: relative;
+
         input {
           padding-right: vw(42);
+          position: absolute;
+          left: 0;
         }
         .icon-yanjing_huaban1 {
           position: absolute;

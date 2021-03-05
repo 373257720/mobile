@@ -43,14 +43,14 @@
                 v-else-if="i.signStatus4 > 10 && i.signStatus4 < 50"
                 class="item item-4"
               >
-                <p v-if="i.userIdentityType4 == 1">{{ i.userName4 }}</p>
-                <p v-else-if="i.userIdentityType4 == 2">
-                  {{ i["userCompany" + $global.language() + "4"] }}
+                <p v-if="i.userIdentityType == 1">{{ i.userName }}</p>
+                <p v-else-if="i.userIdentityType == 2">
+                  {{ i["userCompany" + $global.language()] }}
                 </p>
               </div>
               <div
                 v-if="
-                  (i.signStatus4 < 10 || i.signStatus4 > 49) && i.signNdaStatus
+                  (i.signStatus4 < 11 || i.signStatus4 > 49) && i.signNdaStatus
                 "
                 class="item item-4"
               >
@@ -60,7 +60,7 @@
                 </p>
               </div>
               <div
-                v-else-if="i.signStatus4 < 10 || i.signStatus4 > 49"
+                v-else-if="i.signStatus4 < 11 || i.signStatus4 > 49"
                 class="item item-4"
               >
                 <p v-if="i.userIdentityType == 1">{{ i.userName }}</p>
@@ -80,17 +80,17 @@
                   {{ $t($global.investorsType[i.userIdentityType4]) }}
                 </p>
                 <p v-else-if="i.signStatus4 > 10 && i.signStatus4 < 50">
-                  {{ $t($global.investorsType[i.userIdentityType4]) }}
+                  {{ $t($global.investorsType[i.userIdentityType]) }}
                 </p>
                 <p
                   v-if="
-                    (i.signStatus4 < 10 || i.signStatus4 > 49) &&
+                    (i.signStatus4 < 11|| i.signStatus4 > 49) &&
                     i.signNdaStatus
                   "
                 >
                   {{ $t($global.investorsType[i.userIdentityType]) }}
                 </p>
-                <p v-else-if="i.signStatus4 < 10 || i.signStatus4 > 49">
+                <p v-else-if="i.signStatus4 < 11 || i.signStatus4 > 49">
                   {{ $t($global.investorsType[i.userIdentityType]) }}
                 </p>
                 <!-- <p v-if="i.signNdaStatus">

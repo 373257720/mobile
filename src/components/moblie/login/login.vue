@@ -3,7 +3,7 @@
     <commonnav>
       {{ $t("common.LogIn") }}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$global.previous()" />
+        <van-icon name="arrow-left" @click="$router.go(-1);" />
       </template>
     </commonnav>
     <main class="main">

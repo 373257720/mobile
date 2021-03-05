@@ -36,26 +36,38 @@
             <li v-for="i in MyProjectList" :key="i.id">
               <div class="item">
                 <p class="iconfont icon-account ScreenPicture"></p>
-                <section
-                  @click="$routerto('projectSubStatus', { projectId: i.id })"
+                <div class="item-right">
+                  <div class="item-right-top">
+                    <p v-if="i.userIdentityType == 1">{{ i.userName }}</p>
+                    <p v-if="i.userIdentityType == 2">
+
+                      {{ i["userCompany" + $global.language()] }}
+                    </p>
+                  </div>
+                  <div class="item-right-bottom">
+                    <aside class="iconfont icon-bitbroicon5"></aside>
+                    <p>{{ i.bslEmail }}</p>
+                  </div>
+                </div>
+                <!-- <section
                   id="container"
                 >
-                  <div class="item item-5">
-                    <p v-if="i.label">{{ i.label.projectIndustry }}</p>
-                  </div>
                   <div class="item item-1">
-                    <p class="icon iconRight iconfont icon-1"></p>
+                    <p class="icon iconRight iconfont icon-bitbroicon2"></p>
                   </div>
                   <div class="item item-2">
-                    <p v-if="i.label">{{ i.label.projectIndustry }}</p>
+                    <p v-if="i.userIdentityType == 1">{{ i.userName }}</p>
+                    <p v-if="i.userIdentityType == 2">
+                      {{ i["userCompany" + $global.language()] }}
+                    </p>
                   </div>
                   <div class="item item-3">
-                    <p class="icon iconRight iconfont icon-2_1"></p>
+                    <p class="icon iconRight iconfont icon-bitbroicon5"></p>
                   </div>
                   <div class="item item-4">
-                    <p v-if="i.label">{{ i.label.projectCompany }}</p>
+                    <p>{{ i.bslEmail }}</p>
                   </div>
-                </section>
+                </section> -->
               </div>
               <!-- <h3 v-if="i.label">{{ i.label.projectName }}</h3> -->
             </li>
@@ -154,7 +166,7 @@ export default {
       this.MyProjectList = [];
       this.$global
         .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/projectRecommendation/middlemanGetRecommendationHistory`,
+          `${this.$axios.defaults.baseURL}/bsl_web/projectRecommendation/iBackGetContactPerson`,
           { searchKey: this.searchkey }
         )
         .then((res) => {
@@ -162,7 +174,9 @@ export default {
           if (done) done();
           this.MyProjectList = res.data.data.data;
           if (res.data.resultCode == 10000) {
-            console.log(res);
+            // console.log(res);
+            let result = res.data.data;
+            this.MyProjectList = result;
             // if (this.MyProjectList) {
             //   this.MyProjectList.forEach((item) => {
             //     let label = {
@@ -312,65 +326,23 @@ export default {
                 font-weight: 100;
                 margin-right: vw(50);
               }
+              .item-right-top {
+                margin-bottom: vw(20);
+              }
+              .item-right-bottom {
+                display: flex;
+                aside {
+                  width: vw(34);
+                  height: vw(34);
+                  background: #fff;
+                  margin-right: vw(30);
+                }
+              }
             }
           }
           li:nth-last-of-type(1) {
             margin-bottom: vw(0);
           }
-        }
-      }
-      #container {
-        display: grid;
-        color: #4f3dad;
-        grid-gap: vw(28) vw(30);
-        grid-template-columns: vw(30) auto;
-        grid-template-rows: repeat(auto);
-        grid-column: 2;
-        grid-row: 3;
-        grid-auto-flow: row;
-        font-size: vw(24);
-        word-wrap: break-word;
-        word-break: break-all;
-        font-weight: bold;
-        align-items: start;
-        line-height: vw(28);
-        .item-1 {
-          p.iconRight {
-            font-size: vw(29);
-          }
-        }
-        .item-3 {
-          p.iconRight {
-            font-size: vw(28);
-          }
-        }
-        .item-5 {
-          grid-column-start: 1;
-          grid-column-end: 3;
-          p.iconRight {
-            font-size: vw(28);
-          }
-        }
-        .item-6 {
-          p {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 4;
-            -webkit-box-orient: vertical;
-          }
-        }
-      }
-      div.btn {
-        display: flex;
-        justify-content: flex-end;
-        button {
-          // width: vw(232);
-          height: vw(72);
-          background: #00f0ab;
-          border-radius: vw(16);
-          color: #fff;
-          border: none;
         }
       }
     }

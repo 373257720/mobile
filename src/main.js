@@ -17,7 +17,7 @@ Vue.prototype.$qs = qs;
 
 const url = process.env.BASE_API;
 axios.defaults.baseURL = url;
-import G6 from '@antv/g6';
+// import G6 from '@antv/g6';
 
 //axios.defaults.timeout = 60000;
 // store.commit("isloading", false);

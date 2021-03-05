@@ -163,6 +163,14 @@ export default {
           recommendEmail: { label: "Middleman email", value: "" },
           recommendName: { label: "Middleman name", value: "" },
           recommendArea: { label: "Region", value: "" },
+          surplusLockCount: {
+            label: "surplusLockCount",
+            value: 0
+          },
+          surpluslockDay: {
+            label: "surpluslockDay",
+            value: 0,
+          },
         },
       ],
       genusList: [
@@ -300,6 +308,8 @@ export default {
         recommendEmail: "",
         // recommendName: "",
         recommendArea: "",
+        surplusLockCount: 0,
+        surpluslockDay: 0,
         signId: this.$route.query.signId,
         middlemanId: this.$route.query.middlemanId,
       };
@@ -326,10 +336,12 @@ export default {
             "recommendName"
           ].value;
         }
+        console.log(this.list);
         if (this.$route.query.towho == 1) {
           this.recommendMiddlemanCheck(singelObj).then((res) => {
             if (res.data.resultCode === 10000) {
               this.recommendList.push(...this.list);
+              console.log(this.recommendList);
               this.$replaceto("a_recommand_i", this.$route.query);
             } else {
               this.$dialog

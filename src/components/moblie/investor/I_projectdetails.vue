@@ -58,9 +58,9 @@
              <button @click="refuse">{{$t('investor.Refuse')}}</button>
             <button @click="completeInfo()">完善资料</button>
          </div>
-         <!-- <div v-if="signStatus4==54">
-           <van-button  @click="$routerto('p_bargin',$route.query)">我的资料</van-button>
-         </div> -->
+         <div v-if="signStatus4==54">
+           <van-button  @click="$routerto('i_inverstor_infor',{investorsId:investorsId})">我的资料</van-button>
+         </div>
         </footer>
       </div>
     </main>
@@ -88,6 +88,7 @@ export default {
       confirmButtonText: "",
       cancelButtonText: "",
       title: "",
+      investorsId:null,
       sharingResult: null,
       remindervisible: false,
       articleHight: null,
@@ -182,6 +183,7 @@ export default {
           this.$store.commit("isloading", false);
           if (res.data.resultCode == 10000) {
             let result = res.data.data;
+            this.investorsId=result.investorsId 
             for (let i in result) {
               for (let key in this.ProjectDetail) {
                 if (key === i) {
