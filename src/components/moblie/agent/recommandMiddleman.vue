@@ -16,9 +16,9 @@
         <div class="box" ref="box" v-for="(item, idx) in list" :key="idx">
           <p class="title">
             <span class="serial">{{ idx + 1 }}</span>
-            <!-- <van-button @click="delectItem(idx)">
+            <van-button v-if="list.length > 1" @click="delectItem(idx)">
               <van-icon name="close" />
-            </van-button> -->
+            </van-button>
           </p>
           <!-- <div class="mui-input-row input-row">
             <p class="label">{{ item.recommendEmail.label }}</p>
@@ -37,6 +37,7 @@
                   return triggerNode.parentNode;
                 }
               "
+              :value="item.recommendType.value"
               placeholder="Select"
               size="large"
               @change="
@@ -124,7 +125,9 @@ const IconFont = Icon.createFromIconfontCN({
 import Dropdown from "@/components/moblie/common/dropdown";
 export default {
   name: "mhome",
-  inject: ["recommendList"],
+  props: {
+    recommendList: Array,
+  },
   components: {
     IconFont,
     Dropdown,
@@ -165,7 +168,7 @@ export default {
           recommendArea: { label: "Region", value: "" },
           surplusLockCount: {
             label: "surplusLockCount",
-            value: 0
+            value: 0,
           },
           surpluslockDay: {
             label: "surpluslockDay",
@@ -262,7 +265,6 @@ export default {
         });
     },
     handleChange(value, option, item) {
-      // console.log(item);
       item.recommendType.value = value;
       // this.one = value;
       // console.log(value); // { key: "lucy", label: "Lucy (101)" }
@@ -302,7 +304,6 @@ export default {
         this.errorsMsg = errorMsg;
         return false;
       }
-      // console.log(recommendList);
       let singelObj = {
         recommendType: null,
         recommendEmail: "",
@@ -504,6 +505,7 @@ export default {
     delectItem(idx) {
       if (this.list.length > 1) {
         this.list.splice(idx, 1);
+        console.log(this.list);
       }
     },
   },

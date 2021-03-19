@@ -33,14 +33,14 @@
                   <aside class="iconfont icon-email"></aside>
                   <article>{{ item.recommendEmail.value }}</article>
                 </li>
-                <li>
+                <li v-if="$store.state.currentUsertype==4">
                   <aside class="iconfont icon-star"></aside>
                   <article>
                     {{ $t("agent.Re") }}: {{ item.surplusLockCount.value }}
                     {{ $t("agent.times") }}
                   </article>
                 </li>
-                <li>
+                <li v-if="$store.state.currentUsertype==4">
                   <aside class="iconfont icon-day"></aside>
                   <article>
                     {{ $t("agent.Rc") }}: {{ item.surpluslockDay.value }}
@@ -78,16 +78,21 @@
 <script>
 export default {
   name: "recommand_i",
-  inject: ["recommendList", "restore"],
-  // beforeRouteEnter(to, from, next) {
-  //   if (from.name == "recent_recommand") {
-  //     next((vm) => {
-  //       vm.restore();
-  //     });
-  //   } else {
-  //     next();
-  //   }
-  // },
+  props: {
+    recommendList: Array,
+  },
+  // inject: ["recommendList", "restore"],
+  beforeRouteEnter(to, from, next) {
+    console.log(to,from);
+    if (from.name == "recent_recommand" || from.name === null) {
+      next((vm) => {
+        vm.$emit("childByValue");
+        vm.middlemanGetSuccessHistory(vm.$route.query.towho);
+      });
+    } else {
+      next();
+    }
+  },
   data() {
     return {
       articleHight: null,
@@ -122,8 +127,8 @@ export default {
   },
   created() {
     // console.log(123);
-    this.middlemanGetSuccessHistory(this.$route.query.towho);
   },
+  activated() {},
 
   mounted() {
     // this.boxHeight = this.$refs.box.clientHeight;
@@ -131,6 +136,7 @@ export default {
   },
   methods: {
     middlemanGetSuccessHistory(num) {
+      this.$store.commit("isloading", true);
       let a = 0;
       if (num == 1) {
         a = 0;
@@ -145,38 +151,78 @@ export default {
           }
         )
         .then((res) => {
-          // console.log(this.recommendList);
+          this.$store.commit("isloading", false);
           let result = res.data.data;
-          let arr = result.listResultM.map((item) => {
-            return {
-              recommendType: {
-                label: "Middleman genus",
-                value: item.userIdentityType,
-              },
-              recommendEmail: {
-                label: "Middleman email",
-                value: item.bslEmail,
-              },
-              recommendName: { label: "Middleman name", value: item.userName },
-              recommendArea: {
-                label: "Region",
-                value: item.bslEmail,
-                countryZhname: "香港",
-                countryEnname: "Hong Kong",
-              },
-              surplusLockCount: {
-                label: "surplusLockCount",
-                value: item.surplusLockCount,
-              },
+          if (a === 0) {
+            let arr = result.listResultM.map((item) => {
+              return {
+                recommendType: {
+                  label: "Middleman genus",
+                  value: item.userIdentityType,
+                },
+                recommendEmail: {
+                  label: "Middleman email",
+                  value: item.bslEmail,
+                },
+                recommendName: {
+                  label: "Middleman name",
+                  value: item.userName,
+                },
+                recommendArea: {
+                  label: "Region",
+                  value: item.bslEmail,
+                  countryZhname: "香港",
+                  countryEnname: "Hong Kong",
+                },
+                // surplusLockCount: {
+                //   label: "surplusLockCount",
+                //   value: item.surplusLockCount,
+                // },
 
-              surpluslockDay: {
-                label: "surpluslockDay",
-                value: item.surpluslockDay,
-              },
-            };
-          });
-          this.recommendList.push(...arr);
-          console.log(arr);
+                // surpluslockDay: {
+                //   label: "surpluslockDay",
+                //   value: item.surpluslockDay,
+                // },
+              };
+            });
+            this.recommendList.push(...arr);
+          } else if (a === 1) {
+            let arr = result.listResult.map((item) => {
+              return {
+                recommendType: {
+                  label: "Middleman genus",
+                  value: item.userIdentityType3,
+                },
+                recommendEmail: {
+                  label: "Middleman email",
+                  value: item.bslEmail,
+                },
+                recommendName: {
+                  label: "Middleman name",
+                  value:
+                    item.userIdentityType3 == 1
+                      ? item.userName3
+                      : item["userCompany" + this.$global.language() + "3"],
+                },
+                recommendArea: {
+                  label: "Region",
+                  value: item.bslEmail,
+                  countryZhname: "香港",
+                  countryEnname: "Hong Kong",
+                },
+                surplusLockCount: {
+                  label: "surplusLockCount",
+                  value: item.surplusLockCount,
+                },
+
+                surpluslockDay: {
+                  label: "surpluslockDay",
+                  value: item.surpluslockDay,
+                },
+              };
+            });
+            this.recommendList.push(...arr);
+          }
         });
     },
     submit_click() {

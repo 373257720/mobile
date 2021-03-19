@@ -168,7 +168,6 @@ export default {
       li {
         display: flex;
         padding-left: vw(40);
-
         align-items: center;
         aside {
           width: vw(118);

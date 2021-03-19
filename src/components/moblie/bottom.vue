@@ -64,6 +64,7 @@
         class="iconfont"
         class-prefix="icon"
         slot="icon"
+        :dot="$store.state.UnreadMessage > 0"
         name="account"
       ></van-icon>
       <span>{{ $t("common.ME") }}</span>
@@ -90,6 +91,13 @@ export default {
   //   }
   // },
   computed: {
+    isdot() {
+      if (this.$store.state.UnreadMessage > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     activeTag: {
       get() {
         // console.log(this.$route.name);

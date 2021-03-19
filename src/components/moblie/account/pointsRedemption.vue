@@ -7,23 +7,45 @@
       </template>
     </commonnav>
     <main>
-      <h3>100 points = 10 HKD</h3>
+      <h3>{{ redemptionInfo["giftName" + $global.lan()] }}</h3>
       <article>
         <h4>Rules</h4>
-        <div class="content">{{redemptionInfo[0] && redemptionInfo[0].exchangeDetails}}</div>
+        <div class="content">{{ redemptionInfo.exchangeDetails }}</div>
         <div class="points">
           <header>points redemption</header>
           <p>
-            Now you have {{redemptionInfo[0] && redemptionInfo[0].integralAmount}} points, please enter
-            points you would like to trade.
+            Now you have
+            {{ bslMember.exchangeIntegral }} points, You can enter a number to
+            exchange the number of prizes you want, each of which is
+            {{ redemptionInfo.integralAmount }} points
           </p>
           <section>
-            <input type="number" />
-            <span>Points</span>
+            <input
+              type="number"
+              @input="
+                ($event) =>
+                  (exchangeNumber = $global.inputModel(
+                    $event.currentTarget.value,
+                    0,
+                    false,
+                    bslMember.exchangeIntegral
+                  ))
+              "
+              v-model="exchangeNumber"
+            />
+            <span>items</span>
           </section>
         </div>
-        <footer>expiry date: {{redemptionInfo[0] && redemptionInfo[0].exchangeEndTime}}</footer>
-        <van-button @click="$routerto('pointsRedemption')" type="primary" color="#00F0AB">Trade</van-button>
+        <footer>
+          expiry date:
+          {{ $global.timestampToTime(redemptionInfo.exchangeEndTime) }}
+        </footer>
+        <van-button
+          @click="submitUserBslPointsExchange"
+          type="primary"
+          color="#00F0AB"
+          >Trade</van-button
+        >
       </article>
     </main>
   </div>
@@ -33,26 +55,52 @@ export default {
   name: "vip",
   data() {
     return {
-      redemptionInfo: []
+      exchangeNumber: 0,
+      redemptionInfo: {},
+      bslMember: {},
     };
   },
   created() {
     this.getlist();
   },
   methods: {
+    submitUserBslPointsExchange() {
+      this.$store.commit("isloading", true);
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/member/submitUserBslPointsExchange`,
+          {
+            exchangeIntegralId: this.$route.query.id,
+            exchangeNumber: this.exchangeNumber,
+            type: 1, // 0按积分计算1按数量计算，默认为积分
+          }
+        )
+        .then((res) => {
+          this.$store.commit("isloading", false);
+          this.$dialog
+            .alert({
+              message: res.data.resultDesc,
+            })
+            .then(() => {
+              if (res.data.resultCode === 10000) {
+              }
+            });
+        });
+    },
     getlist() {
       this.$store.commit("isloading", true);
       this.$global
         .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/member/getBslExchangeIntegralList`
+          `${this.$axios.defaults.baseURL}/bsl_web/member/getBslExchangeIntegral`,
+          { exchangeIntegralId: this.$route.query.id }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
-          this.redemptionInfo = res.data.data.lists;
-          if (this.redemptionInfo[0]) {
-            this.redemptionInfo[0].exchangeEndTime = this.$global.stamptodate(
-              this.redemptionInfo[0].exchangeEndTime
-            );
+
+          if (res.data.resultCode === 10000) {
+            this.redemptionInfo = res.data.data.bslExchangeIntegral;
+            this.bslMember = res.data.data.bslMember;
+            this.exchangeIntegral = this.bslMember.exchangeIntegral;
           }
           // this.bslMemberLog = res.data.data;
           // console.log(this.bslMemberLog);
@@ -60,9 +108,9 @@ export default {
 
           // console.log(res);
         });
-    }
+    },
     // handleleterClick() {},
-  }
+  },
 };
 </script>
 <style lang="scss">
@@ -96,6 +144,9 @@ export default {
         margin-bottom: vw(26);
       }
       div.content {
+        font-size: vw(30);
+        color: #4f3dad;
+        overflow-y: auto;
         width: vw(590);
         height: vw(404);
         border: vw(2) solid #4f3dad;

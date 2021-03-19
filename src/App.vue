@@ -10,7 +10,11 @@
     >-->
     <layer></layer>
     <keep-alive include="mine,userpass,AccountMessage">
-      <router-view  :class="{ ispaddingBottom: ispaddingBottom }"></router-view>
+      <router-view
+        v-on:cancelCountUserMessageUnread="cancelCountUserMessageUnread"
+        v-on:getCountUserMessageUnread="setMessageUnread"
+        :class="{ ispaddingBottom: ispaddingBottom }"
+      ></router-view>
     </keep-alive>
     <mbottom v-if="$route.meta.isshowbottom"></mbottom>
     <!-- </div> -->
@@ -62,19 +66,30 @@ export default {
         )
       );
     }
+    if (this.$store.state.X_Token) {
+      this.setMessageUnread();
+    }
     window.addEventListener("pagehide", () => {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state));
     });
   },
   mounted() {
-    // this.messageTimer = setInterval(this.getCountUserMessageUnread, 30000);
-    //  plus.screen.lockOrientation( 'portrait-primary')
     // console.log("7-13更新");
+    // if(this.messageTimer===null && ){
+    //     this.setMessageUnread()
+    // }
   },
+
   beforeDestroy() {
-    // clearInterval(this.messageTimer);
+    this.cancelCountUserMessageUnread();
   },
   methods: {
+    cancelCountUserMessageUnread() {
+      clearInterval(this.messageTimer);
+    },
+    setMessageUnread() {
+      this.messageTimer = setInterval(this.getCountUserMessageUnread, 30000);
+    },
     getCountUserMessageUnread() {
       this.$global
         .get_encapsulation(
@@ -82,6 +97,7 @@ export default {
         )
         .then((res) => {
           if (res.data.resultCode == 10000) {
+            // console.log("timer");
             this.$store.dispatch("UnreadMessage_action", res.data.data);
           }
         });

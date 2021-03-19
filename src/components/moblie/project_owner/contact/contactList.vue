@@ -33,14 +33,17 @@
         </div>
         <div class="timestamp">
           <ul>
-            <li v-for="i in MyProjectList" :key="i.id">
+            <li
+              @click="$routerto('i_inverstor_infor',{investorsId:i.investorsId})"
+              v-for="i in MyProjectList"
+              :key="i.id"
+            >
               <div class="item">
                 <p class="iconfont icon-account ScreenPicture"></p>
                 <div class="item-right">
                   <div class="item-right-top">
                     <p v-if="i.userIdentityType == 1">{{ i.userName }}</p>
                     <p v-if="i.userIdentityType == 2">
-
                       {{ i["userCompany" + $global.language()] }}
                     </p>
                   </div>
@@ -167,7 +170,7 @@ export default {
       this.$global
         .post_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/projectRecommendation/iBackGetContactPerson`,
-          { searchKey: this.searchkey }
+          { searchKeywords: this.searchkey }
         )
         .then((res) => {
           this.loaded = true;

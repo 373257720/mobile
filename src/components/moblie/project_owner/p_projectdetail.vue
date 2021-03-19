@@ -12,7 +12,9 @@
     <main>
       <div class="mhome-tag">
     <h2>{{ProjectDetail.projectName}}</h2>
-       <h3>已提交投资者数量({{ProjectDetail.committedCount}})/已接受投资者数量({{ProjectDetail.interestProjectCount}})</h3>      <div class="projectMoney">
+     <h3>已接受中间人数量({{ProjectDetail.committedCount}})/{{$t("agent.Signedinvestor")}}({{ProjectDetail.interestProjectCount}})</h3>
+       <!-- <h3>已接受中间人数量({{ProjectDetail.committedCount}})/已接受投资者数量({{ProjectDetail.interestProjectCount}})</h3>   -->
+          <div class="projectMoney">
           <p>
             <span class="icon">
               <i class="iconfont icon-bitbroicon_setting"></i>

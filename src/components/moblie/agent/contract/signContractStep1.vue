@@ -1,5 +1,5 @@
 <template>
-  <div id="signContract">
+  <div id="agentsignContractStep1">
     <commonnav>
       {{ $t("project.Contract") }}
       <template v-slot:arrowLeft>
@@ -12,7 +12,16 @@
         <section v-for="item in datalist" :key="item.cellInfo">
           <div v-if="item.type === 2" class="mui-input-row input-row">
             <p class="label">{{ item.cellInfo }}</p>
-            <input name="userName" type="text" v-model="item.listCell[0]" />
+            <!-- <textarea class="textarea" rows="3" v-model="item.listCell[0]">
+            </textarea> -->
+            <van-field
+              class="textarea"
+              v-model="item.listCell[0]"
+              rows="1"
+              autosize
+              type="textarea"
+            />
+            <!-- <input  name="userName" type="textarea" v-model="item.listCell[0]" /> -->
             <!-- <section v-for="(i,d) in item.listCell" :key="d">
               <span>{{d+1}}</span>
               <input name="userName" type="text" v-model="item.listCell[d]" />
@@ -39,7 +48,6 @@
                 >{{ self }}</a-select-option
               >
             </a-select>
-       
           </div>
           <div v-if="item.type === 4" class="mui-input-row input-row">
             <p class="label">{{ item.cellInfo }}</p>
@@ -230,7 +238,8 @@ export default {
 };
 </script>
 <style lang="scss">
-.ant-select {
+#agentsignContractStep1{
+  .ant-select {
   width: 100%;
   .icon-bitbroicon12 {
     font-size: vw(20);
@@ -245,10 +254,25 @@ export default {
 }
 .ant-select-lg .ant-select-selection--single {
   height: vw(60);
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid #4f3dad;
 }
+.ant-select-open .ant-select-selection {
+  // border:none;
+}
+.textarea {
+  padding: 0;
+  border-bottom: vw(2) solid #4f3dad;
+  .van-field__control {
+    color: #4f3dad;
+  }
+}
+}
+
 </style>
 <style lang="scss" scoped>
-#signContract {
+#agentsignContractStep1 {
   main {
     width: 100%;
     padding: vw(140) vw(92) vw(116);
@@ -311,7 +335,8 @@ export default {
     .mui-input-row {
       margin-bottom: vw(60);
       font-size: vw(26);
-
+      display: flex;
+      flex-direction: column;
       p.label {
         margin-bottom: vw(62);
         height: vw(32);
@@ -319,14 +344,15 @@ export default {
         font-size: vw(26);
         font-weight: bold;
       }
-      input {
-        display: inline-block;
-        width: 100%;
-        font-size: vw(30);
-        line-height: vw(34);
-        height: vw(34);
-        border-bottom: vw(2) solid #4f3dad;
-      }
+      // textarea {
+      //   display: inline-block;
+      //   width: 100%;
+      //   font-size: vw(30);
+      //   line-height: vw(34);
+      //   border: none;
+      //   // height: vw(34);
+      //   border-bottom: vw(2) solid #4f3dad;
+      // }
     }
     p.error {
       height: vw(24);

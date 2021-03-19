@@ -24,7 +24,7 @@
               <span>%</span>
             </div>
           </div>
-          <div class="Recommendlocking">
+          <!-- <div class="Recommendlocking">
             <h3>Recommend locking date</h3>
             <p class="subtitle">Recommendation time</p>
             <div class="count">
@@ -46,7 +46,7 @@
               ></MyNumberInput>
               <span class="unit">month</span>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="bargin-lower">
           <h3>
@@ -100,7 +100,7 @@
               </p>
             </div>
           </div>
-          <div class="Recommendlocking">
+          <!-- <div class="Recommendlocking">
             <h3>Recommend locking date</h3>
             <p class="subtitle">Recommendation time</p>
             <div class="count">
@@ -142,7 +142,7 @@
                 ></span>
               </p>
             </div>
-          </div>
+          </div> -->
           <ul v-if="obj.sharingResult == 9">
             <li>
               <van-button
@@ -153,7 +153,7 @@
               >
             </li>
             <li>
-              <van-button @click="pick(1)"   class="renewal">{{
+              <van-button @click="pick(1)" class="renewal">{{
                 $t("Bargin.Suggest")
               }}</van-button>
             </li>
@@ -360,9 +360,9 @@ export default {
     pick(num) {
       let remindMsg;
       if (num === 0) {
-        remindMsg = "accept";
+        remindMsg = "您已同意分成比例";
       } else if (num === 1) {
-        remindMsg = "suggest";
+        remindMsg = "您已反建议给中间人,\n等待中间人回应";
       } else if (num === 2) {
         remindMsg = "此操作无法撤销,";
       }
@@ -452,9 +452,21 @@ export default {
           // console.log(res);
           if (res.data.resultCode == 10000) {
             this.obj = Object.assign(this.obj, res.data.data);
-            this.middlemanNameB = this.obj[
-              "userCompany" + this.$global.language() + "1"
-            ];
+            // this.middlemanNameB = this.obj[
+            //   "userCompany" + this.$global.language() + "1"
+            // ];
+            if (this.obj.isDisplayUserName1) {
+              if (this.obj.userIdentityType1 == 1) {
+                this.middlemanNameB = this.obj.userName1;
+              } else if (this.obj.userIdentityType1 == 2) {
+                this.middlemanNameB = this.obj[
+                  "userCompany" + this.$global.language() + "1"
+                ];
+              }
+            } else {
+              this.middlemanNameB = this.obj.bslName1;
+            }
+
             if (this.obj.isDisplayUserName4) {
               if (this.obj.userIdentityType4 == 1) {
                 this.middlemanNameA = this.obj.userName4;

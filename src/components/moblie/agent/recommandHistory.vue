@@ -47,7 +47,7 @@
                 <div class="item item-6">
                   <p class="title">
                     <span class="icon iconRight iconfont icon-account"></span>
-                    <span>Recommended middleman</span>
+                    <span>谁推荐我</span>
                   </p>
                 </div>
               </section>
@@ -56,8 +56,7 @@
               <section
                 class="container container-content"
                 :class="[
-                  item.signStatus4 === 25 ? 'active' : '',
-                  [14, 17, 20, 22].includes(item.signStatus4) === true
+                  [32, 37, 39].includes(item.signStatus4) === true
                     ? 'positive'
                     : '',
                 ]"
@@ -79,8 +78,22 @@
                 </div>
               </section>
               <aside>
-                <div>
-                  {{ item.agreementKey }}
+                <div v-if="item.agreementKey">
+                  <p class="Recordonblockchain">
+                    {{ $t("agent.Recordonblockchain") }}
+                  </p>
+                  <p class="Hash">
+                    <span
+                      >{{ $t("agent.Hash") }}:{{
+                        item.agreementKey.slice(0, 5) +
+                        "..." +
+                        item.agreementKey.slice(-5)
+                      }}</span
+                    >
+                  </p>
+                  <!-- item.agreementKey.length > 20
+                      ? item.agreementKey.slice(0, 20) + "..."
+                      : item.agreementKey -->
                 </div>
               </aside>
             </li>
@@ -103,24 +116,15 @@
                 <div class="item item-6">
                   <p class="title">
                     <span class="icon iconRight iconfont icon-account"></span>
-                    <span>Recommended middleman</span>
+                    <span>我推荐的中间人</span>
                   </p>
                 </div>
-                <!-- <div class="item item-5">
-                  <p class="icon iconRight iconfont icon-account"></p>
-                </div> -->
-                <!-- <div class="item item-6">
-                  <p>
-                    {{ item.agreementKey }}
-                  </p>
-                </div> -->
               </section>
             </li>
             <li v-for="(item, idx) in result.listResult" :key="idx">
               <section
                 class="container container-content"
                 :class="[
-                  item.signStatus4 === 25 ? 'active' : '',
                   [14, 17, 20, 22].includes(item.signStatus4) === true
                     ? 'positive'
                     : '',
@@ -152,8 +156,24 @@
                 </div>
               </section>
               <aside>
-                <div>
-                  {{ item.agreementKey }}
+                <div v-if="item.agreementKey">
+                  <p class="Recordonblockchain">
+                    {{ $t("agent.Recordonblockchain") }}
+                  </p>
+                  <p class="Hash">
+                    <span
+                      >{{ $t("agent.Hash") }}:{{
+                        item.agreementKey.slice(0, 5) +
+                        "..." +
+                        item.agreementKey.slice(-5)
+                      }}</span
+                    >
+                  </p>
+                  <!-- {{
+                    item.agreementKey.length > 20
+                      ? item.agreementKey.slice(0, 20) + "..."
+                      : item.agreementKey
+                  }} -->
                 </div>
               </aside>
             </li>
@@ -176,7 +196,7 @@
                 <div class="item item-6">
                   <p class="title">
                     <span class="icon iconRight iconfont icon-account"></span>
-                    <span>Recommended middleman</span>
+                    <span>我推荐的投资人</span>
                   </p>
                 </div>
               </section>
@@ -186,9 +206,7 @@
                 class="container container-content"
                 :class="[
                   item.signStatus4 === 25 ? 'active' : '',
-                  [14, 17, 20, 22].includes(item.signStatus4) === true
-                    ? 'positive'
-                    : '',
+                  [54].includes(item.signStatus4) === true ? 'positive' : '',
                 ]"
               >
                 <div class="item item-2">
@@ -243,6 +261,7 @@ export default {
       this.isActive = num;
       // this.load();
     },
+
     middlemanGetRecommendationHistory(done) {
       this.loaded = false;
       this.result = {};
@@ -312,6 +331,13 @@ export default {
                   }
                 });
               }
+            }
+            for (let key in result) {
+              result[key] = this.$global.quickSort(
+                result[key],
+                "signTime4",
+                "descending"
+              );
             }
             this.result = result;
             console.log(this.result);
@@ -505,21 +531,27 @@ export default {
         display: flex;
         justify-content: flex-end;
         div {
-          width: vw(250);
+          // width: vw(300);
           height: vw(100);
           border: 2px solid #3ab5cc;
           border-radius: vw(20);
-          padding: vw(20);
-          font-size: vw(18);
+          padding: vw(10) vw(20);
+          font-size: vw(12);
           line-height: vw(30);
-          word-wrap: break-word;
-          word-break: break-all;
+          // word-wrap: break-word;
+          // word-break: break-all;
           color: #3ab5cc;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
           // display: -webkit-box;
           // -webkit-box-orient: vertical;
           // -webkit-line-clamp: 2;
           overflow: hidden;
           transform: rotate(-12deg);
+          .Recordonblockchain {
+            // margin-bottom: vw(10);
+          }
         }
       }
       .container {

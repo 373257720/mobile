@@ -1,19 +1,19 @@
 <template>
   <div id="vip">
     <commonnav>
-      Vip
+      VIP
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>
       <div class="item-1">
-        <p>{{memberDetails.exchangeIntegral}}</p>
+        <p>{{ memberDetails.exchangeIntegral }}</p>
         <p>Points</p>
       </div>
       <div class="iconfont icon-account"></div>
       <div class="item-2">
-        <p>{{memberDetails.days}}</p>
+        <p>{{ memberDetails.days }}</p>
         <p>Days</p>
       </div>
     </main>
@@ -23,20 +23,20 @@
         type="primary"
         size="mini"
         color="#00F0AB"
-      >leaderboard</van-button>
+        >leaderboard</van-button
+      >
     </div>
     <div class="vipGrade">
       <header>Current</header>
-      <p>Today's growth value: {{memberDetails.todayIntegral}}</p>
+      <p>Today's growth value: {{ memberDetails.todayIntegral }}</p>
       <nav>
         <div class="percent">
-          <p :style="{width:CurrentbarWidth}"></p>
+          <p :style="{ width: CurrentbarWidth }"></p>
         </div>
         <ul>
           <li>Glod</li>
           <li>
-            still need {{memberDetails.differIntegral}} points
-            to level up
+            still need {{ memberDetails.differIntegral }} points to level up
           </li>
           <li>Platinum</li>
         </ul>
@@ -44,31 +44,60 @@
       <header>My gold exclusive rights</header>
       <article>
         <div class="item item-1">
-          <span></span>
-          <p>{{memberDetails.rights && memberDetails.rights.memberRecommendCount}}recommended items</p>
+          <span class="iconfont icon-star"></span>
+          <p>
+            {{
+              memberDetails.rights && memberDetails.rights.memberRecommendCount
+            }}recommended items
+          </p>
         </div>
         <div class="item item-2">
-          <span></span>
-          <p>{{memberDetails.rights && memberDetails.rights.recommendInvestorTime}}referral limits</p>
+          <span class="iconfont icon-account"></span>
+          <p>
+            {{
+              memberDetails.rights &&
+              memberDetails.rights.recommendInvestorTime
+            }}referral limits
+          </p>
         </div>
         <div class="item item-3">
-          <span></span>
-          <p>{{memberDetails.rights && memberDetails.rights.recommendMiddlemanTime}}Priority recommendation time</p>
+          <span class="iconfont icon-5day"></span>
+          <p>
+            {{
+              memberDetails.rights &&
+              memberDetails.rights.recommendMiddlemanTime
+            }}Priority recommendation time
+          </p>
         </div>
       </article>
       <header>Platinnum exclusive rights</header>
       <article>
         <div class="item item-1">
-          <span></span>
-          <p>{{memberDetails.nextRights && memberDetails.nextRights.memberRecommendCount}}recommended items</p>
+          <span class="iconfont icon-star"></span>
+          <p>
+            {{
+              memberDetails.nextRights &&
+              memberDetails.nextRights.memberRecommendCount
+            }}recommended items
+          </p>
         </div>
         <div class="item item-2">
-          <span></span>
-          <p>{{memberDetails.nextRights && memberDetails.nextRights.recommendInvestorTime}}referral limits</p>
+          <span class="iconfont icon-account"></span>
+          <p>
+            {{
+              memberDetails.nextRights &&
+              memberDetails.nextRights.recommendInvestorTime
+            }}referral limits
+          </p>
         </div>
         <div class="item item-3">
-          <span></span>
-          <p>{{memberDetails.nextRights && memberDetails.nextRights.recommendMiddlemanTime}}Priority recommendation time</p>
+          <span class="iconfont icon-5day"></span>
+          <p>
+            {{
+              memberDetails.nextRights &&
+              memberDetails.nextRights.recommendMiddlemanTime
+            }}Priority recommendation time
+          </p>
         </div>
       </article>
     </div>
@@ -92,17 +121,17 @@ export default {
         nextRights: {
           memberRecommendCount: null,
           recommendInvestorTime: null,
-          recommendMiddlemanTime: null
+          recommendMiddlemanTime: null,
         },
         percentageNumber: null,
         rights: {
           memberRecommendCount: null,
           recommendInvestorTime: null,
-          recommendMiddlemanTime: null
+          recommendMiddlemanTime: null,
         },
 
-        todayIntegral: null
-      }
+        todayIntegral: null,
+      },
     };
   },
   created() {
@@ -110,7 +139,7 @@ export default {
       .get_encapsulation(
         `${this.$axios.defaults.baseURL}/bsl_web/member/getMemberDetails`
       )
-      .then(res => {
+      .then((res) => {
         this.memberDetails = Object.assign(
           this.memberDetails,
           res.data.data.memberDetails
@@ -130,7 +159,7 @@ export default {
   },
   methods: {
     // handleleterClick() {},
-  }
+  },
 };
 </script>
 <style lang="scss">
@@ -216,14 +245,14 @@ export default {
         //  justify-items: center;
         span {
           display: inline-block;
-          width: vw(88);
-          height: vw(88);
-          font-size: vw(24);
+          // width: vw(88);
+          // height: vw(88);
+          font-size: vw(88);
           // line-height: vw(88);
 
-          color: #fff;
-          background: #4f3dad;
-          border-radius: 50%;
+          color: #4f3dad;
+          // background: #4f3dad;
+          // border-radius: 50%;
           margin-bottom: vw(16);
         }
         p {

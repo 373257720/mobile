@@ -77,7 +77,11 @@ const projectChain = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectChain"
   );
-
+    const a_previewContract = () =>
+    import(
+      /* webpackChunkName: "group-foo" */
+      "@/components/moblie/agent/contract/a_previewContract"
+    );
 const userpass = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/userpass");
 const mhome = () =>
@@ -195,8 +199,8 @@ const routes = [
     name: "vipGrade",
     component: vipGrade,
     meta: {
-      isshowbottom: false
-      // ispaddingBottom: true
+      isshowbottom: false,
+      ispaddingBottom: true
     }
   },
   {
@@ -436,6 +440,16 @@ const routes = [
           keepAlive: true
         }
       },
+      {
+        path: "agentsignContractStep2Preview",
+        name: "agentsignContractStep2Preview",
+        component: a_previewContract,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      
       {
         path: "ibankSignContractStep2",
         name: "ibankSignContractStep2",

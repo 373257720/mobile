@@ -189,7 +189,7 @@ export default {
                     sharingMechanismType: item.sharingMechanismType,
                     projectName: item["projectName" + self.$global.lan()],
                     sharingMechanism: item.sharingMechanism,
-                    signStatus4:item.signStatus4,
+                    signStatus4: item.signStatus4,
                     userName:
                       item.userIdentityType == 1
                         ? item.userName
@@ -205,6 +205,13 @@ export default {
                   };
                 });
               }
+            }
+            for (let key in signList) {
+              signList[key] = this.$global.quickSort(
+                signList[key],
+                "signTime4",
+                "descending"
+              );
             }
             this.signList = signList;
           }

@@ -12,7 +12,7 @@
     <main>
       <div class="mhome-tag">
         <h2>{{ProjectDetail.projectName}}</h2>
-        <h3>{{$t("agent.SignedIntermediary")}}({{ProjectDetail.committedCount}})/{{$t("agent.Signedinvestor")}}({{ProjectDetail.interestProjectCount}})</h3>
+        <h3>{{$t("agent.NumberOfinvestorsHaveSubmitted1")}}({{ProjectDetail.committedCount}})/{{$t("agent.Signedinvestor")}}({{ProjectDetail.interestProjectCount}})</h3>
         <div class="projectMoney">
           <p>
             <span class="icon">

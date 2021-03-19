@@ -28,6 +28,7 @@ const global = {
      * @param name cookie的名称
      * @returns {null} 不存在时，返回null
      */
+    
   getCookie(name) {
     var arr;
     var reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
@@ -35,6 +36,55 @@ const global = {
       return unescape(arr[2]);
     else
       return null;
+  },
+  inputModel (value, point, iskeeppoint,max) {
+    console.log(value);
+    let val
+    if (iskeeppoint) {
+      val = value.replace(/[^\d.]/g, '')
+    } else {
+      val = value.replace(/[^\d]/g, '')
+    }
+    let len = val.length
+    let newValue = val
+    console.log(len)
+    // 解决首位直接输入 '0开头的数字'问题
+    if (len == 2 && val.charAt(0) == 0 && val.charAt(1) != '.') {
+      newValue = val.charAt(1)
+      return newValue
+    }
+    // 解决数字键盘可以输入输入多个小数点问题
+    if (val.split('.').length > 2) {
+      newValue = ''
+      return newValue
+    }
+    // 解决开始就输入点问题
+    if (val.indexOf('.') === 0) {
+      newValue = ''
+      return newValue
+    }
+    // 解决保留两位小数问题
+    if (val) {
+      let pointIndex = val.indexOf('.')
+      if (point === 0 && len === 2 && val.charAt(pointIndex) === '.') {
+        console.log('只能输入整数')
+        newValue = val.substr(0, pointIndex)
+        return newValue
+      }
+      if (pointIndex > 0 && len - pointIndex > point + 1) {
+        console.log('只能输入' + point + '位小数')
+        newValue = val.substr(0, pointIndex + point + 1)
+        return newValue
+      }
+    }
+    // 解决输入最大值问题
+    if (max > 0 && val > max) {
+      //   console.log("---4---");
+      value = val.substr(0, len - 1);
+      return value;
+    }
+
+    return newValue
   },
   isJSON(str) {
     if (typeof str == 'string') {
@@ -186,20 +236,53 @@ const global = {
     });
   },
   recursion(arr) {
-    let  result = arr.length ? [] : {};
+    let result = []
     arr.forEach((item, idx) => {
       if (item.hasOwnProperty('listResult')) {
-        if (item["listResult"].length > 0) {
+        if (item["listResult"].length) {
           result[idx] = this.recursion(item["listResult"])
+          console.log(result[idx]);
           //result.push(...this.recursion(item["listResult"]));
         } else {
           result[idx] = item["listResult"]
+          console.log(result[idx]);
         }
       }
-
-
     });
-    console.log(result);
+    return result;
+  },
+  iteration(obj) {
+    var result = Array.isArray(obj) ? [] : {};
+    for (var key in obj) {
+      if (typeof obj[key] === "object" && obj[key] !== null) {
+        // console.log(obj[key]);
+        let newObj;
+        if (obj[key].hasOwnProperty('listResult')) {
+          let label;
+          if (obj[key].layer === 0) {
+            label = "投资者"
+          } else {
+            label = '第' + obj[key].layer + '层中间人'
+          }
+          newObj = Object.assign({
+            children: obj[key].listResult,
+            id: obj[key].signId,
+            label: label,
+            // type: "image",
+            // img:
+            //   "https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg",
+          })
+          // console.log(obj[key]);
+        } else {
+          newObj = obj[key]
+        }
+        result[key] = this.iteration(newObj); //递归复制
+      } else {
+        result[key] = obj[key]
+      }
+
+    }
+    // console.log(result);
     return result;
   },
   deepCopy(obj) {
@@ -215,6 +298,7 @@ const global = {
         }
       }
     }
+    //console.log(result);
     return result;
   },
   newdateTodate: function (stamp) {

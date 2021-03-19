@@ -60,7 +60,7 @@
             </div>
           </div>
         </div>
-        <div class="Recommendlocking">
+        <!-- <div class="Recommendlocking">
           <h3>Recommend locking date</h3>
           <p class="subtitle">Recommendation time</p>
           <div class="count">
@@ -102,10 +102,10 @@
               ></span>
             </p>
           </div>
-        </div>
+        </div> -->
         <footer>
           <van-button
-            @click="$routerto('a_previewContract', $route.query)"
+            @click="$routerto('agentsignContractStep2Preview', $route.query)"
             class="renewal"
             >{{ $t("project.PreviewContract") }}</van-button
           >
@@ -197,7 +197,7 @@
         </div>
         <footer>
           <van-button
-            @click="$routerto('a_previewContract', $route.query)"
+            @click="$routerto('agentsignContractStep2Preview', $route.query)"
             class="renewal"
             >{{ $t("project.PreviewContract") }}</van-button
           >

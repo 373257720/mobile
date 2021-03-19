@@ -162,8 +162,8 @@ axios.interceptors.response.use(
     if (res.data && res.data.resultCode) {
       let code = res.data.resultCode;
       loadingCount--;
-      // 如果是未登录直接踢出去
-      if (code == 10090) {
+      // 如果是未登录10090直接踢出去
+      if (code === 10090) {
         if (isShowLoading) {
           isShowLoading = false;
           let mes;
@@ -177,7 +177,7 @@ axios.interceptors.response.use(
           }).then(() => {
             store.dispatch("reset_actions", restore_obj);
             window.sessionStorage.clear();
-            // router.push({ name: "login" });
+            router.push({ name: "login" });
             location.href = process.env.WEB_API;
           });
         }

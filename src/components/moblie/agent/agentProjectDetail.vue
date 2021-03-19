@@ -15,7 +15,8 @@
         <h2>{{ProjectDetail.projectName}}</h2>
        <!-- 已接受投资者数量，即投行审核通过的投资者
        已提交的投资者数量，即中间人推荐投资者给投行，填写投资者资料 -->
-       <h3>已提交投资者数量({{ProjectDetail.committedCount}})/已接受投资者数量({{ProjectDetail.interestProjectCount}})</h3>
+       <h3>{{$t("agent.NumberOfinvestorsHaveSubmitted1")}}({{ProjectDetail.committedCount}})/{{$t("agent.Signedinvestor")}}({{ProjectDetail.interestProjectCount}})</h3>
+       <!-- <h3>已提交投资者数量({{ProjectDetail.committedCount}})/已接受投资者数量({{ProjectDetail.interestProjectCount}})</h3> -->
         <div class="projectMoney">
           <p>
             <span class="icon">
@@ -409,7 +410,7 @@ export default {
             this.middlemanInfo.recommendEmail.content = result.recommendEmail;
             this.sharingResult = result.sharingResult;
             this.signNdaStatus = result.signNdaStatus;
-        console.log(this.signNdaStatus);
+            console.log(this.signNdaStatus);
             this.$nextTick(() => {
               this.articleoffsetHeight = this.$refs.article.offsetHeight;
               this.projectDescribeHeight = this.$refs.projectDescribe.offsetHeight;
@@ -524,7 +525,6 @@ export default {
             }
             this.sharingResult = res.data.data.sharingResult;
             if (this.signStatus4 < 50) {
-              
             }
             this.signNdaStatus = res.data.data.signNdaStatus;
             // console.log(this.signNdaStatus);
@@ -554,7 +554,7 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/myProjectDetails/getProjectDetailsAndNextMiddleman`,
           {
             projectId: this.$route.query.projectId,
-             signId: this.$route.query.signId,
+            signId: this.$route.query.signId,
             signUserId4: this.$route.query.signUserId4,
             middlemanId: this.$route.query.middlemanId,
           }

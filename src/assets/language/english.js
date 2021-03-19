@@ -1,5 +1,7 @@
 export default {
   agent: {
+    Recommendlockingdate:"Recommend locking date",
+    Recommendationtime:"Recommendation time",
     SignedIntermediary: "Signed intermediary",
     Signedinvestor: "Signed investor",
     Whorecommendme: "Who<br/>recommend<br/>me",
@@ -10,13 +12,17 @@ export default {
     Re: "Recommendations remaining",
     Rc: "Recommended countdown",
     times: "times",
+    month:"month",
     days: "days",
+    Recordonblockchain:"Recorded on blockchain",
+    Hash:"Hash",
     RecommendInvestors: "Recommend Investors",
     RecommendNewInvestors: "Add new investors",
     RM: "Recommend middleman",
     RNM: "Add new middleman",
     Interested: "Interested",
     FinancingStage: "Financing Stage",
+    NumberOfinvestorsHaveSubmitted1:"Submission of Investors",
     NumberOfinvestorsHaveSubmitted: "Submission of Investors",
     Numberofprojectsinterested: "Number of investors received",
     YouHaveSubmittedYourApplication:
@@ -275,13 +281,13 @@ export default {
   Bargin: {
     Intermediary: "中间人",
     Projectparty: "项目方",
-    Suggest: "建议",
-    SuggestBack: "反建议",
-    Percentagebyintermediaries: "中介机构筹集资金总额的百分比",
-    Percentageprojectparty: "项目方佣金收入的百分比",
-    Accept: "接受",
-    Suggest: "建议",
-    Reject: "拒绝"
+    Suggest: "Suggest",
+    SuggestBack: "Suggest",
+    Percentagebyintermediaries: "Percentage by intermediaries",
+    Percentageprojectparty: "Percentage by project party",
+    Accept: "Accept",
+    Suggest: "Suggest",
+    Reject: "Reject"
   },
   project: {
     PreviewContract:"Preview contract",
@@ -312,7 +318,6 @@ export default {
     YouAndInverstor: "You (the middleman) and the investor",
     MiddlemanRecommandYou: "The middleman recommends you (the middleman)",
     project: "Project",
-    Projectchain: "Project chain",
     projectStatus: "Project status",
     PendingItems: "Pending items",
     NDArequestitem: "NDA request item",

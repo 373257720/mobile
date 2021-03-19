@@ -16,9 +16,16 @@
         >
           <p class="label">{{ i.cellInfo }}</p>
           <section>
-            <input
+            <!-- <input
               name="userName"
               v-model="i.listCell[0]"
+            /> -->
+            <van-field
+              class="textarea"
+              v-model="i.listCell[0]"
+              rows="1"
+              autosize
+              type="textarea"
             />
           </section>
         </div>
@@ -72,12 +79,13 @@ export default {
               }
             }
           });
-          // console.log(res.data.data.list);
+          console.log(res.data.data.list);
         });
     },
     validateFunc() {
       let self = this;
       let validator = new this.$Validator();
+
       this.dataList.forEach((item) => {
         item.listCell.forEach((i, d) => {
           validator.add(i, [["isNotEmpty", this.$t("common.Pleasefillout")]]);
@@ -122,7 +130,7 @@ export default {
                 // if (this.$route.query.signStatus4 == 16) {
                 //   this.$replaceto("mysign");
                 // } else {
-                  
+
                 // }
                 this.$routerto("ibankSignContractStep3", this.$route.query);
               }
@@ -158,14 +166,22 @@ export default {
         font-size: vw(26);
         font-weight: bold;
       }
-      input {
-        display: inline-block;
-        width: 100%;
-        font-size: vw(30);
-        line-height: vw(34);
-        height: vw(34);
-        border-bottom: vw(2) solid #4f3dad;
-      }
+      // input {
+      //   display: inline-block;
+      //   width: 100%;
+      //   font-size: vw(30);
+      //   line-height: vw(34);
+      //   height: vw(34);
+      //   border-bottom: vw(2) solid #4f3dad;
+      // }
+      .textarea {
+ 
+  padding: 0;
+  border-bottom: 2px solid #4f3dad;
+  .van-field__control{
+ color: #4f3dad;
+  }
+}
     }
     p.error {
       // height: vw(24);

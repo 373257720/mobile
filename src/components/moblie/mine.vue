@@ -13,7 +13,7 @@
           ></span>
           <span
             class="iconfont icon-message"
-            :class="{redPoint:$store.state.UnreadMessage}"
+            :class="{ redPoint: $store.state.UnreadMessage > 0 }"
             @click="$routerto('AccountMessage')"
           ></span>
         </p>
@@ -166,8 +166,10 @@ export default {
         .then((res) => {
           console.log(res);
           if (res.data.resultCode == 10000) {
+            this.$emit("cancelCountUserMessageUnread");
             this.$store.dispatch("reset_actions", this.$restore_obj);
             sessionStorage.clear();
+
             // location.replace = process.env.WEB_API;
             // this.$routerto("homePage");
             location.href = process.env.WEB_API;
@@ -224,6 +226,7 @@ export default {
     top: 11px;
     right: -4px;
     content: "";
+    border: 1px solid #fff;
     width: 10px;
     height: 10px;
     background: red;

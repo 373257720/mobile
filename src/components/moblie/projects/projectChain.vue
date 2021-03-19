@@ -5,20 +5,16 @@
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
-      <!-- <template v-slot:arrowRight>
-        <i class="icon iconRight iconfont icon-message"></i>
-      </template> -->
     </commonnav>
     <main id="container"></main>
   </div>
 </template>
 
 <script>
-// import VueDraggableResizable from 'vue-draggable-resizable'
 // var echarts = require("echarts");
 // import G6 from "@antv/g6";
 export default {
-  data: function () {
+  data() {
     return {
       width: 0,
       height: 0,
@@ -28,127 +24,45 @@ export default {
     };
   },
   created() {
+    // console.log(G6);
     // console.log(echarts);
   },
   mounted() {
     this.initG6();
   },
   methods: {
- 
     initG6() {
       let projectId = this.$route.query.projectId;
-
+      this.$store.commit("isloading", true);
       const data = {
-        id: "Modeling Methods",
-        type: "image",
-        img:
-          "https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg",
+        id: "Project",
+        // type: "image",
+        // img:
+        //   "https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg",
         children: [
           // {
           //   id: "Classification",
-          //   type: "image",
-          //   img:
-          //     "https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg",
           //   children: [
-          //     {
-          //       id: "Logistic regression",
-          //     },
-          //     {
-          //       id: "Linear discriminant analysis",
-          //     },
           //     {
           //       id: "Rules",
-          //     },
-          //     {
-          //       id: "Decision trees",
-          //     },
-          //     {
-          //       id: "Naive Bayes",
-          //     },
-          //     {
-          //       id: "K nearest neighbor",
-          //     },
-          //     {
-          //       id: "Probabilistic neural network",
-          //     },
-          //     {
-          //       id: "Support vector machine",
-          //     },
-          //   ],
-          // },
-          // {
-          //   id: "Consensus",
-          //   children: [
-          //     {
-          //       id: "Models diversity",
           //       children: [
           //         {
-          //           id: "Different initializations",
-          //         },
-          //         {
-          //           id: "Different parameter choices",
-          //         },
-          //         {
-          //           id: "Different architectures",
-          //         },
-          //         {
-          //           id: "Different modeling methods",
-          //         },
-          //         {
-          //           id: "Different training sets",
-          //         },
-          //         {
-          //           id: "Different feature sets",
-          //         },
-          //       ],
-          //     },
-          //     {
-          //       id: "Methods",
-          //       children: [
-          //         {
-          //           id: "Classifier selection",
-          //         },
-          //         {
-          //           id: "Classifier fusion",
-          //         },
-          //       ],
-          //     },
-          //     {
-          //       id: "Common",
-          //       children: [
-          //         {
-          //           id: "Bagging",
-          //         },
-          //         {
-          //           id: "Boosting",
-          //         },
-          //         {
-          //           id: "AdaBoost",
-          //         },
-          //       ],
-          //     },
-          //   ],
-          // },
-          // {
-          //   id: "Regression",
-          //   children: [
-          //     {
-          //       id: "Multiple linear regression",
-          //     },
-          //     {
-          //       id: "Partial least squares",
-          //     },
-          //     {
-          //       id: "Multi-layer feedforward neural network",
-          //     },
-          //     {
-          //       id: "General regression neural network",
-          //     },
-          //     {
-          //       id: "Support vector regression",
-          //       children: [
-          //         {
-          //           id: "dsfdsf",
+          //           id: "Multiple linear regression",
+          //           children: [
+          //             {
+          //               id: "Support vector regression",
+          //               children: [
+          //                 {
+          //                   id: "sfas",
+          //                   children: [
+          //                     {
+          //                       id: "dfsaf",
+          //                     },
+          //                   ],
+          //                 },
+          //               ],
+          //             },
+          //           ],
           //         },
           //       ],
           //     },
@@ -156,41 +70,9 @@ export default {
           // },
         ],
       };
-      this.$global
-        .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectChain`,
-          { projectId: projectId }
-        )
-        .then((res) => {
-          if (res.data.resultCode === 10000) {
-            let obj = res.data.data.resultListMap;
-             let a = this.$global.recursion(obj['144450049_1613983010']);
-             console.log(a);
-            // for (let key in obj) {
-            //   if (obj['144450049_1613983010'].length) {
-               
-            //     // console.log(a);
-            //     data.children.push({
-            //       id: key,
-            //       img:
-            //         "https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg",
-            //       children: a,
-            //     });
-            //   } else {
-            //     data.children.push({
-            //       id: key,
-            //       img:
-            //         "https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg",
-            //     });
-            //   }
-            // }
-            console.log(data.children);
-          }
-        });
-
       const container = document.getElementById("container");
-      const width = 600;
-      const height = 800;
+      const width = container.scrollWidth;
+      const height = container.scrollHeight || 500;
       const graph = new G6.TreeGraph({
         container: "container",
         width,
@@ -202,21 +84,17 @@ export default {
               type: "collapse-expand",
               onChange: function onChange(item, collapsed) {
                 const data = item.get("model");
+                console.log(data);
                 data.collapsed = collapsed;
                 return true;
               },
             },
-            {
-              type: "drag-canvas",
-              scalableRange: 100,
-              shouldBegin: true,
-              allowDragOnItem: true,
-            },
+            "drag-canvas",
             "zoom-canvas",
           ],
         },
         defaultNode: {
-          size: 80,
+          size: 30,
           anchorPoints: [
             [0, 0.5],
             [1, 0.5],
@@ -224,53 +102,106 @@ export default {
           style: {
             fill: "#steelblue",
             // stroke: "#eaff8f",
-            lineWidth: 5,
+            lineWidth: 10,
             // ... 其他属性
           },
         },
         defaultEdge: {
           type: "cubic-vertical",
+          style: {
+            stroke: "#4F3DAD",
+            lineWidth: 3,
+          },
         },
         layout: {
           type: "dendrogram",
-          direction: "TB", // H / V / LR / RL / TB / BT
-          nodeSep: 82,
-          rankSep: 150,
+          direction: "V", // H / V / LR / RL / TB / BT
+          nodeSep: 150,
+          rankSep: 80,
         },
       });
-
-      graph.node(function (node) {
-        let position = "right";
-        let rotate = 0;
-        if (!node.children) {
-          position = "bottom";
-          rotate = Math.PI / 2;
-        }
-        return {
-          label: node.id,
-          labelCfg: {
-            position,
-            offset: 5,
-            style: {
-              rotate,
-              fontSize: 50,
-              textAlign: "start",
-              fill: "#4F3DAD",
-            },
-          },
-        };
-      });
-      graph.data(data);
-      graph.render();
-      graph.fitView();
-      graph.addBehaviors(["drag-canvas", "zoom-canvas"], "default");
-      if (typeof window !== "undefined")
-        window.onresize = () => {
-          if (!graph || graph.get("destroyed")) return;
-          if (!container || !container.scrollWidth || !container.scrollHeight)
-            return;
-          graph.changeSize(container.scrollWidth, container.scrollHeight);
-        };
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/myProject/getMyProjectChain`,
+          { projectId: projectId }
+        )
+        .then((res) => {
+          this.$store.commit("isloading", false);
+          if (res.data.resultCode === 10000) {
+            data.children = [];
+            let obj = res.data.data.resultListMap;
+            let num = 1;
+            for (let key in obj) {
+              if (obj[key].length) {
+                let a = this.$global.iteration(obj[key]);
+                // console.log(a);
+                data.children.push({
+                  id: "第" + num + "条链",
+                  // type: "image",
+                  // img:
+                  collapsed:true,
+                  //   "https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg",
+                  children:a,
+                });
+              } else {
+                data.children.push({
+                  id: "第" + num + "条链",
+                   collapsed:true,
+                  // type: "image",
+                  // img:
+                  //   "https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg",
+                });
+              }
+              num++;
+            }
+            console.log(data);
+            graph.node(function (node) {
+              let position = "right";
+              let rotate = 0;
+              if (!node.children) {
+                position = "bottom";
+                rotate = Math.PI / 2;
+              }
+              return {
+                label: node.label || node.id,
+                labelCfg: {
+                  position,
+                  offset: 5,
+                  style: {
+                    rotate,
+                    fontSize: 14,
+                    textAlign: "start",
+                    fill: "#4F3DAD",
+                  },
+                },
+              };
+            });
+            graph.data(data);
+            graph.render();
+            graph.fitCenter();
+            if (typeof window !== "undefined") {
+              window.onresize = () => {
+                if (!graph || graph.get("destroyed")) return;
+                if (
+                  !container ||
+                  !container.scrollWidth ||
+                  !container.scrollHeight
+                )
+                  return;
+                graph.changeSize(container.scrollWidth, container.scrollHeight);
+              };
+            }
+          } else {
+            this.$dialog
+              .alert({
+                // title: "标题",
+                message: res.data.resultDesc,
+              })
+              .then(() => {
+                // on close
+              });
+          }
+        });
     },
   },
 };
@@ -281,12 +212,12 @@ export default {
   padding-top: 60px;
   // overflow: hidden;
   #container {
-    overflow: auto;
+    // overflow: auto;
     // overflow-x: auto;
     width: 80%;
     height: 90%;
     margin: 0 auto;
-    border: 1px solid #4f3dad;
+    border: 2px solid #4f3dad;
     // margin-top: 60px;
   }
 }

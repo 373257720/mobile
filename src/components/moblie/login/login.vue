@@ -158,6 +158,7 @@ export default {
             this.$store.dispatch("usertype", res.data.data.userType);
             this.$store.dispatch("setUser", this.username);
             this.$global.setCookie('islogin',true);
+            this.$emit('getCountUserMessageUnread')
             if (res.data.data.isAuth === 1) {
               this.$routerto("mhome");
             } else if (res.data.data.isAuth === 0) {

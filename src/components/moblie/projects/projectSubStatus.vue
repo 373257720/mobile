@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-import loadmore from "../loadmore";
+// import loadmore from "../loadmore";
 export default {
   name: "projectSubStatus",
   beforeRouteLeave(to, from, next) {
@@ -392,9 +392,9 @@ export default {
         {
           arr: [],
           text: this.$t("project.chainedToRecommand"),
-          type: [9],
+          type: [9,25],
           nda: null,
-          //9
+          //9  25
         },
         {
           arr: [],
@@ -424,7 +424,7 @@ export default {
         {
           arr: [],
           text: this.$t("project.successfulSigned"),
-          type: [54, 24],
+          type: [54,],
         },
         {
           arr: [],
@@ -447,6 +447,7 @@ export default {
       }
     },
     clickItem(item) {
+      console.log(item);
       if (item.arr.length) {
         this.$store.commit("selectedItemMutations", item);
         this.$routerto("projectList");

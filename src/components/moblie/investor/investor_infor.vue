@@ -9,15 +9,20 @@
     <main>
       <article>
         <ul>
-          <li v-for="(value,key) in projectItem" :key="key" :class="{'potentialInvestorsTags':value.classname}">
-            <aside class="iconfont" :class="value.tag"></aside>
-            <p  v-if="key=='potentialInvestorsTags'">
-              <section v-for="(item,idx) in value.content" :key="idx">
-                <span>{{idx+1}}.</span>
-                <span>{{item}}</span>
-              </section>
-            </p>
-            <p v-else>{{value.content}}</p>
+          <li v-for="(value,key) in projectItem" :key="key" 
+          :class="{'potentialInvestorsTags':value.classname}">
+            <div class="projectItem" v-if="value.content">
+               <aside class="iconfont" :class="value.tag"></aside>
+                  <p  v-if="key=='potentialInvestorsTags'">
+                    <section v-for="(item,idx) in value.content" :key="idx">
+                      <span>{{idx+1}}.</span>
+                      <span>{{item}}</span>
+                    </section>
+                </p>
+                  <p v-else-if="key=='optTime'">{{$global.timestampToTime(value.content)}}</p>
+                  <p v-else>{{value.content}}</p>
+            </div>
+           
           </li>
         </ul>
         <!-- <section>
@@ -104,7 +109,11 @@ export default {
           classname: true,
         },
         recommendCompanyAddress: {
-          tag: "icon-bitbroicon6",
+          tag: "icon-bitbroicon2",
+          content: "",
+        },
+        optTime: {
+          tag: "icon-bitbroicon2",
           content: "",
         },
       },
@@ -218,20 +227,23 @@ export default {
     color: #4f3dad;
     ul {
       li {
-        display: flex;
-        align-items: center;
         margin-bottom: vw(25);
-        aside {
-          font-size: vw(48);
-          line-height: vw(48);
-          border-radius: 50%;
-          margin-right: vw(30);
-        }
-        p {
-          flex: 1;
-          margin: 0;
-          font-weight: bold;
-          font-size: vw(24);
+        div.projectItem {
+          display: flex;
+          align-items: center;
+
+          aside {
+            font-size: vw(48);
+            line-height: vw(48);
+            border-radius: 50%;
+            margin-right: vw(30);
+          }
+          p {
+            flex: 1;
+            margin: 0;
+            font-weight: bold;
+            font-size: vw(24);
+          }
         }
       }
       li.potentialInvestorsTags {

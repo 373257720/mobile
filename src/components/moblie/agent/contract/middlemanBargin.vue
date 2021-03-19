@@ -9,7 +9,7 @@
     <main>
       <div>
         <div class="bargin-upper">
-          <h3>中间人a{{ $t("Bargin.Suggest") }}</h3>
+          <h3>中间人a（{{middlemanNameA}}）{{ $t("Bargin.Suggest") }}</h3>
           <div v-if="obj.sharingMechanismType1 === 0">
             <p>{{ $t("Bargin.Percentagebyintermediaries") }}</p>
             <div class="count">
@@ -24,9 +24,9 @@
               <span>%</span>
             </div>
           </div>
-          <div class="Recommendlocking">
-            <h3>Recommend locking date</h3>
-            <p class="subtitle">Recommendation time</p>
+          <!-- <div class="Recommendlocking">
+            <h3>{{$t('agent.Recommendlockingdate')}}</h3>
+            <p class="subtitle">{{$t('agent.Recommendationtime')}}</p>
             <div class="count">
               <MyNumberInput
                 :point="0"
@@ -35,9 +35,9 @@
                 :isdisabled="true"
                 v-model.number="obj.recommendationTimes1"
               ></MyNumberInput>
-              <span class="unit">times</span>
+              <span class="unit">{{$t('agent.times')}}</span>
             </div>
-            <p class="subtitle">Recommended countdown</p>
+            <p class="subtitle">{{$t('agent.Rc')}}</p>
             <div class="count">
               <MyNumberInput
                 :point="0"
@@ -46,12 +46,12 @@
                 :isdisabled="true"
                 v-model.number="obj.recommendationCount1"
               ></MyNumberInput>
-              <span class="unit">month</span>
+              <span class="unit">{{$t('agent.month')}}</span>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="bargin-lower">
-          <h3>中间人b（{{ middlemanNameA }}）{{ $t("Bargin.SuggestBack") }}</h3>
+          <h3>中间人b（{{ middlemanNameB }}）{{ $t("Bargin.SuggestBack") }}</h3>
           <div v-if="obj.sharingMechanismType1 === 0">
             <p>{{ $t("Bargin.Percentagebyintermediaries") }}</p>
             <div class="count">
@@ -98,8 +98,8 @@
               </p>
             </div>
           </div>
-          <div class="Recommendlocking">
-            <h3>Recommend locking date</h3> 
+          <!-- <div class="Recommendlocking">
+            <h3>Recommend locking date</h3>
             <p class="subtitle">Recommendation time</p>
             <div class="count">
               <MyNumberInput
@@ -140,7 +140,7 @@
                 ></span>
               </p>
             </div>
-          </div>
+          </div> -->
           <ul v-if="obj.sharingResult == 10 || obj.sharingResult == 1">
             <li>
               <van-button
@@ -229,9 +229,9 @@ export default {
     pick(num) {
       let remindMsg;
       if (num === 0) {
-        remindMsg = "accept";
+        remindMsg = "您已同意分成比例";
       } else if (num === 1) {
-        remindMsg = "suggest";
+        remindMsg = "您已反建议给中间人,\n等待中间人回应";
       } else if (num === 2) {
         remindMsg = "此操作无法撤销,";
       }
@@ -331,9 +331,22 @@ export default {
           // console.log(res);
           if (res.data.resultCode == 10000) {
             this.obj = Object.assign(this.obj, res.data.data);
-            this.middlemanNameB = this.obj[
-              "userCompany" + this.$global.language() + "1"
-            ];
+            // this.middlemanNameB = this.obj[
+            //   "userCompany" + this.$global.language() + "1"
+            // ];
+
+            if (this.obj.isDisplayUserName1) {
+              if (this.obj.userIdentityType1 == 1) {
+                this.middlemanNameB = this.obj.userName1;
+              } else if (this.obj.userIdentityType1 == 2) {
+                this.middlemanNameB = this.obj[
+                  "userCompany" + this.$global.language() + "1"
+                ];
+              }
+            } else {
+              this.middlemanNameB = this.obj.bslName1;
+            }
+
             if (this.obj.isDisplayUserName4) {
               if (this.obj.userIdentityType4 == 1) {
                 this.middlemanNameA = this.obj.userName4;

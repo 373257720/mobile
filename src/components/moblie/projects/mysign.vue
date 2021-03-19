@@ -290,6 +290,7 @@ export default {
         });
     },
     downPDF(id) {
+      console.log(id);
       this.$routerto('projectChain',{projectId:id})
       // console.log(document.getElementById("links"));
       // window.location.href =

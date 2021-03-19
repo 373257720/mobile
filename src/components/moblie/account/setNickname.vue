@@ -12,21 +12,30 @@
           <p class="label">{{ $t("Account.Nickname") }}</p>
           <input name="userName" type="text" v-model="validateForm.bslName" />
         </div>
-        <div class="mui-input-row input-row select">
+        <div
+          v-if="$store.state.currentUsertype == 4 ||  $store.state.currentUsertype == 1"
+          class="mui-input-row input-row select"
+        >
           <p>{{ $t("Account.WhethertoshowInvestors") }}</p>
           <van-switch
             active-color="#00F0AB"
             v-model="validateForm.superiorDisplayName"
           />
         </div>
-        <div class="mui-input-row input-row select">
+        <div
+          v-if="$store.state.currentUsertype == 3 ||  $store.state.currentUsertype == 1"
+          class="mui-input-row input-row select"
+        >
           <p>{{ $t("Account.WhethertoshowMiddleman") }}</p>
           <van-switch
             active-color="#00F0AB"
             v-model="validateForm.subordinateDisplayName"
           />
         </div>
-        <div class="mui-input-row input-row select">
+        <div
+          v-if="$store.state.currentUsertype == 4"
+          class="mui-input-row input-row select"
+        >
           <p>{{ $t("Account.Whethertoshowleaderboard") }}</p>
           <van-switch
             active-color="#00F0AB"

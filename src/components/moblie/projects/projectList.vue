@@ -84,7 +84,7 @@
                 </p>
                 <p
                   v-if="
-                    (i.signStatus4 < 11|| i.signStatus4 > 49) &&
+                    (i.signStatus4 < 11 || i.signStatus4 > 49) &&
                     i.signNdaStatus
                   "
                 >
@@ -133,7 +133,14 @@
                 <p class="icon iconRight iconfont icon-3"></p>
               </div>
               <div class="item item-6">
-                <p>{{ $store.state.selectedItem.text }}</p>
+                <p v-if="i.signStatus4>29">
+                  {{
+                    i.userIdentityType == 2
+                      ? i["userCompany" + $global.language()]
+                      : i.userName
+                  }}
+                </p>
+                <p v-else>{{ $store.state.selectedItem.text }}</p>
                 <!-- <p v-if="i.signNdaStatus">
                   {{ $global.ndastage[i.signNdaStatus] }}
                 </p>

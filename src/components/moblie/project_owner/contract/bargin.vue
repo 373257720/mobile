@@ -94,11 +94,9 @@
             >
           </li>
           <li>
-            <van-button
-              @click="pick(1)"
-              class="renewal"
-              >{{ $t("Bargin.Suggest") }}</van-button
-            >
+            <van-button @click="pick(1)" class="renewal">{{
+              $t("Bargin.Suggest")
+            }}</van-button>
           </li>
           <li>
             <van-button
@@ -170,9 +168,9 @@ export default {
   methods: {
     pick(num) {
       if (num === 0) {
-        this.msg = "accept";
+        this.msg = "您已同意分成比例";
       } else if (num === 1) {
-        this.msg = "suggest";
+        this.msg = "您已反建议给中间人,\n等待项目方回应";
       } else if (num === 2) {
         this.msg = "refuse";
       }

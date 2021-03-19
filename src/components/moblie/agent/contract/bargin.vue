@@ -192,9 +192,9 @@ export default {
     pick(num) {
       let remindMsg;
       if (num === 0) {
-        remindMsg = "accept";
+        remindMsg = "您已同意分成比例";
       } else if (num === 1) {
-        remindMsg = "suggest";
+        remindMsg = "您已反建议给项目方,\n等待项目方回应";
       } else if (num === 2) {
         remindMsg = "此操作无法撤销,";
       }

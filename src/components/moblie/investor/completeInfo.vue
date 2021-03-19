@@ -274,7 +274,7 @@ export default {
               result.userIdentityType == 2 ? "投资人公司" : "投资人姓名";
             self.formData.recommendName.content =
               result.userIdentityType == 2
-                ? result["userAddress" + self.$global.language()]
+                ? result["userCompany" + self.$global.language()]
                 : result.userName;
             self.formData.recommendArea.content =
               result["userCountry" + self.$global.language()];
@@ -377,6 +377,7 @@ export default {
       } else if (data.recommendType.content == 2) {
         obj.recommendCompany = data.recommendName.content;
       }
+      console.log(obj);
       this.$store.commit("isloading", true);
       this.$global
         .post_encapsulation(
