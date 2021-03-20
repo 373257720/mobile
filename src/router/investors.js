@@ -21,10 +21,7 @@ const i_wait_confirm = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/investor/wait_comfirm"
   );
-const i_sign_failed = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/investor/sign_failed"
-  );
+
 const i_emailto_confirm = () =>
   import(
     /* webpackChunkName: "group-foo" */
@@ -35,6 +32,18 @@ const wait_confirmRoot = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/investor/wait_confirmRoot"
   );
+  const completeInfo = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/investor/completeInfo"
+  );
+  const I_projectdetails = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/investor/I_projectdetails"
+  );
+  
+  
 export default [
   // investor
   {
@@ -65,15 +74,6 @@ export default [
     ]
   },
   {
-    path: "/i_sign_failed",
-    name: "i_sign_failed",
-    component: i_sign_failed,
-    meta: {
-      isshowbottom: false
-    }
-  },
-
-  {
     path: "/i_emailto_confirm",
     name: "i_emailto_confirm",
     component: i_emailto_confirm,
@@ -81,7 +81,23 @@ export default [
       isshowbottom: false
     }
   },
-
+  {
+    path: "/completeInfo",
+    name: "completeInfo",
+    component: completeInfo,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  {
+    path: "/I_projectdetails",
+    name: "I_projectdetails",
+    component: I_projectdetails,
+    meta: {
+      isshowbottom: false
+    }
+  },
+  
   {
     path: "/wait_confirmRoot",
     name: "wait_confirmRoot",

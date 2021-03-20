@@ -1,13 +1,13 @@
 <template>
-  <div id="mhome">
+  <div id="mutil-Pick">
     <commonnav>
-      {{GoToname}}
+      {{ titleName }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="pickgenus" />
       </template>
-      <template v-slot:arrowRight>
+      <!-- <template v-slot:arrowRight>
         <i class="icon iconRight iconfont icon-message"></i>
-      </template>
+      </template> -->
     </commonnav>
     <van-search
       v-model="searchkey"
@@ -16,7 +16,7 @@
       left-icon
     >
       <div slot="right-icon">
-        <van-icon name="search" />
+        <van-icon name="search" @click="(e) => searchFun(e, null)" />
       </div>
     </van-search>
     <main>
@@ -27,16 +27,16 @@
         :on-infinite="onInfinite"
       >
         <van-checkbox-group
-          v-if="GoToname==='Industry'"
+          v-if="GoToname === 'Industry'"
           checked-color="#00F0AB"
           v-model="result.industryList"
         >
           <van-cell-group>
             <van-cell
-              v-for="(item, index) in List.industryList"
+              v-for="(item, index) in IndustryList"
               clickable
               :key="item.value"
-              :title="`${item.label}`"
+              :title="item.label"
               @click="toggle(index)"
             >
               <template #right-icon>
@@ -46,13 +46,13 @@
           </van-cell-group>
         </van-checkbox-group>
         <van-checkbox-group
-          v-if="GoToname==='Region'"
+          v-if="GoToname === 'Region'"
           checked-color="#00F0AB"
           v-model="result.regionList"
         >
           <van-cell-group>
             <van-cell
-              v-for="(item, index) in List.regionList"
+              v-for="(item, index) in RegionList"
               clickable
               :key="item.value"
               :title="`${item.label}`"
@@ -65,13 +65,13 @@
           </van-cell-group>
         </van-checkbox-group>
         <van-checkbox-group
-          v-if="GoToname==='Tag'"
+          v-if="GoToname === 'Tag'"
           checked-color="#00F0AB"
           v-model="result.taglist"
         >
           <van-cell-group>
             <van-cell
-              v-for="(item, index) in List.taglist"
+              v-for="(item, index) in TagtList"
               clickable
               :key="item.value"
               :title="`${item.label}`"
@@ -86,139 +86,109 @@
       </v-scroll>
     </main>
     <footer>
-      <button @click="pickgenus">Interested</button>
+      <button @click="pickgenus">{{ $t("Account.Comfirm") }}</button>
     </footer>
   </div>
 </template>
 <script>
 import Scroll from "../loadmore";
 export default {
-  name: "mhome",
-  props: ["GoToname", "result", "List"],
+  name: "mutil-Pick",
+  props: ["GoToname", "result", "List", "afterEnter"],
   components: {
-    "v-scroll": Scroll
+    "v-scroll": Scroll,
   },
   data() {
     return {
-      // list: [],
       loaded: false,
       refreshing: false,
-      IndustryResult: [],
-      // RegionResult: [],
-      // TagResult: [],
-      searchkey: ""
+      IndustryList: [],
+      RegionList: [],
+      TagtList: [],
+      searchkey: "",
+      watch: true,
     };
   },
   created() {},
-  activated() {
-
-    this.initial();
+  activated() {},
+  computed: {
+    titleName() {
+      switch (this.GoToname) {
+        case "Industry":
+          return this.$t("common.Industry");
+          break;
+        case "Region":
+          return this.$t("common.region");
+          break;
+        case "Tag":
+          return this.$t("common.Tag");
+          break;
+        default:
+        // 默认代码块;
+      }
+    },
+  },
+  watch: {
+    GoToname(neww) {
+      if (neww) {
+        this.watch = true;
+      }
+    },
+    afterEnter(neww, oldd) {
+      if (neww && this.watch) {
+        this.watch = false;
+        this.initial();
+      }
+    },
   },
   methods: {
+    searchFun(e, done) {
+      switch (this.GoToname) {
+        case "Industry":
+          if (this.IndustryList.length === 0) {
+            this.loaded = false;
+          }
+          this.searchIndustryList(done);
+          break;
+        case "Region":
+          if (this.RegionList.length === 0) {
+            this.loaded = false;
+          }
+          this.searchtCountryList(done);
+          break;
+        case "Tag":
+          if (this.TagtList.length === 0) {
+            this.loaded = false;
+          }
+          this.searchAllProjectTags(done);
+          break;
+        default:
+        // 默认代码块;
+      }
+    },
     initial(done) {
+      this.searchkey = "";
       switch (this.GoToname) {
         case "Industry":
           if (this.List.industryList.length === 0) {
             this.loaded = false;
           }
-          setTimeout(() => {
-            this.List.industryList = [
-              {
-                label: "a",
-                value: 1,
-                key: "industry"
-              },
-              {
-                label: "b",
-                value: 2,
-                key: "industry"
-              },
-              {
-                label: "c",
-                value: 3,
-                key: "industry"
-              },
-              {
-                label: "d",
-                value: 4,
-                key: "industry"
-              },
-              {
-                label: "c",
-                value: 5,
-                key: "industry"
-              },
-              {
-                label: "d",
-                value: 6,
-                key: "industry"
-              }
-            ];
-            this.loaded = true;
-            if (done) done();
-          }, 2000);
+          this.getIndustryList(done);
           break;
         case "Region":
           if (this.List.regionList.length === 0) {
             this.loaded = false;
           }
-          setTimeout(() => {
-            this.List.regionList = [
-              {
-                label: "e",
-                value: 1,
-                key: "region"
-              },
-              {
-                label: "f",
-                value: 2,
-                key: "region"
-              },
-              {
-                label: "g",
-                value: 3,
-                key: "region"
-              },
-              {
-                label: "h",
-                value: 4,
-                key: "region"
-              }
-            ];
-            this.loaded = true;
-            if (done) done();
-          }, 2000);
+          // setTimeout(()=>{
+          this.getCountryList(done);
+          // },400)
+          // this.getCountryList(done);
           break;
         case "Tag":
           if (this.List.taglist.length === 0) {
             this.loaded = false;
           }
-          setTimeout(() => {
-            this.List.taglist = [
-              {
-                label: "p",
-                value: 1,
-                key: "tag"
-              },
-              {
-                label: "o",
-                value: 2,
-                key: "tag"
-              },
-              {
-                label: "i",
-                value: 3,
-                key: "tag"
-              },
-              {
-                label: "t",
-                value: 4,
-                key: "tag"
-              }
-            ];
-            this.loaded = true;
-            if (done) done();
-          }, 2000);
+          this.getAllProjectTags(done);
           break;
         default:
         // 默认代码块;
@@ -226,89 +196,182 @@ export default {
     },
     onRefresh(done) {
       this.loaded = false;
-      this.initial(done);
-      //   3. 在刷新方法内部进行自己的逻辑处理 此处调用了后台接口
-      // this.onRefreshPort(done);
-      // this.$global
-      //   .get_encapsulation(
-      //     `${this.$axios.defaults.baseURL}/bsl_web/project/getAllProject`,
-      //     {
-      //       searchKey: this.searchkey,
-      //       pageIndex: this.pageNum,
-      //       pageSize: this.loadNumUp,
-      //       bslAreaCode: this.region_name,
-      //       industryId: this.activeIds
-      //     }
-      //   )
-      //   .then(res => {
-      //     console.log(res);
-      //     if (res.status === 200) {
-      //       let re = res.data.data.lists;
-      //       if (re.length > 0) {
-      //         this.upGoodsInfo = this.upGoodsInfo.concat(re);
-      //         this.loading = false;
-      //       }
-      //       if (
-      //         this.upGoodsInfo.length >= res.data.data.pageTotal ||
-      //         this.upGoodsInfo.length == 0
-      //       ) {
-      //         this.finished = true;
-      //       }
-      //       this.pageNum++;
-      //     } else {
-      //       this.loading = false;
-      //       this.finished = true;
-      //     }
-      //     // console.log(this.upGoodsInfo);
-      //   });
+      this.searchFun(null, done);
     },
-    onInfinite(done) {
-      if (!this.loaded) this.onInfinitePort(done);
-    },
-    /**
-     * 上拉加载接口
-     */
-    onInfinitePort(done) {
-      // this.initial();
+    searchtCountryList(done) {
+      let self = this;
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
           {
-            searchKey: this.searchkey
+            searchKey: this.searchkey,
           }
         )
-        .then(res => {
-          if (res.data.data instanceof Array) {
-            for (let i = 0; i < res.data.data.length; i++) {
-              this.countrylist.push({
-                chinese: res.data.data[i].countryZhname,
-                eng: res.data.data[i].countryEnname,
-                lable:
-                  this.$i18n.locale === "zh_CN"
-                    ? res.data.data[i].countryZhname
-                    : res.data.data[i].countryEnname,
-                value: i,
-                remark: res.data.data[i].countryCode
+        .then((res) => {
+          if (res.data.resultCode === 10000) {
+    
+              self.RegionList = res.data.data.map((item, idx) => {
+                return {
+                  label: item["country" + self.$global.countryLan() + "name"],
+                  labelCh: item.countryZhname,
+                  labelEn: item.countryEnname,
+                  value: item.countryCode,
+                  key: "region",
+                };
               });
-            }
-            done();
+            
           }
+          this.loaded = true;
+          if (done) done();
         });
     },
+    getCountryList(done) {
+      let self = this;
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`
+        )
+        .then((res) => {
+          if (res.data.resultCode === 10000) {
+            this.List.regionList = [];
+            this.RegionList = [];
+            res.data.data.forEach((item) => {
+              let one = {
+                label: item["country" + self.$global.countryLan() + "name"],
+                value: item.countryCode,
+                labelCh: item.countryZhname,
+                labelEn: item.countryEnname,
+                key: "region",
+              };
+              self.List.regionList.push(one);
+              self.RegionList.push(one);
+            });
+          }
+          this.loaded = true;
+          if (done) done();
+        });
+    },
+    searchIndustryList(done) {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry`,
+          {
+            searchKey: this.searchkey,
+          }
+        )
+        .then((res) => {
+          if (res.data.resultCode === 10000) {
+            this.IndustryList = res.data.data.map((item) => {
+              return {
+                label: item["industryName" + this.$global.language()],
+                value: item["industryName" + this.$global.language()],
+                labelCh: item.industryNameCh,
+                labelEn: item.industryNameEn,
+                key: "industry",
+              };
+            });
+          }
+          this.loaded = true;
+          if (done) done();
+        });
+    },
+    getIndustryList(done) {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry`
+        )
+        .then((res) => {
+          if (res.data.resultCode === 10000) {
+            this.List.industryList = [];
+            this.IndustryList = [];
+            res.data.data.forEach((item) => {
+              let one = {
+                label: item["industryName" + this.$global.language()],
+                value: item["industryName" + this.$global.language()],
+                labelCh: item.industryNameCh,
+                labelEn: item.industryNameEn,
+                key: "industry",
+              };
+              this.List.industryList.push(one);
+              this.IndustryList.push(one);
+            });
+          }
+
+          this.loaded = true;
+          if (done) done();
+          // console.log(this.Industrylist);
+        });
+    },
+    searchAllProjectTags(done) {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/index/getAllProjectTags`,
+           {
+            searchKey: this.searchkey,
+          }
+        )
+        .then((res) => {
+          if (res.data.resultCode === 10000) {
+            this.TagtList = res.data.data.projectTagsList.map((item) => {
+              return {
+                label: item["tagsName" + this.$global.lan()],
+                value: item["tagsName" + this.$global.lan()],
+                labelCh: item.tagsName,
+                labelEn: item.tagsNameEn,
+                key: "tag",
+              };
+            });
+          }
+          this.loaded = true;
+          if (done) done();
+        });
+    },
+    getAllProjectTags(done) {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/index/getAllProjectTags`
+        )
+        .then((res) => {
+          // console.log(this.Industrylist)
+          if (res.data.resultCode === 10000) {
+            this.List.taglist = [];
+            this.TagtList = [];
+            res.data.data.projectTagsList.forEach((item) => {
+              let one = {
+                label: item["tagsName" + this.$global.lan()],
+                value: item["tagsName" + this.$global.lan()],
+                labelCh: item.tagsName,
+                labelEn: item.tagsNameEn,
+                key: "tag",
+              };
+              this.List.taglist.push(one);
+              this.TagtList.push(one);
+            });
+          }
+          this.loaded = true;
+          if (done) done();
+        });
+    },
+    // 上拉加载接口
+    onInfinite(done) {
+      if (!this.loaded) this.onInfinitePort(done);
+    },
+    onInfinitePort(done) {
+      // this.initial();
+      console.log(done);
+    },
     pickgenus() {
+      console.log(this.result);
       this.$emit("fromKids", this.result);
     },
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
     },
-    delectTag(item, idx) {
-      this.taglist.splice(idx, 1);
-    }
-  }
+  },
 };
 </script>
 <style lang="scss">
-#mhome {
+#mutil-Pick {
   .van-checkbox-group {
     overflow-y: auto;
     .van-checkbox__icon .van-icon {
@@ -337,7 +400,7 @@ export default {
 }
 </style>
 <style lang="scss"  scoped>
-#mhome {
+#mutil-Pick {
   .van-search {
     width: vw(598);
     margin: 0 auto;

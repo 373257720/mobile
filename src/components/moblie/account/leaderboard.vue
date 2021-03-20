@@ -12,13 +12,15 @@
       <table>
         <tr v-for="item in lists" :key="item.bslName">
           <td>
-            <span>{{item.topId}}</span>
+            <span>{{ item.topId }}</span>
           </td>
           <td>
-            <span>{{item.bslName}}</span>
+            <span>{{
+              item.rankingDisplayName === 1 ? item.userName : item.bslName
+            }}</span>
           </td>
           <td>
-            <span>{{item.sumIntegral}}points</span>
+            <span>{{ item.sumIntegral }}points</span>
           </td>
         </tr>
       </table>
@@ -28,7 +30,8 @@
           type="primary"
           size="mini"
           color="#00F0AB"
-        >Apply for points redemption</van-button>
+          >Apply for points redemption</van-button
+        >
       </div>
     </main>
   </div>
@@ -38,7 +41,7 @@ export default {
   name: "vip",
   data() {
     return {
-      lists: []
+      lists: [],
     };
   },
   created() {
@@ -52,19 +55,19 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/member/getUserRanking`,
           {
             pageIndex: 1,
-            pageSize: 10
+            pageSize: 10,
           }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
 
           this.lists = res.data.data.lists;
 
           // console.log(res);
         });
-    }
+    },
     // handleleterClick() {},
-  }
+  },
 };
 </script>
 <style lang="scss">

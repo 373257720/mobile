@@ -10,7 +10,11 @@
     >-->
     <layer></layer>
     <keep-alive include="mine,userpass,AccountMessage">
-      <router-view :class="{'ispaddingBottom':ispaddingBottom}"></router-view>
+      <router-view
+        v-on:cancelCountUserMessageUnread="cancelCountUserMessageUnread"
+        v-on:getCountUserMessageUnread="setMessageUnread"
+        :class="{ ispaddingBottom: ispaddingBottom }"
+      ></router-view>
     </keep-alive>
     <mbottom v-if="$route.meta.isshowbottom"></mbottom>
     <!-- </div> -->
@@ -31,23 +35,23 @@ export default {
   data() {
     return {
       layerShow: true,
-      SkipSwitchName: ""
+      SkipSwitchName: "",
+      messageTimer: null,
     };
   },
   components: {
-    layer: layer
+    layer: layer,
   },
   watch: {
-    $route: function(to, from) {
-      // console.log(this.$route);
+    $route: function (to, from) {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
-    }
+    },
   },
   computed: {
     ispaddingBottom() {
       return this.$route.meta.ispaddingBottom;
-    }
+    },
   },
   created() {
     // console.log(this);
@@ -62,14 +66,43 @@ export default {
         )
       );
     }
+    if (this.$store.state.X_Token) {
+      this.setMessageUnread();
+    }
     window.addEventListener("pagehide", () => {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state));
     });
   },
   mounted() {
-    //  plus.screen.lockOrientation( 'portrait-primary')
     // console.log("7-13更新");
-  }
+    // if(this.messageTimer===null && ){
+    //     this.setMessageUnread()
+    // }
+  },
+
+  beforeDestroy() {
+    this.cancelCountUserMessageUnread();
+  },
+  methods: {
+    cancelCountUserMessageUnread() {
+      clearInterval(this.messageTimer);
+    },
+    setMessageUnread() {
+      this.messageTimer = setInterval(this.getCountUserMessageUnread, 30000);
+    },
+    getCountUserMessageUnread() {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/user/getCountUserMessageUnread`
+        )
+        .then((res) => {
+          if (res.data.resultCode == 10000) {
+            // console.log("timer");
+            this.$store.dispatch("UnreadMessage_action", res.data.data);
+          }
+        });
+    },
+  },
 };
 </script>
 
@@ -78,20 +111,58 @@ body {
   background: #fff;
   position: relative;
 }
-// .van-dialog {
-//   color: #fff;
-//   background-color: #0ce5b2;
-//   .van-dialog__footer {
-//     &::after {
-//       border-top-width: vw(3);
-//       border-color: #fff;
-//     }
-//   }
-//   .van-button--default {
-//     background-color: #0ce5b2;
-//     color: #fff;
-//   }
-// }
+.van-button--default {
+  border: none !important;
+}
+input {
+  border-radius: 0;
+}
+.van-dialog {
+  color: #ffffff;
+  background-color: #00e3a2 !important;
+  .van-cell-group {
+    //  background-color: #00e3a2;
+    .van-cell {
+      background-color: #00e3a2;
+      color: #fff;
+    }
+  }
+  .van-button--default {
+    background: #00e3a2;
+    color: #ffffff;
+  }
+  .van-dialog__header {
+    font-size: vw(36);
+    font-weight: bold;
+  }
+  .van-hairline--top::after {
+    // border: 0 solid #fff;
+    border-top-width: 2px;
+    border-top-color: #fff;
+  }
+  .van-hairline--left::after {
+    border-left-width: 2px;
+    border-left-color: #fff;
+  }
+  .van-dialog__message {
+    // padding: vw(72) vw(58) vw(72);
+    font-size: vw(30);
+    line-height: vw(34);
+    color: #ffffff;
+    font-weight: bold;
+  }
+  .van-dialog__cancel,
+  .van-dialog__confirm {
+    height: initial;
+  }
+  .van-button__content {
+    .van-button__text {
+      color: #ffffff;
+      font-size: vw(40);
+      padding: vw(42) 0;
+    }
+  }
+}
 .van-button--primary {
   border: none;
 }

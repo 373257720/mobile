@@ -2,26 +2,32 @@
   <div id="forgotpassword">
     <div class="forgotpassword">
       <commonnav>
-        {{$t("common.forgetpassword")}}
+        {{ $t("common.forgetpassword") }}
         <template v-slot:arrowLeft>
           <van-icon name="arrow-left" @click="$global.previous()" />
         </template>
       </commonnav>
       <main class="main">
-        <div>{{$t('common.LinktoResetPassword')}}</div>
+        <div>{{ $t("common.LinktoResetPassword") }}</div>
         <form ref="form" @submit.prevent="submit_click">
           <div class="mui-input-row input-row">
-            <p class="label">{{$t('common.Email')}}</p>
-            <input name="userName" type="text" v-model="validateForm.username" />
+            <p class="label">{{ $t("common.Email") }}</p>
+            <input
+              name="userName"
+              type="text"
+              v-model.trim="validateForm.username"
+            />
           </div>
-          <p class="error">{{errorsMsg}}</p>
+          <p class="error">{{ errorsMsg }}</p>
           <footer>
             <button
               :disabled="isdisabled"
-              :class="isdisabled?'passive':'active'"
+              :class="isdisabled ? 'passive' : 'active'"
               class="button is-primary"
               type="submit"
-            >{{$t('common.Submit')}}</button>
+            >
+              {{ $t("common.Send") }}
+            </button>
           </footer>
         </form>
       </main>
@@ -40,9 +46,9 @@ export default {
       submitDisabled: false,
       cache: [],
       validateForm: {
-        username: ""
+        username: "",
       },
-      errorsMsg: ""
+      errorsMsg: "",
     };
   },
   computed: {
@@ -52,9 +58,10 @@ export default {
       } else {
         return true;
       }
-    }
+    },
   },
   created() {
+    // console.log(this.$Dialog);
     // this.username = this.$route.query.email ? this.$route.query.email : "";
     // console.log(this.$route.query.email);
   },
@@ -68,17 +75,27 @@ export default {
         // console.log(errorMsg);
         return false;
       }
-     this.$store.commit("isloading", true);
+      this.$store.commit("isloading", true);
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/bsl_web/user/sendForgetPwdEmailCode.do`,
           {
-            email: this.validateForm.username
+            email: this.validateForm.username,
           }
         )
-        .then(res => {
+        .then((res) => {
           this.$store.commit("isloading", false);
-          console.log(res);
+          this.$dialog
+            .alert({
+              title: res.data.resultDesc,
+            })
+            .then(() => {
+              if (res.data.resultCode === 10000) {
+                this.$routerto("login");
+              }
+            });
+
+          // console.log(res);
         });
 
       // this.$routerto("mhome");
@@ -89,12 +106,12 @@ export default {
       validator.add(self.validateForm.username, [
         [
           "isNotEmpty",
-          this.$t("common.Email") + this.$t("VerifyMsg.isnotempty")
+          this.$t("common.Email") + this.$t("VerifyMsg.isnotempty"),
         ],
         [
           "emailFormat",
-          this.$t("common.Email") + this.$t("VerifyMsg.FormatError")
-        ]
+          this.$t("common.Email") + this.$t("VerifyMsg.FormatError"),
+        ],
       ]);
       var errorMsg = validator.start(); // 获得效验结果
       return errorMsg; // 返回效验结果
@@ -124,7 +141,7 @@ export default {
     },
     validateBeforeSubmit() {
       // console.log(this.$validator);
-      this.$validator.validateAll().then(result => {
+      this.$validator.validateAll().then((result) => {
         if (result) {
           // eslint-disable-next-line
           alert("Form Submitted!");
@@ -135,7 +152,7 @@ export default {
     },
     blur(event) {
       var validator = new AsyncValidator({
-        [event.target.name]: this.rules[event.target.name]
+        [event.target.name]: this.rules[event.target.name],
       });
       validator
         .validate(
@@ -181,13 +198,13 @@ export default {
       // });
     },
     submit() {
-      this.$refs.form.validate().then(result => {
+      this.$refs.form.validate().then((result) => {
         if (result) {
           this.register();
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

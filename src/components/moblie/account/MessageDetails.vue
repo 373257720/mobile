@@ -1,19 +1,16 @@
 <template>
   <div id="MessageDetails">
     <commonnav>
-      {{$t('Account.Message')}}
+      {{ $t("Account.Message") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>
-      <header>22/07/2020 15:08:52</header>
-      <p>Invitation to register has been sent</p>
+      <header>{{ $global.timestampToTime(obj.sendTime) }}</header>
+      <p class="title">{{ obj["messageTitle" + $global.lan()] }}</p>
       <article>
-        Your invitation link has been sent, and the investor
-        you recommended has received the email...
-        You can go to remind him to go to APP to register
-        and log in to operate, thank you for your use.
+        {{ obj["messageContent" + $global.lan()] }}
       </article>
     </main>
   </div>
@@ -22,7 +19,7 @@
 export default {
   name: "MessageDetails",
   data() {
-    return { id: null };
+    return { id: null, obj: {} };
   },
   created() {
     this.id = this.$route.query.id || null;
@@ -35,7 +32,7 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/user/updateUserMessage`,
           { messageId: this.id }
         )
-        .then(res => {
+        .then((res) => {
           console.log(res);
         });
     },
@@ -45,13 +42,16 @@ export default {
           `${this.$axios.defaults.baseURL}/bsl_web/user/getUserMessage`,
           { messageId: this.id }
         )
-        .then(res => {
+        .then((res) => {
           console.log(res);
-          this.haveRead();
+          if (res.data.resultCode === 10000) {
+            this.haveRead();
+            this.obj = res.data.data.userMessage;
+          }
         });
-    }
+    },
     // handleleterClick() {},
-  }
+  },
 };
 </script>
 
@@ -65,6 +65,10 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    .title {
+      display: flex;
+      justify-content: center;
+    }
     header {
       height: vw(22);
       font-size: vw(20);

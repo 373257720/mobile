@@ -1,36 +1,48 @@
 <template>
   <div id="login1st">
     <commonnav>
-      {{$t("common.LogIn")}}
+      {{ $t("common.LogIn") }}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$global.previous()" />
+        <van-icon name="arrow-left" @click="$router.go(-1);" />
       </template>
     </commonnav>
     <main class="main">
       <form ref="form" @submit.prevent="submit_click">
         <div class="mui-input-row input-row">
-          <p class="label">{{$t("common.Email")}}</p>
-          <input name="userName" type="text" v-model="validateForm.username" />
+          <p class="label">{{ $t("common.Email") }}</p>
+          <input
+            name="userName"
+            type="text"
+            v-model.trim="validateForm.username"
+          />
         </div>
         <div class="mui-input-row input-row">
-          <p class="label">{{$t("common.PassWord")}}</p>
+          <p class="label">{{ $t("common.PassWord") }}</p>
           <section>
-            <input name="Password" :type="isshowpassword" v-model="validateForm.password" />
+            <input
+              name="Password"
+              :type="isshowpassword"
+              v-model.trim="validateForm.password"
+            />
             <i
-              @click="passwordshow(isshowpassword,'isshowpassword')"
+              @click="passwordshow(isshowpassword, 'isshowpassword')"
               class="iconfont icon-yanjing_huaban1"
             ></i>
           </section>
         </div>
-        <p class="error">{{errorsMsg}}</p>
-        <p class="forget" @click="$routerto('forgotpassword')">{{$t("common.forgetpassword")}}</p>
+        <p class="error">{{ errorsMsg }}</p>
+        <p class="forget" @click="$routerto('forgotpassword')">
+          {{ $t("common.forgetpassword") }}
+        </p>
         <footer>
           <button
             :disabled="isdisabled"
-            :class="isdisabled?'passive':'active'"
+            :class="isdisabled ? 'passive' : 'active'"
             class="button is-primary"
             type="submit"
-          >{{$t("common.Submit")}}</button>
+          >
+            {{ $t("common.Submit") }}
+          </button>
         </footer>
       </form>
     </main>
@@ -64,7 +76,7 @@ export default {
       isshowpassword: "password",
       validateForm: {
         username: "",
-        password: ""
+        password: "",
       },
       errorsMsg: "",
       // errorsMsg: {
@@ -76,12 +88,12 @@ export default {
           {
             type: "string",
             required: true,
-            message: this.errorsMsg
+            message: this.errorsMsg,
           },
           {
             type: "email",
-            message: "必须填写email"
-          }
+            message: "必须填写email",
+          },
           // {
           //   validator(rule, value, callback, source, options) {
           //     var errors = [];
@@ -93,8 +105,8 @@ export default {
           //   }
           // }
           //  { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-        ]
-      }
+        ],
+      },
     };
   },
   computed: {
@@ -104,12 +116,9 @@ export default {
       } else {
         return true;
       }
-    }
+    },
   },
   created() {
-
-      
-    
     // this.username = this.$route.query.email ? this.$route.query.email : "";
     // console.log(this.$route.query.email);
   },
@@ -135,31 +144,41 @@ export default {
       this.$store.commit("isloading", true);
       this.$global
         .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/user//login.do`,
+          `${this.$axios.defaults.baseURL}/bsl_web/user/login.do`,
           {
             bslEmail: this.validateForm.username,
-            bslPwd: this.validateForm.password
+            bslPwd: this.validateForm.password,
           }
         )
-        .then(res => {
-          var rescode = res.status;
+        .then((res) => {
           this.$store.commit("isloading", false);
-          console.log(res);
-
-          if (rescode == 200) {
+          if (res.data.resultCode === 10000) {
             this.$store.dispatch("reset_actions", this.$restore_obj);
             this.$store.dispatch("X_Token_actions", res.data.data.X_Token);
             this.$store.dispatch("usertype", res.data.data.userType);
             this.$store.dispatch("setUser", this.username);
-            console.log(res.data.data.isAuth);
-          //1 verified 0 unverified
+            this.$global.setCookie('islogin',true);
+            this.$emit('getCountUserMessageUnread')
             if (res.data.data.isAuth === 1) {
               this.$routerto("mhome");
             } else if (res.data.data.isAuth === 0) {
               this.$routerto("verify");
             }
+          } else if (res.data.resultCode === 10015) {
+            this.$dialog
+              .confirm({
+                message: res.data.resultDesc + ",\n需要重新设置密码才可以登陆",
+                // message: "确认提交"
+              })
+              .then(() => {
+                this.$routerto("forgotpassword");
+              })
+              .catch(() => {
+                // on cancel
+              });
+          } else {
+            this.errorsMsg = res.data.resultDesc;
           }
-          this.errorsMsg = res.data.resultDesc;
         });
     },
     validateFunc() {
@@ -168,18 +187,18 @@ export default {
       validator.add(self.validateForm.username, [
         [
           "isNotEmpty",
-          this.$t("common.Email") + this.$t("VerifyMsg.isnotempty")
+          this.$t("common.Email") + this.$t("VerifyMsg.isnotempty"),
         ],
         [
           "emailFormat",
-          this.$t("common.Email") + this.$t("VerifyMsg.FormatError")
-        ]
+          this.$t("common.Email") + this.$t("VerifyMsg.FormatError"),
+        ],
       ]);
       validator.add(self.validateForm.password, [
         [
           "isNotEmpty",
-          this.$t("common.PassWord") + this.$t("VerifyMsg.isnotempty")
-        ]
+          this.$t("common.PassWord") + this.$t("VerifyMsg.isnotempty"),
+        ],
       ]);
       var errorMsg = validator.start(); // 获得效验结果
       return errorMsg; // 返回效验结果
@@ -229,13 +248,13 @@ export default {
       // });
     },
     submit() {
-      this.$refs.form.validate().then(result => {
+      this.$refs.form.validate().then((result) => {
         if (result) {
           this.register();
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

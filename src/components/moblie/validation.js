@@ -14,13 +14,18 @@
 // });
 
 let strategies = {
+  isArray: (value, errorMsg) => {
+    if (value.length<1) {
+      return errorMsg;
+    }
+  },
   isNotEmpty: (value, errorMsg) => {
     if (value === "" || value === null) {
       return errorMsg;
     }
   },
   emailFormat: (value, errorMsg) => {
-    let ruleReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+    let ruleReg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
     if (!ruleReg.test(value)) {
       return errorMsg;
     }
@@ -33,7 +38,7 @@ let strategies = {
     }
   },
   confirmpasswrod: (value, value2, errorMsg) => {
-    // console.log(value, value2);
+    console.log(value, value2);
     
     if (value2 !== value) {
       return errorMsg;
@@ -63,9 +68,10 @@ Validator.prototype.add = function(dom, rules) {
       var strategyAry = rule[0].split("|");
       var errorMsg = rule[1];
       self.cache.push(function() {
-        var strategy = strategyAry.shift();
+        var strategy = strategyAry.shift();     
         strategyAry.unshift(dom);
-        strategyAry.push(errorMsg);  
+        strategyAry.push(errorMsg);   
+        console.log(dom,strategyAry);   
         return strategies[strategy].apply(dom, strategyAry);
       });
     })(rule);
@@ -92,8 +98,11 @@ Validator.prototype.start = function() {
   //   }
   // }
   // return msg;
-  for (var i = 0, validatorFunc; (validatorFunc = this.cache[i++]); ) {
+  for (let i = 0, validatorFunc; (validatorFunc = this.cache[i++]); ) {
+    // console.log(this.cache[i]);
     var errorMsg = validatorFunc();
+    // console.log(errorMsg);
+    
     if (errorMsg) {
       return errorMsg;
     }

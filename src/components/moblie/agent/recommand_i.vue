@@ -1,61 +1,75 @@
 <template>
   <div id="a_recommand_i">
     <commonnav>
-      Recommended
-      investors
+      {{ title }}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$router.go(-1)"/>
+        <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>
       <van-checkbox-group
-        :style="{height:articleHight+'px'}"
+        :style="{ height: articleHight + 'px' }"
         checked-color="#00F0AB"
         v-model="result"
       >
         <van-cell-group ref="article">
-          <van-cell ref="box" v-for="(item) in list" :key="item">
+          <van-cell
+            clickable
+            @click="toggle(idx)"
+            ref="box"
+            v-for="(item, idx) in recommendList"
+            :key="idx"
+          >
             <template #title>
-              <h3>
-                Investors you recommend
-                before
-              </h3>
+              <h3>{{ item.recommendName.value }}</h3>
               <ul>
                 <li>
-                  <aside></aside>
-                  <article>Recommended countdown: 5 days</article>
+                  <aside class="iconfont icon-bitbroicon_setting"></aside>
+                  <article>
+                    {{ $t($global.investorsType[item.recommendType.value]) }}
+                  </article>
                 </li>
                 <li>
-                  <aside></aside>
-                  <article>Recommended countdown: 5 days</article>
+                  <aside class="iconfont icon-email"></aside>
+                  <article>{{ item.recommendEmail.value }}</article>
                 </li>
-                <li>
-                  <aside></aside>
-                  <article>Recommended countdown: 5 days</article>
+                <li v-if="$store.state.currentUsertype==4">
+                  <aside class="iconfont icon-star"></aside>
+                  <article>
+                    {{ $t("agent.Re") }}: {{ item.surplusLockCount.value }}
+                    {{ $t("agent.times") }}
+                  </article>
                 </li>
-                <li>
-                  <aside></aside>
-                  <article>Recommended countdown: 5 days</article>
+                <li v-if="$store.state.currentUsertype==4">
+                  <aside class="iconfont icon-day"></aside>
+                  <article>
+                    {{ $t("agent.Rc") }}: {{ item.surpluslockDay.value }}
+                    {{ $t("agent.days") }}
+                  </article>
                 </li>
               </ul>
             </template>
-
             <template #right-icon>
-              <van-checkbox @click="toggle" :name="item" ref="checkboxes" />
+              <van-checkbox :name="item" ref="checkboxes" />
             </template>
           </van-cell>
         </van-cell-group>
       </van-checkbox-group>
       <footer>
-        <p class="drop">
-          <van-icon @click="dropdown" :class="{'rotate1':rotate1}" name="arrow-down" />
-        </p>
+        <!-- <p class="drop">
+          <van-icon
+            @click="dropdown"
+            :class="{ rotate1: rotate1 }"
+            name="arrow-down"
+          />
+        </p> -->
         <div class>
-          <span >Recommend new investors</span>
-          <span @click="$routerto('recommandMiddleman')">+</span>
+          <span>{{ add }}</span>
+          <span @click="$routerto('recommandMiddleman', $route.query)">+</span>
         </div>
+
         <div class="comfirm">
-          <button @click="$routerto('projectDetail')">comfirm</button>
+          <van-button @click="submit_click">Submit</van-button>
         </div>
       </footer>
     </main>
@@ -63,31 +77,234 @@
 </template>
 <script>
 export default {
-  name: "mhome",
+  name: "recommand_i",
+  props: {
+    recommendList: Array,
+  },
+  // inject: ["recommendList", "restore"],
+  beforeRouteEnter(to, from, next) {
+    console.log(to,from);
+    if (from.name == "recent_recommand" || from.name === null) {
+      next((vm) => {
+        vm.$emit("childByValue");
+        vm.middlemanGetSuccessHistory(vm.$route.query.towho);
+      });
+    } else {
+      next();
+    }
+  },
   data() {
     return {
       articleHight: null,
-      list: ["a", "b", "dsf", "sd", "fsf", "hfghfh", "fdgfd", "iuouio"],
       result: [],
       searchkey: "",
-      boxHeight: null
+      boxHeight: null,
+      towho: "",
     };
   },
   computed: {
+    title() {
+      if (this.$route.query.towho == 1) {
+        return this.$t("agent.RM");
+      } else if (this.$route.query.towho == 2) {
+        return this.$t("agent.RecommendInvestors");
+      }
+    },
+    add() {
+      if (this.$route.query.towho == 1) {
+        return this.$t("agent.RNM");
+      } else if (this.$route.query.towho == 2) {
+        return this.$t("agent.RecommendNewInvestors");
+      }
+    },
     rotate1() {
       if (this.articleHight > this.boxHeight * 2) {
         return true;
       } else {
         return false;
       }
-    }
+    },
   },
-  created() {},
+  created() {
+    // console.log(123);
+  },
+  activated() {},
+
   mounted() {
-    this.boxHeight = this.$refs.box.clientHeight;
-    this.articleHight = this.$refs.box.clientHeight * 2;
+    // this.boxHeight = this.$refs.box.clientHeight;
+    // this.articleHight = this.$refs.box.clientHeight * 2;
   },
   methods: {
+    middlemanGetSuccessHistory(num) {
+      this.$store.commit("isloading", true);
+      let a = 0;
+      if (num == 1) {
+        a = 0;
+      } else if (num == 2) {
+        a = 1;
+      }
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectRecommendation/middlemanGetSuccessHistory`,
+          {
+            selectType: a,
+          }
+        )
+        .then((res) => {
+          this.$store.commit("isloading", false);
+          let result = res.data.data;
+          if (a === 0) {
+            let arr = result.listResultM.map((item) => {
+              return {
+                recommendType: {
+                  label: "Middleman genus",
+                  value: item.userIdentityType,
+                },
+                recommendEmail: {
+                  label: "Middleman email",
+                  value: item.bslEmail,
+                },
+                recommendName: {
+                  label: "Middleman name",
+                  value: item.userName,
+                },
+                recommendArea: {
+                  label: "Region",
+                  value: item.bslEmail,
+                  countryZhname: "香港",
+                  countryEnname: "Hong Kong",
+                },
+                // surplusLockCount: {
+                //   label: "surplusLockCount",
+                //   value: item.surplusLockCount,
+                // },
+
+                // surpluslockDay: {
+                //   label: "surpluslockDay",
+                //   value: item.surpluslockDay,
+                // },
+              };
+            });
+            this.recommendList.push(...arr);
+          } else if (a === 1) {
+            let arr = result.listResult.map((item) => {
+              return {
+                recommendType: {
+                  label: "Middleman genus",
+                  value: item.userIdentityType3,
+                },
+                recommendEmail: {
+                  label: "Middleman email",
+                  value: item.bslEmail,
+                },
+                recommendName: {
+                  label: "Middleman name",
+                  value:
+                    item.userIdentityType3 == 1
+                      ? item.userName3
+                      : item["userCompany" + this.$global.language() + "3"],
+                },
+                recommendArea: {
+                  label: "Region",
+                  value: item.bslEmail,
+                  countryZhname: "香港",
+                  countryEnname: "Hong Kong",
+                },
+                surplusLockCount: {
+                  label: "surplusLockCount",
+                  value: item.surplusLockCount,
+                },
+
+                surpluslockDay: {
+                  label: "surpluslockDay",
+                  value: item.surpluslockDay,
+                },
+              };
+            });
+            this.recommendList.push(...arr);
+          }
+        });
+    },
+    submit_click() {
+      let recommendListStr = [];
+      recommendListStr = this.result.map((item) => {
+        let recommendArea =
+          (item.recommendArea.countryZhname || "") +
+          "," +
+          (item.recommendArea.countryEnname || "");
+        if (item.recommendType.value == 1) {
+          return {
+            recommendType: item.recommendType.value,
+            recommendEmail: item.recommendEmail.value,
+            recommendName: item.recommendName.value,
+            recommendArea: recommendArea,
+          };
+        } else if (item.recommendType.value == 2) {
+          return {
+            recommendType: item.recommendType.value,
+            recommendEmail: item.recommendEmail.value,
+            recommendCompany: item.recommendName.value,
+            recommendArea: recommendArea,
+          };
+        }
+      });
+      // console.log(recommendListStr);
+      if (recommendListStr.length) {
+        // to 1 middle 2 investor
+        if (this.$route.query.towho == 1) {
+          this.recommendMiddleman(recommendListStr);
+        } else if (this.$route.query.towho == 2) {
+          this.recommendInvestor(recommendListStr);
+        }
+      } else {
+        this.$toast("请选择至少一个");
+      }
+    },
+    recommendInvestor(recommendListStr) {
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/recommendInvestor`,
+          {
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
+            recommendListStr: recommendListStr,
+          }
+        )
+        .then((res) => {
+          this.$dialog
+            .alert({
+              message: res.data.resultDesc,
+            })
+            .then(() => {
+              if (res.data.resultCode == 10000) {
+                this.$routerto("mysign");
+              }
+            });
+        });
+    },
+
+    recommendMiddleman(recommendListStr) {
+      this.$global
+        .post_encapsulation(
+          `${this.$axios.defaults.baseURL}/bsl_web/projectSignTwo/recommendMiddleman`,
+          {
+            signId: this.$route.query.signId,
+            middlemanId: this.$route.query.middlemanId,
+            recommendListStr: recommendListStr,
+          }
+        )
+        .then((res) => {
+          this.$dialog
+            .alert({
+              message: res.data.resultDesc,
+            })
+            .then(() => {
+              if (res.data.resultCode == 10000) {
+                this.$routerto("mysign");
+              }
+            });
+        });
+    },
     dropdown() {
       if (this.articleHight > this.$refs.box.clientHeight * 2) {
         this.articleHight = this.$refs.box.clientHeight * 2;
@@ -95,14 +312,14 @@ export default {
         this.articleHight = this.$refs.article.clientHeight;
       }
     },
-    toggle() {
+    toggle(index) {
       // console.log(index);
-      // this.$refs.checkboxes[index].toggle();
+      this.$refs.checkboxes[index].toggle();
     },
     delectTag(item, idx) {
       this.taglist.splice(idx, 1);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -174,10 +391,12 @@ export default {
     li {
       display: flex;
       margin-bottom: vw(30);
-      aside {
-        width: vw(29);
-        height: vw(29);
-        background: #4f3dad;
+      align-items: center;
+      aside.iconfont {
+        font-size: vw(30);
+        line-height: vw(30);
+        font-weight: bold;
+        border-radius: 50%;
         margin-right: vw(28);
       }
       article {
@@ -220,7 +439,6 @@ export default {
         margin-top: vw(144);
         justify-content: flex-end;
         button {
-          width: vw(238);
           height: vw(72);
           background: #00f0ab;
           border-radius: vw(16);
@@ -228,6 +446,13 @@ export default {
           font-weight: bold;
           line-height: vw(72);
           color: #ffffff;
+          span {
+            // width: 468px;
+            font-size: vw(24);
+            font-weight: bold;
+            line-height: vw(72);
+            color: #ffffff;
+          }
         }
       }
     }

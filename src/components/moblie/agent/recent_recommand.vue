@@ -1,17 +1,17 @@
 <template>
   <div id="recent_recommand">
     <commonnav>
-      project detail
+      {{ $t("project.RecommendMore") }}
       <template v-slot:arrowLeft>
-        <van-icon name="arrow-left" @click="$router.go(-1)"/>
+        <van-icon name="arrow-left" @click="$global.previous()" />
       </template>
     </commonnav>
     <main>
-      <div>
-        <span @click="$routerto('a_recommand_i')">Recommended to middleman</span>
+      <div @click="routerto(1)">
+        <span>{{ $t("agent.RM") }}</span>
       </div>
-      <div>
-        <span  @click="$routerto('a_recommand_i')">Recommend to investors</span>
+      <div @click="routerto(2)">
+        <span>{{ $t("agent.RecommendInvestors") }}</span>
       </div>
     </main>
   </div>
@@ -21,6 +21,10 @@
 let timeout;
 export default {
   name: "recent_recommand",
+  props: {
+    recommendList: Array,
+  },
+  // inject: ["recommendList"],
   data() {
     return {
       num: 1,
@@ -30,175 +34,35 @@ export default {
       investors_type: [
         {
           text: this.$t("common.individual"),
-          value: 1
+          value: 1,
         },
         {
           text: this.$t("common.company"),
-          value: 2
-        }
+          value: 2,
+        },
       ],
       dad_text: this.$t("agent.RecommendInvestors"),
       title: "",
-      investorsArea: undefined
+      investorsArea: undefined,
+      // Routequery: {
+      //   towho: null,
+      //   signId: "",
+      //   signStatus4: "",
+      // },
     };
   },
 
   created() {
-    this.$global
-      .get_encapsulation(
-        `${this.$axios.defaults.baseURL}/bsl_web/base/getAllIndustry`
-      )
-      .then(res => {
-        if (res.data.resultCode == 10000) {
-          this.title = res.data.data.projectName;
-          this.industrylist = res.data.data;
-        }
-        this.$toast.clear();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    console.log(this.recommendList);
+    // this.Routequery = Object.assign(this.Routequery, this.$route.query);
   },
   computed: {},
   methods: {
-    toggleAll() {
-      // console.log(this.num)
-      if (this.num == 1) {
-        this.$refs.checkboxGroup.toggleAll(true);
-        this.num = 2;
-      } else if (this.num == 2) {
-        this.$refs.checkboxGroup.toggleAll(false);
-        this.num = 1;
-      }
+    routerto(num) {
+      let Routequery = Object.assign({ towho: num }, this.$route.query);
+      this.$routerto("a_recommand_i", Routequery);
     },
-    toggle(index) {
-      this.$refs.checkboxess[index].toggle();
-    },
-    handleChange1(value) {
-      this.form.investorsType = value;
-      // console.log()
-    },
-    search(val) {
-      if (timeout) {
-        clearTimeout(timeout);
-        timeout = null;
-      }
-      timeout = setTimeout(this.ulHtml(val), 300);
-    },
-    handleChange(value) {
-      this.investorsArea =
-        this.$i18n.locale == "zh_CN"
-          ? this.region[value - 1].chinese
-          : this.region[value - 1].eng;
-      this.form.investorsAreaEn = this.region[value - 1].eng;
-      this.form.investorsArea = this.region[value - 1].chinese;
-      this.countrylist_fetching = false;
-      // console.log(this.form)
-    },
-    cleanall(value) {
-      this.form.investorsCompany = "";
-    },
-    ulHtml(val) {
-      this.region = [];
-      let arr = [];
-      this.countrylist_fetching = true;
-      this.$global
-        .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_web/base/countryList.do`,
-          {
-            searchKey: val
-          }
-        )
-        .then(res => {
-          if (res.data.data.length > 0) {
-            for (let i = 0; i < res.data.data.length; i++) {
-              arr.push({
-                chinese: res.data.data[i].countryZhname,
-                eng: res.data.data[i].countryEnname,
-                value: i,
-                remark: res.data.data[i].countryCode
-              });
-            }
-            this.region = arr;
-          }
-          // console.log(this.region)
-          this.countrylist_fetching = false;
-        });
-    },
-    remind(meg) {
-      this.$dialog
-        .alert({
-          title: meg
-          // message: "弹窗内容"
-        })
-        .then(() => {});
-    },
-    regionchoose(value, region) {
-      this.region_nametitle = region.text;
-      this.form.investorsArea = region.text;
-      // this.form.areaCode = region.remark;
-      //  console.log(this.form.investorsArea,region.remark)
-    },
-    submit() {
-      // if(this.form.investorsType==2 && this.form.investorsCompany==''){
-      //   this.$toast({ message:this.$t('agent.PleaseEnterTheCompanyName')});
-      //   return
-      // }
-      if (this.form.investorsType == 2 && this.form.investorsCompanyEn == "") {
-        this.$toast({
-          message: this.$t("agent.PleaseEnterTheCompanyName")
-        });
-        return;
-      }
-      if (this.form.investorsName == "") {
-        this.$toast({
-          message: this.$t("agent.PleaseEnterInvestorName")
-        });
-        return;
-      } else if (this.form.investorsArea == "") {
-        this.$toast({
-          message: this.$t("agent.PleaseEnterRegion")
-        });
-        return;
-      }
-      console.log(this.form);
-      this.commit();
-    },
-    commit() {
-      console.log(this.form);
-      this.$dialog
-        .confirm({
-          title: this.$t("agent.Confirm")
-          // message: "确认提交"
-        })
-        .then(() => {
-          this.$loading();
-          this.$global
-            .post_encapsulation(
-              `${this.$axios.defaults.baseURL}/bsl_web/projectSign/submitInvestors`,
-              this.form
-            )
-            .then(res => {
-              this.$toast.clear();
-              if (res.data.resultCode == 10000) {
-                this.$dialog
-                  .alert({
-                    title: res.data.resultDesc,
-                    message: this.$t("agent.WaitingForInvestmentBankReview")
-                  })
-                  .then(() => {
-                    this.$routerto("mysign");
-                  });
-              } else {
-                this.remind(res.data.resultDesc);
-              }
-            });
-        })
-        .catch(() => {
-          // on cancel
-        });
-    }
-  }
+  },
 };
 </script>
 

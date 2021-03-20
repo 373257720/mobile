@@ -133,13 +133,22 @@ export default {
               });
             }
             this.loaded = true;
-            if (done) done();
+            if (done && typeof done === "function") {
+              done();
+            }
           }
         });
     }
   }
 };
 </script>
+<style lang='scss'>
+#Verify {
+  .loadmore {
+    top: vw(210);
+  }
+}
+</style>
 <style lang='scss' scoped>
 .Nationality {
   main {

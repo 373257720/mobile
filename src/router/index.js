@@ -3,19 +3,33 @@ import Router from "vue-router";
 import intermediary from "./intermediary";
 import investors from "./investors";
 import projectOwner from "./projectOwner";
-// const nationality = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */ "@/components/moblie/common/nationality"
-//   );
-// const identity = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */ "@/components/moblie/common/identity"
-//   );
+// console.log(intermediary);
 
-// const genus = () =>
-//   import(
-//     /* webpackChunkName: "group-foo" */ "@/components/moblie/common/genus"
-//   );
+const p_projectdetail = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/p_projectdetail"
+  );
+const a_sign_contract = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/sign_contract"
+  );
+const P_signContractStep1 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contract/signContractStep1"
+  );
+const P_signContractStep2 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contract/signContractStep2"
+  );
+const P_signContractStep3 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/project_owner/contract/signContractStep3"
+  );
 const register = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/login/register"
@@ -30,10 +44,7 @@ const forgotpassword = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/login/forgotpassword"
   );
-const usercheckroot = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/login/usercheckroot"
-  );
+
 const verify = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/login/Verify"
@@ -43,6 +54,11 @@ const mysign = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/mysign"
   );
+
+const projectRoot = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectRoot"
+  );
 const projectStatus = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectStatus"
@@ -51,10 +67,7 @@ const projectSubStatus = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectSubStatus"
   );
-const projectDetail = () =>
-  import(
-    /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectDetail"
-  );
+
 
 const projectList = () =>
   import(
@@ -64,14 +77,33 @@ const projectChain = () =>
   import(
     /* webpackChunkName: "group-foo" */ "@/components/moblie/projects/projectChain"
   );
-
+    const a_previewContract = () =>
+    import(
+      /* webpackChunkName: "group-foo" */
+      "@/components/moblie/agent/contract/a_previewContract"
+    );
 const userpass = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/userpass");
 const mhome = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/mhome");
 const AllResult = () =>
-  import(/* webpackChunkName: "group-foo" */ "@/components/moblie/home/AllResult");
-
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/home/AllResult"
+  );
+const agentProjectDetail = () =>
+  import(
+    /* webpackChunkName: "group-foo" */ "@/components/moblie/agent/agentProjectDetail"
+  );
+const signContractStep1 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/signContractStep1"
+  );
+const signContractStep2 = () =>
+  import(
+    /* webpackChunkName: "group-foo" */
+    "@/components/moblie/agent/contract/signContractStep2"
+  );
 const fliter = () =>
   import(/* webpackChunkName: "group-foo" */ "@/components/moblie/home/fliter");
 const mutilPick = () =>
@@ -150,6 +182,10 @@ const personalReview = () =>
     /* webpackChunkName: "group-foo" */
     "@/components/moblie/account/personalReview"
   );
+const changePassword = () => import(
+  /* webpackChunkName: "group-foo" */
+  "@/components/moblie/login/changePassword"
+);
 // console.log(AccountMessage);
 
 Vue.use(Router);
@@ -163,8 +199,8 @@ const routes = [
     name: "vipGrade",
     component: vipGrade,
     meta: {
-      isshowbottom: false
-      // ispaddingBottom: true
+      isshowbottom: false,
+      ispaddingBottom: true
     }
   },
   {
@@ -275,8 +311,7 @@ const routes = [
     name: "AllResult",
     component: AllResult,
     meta: {
-      isshowbottom: false,
-    
+      isshowbottom: false
     }
   },
 
@@ -302,7 +337,8 @@ const routes = [
     name: "mine",
     component: mine,
     meta: {
-      isshowbottom: true
+      isshowbottom: true,
+      ispaddingBottom: true
     }
   },
 
@@ -322,22 +358,7 @@ const routes = [
       isshowbottom: true
     }
   },
-  {
-    path: "/projectSubStatus",
-    name: "projectSubStatus",
-    component: projectSubStatus,
-    meta: {
-      isshowbottom: false
-    }
-  },
-  {
-    path: "/projectList",
-    name: "projectList",
-    component: projectList,
-    meta: {
-      isshowbottom: false
-    }
-  },
+
   {
     path: "/projectChain",
     name: "projectChain",
@@ -346,23 +367,119 @@ const routes = [
       isshowbottom: false
     }
   },
+  {
+    path: "/projectRoot",
+    name: "projectRoot",
+    component: projectRoot,
+    redirect: "/projectRoot/projectStatus",
+    meta: {
+      isshowbottom: false
+    },
+    children: [
+      {
+        path: "projectStatus",
+        name: "projectStatus",
+        component: projectStatus,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "projectSubStatus",
+        name: "projectSubStatus",
+        component: projectSubStatus,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "projectList",
+        name: "projectList",
+        component: projectList,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true,
+          ispaddingBottom: true
+        }
+      },
+      {
+        path: "agentProjectDetail",
+        name: "projectRootAgentProjectDetail",
+        component: agentProjectDetail,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "agentsignContractStep1",
+        name: "agentsignContractStep1",
+        component: signContractStep1,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "agentsignContractStep2",
+        name: "agentsignContractStep2",
+        component: signContractStep2,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "ibankSignContractStep1",
+        name: "ibankSignContractStep1",
+        component: P_signContractStep1,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "agentsignContractStep2Preview",
+        name: "agentsignContractStep2Preview",
+        component: a_previewContract,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      
+      {
+        path: "ibankSignContractStep2",
+        name: "ibankSignContractStep2",
+        component: P_signContractStep2,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "ibankSignContractStep3",
+        name: "ibankSignContractStep3",
+        component: P_signContractStep3,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      },
+      {
+        path: "ibankprojectdetail",
+        name: "ibankprojectdetail",
+        component: p_projectdetail,
+        meta: {
+          isshowbottom: false,
+          keepAlive: true
+        }
+      }
+    ]
+  },
 
-  {
-    path: "/projectStatus",
-    name: "projectStatus",
-    component: projectStatus,
-    meta: {
-      isshowbottom: false
-    }
-  },
-  {
-    path: "/projectDetail",
-    name: "projectDetail",
-    component: projectDetail,
-    meta: {
-      isshowbottom: false
-    }
-  },
   // {
   //   path: "/projecstList",
   //   name: "projecstList",
@@ -408,16 +525,7 @@ const routes = [
       ispaddingBottom: false
     }
   },
-  {
-    path: "/usercheckroot",
-    name: "usercheckroot",
-    component: usercheckroot,
-    // redirect: "/usercheckroot/usercheck",
-    meta: {
-      isshowbottom: false,
-      ispaddingBottom: true
-    }
-  },
+
   {
     path: "/leaderboard",
     name: "leaderboard",
@@ -478,7 +586,14 @@ const routes = [
     //   }
     // ]
   },
-
+  {
+    path: "/sign_contract",
+    name: "sign_contract",
+    component: a_sign_contract,
+    meta: {
+      isshowbottom: false
+    }
+  },
   {
     path: "/cavans",
     name: "cavans",
@@ -487,11 +602,14 @@ const routes = [
       isshowbottom: false
     }
   },
-  // {
-  //   path: '/testcavans',
-  //   name: 'testcavans',
-  //   component: testcavans,
-  // },
+  {
+    path: '/changePassword',
+    name: 'changePassword',
+    component: changePassword,
+    meta: {
+      isshowbottom: false
+    }
+  },
   {
     path: "*",
     // name: 'login',

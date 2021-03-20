@@ -1,0 +1,295 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="user-scalable=yes">
+  <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+  <style>
+    html,
+    body,
+    ul,
+    li,
+    ol,
+    dl,
+    dd,
+    dt,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    form,
+    fieldset,
+    legend,
+    img,
+    input {
+      margin: 0;
+      padding: 0;
+    }
+
+    fieldset,
+    img,
+    input,
+    button {
+      border: 0 none;
+      padding: 0;
+      margin: 0;
+      outline-style: none;
+    }
+
+    /*去掉input等聚焦时的蓝色边框*/
+    ul,
+    li,
+    ol {
+      list-style: none;
+    }
+
+    #contract_component {
+      width: 560px;
+      /*height: 100%;*/
+      margin: 0 auto;
+      padding: 50px 20px;
+      box-sizing: border-box;
+      /*595×842*/
+    }
+
+    .ql-align-center {
+      text-align: center;
+    }
+
+    .ql-container.ql-snow {
+      border: none;
+    }
+
+    .ql-container {
+      height: initial;
+    }
+
+    .ql-editor {
+      padding: 0;
+      height: initial;
+    }
+
+    #contract_component .contract_component {
+      /*border: 1px solid #b5b5b5;*/
+      box-sizing: border-box;
+      font-size: 12px;
+      line-height: 20px;
+      padding: 50px 0;
+      width: 100%;
+      /*height: 100%;*/
+      color: black;
+      word-wrap: break-word;
+    }
+
+    #contract_component .contract_component .middle {
+      min-height: 250px;
+      background: none;
+      border: 0;
+      width: 100%;
+      white-space: pre-wrap;
+      white-space: -moz-pre-wrap;
+      /*//Mozilla, since 1999 *!*!*/
+      /*white-space: -pre-wrap;*/
+      /*//  //!* Opera 4-6 *!*!*/
+      white-space: -o-pre-wrap;
+    }
+
+    #contract_component .contract_component div.contractBox {
+      margin-top: 10px;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: space-between;
+      justify-content: space-between;
+    }
+
+    #contract_component .contract_component ul {
+      width: 40%;
+    }
+
+    #contract_component .contract_component ul li p {
+      height: 30px;
+    }
+
+    #contract_component .contract_component ul li p.signature {
+      text-align: center;
+
+    }
+
+    #contract_component .contract_component ul li p.signature img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    #contract_component .contract_component ul li p:nth-child(1) {
+      position: relative;
+      line-height: 14px;
+      border-bottom: 1px solid black;
+    }
+
+    #contract_component .contract_component ul li p:nth-child(2) {
+      font-weight: 600;
+    }
+
+    #contract_component .contract_component ul li:nth-of-type(1) {
+      margin-bottom: 30px;
+      height: 80px;
+      line-height: 14px;
+      /* min-height: 50px;
+      max-height: 100px; */
+    }
+
+    #contract_component .contract_component ul li:nth-of-type(1) nav {
+      font-weight: 600;
+
+    }
+
+    #contract_component .contract_component ul li:nth-of-type(1) div {
+      /* min-height: 30px;*/
+      /*max-height: 100px;*/
+
+    }
+
+    #contract_component .contract_component ul li p:nth-child(1) span {
+      position: absolute;
+      line-height: 14px;
+      word-break: break-all;
+      bottom: 0;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="contract_component">
+    <div class="contract_component ql-container ql-snow">
+      <div class="middle content"></div>
+      <div class="contractBox">
+        <ul>
+          <li>
+            <nav>For and on behalf of:</nav>
+            <div class="owner_behalf"></div>
+          </li>
+          <li>
+            <div>
+              <p class="signature"><img class="owner_sign" src="" alt=""></p>
+            </div>
+            <p>Signature</p>
+          </li>
+          <li>
+            <p><span class="owner_name"></span></p>
+            <p>Name</p>
+          </li>
+          <li>
+            <p><span class="owner_title"></span></p>
+            <p>Title</p>
+          </li>
+          <li>
+            <p><span class="owner_signdata"></span></p>
+            <p>Date</p>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <nav>For and on behalf of:</nav>
+            <div class="agent_behalf"></div>
+          </li>
+          <li>
+            <div>
+              <p class="signature"><img class="agent_sign" src="" alt=""></p>
+            </div>
+            <p>Signature</p>
+          </li>
+          <li>
+            <p><span class="agent_name"></span></p>
+            <p>Name</p>
+          </li>
+          <li>
+            <p><span class="agent_title"></span></p>
+            <p>Title</p>
+          </li>
+          <li>
+            <p><span class="agent_signdata"></span></p>
+            <p>Date</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script>
+    function newTodate(stamp) {
+      if (stamp) {
+        var date = new Date(stamp);
+        var Y = date.getFullYear() + "-";
+        var M =
+          (date.getMonth() + 1 < 10
+            ? "0" + (date.getMonth() + 1)
+            : date.getMonth() + 1) + "-";
+        var D =
+          (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+        return Y + M + D;
+      } else {
+        return "";
+      }
+    };
+    // 向父vue页面发送信息
+    // let owner_name = document.querySelector(".owner_name");
+    // let owner_sign = document.querySelector(".owner_sign");
+    let owner_behalf = document.querySelector("#contract_component .owner_behalf"),
+      owner_sign = document.querySelector("#contract_component .owner_sign"),
+      owner_name = document.querySelector("#contract_component .owner_name"),
+      owner_title = document.querySelector("#contract_component .owner_title"),
+      owner_signdata = document.querySelector("#contract_component .owner_signdata");
+
+    let agent_behalf = document.querySelector("#contract_component .agent_behalf"),
+      agent_sign = document.querySelector("#contract_component .agent_sign"),
+      agent_name = document.querySelector("#contract_component .agent_name"),
+      agent_title = document.querySelector("#contract_component .agent_title"),
+      agent_signdata = document.querySelector("#contract_component .agent_signdata");
+
+
+
+    let content = document.querySelector("#contract_component .content");
+    function postToparent() {
+      window.parent.postMessage({
+        cmd: 'returnHeight',
+        params: {
+          success: true,
+          data: ""
+        }
+      }, '*');
+    };
+    // 接受父页面发来的信息
+    window.addEventListener("message", function (event) {
+      console.log(event);
+      var data = event.data;
+      switch (data.cmd) {
+        case 'getFormJson':
+          owner_behalf.innerText = data.params.projectPartybehalf;
+          owner_title.innerText = data.params.projectPartytitle;
+          owner_name.innerText = data.params.projectPartyname;
+          owner_sign.src = data.params.projectPartySignature;
+          owner_signdata.innerText = newTodate(data.params.projectPartySigntime);
+
+          agent_behalf.innerText = data.params.middlemanbehalf;
+          agent_title.innerText = data.params.middlemantitle;
+          agent_name.innerText = data.params.middlemanname;
+          agent_sign.src = data.params.middlemanSignature;
+          agent_signdata.innerText = newTodate(data.params.middlemanSigntime);
+          content.innerHTML = data.params.editorContent;
+          this.postToparent()
+          // 处理业务逻辑
+          break;
+
+      }
+    });
+  </script>
+</body>
+
+</html>

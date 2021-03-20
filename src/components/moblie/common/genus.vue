@@ -1,15 +1,20 @@
 <template>
   <div class="genus">
     <commonnav>
-    {{$t('common.Genus')}}
+      {{ $t("common.Genus") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="pickgenus" />
       </template>
     </commonnav>
     <main>
       <ul class="timestamp">
-        <li id="itemGenus" @click="pickgenus(item)" v-for="item in optionType  " :key="item.value">
-          <div class="item item-1">{{ item.text}}</div>
+        <li
+          id="itemGenus"
+          @click="pickgenus(item)"
+          v-for="item in optionType"
+          :key="item.value"
+        >
+          <div class="item item-1">{{ item.text }}</div>
         </li>
       </ul>
     </main>
@@ -21,26 +26,47 @@
 // import layer from "./layer";
 export default {
   name: "genus",
-  props: ["usercheck"],
+  props: ["usercheck", "userType"],
   data() {
     return {
-      optionType: [
-        { text: this.$t("common.ProjectParty"), value: 1 },
-        { text: this.$t("common.Middleman"), value: 4 },
-        { text: this.$t("common.Investor"), value: 3 }
-      ]
+      // optionType: [
+      //   { text: this.$t("common.ProjectParty"), value: 1 },
+      //   { text: this.$t("common.Middleman"), value: 4 },
+      //   { text: this.$t("common.Investor"), value: 3 },
+      // ],
     };
   },
   components: {},
   created() {},
+  computed: {
+    optionType() {
+      switch (this.userType) {
+        case 1:
+          return [{ text: this.$t("common.ProjectParty"), value: 1 }];
+          break;
+        case 3:
+          return [{ text: this.$t("common.Investor"), value: 3 }];
+          break;
+        case 4:
+          return [{ text: this.$t("common.Middleman"), value: 4 }];
+          break;
+        default:
+          return [
+            { text: this.$t("common.ProjectParty"), value: 1 },
+            { text: this.$t("common.Middleman"), value: 4 },
+            { text: this.$t("common.Investor"), value: 3 },
+          ];
+      }
+    },
+  },
   methods: {
     pickgenus(item) {
       if (item) this.usercheck.genus = item;
       this.$emit("fromKids", "genus");
       // this.$global.previous();
       // this.$emit("pickNation",item)
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang='scss' scoped>

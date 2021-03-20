@@ -1,15 +1,20 @@
 <template>
   <div class="Nationality">
     <commonnav>
-      {{$t('common.Identity')}}
+      {{ $t("common.Identity") }}
       <template v-slot:arrowLeft>
         <van-icon name="arrow-left" @click="pickgenus" />
       </template>
     </commonnav>
     <main>
       <ul class="timestamp">
-        <li id="itemGenus" @click="pickgenus(item)" v-for="item in optionId  " :key="item.value">
-          <div class="item item-1">{{ item.text}}</div>
+        <li
+          id="itemGenus"
+          @click="pickgenus(item)"
+          v-for="item in optionId"
+          :key="item.value"
+        >
+          <div class="item item-1">{{ item.text }}</div>
         </li>
       </ul>
     </main>
@@ -24,30 +29,42 @@ export default {
   props: ["usercheck"],
   data() {
     return {
-      optionId: []
+      // optionId: []
     };
   },
   components: {},
   created() {
-    console.log(this.usercheck);
-    if (this.usercheck.genus &&  this.usercheck.genus.value === 1) {
-      this.optionId = [{ text: this.$t("common.company"), value: 2 }];
-    } else {
-      this.optionId = [
-        { text: this.$t("common.individual"), value: 1 },
-        { text: this.$t("common.company"), value: 2 }
-      ];
-    }
+    // console.log(this.usercheck);
+    // if (this.usercheck.genus &&  this.usercheck.genus.value === 1) {
+    //   this.optionId = [{ text: this.$t("common.company"), value: 2 }];
+    // } else {
+    //   this.optionId = [
+    //     { text: this.$t("common.individual"), value: 1 },
+    //     { text: this.$t("common.company"), value: 2 }
+    //   ];
+    // }
+  },
+  computed: {
+    optionId() {
+      if (this.usercheck.genus && this.usercheck.genus.value === 1) {
+        return [{ text: this.$t("common.company"), value: 2 }];
+      } else {
+        return [
+          { text: this.$t("common.individual"), value: 1 },
+          { text: this.$t("common.company"), value: 2 },
+        ];
+      }
+    },
   },
   methods: {
     pickgenus(item) {
       // console.log(item);
       // this.$store.commit("pickIdentity", item);
       if (item) this.usercheck.identity = item;
-      this.$emit("fromKids", 'identity');
+      this.$emit("fromKids", "identity");
       // this.$emit("pickNation",item)
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang='scss' scoped>
