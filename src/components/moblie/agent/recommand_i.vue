@@ -33,14 +33,14 @@
                   <aside class="iconfont icon-email"></aside>
                   <article>{{ item.recommendEmail.value }}</article>
                 </li>
-                <li v-if="$store.state.currentUsertype==4">
+                <li v-if="$route.query.towho == 2">
                   <aside class="iconfont icon-star"></aside>
                   <article>
                     {{ $t("agent.Re") }}: {{ item.surplusLockCount.value }}
                     {{ $t("agent.times") }}
                   </article>
                 </li>
-                <li v-if="$store.state.currentUsertype==4">
+                <li v-if="$route.query.towho == 2">
                   <aside class="iconfont icon-day"></aside>
                   <article>
                     {{ $t("agent.Rc") }}: {{ item.surpluslockDay.value }}
@@ -83,7 +83,7 @@ export default {
   },
   // inject: ["recommendList", "restore"],
   beforeRouteEnter(to, from, next) {
-    console.log(to,from);
+    console.log(to, from);
     if (from.name == "recent_recommand" || from.name === null) {
       next((vm) => {
         vm.$emit("childByValue");
@@ -125,9 +125,7 @@ export default {
       }
     },
   },
-  created() {
-    // console.log(123);
-  },
+  created() {},
   activated() {},
 
   mounted() {
@@ -178,14 +176,15 @@ export default {
                 //   label: "surplusLockCount",
                 //   value: item.surplusLockCount,
                 // },
-
                 // surpluslockDay: {
                 //   label: "surpluslockDay",
                 //   value: item.surpluslockDay,
                 // },
               };
             });
+
             this.recommendList.push(...arr);
+            console.log(this.recommendList);
           } else if (a === 1) {
             let arr = result.listResult.map((item) => {
               return {

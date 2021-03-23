@@ -439,7 +439,6 @@ const global = {
     if (store.state.X_Token) {
       datas.X_Token = store.state.X_Token;
     }
-
     return new Promise((resolve, reject) => {
       axios
         .get(url, {

@@ -16,7 +16,7 @@
         name="mainIframe"
         @load="load"
       >
-        <p>Your browser does not support iframes.</p>
+        <!-- <p>Your browser does not support iframes.</p> -->
       </iframe>
       <div>
         <!-- <div class="middle wangedtior" v-html="NDAcontract.editorContent"></div>

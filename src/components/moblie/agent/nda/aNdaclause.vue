@@ -19,7 +19,7 @@
             name="mainIframe"
             @load="load"
           >
-            <p>Your browser does not support iframes.</p>
+            <!-- <p>Your browser does not support iframes.</p> -->
           </iframe>
           <!-- <div
               class="middle wangedtior"
